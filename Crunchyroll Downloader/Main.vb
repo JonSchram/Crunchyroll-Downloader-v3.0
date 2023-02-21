@@ -2215,10 +2215,12 @@ Public Class Main
             End If
         End If
 
-        If Anime_Add.WindowState = System.Windows.Forms.FormWindowState.Minimized Then
-            Anime_Add.WindowState = System.Windows.Forms.FormWindowState.Normal
+        If AddVideo.WindowState = System.Windows.Forms.FormWindowState.Minimized Then
+            AddVideo.WindowState = System.Windows.Forms.FormWindowState.Normal
         Else
-            Anime_Add.Show()
+            AddVideo.OutputPath = Pfad
+            AddVideo.OutputSubFolder = My.Settings.SubFolder_Value
+            AddVideo.Show()
         End If
     End Sub
 
