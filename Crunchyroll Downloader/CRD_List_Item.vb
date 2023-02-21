@@ -1111,9 +1111,9 @@ Public Class CRD_List_Item
             End If
             Dim SubsFile As String = Pfad2 + GeräteID() + ".txt"
 
-            If File.Exists(SubsFile) Then
-                SubsFile = Pfad2 + GeräteID2() + ".txt"
-            End If
+            While File.Exists(SubsFile)
+                SubsFile = Pfad2 + GeräteID() + ".txt"
+            End While
 
             Try
                 Dim InputData As String = Nothing

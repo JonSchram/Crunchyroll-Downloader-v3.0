@@ -76,19 +76,7 @@ Module Subfolder
         Dim HWID As String = Nothing
 
         For i As Integer = 0 To 15
-            Dim ZufallsZahl As Integer = rnd.Next(1, 33)
-            HWID = HWID + possible(ZufallsZahl)
-        Next
-        Return "CRD-Temp-File-" + HWID
-    End Function
-
-    Public Function GeräteID2() As String
-        Dim rnd As New Random
-        Dim possible As String = "56789abcdefghijklmnopqrstuvwxyz01234ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        Dim HWID As String = Nothing
-
-        For i As Integer = 0 To 15
-            Dim ZufallsZahl As Integer = rnd.Next(1, 33)
+            Dim ZufallsZahl As Integer = rnd.Next(1, possible.Length)
             HWID = HWID + possible(ZufallsZahl)
         Next
         Return "CRD-Temp-File-" + HWID
