@@ -84,7 +84,7 @@ Public Class CRD_List_Item
         PictureBox5.Height = 6
 
         If Service = "FM" Then
-            MetroStyleManager1.Style = MetroColorStyle.DarkPurple
+            MetroStyleManager1.Style = MetroColorStyle.Purple
         Else
             MetroStyleManager1.Style = MetroColorStyle.Orange
         End If

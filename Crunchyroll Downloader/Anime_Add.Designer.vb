@@ -109,7 +109,7 @@ Partial Class Anime_Add
         'TextBox4
         '
         Me.TextBox4.BackColor = System.Drawing.Color.White
-        Me.TextBox4.Cursor = System.Windows.Forms.Cursors.Hand
+        'Me.TextBox4.Cursor = System.Windows.Forms.Cursors.Hand
         '
         '
         '

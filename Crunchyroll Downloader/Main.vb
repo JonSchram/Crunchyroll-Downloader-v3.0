@@ -14,7 +14,6 @@ Imports System.ComponentModel
 Imports Newtonsoft.Json.Linq
 Imports System.Runtime.InteropServices
 Imports System.Security.Policy
-Imports MyProvider.MyProvider
 Imports System.Windows
 Imports Microsoft.Web.WebView2.Core
 Imports System.Net.Http
@@ -433,7 +432,7 @@ Public Class Main
 
 #Region "settings path"
 
-        Dim mySettings As New DirectorySettings
+        Dim mySettings As New DirectorySettings()
         mySettings.DirectoryName = Application.StartupPath
         mySettings.FileName = "User.config.dat"
         mySettings.Save() ' muss explizit gepeichert werden...

@@ -1414,7 +1414,7 @@ Partial Class Einstellungen
         'DubMode
         '
         Me.DubMode.BackColor = System.Drawing.Color.Transparent
-        Me.DubMode.FontSize = MetroFramework.MetroCheckBoxSize.SomethingInBetween
+        Me.DubMode.FontSize = MetroFramework.MetroCheckBoxSize.Medium
         Me.DubMode.Location = New System.Drawing.Point(85, 21)
         Me.DubMode.Name = "DubMode"
         Me.DubMode.Size = New System.Drawing.Size(320, 28)

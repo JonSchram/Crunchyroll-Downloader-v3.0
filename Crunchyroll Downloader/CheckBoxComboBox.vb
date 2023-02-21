@@ -28,7 +28,7 @@ Public Class CheckBoxComboBox
 
                 Dim Dub As New MetroCheckBox
                 Dub.Text = Main.LangValueEnum(i).Name
-                Dub.FontSize = MetroCheckBoxSize.SomethingInBetween
+                Dub.FontSize = MetroCheckBoxSize.Medium
                 Dub.TextAlign = ContentAlignment.MiddleCenter
                 Dub.SetBounds(2, 30 * Dubs.Count + 1, 316, 25)
                 Dub.UseCustomBackColor = True
@@ -53,7 +53,7 @@ Public Class CheckBoxComboBox
                 Dim SubT As New MetroCheckBox
                 SubT.Text = Main.LangValueEnum(i).Name
                 SubT.Name = Main.LangValueEnum(i).CR_Value
-                SubT.FontSize = MetroCheckBoxSize.SomethingInBetween
+                SubT.FontSize = MetroCheckBoxSize.Medium
                 SubT.TextAlign = ContentAlignment.MiddleCenter
                 SubT.SetBounds(2, 30 * Subs.Count + 1, 316, 25)
                 SubT.UseCustomBackColor = True
