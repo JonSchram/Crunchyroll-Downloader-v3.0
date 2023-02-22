@@ -1,5 +1,4 @@
 ﻿Option Strict On
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class AddVideo
     Public Property OutputPath As String = ""
@@ -13,8 +12,15 @@ Public Class AddVideo
     End Sub
 
     Private Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
-        ' TODO: Send information to queue.
         downloadUrl = downloadUrlTextBox.Text
+
+        Dim seasonSelectorForm = New SeasonSelector(downloadUrl)
+        If seasonSelectorForm.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            Dim downloadQueue As QueueDownloads = New QueueDownloads(OutputPath, OutputSubFolder)
+            downloadQueue.enqueue(downloadUrl)
+        End If
+
+        seasonSelectorForm.Dispose()
     End Sub
 
     Private Sub outputTextBox_Click(sender As Object, e As EventArgs) Handles outputTextBox.Click
@@ -38,4 +44,17 @@ Public Class AddVideo
         subfolderComboBox.Items.Add(SubFolder_automatic2)
         subfolderComboBox.Items.AddRange(directoryList.ToArray)
     End Sub
+
+    Private Sub CloseButton_Click(sender As Object, e As EventArgs)
+        Close()
+    End Sub
+
+    Private Sub MinimizeButton_Click(sender As Object, e As EventArgs)
+        WindowState = FormWindowState.Minimized
+    End Sub
 End Class
+
+' TODO:
+' - Display "# episodes selected" when retrieving episodes
+' - Set the display text box to color "#8D1D2C" for 1 second and return to black each time an epsiode is added
+' - Set the display text box to display "<current #> / <total #>" when adding episodes

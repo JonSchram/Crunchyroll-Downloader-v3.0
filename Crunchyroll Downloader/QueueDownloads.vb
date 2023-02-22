@@ -5,7 +5,14 @@
 ''' 
 ''' </summary>
 Public Class QueueDownloads
-    Public Sub enqueue(url As String, parentDirectory As String, subfolder As String)
+    Private parentDirectory As String
+    Private subFolder As String
+    Public Sub New(parentDirectory As String, subFolder As String)
+        Me.parentDirectory = parentDirectory
+        Me.subFolder = subFolder
+    End Sub
+
+    Public Sub enqueue(url As String)
 
     End Sub
 End Class

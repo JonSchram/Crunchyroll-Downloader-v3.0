@@ -15,7 +15,7 @@ Public Class CRD_List_Item
     Inherits Controls.MetroUserControl
 
 
-    Dim ZeitGesamtInteger As Integer = 0
+    Dim totalTime As Integer = 0
     Dim ListOfStreams As New List(Of String)
     Dim proc As Process
     Dim ThreadList As New List(Of Thread)
@@ -1368,7 +1368,7 @@ Public Class CRD_List_Item
                 Dim ZeitGesamt2 As String() = ZeitGesamt(1).Split(New [Char]() {System.Convert.ToChar(".")})
                 Dim ZeitGesamtSplit() As String = ZeitGesamt2(0).Split(New [Char]() {System.Convert.ToChar(":")})
                 'MsgBox(ZeitGesamt2(0))
-                ZeitGesamtInteger = CInt(ZeitGesamtSplit(0)) * 3600 + CInt(ZeitGesamtSplit(1)) * 60 + CInt(ZeitGesamtSplit(2))
+                totalTime = CInt(ZeitGesamtSplit(0)) * 3600 + CInt(ZeitGesamtSplit(1)) * 60 + CInt(ZeitGesamtSplit(2))
 
 
 
@@ -1392,9 +1392,9 @@ Public Class CRD_List_Item
                     End If
                 End If
                 Dim bitrateInt As Double = CInt(bitrate3) / 1024
-                Dim FileSize As Double = ZeitGesamtInteger * bitrateInt / 8
+                Dim FileSize As Double = totalTime * bitrateInt / 8
                 Dim DownloadFinished As Double = ZeitFertigInteger * bitrateInt / 8
-                Dim percent As Integer = CInt(ZeitFertigInteger / ZeitGesamtInteger * 100)
+                Dim percent As Integer = CInt(ZeitFertigInteger / totalTime * 100)
                 Me.Invoke(New Action(Function() As Object
                                          If percent > 100 Then
                                              percent = 100

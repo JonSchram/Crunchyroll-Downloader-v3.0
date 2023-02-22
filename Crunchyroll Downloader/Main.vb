@@ -56,16 +56,6 @@ Public Class Main
     'Public CrBetaStreamsUrl As String = Nothing
     Public LoadingUrl As String = ""
     Public LoadedUrls As New List(Of CoreWebView2WebResourceRequest)
-    Public FunimationAPIRegion As String = Nothing
-    Public FunimationRegion As String = Nothing
-    Public FunimationDeviceRegion As String = Nothing
-    Public FunimationToken As String = Nothing
-    Public FunimationShowPath As String = Nothing
-    Public FunimationEpisodeJSON As String = Nothing
-    Public FunimtaionAPISeasonID As New List(Of String)
-    Public FunimtaionSeasonList As New List(Of FunimationOverview)
-    Public FunimationSeasonAPIUrl As String = Nothing
-    Public FunimationJsonBrowser As String = Nothing
     Public Manager As New MetroStyleManager
     Public DarkModeValue As Boolean = False
     Public invalids As Char() = System.IO.Path.GetInvalidFileNameChars()
@@ -109,6 +99,7 @@ Public Class Main
     Dim Gesamt As String
     Public LabelUpdate As String = "Status: idle"
     Public LabelEpisode As String = "..."
+    ' I think this indicates the user is just browsing in the browser
     Public b As Boolean
     Public LoginOnly As String = "False"
     Public Pfad As String = My.Computer.FileSystem.CurrentDirectory
@@ -143,7 +134,6 @@ Public Class Main
     'Dim URL_DL As String
     'Dim Pfad_DL As String
     Public Grapp_RDY As Boolean = True
-    Public Funimation_Grapp_RDY As Boolean = True
     Public Grapp_non_cr_RDY As Boolean = True
     Public Grapp_Abord As Boolean = False
     Public NameBuilder As String = ""
@@ -177,14 +167,14 @@ Public Class Main
     Dim DL_Path_String As String = "Please choose download directory."
     Public No_Stream As String = "Please make sure that the URL is correct or check if the Anime is available in your country."
     Dim TaskNotCompleed As String = "Please wait until the current task is completed."
-    Dim Premium_Stream As String = "For Premium episodes you need a premium membership and be logged in the Downloader."
+    Public Premium_Stream As String = "For Premium episodes you need a premium membership and be logged in the Downloader."
     Public LoginReminder As String = "Please make sure that you logged in."
     Dim Error_Mass_DL As String = "We run into a problem here." + vbNewLine + "You can try to download every episode individually."
     Dim User_Fault_NoName As String = "no name, fallback solution : "
-    Dim Sub_language_NotFound As String = "Could not find the sub language" + vbNewLine + "please make sure the language is available: "
-    Dim Resolution_NotFound As String = "Could not find any resolution."
+    Public Sub_language_NotFound As String = "Could not find the sub language" + vbNewLine + "please make sure the language is available: "
+    Public Resolution_NotFound As String = "Could not find any resolution."
     Dim Error_unknown As String = "We run into a unknown problem here." + vbNewLine + "Do you like to send an Bug report?"
-    Dim ErrorNoPermisson As String = "Access is denied."
+    Public ErrorNoPermisson As String = "Access is denied."
     'UI Variablen
     Public GB_Resolution_Text As String = "Resolution"
     Public GB_SubLanguage_Text As String = "Hardsub language"
@@ -705,15 +695,6 @@ Public Class Main
         Item.StartDownload(URL_DL, Pfad_DL, NameKomplett, TempHybridMode, TempFolder)
     End Sub
 
-
-
-#Region "Season DL"
-
-
-
-
-
-#End Region
 #Region "Sub to display"
 
 
@@ -780,9 +761,6 @@ Public Class Main
 #Region "curl"
 
     Public Function Curl(ByVal Url As String) As String
-
-
-
         Dim exepath As String = Path.Combine(Application.StartupPath, "lib", "curl.exe")
 
         Dim startinfo As New System.Diagnostics.ProcessStartInfo
@@ -916,7 +894,7 @@ Public Class Main
 
 
     Public Function CurlAuth(ByVal Url As String, ByVal Cookies As String, ByVal Auth As String) As String
-
+        ' TODO: Replace curl with HttpWebRequest
 
 
         Dim exepath As String = Path.Combine(Application.StartupPath, "lib", "curl.exe")
@@ -990,1116 +968,6 @@ Public Class Main
 
 #End Region
 
-
-#Region "CR-Beta"
-    Public Async Sub DownloadBetaSeasons()
-        Try
-            Dim ListOfEpisodes As New List(Of String)
-
-            For i As Integer = 0 To CR_MassEpisodes.Count - 1
-
-                If Url_locale = "" Then
-                    ListOfEpisodes.Add("https://www.crunchyroll.com/watch/" + CR_MassEpisodes.Item(i).guid + "/" + CR_MassEpisodes.Item(i).audio_locale + "/")
-                Else
-                    ListOfEpisodes.Add("https://www.crunchyroll.com/" + Url_locale + "/" + "watch/" + CR_MassEpisodes.Item(i).guid + "/" + CR_MassEpisodes.Item(i).audio_locale + "/")
-                End If
-
-            Next
-            Dim First As Integer = 0
-            Dim Last As Integer = 0
-            If Anime_Add.comboBox4.SelectedIndex > Anime_Add.comboBox3.SelectedIndex Or Anime_Add.comboBox4.SelectedIndex = Anime_Add.comboBox3.SelectedIndex Then
-                First = Anime_Add.comboBox3.SelectedIndex
-                Last = Anime_Add.comboBox4.SelectedIndex
-            ElseIf Anime_Add.comboBox3.SelectedIndex > Anime_Add.comboBox4.SelectedIndex Then
-                First = Anime_Add.comboBox4.SelectedIndex
-                Last = Anime_Add.comboBox3.SelectedIndex
-            End If
-            Dim Anzahl As Integer = Anime_Add.comboBox4.SelectedIndex - Anime_Add.comboBox3.SelectedIndex
-            For i As Integer = First To Last
-                For e As Integer = 0 To Integer.MaxValue
-                    If Grapp_RDY = True Then
-                        Try
-                            Dim ItemFinshedCount As Integer = 0 '
-                            Dim Item As New List(Of CRD_List_Item)
-                            Item.AddRange(Panel1.Controls.OfType(Of CRD_List_Item))
-                            Item.Reverse()
-
-                            For i2 As Integer = 0 To Item.Count - 1
-                                If Item(i2).GetIsStatusFinished() = True Then
-                                    ItemFinshedCount = ItemFinshedCount + 1
-                                End If
-                            Next
-                            RunningDownloads = Panel1.Controls.Count - ItemFinshedCount
-                        Catch ex As Exception
-                            RunningDownloads = Panel1.Controls.Count
-                        End Try
-                        If RunningDownloads < MaxDL Then
-                            Exit For
-                        Else
-                            'MsgBox(e)
-                            Await Task.Delay(1000)
-                        End If
-                    Else
-                        Await Task.Delay(5000)
-                    End If
-                Next
-                If Anime_Add.Mass_DL_Cancel = False Then
-                    b = True
-                    Exit For
-                    Grapp_Abord = True
-                    Grapp_RDY = True
-                    'MsgBox("dl_abourd")
-                End If
-                If UseQueue = True Then
-                    'Anime_Add.ListBox1.Items.Add(ListOfEpisodes(i))
-                    ListBoxList.Add(ListOfEpisodes(i))
-                    Anime_Add.Add_Display.ForeColor = Color.FromArgb(9248044)
-                    Pause(1)
-                    Anime_Add.Add_Display.ForeColor = Color.Black
-                Else
-                    Grapp_RDY = False
-                    b = False
-                    Debug.WriteLine("b: " + b.ToString)
-                    LoadBrowser(ListOfEpisodes(i))
-                End If
-                Anime_Add.Add_Display.Text = (i - First + 1).ToString + " / " + (Last - First + 1).ToString
-            Next
-        Catch ex As Exception
-            If Debug2 = True Then
-                MsgBox(ex.ToString)
-            End If
-            Anime_Add.comboBox4.Items.Clear()
-            Anime_Add.comboBox3.Items.Clear()
-            Aktuell = 0.ToString
-            Gesamt = 0.ToString
-            Anime_Add.groupBox1.Visible = True
-            Anime_Add.groupBox2.Visible = False
-            Anime_Add.Mass_DL_Cancel = False
-            Anime_Add.btn_dl.Text = "Download" 'btn_dl.BackgroundImage = My.Resources.main_button_download_default
-        End Try
-        Pause(5)
-        Anime_Add.groupBox1.Visible = True
-        Anime_Add.groupBox2.Visible = False
-        Anime_Add.Mass_DL_Cancel = False
-        Anime_Add.btn_dl.Text = "Download" 'Anime_Add.btn_dl.BackgroundImage = My.Resources.main_button_download_default
-    End Sub
-
-    Public Sub GetBetaSeasons(ByVal AnimeUrl As String, ByVal JsonUrl As String, ByVal Auth As String, Optional ByVal BrowserData As String = Nothing) ', ByVal SeasonJson As String)
-        Anime_Add.groupBox2.Visible = True
-        Anime_Add.bt_Cancel_mass.Enabled = True
-        Anime_Add.bt_Cancel_mass.Visible = True
-        Anime_Add.groupBox1.Visible = False
-        Anime_Add.ComboBox1.Items.Clear()
-        Anime_Add.comboBox3.Items.Clear()
-        Anime_Add.comboBox4.Items.Clear()
-        Anime_Add.ComboBox1.Text = Nothing
-        Anime_Add.comboBox3.Text = Nothing
-        Anime_Add.comboBox4.Text = Nothing
-        Anime_Add.ComboBox1.Enabled = True
-        Anime_Add.comboBox3.Enabled = True
-        Anime_Add.comboBox4.Enabled = True
-        Dim SeasonJson As String = Nothing
-        CR_MassSeasons.Clear()
-        If BrowserData = Nothing Then
-
-            Dim Loc_CR_Cookies = " -H " + Chr(34) + CR_Cookies.Replace(Chr(34), "").Replace(" -H ", "") + Chr(34)
-
-            SeasonJson = CurlAuth(JsonUrl, Loc_CR_Cookies, Auth)
-
-            If CBool(InStr(SeasonJson, "curl:")) = True Then
-                'Browser.WebView2.CoreWebView2.Navigate(Url)
-                SetStatusLabel("Status: Critical error. #1091")
-                Exit Sub
-            End If
-
-
-        Else
-            SeasonJson = BrowserData
-            Debug.WriteLine("BrowserData: " + BrowserData)
-        End If
-
-
-        SeasonJson = CleanJSON(SeasonJson)
-
-        Dim SeasonJObject As JObject = JObject.Parse(SeasonJson)
-        Dim SeasonData As List(Of JToken) = SeasonJObject.Children().ToList
-
-        For Each item As JProperty In SeasonData
-            item.CreateReader()
-            Select Case item.Name
-                Case "data" 'each record is inside the entries array
-                    For Each Entry As JObject In item.Values
-                        Dim SeasonSubData As List(Of JToken) = Entry.Children().ToList
-                        Dim localSeasons As New List(Of CR_Seasons)
-                        Dim season_number As String = Nothing
-                        Dim id As String = Nothing
-                        Dim audio_localeMain As String = Nothing
-
-
-                        For Each SeasonSubItem As JProperty In SeasonSubData
-                            SeasonSubItem.CreateReader()
-
-                            Select Case SeasonSubItem.Name
-                                Case "versions"
-                                    Try
-                                        For Each VersionItem As JObject In SeasonSubItem.Values
-
-                                            Dim guid As String = VersionItem.GetValue("guid").ToString
-                                            Dim audio_locale As String = VersionItem.GetValue("audio_locale").ToString
-
-                                            localSeasons.Add(New CR_Seasons(guid, audio_locale, Auth))
-                                        Next
-                                    Catch ex As Exception
-                                        Debug.WriteLine("Error getting season data")
-                                    End Try
-                                Case "season_number"
-                                    season_number = SeasonSubItem.Value.ToString
-                                Case "id"
-                                    id = SeasonSubItem.Value.ToString
-                                Case "audio_locale"
-                                    audio_localeMain = SeasonSubItem.Value.ToString
-                            End Select
-                        Next
-
-                        If localSeasons.Count = 0 Then
-                            Anime_Add.ComboBox1.Items.Add(HardSubValuesToDisplay(audio_localeMain) + " - Season " + season_number)
-                            CR_MassSeasons.Add(New CR_Seasons(id, audio_localeMain, Auth))
-                        End If
-
-                        If localSeasons.Count > 0 Then
-                            For i As Integer = 0 To CR_MassSeasons.Count - 1
-                                If CR_MassSeasons.Item(i).guid = localSeasons.Item(0).guid Then
-                                    localSeasons.Clear()
-                                    Exit For
-                                End If
-                            Next
-                        End If
-
-
-                        If localSeasons.Count > 0 Then
-                            For i As Integer = 0 To localSeasons.Count - 1
-                                Anime_Add.ComboBox1.Items.Add(HardSubValuesToDisplay(localSeasons.Item(i).audio_locale) + " - Season " + season_number)
-                                CR_MassSeasons.Add(localSeasons.Item(i))
-                            Next
-                        End If
-
-                    Next
-            End Select
-        Next
-
-    End Sub
-
-    Public Sub GetBetaVideoProxy(ByVal requesturl As String, ByVal AuthToken As String, ByVal WebsiteURL As String)
-        Dim Evaluator = New Thread(Sub() Me.GetBetaVideo(requesturl, AuthToken, WebsiteURL))
-        Evaluator.Start()
-    End Sub
-
-    Public Sub GetBetaVideo(ByVal Streams As String, ByVal AuthToken As String, ByVal WebsiteURL As String)
-        If b = False Then
-            b = True
-        End If
-        'Debug.WriteLine(Streams)
-        'Debug.WriteLine(vbCrLf)
-        Debug.WriteLine("Website: " + WebsiteURL)
-
-
-
-        Try
-            Grapp_RDY = False
-            Dim ffmpeg_command_temp As String = ffmpeg_command
-            Dim CR_MetadataUsage As Boolean = False
-            Dim CR_Streams As New List(Of CR_Beta_Stream)
-            Dim CR_series_title As String = Nothing
-            Dim CR_season_number As String = Nothing
-            Dim CR_FolderSeason As String = Nothing
-            Dim CR_episode As String = Nothing
-            Dim CR_episode_duration_ms As String = "60000000"
-            Dim CR_episode2 As String = Nothing
-            Dim CR_Anime_Staffel_int As String = Nothing
-            Dim CR_episode_int As String = Nothing
-            Dim CR_title As String = Nothing
-            Dim CR_audio_locale As String = Nothing
-            Dim CR_audio_isDubbed As Boolean = False
-            Dim ResoUsed As String = "x" + Reso.ToString
-            Dim ffmpegInput As String = "-i [Subtitles only]"
-
-
-            Dim Pfad2 As String
-            Dim TextBox2_Text As String = Nothing
-            Dim CR_FilenName As String = Nothing
-            Dim ObjectJson As String = Nothing
-            Me.Invoke(New Action(Function() As Object
-                                     TextBox2_Text = Anime_Add.TextBox2.Text
-                                     Return Nothing
-                                 End Function))
-
-
-
-            Dim ObjectsURLBuilder() As String = Streams.Split(New String() {"videos"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim ObjectsURLBuilder2() As String = ObjectsURLBuilder(1).Split(New String() {"/streams"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim ObjectsURLBuilder3() As String = WebsiteURL.Split(New String() {"watch/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim ObjectsURLBuilder4() As String = ObjectsURLBuilder3(1).Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim ObjectsURL As String = ObjectsURLBuilder(0) + "objects/" + ObjectsURLBuilder4(0) + ObjectsURLBuilder2(1)
-            Debug.WriteLine(ObjectsURL)
-
-            Dim Loc_CR_Cookies = " -H " + Chr(34) + CR_Cookies + Chr(34)
-
-            Dim Loc_AuthToken = " -H " + Chr(34) + "Authorization: " + AuthToken + Chr(34)
-
-            If CBool(InStr(AuthToken, "Authorization")) = True Then
-                Loc_AuthToken = AuthToken
-            End If
-
-
-            ObjectJson = CurlAuth(ObjectsURL, Loc_CR_Cookies, Loc_AuthToken)
-
-
-
-            'ObjectJson = Curl(ObjectsURL)
-
-            'MsgBox(ObjectJson)
-
-            If CBool(InStr(ObjectJson, "curl:")) = True Then
-                ObjectJson = CurlAuth(ObjectsURL, Loc_CR_Cookies, Loc_AuthToken)
-            End If
-
-
-
-            If CBool(InStr(ObjectJson, "curl:")) = True And CBool(InStr(CR_ObjectsJson.Url, ObjectsURLBuilder4(0))) Then
-                Debug.WriteLine("curl error, using CR_ObjectsJson " + vbNewLine + ObjectJson)
-
-                ObjectJson = CR_ObjectsJson.Content
-                CR_ObjectsJson = New UrlJson("", "")
-            ElseIf CBool(InStr(ObjectJson, "curl:")) Then
-
-                Throw New System.Exception("Error - Getting ObjectJson data" + vbNewLine + ObjectJson)
-
-                'MsgBox("Error - Getting ObjectJson data" + vbNewLine + ObjectJson)
-                'Exit Sub
-            End If
-
-
-
-            'Filter JSON esqaped characters
-            'Debug.WriteLine(Date.Now.ToString + "before:" + ObjectJson)
-            Debug.WriteLine("1288: " + ObjectJson)
-            ObjectJson = CleanJSON(ObjectJson)
-            'Debug.WriteLine(Date.Now.ToString + "after:" + ObjectJson)
-
-            Dim ser As JObject = JObject.Parse(ObjectJson)
-            Dim data As List(Of JToken) = ser.Children().ToList
-
-            For Each item As JProperty In data
-                item.CreateReader()
-                Select Case item.Name
-
-                    Case "data" 'each record is inside the entries array
-                        For Each Entry As JObject In item.Values
-                            Try
-                                Dim Title As String = Entry("title").ToString
-                                CR_title = String.Join(" ", Title.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
-                                Debug.WriteLine(Date.Now.ToString + " CR-Title: " + CR_title)
-                            Catch ex As Exception
-                            End Try
-                            Dim SubData As List(Of JToken) = Entry.Children().ToList
-                            For Each SubItem As JProperty In SubData
-                                'SubItem.CreateReader()
-                                Select Case SubItem.Name
-                                    Case "episode_metadata"
-                                        For Each SubEntry As JProperty In SubItem.Values
-                                            Select Case SubEntry.Name
-                                                Case "series_title"
-                                                    CR_series_title = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
-                                                    'Case "season_title"
-                                                    '    CR_season_title = SubEntry.Value.ToString
-                                                Case "season_number"
-                                                    CR_season_number = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
-                                                Case "episode_number"
-                                                    CR_episode2 = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
-                                                Case "episode"
-                                                    CR_episode = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
-                                                Case "duration_ms"
-                                                    CR_episode_duration_ms = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
-                                                Case "is_dubbed"
-                                                    CR_audio_isDubbed = CBool(SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", ""))
-                                            End Select
-                                        Next '
-                                End Select
-                            Next
-                        Next
-                End Select
-            Next
-
-#Region "VideoJson"
-            Dim VideoJson As String = Nothing
-
-            VideoJson = CurlAuth(Streams, Loc_CR_Cookies, Loc_AuthToken)
-
-
-
-            'VideoJson = Curl(Streams)
-
-            If CBool(InStr(VideoJson, "curl:")) = True Then
-                VideoJson = CurlAuth(Streams, Loc_CR_Cookies, Loc_AuthToken)
-
-            End If
-
-            Dim StreamsUrlBuilder() As String = ObjectJson.Split(New String() {"videos/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim StreamsUrlBuilder2() As String = StreamsUrlBuilder(1).Split(New String() {"/streams"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-
-
-            If CBool(InStr(VideoJson, "curl:")) = True And CBool(InStr(CR_VideoJson.Url, StreamsUrlBuilder2(0))) Then
-                Debug.WriteLine("curl error, using CR_VideoJson " + vbNewLine + VideoJson)
-                VideoJson = CR_VideoJson.Content
-                CR_VideoJson = New UrlJson("", "")
-            ElseIf CBool(InStr(VideoJson, "curl:")) = True Then
-                Throw New System.Exception("Error - Getting VideoJson data" + vbNewLine + VideoJson) 'VideoJson = Nothing
-                ' MsgBox("Error - Getting VideoJson data" + vbNewLine + VideoJson)
-                '  Exit Sub
-            End If
-
-
-            Debug.WriteLine("VideoJson: " + VideoJson)
-            Debug.WriteLine("VideoStreams: " + Streams)
-
-
-            Dim CR_HardSubLang As String = SubSprache.CR_Value
-#End Region
-
-#Region "m3u8 suche"
-
-
-            VideoJson = CleanJSON(VideoJson)
-
-            Dim VideoJObject As JObject = JObject.Parse(VideoJson)
-            Dim VideoData As List(Of JToken) = VideoJObject.Children().ToList
-
-            For Each item As JProperty In VideoData
-                item.CreateReader()
-                Select Case item.Name
-                    Case "data" 'each record is inside the entries array
-                        For Each Entry As JObject In item.Values
-
-                            Dim VideoSubData As List(Of JToken) = Entry.Children().ToList
-                            For Each VideoSubItem As JProperty In VideoSubData
-
-                                Dim JsonEntryFormat As String = VideoSubItem.Name
-                                If CBool(InStr(JsonEntryFormat, "drm")) Or CBool(InStr(JsonEntryFormat, "dash")) Or CBool(InStr(JsonEntryFormat, "download")) Or CBool(InStr(JsonEntryFormat, "urls")) Then '
-                                    Continue For
-                                End If
-
-                                Dim SubData As List(Of JToken) = VideoSubItem.Children().ToList
-                                For Each SubItem As JObject In SubData
-                                    SubItem.CreateReader()
-
-                                    Dim StreamFormats As List(Of JToken) = SubItem.Children().ToList
-
-
-                                    For Each HardsubStreams As JProperty In StreamFormats
-                                        HardsubStreams.CreateReader()
-                                        Dim SubLang As String = HardsubStreams.Name
-                                        Dim Url As String = HardsubStreams.Value("url").ToString
-                                        If SubLang = Nothing Or SubLang = "" Then
-                                            SubLang = ""
-                                        End If
-
-                                        CR_Streams.Add(New CR_Beta_Stream(SubLang, JsonEntryFormat, Url))
-
-                                    Next
-                                Next
-
-
-                            Next
-                        Next
-                    Case "meta" 'each record is inside the entries array
-                        For Each MetaEntrys As JProperty In item.Values
-                            Select Case MetaEntrys.Name
-                                Case "audio_locale"
-                                    If CR_audio_isDubbed = True Then
-                                        Dim AudioTag As String = MetaEntrys.Value.ToString
-                                        CR_audio_locale = String.Join(" ", AudioTag.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
-                                    Else
-                                        CR_audio_locale = "ja-JP"
-                                    End If
-
-                            End Select
-
-                        Next
-
-                End Select
-            Next
-
-            Dim CR_URI_Master As New List(Of String)
-
-
-            Dim RawStream As New List(Of String)
-
-
-
-            For c As Integer = 0 To CR_Streams.Count - 1
-                Dim i As Integer = c
-                'Debug.WriteLine("1457: " + i.ToString + "/" + CR_Streams.Count.ToString + " " + CR_Streams.Item(i).subLang + " " + CR_Streams.Item(i).Format)
-                If CR_Streams.Item(i).subLang = CR_HardSubLang Then
-                    CR_URI_Master.Add(CR_Streams.Item(i).Url)
-                ElseIf CR_Streams.Item(i).subLang = "" And CR_audio_locale IsNot "ja-JP" And DubMode = True Then 'nothing/raw
-                    RawStream.Add(CR_Streams.Item(i).Url)
-                End If
-            Next
-
-            If CR_URI_Master.Count = 0 And RawStream.Count > 0 Then
-                CR_URI_Master.Clear()
-                CR_URI_Master.AddRange(RawStream)
-
-            ElseIf CR_URI_Master.Count = 0 Then
-                Me.Invoke(New Action(Function() As Object
-                                         ResoNotFoundString = VideoJson
-                                         DialogTaskString = "Language_CR_Beta"
-                                         ErrorDialog.ShowDialog()
-                                         Return Nothing
-                                     End Function))
-                If UserCloseDialog = True Then
-                    Throw New System.Exception(Chr(34) + "UserAbort" + Chr(34))
-                Else
-                    'MsgBox(CR_HardSubLang)
-                    CR_HardSubLang = ResoBackString
-                    ResoBackString = Nothing
-                    'MsgBox(CR_Streams.Count.ToString)
-                    For i As Integer = 0 To CR_Streams.Count - 1
-                        Debug.WriteLine("1484: " + CR_Streams.Item(i).subLang)
-                        If CR_Streams.Item(i).subLang = CR_HardSubLang Then
-                            CR_URI_Master.Add(CR_Streams.Item(i).Url)
-                        End If
-
-                    Next
-
-                End If
-            End If
-
-            'MsgBox(CR_URI_Master.Count.ToString)
-
-            If CBool(InStr(CR_URI_Master(0), "master.m3u8")) Then
-                Me.Invoke(New Action(Function() As Object
-                                         Anime_Add.StatusLabel.Text = "Status: m3u8 found, looking for resolution"
-                                         Me.Text = "Status: m3u8 found, looking for resolution"
-                                         Me.Invalidate()
-                                         Return Nothing
-                                     End Function))
-            Else
-                Throw New System.Exception("Premium Episode")
-            End If
-
-#End Region
-
-#Region "Name"
-
-#Region "Name von Crunchyroll"
-
-
-            If CR_episode = Nothing Or CR_episode = "" And CR_episode2 = Nothing Then
-                CR_episode_int = "0"
-            ElseIf CR_episode IsNot Nothing And CR_episode IsNot "" Then
-                CR_episode_int = CR_episode
-            ElseIf CR_episode2 IsNot Nothing Then
-                CR_episode_int = CR_episode2
-            End If
-            CR_Anime_Staffel_int = CR_season_number
-
-
-
-            If TextBox2_Text = Nothing Or TextBox2_Text = "Use Custom Name" Or CBool(InStr(TextBox2_Text, "++")) = True Then
-
-
-                If Season_Prefix = "[default season prefix]" Then
-                    If CR_episode = Nothing And CR_episode2 = Nothing Then 'no episode number means most likey a movie 
-                        CR_season_number = Nothing
-                    ElseIf CR_season_number = Nothing Then
-                    Else
-                        CR_season_number = "Season " + CR_season_number
-                    End If
-                Else
-                    If CR_episode = Nothing And CR_episode2 = Nothing Then 'no episode number means most likey a movie 
-                        CR_season_number = Nothing
-                    ElseIf CR_season_number = Nothing Then
-                    Else
-                        CR_season_number = Season_Prefix + CR_season_number
-                    End If
-                End If
-
-                CR_FolderSeason = CR_season_number
-
-                If IgnoreSeason = 1 And CR_season_number = "1" Or IgnoreSeason = 1 And CR_season_number = "0" Then
-                    CR_season_number = Nothing
-                ElseIf IgnoreSeason = 2 Then
-                    CR_season_number = Nothing
-                End If
-
-
-                If Episode_Prefix = "[default episode prefix]" Then
-                    If CR_episode = Nothing Or CR_episode = "" And CR_episode2 = Nothing Then
-                        CR_episode = CR_title
-                    ElseIf CR_episode IsNot Nothing And CR_episode IsNot "" Then
-                        CR_episode = "Episode " + AddLeadingZeros(CR_episode)
-                    ElseIf CR_episode2 IsNot Nothing Then
-                        CR_episode = "Episode " + AddLeadingZeros(CR_episode2)
-                    End If
-                    'CR_episode = "Episode " + AddLeadingZeros(CR_episode)
-                Else
-                    CR_episode = Episode_Prefix + AddLeadingZeros(CR_episode)
-                End If
-
-
-                Dim NameParts As String() = NameBuilder.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                For i As Integer = 0 To NameParts.Count - 1
-
-                    If NameParts(i) = "AnimeTitle" Then
-                        CR_FilenName = CR_FilenName + " " + CR_series_title
-                    ElseIf NameParts(i) = "Season" Then
-                        CR_FilenName = CR_FilenName + " " + CR_season_number
-                    ElseIf NameParts(i) = "EpisodeNR" Then
-                        CR_FilenName = CR_FilenName + " " + CR_episode
-                    ElseIf NameParts(i) = "EpisodeName" Then
-                        CR_FilenName = CR_FilenName + " " + CR_title
-                    ElseIf NameParts(i) = "AnimeDub" Then
-                        CR_FilenName = CR_FilenName + " " + HardSubValuesToDisplay(CR_audio_locale)
-                    ElseIf NameParts(i) = "AnimeSub" Then
-                        ' CR_FilenName = CR_FilenName + " RepSub" 'to be done
-                    End If
-
-                Next
-
-                If CBool(InStr(TextBox2_Text, "++")) = True Then
-                    Dim Backup_CR_FilenName As String = CR_FilenName
-                    Try
-                        Dim AddDef As String = "CRD"
-                        Dim TestString As String = AddDef + TextBox2_Text + AddDef
-                        Dim PrePost As String() = TestString.Split(New String() {"++"}, System.StringSplitOptions.RemoveEmptyEntries)
-                        CR_FilenName = PrePost(0) + CR_FilenName + PrePost(1)
-                        CR_FilenName = CR_FilenName.Replace(AddDef, "")
-                    Catch ex As Exception
-                        CR_FilenName = Backup_CR_FilenName
-                    End Try
-                End If
-
-
-
-
-
-
-#End Region
-            Else
-                CR_FilenName = RemoveExtraSpaces(String.Join(" ", TextBox2_Text.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace(Chr(34), "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(TextBox2_Text, "[^\w\\-]", " "))
-            End If
-
-            If KodiNaming = True Then
-                Dim KodiString As String = "[S"
-                If CR_Anime_Staffel_int = "0" Then
-                    CR_Anime_Staffel_int = "01"
-                Else
-                    CR_Anime_Staffel_int = "0" + CR_Anime_Staffel_int
-                End If
-
-                KodiString = KodiString + CR_Anime_Staffel_int + " E" + AddLeadingZeros(CR_episode_int) ' CR_episode_nr
-                KodiString = KodiString + "] "
-                CR_FilenName = KodiString + CR_FilenName
-            End If
-            Debug.WriteLine(CR_FilenName)
-
-            CR_FilenName = String.Join(" ", CR_FilenName.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace(Chr(34), "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName, "[^\w\\-]", " ")
-            CR_FilenName = RemoveExtraSpaces(CR_FilenName)
-            'My.Computer.FileSystem.WriteAllText("log.log", WebbrowserText, False)
-            Pfad2 = UseSubfolder(CR_series_title, CR_FolderSeason, Pfad)
-            If Not Directory.Exists(Path.GetDirectoryName(Pfad2)) Then
-                ' Nein! Jetzt erstellen...
-                Try
-                    Directory.CreateDirectory(Path.GetDirectoryName(Pfad2))
-                    Pfad2 = Chr(34) + Pfad2 + CR_FilenName + VideoFormat + Chr(34)
-                Catch ex As Exception
-                    ' Ordner wurde nich erstellt
-                    Pfad2 = Chr(34) + Pfad + "\" + CR_FilenName + VideoFormat + Chr(34)
-                    Pfad2 = Pfad2.Replace("\\", "\")
-                End Try
-            Else
-                Pfad2 = Chr(34) + Pfad2 + CR_FilenName + VideoFormat + Chr(34)
-            End If
-#End Region
-
-
-
-#Region "Chapters"
-            Dim Mdata_File As String = Application.StartupPath + "\" + ObjectsURLBuilder4(0) + "-mdata.txt"
-
-            If CR_Chapters = True Then
-
-
-                Dim ChaptersUrl As String = "https://static.crunchyroll.com/datalab-intro-v2/" + ObjectsURLBuilder4(0) + ".json"
-                Dim ChaptersJson As String = Nothing
-
-
-                ChaptersJson = Curl(ChaptersUrl)
-
-                If CBool(InStr(ChaptersJson, "curl:")) = True Then
-                    ChaptersJson = Curl(ChaptersUrl)
-                End If
-
-                If CBool(InStr(ChaptersJson, "curl:")) = True Then
-                    ChaptersJson = Nothing
-                    Debug.WriteLine("no Chapter data... ignoring")
-                End If
-                If ChaptersJson IsNot Nothing Then
-
-                    Dim StartTime As String() = ChaptersJson.Split(New String() {Chr(34) + "startTime" + Chr(34) + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim StartTime2 As String() = StartTime(1).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim StartTime3 As String() = StartTime2(0).Split(New String() {"."}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim StartTime4 As String = StartTime3(1)
-
-                    For i As Integer = StartTime4.Length To 2
-                        StartTime4 = StartTime4 + "0"
-                    Next
-
-                    Dim StartTime_ms As String = StartTime3(0) + StartTime4
-
-
-                    Dim EndTime As String() = ChaptersJson.Split(New String() {Chr(34) + "endTime" + Chr(34) + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim EndTime2 As String() = EndTime(1).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim EndTime3 As String() = EndTime2(0).Split(New String() {"."}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                    Dim EndTime4 As String = EndTime3(1)
-                    Dim AfterTime As String = Nothing
-
-                    For i As Integer = EndTime4.Length To 2
-                        If EndTime4.Length = 2 Then
-                            AfterTime = EndTime4 + "1"
-                        End If
-                        EndTime4 = EndTime4 + "0"
-                    Next
-
-                    Dim EndTime_ms As String = EndTime3(0) + EndTime4
-                    Dim AfterTime_ms As String = EndTime3(0) + AfterTime
-                    Dim Metadata As String = Nothing
-
-                    If CInt(CR_episode_duration_ms) < CInt(StartTime_ms) Then
-                        'Totaly invalid...
-                    ElseIf CInt(CR_episode_duration_ms) < CInt(EndTime_ms) Then
-                        'it's not an Intro it's an outro 
-                        Dim DeCh As Integer = CInt(StartTime_ms) - 1
-                        Metadata = My.Resources.ffmpeg_metadata_out.Replace("[Titel]", CR_FilenName).Replace("[Start-1]", DeCh.ToString).Replace("[Start]", StartTime_ms).Replace("[duration_ms]", CR_episode_duration_ms)
-
-                    Else
-                        Metadata = My.Resources.ffmpeg_metadata.Replace("[Titel]", CR_FilenName).Replace("[Start]", StartTime_ms).Replace("[END]", EndTime_ms).Replace("[after]", AfterTime_ms).Replace("[duration_ms]", CR_episode_duration_ms)
-
-                    End If
-
-                    If Metadata = Nothing Then
-                    Else
-                        Dim utf8WithoutBom2 As New System.Text.UTF8Encoding(False)
-                        Using sink As New StreamWriter(Mdata_File, False, utf8WithoutBom2)
-                            sink.WriteLine(Metadata)
-                            CR_MetadataUsage = True
-                        End Using
-                    End If
-
-
-                End If
-            End If
-#End Region
-
-
-
-
-
-#Region "lösche doppel download"
-            'MsgBox(Pfad2)
-            Dim Pfad5 As String = Pfad2.Replace(Chr(34), "")
-            Dim Pfad6 As String = Pfad5
-            Dim MergeAudio As Boolean = False
-
-            If My.Computer.FileSystem.FileExists(Pfad5) And DownloadScope = DownloadScopeEnum.OldDefault Then 'Pfad = Kompeltter Pfad mit Dateinamen + ENdung
-                Me.Invoke(New Action(Function() As Object
-                                         Anime_Add.StatusLabel.Text = "Status: The file already exists."
-                                         Me.Text = "Status: The file already exists."
-                                         Me.Invalidate()
-                                         Return Nothing
-                                     End Function))
-                If MessageBox.Show("The file " + Pfad5 + " already exists." + vbNewLine + "You want to override it?", "File exists!", MessageBoxButtons.OKCancel) = DialogResult.OK Then
-                    Try
-                        My.Computer.FileSystem.DeleteFile(Pfad5)
-                    Catch ex As Exception
-                    End Try
-                Else
-                    Grapp_RDY = True
-                    Exit Sub
-                End If
-
-            ElseIf My.Computer.FileSystem.FileExists(Pfad5) And DownloadScope = DownloadScopeEnum.MergeAudio Then
-
-
-                Pfad6 = Path.GetDirectoryName(Pfad5) + "\" + GeräteID() + Path.GetExtension(Pfad5) '+ "."
-                FileSystem.Rename(Pfad5, Pfad6)
-                MergeAudio = True
-
-            ElseIf My.Computer.FileSystem.FileExists(Path.GetDirectoryName(Pfad5) + "\" + Path.GetFileNameWithoutExtension(Pfad5) + "aac") And DownloadScope = DownloadScopeEnum.AudioOnly Then
-
-                Me.Invoke(New Action(Function() As Object
-                                         Anime_Add.StatusLabel.Text = "Status: The file already exists."
-                                         Me.Text = "Status: The file already exists."
-                                         Me.Invalidate()
-                                         Return Nothing
-                                     End Function))
-                If MessageBox.Show("The file " + Path.GetDirectoryName(Pfad5) + "\" + Path.GetFileNameWithoutExtension(Pfad5) + "aac" + " already exists." + vbNewLine + "You want to override it?", "File exists!", MessageBoxButtons.OKCancel) = DialogResult.OK Then
-                    Try
-                        My.Computer.FileSystem.DeleteFile(Path.GetDirectoryName(Pfad5) + "\" + Path.GetFileNameWithoutExtension(Pfad5) + "aac")
-                    Catch ex As Exception
-                    End Try
-                Else
-                    Grapp_RDY = True
-                    Exit Sub
-                End If
-
-            ElseIf DownloadScope = DownloadScopeEnum.AudioOnly Then
-
-                'replace format with aac
-                Pfad2 = Pfad2.Replace(VideoFormat, ".aac")
-
-                'replace command for aac
-                Dim ffmpeg_command_Builder() As String = ffmpeg_command.Split(New String() {"-c:a copy"}, System.StringSplitOptions.RemoveEmptyEntries)
-                ffmpeg_command_temp = "-c:a copy" + ffmpeg_command_Builder(1)
-
-            End If
-#End Region
-
-
-#Region "GetResolution"
-
-            If Reso = 42 And HybridMode = False Then
-
-                ffmpegInput = "-i " + Chr(34) + CR_URI_Master(0) + Chr(34)
-
-            ElseIf DownloadScope = DownloadScopeEnum.SubsOnly Then
-                ffmpegInput = "-i [Subtitles only]"
-            Else
-
-                Dim str As String = Nothing
-
-
-
-
-                For i As Integer = 0 To CR_URI_Master.Count - 1
-                    str = Curl(CR_URI_Master(i))
-
-                    If CBool(InStr(str, "curl:")) = False Then
-                        Exit For
-                    End If
-                Next
-
-
-                If CBool(InStr(str, "curl:")) = True Then
-
-                    MsgBox("Unable to get master.m3u8" + vbNewLine + str, MsgBoxStyle.Critical)
-                ElseIf DownloadScope = DownloadScopeEnum.AudioOnly Or MergeAudio = True Then
-
-                    If CBool(InStr(str, "x480,")) Then
-                        ResoUsed = "x480"
-                    ElseIf CBool(InStr(str, "x" + Reso.ToString + ",")) Then
-                        ResoUsed = "x" + Reso.ToString
-                    End If
-
-                ElseIf CBool(InStr(str, "x" + Reso.ToString + ",")) Then
-                    ResoUsed = "x" + Reso.ToString
-                Else
-                    If CBool(InStr(str, ResoSave + ",")) Then
-                        ResoUsed = ResoSave
-                    Else
-                        Me.Invoke(New Action(Function() As Object
-                                                 DialogTaskString = "Resolution"
-                                                 ResoNotFoundString = str
-                                                 ErrorDialog.ShowDialog()
-                                                 Return Nothing
-                                             End Function))
-                        If UserCloseDialog = True Then
-                            Throw New System.Exception(Chr(34) + "UserAbort" + Chr(34))
-                        Else
-                            ResoUsed = ResoBackString
-                            ResoSave = ResoBackString
-                        End If
-                    End If
-                End If
-
-                Dim ffmpeg_url_3 As String = Nothing
-                Dim LineChar As String = vbLf
-                If CBool(InStr(str, vbCrLf)) Then
-                    LineChar = vbCrLf
-                ElseIf CBool(InStr(str, vbCr)) Then
-                    LineChar = vbCr
-                End If
-                Dim ffmpeg_url_1 As String() = str.Split(New String() {LineChar}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                For i As Integer = 0 To ffmpeg_url_1.Count - 2 'Step 2
-                    If CBool(InStr(ffmpeg_url_1(i), ResoUsed + ",")) Then
-                        ffmpeg_url_3 = ffmpeg_url_1(i + 1)
-                    End If
-                Next
-
-                ffmpegInput = "-i " + Chr(34) + ffmpeg_url_3.Trim() + Chr(34)
-
-            End If
-
-
-
-#End Region
-
-#Region "GetSoftsubs"
-            Dim SoftSubsAvailable As New List(Of String)
-
-            Dim SoftSubsList As New List(Of CR_Subtiles)
-
-            If SoftSubs.Count > 0 Then
-                For i As Integer = 0 To SoftSubs.Count - 1
-                    If CBool(InStr(VideoJson, Chr(34) + "locale" + Chr(34) + ":" + Chr(34) + SoftSubs(i) + Chr(34) + "," + Chr(34) + "url" + Chr(34) + ":" + Chr(34))) Then
-                        SoftSubsAvailable.Add(SoftSubs(i))
-                    End If
-                Next
-            End If
-
-
-            If DownloadScope = DownloadScopeEnum.AudioOnly Then
-
-
-            ElseIf MergeAudio = True Then
-
-
-            ElseIf SoftSubsAvailable.Count > 0 Then
-
-                Dim MergeSubsNow As Boolean = MergeSubs
-
-                If DownloadScope = DownloadScopeEnum.SubsOnly Then
-                    MergeSubsNow = False
-                End If
-
-                Debug.WriteLine("Softsubs Default: " + DefaultSubCR)
-
-                For i As Integer = 0 To SoftSubsAvailable.Count - 1
-
-                    Dim SoftSub As String() = VideoJson.Split(New String() {Chr(34) + "locale" + Chr(34) + ":" + Chr(34) + SoftSubsAvailable(i) + Chr(34) + "," + Chr(34) + "url" + Chr(34) + ":" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim SoftSub_2 As String() = SoftSub(1).Split(New [Char]() {Chr(34)})
-                    Dim SoftSub_3 As String = SoftSub_2(0).Replace("&amp;", "&").Replace("/u0026", "&").Replace("\u002F", "/").Replace("\u0026", "&")
-                    SoftSubsList.Add(New CR_Subtiles(SoftSubsAvailable(i), HardSubValuesToDisplay(SoftSubsAvailable(i)), " -i " + Chr(34) + SoftSub_3 + Chr(34), i.ToString, SoftSubsAvailable(i) = DefaultSubCR))
-
-                Next
-
-
-                If MergeSubsNow = True Then
-                    Dim DispositionIndex As Integer = 69
-                    Dim SoftSubMergeURLs As String = ""
-                    Dim SoftSubMergeMaps As String = " -map 0:v -map 0:a"
-                    Dim SoftSubMergeMetatata As String = ""
-                    Dim IndexMoveMap As Integer = 1
-                    If CR_MetadataUsage = True Then
-                        IndexMoveMap = 2
-                    End If
-
-                    For i As Integer = 0 To SoftSubsList.Count - 1
-
-                        SoftSubMergeURLs = SoftSubMergeURLs + " " + SoftSubsList(i).Url
-                        SoftSubMergeMaps = SoftSubMergeMaps + " -map " + (i + IndexMoveMap).ToString
-                        SoftSubMergeMetatata = SoftSubMergeMetatata + " -metadata:s:s:" + i.ToString + " language=" + CCtoMP4CC(SoftSubsList(i).SubLangValue) + " -metadata:s:s:" + i.ToString + " title=" + Chr(34) + SoftSubsList(i).SubLangName + Chr(34) + " -metadata:s:s:" + i.ToString + " handler_name=" + Chr(34) + SoftSubsList(i).SubLangName + Chr(34)
-
-                        If SoftSubsList(i).DefaultSub = True Then
-                            DispositionIndex = i
-                        End If
-
-                    Next
-
-                    Debug.WriteLine("-disposition:s: " + DispositionIndex.ToString)
-
-                    If DispositionIndex < 69 Then
-                        SoftSubMergeMetatata = SoftSubMergeMetatata + " -disposition:s:" + DispositionIndex.ToString + " default"
-                    End If
-
-                    If CR_MetadataUsage = False Then
-                        ffmpegInput = ffmpegInput + " " + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpeg_command_temp + " -c:s " + MergeSubsFormat + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + CCtoMP4CC(CR_audio_locale)
-                    Else
-                        ffmpegInput = ffmpegInput + " -i " + Chr(34) + Mdata_File + Chr(34) + SoftSubMergeURLs + SoftSubMergeMaps + " -map_metadata 1 " + ffmpeg_command_temp + " -c:s " + MergeSubsFormat + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + CCtoMP4CC(CR_audio_locale)
-
-                    End If
-
-
-                Else
-
-                    For i As Integer = 0 To SoftSubsList.Count - 1
-                        Dim i2 As Integer = i
-                        Me.Invoke(New Action(Function() As Object
-                                                 Anime_Add.StatusLabel.Text = "Status: downloading subtitle file " + SoftSubsList(i2).SubLangName
-                                                 Me.Text = "Status: downloading subtitle file " + SoftSubsList(i2).SubLangName
-                                                 Me.Invalidate()
-                                                 Return Nothing
-                                             End Function))
-
-                        Dim SubText As String = ""
-                        SubText = Curl(SoftSubsList(i2).Url.Replace(" -i ", "").Replace(Chr(34), ""))
-                        Dim Pfad3 As String = Pfad2.Replace(Chr(34), "")
-                        Dim FN As String = Path.ChangeExtension(Path.Combine(Path.GetFileNameWithoutExtension(Pfad3) + "." + GetSubFileLangName(SoftSubsList(i2).SubLangValue) + Path.GetExtension(Pfad3)), "ass")
-                        If i = 0 And IncludeLangName = False Then
-                            FN = Path.ChangeExtension(Path.GetFileName(Pfad3), "ass")
-                        End If
-                        Dim Pfad4 As String = Path.Combine(Path.GetDirectoryName(Pfad3), FN)
-                        WriteText(Pfad4, SubText)
-                        Pause(3)
-
-                    Next
-
-                    If CR_MetadataUsage = False Then
-                        ffmpegInput = ffmpegInput + " -metadata:s:a:0 language=" + CCtoMP4CC(CR_audio_locale) + " " + ffmpeg_command_temp
-                    Else
-                        ffmpegInput = ffmpegInput + " -i " + Chr(34) + Mdata_File + Chr(34) + " -map_metadata 1" + " -metadata:s:a:0 language=" + CCtoMP4CC(CR_audio_locale) + " " + ffmpeg_command_temp
-                    End If
-                End If
-
-            End If
-
-            ffmpegInput = RemoveExtraSpaces(ffmpegInput)
-#End Region
-
-#Region "thumbnail"
-            Dim thumbnail As String() = ObjectJson.Split(New String() {"https://"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim thumbnail3 As String = ""
-            For i As Integer = 0 To thumbnail.Count - 1
-                If CBool(InStr(thumbnail(i), ".jpg" + Chr(34))) Then
-                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpg" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
-                    thumbnail3 = "https://" + thumbnail2(0).Replace("\/", "/") + ".jpg"
-                    Exit For
-                ElseIf CBool(InStr(thumbnail(i), ".jpeg" + Chr(34))) Then
-                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpeg" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
-                    thumbnail3 = "https://" + thumbnail2(0).Replace("\/", "/") + ".jpeg"
-                    Exit For
-                ElseIf CBool(InStr(thumbnail(i), ".jpe" + Chr(34))) Then
-                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpe" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
-                    thumbnail3 = "https://" + thumbnail2(0).Replace("\/", "/") + ".jpe"
-                    Exit For
-                End If
-            Next
-
-#End Region
-
-#Region "item constructor"
-
-#Region "Display Hard_Softsubs"
-            Dim SubType_Value As String = Nothing
-            If Not CR_HardSubLang = "" Then
-                SubType_Value = "Hardsub: " + HardSubValuesToDisplay(CR_HardSubLang)
-            End If
-            If SoftSubsList.Count > 0 And CR_HardSubLang = "" Then
-                SubType_Value = "Softsubs: "
-                For i As Integer = 0 To SoftSubsList.Count - 1
-                    SubType_Value = SubType_Value + SoftSubsList(i).SubLangName
-                    If i < SoftSubsList.Count - 1 Then
-                        SubType_Value = SubType_Value + ", "
-                    End If
-                Next
-            End If
-#End Region
-
-
-#Region "Display Resolution"
-
-
-            Dim ResoHTMLDisplay As String = Nothing
-            Dim ResoHTML As String() = ResoUsed.Split(New String() {"x"}, System.StringSplitOptions.RemoveEmptyEntries)
-            If ResoHTML.Count > 1 Then
-                ResoHTMLDisplay = ResoHTML(1) + "p"
-            Else
-                ResoHTMLDisplay = ResoHTML(0) + "p"
-            End If
-
-            Dim L2Name As String = String.Join(" ", CR_FilenName.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c) 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName_Backup, "[^\w\\-]", " ")
-
-            If Reso = 42 And HybridMode = False Then
-                ResoHTMLDisplay = "[Auto]"
-            End If
-#End Region
-
-
-            Dim L1Name_Split As String() = WebsiteURL.Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim L1Name As String = L1Name_Split(1).Replace("www.", "") + " | Dub : " + HardSubValuesToDisplay(CR_audio_locale)
-
-            'MsgBox(URL_DL)
-
-
-            Me.Invoke(New Action(Function() As Object
-                                     ListItemAdd(Path.GetFileName(Pfad2.Replace(Chr(34), "")), L1Name, L2Name, ResoHTMLDisplay, SubType_Value, thumbnail3, ffmpegInput, Pfad2)
-                                     Return Nothing
-                                 End Function))
-            'liList.Add(My.Resources.htmlvorThumbnail + thumbnail3 + My.Resources.htmlnachTumbnail + CR_title + " <br> " + CR_season_number + " " + CR_episode + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + Subsprache3 + My.Resources.htmlnachHardSubs + "<!-- " + L2Name + "-->")
-            'Form1.RichTextBox1.Text = My.Resources.htmlvorThumbnail + thumbnail3 + My.Resources.htmlnachTumbnail + CR_Anime_Titel + " <br> " + CR_Anime_Staffel + " " + CR_Anime_Folge + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + Subsprache3 + My.Resources.htmlnachHardSubs + "<!-- " + L2Name + "-->"
-#End Region
-            Grapp_RDY = True
-            Me.Invoke(New Action(Function() As Object
-                                     Anime_Add.StatusLabel.Text = "Status: idle"
-                                     Me.Text = "Crunchyroll Downloader"
-                                     ResoBackString = Nothing
-                                     Me.Invalidate()
-                                     Return Nothing
-                                 End Function))
-
-        Catch ex As Exception
-            Me.Invoke(New Action(Function() As Object
-                                     Anime_Add.StatusLabel.Text = "Status: idle"
-                                     Me.Text = "Crunchyroll Downloader"
-                                     ResoBackString = Nothing
-                                     Me.Invalidate()
-                                     Return Nothing
-                                 End Function))
-            Grapp_RDY = True
-            If CBool(InStr(ex.ToString, "Could not find the sub language")) Then
-                MsgBox(Sub_language_NotFound + SubSprache.Name)
-            ElseIf CBool(InStr(ex.ToString, "RESOLUTION Not Found")) Then
-                MsgBox(Resolution_NotFound)
-            ElseIf CBool(InStr(ex.ToString, "Premium Episode")) Then
-                MsgBox(Premium_Stream, MsgBoxStyle.Information)
-            ElseIf CBool(InStr(ex.ToString, "System.UnauthorizedAccessException")) Then
-                MsgBox(ErrorNoPermisson + vbNewLine + ex.ToString, MsgBoxStyle.Information)
-            ElseIf CBool(InStr(ex.ToString, Chr(34) + "UserAbort" + Chr(34))) Then
-                MsgBox(ex.ToString, MsgBoxStyle.Information)
-            ElseIf CBool(InStr(ex.ToString, "Error - Getting")) Then
-                Navigate(WebsiteURL)
-            Else
-                MsgBox(ex.ToString, MsgBoxStyle.Information)
-            End If
-        End Try '
-    End Sub
-
-    Function Convert_locale(ByVal locale As String) As String
-        Try
-            If locale = "de" Then
-                Return "de-DE"
-            ElseIf locale = "" Then
-                Return "en-US"
-            ElseIf locale = "pt-br" Then
-                Return "pt-BR"
-            ElseIf locale = "es" Then
-                Return "es-419"
-            ElseIf locale = "fr" Then
-                Return "fr-FR"
-            ElseIf locale = "ar" Then
-                Return "ar-SA"
-            ElseIf locale = "ru" Then
-                Return "ru-RU"
-            ElseIf locale = "it" Then
-                Return "it-IT"
-            ElseIf locale = "es-es" Then
-                Return "es-ES"
-            ElseIf locale = "pt-pt" Then
-                Return "pt-PT"
-            Else
-                Return "en-US"
-            End If
-        Catch ex As Exception
-            Return Nothing
-        End Try
-    End Function
-
-#End Region
 
     Private Sub Btn_Close_Click(sender As Object, e As EventArgs) Handles Btn_Close.Click
         If RunningDownloads > 0 Then
@@ -2318,1044 +1186,6 @@ Public Class Main
         'Debug.WriteLine("downloads.tick: " + RunningDownloads.ToString)
     End Sub
 
-#Region "Funimation JS "
-    Public Sub GetFunimationJS_Seasons(Optional ByVal JsonUrl As String = Nothing, Optional ByVal Json As String = Nothing)
-        FunimtaionSeasonList.Clear()
-        Dim SeasonJson As String = Nothing
-        Debug.WriteLine("JsonUrl: " + JsonUrl)
-        If JsonUrl = Nothing Then
-            SeasonJson = Json
-        Else
-            FunimationSeasonAPIUrl = JsonUrl
-            'Navigate(JsonUrl)
-            'FunimationJsonBrowser = "SeasonJson"
-            'Exit Sub
-            Try
-                Using client As New WebClient()
-                    client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
-                    SeasonJson = client.DownloadString(JsonUrl)
-                End Using
-            Catch ex As Exception
-                Debug.WriteLine("error- getting funimation SeasonJson data")
-                FunimationJsonBrowser = "SeasonJson"
-                Navigate(JsonUrl)
-                'Navigate(JsonUrl)
-                Exit Sub
-            End Try
-        End If
-        Debug.WriteLine("SeasonJson: " + SeasonJson)
-        Dim ser As JObject = JObject.Parse(SeasonJson)
-        Dim data As List(Of JToken) = ser.Children().ToList
-        Dim Slug As String = Nothing
-        Dim Title As String = Nothing
-        Dim ID As String = Nothing
-        For Each item As JProperty In data
-            item.CreateReader()
-            'MsgBox(item.Name)
-            Select Case item.Name
-                Case "slug"
-                    Slug = item.Value.ToString
-                Case "index" 'each record is inside the entries array
-                    Dim SubData2 As List(Of JToken) = item.Values("seasons").Children().ToList
-                    For i As Integer = 0 To SubData2.Count - 1
-                        Dim SubItem As JToken = SubData2.Item(i)
-                        Dim SeasonSubData As List(Of JToken) = SubItem.Children().ToList
-                        For Each SeasonSubItem As JProperty In SeasonSubData
-                            SeasonSubItem.CreateReader()
-                            Select Case SeasonSubItem.Name
-                                Case "contentId"
-                                    'MsgBox(SeasonSubItem.Value.ToString)
-                                    ID = SeasonSubItem.Value.ToString
-                                Case "title"
-                                    ' MsgBox(SeasonSubItem.Value.Item("en").ToString)
-                                    Title = SeasonSubItem.Value.Item("en").ToString
-                                    FunimtaionSeasonList.Add(New FunimationOverview(Slug, ID, Title))
-                            End Select
-                        Next
-                    Next
-            End Select
-        Next
-        'Debug.WriteLine("SeasonJson: ")
-        Anime_Add.groupBox2.Visible = True
-        Anime_Add.bt_Cancel_mass.Enabled = True
-        Anime_Add.bt_Cancel_mass.Visible = True
-        Anime_Add.groupBox1.Visible = False
-        Anime_Add.ComboBox1.Items.Clear()
-        Anime_Add.comboBox3.Items.Clear()
-        Anime_Add.comboBox4.Items.Clear()
-        Anime_Add.ComboBox1.Text = Nothing
-        Anime_Add.comboBox3.Text = Nothing
-        Anime_Add.comboBox4.Text = Nothing
-        Anime_Add.ComboBox1.Enabled = True
-        Anime_Add.comboBox3.Enabled = False
-        Anime_Add.comboBox4.Enabled = False
-        WebbrowserURL = "https://funimation.com/js"
-        Debug.WriteLine("Count: " + FunimtaionSeasonList.Count.ToString)
-        For i As Integer = 0 To FunimtaionSeasonList.Count - 1
-            Debug.WriteLine(FunimtaionSeasonList.Item(i).Title)
-            Anime_Add.ComboBox1.Items.Add(FunimtaionSeasonList.Item(i).Title)
-        Next
-    End Sub
-
-    Public Async Sub DownloadFunimationJS_Seasons()
-        Try
-#Region "JS"
-            Debug.WriteLine("EpisodeJson: " + FunimationEpisodeJSON)
-            Anime_Add.Add_Display.Text = "preparing ...."
-            Dim ListOfEpisodes As New List(Of String)
-            Dim BaseURL As String = "https://www.funimation.com/v/" + FunimtaionSeasonList.Item(0).Slug + "/"
-            'If FunimationRegion IsNot Nothing Then
-            '    BaseURL = "https://www.funimation.com/" + FunimationRegion + "/shows/"
-            'Else
-            '    BaseURL = "https://www.funimation.com/en/shows/"
-            'End If
-            'Dim EpisodeSplit() As String = FunimationEpisodeJSON.Split(New String() {Chr(34) + "slug" + Chr(34) + ": " + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-            'For i As Integer = 1 To EpisodeSplit.Count - 1
-            '    Dim EpisodeSplit2() As String = EpisodeSplit(i).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-            '    Debug.WriteLine(BaseURL + FunimationShowPath + EpisodeSplit2(0))
-            '    ListOfEpisodes.Add(BaseURL + FunimationShowPath + EpisodeSplit2(0)) '+ FunimationAPIRegion)
-            'Next 
-            Dim ser As JObject = JObject.Parse(FunimationEpisodeJSON)
-            Dim data As List(Of JToken) = ser.Children().ToList
-            For Each item As JProperty In data
-                item.CreateReader()
-                Select Case item.Name
-                    Case "episodes" 'each record is inside the entries array
-                        For Each Entry As JObject In item.Values
-                            Dim slug As String = Entry("slug").ToString
-                            'Debug.WriteLine(BaseURL + FunimationShowPath + slug)
-                            'ListOfEpisodes.Add(BaseURL + FunimationShowPath + slug) '+ FunimationAPIRegion)
-                            Debug.WriteLine(BaseURL + slug)
-                            ListOfEpisodes.Add(BaseURL + slug)
-                        Next
-                End Select
-            Next
-
-            Dim First As Integer = 0
-            Dim Last As Integer = 0
-            Dim Anzahl As Integer = 0
-
-            If Anime_Add.comboBox4.SelectedIndex > Anime_Add.comboBox3.SelectedIndex Then
-                First = Anime_Add.comboBox3.SelectedIndex
-                Last = Anime_Add.comboBox4.SelectedIndex
-                Anzahl = Last - First + 1
-            ElseIf Anime_Add.comboBox4.SelectedIndex < Anime_Add.comboBox3.SelectedIndex Then
-                First = Anime_Add.comboBox4.SelectedIndex
-                Last = Anime_Add.comboBox3.SelectedIndex
-
-                Anime_Add.comboBox4.SelectedIndex = Last
-                Anime_Add.comboBox3.SelectedIndex = First
-                Anzahl = Last - First + 1
-            ElseIf Anime_Add.comboBox4.SelectedIndex = Anime_Add.comboBox3.SelectedIndex Then
-
-                First = Anime_Add.comboBox4.SelectedIndex
-                Last = Anime_Add.comboBox4.SelectedIndex
-
-                Anzahl = Last - First + 1
-            End If
-
-            Anime_Add.Add_Display.Text = Anzahl.ToString + " episodes selected"
-
-            For i As Integer = First To Last
-                For e As Integer = 0 To Integer.MaxValue
-                    If Funimation_Grapp_RDY = True Then
-                        Try
-                            Dim ItemFinshedCount As Integer = 0
-                            Dim Item As New List(Of CRD_List_Item)
-                            Item.AddRange(Panel1.Controls.OfType(Of CRD_List_Item))
-                            Item.Reverse()
-
-                            For i2 As Integer = 0 To Item.Count - 1
-                                If Item(i2).GetIsStatusFinished() = True Then
-                                    ItemFinshedCount = ItemFinshedCount + 1
-                                End If
-                            Next
-                            RunningDownloads = Panel1.Controls.Count - ItemFinshedCount
-                        Catch ex As Exception
-                            RunningDownloads = Panel1.Controls.Count
-                        End Try
-                        If RunningDownloads < MaxDL Then
-                            Exit For
-                        Else
-                            'MsgBox(e)
-                            Await Task.Delay(1000)
-                        End If
-                    Else
-                        Await Task.Delay(5000)
-                    End If
-                Next
-                If Anime_Add.Mass_DL_Cancel = False Then
-                    b = True
-                    Exit For
-                    Grapp_Abord = True
-                    'MsgBox("dl_abourd")
-                End If
-                If UseQueue = True Then
-                    'Anime_Add.ListBox1.Items.Add(ListOfEpisodes(i))
-                    ListBoxList.Add(ListOfEpisodes(i))
-                    Anime_Add.Add_Display.ForeColor = Color.FromArgb(9248044)
-                    Pause(1)
-                    Anime_Add.Add_Display.ForeColor = Color.Black
-                Else
-                    Funimation_Grapp_RDY = False
-                    b = False
-
-                    If CBool(InStr(ListOfEpisodes(i), "funimation.com/v/")) Then
-                        Dim Episode0() As String = ListOfEpisodes(i).Split(New String() {"?"}, System.StringSplitOptions.RemoveEmptyEntries)
-                        Dim Episode() As String = Episode0(0).Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
-                        Dim v1JsonUrl As String = "https://d33et77evd9bgg.cloudfront.net/data/v1/episodes/" + Episode(Episode.Length - 1) + ".json"
-                        'MsgBox(v1JsonUrl)
-                        Dim v1Json As String = Nothing
-                        Try
-                            Using client As New WebClient()
-                                client.Encoding = System.Text.Encoding.UTF8
-                                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
-                                v1Json = client.DownloadString(v1JsonUrl)
-                            End Using
-                            WebbrowserURL = ListOfEpisodes(i)
-                            GetFunimationNewJS_VideoProxy(Nothing, v1Json)
-                        Catch ex As Exception
-                            Debug.WriteLine("error- getting v1Json data for the bypasss")
-                            Debug.WriteLine(ex.ToString)
-                            Navigate(ListOfEpisodes(i))
-                        End Try
-                    Else
-                        Navigate(ListOfEpisodes(i))
-                    End If
-
-                End If
-                Anime_Add.Add_Display.Text = (i - First + 1).ToString + " / " + (Last - First + 1).ToString
-            Next
-#End Region
-        Catch ex As Exception
-            If Debug2 = True Then
-                MsgBox(ex.ToString)
-            End If
-            Anime_Add.comboBox4.Items.Clear()
-            Anime_Add.comboBox3.Items.Clear()
-            Aktuell = 0.ToString
-            Gesamt = 0.ToString
-            Anime_Add.groupBox1.Visible = True
-            Anime_Add.groupBox2.Visible = False
-            Anime_Add.Mass_DL_Cancel = False
-            Anime_Add.btn_dl.Text = "Download" 'Anime_Add.btn_dl.BackgroundImage = My.Resources.main_button_download_default
-        End Try
-        FunimationEpisodeJSON = Nothing
-        Pause(5)
-        Anime_Add.groupBox1.Visible = True
-        Anime_Add.groupBox2.Visible = False
-        Anime_Add.Mass_DL_Cancel = False
-        Anime_Add.btn_dl.Text = "Download" 'Anime_Add.btn_dl.BackgroundImage = My.Resources.main_button_download_default
-    End Sub
-
-    Private Function ConvertFunimationDub(ByVal Dub As String) As String
-        If Dub = "english" Then
-            Return "English"
-        ElseIf Dub = "spanish(Mexico)" Then
-            Return "Spanish (Latin Am)"
-        ElseIf Dub = "portuguese(Brazil)" Then
-            Return "Portuguese (Brazil)"
-        ElseIf Dub = "japanese" Then
-            Return "Japanese"
-        Else
-            Return "N/A"
-        End If
-    End Function
-    Private Function ConvertFunimationDubToJson(ByVal Dub As String) As String
-        If Dub = "english" Then
-            Return "en"
-        ElseIf Dub = "spanish(Mexico)" Then
-            Return "es"
-        ElseIf Dub = "portuguese(Brazil)" Then
-            Return "pt"
-        ElseIf Dub = "japanese" Then 'japanese
-            Return "ja"
-        Else
-            Return "N/A"
-        End If
-    End Function
-    Private Function ConvertJsonToFunimationDub(ByVal Dub As String) As String
-        If Dub = "en" Then
-            Return "english"
-        ElseIf Dub = "es" Then
-            Return "spanish(Mexico)"
-        ElseIf Dub = "pt" Then
-            Return "portuguese(Brazil)"
-        ElseIf Dub = "ja" Then
-            Return "japanese"
-        Else
-            Return "N/A"
-        End If
-    End Function
-    Public Async Sub GetFunimationNewJS_VideoProxy(Optional ByVal v1JsonURL As String = Nothing, Optional ByVal v1JsonData As String = Nothing)
-        Try
-            Dim list As List(Of CoreWebView2Cookie) = Await Browser.WebView2.CoreWebView2.CookieManager.GetCookiesAsync("https://www.funimation.com/")
-            Dim Cookie As String = ""
-            For i As Integer = 0 To list.Count - 1
-                If CBool(InStr(list.Item(i).Domain, "funimation.com")) Then 'list.Item(i).Domain = "funimation.com" Then
-                    'MsgBox(list.Item(i).Name + vbNewLine + list.Item(i).Value)
-                    Cookie = Cookie + list.Item(i).Name + "=" + list.Item(i).Value + ";"
-                End If
-                If CBool(InStr(list.Item(i).Domain, "funimation.com")) And CBool(InStr(list.Item(i).Name, "src_token")) Then 'list.Item(i).Domain = "funimation.com" Then
-                    'MsgBox(list.Item(i).Name + vbNewLine + list.Item(i).Value)
-                    FunimationToken = "Token " + list.Item(i).Value
-                End If
-                If CBool(InStr(list.Item(i).Domain, "funimation.com")) And CBool(InStr(list.Item(i).Name, "region")) Then 'list.Item(i).Domain = "funimation.com" Then
-                    'MsgBox(list.Item(i).Name + vbNewLine + list.Item(i).Value)
-                    FunimationDeviceRegion = "?deviceType=web&" + list.Item(i).Name + "=" + list.Item(i).Value
-                End If
-            Next
-
-        Catch ex As Exception
-
-        End Try
-        ' region=US;
-        LoadedUrls.Clear()
-        Dim Evaluator = New Thread(Sub() Me.GetFunimationNewJS_Video(v1JsonURL, v1JsonData))
-        Evaluator.Start()
-    End Sub
-
-    Public Sub GetFunimationNewJS_Video(ByVal v1JsonUrl As String, ByVal v1JsonData As String) ', ByVal WebsiteURL As String
-        Debug.WriteLine(v1JsonUrl)
-        Dim v1Json As String = Nothing
-        If v1JsonUrl = Nothing Then
-            v1Json = v1JsonData
-        Else
-            Try
-                'Throw New Exception("TEst")
-                Using client As New WebClient()
-                    client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
-                    v1Json = client.DownloadString(v1JsonUrl)
-                End Using
-            Catch ex As Exception
-                Debug.WriteLine("error- getting v1Json data")
-                Debug.WriteLine(ex.ToString)
-                Me.Invoke(New Action(Function() As Object
-                                         'Me.Text = "Status: error - getting v1Json data"
-                                         FunimationJsonBrowser = "v1Json"
-                                         Navigate(v1JsonUrl)
-                                         'Anime_Add.StatusLabel.Text = "Status: error - getting v1Json data"
-                                         Me.Invalidate()
-                                         Return Nothing
-                                     End Function))
-                Exit Sub
-            End Try
-        End If
-        'Debug.WriteLine("v1Json: " + v1Json)
-        If v1Json = Nothing Then
-            Me.Invoke(New Action(Function() As Object
-                                     Me.Text = "Status: error - getting v1Json data"
-                                     Anime_Add.StatusLabel.Text = "Status: error - getting v1Json data"
-                                     Me.Invalidate()
-                                     Return Nothing
-                                 End Function))
-            Exit Sub
-        End If
-        Try
-            Dim ffmpeg_command_temp As String = ffmpeg_command
-
-            Me.Invoke(New Action(Function() As Object
-                                     Me.Text = "Status: looking for video file"
-                                     Anime_Add.StatusLabel.Text = "Status: looking for video file"
-                                     Me.Invalidate()
-                                     Return Nothing
-                                 End Function))
-            Funimation_Grapp_RDY = False
-#Region "Name"
-            Dim DownloadPfad As String = Nothing
-            Dim FunimationSeason As String = Nothing
-            Dim FunimationEpisode As String = Nothing
-            Dim FunimationTitle As String = Nothing
-            Dim FunimationEpisodeTitle As String = Nothing
-            Dim FunimationDub As String = Nothing
-            Dim FunimationAudioMap As String = Nothing
-            Dim FunimationEpisodeJson As String = Nothing
-            Dim thumbnail4 As String = ""
-            Dim ser As JObject = JObject.Parse(v1Json)
-            Dim data As List(Of JToken) = ser.Children().ToList
-            For Each item As JProperty In data
-                item.CreateReader()
-                Select Case item.Name
-                    Case "images" 'each record is inside the entries array
-                        For Each Entry As JObject In item.Values
-                            Dim key As String = Entry("key").ToString
-                            If key = "Key Art - Official Video Image" Or key = "Episode Thumbnail" Then
-                                Dim path As String = Entry("path").ToString
-                                thumbnail4 = path
-                            End If
-                        Next
-                    Case "id"  'id.json for video
-                        FunimationEpisodeJson = item.Value.ToString
-                    Case "episodeNumber"
-                        Dim FunimationEpisode3 As String = RemoveExtraSpaces(item.Value.ToString)
-                        If Episode_Prefix = "[default episode prefix]" Then
-                            FunimationEpisode = "Episode " + AddLeadingZeros(FunimationEpisode3)
-                        Else
-                            FunimationEpisode = Episode_Prefix + AddLeadingZeros(FunimationEpisode3)
-                        End If
-                    Case "name"
-                        Dim NameData As List(Of JToken) = item.Values.ToList()
-                        For Each Name As JProperty In NameData
-                            Select Case Name.Name
-                                Case "en"
-                                    FunimationEpisodeTitle = Name.Value.ToString
-                                    Debug.WriteLine("FunimationEpisodeTitle: " + FunimationEpisodeTitle)
-                            End Select
-                        Next
-                    Case "season" 'each record is inside the entries array
-                        Dim SubData As List(Of JToken) = item.Values.ToList()
-                        For Each SubItem As JProperty In SubData
-                            Select Case SubItem.Name
-                                Case "name"
-                                    If Season_Prefix = "[default season prefix]" Then
-                                        Dim SeasonNameData As List(Of JToken) = SubItem.Values.ToList()
-                                        For Each SeasonName As JProperty In SeasonNameData
-                                            Select Case SeasonName.Name
-                                                Case "en"
-                                                    FunimationSeason = SeasonName.Value.ToString
-                                                    Debug.WriteLine("FunimationSeason: " + FunimationSeason)
-                                            End Select
-                                        Next
-                                    End If
-                                Case "number"
-                                    If Season_Prefix = "[default season prefix]" Then
-                                        'FunimationSeason = Entry("name")
-                                    Else
-                                        Dim EpisodeNumer As String = SubItem.Value.ToString
-                                        FunimationSeason = Season_Prefix + " " + EpisodeNumer
-                                        Debug.WriteLine("FunimationSeason: " + FunimationSeason)
-                                    End If
-                            End Select
-                        Next
-                    Case "show" 'each record is inside the entries array
-                        Dim SubData As List(Of JToken) = item.Values.ToList()
-                        For Each SubItem As JProperty In SubData
-                            Select Case SubItem.Name
-                                Case "name"
-                                    Dim SeasonNameData As List(Of JToken) = SubItem.Values.ToList()
-                                    For Each SeasonName As JProperty In SeasonNameData
-                                        Select Case SeasonName.Name
-                                            Case "en"
-                                                FunimationTitle = SeasonName.Value.ToString
-                                                Debug.WriteLine("FunimationTitle: " + FunimationTitle)
-                                        End Select
-                                    Next
-                            End Select
-                        Next
-                End Select
-            Next
-            FunimationTitle = RemoveExtraSpaces(String.Join(" ", FunimationTitle.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace(Chr(34), "").Replace("\", "").Replace("/", "")
-            FunimationEpisodeTitle = String.Join(" ", FunimationEpisodeTitle.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace(Chr(34), "").Replace("\", "").Replace("/", "")
-            FunimationDub = ConvertFunimationDub(DubFunimation) 'FunimationDub2(0)
-            Dim DefaultName As String = RemoveExtraSpaces(FunimationTitle + " " + FunimationSeason + " " + FunimationEpisode)
-
-            Dim NameParts As String() = NameBuilder.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-            For i As Integer = 0 To NameParts.Count - 1
-
-                If NameParts(i) = "AnimeTitle" Then
-                    DefaultName = DefaultName + " " + FunimationTitle
-                ElseIf NameParts(i) = "Season" Then
-                    DefaultName = DefaultName + " " + FunimationSeason
-                ElseIf NameParts(i) = "EpisodeNR" Then
-                    DefaultName = DefaultName + " " + FunimationEpisode
-                ElseIf NameParts(i) = "EpisodeName" Then
-                    DefaultName = DefaultName + " " + FunimationEpisodeTitle
-                ElseIf NameParts(i) = "AnimeDub" Then
-                    DefaultName = DefaultName + " RepDub"
-                ElseIf NameParts(i) = "AnimeSub" Then
-                    DefaultName = DefaultName + " RepSub"
-                End If
-
-            Next
-
-
-            If CBool(InStr(DefaultName, " RepDub")) Then
-                DefaultName = DefaultName.Replace(" RepDub", "")
-            End If
-
-            If CBool(InStr(DefaultName, " RepSub")) Then
-                DefaultName = DefaultName.Replace(" RepSub", "")
-            End If
-
-
-            'If CR_NameMethode = 1 Then
-            '    DefaultName = RemoveExtraSpaces(FunimationTitle + " " + FunimationSeason + " " + FunimationEpisodeTitle)
-            'ElseIf CR_NameMethode = 2 Then
-            '    DefaultName = RemoveExtraSpaces(FunimationTitle + " " + FunimationSeason + " " + FunimationEpisode + " " + FunimationEpisodeTitle)
-            'ElseIf CR_NameMethode = 3 Then
-            '    DefaultName = RemoveExtraSpaces(FunimationTitle + " " + FunimationEpisodeTitle + " " + FunimationSeason + " " + FunimationEpisode)
-            'End If
-
-
-            DefaultName = DefaultName.Replace("&#x27;", "'")
-            'Dim DefaultPath As String = Pfad + "\" + DefaultName + VideoFormat
-            'DefaultPath = DefaultPath.Replace("\\", "\")
-#End Region
-#Region "Pfad"
-            Dim TextBox2_Text As String = Nothing
-            Me.Invoke(New Action(Function() As Object
-                                     TextBox2_Text = Anime_Add.TextBox2.Text
-                                     Return Nothing
-                                 End Function))
-            If TextBox2_Text = Nothing Or TextBox2_Text = "Use Custom Name" Then
-            Else
-                Me.Invoke(New Action(Function() As Object
-                                         Return Nothing
-                                     End Function))
-            End If
-            DefaultName = DefaultName.Replace(":", "")
-            DownloadPfad = RemoveExtraSpaces(UseSubfolder(FunimationTitle, FunimationSeason, Pfad))
-            If Not Directory.Exists(Path.GetDirectoryName(DownloadPfad)) Then
-                ' Nein! Jetzt erstellen...
-                Try
-                    Directory.CreateDirectory(Path.GetDirectoryName(DownloadPfad))
-                    DownloadPfad = RemoveExtraSpaces(Chr(34) + DownloadPfad + DefaultName + VideoFormat + Chr(34))
-                Catch ex As Exception
-                    ' Ordner wurde nich erstellt
-                    DownloadPfad = RemoveExtraSpaces(Chr(34) + Pfad + DefaultName + VideoFormat + Chr(34))
-                End Try
-            Else
-                DownloadPfad = RemoveExtraSpaces(Chr(34) + DownloadPfad + DefaultName + VideoFormat + Chr(34))
-            End If
-#Region "lösche doppel download"
-            Dim Pfad5 As String = DownloadPfad.Replace(Chr(34), "")
-            If My.Computer.FileSystem.FileExists(Pfad5) Then 'Pfad = Kompeltter Pfad mit Dateinamen + ENdung
-                Me.Invoke(New Action(Function() As Object
-                                         Me.Text = "Status: File already exists."
-                                         Anime_Add.StatusLabel.Text = "Status: File already exists."
-                                         Me.Invalidate()
-                                         Return Nothing
-                                     End Function))
-                If MessageBox.Show("The file " + Pfad5 + " already exists." + vbNewLine + "You want to override it?", "File exists!", MessageBoxButtons.OKCancel) = DialogResult.OK Then
-                    Try
-                        My.Computer.FileSystem.DeleteFile(Pfad5)
-                        Me.Invoke(New Action(Function() As Object
-                                                 Me.Text = "Status: Old file overwritten."
-                                                 Anime_Add.StatusLabel.Text = "Status: Old file overwritten."
-                                                 Me.Invalidate()
-                                                 Return Nothing
-                                             End Function))
-                    Catch ex As Exception
-                    End Try
-                Else
-                    Me.Invoke(New Action(Function() As Object
-                                             Me.Text = "Crunchyroll Downloader"
-                                             Anime_Add.StatusLabel.Text = "idle"
-                                             Me.Invalidate()
-                                             Return Nothing
-                                         End Function))
-                    Funimation_Grapp_RDY = True
-                    Exit Sub
-                End If
-            End If
-#End Region
-#End Region
-#Region "json"
-            Dim EpisodeJsonString As String = Nothing
-            Dim PlayerClient As New WebClient
-            PlayerClient.Encoding = Encoding.UTF8
-            PlayerClient.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
-            PlayerClient.Headers.Add(HttpRequestHeader.Accept, "application/json, text/plain, */*")
-            PlayerClient.Headers.Add("origin: https://www.funimation.com/")
-            PlayerClient.Headers.Add(HttpRequestHeader.Referer, "https://www.funimation.com/")
-            Dim BaseUrl As String = "https://playback.prd.funimationsvc.com/v1/play/"
-            Debug.WriteLine(PlayerClient.Headers.ToString)
-            If FunimationToken = Nothing Then
-                Debug.WriteLine("FunimationToken: false")
-                BaseUrl = "https://playback.prd.funimationsvc.com/v1/play/anonymous/"
-            Else
-                Debug.WriteLine("FunimationToken: true")
-                PlayerClient.Headers.Add(HttpRequestHeader.Authorization, FunimationToken)
-            End If
-            'FunimationToken
-            'MsgBox(WebbrowserCookie)
-            'BaseUrl + FunimationEpisodeJson + FunimationDeviceRegion
-            If FunimationDeviceRegion = Nothing Then
-                FunimationDeviceRegion = "?deviceType=web"
-            End If
-            Debug.WriteLine(BaseUrl + FunimationEpisodeJson + FunimationDeviceRegion)
-            If WebbrowserCookie = Nothing Then
-            Else
-                PlayerClient.Headers.Add(HttpRequestHeader.Cookie, WebbrowserCookie)
-            End If
-            If SystemWebBrowserCookie = Nothing Then
-            Else
-                PlayerClient.Headers.Add(HttpRequestHeader.Cookie, SystemWebBrowserCookie)
-            End If
-            ' Dim PlayerPage As String = SubsClient.DownloadString("https://www.funimation.com/player/" + ExperienceID + "/?bdub=0&qid=")
-            Try
-                'Throw New System.Exception("Test")
-                'MsgBox(BaseUrl + FunimationEpisodeJson + FunimationDeviceRegion)
-                EpisodeJsonString = PlayerClient.DownloadString(BaseUrl + FunimationEpisodeJson + FunimationDeviceRegion)
-            Catch ex As Exception
-                Debug.WriteLine(ex.ToString)
-                Pause(2)
-                Debug.WriteLine("showexperience 2nd try")
-                'Me.Invoke(New Action(Function() As Object
-                'PlayerClient.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip")
-                'EpisodeJsonString = DecompressString(PlayerClient.DownloadData(BaseUrl + FunimationEpisodeJson + FunimationDeviceRegion))
-                EpisodeJsonString = PlayerClient.DownloadString(BaseUrl + FunimationEpisodeJson + FunimationDeviceRegion)
-                'Debug.WriteLine("Thread Name: " + Thread.CurrentThread.Name)
-                'ErrorBrowserString = "Funimation_showexperience"
-                'ErrorBrowserUrl = "https://www.funimation.com/api/showexperience/" + ExperienceID + "/?pinst_id=fzQc9p9f"
-                'Debug.WriteLine("2-showexperience data via browser")
-                'ErrorBrowser.ShowDialog()
-                'Debug.WriteLine("3-showexperience data via browser")
-                'showexperience = ErrorBrowserBackString
-            End Try
-            'MsgBox(EpisodeJsonString)
-            Dim SubsFiles As New List(Of FunimationSubs)
-            Dim VideoStreams As New List(Of FunimationStream)
-            Dim EpisodeJson As JObject = JObject.Parse(EpisodeJsonString)
-            Dim EpisodeJsonData As List(Of JToken) = EpisodeJson.Children().ToList
-            Dim PrimaryVersion As String = Nothing ' item.Item("version").ToString
-            Dim PrimaryaudioLanguage As String = Nothing ' item.Item("audioLanguage").ToString
-            Dim PrimarymanifesUrl As String = Nothing 'item.Item("manifestPath").ToString
-            For Each item As JProperty In EpisodeJsonData
-                item.CreateReader()
-                Select Case item.Name
-                    Case "fallback"
-                        'MsgBox(SubItem.Value.ToString())
-                        Dim SubData2 As List(Of JToken) = item.Values.ToList
-                        'MsgBox(SubData2.Count.ToString)
-                        For i As Integer = 0 To SubData2.Count - 1
-                            Dim audioLanguage As String = Nothing
-                            Dim Format As String = Nothing
-                            Try
-                                Dim Version As String = SubData2(i).Item("version").ToString
-                                audioLanguage = SubData2(i).Item("audioLanguage").ToString
-                                Dim Url As String = SubData2(i).Item("manifestPath").ToString
-                                Debug.WriteLine(Version)
-                                Debug.WriteLine(audioLanguage)
-                                Debug.WriteLine(Url)
-                                Format = SubData2(i).Item("fileExt").ToString
-                                If Format = "m3u8" Then
-                                    VideoStreams.Add(New FunimationStream(audioLanguage, Version, Url, False))
-                                End If
-                            Catch ex As Exception
-                            End Try
-                            Try
-                                Dim SubData3 As List(Of JToken) = SubData2(i).Item("subtitles").Children.ToList
-                                'MsgBox(SubData2.Count.ToString)
-                                For i3 As Integer = 0 To SubData2.Count - 1
-                                    Try
-                                        Dim LangCode As String = SubData3(i3).Item("languageCode").ToString
-                                        Dim CCFormat As String = SubData3(i3).Item("fileExt").ToString
-                                        Dim Url As String = SubData3(i3).Item("filePath").ToString
-                                        If audioLanguage = "ja" And Format = "m3u8" Then
-                                            SubsFiles.Add(New FunimationSubs(LangCode, CCFormat, Url))
-                                        End If
-                                    Catch ex As Exception
-                                    End Try
-                                Next
-                            Catch ex As Exception
-                            End Try
-                        Next
-                    Case "primary" 'each record is inside the entries array
-                        Dim SubData As List(Of JToken) = item.Values.ToList()
-                        For Each SubItem As JProperty In SubData
-                            Select Case SubItem.Name
-                               ' Case "manifestPath"
-                               '     Funimation_m3u8_Main = SubItem.Value.ToString
-                               ''MsgBox()
-                                Case "version"
-                                    PrimaryVersion = SubItem.Value.ToString
-                                Case "audioLanguage"
-                                    PrimaryaudioLanguage = SubItem.Value.ToString
-                                Case "manifestPath"
-                                    PrimarymanifesUrl = SubItem.Value.ToString
-                                Case "subtitles"
-                                    'MsgBox(SubItem.Value.ToString())
-                                    Dim SubData2 As List(Of JToken) = SubItem.Values.ToList
-                                    'MsgBox(SubData2.Count.ToString)
-                                    For i As Integer = 0 To SubData2.Count - 1
-                                        Try
-                                            Dim LangCode As String = SubData2(i).Item("languageCode").ToString
-                                            Dim Format As String = SubData2(i).Item("fileExt").ToString
-                                            Dim Url As String = SubData2(i).Item("filePath").ToString
-                                            SubsFiles.Add(New FunimationSubs(LangCode, Format, Url))
-                                        Catch ex As Exception
-                                        End Try
-                                    Next
-                            End Select
-                        Next
-                        Debug.WriteLine("primary version: " + PrimaryVersion)
-                        Debug.WriteLine("primary audioLanguage: " + PrimaryaudioLanguage)
-                        Debug.WriteLine("primary manifesUrl: " + PrimarymanifesUrl)
-                        VideoStreams.Add(New FunimationStream(PrimaryaudioLanguage, PrimaryVersion, PrimarymanifesUrl, True))
-                End Select
-            Next
-#End Region
-#Region "m3u8 URL"
-            Dim Funimation_m3u8_Main As String = Nothing
-            Dim Funimation_m3u8_MainVersion As String = Nothing
-            Dim Funimation_m3u8_Primary_Version As String = Nothing
-            Dim Funimation_m3u8_Primary As String = Nothing
-            Dim Funimation_m3u8_Primary_audioLanguage As String = Nothing
-            Dim Funimation_m3u8_final As String = Nothing
-            Dim client0 As New WebClient
-            client0.Encoding = Encoding.UTF8
-            If DownloadScope = 1 Then
-                For i As Integer = 0 To VideoStreams.Count - 1
-                    If VideoStreams(i).Primary = True Then
-                        Funimation_m3u8_Primary = VideoStreams(i).Url
-                        Funimation_m3u8_Primary_Version = VideoStreams(i).version
-                        Funimation_m3u8_Primary_audioLanguage = VideoStreams(i).audioLanguage
-                    End If
-                    If VideoStreams(i).audioLanguage = ConvertFunimationDubToJson(DubFunimation) And Funimation_m3u8_Main = Nothing Then
-                        Funimation_m3u8_Main = VideoStreams(i).Url
-                        Funimation_m3u8_MainVersion = VideoStreams(i).version
-                    ElseIf VideoStreams(i).audioLanguage = ConvertFunimationDubToJson(DubFunimation) And VideoStreams(i).version = "uncut" Then
-                        Funimation_m3u8_Main = VideoStreams(i).Url
-                        Funimation_m3u8_MainVersion = VideoStreams(i).version
-                    End If
-                Next
-
-                'MsgBox(Funimation_m3u8_Main)
-                'Funimation_m3u8_Main = InputBox("Edit Url", "Change")
-
-                If Funimation_m3u8_Main = Nothing Then
-                    Funimation_m3u8_Main = Funimation_m3u8_Primary
-                    Funimation_m3u8_MainVersion = Funimation_m3u8_Primary_Version
-                    FunimationDub = ConvertFunimationDub(ConvertJsonToFunimationDub(Funimation_m3u8_Primary_audioLanguage))
-                End If
-                If Funimation_m3u8_Main = Nothing Then
-                    If MessageBox.Show("No media matching your settings." + vbNewLine + "Avalible: Not implimentented, press 'Yes' to copy the data into the clipboard.", "No media", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-                        Me.Invoke(New Action(Function() As Object
-                                                 Try
-                                                     My.Computer.Clipboard.SetText(EpisodeJsonString)
-                                                 Catch ex As Exception
-                                                 End Try
-                                                 Return Nothing
-                                             End Function))
-                        Exit Sub
-                    Else
-                        Funimation_Grapp_RDY = True
-                        Exit Sub
-                    End If
-                End If
-                Me.Invoke(New Action(Function() As Object
-                                         Me.Text = "Status: Video found!"
-                                         Anime_Add.StatusLabel.Text = "Status: Video found!"
-                                         Me.Invalidate()
-                                         Return Nothing
-                                     End Function))
-                Dim str1 As String = client0.DownloadString(Funimation_m3u8_Main.Replace(Chr(34), ""))
-                If CBool(InStr(str1, "# AUDIO groups")) Then
-                    Dim FunimationAudio() As String = str1.Split(New String() {"# AUDIO groups"}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim FunimationAudio2() As String = FunimationAudio(1).Split(New String() {"URI=" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim FunimationAudio3() As String = FunimationAudio2(1).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                    FunimationAudioMap = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + Chr(34) + FunimationAudio3(0) + Chr(34)
-                End If
-
-                Dim str2() As String = str1.Split(New String() {"# keyframes"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-
-                Dim Streams() As String = str2(0).Split(New String() {vbLf}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                Dim FunimationBackupm3u8 As String = Nothing
-
-                Dim Tartegt_m3u8_list As New List(Of String)
-
-                Dim Secondary_m3u8_list As New List(Of String)
-
-
-                For i As Integer = 0 To Streams.Length - 1
-
-
-                    If CBool(InStr(Streams(i), "x" + Reso.ToString)) Then
-
-                        Tartegt_m3u8_list.Add(Streams(i) + vbCrLf + Streams(i + 1))
-                        FunimationBackupm3u8 = Streams(i + 1)
-
-                    ElseIf CBool(InStr(Streams(i), ResoFunBackup)) And FunimationBackupm3u8 = Nothing Then
-
-                        Secondary_m3u8_list.Add(Streams(i) + vbCrLf + Streams(i + 1))
-                        FunimationBackupm3u8 = Streams(i + 1)
-
-                    End If
-
-                Next
-
-                If Tartegt_m3u8_list.Count = 0 And Secondary_m3u8_list.Count > 0 Then
-                    Tartegt_m3u8_list = Secondary_m3u8_list
-                End If
-
-                If Tartegt_m3u8_list.Count > 1 Then
-                    Dim HigestBitrate As Integer = 0
-                    For i2 As Integer = 0 To Tartegt_m3u8_list.Count - 1
-                        Dim Bandwidth_String As String = Nothing
-                        If CBool(InStr(Tartegt_m3u8_list.Item(i2), "AVERAGE-BANDWIDTH=")) = True Then
-                            Bandwidth_String = "AVERAGE-BANDWIDTH="
-                        ElseIf CBool(InStr(Tartegt_m3u8_list.Item(i2), "BANDWIDTH=")) = True Then
-                            Bandwidth_String = "BANDWIDTH="
-                        Else
-                            Continue For
-                        End If
-
-                        Dim BitRate() As String = Tartegt_m3u8_list.Item(i2).Split(New String() {Bandwidth_String}, System.StringSplitOptions.RemoveEmptyEntries)
-                        Dim BitRate2() As String = BitRate(1).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
-                        If Funimation_Bitrate = 0 Then
-                            If CInt(BitRate2(0)) > HigestBitrate Then
-                                HigestBitrate = CInt(BitRate2(0))
-                            End If
-                        Else
-
-                            If HigestBitrate > CInt(BitRate2(0)) Then
-                                HigestBitrate = CInt(BitRate2(0))
-                            ElseIf HigestBitrate = 0 Then
-                                HigestBitrate = CInt(BitRate2(0))
-                            End If
-                        End If
-                    Next
-
-                    For i2 As Integer = 0 To Tartegt_m3u8_list.Count - 1
-                        If CBool(InStr(Tartegt_m3u8_list.Item(i2), HigestBitrate.ToString)) = True Then
-                            Dim new_m3u8_2() As String = Tartegt_m3u8_list.Item(i2).Split(New String() {vbLf}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Funimation_m3u8_final = new_m3u8_2(1)
-                            FunimationBackupm3u8 = new_m3u8_2(1)
-                        End If
-                    Next
-                ElseIf Tartegt_m3u8_list.Count = 1 Then
-                    Dim new_m3u8_2() As String = Tartegt_m3u8_list.Item(0).Split(New String() {vbLf}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Funimation_m3u8_final = new_m3u8_2(1)
-                    FunimationBackupm3u8 = new_m3u8_2(1)
-                End If
-
-
-
-                If Funimation_m3u8_final = Nothing And FunimationBackupm3u8 = Nothing Then
-                    Me.Invoke(New Action(Function() As Object
-                                             Me.Text = "Status: Resolution not found!"
-                                             Anime_Add.StatusLabel.Text = "Status: Resolution not found!"
-                                             Me.Invalidate()
-                                             DialogTaskString = "Funimation_Resolution"
-                                             ResoNotFoundString = str1
-                                             ErrorDialog.ShowDialog()
-                                             Return Nothing
-                                         End Function))
-                    ResoFunBackup = ResoBackString
-                    For i As Integer = 0 To Streams.Length - 1
-                        If CBool(InStr(Streams(i), ResoBackString)) Then
-                            Dim Streams2() As String = Streams(i).Split(New String() {"https://"}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Dim Streams3() As String = Streams2(1).Split(New String() {"#EXT-"}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Dim StreamURL As String = "https://" + Streams3(0).Trim
-                            Dim CheckClient As New WebClient
-                            CheckClient.Encoding = Encoding.UTF8
-                            If Not WebbrowserCookie = Nothing Then
-                                CheckClient.Headers.Add(HttpRequestHeader.Cookie, WebbrowserCookie)
-                            ElseIf Not SystemWebBrowserCookie = Nothing Then
-                                CheckClient.Headers.Add(HttpRequestHeader.Cookie, SystemWebBrowserCookie)
-                            End If
-                            Dim m3u8String As String = CheckClient.DownloadString(StreamURL)
-                            'MsgBox(textLenght(i))
-                            Dim keyfileurl() As String = m3u8String.Split(New String() {"URI=" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Dim keyfileurl2() As String = keyfileurl(1).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Dim keyfileurl3 As String = keyfileurl2(0)
-                            If CBool(InStr(keyfileurl2(0), "https://")) Then
-                            Else
-                                Dim c() As String = New Uri(StreamURL).Segments
-                                Dim path As String = "https://" + New Uri(StreamURL).Host
-                                For i3 As Integer = 0 To c.Count - 2
-                                    path = path + c(i3)
-                                Next
-                                keyfileurl3 = path + keyfileurl2(0) 'New Uri(textLenght(i)).LocalPath + keyfileurl2(0)
-                            End If
-                            Try
-                                Dim CheckClient2 As New WebClient
-                                CheckClient2.Encoding = System.Text.Encoding.UTF8
-                                Dim testdl As String = CheckClient2.DownloadString(keyfileurl3)
-                                Funimation_m3u8_final = StreamURL
-                                Exit For
-                            Catch ex As Exception
-                                Debug.WriteLine(keyfileurl3 + vbNewLine + ex.ToString)
-                            End Try
-                            'Funimation_m3u8_final = textLenght(i)
-                            'Exit For
-                        End If
-                    Next
-                ElseIf Funimation_m3u8_final = Nothing Then
-                    Funimation_m3u8_final = FunimationBackupm3u8
-                Else
-                    Me.Invoke(New Action(Function() As Object
-                                             Me.Text = "Status: Resolution found!"
-                                             Anime_Add.StatusLabel.Text = "Status: Resolution found!"
-                                             Me.Invalidate()
-                                             Return Nothing
-                                         End Function))
-                End If
-                Debug.WriteLine("Funimation_m3u8_final: " + Funimation_m3u8_final)
-                Funimation_m3u8_final = Funimation_m3u8_final.Replace(Chr(34), "")
-            Else
-                Me.Invoke(New Action(Function() As Object
-                                         Me.Text = "Status: Substitles only mode - skipped video"
-                                         Anime_Add.StatusLabel.Text = "Status: Substitles only mode - skipped video"
-                                         Me.Invalidate()
-                                         Return Nothing
-                                     End Function))
-            End If
-            'MsgBox(FunimationName3)
-            Dim ResoHTMLDisplay As String = Reso.ToString + "p"
-#Region "Subs"
-            Dim HardSubFound As Boolean = False
-            Dim HardSubSplittString As String = Nothing
-            Dim UsedSub As String = Nothing
-            Dim UsedSubs As New List(Of String)
-            Dim ffmpeg_hardsub As String = Nothing
-            For i As Integer = 0 To SubsFiles.Count - 1
-                Debug.WriteLine(SubsFiles(i).LangugageCode + "-" + SubsFiles(i).Format)
-                If SubFunimation.Count = 0 Then
-                    Exit For
-                End If
-                If Funimation_vtt = True And SubsFiles(i).Format = "vtt" And CBool(InStr(SubFunimationString, SubsFiles(i).LangugageCode)) Then
-                    UsedSubs.Add(SubsFiles(i).Url + " , " + SubsFiles(i).LangugageCode)
-                ElseIf Funimation_srt = True And SubsFiles(i).Format = "srt" And CBool(InStr(SubFunimationString, SubsFiles(i).LangugageCode)) Then
-                    UsedSubs.Add(SubsFiles(i).Url + " , " + SubsFiles(i).LangugageCode)
-                End If
-            Next
-            '
-            Dim SoftSubMergeURLs As String = Nothing
-            Dim SoftSubMergeMaps As String = " -map 0:v -map 0:a"
-            If Not FunimationAudioMap = Nothing Then
-                SoftSubMergeMaps = " -map 0:v -map 1:a"
-            End If
-            Dim SoftSubMergeMetatata As String = Nothing
-            If UsedSubs.Count > 0 Then
-                If MergeSubs = True And DownloadScope = 0 Then
-                    Dim DispositionIndex As Integer = 999
-                    Dim LastMerged As String = Nothing
-                    Dim MapCount As Integer = -1
-                    For i As Integer = 0 To UsedSubs.Count - 1
-                        Dim SoftSub As String() = UsedSubs.Item(i).Split(New String() {" , "}, System.StringSplitOptions.RemoveEmptyEntries)
-                        If CCtoMP4CC(SoftSub(1)) = LastMerged Then
-                            Continue For
-                        Else
-                            LastMerged = CCtoMP4CC(SoftSub(1))
-                        End If
-                        MapCount = MapCount + 1
-                        If DefaultSubFunimation = SoftSub(1) Then
-                            'Debug.WriteLine(SoftSub(1))
-                            DispositionIndex = MapCount
-                        End If
-                        If SoftSubMergeURLs = Nothing Then
-                            SoftSubMergeURLs = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + Chr(34) + SoftSub(0) + Chr(34)
-                        Else
-                            SoftSubMergeURLs = SoftSubMergeURLs + " -headers " + My.Resources.ffmpeg_user_agend + " -i " + Chr(34) + SoftSub(0) + Chr(34)
-                        End If
-                        If FunimationAudioMap = Nothing Then
-                            SoftSubMergeMaps = SoftSubMergeMaps + " -map " + (MapCount + 1).ToString
-                        Else
-                            SoftSubMergeMaps = SoftSubMergeMaps + " -map " + (MapCount + 2).ToString
-                        End If
-                        If SoftSubMergeMetatata = Nothing Then
-                            'SoftSubMergeMetatata = " -metadata:s:s:" + i.ToString + " language=" + CCtoMP4CC(SoftSub(1))
-                            SoftSubMergeMetatata = " -metadata:s:s:" + MapCount.ToString + " language=" + CCtoMP4CC(SoftSub(1)) + " -metadata:s:s:" + MapCount.ToString + " title=" + Chr(34) + HardSubValuesToDisplay(Chr(34) + SoftSub(1) + Chr(34)) + Chr(34) + " -metadata:s:s:" + MapCount.ToString + " handler_name=" + Chr(34) + HardSubValuesToDisplay(Chr(34) + SoftSub(1) + Chr(34)) + Chr(34)
-                        Else
-                            SoftSubMergeMetatata = SoftSubMergeMetatata + " -metadata:s:s:" + MapCount.ToString + " language=" + CCtoMP4CC(SoftSub(1)) + " -metadata:s:s:" + MapCount.ToString + " title=" + Chr(34) + HardSubValuesToDisplay(Chr(34) + SoftSub(1) + Chr(34)) + Chr(34) + " -metadata:s:s:" + MapCount.ToString + " handler_name=" + Chr(34) + HardSubValuesToDisplay(Chr(34) + SoftSub(1) + Chr(34)) + Chr(34)
-                            'SoftSubMergeMetatata + " -metadata:s:s:" + i.ToString + " language=" + CCtoMP4CC(SoftSubs2(i))
-                        End If
-                    Next
-                    If DispositionIndex < 999 Then
-                        SoftSubMergeMetatata = SoftSubMergeMetatata + " -disposition:s:" + DispositionIndex.ToString + " default"
-                    End If
-                Else
-                    Dim SubsClient As New WebClient
-                    SubsClient.Encoding = Encoding.UTF8
-                    If Not WebbrowserCookie = Nothing Then
-                        SubsClient.Headers.Add(HttpRequestHeader.Cookie, WebbrowserCookie)
-                    ElseIf Not SystemWebBrowserCookie = Nothing Then
-                        SubsClient.Headers.Add(HttpRequestHeader.Cookie, SystemWebBrowserCookie)
-                    End If
-                    For i As Integer = 0 To UsedSubs.Count - 1
-                        LabelUpdate = "Status: downloading subtitle file"
-                        LabelEpisode = UsedSubs(i)
-                        Dim SoftSub As String() = UsedSubs.Item(i).Split(New String() {" , "}, System.StringSplitOptions.RemoveEmptyEntries)
-                        Dim SoftSub_3 As String = SoftSub(0).Replace("\/", "/")
-                        Dim Subfile As String = SubsClient.DownloadString(SoftSub_3)
-                        Dim Pfad3 As String = DownloadPfad.Replace(Chr(34), "")
-                        'MsgBox(FN)
-                        Dim SubtitelFormat As String = "srt"
-                        If CBool(InStr(SoftSub_3, ".vtt")) Then
-                            SubtitelFormat = "vtt"
-                        End If
-                        Dim FN As String = Path.ChangeExtension(Path.Combine(Path.GetFileNameWithoutExtension(Pfad3) + " " + SoftSub(1) + Path.GetExtension(Pfad3)), SubtitelFormat)
-                        If i = 0 Then
-                            FN = Path.ChangeExtension(Path.GetFileName(Pfad3), SubtitelFormat)
-                            'MsgBox(FN)
-                        End If
-                        Dim Pfad4 As String = Path.Combine(Path.GetDirectoryName(Pfad3), FN)
-                        'MsgBox(Pfad4)
-                        Debug.WriteLine(Pfad4)
-                        'File.WriteAllText(Pfad4, Subfile, Encoding.UTF8)
-                        WriteText(Pfad4, Subfile)
-                        Pause(1)
-                    Next
-                End If
-            End If
-#End Region
-#Region "ffmpeg command"
-            Dim DubMetatata As String = Nothing
-            If FunimationDub = "Japanese" Then
-                DubMetatata = " -metadata:s:a:0 language=jpn"
-            ElseIf FunimationDub = "Portuguese (Brazil)" Then
-                DubMetatata = " -metadata:s:a:0 language=por"
-            ElseIf FunimationDub = "Spanish (Latin Am)" Then
-                DubMetatata = " -metadata:s:a:0 language=spa"
-            Else '
-                DubMetatata = " -metadata:s:a:0 language=eng"
-            End If
-            If HardSubFound = True And CBool(InStr(VideoFormat, ".aac")) = False Then
-                Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + FunimationAudioMap + " -vf subtitles=" + Chr(34) + UsedSub + Chr(34) + " " + ffmpeg_hardsub
-            ElseIf MergeSubs = True Then
-                Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + FunimationAudioMap + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpeg_command + " -c:s " + MergeSubsFormat + SoftSubMergeMetatata + DubMetatata
-            ElseIf CBool(InStr(VideoFormat, ".aac")) = True Then
-                If FunimationAudioMap = Nothing Then
-                    Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + DubMetatata + " " + ffmpeg_command_temp
-                Else
-                    Funimation_m3u8_final = FunimationAudioMap.Replace(" -headers " + My.Resources.ffmpeg_user_agend + " ", "") + DubMetatata + " " + ffmpeg_command_temp
-                End If
-            Else
-                Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + FunimationAudioMap + DubMetatata + " " + ffmpeg_command
-            End If
-            Funimation_m3u8_final = Funimation_m3u8_final + " -metadata:g encoding_tool=CrD_Funimation_JS"
-#End Region
-            'MsgBox(Funimation_m3u8_final)
-            'DownloadPfad = DownloadPfad.Replace(" \", "\")
-            If DownloadScope = 1 Then
-                Funimation_m3u8_final = "-i [Subtitles only]"
-            End If
-            Dim L1Name_Split As String() = WebbrowserURL.Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim L1Name As String = L1Name_Split(1).Replace("www.", "") + " | Dub : " + FunimationDub
-            Me.Invoke(New Action(Function() As Object
-                                     ListItemAdd(DownloadPfad, L1Name, DefaultName, ResoHTMLDisplay, Funimation_m3u8_MainVersion, thumbnail4, Funimation_m3u8_final, DownloadPfad, "FM")
-                                     Return Nothing
-                                 End Function))
-            'liList.Add(My.Resources.htmlvorThumbnail + thumbnail4 + My.Resources.htmlnachTumbnail + FunimationTitle + " <br> " + FunimationSeason + " " + FunimationEpisode + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + "null" + My.Resources.htmlnachHardSubs + "<!-- " + DefaultName + "-->")
-#End Region
-            Me.Invoke(New Action(Function() As Object
-                                     Me.Text = "Crunchyroll Downloader"
-                                     Anime_Add.StatusLabel.Text = "idle"
-                                     ResoBackString = Nothing
-                                     Me.Invalidate()
-                                     Return Nothing
-                                 End Function))
-        Catch ex As Exception
-            Me.Invoke(New Action(Function() As Object
-                                     Me.Text = "Crunchyroll Downloader!"
-                                     Anime_Add.StatusLabel.Text = "idle"
-                                     ResoBackString = Nothing
-                                     Me.Invalidate()
-                                     Return Nothing
-                                 End Function))
-            MsgBox(ex.ToString)
-        End Try
-        Funimation_Grapp_RDY = True
-    End Sub
-
-#End Region
     Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
 
         Dim Item As New List(Of CRD_List_Item)
@@ -3390,27 +1220,29 @@ Public Class Main
         Debug.WriteLine(Address)
 
         If CBool(InStr(Address, "title-api.prd.funimationsvc.com")) Then
-            If FunimationJsonBrowser = "EpisodeJson" Then
-                Anime_Add.FillFunimationEpisodes(localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
-                FunimationJsonBrowser = Nothing
-                WebbrowserURL = "https://funimation.com/js"
-            ElseIf FunimationJsonBrowser = "v1Json" Then
-                GetFunimationNewJS_VideoProxy(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
-                FunimationJsonBrowser = Nothing
-                WebbrowserURL = "https://funimation.com/js"
-            End If
+            ' TODO: Move this into the downloader or extractor
+            'If FunimationJsonBrowser = "EpisodeJson" Then
+            '    ' Anime_Add.FillFunimationEpisodes(localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
+            '    FunimationJsonBrowser = Nothing
+            '    WebbrowserURL = "https://funimation.com/js"
+            'ElseIf FunimationJsonBrowser = "v1Json" Then
+            '    GetFunimationNewJS_VideoProxy(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
+            '    FunimationJsonBrowser = Nothing
+            '    WebbrowserURL = "https://funimation.com/js"
+            'End If
             Exit Sub
         ElseIf CBool(InStr(Address, "/data/v2/shows/")) Then
-            If FunimationJsonBrowser = "SeasonJson" Then
-                Me.Invoke(New Action(Function() As Object
-                                         'My.Computer.Clipboard.SetText(localHTML)
-                                         FunimationSeasonAPIUrl = Address
-                                         GetFunimationJS_Seasons(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
-                                         FunimationJsonBrowser = Nothing
-                                         WebbrowserURL = "https://funimation.com/js"
-                                         Return Nothing
-                                     End Function))
-            End If
+            ' TODO: Move into extractor or downloader
+            'If FunimationJsonBrowser = "SeasonJson" Then
+            '    Me.Invoke(New Action(Function() As Object
+            '                             'My.Computer.Clipboard.SetText(localHTML)
+            '                             FunimationSeasonAPIUrl = Address
+            '                             GetFunimationJS_Seasons(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
+            '                             FunimationJsonBrowser = Nothing
+            '                             WebbrowserURL = "https://funimation.com/js"
+            '                             Return Nothing
+            '                         End Function))
+            'End If
             Exit Sub
         ElseIf CBool(InStr(Address, "wakanim.tv")) Then
             If CBool(InStr(document, "var tracks = [{" + Chr(34) + "file" + Chr(34) + ":" + Chr(34))) Then
@@ -3494,9 +1326,10 @@ Public Class Main
 
     Private Sub Process(sender As Object, e As EventArgs) Handles ScanTimeout.Tick
         If b = True Then
-            If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                Anime_Add.StatusLabel.Text = "Status: idle"
-            End If
+            ' TODO
+            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+            ' Anime_Add.StatusLabel.Text = "Status: idle"
+            'End If
             Me.Text = "Crunchyroll Downloader"
             Grapp_RDY = True
             LoadedUrls.Clear()
@@ -3507,10 +1340,10 @@ Public Class Main
         End If
 
         If LoadedUrls.Count = 0 And ProcessCounting > 0 Then
-
-            If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                Anime_Add.StatusLabel.Text = "Status: Processing Url " + ProcessCounting.ToString
-            End If
+            ' TODO
+            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+            '    Anime_Add.StatusLabel.Text = "Status: Processing Url " + ProcessCounting.ToString
+            'End If
             Me.Text = "Status: Processing Url " + ProcessCounting.ToString
 
             ProcessCounting = ProcessCounting - 1
@@ -3518,9 +1351,10 @@ Public Class Main
         ElseIf LoadedUrls.Count = 1 And ProcessCounting > 0 Then
 
             If CBool(InStr(LoadedUrls.Item(0).Uri, "/objects/")) Then
-                If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                    Anime_Add.StatusLabel.Text = "Status: Processing Url " + ProcessCounting.ToString
-                End If
+                ' TODO
+                'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+                '    Anime_Add.StatusLabel.Text = "Status: Processing Url " + ProcessCounting.ToString
+                'End If
                 Me.Text = "Status: Processing Url " + ProcessCounting.ToString
 
                 ProcessCounting = ProcessCounting - 1
@@ -3528,9 +1362,10 @@ Public Class Main
             End If
 
         ElseIf LoadedUrls.Count = 0 And ProcessCounting = 0 Then
-            If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                Anime_Add.StatusLabel.Text = "Status: nothing found"
-            End If
+            ' TODO
+            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+            '    Anime_Add.StatusLabel.Text = "Status: nothing found"
+            'End If
             Me.Text = "Status: nothing found"
             'ProcessUrls()
             b = True
@@ -3543,13 +1378,10 @@ Public Class Main
 
 
         Debug.WriteLine("LoadedUrls: " + LoadedUrls.Count.ToString)
-        'For i As Integer = 0 To LoadedUrls.Count - 1
-        '    Debug.WriteLine("LoadedUrls: " + LoadedUrls(i))
-        'Next
-
-        If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-            Anime_Add.StatusLabel.Text = "Status: Processing... "
-        End If
+        ' TODO
+        'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+        '    Anime_Add.StatusLabel.Text = "Status: Processing... "
+        'End If
         Me.Text = "Status: Processing... "
         Debug.WriteLine("ProcessUrls")
         ProcessCounting = 30
@@ -3574,12 +1406,14 @@ Public Class Main
 
                 If b = False Then
 
-                    If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                        Anime_Add.StatusLabel.Text = "Status: Crunchyroll episode found."
-                    End If
+                    ' TODO
+                    'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+                    '    Anime_Add.StatusLabel.Text = "Status: Crunchyroll episode found."
+                    'End If
                     Me.Text = "Status: Crunchyroll episode found."
                     Debug.WriteLine("Crunchyroll episode found")
-                    GetBetaVideoProxy(Request.Uri, CR_AuthToken, WebbrowserURL)
+                    ' TODO
+                    'GetBetaVideoProxy(Request.Uri, CR_AuthToken, WebbrowserURL)
                     b = True
                     LoadedUrls.Clear()
                     Me.Text = "Crunchyroll Downloader"
@@ -3589,10 +1423,10 @@ Public Class Main
             ElseIf CBool(InStr(Request.Uri, "crunchyroll.com/")) And CBool(InStr(Request.Uri, "seasons?preferred_audio_language=")) And CBool(InStr(WebbrowserURL, "series")) Then
 
                 If b = False Then
-
-                    If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                        Anime_Add.StatusLabel.Text = "Status: Crunchyroll season found."
-                    End If
+                    ' TODO
+                    'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+                    '    Anime_Add.StatusLabel.Text = "Status: Crunchyroll season found."
+                    'End If
                     Me.Text = "Status: Crunchyroll season found."
                     Debug.WriteLine("Crunchyroll season found")
 
@@ -3601,9 +1435,9 @@ Public Class Main
 
                     CR_Cookies = "Cookie: " + Request.Headers.GetHeader("Cookie")
 
-                    GetBetaSeasons(WebbrowserURL, Request.Uri, Auth)
+                    ' TODO
+                    'GetBetaSeasons(WebbrowserURL, Request.Uri, Auth)
 
-                    'Browser.WebBrowser1.LoadUrl(Request.Uri)
                     b = True
                     LoadedUrls.Clear()
                     Me.Text = "Crunchyroll Downloader"
@@ -3612,10 +1446,10 @@ Public Class Main
             ElseIf CBool(InStr(Request.Uri, "crunchyroll.com/")) And CBool(InStr(Request.Uri, "seasons?series_id=")) Then
 
                 If b = False Then
-
-                    If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                        Anime_Add.StatusLabel.Text = "Status: Error found invalid data."
-                    End If
+                    ' TODO
+                    'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+                    '    Anime_Add.StatusLabel.Text = "Status: Error found invalid data."
+                    'End If
                     b = True
                     LoadedUrls.Clear()
                     Me.Text = "Crunchyroll Downloader"
@@ -3638,9 +1472,10 @@ Public Class Main
                             Continue For
                         ElseIf CBool(InStr(ObjectJson, "videos/")) = False Then
 
-                            If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                                Anime_Add.StatusLabel.Text = "Status: Failed, check CR login"
-                            End If
+                            ' TODO
+                            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+                            '    Anime_Add.StatusLabel.Text = "Status: Failed, check CR login"
+                            'End If
                             Me.Text = "Status: Failed, check CR login"
                             Debug.WriteLine("Status: Failed, check CR login")
 
@@ -3658,10 +1493,10 @@ Public Class Main
 
                         StreamsUrl = StreamsUrlBuilder3(0) + "videos/" + StreamsUrlBuilder2(0) + "/streams?" + StreamsUrlBuilder4(1)
 
-
-                        If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                            Anime_Add.StatusLabel.Text = "Status: Crunchyroll episode found."
-                        End If
+                        ' TODO
+                        'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+                        '    Anime_Add.StatusLabel.Text = "Status: Crunchyroll episode found."
+                        'End If
                         Me.Text = "Status: Crunchyroll episode found."
                         Debug.WriteLine("Crunchyroll episode found")
                         Dim Headers As New List(Of KeyValuePair(Of String, String))
@@ -3672,7 +1507,8 @@ Public Class Main
                                 AuthToken = Headers.Item(i).Value
                             End If
                         Next
-                        GetBetaVideoProxy(StreamsUrl, AuthToken, WebbrowserURL)
+                        ' TODO
+                        ' GetBetaVideoProxy(StreamsUrl, AuthToken, WebbrowserURL)
                         b = True
                         LoadedUrls.Clear()
                         Me.Text = "Crunchyroll Downloader"
@@ -3686,10 +1522,9 @@ Public Class Main
 
             If CBool(InStr(Request.Uri, "/data/v2/shows/")) Then
                 b = True
-                'MsgBox("The new Funimation Overview is not supportet yet!", MsgBoxStyle.Information)
+                ' TODO
                 Me.Invoke(New Action(Function() As Object
-                                         'My.Computer.Clipboard.SetText(localHTML)
-                                         GetFunimationJS_Seasons(Request.Uri)
+                                         'GetFunimationJS_Seasons(Request.Uri)
                                          WebbrowserURL = "https://funimation.com/js"
                                          Return Nothing
                                      End Function))
@@ -3699,10 +1534,9 @@ Public Class Main
             End If
             If CBool(InStr(Request.Uri, "data/v1/episodes/")) Then
                 b = True
-                'MsgBox("The new Funimation Overview is not supportet yet!", MsgBoxStyle.Information)
+                ' TODO
                 Me.Invoke(New Action(Function() As Object
-                                         'My.Computer.Clipboard.SetText(localHTML)
-                                         GetFunimationNewJS_VideoProxy(Request.Uri)
+                                         'GetFunimationNewJS_VideoProxy(Request.Uri)
                                          WebbrowserURL = "https://funimation.com/js"
                                          Return Nothing
                                      End Function))
@@ -3711,18 +1545,20 @@ Public Class Main
                 Exit Sub
             End If
             If CBool(InStr(Request.Uri, "https://title-api.prd.funimationsvc.com")) And CBool(InStr(Request.Uri, "?region=")) Then
-                If FunimationAPIRegion = Nothing Then
-                    Me.Invoke(New Action(Function() As Object
-                                             Dim parms As String() = Request.Uri.Split(New String() {"?region="}, System.StringSplitOptions.RemoveEmptyEntries)
-                                             FunimationAPIRegion = "?region=" + parms(1)
-                                             Return Nothing
-                                         End Function))
-                End If
+                ' TODO: Move into downloader
+                'If FunimationAPIRegion = Nothing Then
+                '    Me.Invoke(New Action(Function() As Object
+                '                             Dim parms As String() = Request.Uri.Split(New String() {"?region="}, System.StringSplitOptions.RemoveEmptyEntries)
+                '                             FunimationAPIRegion = "?region=" + parms(1)
+                '                             Return Nothing
+                '                         End Function))
+                'End If
                 If b = False Then
 
                     If CBool(InStr(Request.Uri, "https://title-api.prd.funimationsvc.com/v1/show")) And CBool(InStr(Request.Uri, "/episodes/")) Then
                         b = True
-                        GetFunimationNewJS_VideoProxy(Request.Uri)
+                        ' TODO
+                        ' GetFunimationNewJS_VideoProxy(Request.Uri)
                         Debug.WriteLine("processing :" + Request.Uri)
                         LoadedUrls.Clear()
                         Me.Text = "Crunchyroll Downloader"
@@ -3769,6 +1605,8 @@ Public Class Main
     End Sub
 
 #Region "server"
+    ' TODO: Probably want a separate server class
+    ' It would need a downloader too
     Dim ListOfThread As New List(Of Thread)
     Sub ServerStart()
         Dim server As TcpListener
@@ -3982,38 +1820,39 @@ Public Class Main
                                 End If
                             End If
                         End If
-                        If Funimation_Grapp_RDY = True Then
-                            If RunningDownloads >= MaxDL Then
-                                If ListBoxList.Contains(WebbrowserURL) = False Then
-                                    ListBoxList.Add(WebbrowserURL)
-                                End If
-                                'ListBoxList.Add(WebbrowserURL)
-                            Else
-                                Me.Invoke(New Action(Function() As Object
-                                                         Navigate(WebbrowserURL)
-                                                         Return Nothing
-                                                     End Function))
-                                b = False
-                            End If
-                        Else
-                            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                            '    Me.Invoke(New Action(Function() As Object
-                            '                             If Anime_Add.ListBox1.Items.Contains(WebbrowserURL) = False Then
-                            '                                 Anime_Add.ListBox1.Items.Add(WebbrowserURL)
-                            '                             End If
-                            '                             Return Nothing
-                            '                         End Function))
-                            'Else
-                            If ListBoxList.Contains(WebbrowserURL) = False Then
-                                ListBoxList.Add(WebbrowserURL)
-                            End If
-                            Me.Invoke(New Action(Function() As Object
-                                                     Me.Text = "Status: " + ListBoxList.Count.ToString + " downloads in queue"
-                                                     Me.Invalidate()
-                                                     Return Nothing
-                                                 End Function))
-                            'End If
-                        End If
+                        ' TODO
+                        'If Funimation_Grapp_RDY = True Then
+                        '    If RunningDownloads >= MaxDL Then
+                        '        If ListBoxList.Contains(WebbrowserURL) = False Then
+                        '            ListBoxList.Add(WebbrowserURL)
+                        '        End If
+                        '        'ListBoxList.Add(WebbrowserURL)
+                        '    Else
+                        '        Me.Invoke(New Action(Function() As Object
+                        '                                 Navigate(WebbrowserURL)
+                        '                                 Return Nothing
+                        '                             End Function))
+                        '        b = False
+                        '    End If
+                        'Else
+                        '    'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+                        '    '    Me.Invoke(New Action(Function() As Object
+                        '    '                             If Anime_Add.ListBox1.Items.Contains(WebbrowserURL) = False Then
+                        '    '                                 Anime_Add.ListBox1.Items.Add(WebbrowserURL)
+                        '    '                             End If
+                        '    '                             Return Nothing
+                        '    '                         End Function))
+                        '    'Else
+                        '    If ListBoxList.Contains(WebbrowserURL) = False Then
+                        '        ListBoxList.Add(WebbrowserURL)
+                        '    End If
+                        '    Me.Invoke(New Action(Function() As Object
+                        '                             Me.Text = "Status: " + ListBoxList.Count.ToString + " downloads in queue"
+                        '                             Me.Invalidate()
+                        '                             Return Nothing
+                        '                         End Function))
+                        '    'End If
+                        'End If
                         strRequest = rootPath & "Post_Single_Sucess.html" 'PostPage
                         SendHTMLResponse(stream, strRequest)
                     Catch abort As ThreadAbortException
@@ -4262,7 +2101,8 @@ Public Class Main
         If Token = Nothing Then
             MsgBox("No Token has been found...", MsgBoxStyle.Exclamation)
         Else
-            FunimationToken = Token
+            ' TODO
+            ' FunimationToken = Token
             MsgBox("Token found!" + vbNewLine + Token, MsgBoxStyle.Information)
         End If
     End Sub
@@ -4495,7 +2335,8 @@ Public Class Main
             If CBool(InStr(Url, "/series")) Then
                 Dim locale1() As String = Url.Split(New String() {"crunchyroll.com/"}, System.StringSplitOptions.RemoveEmptyEntries)
                 Dim locale2() As String = locale1(1).Split(New String() {"/series"}, System.StringSplitOptions.RemoveEmptyEntries)
-                locale = Convert_locale(locale2(0))
+                ' TODO: This is in Crunchyroll Downloader
+                'locale = Convert_locale(locale2(0))
                 If locale = "en-US" Then
                     Url_locale = ""
                 Else
@@ -4506,7 +2347,8 @@ Public Class Main
                 Dim locale2() As String = locale1(1).Split(New String() {"/watch"}, System.StringSplitOptions.RemoveEmptyEntries)
                 'MsgBox(locale2(0))
 
-                locale = Convert_locale(locale2(0))
+                ' TODO: This is in Crunchyroll Downloader
+                ' locale = Convert_locale(locale2(0))
                 'End If
                 If locale = "en-US" Then
                     Url_locale = ""
@@ -4589,8 +2431,8 @@ Public Class Main
 
             Dim SeriesUrl As String = "https://www.crunchyroll.com/content/v2/cms/series/" + SeriesUrlBuilder2(0) + "/seasons?preferred_audio_language=" + DubSprache.CR_Value + "&locale=" + locale '+ "&Signature=" + signature2(0) + "&Policy=" + policy2(0) + "&Key-Pair-Id=" + key_pair_id2(0)
             Debug.WriteLine(SeriesUrl)
-            'MsgBox(SeriesUrl)
-            GetBetaSeasons(url, SeriesUrl, Auth2)
+            ' TODO
+            'GetBetaSeasons(url, SeriesUrl, Auth2)
 
 
         ElseIf CBool(InStr(url, "crunchyroll.com")) = True And CBool(InStr(url, "watch/")) = True And CBool(CrBetaBasic = Nothing) = False Then
@@ -4646,7 +2488,8 @@ Public Class Main
                 Exit Sub
             End Try
 
-            GetBetaVideoProxy(StreamsUrl, Auth2, url)
+            ' TODO
+            'GetBetaVideoProxy(StreamsUrl, Auth2, url)
 
 
         Else
@@ -4701,10 +2544,10 @@ Public Class Main
     End Function
 
     Sub SetStatusLabel(ByVal txt As String)
-        If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-            Anime_Add.StatusLabel.Text = txt
-
-        End If
+        ' TODO: Change this to be in the correct dialog
+        'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
+        ' Anime_Add.StatusLabel.Text = txt
+        'End If
 
     End Sub
 

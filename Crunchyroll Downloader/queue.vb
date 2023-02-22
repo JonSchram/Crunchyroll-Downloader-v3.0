@@ -84,44 +84,45 @@ Public Class Queue
             If Main.ListBoxList.Count > 0 Then
 
                 If CBool(InStr(ListBox1.GetItemText(Main.ListBoxList(0)), "funimation.com")) Then
-                    If Main.Funimation_Grapp_RDY = True Then
-                        Dim UriUsed As String = ListBox1.GetItemText(Main.ListBoxList(0))
+                    ' TODO
+                    'If Main.Funimation_Grapp_RDY = True Then
+                    '    Dim UriUsed As String = ListBox1.GetItemText(Main.ListBoxList(0))
 
-                        If CBool(InStr(UriUsed, "funimation.com/v/")) Then
-                            Dim Episode0() As String = UriUsed.Split(New String() {"?"}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Dim Episode() As String = Episode0(0).Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
+                    '    If CBool(InStr(UriUsed, "funimation.com/v/")) Then
+                    '        Dim Episode0() As String = UriUsed.Split(New String() {"?"}, System.StringSplitOptions.RemoveEmptyEntries)
+                    '        Dim Episode() As String = Episode0(0).Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
 
-                            Dim v1JsonUrl As String = "https://d33et77evd9bgg.cloudfront.net/data/v1/episodes/" + Episode(Episode.Length - 1) + ".json"
-                            Dim v1Json As String = Nothing
-                            Try
-                                Using client As New WebClient()
-                                    client.Encoding = System.Text.Encoding.UTF8
-                                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
-                                    v1Json = client.DownloadString(v1JsonUrl)
-                                End Using
-                                Main.Funimation_Grapp_RDY = False
-                                Main.WebbrowserURL = UriUsed
-                                Main.ListBoxList.Remove(UriUsed)
-                                Main.b = False
-                                Main.Invalidate()
-                                Main.GetFunimationNewJS_VideoProxy(Nothing, v1Json)
-                                Exit Sub
-                            Catch ex As Exception
-                                Debug.WriteLine("error- getting v1Json data for the bypasss")
-                                Debug.WriteLine(ex.ToString)
-                            End Try
+                    '        Dim v1JsonUrl As String = "https://d33et77evd9bgg.cloudfront.net/data/v1/episodes/" + Episode(Episode.Length - 1) + ".json"
+                    '        Dim v1Json As String = Nothing
+                    '        Try
+                    '            Using client As New WebClient()
+                    '                client.Encoding = System.Text.Encoding.UTF8
+                    '                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+                    '                v1Json = client.DownloadString(v1JsonUrl)
+                    '            End Using
+                    '            Main.Funimation_Grapp_RDY = False
+                    '            Main.WebbrowserURL = UriUsed
+                    '            Main.ListBoxList.Remove(UriUsed)
+                    '            Main.b = False
+                    '            Main.Invalidate()
+                    '            Main.GetFunimationNewJS_VideoProxy(Nothing, v1Json)
+                    '            Exit Sub
+                    '        Catch ex As Exception
+                    '            Debug.WriteLine("error- getting v1Json data for the bypasss")
+                    '            Debug.WriteLine(ex.ToString)
+                    '        End Try
 
-                        End If
+                    '    End If
 
-                        Main.Funimation_Grapp_RDY = False
-                        Main.WebbrowserURL = UriUsed
-                        Main.ListBoxList.Remove(UriUsed)
-                        Main.b = False
+                    '    Main.Funimation_Grapp_RDY = False
+                    '    Main.WebbrowserURL = UriUsed
+                    '    Main.ListBoxList.Remove(UriUsed)
+                    '    Main.b = False
 
 
-                        Main.Text = "Status: loading in browser"
-                        Main.LoadBrowser(UriUsed)
-                    End If
+                    '    Main.Text = "Status: loading in browser"
+                    '    Main.LoadBrowser(UriUsed)
+                    'End If
 
                 Else
                     Dim UriUsed As String = ListBox1.GetItemText(Main.ListBoxList(0))

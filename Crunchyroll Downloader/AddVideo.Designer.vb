@@ -3,7 +3,7 @@ Partial Class AddVideo
     Inherits MetroFramework.Forms.MetroForm
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class AddVideo
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.MetroStyleManager1 = New MetroFramework.Components.MetroStyleManager(Me.components)
@@ -203,7 +203,7 @@ Partial Class AddVideo
         Me.downloadButton.Size = New System.Drawing.Size(320, 47)
         Me.downloadButton.Style = MetroFramework.MetroColorStyle.Orange
         Me.downloadButton.TabIndex = 6
-        Me.downloadButton.Text = "Download"
+        Me.downloadButton.Text = "List episodes"
         Me.downloadButton.UseSelectable = True
         '
         'AddVideo
@@ -215,7 +215,10 @@ Partial Class AddVideo
         Me.Controls.Add(Me.parametersGroupBox)
         Me.MaximizeBox = False
         Me.Name = "AddVideo"
+        Me.Resizable = False
+        Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.Style = MetroFramework.MetroColorStyle.Orange
         Me.Text = "Add Video"
         Me.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center
         Me.Theme = MetroFramework.MetroThemeStyle.[Default]

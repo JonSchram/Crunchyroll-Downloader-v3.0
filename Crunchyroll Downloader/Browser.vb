@@ -207,9 +207,9 @@ Public Class Browser
             End If
         ElseIf CBool(InStr(Main.LoadingUrl, "funimation.com")) Then
             If CBool(InStr(e.Request.Uri, "?deviceType=web")) Then
-                'Debug.WriteLine(e.Request.Uri)
                 Dim parms As String() = e.Request.Uri.Split(New String() {"?deviceType="}, System.StringSplitOptions.RemoveEmptyEntries)
-                Main.FunimationDeviceRegion = "?deviceType=" + parms(1)
+                ' TODO
+                'Main.FunimationDeviceRegion = "?deviceType=" + parms(1)
 
             End If
             If CBool(InStr(e.Request.Uri, "https://title-api.prd.funimationsvc.com")) Then
@@ -315,7 +315,8 @@ Public Class Browser
             If CBool(InStr(e.Request.Uri, "?deviceType=web")) Then
                 'Debug.WriteLine(e.Request.Uri)
                 Dim parms As String() = e.Request.Uri.Split(New String() {"?deviceType="}, System.StringSplitOptions.RemoveEmptyEntries)
-                Main.FunimationDeviceRegion = "?deviceType=" + parms(1)
+                ' TODO
+                'Main.FunimationDeviceRegion = "?deviceType=" + parms(1)
 
             End If
             If CBool(InStr(e.Request.Uri, "https://title-api.prd.funimationsvc.com")) Then
