@@ -162,6 +162,8 @@ Partial Class AddVideo
         '
         'downloadTypeComboBox
         '
+        Me.downloadTypeComboBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.downloadTypeComboBox.FormattingEnabled = True
         Me.downloadTypeComboBox.ItemHeight = 23
         Me.downloadTypeComboBox.Location = New System.Drawing.Point(6, 144)

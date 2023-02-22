@@ -179,6 +179,7 @@
     <Compile Include="queue.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="QueueDownloads.vb" />
     <Compile Include="Settings.vb" />
     <Compile Include="Trackbar.Designer.vb">
       <DependentUpon>Trackbar.vb</DependentUpon>
