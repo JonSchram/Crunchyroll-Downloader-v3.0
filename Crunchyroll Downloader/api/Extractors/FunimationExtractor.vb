@@ -1,14 +1,208 @@
-﻿Imports System.Net
+﻿Imports System.Diagnostics.Eventing
+Imports System.Net
+Imports System.Text.RegularExpressions
 Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 ''' <summary>
 ''' Gets information about episodes from Funimation
 ''' </summary>
 Public Class FunimationExtractor
+    Implements IMetadataDownloader
+
+    Private downloadUrl As String = Nothing
+
     Private apiUrl As String = Nothing
 
-    Public Sub New(showPath As String, region As String)
-        apiUrl = "https://title-api.prd.funimationsvc.com/v2/shows/" + showPath + region
+    Private Region As String = Nothing
+
+    ' Ideal API:
+    ' - Construct using a URL
+    ' - It can decide whether the URL is for a season or one episode
+    ' - It can list episodes for seasons
+    ' - This class should be about metadata, so maybe needs renaming.
+
+    Public Sub New(downloadUrl As String)
+        Me.downloadUrl = downloadUrl
     End Sub
+
+
+    Public Function ListSeasons() As IEnumerable(Of Season) Implements IMetadataDownloader.ListSeasons
+        Main.Navigate(downloadUrl)
+        If (IsSeriesUrl()) Then
+            'Dim ListSeasonUrl = BuildSeasonListUrl(ShowPath)
+            'Debug.WriteLine("URL to retrieve seasons: " + ListSeasonUrl)
+            Dim SeriesJson = GetSeriesJson(downloadUrl)
+            Dim SeriesInfo = ParseSeriesJson(SeriesJson)
+            Return SeriesInfo.Seasons
+        End If
+        Return New List(Of FunimationSeason)
+    End Function
+
+    Private Function DownloadJson(JsonUrl As String) As String
+        Try
+            Using client As New WebClient()
+                client.Encoding = System.Text.Encoding.UTF8
+                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+                Return client.DownloadString(JsonUrl)
+            End Using
+        Catch ex As Exception
+            Debug.WriteLine("error- getting funimation SeasonJson data")
+            ' Main.Navigate needed?
+        End Try
+        ' Return parseable but empty object
+        Return "{}"
+    End Function
+
+    Private Function GetSeriesJson(SeriesUrl As String) As String
+        Dim ShowPath As String = Regex.Match(downloadUrl, "/shows/(.*)/?").Groups(1).Value
+        Debug.WriteLine("Show path: " + ShowPath)
+        Dim Region = GetRegion()
+        Dim JsonUrl = BuildTitleInfoUrl(ShowPath, Region)
+
+        Dim SeriesJson = DownloadJson(JsonUrl)
+
+        Debug.WriteLine("Series JSON: ")
+        Debug.WriteLine(SeriesJson)
+        Return SeriesJson
+    End Function
+
+    Private Function ParseSeriesJson(SeriesJson As String) As FunimationSeries
+        Dim Result As New FunimationSeries()
+        Dim SeriesInfo = JObject.Parse(SeriesJson)
+
+        Dim SeriesName As String = SeriesInfo.Item("name").Value(Of String)
+        Result.Name = SeriesName
+
+        Dim SeasonsList = SeriesInfo.Item("seasons").Children()
+        For Each Season In SeasonsList
+            Dim Name = Season.Item("name")
+            Dim Id = Season.Item("id")
+            Dim Type = Season.Item("type")
+            Dim Number = Season.Item("number")
+            Dim EntitledSeason = Season.Item("entitledSeason")
+            Dim ContentId = Season.Item("contentId")
+            Dim SeasonObject = New FunimationSeason With {
+                    .Name = Name.Value(Of String),
+                    .Id = Id.Value(Of Integer),
+                    .ApiID = ContentId.Value(Of String),
+                    .Type = Type.Value(Of String),
+                    .Number = Number.Value(Of Integer),
+                    .IsFree = EntitledSeason.Value(Of Boolean)
+                }
+            Result.Seasons.Add(SeasonObject)
+        Next
+        Return Result
+    End Function
+
+    Async Sub getCookies()
+        Dim Region = GetRegion()
+
+        Dim List = Await Browser.WebView2.CoreWebView2.CookieManager.GetCookiesAsync("https://www.funimation.com")
+
+
+        Dim FunimationToken As String = Nothing
+        Dim FunimationDeviceRegion As String = Nothing
+        Debug.WriteLine(List)
+        Dim Cookie As String = ""
+        ' This copies all the cookies from the web view into a URL query string
+        For i As Integer = 0 To List.Count - 1
+            If CBool(InStr(List.Item(i).Domain, "funimation.com")) Then 'list.Item(i).Domain = "funimation.com" Then
+                Cookie = Cookie + List.Item(i).Name + "=" + List.Item(i).Value + ";"
+            End If
+            If CBool(InStr(List.Item(i).Domain, "funimation.com")) And CBool(InStr(List.Item(i).Name, "src_token")) Then 'list.Item(i).Domain = "funimation.com" Then
+                FunimationToken = "Token " + List.Item(i).Value
+            End If
+            If CBool(InStr(List.Item(i).Domain, "funimation.com")) And CBool(InStr(List.Item(i).Name, "region")) Then 'list.Item(i).Domain = "funimation.com" Then
+                FunimationDeviceRegion = "?deviceType=web&" + List.Item(i).Name + "=" + List.Item(i).Value
+            End If
+        Next
+
+    End Sub
+
+    Private Function GetRegion() As String
+        If Region Is Nothing Then
+            Dim request = WebRequest.Create("http://www.funimation.com")
+            Dim response = request.GetResponse()
+            Dim cookieString = response.Headers.Get("Set-Cookie")
+            Dim cookies = Split(cookieString, ";")
+
+            Dim RegionCookie = cookies.Where(Function(item)
+                                                 Return item.Contains("region=")
+                                             End Function)
+            ' The regex should match because the filtered list contains the regex value
+            Region = Regex.Match(RegionCookie.First, "region=(.*)").Groups(1).Value
+        End If
+        Return Region
+    End Function
+
+
+    Public Function ListEpisodes(SeasonName As String) As List(Of Episode) Implements IMetadataDownloader.ListEpisodes
+        ' Implement this now.
+        ' Might need to retrieve https://d33et77evd9bgg.cloudfront.net/data/v2/seasons/ first to get season info
+        ' After, use https://d33et77evd9bgg.cloudfront.net/data/v2/episodes to get episode info
+        ' Can access season info by taking the contentId from title-api and adding it to end of /v2/seasons/, adding .json
+
+        Dim SeasonUrl = BuildSeasonInfoUrl(SeasonName)
+        Dim SeasonJson = DownloadJson(SeasonUrl)
+        Dim EpisodeList = ParseSeasonJson(SeasonJson)
+
+        Return EpisodeList
+    End Function
+
+    Private Function ParseSeasonJson(SeasonJson As String) As List(Of Episode)
+        Dim Result = New List(Of Episode)
+        Dim SeasonInfo = JObject.Parse(SeasonJson)
+
+        Dim EpisodeList = SeasonInfo.Item("episodes").Children()
+        For Each Episode In EpisodeList
+            Dim Id = Episode.Item("id")
+            Dim Slug = Episode.Item("slug")
+            Dim ApiSlug = Episode.Item("venueId")
+            Dim Number = Episode.Item("episodeNumber")
+            Dim IsSubRequired = Episode.Item("isSubRequired")
+            Dim EpisodeObject = New Episode With {
+                    .EpisodeId = Id.Value(Of String),
+                    .EpisodeUrlSlug = Slug.Value(Of String),
+                    .ApiUrlSlug = ApiSlug.Value(Of String),
+                    .IsFree = Not IsSubRequired.Value(Of Boolean),
+                    .EpisodeNumber = Number.Value(Of String)
+                }
+            Result.Add(EpisodeObject)
+        Next
+        Return Result
+    End Function
+
+    Public Function IsVideoUrl() As Boolean Implements IMetadataDownloader.IsVideoUrl
+        Return SafeContains(downloadUrl, "funimation.com/v/")
+    End Function
+
+    Private Function IsSeriesUrl() As Boolean
+        Return SafeContains(downloadUrl, "funimation.com/shows")
+    End Function
+
+    ''' <summary>
+    ''' Builds a URL that will retreive a list of seasons for a given show. This is required to get more information about individual seasons.
+    ''' </summary>
+    ''' <param name="showPath"></param>
+    ''' <param name="Region"></param>
+    ''' <returns></returns>
+    Private Function BuildTitleInfoUrl(showPath As String, Region As String) As String
+        ' TODO: Probably want all URLs in one class for funimation so that if they change, it's easy to update
+        ' The alternative is to parse the HTML for the series page, find the app JS, and parse until you find the
+        ' projectorService that serves season & episode info. Maybe do this and have a hardcoded path as a fallback?
+        Dim TemplateUrl = $"https://title-api.prd.funimationsvc.com/v2/shows/{showPath}?deviceType=web&region={Region}"
+        Return TemplateUrl
+    End Function
+
+    Private Function BuildSeasonInfoUrl(SeasonId As String) As String
+        Dim TemplateUrl = $"https://d33et77evd9bgg.cloudfront.net/data/v2/seasons/{SeasonId}.json"
+        Return TemplateUrl
+    End Function
+
+
+    ' ------- EVERYTHING BELOW THIS LINE IS BASED ON ORIGINAL CODE --------
+    ' Organization is not very good so it is just for reference
+    ' It should be re-written or sparingly copied from in case it does exactly what is needed in the new design
 
     Public Function extractEpisodesFromJson(ByVal EpisodeJson As String) As List(Of String)
         Dim EpisodeSplit() As String = EpisodeJson.Split(New String() {"""episodeNumber"":"""}, System.StringSplitOptions.RemoveEmptyEntries)
@@ -53,6 +247,7 @@ Public Class FunimationExtractor
 
         Return EpisodeJson
     End Function
+
 
     ' Unused, so won't deal with it for now
     'Public Sub ProcessFunimationJS(ByVal InputURL As String)

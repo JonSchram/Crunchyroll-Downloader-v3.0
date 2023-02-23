@@ -147,14 +147,7 @@ Public Class Browser
 
 
     Private Async Sub ObserveResponse(ByVal sender As Object, ByVal e As CoreWebView2WebResourceResponseReceivedEventArgs)
-
-
-
-
         If CBool(InStr(Main.LoadingUrl, "crunchyroll.com")) Then
-
-
-
             If CBool(InStr(e.Request.Uri, "crunchyroll.com/")) And CBool(InStr(e.Request.Uri, "v1/token")) And Main.CR_v1Token = "Get" Then
                 Debug.WriteLine("Crunchyroll-v1_token: " + e.Request.Uri)
                 Dim Content As Stream = Await e.Response.GetContentAsync
@@ -206,6 +199,9 @@ Public Class Browser
                 Exit Sub
             End If
         ElseIf CBool(InStr(Main.LoadingUrl, "funimation.com")) Then
+            MsgBox(Main.LoadingUrl)
+            MsgBox(e.Request.Uri)
+            MsgBox(e.Response.ToString)
             If CBool(InStr(e.Request.Uri, "?deviceType=web")) Then
                 Dim parms As String() = e.Request.Uri.Split(New String() {"?deviceType="}, System.StringSplitOptions.RemoveEmptyEntries)
                 ' TODO

@@ -1,31 +1,48 @@
 ﻿Public Class SeasonSelector
-    Private SeasonList As List(Of FunimationOverview)
+    Private SeasonList As List(Of Season)
 
-    Public Property episodeList() As List(Of String)
-    Public Property startEpisode As String
-    Public Property endEpisode As String
+    ' The list of episodes to download
+    Public Property episodeList() As List(Of Episode)
 
-    Private downloadUrl As String
+    ' Using list indices because there is technically no guarantee that the episode number is an integer
+    ' or even unique in the list. At least by using indices, the combo box answer is unambiguous
 
-    Public Sub New(downloadUrl As String)
+
+    ' The start episode, as relative to the list of episodes retrieved from the API
+    Public Property startEpisode As Integer
+    ' The end episode, as relative to the list of episodes retrieved from the API
+    Public Property endEpisode As Integer
+
+
+    Private MetadataApi As IMetadataDownloader
+
+    Public Sub New(MetadataApi As IMetadataDownloader, SeasonList As IEnumerable(Of Season))
         InitializeComponent()
 
-        Me.downloadUrl = downloadUrl
+        Me.MetadataApi = MetadataApi
+        Me.SeasonList = SeasonList.ToList()
+        updateControlsForSeason(Me.SeasonList)
     End Sub
 
-    Public Sub updateControlsForFunimation(seasonList As List(Of FunimationOverview))
+    Public Sub updateControlsForSeason(seasonList As List(Of Season))
         resetComboBox(seasonSelectComboBox)
         resetComboBox(startEpisodeComboBox)
         resetComboBox(endEpisodeComboBox)
-        For Each item In seasonList
-            seasonSelectComboBox.Items.Add(item.Title)
-        Next
+
+        startEpisode = 0
+        endEpisode = 0
+
+        seasonSelectComboBox.Items.AddRange(seasonList.ToArray)
+        'For Each item In seasonList
+        '    seasonSelectComboBox.Items.Add(item)
+        'Next
     End Sub
 
     Private Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
         ' TODO: validate what start and end episode are
-        startEpisode = startEpisodeComboBox.SelectedItem.ToString()
-        endEpisode = endEpisodeComboBox.SelectedItem.ToString()
+        ' Might want to confirm that the list is set?
+        startEpisode = startEpisodeComboBox.SelectedIndex
+        endEpisode = endEpisodeComboBox.SelectedIndex
         Me.DialogResult = Windows.Forms.DialogResult.OK
     End Sub
 
@@ -48,20 +65,34 @@
         resetComboBox(endEpisodeComboBox)
 
         Dim selectedIndex As Integer = seasonSelectComboBox.SelectedIndex
-        Dim funimationExtractor As FunimationExtractor = New FunimationExtractor("TODO: showPath", "TODO: region")
-        Dim episodesJson As String = funimationExtractor.getFunimationEpisodesJson(SeasonList.Item(selectedIndex))
-        Dim episodes As List(Of String) = funimationExtractor.extractEpisodesFromJson(episodesJson)
-        setComboBoxEpisodes(startEpisodeComboBox, episodes)
-        setComboBoxEpisodes(endEpisodeComboBox, episodes)
+        Dim selectedItem As Season = CType(seasonSelectComboBox.SelectedItem, Season)
+
+        Dim SeasonName As String = selectedItem.ApiID
+        Dim episodeList = MetadataApi.ListEpisodes(SeasonName)
+        setComboBoxEpisodes(startEpisodeComboBox, episodeList)
+        setComboBoxEpisodes(endEpisodeComboBox, episodeList)
     End Sub
 
-    Private Sub setComboBoxEpisodes(comboBox As ComboBox, episodeList As List(Of String))
-        episodeList.ForEach(Sub(episodeString)
-                                comboBox.Items.Add(formatEpisodeNumber(episodeString))
-                            End Sub)
+    Private Sub setComboBoxEpisodes(comboBox As ComboBox, episodeList As List(Of Episode))
+        comboBox.Items.AddRange(episodeList.ToArray)
+        'episodeList.ForEach(Sub(episode)
+        '                        comboBox.Items.Add(formatEpisodeNumber(episode.EpisodeNumber))
+        '                    End Sub)
     End Sub
 
     Private Function formatEpisodeNumber(episodeNumber As String) As String
         Return "Episode " + episodeNumber
     End Function
+
+    Private Sub startEpisodeComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles startEpisodeComboBox.SelectedIndexChanged
+        startEpisode = startEpisodeComboBox.SelectedIndex
+    End Sub
+
+    Private Sub endEpisodeComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles endEpisodeComboBox.SelectedIndexChanged
+        endEpisode = endEpisodeComboBox.SelectedIndex
+    End Sub
+
+    Private Sub CancelDialogButton_Click(sender As Object, e As EventArgs) Handles CancelDialogButton.Click
+        Me.DialogResult = DialogResult.Cancel
+    End Sub
 End Class

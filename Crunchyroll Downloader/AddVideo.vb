@@ -14,14 +14,33 @@ Public Class AddVideo
     Private Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
         downloadUrl = downloadUrlTextBox.Text
 
-        Dim seasonSelectorForm = New SeasonSelector(downloadUrl)
-        If seasonSelectorForm.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            Dim downloadQueue As QueueDownloads = New QueueDownloads(OutputPath, OutputSubFolder)
-            downloadQueue.enqueue(downloadUrl)
+        Dim Api As New DownloaderApi(downloadUrl)
+        Dim MetadataApi As IMetadataDownloader = Api.GetMetadataDownloader()
+
+        If Not MetadataApi.IsVideoUrl() Then
+            'MsgBox("Downloading season information")
+            Dim SeasonList = MetadataApi.ListSeasons()
+            Dim seasonSelectorForm = New SeasonSelector(MetadataApi, SeasonList)
+            'For Each Season In SeasonList
+            '    ' TODO: make a method in season select class
+            '    seasonSelectorForm.seasonSelectComboBox.Items.Add(Season.Name)
+            'Next
+            If seasonSelectorForm.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                Dim episodeList = seasonSelectorForm.episodeList
+                Dim startEpisode = seasonSelectorForm.startEpisode
+                Dim endEpisode = seasonSelectorForm.endEpisode
+                ' StartEpisode and endEpisode are indices into episodeList
+                Dim downloadQueue As QueueDownloads = New QueueDownloads(OutputPath, OutputSubFolder)
+                downloadQueue.enqueue(downloadUrl)
+            End If
+            seasonSelectorForm.Dispose()
         End If
 
-        seasonSelectorForm.Dispose()
     End Sub
+
+    'Private Function isFunimationUrl(url As String) As Boolean
+    '    Return True
+    'End Function
 
     Private Sub outputTextBox_Click(sender As Object, e As EventArgs) Handles outputTextBox.Click
         Dim FolderBrowserDialog1 As New FolderBrowserDialog With {

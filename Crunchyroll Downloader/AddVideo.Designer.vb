@@ -203,7 +203,7 @@ Partial Class AddVideo
         Me.downloadButton.Size = New System.Drawing.Size(320, 47)
         Me.downloadButton.Style = MetroFramework.MetroColorStyle.Orange
         Me.downloadButton.TabIndex = 6
-        Me.downloadButton.Text = "List episodes"
+        Me.downloadButton.Text = "Download"
         Me.downloadButton.UseSelectable = True
         '
         'AddVideo

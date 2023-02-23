@@ -38,6 +38,13 @@ Public Class FunimationDownloader
 
     End Sub
 
+    ' Ideal api:
+    ' - Instantiate using URL
+    ' - Allows you to download the episode.
+    ' - Support downloading a season via link or force you to format as episodes first?
+    ' - Maybe allow you to give a season and episode number and it knows how to get it?
+
+
     ''' Need to call GetFunimationJS_Seasons with "https://title-api.prd.funimationsvc.com/v2/shows/" + ShowPath + Main.FunimationAPIRegion
     ''' 
     ''' 
@@ -245,6 +252,8 @@ Public Class FunimationDownloader
         ' region=US;
         ' Clear loaded urls?
         ' TODO: Use a unified downloader with a thread pool
+        ' When downloading, will probably want to get cookies from the browser or find the API method to log in.
+        ' src_token is your login token?
         Dim Evaluator = New Thread(Sub() Me.GetFunimationNewJS_Video(v1JsonURL, v1JsonData))
         Evaluator.Start()
     End Sub

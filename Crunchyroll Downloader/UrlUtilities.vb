@@ -1,18 +1,22 @@
 ﻿Module UrlUtilities
-    Public Function isFunimationUrl(url As String) As Boolean
-        Return safeContains(url, "funimation.com")
+    Function IsFunimationUrl(url As String) As Boolean
+        Return SafeContains(url, "funimation.com")
     End Function
 
-    Public Function isCrunchyrollUrl(url As String) As Boolean
-        Return safeContains(url, "crunchyroll.com")
+    Function IsFunimationVideoUrl(url As String) As Boolean
+        Return SafeContains(url, "funimation.com/v/")
     End Function
 
-    Public Function isTestUrl(url As String) As Boolean
-        Return safeContains(url, "Test=true")
+    Function IsCrunchyrollUrl(url As String) As Boolean
+        Return SafeContains(url, "crunchyroll.com")
     End Function
 
-    Private Function safeContains(testString As String, containedString As String) As Boolean
-        If (testString Is Nothing) Then
+    Function IsTestUrl(url As String) As Boolean
+        Return SafeContains(url, "Test=true")
+    End Function
+
+    Function SafeContains(testString As String, containedString As String) As Boolean
+        If testString Is Nothing Then
             Return False
         End If
         Return testString.Contains(containedString)

@@ -1,7 +1,7 @@
 ﻿Imports Newtonsoft.Json.Linq
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class CrunchyrollExtractor
+    Implements IMetadataDownloader
     Public Sub FillCREpisodes(ByVal EpisodeJson As String)
 
         EpisodeJson = CleanJSON(EpisodeJson)
@@ -36,4 +36,16 @@ Public Class CrunchyrollExtractor
         'comboBox4.Enabled = True
 
     End Sub
+
+    Public Function ListSeasons() As IEnumerable(Of Season) Implements IMetadataDownloader.ListSeasons
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function ListEpisodes(SeasonName As String) As List(Of Episode) Implements IMetadataDownloader.ListEpisodes
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function IsVideoUrl() As Boolean Implements IMetadataDownloader.IsVideoUrl
+        Throw New NotImplementedException()
+    End Function
 End Class

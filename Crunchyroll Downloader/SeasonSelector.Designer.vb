@@ -53,7 +53,6 @@ Partial Class SeasonSelector
         Me.selectVideosGroupBox.Size = New System.Drawing.Size(551, 195)
         Me.selectVideosGroupBox.TabIndex = 8
         Me.selectVideosGroupBox.TabStop = False
-        Me.selectVideosGroupBox.Visible = False
         '
         'CancelDialogButton
         '
