@@ -2,7 +2,7 @@
     Private SeasonList As List(Of Season)
 
     ' The list of episodes to download
-    Public Property episodeList() As List(Of Episode)
+    Public Property episodeList As List(Of Episode)
 
     ' Using list indices because there is technically no guarantee that the episode number is an integer
     ' or even unique in the list. At least by using indices, the combo box answer is unambiguous
@@ -68,7 +68,7 @@
         Dim selectedItem As Season = CType(seasonSelectComboBox.SelectedItem, Season)
 
         Dim SeasonName As String = selectedItem.ApiID
-        Dim episodeList = MetadataApi.ListEpisodes(SeasonName)
+        episodeList = MetadataApi.ListEpisodes(SeasonName)
         setComboBoxEpisodes(startEpisodeComboBox, episodeList)
         setComboBoxEpisodes(endEpisodeComboBox, episodeList)
     End Sub

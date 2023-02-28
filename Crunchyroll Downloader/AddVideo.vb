@@ -30,8 +30,8 @@ Public Class AddVideo
                 Dim startEpisode = seasonSelectorForm.startEpisode
                 Dim endEpisode = seasonSelectorForm.endEpisode
                 ' StartEpisode and endEpisode are indices into episodeList
-                Dim downloadQueue As QueueDownloads = New QueueDownloads(OutputPath, OutputSubFolder)
-                downloadQueue.enqueue(downloadUrl)
+                Dim downloadQueue As DownloadQueue = DownloadQueue.getInstance()
+                downloadQueue.enqueueRange(episodeList, startEpisode, endEpisode)
             End If
             seasonSelectorForm.Dispose()
         End If

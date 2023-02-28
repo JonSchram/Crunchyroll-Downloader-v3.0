@@ -1,5 +1,6 @@
 ﻿Option Strict On
 
+Imports System.Collections.ObjectModel
 Imports System.Net
 Imports MetroFramework
 Imports MetroFramework.Components
@@ -7,15 +8,21 @@ Imports MetroFramework.Components
 Public Class Queue
 
     Dim Manager As MetroStyleManager = Main.Manager
-    Dim bs As BindingSource = New BindingSource
+    ' Dim bs As BindingSource = New BindingSource
+
+    Private episodeQueue As DownloadQueue = DownloadQueue.getInstance()
 
     Private Sub Reso_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Manager.Owner = Me
         Me.StyleManager = Manager
+
         ListBox1.BackColor = Main.BackColorValue
         ListBox1.ForeColor = Main.ForeColorValue
-        bs.DataSource = Main.ListBoxList
-        ListBox1.DataSource = bs
+        'bs.DataSource = Main.ListBoxList
+        ' TODO this isn't showing new queue items as they are added. Might need to implement INotifyPropertyChanged
+        ' on the queue / roll it myself
+        ListBox1.DataSource = episodeQueue
+        'ListBox1.DisplayMember
 
         Btn_min.Image = Main.MinImg
         Btn_Close.Image = Main.CloseImg
@@ -41,8 +48,9 @@ Public Class Queue
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles UpdateListTimer.Tick
+        ' TODO: Verify that this works without using a timer
         If Main.ListBoxList.Count <> ListBox1.Items.Count Then
-            bs.ResetBindings(False)
+            ' bs.ResetBindings(False)
         End If
 
     End Sub
@@ -82,7 +90,6 @@ Public Class Queue
 
         If Main.RunningDownloads < Main.MaxDL Then
             If Main.ListBoxList.Count > 0 Then
-
                 If CBool(InStr(ListBox1.GetItemText(Main.ListBoxList(0)), "funimation.com")) Then
                     ' TODO
                     'If Main.Funimation_Grapp_RDY = True Then
