@@ -544,7 +544,7 @@ Public Class Main
 
         MaxDL = My.Settings.SL_DL
 
-        ' 
+        ' TODO change name templates to be a little less brittle
         If My.Settings.NameTemplate = "Unused" Then 'convert old stlye
             If My.Settings.CR_NameMethode = 0 Then
                 NameBuilder = "AnimeTitle;Season;EpisodeNR;"

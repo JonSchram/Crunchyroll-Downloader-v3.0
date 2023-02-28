@@ -172,6 +172,91 @@ Public Class FunimationExtractor
         Return Result
     End Function
 
+    ' TODO: Get info for a single episode.
+    ' Definitely need to get the path to the video playlist
+    ' Probably want the episode name for name formatting after the download
+    ' Might want the list of langauges for audio & subtitles.
+    ' Not sure about anything else, need to see what the existing code gets.
+    ' Checked with existing code, want to get:
+    ' - Images for the episode ("images" in episode JSON)
+    '    - Either key art or episode thumbnail
+    ' - Name
+    ' - ID
+    ' - Episode Number
+    '    - Seems that for extras, it's possible there is only an English name
+    '    - Number seems to exist (but for extras is usually 99)
+    ' - Season
+    ' - Show (only English version, but could get others)
+    '
+    ' If it retrieves the show name as well, this could make it much easier to rename the file afterwards.
+    ' Each download task has everything it needs in the episode object to name the file.
+
+    Public Function getEpisodeInfo(EpisodeId As String) As EpisodeInfo Implements IMetadataDownloader.getEpisodeInfo
+        Dim infoUrl = BuildEpisodeInfoUrl(EpisodeId)
+        Dim EpisodeInfoJson = DownloadJson(infoUrl)
+        Dim EpisodeInfo = ParseEpisodeInfoJson(EpisodeInfoJson)
+
+        Return EpisodeInfo
+    End Function
+
+    Private Function ParseEpisodeInfoJson(EpisodeInfoJson As String) As EpisodeInfo
+        Dim episodeInfo As JObject = JObject.Parse(EpisodeInfoJson)
+
+        Dim Id = episodeInfo.Item("id")
+        Dim slug = episodeInfo.Item("slug")
+        Dim apiId = episodeInfo.Item("venueId")
+        Dim episodeNumber = episodeInfo.Item("episodeNumber")
+        Dim subRequired = episodeInfo.Item("isSubRequired")
+
+        Dim SeasonInfo = episodeInfo.Item("season")
+        Dim seasonNumber = SeasonInfo.Item("number")
+
+        Dim ShowInfo = episodeInfo.Item("show")
+        Dim showNameList = ShowInfo.Item("name")
+        Dim showName = extractShowName(showNameList)
+
+        Dim imagesList = episodeInfo.Item("images")
+        Dim imageUrl = extractEpisodeImageUrl(imagesList.Values)
+
+        Dim Episode As New EpisodeInfo With {
+            .VideoId = Id.Value(Of String),
+            .ApiId = apiId.Value(Of Integer),
+            .UrlSlug = slug.Value(Of String),
+            .EpisodeNumber = episodeNumber.Value(Of Integer),
+            .SeasonNumber = seasonNumber.Value(Of Integer),
+            .ShowName = showName,
+            .ImageUrl = imageUrl,
+            .IsFree = Not subRequired.Value(Of Boolean)
+        }
+
+        Return Episode
+    End Function
+
+    Private Function extractShowName(nameObject As JToken) As String
+        ' Prefer English, then Spanish, then Portuguese
+        Dim languageList = {"en", "es", "pt"}
+        For Each language In languageList
+            Dim title = nameObject.Item(language).Value(Of String)
+            If title IsNot Nothing And title.Length > 0 Then
+                Return title
+            End If
+        Next
+        Return "UNDEFINED TITLE"
+    End Function
+
+    Private Function extractEpisodeImageUrl(imageList As IEnumerable(Of JToken)) As String
+        ' TODO Might want to more intelligently select the episode image than to take the first one that matches
+        For Each image As JObject In imageList
+            Dim key As String = image("key").Value(Of String)
+            If key = "Key Art - Official Video Image" Or key = "Episode Thumbnail" Then
+                Dim path As String = image("path").Value(Of String)
+                Return path
+            End If
+        Next
+        Return ""
+    End Function
+
+
     Public Function IsVideoUrl() As Boolean Implements IMetadataDownloader.IsVideoUrl
         Return SafeContains(downloadUrl, "funimation.com/v/")
     End Function
@@ -196,6 +281,11 @@ Public Class FunimationExtractor
 
     Private Function BuildSeasonInfoUrl(SeasonId As String) As String
         Dim TemplateUrl = $"https://d33et77evd9bgg.cloudfront.net/data/v2/seasons/{SeasonId}.json"
+        Return TemplateUrl
+    End Function
+
+    Private Function BuildEpisodeInfoUrl(EpisodeId As String) As String
+        Dim TemplateUrl = $"https://d33et77evd9bgg.cloudfront.net/data/v2/episodes/{EpisodeId}"
         Return TemplateUrl
     End Function
 
@@ -247,6 +337,7 @@ Public Class FunimationExtractor
 
         Return EpisodeJson
     End Function
+
 
 
     ' Unused, so won't deal with it for now

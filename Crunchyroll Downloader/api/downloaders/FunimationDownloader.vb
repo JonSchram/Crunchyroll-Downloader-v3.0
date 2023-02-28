@@ -258,6 +258,7 @@ Public Class FunimationDownloader
         Evaluator.Start()
     End Sub
 
+    ' This is where it gets the information about an individual video
     Public Sub GetFunimationNewJS_Video(ByVal v1JsonUrl As String, ByVal v1JsonData As String) ', ByVal WebsiteURL As String
         Debug.WriteLine(v1JsonUrl)
         Dim v1Json As String = Nothing
@@ -395,6 +396,7 @@ Public Class FunimationDownloader
 
             Dim NameParts As String() = Main.NameBuilder.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
 
+            ' TODO: Refactor this when refactoring renaming code
             For i As Integer = 0 To NameParts.Count - 1
 
                 If NameParts(i) = "AnimeTitle" Then
@@ -484,6 +486,9 @@ Public Class FunimationDownloader
 #End Region
 #End Region
 #Region "json"
+            ' This is where it downloads the video
+            ' The site does an OPTIONS call to v1/play/{ID} first and it has a cookie set. Can do that first if it doesn't work for some reason.
+            ' There's also a playbackStreamId at the end of the video URL that I can't find a source for.
             Dim EpisodeJsonString As String = Nothing
             Dim PlayerClient As New WebClient()
             PlayerClient.Encoding = Encoding.UTF8
@@ -524,6 +529,7 @@ Public Class FunimationDownloader
                 EpisodeJsonString = PlayerClient.DownloadString(BaseUrl + FunimationEpisodeJson + FunimationDeviceRegion)
                 'ErrorBrowserUrl = "https://www.funimation.com/api/showexperience/" + ExperienceID + "/?pinst_id=fzQc9p9f"
             End Try
+            ' This parses the playlist file
             Dim SubsFiles As New List(Of FunimationSubs)
             Dim VideoStreams As New List(Of FunimationStream)
             Dim EpisodeJson As JObject = JObject.Parse(EpisodeJsonString)

@@ -42,6 +42,11 @@ Public Class AddVideo
     '    Return True
     'End Function
 
+    ''' <summary>
+    ''' Show the selection dialog for save location
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub outputTextBox_Click(sender As Object, e As EventArgs) Handles outputTextBox.Click
         Dim FolderBrowserDialog1 As New FolderBrowserDialog With {
             .RootFolder = Environment.SpecialFolder.MyComputer

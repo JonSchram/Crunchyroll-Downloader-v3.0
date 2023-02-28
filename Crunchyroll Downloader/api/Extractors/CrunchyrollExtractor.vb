@@ -48,4 +48,8 @@ Public Class CrunchyrollExtractor
     Public Function IsVideoUrl() As Boolean Implements IMetadataDownloader.IsVideoUrl
         Throw New NotImplementedException()
     End Function
+
+    Public Function getEpisodeInfo(EpisodeId As String) As EpisodeInfo Implements IMetadataDownloader.getEpisodeInfo
+        Throw New NotImplementedException()
+    End Function
 End Class
