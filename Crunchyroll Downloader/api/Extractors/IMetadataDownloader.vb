@@ -21,5 +21,11 @@
     ''' <returns></returns>
     Function getEpisodeInfo(EpisodeId As String) As EpisodeInfo
 
+    ''' <summary>
+    ''' Downloads the episode info from the download URL, assumed to be a link to an episode.
+    ''' </summary>
+    ''' <returns></returns>
+    Function getEpisodeInfo() As EpisodeInfo
+
     Function IsVideoUrl() As Boolean
 End Interface

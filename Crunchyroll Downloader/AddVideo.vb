@@ -1,4 +1,5 @@
 ﻿Option Strict On
+Imports System.Diagnostics.Eventing.Reader
 
 Public Class AddVideo
     Public Property OutputPath As String = ""
@@ -16,6 +17,7 @@ Public Class AddVideo
 
         Dim Api As New DownloaderApi(downloadUrl)
         Dim MetadataApi As IMetadataDownloader = Api.GetMetadataDownloader()
+        Dim downloadQueue As DownloadQueue = DownloadQueue.getInstance()
 
         If Not MetadataApi.IsVideoUrl() Then
             'MsgBox("Downloading season information")
@@ -29,11 +31,22 @@ Public Class AddVideo
                 Dim episodeList = seasonSelectorForm.episodeList
                 Dim startEpisode = seasonSelectorForm.startEpisode
                 Dim endEpisode = seasonSelectorForm.endEpisode
+
+                Dim minEpisode = Math.Min(startEpisode, endEpisode)
+                Dim maxEpisode = Math.Max(startEpisode, endEpisode)
+                For episodeNum = startEpisode To endEpisode
+                    Dim Episode = episodeList.Item(episodeNum)
+                    Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode.ApiUrlSlug)
+                    downloadQueue.enqueue(EpisodeInfo)
+                Next
                 ' StartEpisode and endEpisode are indices into episodeList
-                Dim downloadQueue As DownloadQueue = DownloadQueue.getInstance()
-                downloadQueue.enqueueRange(episodeList, startEpisode, endEpisode)
             End If
             seasonSelectorForm.Dispose()
+        Else
+            ' Individual video
+            Dim episodeInfo = MetadataApi.getEpisodeInfo()
+            downloadQueue.enqueue(episodeInfo)
+
         End If
 
     End Sub

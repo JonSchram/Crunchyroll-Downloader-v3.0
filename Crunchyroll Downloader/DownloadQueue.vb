@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Collections.Specialized
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 ''' <summary>
 ''' 
@@ -9,7 +10,7 @@ Imports System.Runtime.CompilerServices
 ''' Might want to consider creating queues for each site or allowing you to get the next one for a site.
 ''' </summary>
 Public Class DownloadQueue
-    Inherits ObservableCollection(Of Episode)
+    Inherits BindingList(Of EpisodeInfo)
 
     Private Shared Instance As DownloadQueue = Nothing
 
@@ -23,12 +24,11 @@ Public Class DownloadQueue
         '    .DataSource = NotifyQueue
         '}
 
-    End Sub
+        queueBinding = New BindingSource With {
+            .DataSource = Me
+        }
 
-    Public Function getList() As List(Of Episode)
-        Return Me.ToList()
-        'Return NotifyQueue.ToList()
-    End Function
+    End Sub
 
     Public Shared Function getInstance() As DownloadQueue
         If Instance Is Nothing Then
@@ -38,12 +38,12 @@ Public Class DownloadQueue
         Return Instance
     End Function
 
-    Public Sub enqueue(episode As Episode)
+    Public Sub enqueue(episode As EpisodeInfo)
         Me.Add(episode)
         'NotifyQueue.Add(episode)
     End Sub
 
-    Public Sub enqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer)
+    Public Sub enqueueRange(episodeList As List(Of EpisodeInfo), startNum As Integer, endNum As Integer)
         Dim minEpisode = Math.Min(startNum, endNum)
         Dim maxEpisode = Math.Max(startNum, endNum)
         Dim episodeCount = maxEpisode - minEpisode + 1
@@ -54,7 +54,7 @@ Public Class DownloadQueue
         Next
     End Sub
 
-    Public Function Dequeue() As Episode
+    Public Function Dequeue() As EpisodeInfo
         ' TODO: This will dequeue episodes without the web site information.
         ' How do we get the episode info and the playlist? Save the API in the queue too?
         ' Allow the API to decide how to pick up from an episode?
@@ -69,9 +69,5 @@ Public Class DownloadQueue
     Public Function size() As Integer
         Return Me.Count()
         'Return NotifyQueue.Count()
-    End Function
-
-    Public Function getBindingSource() As BindingSource
-        Return queueBinding
     End Function
 End Class

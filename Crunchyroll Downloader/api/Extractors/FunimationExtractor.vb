@@ -21,6 +21,13 @@ Public Class FunimationExtractor
     ' - It can list episodes for seasons
     ' - This class should be about metadata, so maybe needs renaming.
 
+    ' This API is feeling inconsistent, holding onto a download URL  but requiring the API user to pass
+    ' the correct season or episode ID? 
+    ' Maybe pass the API response back to further API methods?
+    ' Still feels a little weird, because nothing in this class requires any state.
+    ' AND if you need to go back and get more details about an episode, you can't do it
+    ' unless you have a URL, and then you never need that URL ever again
+
     Public Sub New(downloadUrl As String)
         Me.downloadUrl = downloadUrl
     End Sub
@@ -191,6 +198,11 @@ Public Class FunimationExtractor
     ' If it retrieves the show name as well, this could make it much easier to rename the file afterwards.
     ' Each download task has everything it needs in the episode object to name the file.
 
+
+    ' TODO: This assumes that you are getting the episode info from the results of the season API.
+    ' Need a way to get episode info from the episode URL
+    ' This class has a download URL as a class member so maybe that is good enough
+
     Public Function getEpisodeInfo(EpisodeId As String) As EpisodeInfo Implements IMetadataDownloader.getEpisodeInfo
         Dim infoUrl = BuildEpisodeInfoUrl(EpisodeId)
         Dim EpisodeInfoJson = DownloadJson(infoUrl)
@@ -205,6 +217,9 @@ Public Class FunimationExtractor
         Dim Id = episodeInfo.Item("id")
         Dim slug = episodeInfo.Item("slug")
         Dim apiId = episodeInfo.Item("venueId")
+        ' PROBLEM: The conversion below fails for some episode numbers
+        ' Usually those ".5" episodes. Needs to be a double, do a lot of testing to see
+        ' if there's anything else that can fail, like having a letter
         Dim episodeNumber = episodeInfo.Item("episodeNumber")
         Dim subRequired = episodeInfo.Item("isSubRequired")
 
@@ -216,7 +231,7 @@ Public Class FunimationExtractor
         Dim showName = extractShowName(showNameList)
 
         Dim imagesList = episodeInfo.Item("images")
-        Dim imageUrl = extractEpisodeImageUrl(imagesList.Values)
+        Dim imageUrl = extractEpisodeImageUrl(imagesList.ToList)
 
         Dim Episode As New EpisodeInfo With {
             .VideoId = Id.Value(Of String),
@@ -246,7 +261,7 @@ Public Class FunimationExtractor
 
     Private Function extractEpisodeImageUrl(imageList As IEnumerable(Of JToken)) As String
         ' TODO Might want to more intelligently select the episode image than to take the first one that matches
-        For Each image As JObject In imageList
+        For Each image As JToken In imageList
             Dim key As String = image("key").Value(Of String)
             If key = "Key Art - Official Video Image" Or key = "Episode Thumbnail" Then
                 Dim path As String = image("path").Value(Of String)
@@ -256,6 +271,21 @@ Public Class FunimationExtractor
         Return ""
     End Function
 
+    Public Function getEpisodeInfo() As EpisodeInfo Implements IMetadataDownloader.getEpisodeInfo
+        If Not IsVideoUrl() Then
+            Return Nothing
+        End If
+
+        Dim episodeSlug = extractEpisodeSlug(downloadUrl)
+        Dim episodeInfoUrl = BuildEpisodeInfoUrl(episodeSlug)
+        Dim EpisodeJson = DownloadJson(episodeInfoUrl)
+        Return ParseEpisodeInfoJson(EpisodeJson)
+    End Function
+
+    Private Function extractEpisodeSlug(url As String) As String
+        Dim episodeName = Regex.Match(url, "funimation.com/v/.*/(.*)/?").Groups(1).Value
+        Return episodeName
+    End Function
 
     Public Function IsVideoUrl() As Boolean Implements IMetadataDownloader.IsVideoUrl
         Return SafeContains(downloadUrl, "funimation.com/v/")
@@ -285,7 +315,7 @@ Public Class FunimationExtractor
     End Function
 
     Private Function BuildEpisodeInfoUrl(EpisodeId As String) As String
-        Dim TemplateUrl = $"https://d33et77evd9bgg.cloudfront.net/data/v2/episodes/{EpisodeId}"
+        Dim TemplateUrl = $"https://d33et77evd9bgg.cloudfront.net/data/v2/episodes/{EpisodeId}.json"
         Return TemplateUrl
     End Function
 
@@ -337,6 +367,8 @@ Public Class FunimationExtractor
 
         Return EpisodeJson
     End Function
+
+
 
 
 

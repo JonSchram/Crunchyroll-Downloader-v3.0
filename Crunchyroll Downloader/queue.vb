@@ -1,6 +1,7 @@
 ﻿Option Strict On
 
 Imports System.Collections.ObjectModel
+Imports System.ComponentModel
 Imports System.Net
 Imports MetroFramework
 Imports MetroFramework.Components
@@ -8,7 +9,6 @@ Imports MetroFramework.Components
 Public Class Queue
 
     Dim Manager As MetroStyleManager = Main.Manager
-    ' Dim bs As BindingSource = New BindingSource
 
     Private episodeQueue As DownloadQueue = DownloadQueue.getInstance()
 
@@ -18,11 +18,7 @@ Public Class Queue
 
         ListBox1.BackColor = Main.BackColorValue
         ListBox1.ForeColor = Main.ForeColorValue
-        'bs.DataSource = Main.ListBoxList
-        ' TODO this isn't showing new queue items as they are added. Might need to implement INotifyPropertyChanged
-        ' on the queue / roll it myself
         ListBox1.DataSource = episodeQueue
-        'ListBox1.DisplayMember
 
         Btn_min.Image = Main.MinImg
         Btn_Close.Image = Main.CloseImg
@@ -45,14 +41,6 @@ Public Class Queue
 
     Private Sub Btn_Close_MouseLeave(sender As Object, e As EventArgs) Handles Btn_Close.MouseLeave, Btn_Close.LostFocus
         Btn_Close.Image = Main.CloseImg
-    End Sub
-
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles UpdateListTimer.Tick
-        ' TODO: Verify that this works without using a timer
-        If Main.ListBoxList.Count <> ListBox1.Items.Count Then
-            ' bs.ResetBindings(False)
-        End If
-
     End Sub
 
     Private Sub Queue_Resize(sender As Object, e As EventArgs) Handles Me.Resize

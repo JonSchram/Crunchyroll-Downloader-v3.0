@@ -52,4 +52,8 @@ Public Class CrunchyrollExtractor
     Public Function getEpisodeInfo(EpisodeId As String) As EpisodeInfo Implements IMetadataDownloader.getEpisodeInfo
         Throw New NotImplementedException()
     End Function
+
+    Public Function getEpisodeInfo() As EpisodeInfo Implements IMetadataDownloader.getEpisodeInfo
+        Throw New NotImplementedException()
+    End Function
 End Class

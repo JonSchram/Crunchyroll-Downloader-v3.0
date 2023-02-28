@@ -21,5 +21,8 @@
 
     Public Property IsFree As Boolean
 
+    Public Overrides Function ToString() As String
+        Return $"{ShowName} - Season {SeasonNumber} Episode {EpisodeNumber}"
+    End Function
 
 End Class

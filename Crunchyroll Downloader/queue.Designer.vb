@@ -24,7 +24,6 @@ Partial Class Queue
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
-        Me.UpdateListTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Btn_Close = New System.Windows.Forms.Button()
         Me.Btn_min = New System.Windows.Forms.Button()
         Me.RunQueue = New MetroFramework.Controls.MetroToggle()
@@ -34,6 +33,9 @@ Partial Class Queue
         '
         'ListBox1
         '
+        Me.ListBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ListBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(243, Byte), Integer), CType(CType(243, Byte), Integer))
         Me.ListBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListBox1.FormattingEnabled = True
@@ -42,11 +44,6 @@ Partial Class Queue
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(700, 304)
         Me.ListBox1.TabIndex = 0
-        '
-        'UpdateListTimer
-        '
-        Me.UpdateListTimer.Enabled = True
-        Me.UpdateListTimer.Interval = 1000
         '
         'Btn_Close
         '
@@ -84,15 +81,18 @@ Partial Class Queue
         '
         'RunQueue
         '
+        Me.RunQueue.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.RunQueue.Location = New System.Drawing.Point(325, 415)
         Me.RunQueue.Name = "RunQueue"
         Me.RunQueue.Size = New System.Drawing.Size(96, 20)
         Me.RunQueue.TabIndex = 50
-        Me.RunQueue.Text = "Aus"
+        Me.RunQueue.Text = "Off"
         Me.RunQueue.UseSelectable = True
         '
         'Label1
         '
+        Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.FontWeight = MetroFramework.MetroLabelWeight.Regular
         Me.Label1.Location = New System.Drawing.Point(25, 385)
         Me.Label1.Name = "Label1"
@@ -125,7 +125,6 @@ Partial Class Queue
 
     End Sub
     Public WithEvents ListBox1 As ListBox
-    Friend WithEvents UpdateListTimer As Timer
     Friend WithEvents Btn_Close As Button
     Friend WithEvents Btn_min As Button
     Friend WithEvents RunQueue As MetroFramework.Controls.MetroToggle
