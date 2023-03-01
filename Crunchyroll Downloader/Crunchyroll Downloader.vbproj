@@ -159,6 +159,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="api\DownloaderApi.vb" />
+    <Compile Include="api\downloaders\IEpisodeDownloader.vb" />
     <Compile Include="api\metadata\EpisodeInfo.vb" />
     <Compile Include="api\Extractors\IMetadataDownloader.vb" />
     <Compile Include="api\metadata\Episode.vb" />

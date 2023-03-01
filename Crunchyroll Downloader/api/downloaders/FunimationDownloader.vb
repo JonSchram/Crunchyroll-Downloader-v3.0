@@ -12,6 +12,8 @@ Imports System.Threading
 ' Ideally have a download task class that contains all information required to do the download.
 ' Then maintain a list of these somewhere. It could even be an abstract class so that funimation and crunchyroll can have site-specific logic
 Public Class FunimationDownloader
+    Implements IEpisodeDownloader
+
     ' Seems to indicate that the app isn't busy downloading from funimation
     Public Funimation_Grapp_RDY As Boolean = True
     Public FunimationAPIRegion As String = Nothing
@@ -43,7 +45,16 @@ Public Class FunimationDownloader
     ' - Allows you to download the episode.
     ' - Support downloading a season via link or force you to format as episodes first?
     ' - Maybe allow you to give a season and episode number and it knows how to get it?
+    ' - New idea: pass a FunimationEpisodeInfo so it can pick out what it needs
 
+    Public Sub DownloadEpisode(Episode As EpisodeInfo) Implements IEpisodeDownloader.DownloadEpisode
+        Throw New NotImplementedException()
+    End Sub
+
+    ' Need to write new code to handle the m3u8 downloads.
+    ' ---------------- EVERYTHING BELOW THIS LINE IS OLD. -------------------
+    ' Only preserved for reference
+    '------------------------------------------------------------------------
 
     ''' Need to call GetFunimationJS_Seasons with "https://title-api.prd.funimationsvc.com/v2/shows/" + ShowPath + Main.FunimationAPIRegion
     ''' 
@@ -968,6 +979,8 @@ Public Class FunimationDownloader
         End Try
         Funimation_Grapp_RDY = True
     End Sub
+
+
 
 #End Region
 
