@@ -233,7 +233,7 @@ Public Class FunimationExtractor
         Dim imagesList = episodeInfo.Item("images")
         Dim imageUrl = extractEpisodeImageUrl(imagesList.ToList)
 
-        Dim Episode As New EpisodeInfo With {
+        Dim Episode As New FunimationEpisodeInfo With {
             .VideoId = Id.Value(Of String),
             .ApiId = apiId.Value(Of Integer),
             .UrlSlug = slug.Value(Of String),

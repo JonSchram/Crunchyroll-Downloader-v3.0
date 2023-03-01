@@ -1,4 +1,4 @@
-﻿Public Class EpisodeInfo
+﻿Public MustInherit Class EpisodeInfo
     ' The ID of the corresponding video playback info
     Public Property VideoId As String
 
