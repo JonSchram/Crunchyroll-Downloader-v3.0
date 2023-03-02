@@ -1,7 +1,9 @@
 ﻿Imports Microsoft.Web.WebView2.Core
 Imports Newtonsoft.Json.Linq
+Imports System.Collections.Specialized
 Imports System.IO
 Imports System.Net
+Imports System.Net.Http
 Imports System.Text
 Imports System.Threading
 
@@ -50,6 +52,131 @@ Public Class FunimationDownloader
     Public Sub DownloadEpisode(Episode As EpisodeInfo) Implements IEpisodeDownloader.DownloadEpisode
         Throw New NotImplementedException()
     End Sub
+
+    Public Function GetPlaybacks(Episode As EpisodeInfo) As List(Of Playback)
+        ' A playback file contains a primary and fallbacks. Not sure what they do but maybe it's in case the primary doesn't respond?
+        ' File contents seem to be exactly the same format but with different bandwidth metadata / video download URLs (there is a slug that seems to be a GUID)
+        ' API paths are the same
+        ' So if we get a list of fallbacks, might as well parse them in case they're needed
+        Dim playbackUrl = buildPlaybackUrl(Episode.VideoId)
+        Dim playbackJson = DownloadJson(playbackUrl)
+        Dim playbackList = parsePlaybackJson(playbackJson)
+
+        Return playbackList
+    End Function
+    Private Function parsePlaybackJson(PlaybackJson As String) As List(Of Playback)
+        Dim Result = New List(Of Playback)
+
+        Dim playbackObject = JObject.Parse(PlaybackJson)
+
+        Dim primaryPlayback = playbackObject.Item("primary")
+        Dim fallbackPlaybacks = playbackObject.Item("fallback").Values
+
+        Result.Add(buildPlayback(primaryPlayback))
+
+        For Each fallback As JToken In fallbackPlaybacks
+            Result.Add(buildPlayback(fallback))
+        Next
+        Return Result
+    End Function
+
+    Private Function buildPlayback(playbackToken As JToken) As Playback
+        Dim videoId = playbackToken.Item("venueVideoId")
+        Dim playlistPath = playbackToken.Item("manifestPath")
+        Dim subtitlesToken = playbackToken.Item("subtitles")
+        Dim subtitlesList = buildSubtitles(subtitlesToken.Values(Of JToken))
+
+        Dim PlaybackObject = New Playback() With {
+               .VideoId = videoId.Value(Of String),
+               .PlaylistPath = playlistPath.Value(Of String),
+               .Subtitles = subtitlesList
+        }
+
+        Return PlaybackObject
+    End Function
+
+    Private Function buildSubtitles(SubtitlesList As IEnumerable(Of JToken)) As List(Of Subtitle)
+        Dim result = New List(Of Subtitle)
+        For Each Subtitle In SubtitlesList
+            Dim path = Subtitle.Item("FilePath")
+            Dim language = Subtitle.Item("languageCode")
+            Dim format = Subtitle.Item("fileExt")
+
+            result.Add(New Subtitle() With {
+            .Path = path.Value(Of String),
+            .Format = format.Value(Of String),
+            .Language = language.Value(Of String)
+            })
+        Next
+        Return result
+    End Function
+
+    Private Function buildPlaybackUrl(episodeId As String) As String
+        ' Original API call has playbackStreamId set
+        Dim TemplateUrl = $"https://playback.prd.funimationsvc.com/v1/play/{episodeId}?deviceType=Web"
+        ' May want to have another URL here. If the login token is absent, uses an anonymous URL:
+        ' https://playback.prd.funimationsvc.com/v1/play/anonymous/
+        Return TemplateUrl
+    End Function
+
+
+    ' TODO: Refactor this to be shared with extractor
+    Private Function DownloadJson(JsonUrl As String) As String
+        Try
+            Using client As New WebClient()
+                client.Encoding = System.Text.Encoding.UTF8
+                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+                Return client.DownloadString(JsonUrl)
+            End Using
+        Catch ex As Exception
+            Debug.WriteLine("error- getting funimation SeasonJson data")
+            ' Main.Navigate needed?
+        End Try
+        ' Return parseable but empty object
+        Return "{}"
+    End Function
+
+    ''' <summary>
+    ''' Sends an OPTIONS Message to the json URL and returns cookies.
+    ''' This might not be needed, if the API accepts the GET request.
+    ''' </summary>
+    ''' <param name="JsonUrl"></param>
+    ''' <returns></returns>
+    Private Async Function DoJsonOptions(JsonUrl As String) As Task(Of CookieCollection)
+        Dim cookies = New CookieContainer()
+        Try
+            Dim messageHandler = New HttpClientHandler With {
+                .UseCookies = True,
+                .CookieContainer = cookies
+            }
+            Dim myHttpClient As New HttpClient(messageHandler)
+            myHttpClient.DefaultRequestHeaders.Add("User-Agent", My.Resources.ffmpeg_user_agend.Replace("""", ""))
+
+            Dim message = New HttpRequestMessage(HttpMethod.Options, JsonUrl)
+            Dim response = Await myHttpClient.SendAsync(message)
+
+            Debug.WriteLine(cookies.ToString())
+
+
+            'Using client As New WebClient()
+            '    client.Encoding = System.Text.Encoding.UTF8
+            '    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+            '    Dim optionsValues As New NameValueCollection From {
+            '        {"deviceType", "web"}
+            '    }
+            '    ' This may need to be replaced with "OPTIONS" but will test
+            '    client.UploadValues(JsonUrl, HttpMethod.Options.ToString(), optionsValues)
+            '    Return client.DownloadString(JsonUrl)
+            'End Using
+        Catch ex As Exception
+            Debug.WriteLine("error- getting funimation SeasonJson data")
+            ' Main.Navigate needed?
+        End Try
+        Return cookies.GetCookies(New Uri(".prd.funimationsvc.com"))
+    End Function
+
+
+
 
     ' Need to write new code to handle the m3u8 downloads.
     ' ---------------- EVERYTHING BELOW THIS LINE IS OLD. -------------------

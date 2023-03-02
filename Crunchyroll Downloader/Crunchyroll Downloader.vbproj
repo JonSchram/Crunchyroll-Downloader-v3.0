@@ -167,7 +167,9 @@
     <Compile Include="api\metadata\FunimationEpisodeInfo.vb" />
     <Compile Include="api\metadata\FunimationSeason.vb" />
     <Compile Include="api\metadata\FunimationSeries.vb" />
+    <Compile Include="api\metadata\Video\Playback.vb" />
     <Compile Include="api\metadata\Season.vb" />
+    <Compile Include="api\metadata\Video\Subtitle.vb" />
     <Compile Include="CRD-Classes.vb" />
     <Compile Include="DirectorySettings.vb" />
     <Compile Include="api\downloaders\CrunchyrollDownloader.vb" />
