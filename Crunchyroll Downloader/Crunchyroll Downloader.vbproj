@@ -72,7 +72,7 @@
     <OutputPath>bin\x64\Release\</OutputPath>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <Optimize>true</Optimize>
-    <DefineDebug>true</DefineDebug>
+    <DefineDebug>false</DefineDebug>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
@@ -171,6 +171,12 @@
     <Compile Include="api\metadata\Season.vb" />
     <Compile Include="api\metadata\Video\Subtitle.vb" />
     <Compile Include="CRD-Classes.vb" />
+    <Compile Include="debug\DebugForm.Designer.vb">
+      <DependentUpon>DebugForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="debug\DebugForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DirectorySettings.vb" />
     <Compile Include="api\downloaders\CrunchyrollDownloader.vb" />
     <Compile Include="api\downloaders\FunimationDownloader.vb" />
@@ -263,6 +269,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AddVideo.resx">
       <DependentUpon>AddVideo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="debug\DebugForm.resx">
+      <DependentUpon>DebugForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ffmpeg_option.resx">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>

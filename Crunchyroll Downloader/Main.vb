@@ -412,8 +412,12 @@ Public Class Main
 
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-
+#If DEBUG Then
+        ' TODO: Might want to programmatically add the debug button so it's not creating it and an event handler in release builds
+        DebugButton.Visible = True
+#Else
+        DebugButton.Visible = false
+#End If
 
         FillArray()
 
@@ -2577,6 +2581,11 @@ Public Class Main
             My.Settings.Save()
 
         End If
+    End Sub
+
+    Private Sub debugButton_Click(sender As Object, e As EventArgs) Handles DebugButton.Click
+        Dim debugWindow = New DebugForm()
+        debugWindow.Show()
     End Sub
 
 #End Region
