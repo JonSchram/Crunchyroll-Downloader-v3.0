@@ -26,7 +26,7 @@ Partial Class DebugForm
         Me.TabPageEpisode = New System.Windows.Forms.TabPage()
         Me.ResultLabel = New System.Windows.Forms.Label()
         Me.OutputTextBox = New System.Windows.Forms.TextBox()
-        Me.ParseButton = New System.Windows.Forms.Button()
+        Me.ParseJsonButton = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.EpisodeInfoRadioButton = New System.Windows.Forms.RadioButton()
         Me.SeasonInfoRadioButton = New System.Windows.Forms.RadioButton()
@@ -37,10 +37,16 @@ Partial Class DebugForm
         Me.InputLabel = New System.Windows.Forms.Label()
         Me.inputTextBox = New System.Windows.Forms.TextBox()
         Me.TabPagePlaylist = New System.Windows.Forms.TabPage()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.PlaylistTextBox = New System.Windows.Forms.TextBox()
+        Me.ParsePlaylistButton = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.PlaylistOutputTextBox = New System.Windows.Forms.TextBox()
         Me.TabControlOperations.SuspendLayout()
         Me.TabPageEpisode.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.TabPagePlaylist.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControlOperations
@@ -60,7 +66,7 @@ Partial Class DebugForm
         '
         Me.TabPageEpisode.Controls.Add(Me.ResultLabel)
         Me.TabPageEpisode.Controls.Add(Me.OutputTextBox)
-        Me.TabPageEpisode.Controls.Add(Me.ParseButton)
+        Me.TabPageEpisode.Controls.Add(Me.ParseJsonButton)
         Me.TabPageEpisode.Controls.Add(Me.GroupBox2)
         Me.TabPageEpisode.Controls.Add(Me.GroupBox1)
         Me.TabPageEpisode.Controls.Add(Me.InputLabel)
@@ -88,22 +94,22 @@ Partial Class DebugForm
         '
         Me.OutputTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OutputTextBox.Enabled = False
         Me.OutputTextBox.Location = New System.Drawing.Point(302, 315)
         Me.OutputTextBox.Multiline = True
         Me.OutputTextBox.Name = "OutputTextBox"
+        Me.OutputTextBox.ReadOnly = True
         Me.OutputTextBox.Size = New System.Drawing.Size(361, 79)
         Me.OutputTextBox.TabIndex = 5
         '
-        'ParseButton
+        'ParseJsonButton
         '
-        Me.ParseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ParseButton.Location = New System.Drawing.Point(669, 326)
-        Me.ParseButton.Name = "ParseButton"
-        Me.ParseButton.Size = New System.Drawing.Size(93, 40)
-        Me.ParseButton.TabIndex = 4
-        Me.ParseButton.Text = "Parse JSON"
-        Me.ParseButton.UseVisualStyleBackColor = True
+        Me.ParseJsonButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ParseJsonButton.Location = New System.Drawing.Point(669, 326)
+        Me.ParseJsonButton.Name = "ParseJsonButton"
+        Me.ParseJsonButton.Size = New System.Drawing.Size(93, 40)
+        Me.ParseJsonButton.TabIndex = 4
+        Me.ParseJsonButton.Text = "Parse JSON"
+        Me.ParseJsonButton.UseVisualStyleBackColor = True
         '
         'GroupBox2
         '
@@ -202,11 +208,17 @@ Partial Class DebugForm
         Me.inputTextBox.Location = New System.Drawing.Point(6, 19)
         Me.inputTextBox.Multiline = True
         Me.inputTextBox.Name = "inputTextBox"
+        Me.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.inputTextBox.Size = New System.Drawing.Size(756, 270)
         Me.inputTextBox.TabIndex = 0
         '
         'TabPagePlaylist
         '
+        Me.TabPagePlaylist.Controls.Add(Me.Label2)
+        Me.TabPagePlaylist.Controls.Add(Me.PlaylistOutputTextBox)
+        Me.TabPagePlaylist.Controls.Add(Me.ParsePlaylistButton)
+        Me.TabPagePlaylist.Controls.Add(Me.Label1)
+        Me.TabPagePlaylist.Controls.Add(Me.PlaylistTextBox)
         Me.TabPagePlaylist.Location = New System.Drawing.Point(4, 22)
         Me.TabPagePlaylist.Name = "TabPagePlaylist"
         Me.TabPagePlaylist.Padding = New System.Windows.Forms.Padding(3)
@@ -214,6 +226,60 @@ Partial Class DebugForm
         Me.TabPagePlaylist.TabIndex = 1
         Me.TabPagePlaylist.Text = "M3u8 playlist"
         Me.TabPagePlaylist.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 3)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(90, 13)
+        Me.Label1.TabIndex = 3
+        Me.Label1.Text = "Playlist Response"
+        '
+        'PlaylistTextBox
+        '
+        Me.PlaylistTextBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PlaylistTextBox.Location = New System.Drawing.Point(9, 19)
+        Me.PlaylistTextBox.Multiline = True
+        Me.PlaylistTextBox.Name = "PlaylistTextBox"
+        Me.PlaylistTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.PlaylistTextBox.Size = New System.Drawing.Size(753, 215)
+        Me.PlaylistTextBox.TabIndex = 2
+        '
+        'ParsePlaylistButton
+        '
+        Me.ParsePlaylistButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ParsePlaylistButton.Location = New System.Drawing.Point(679, 349)
+        Me.ParsePlaylistButton.Name = "ParsePlaylistButton"
+        Me.ParsePlaylistButton.Size = New System.Drawing.Size(83, 45)
+        Me.ParsePlaylistButton.TabIndex = 4
+        Me.ParsePlaylistButton.Text = "Parse M3U8"
+        Me.ParsePlaylistButton.UseVisualStyleBackColor = True
+        '
+        'Label2
+        '
+        Me.Label2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(6, 237)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(62, 13)
+        Me.Label2.TabIndex = 8
+        Me.Label2.Text = "Parse result"
+        '
+        'PlaylistOutputTextBox
+        '
+        Me.PlaylistOutputTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PlaylistOutputTextBox.Location = New System.Drawing.Point(9, 253)
+        Me.PlaylistOutputTextBox.Multiline = True
+        Me.PlaylistOutputTextBox.Name = "PlaylistOutputTextBox"
+        Me.PlaylistOutputTextBox.ReadOnly = True
+        Me.PlaylistOutputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.PlaylistOutputTextBox.Size = New System.Drawing.Size(664, 141)
+        Me.PlaylistOutputTextBox.TabIndex = 7
         '
         'DebugForm
         '
@@ -230,6 +296,8 @@ Partial Class DebugForm
         Me.GroupBox2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.TabPagePlaylist.ResumeLayout(False)
+        Me.TabPagePlaylist.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -246,7 +314,12 @@ Partial Class DebugForm
     Friend WithEvents EpisodeInfoRadioButton As RadioButton
     Friend WithEvents SeasonInfoRadioButton As RadioButton
     Friend WithEvents SeriesInfoRadioButton As RadioButton
-    Friend WithEvents ParseButton As Button
+    Friend WithEvents ParseJsonButton As Button
     Friend WithEvents ResultLabel As Label
     Friend WithEvents OutputTextBox As TextBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents PlaylistTextBox As TextBox
+    Friend WithEvents ParsePlaylistButton As Button
+    Friend WithEvents Label2 As Label
+    Friend WithEvents PlaylistOutputTextBox As TextBox
 End Class

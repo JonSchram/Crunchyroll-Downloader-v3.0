@@ -195,6 +195,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\FileUtilities.vb" />
+    <Compile Include="playlist\CommentParser.vb" />
+    <Compile Include="playlist\Playlist.vb" />
+    <Compile Include="playlist\PlaylistParser.vb" />
     <Compile Include="queue.Designer.vb">
       <DependentUpon>queue.vb</DependentUpon>
     </Compile>

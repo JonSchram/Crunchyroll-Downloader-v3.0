@@ -1,5 +1,5 @@
 ﻿Public Class DebugForm
-    Private Sub ParseButton_Click(sender As Object, e As EventArgs) Handles ParseButton.Click
+    Private Sub ParseJsonButton_Click(sender As Object, e As EventArgs) Handles ParseJsonButton.Click
         If FunimationRadioButton.Checked Then
             parseFunimation()
         End If
@@ -18,6 +18,11 @@
         End If
     End Sub
 
+    Private Sub ParsePlaylistButton_Click(sender As Object, e As EventArgs) Handles ParsePlaylistButton.Click
+        Dim parser = New PlaylistParser()
+        Dim playlistText = PlaylistTextBox.Text
 
-
+        Dim playlist = parser.parseEpisodeStreams(playlistText)
+        PlaylistOutputTextBox.Text = playlist.ToString
+    End Sub
 End Class
