@@ -18,6 +18,8 @@ Namespace hls.playlist
 
         Public Property IframeStreams As List(Of IFrameStream) = New List(Of IFrameStream)
 
+        ' Not planning to support session data, don't see any use case for this at all
+
         Public Overrides Function ToString() As String
             Return $"{{
   isIndependentSegments: {IndependentSegments},

@@ -1,6 +1,16 @@
 ﻿Namespace hls.tags
     Public Class TagParser
 
+        ' TODO: Every tag parses nicely with this
+        ' ... except for EXTINF. For some reason, everything is either a single value
+        ' or a CSV of KEY=VALUE pairs.
+        ' EXTINF uses a bare CSV. This can't be represented in the current tag
+        ' Maybe this needs to delegate the parsing based on the tag?
+        ' Could have a default that uses this logic and another specifically for EXTINF
+        ' The one issue is that this can't return that object directly,
+        ' because some tags need data from multiple lines.
+        ' Or maybe this is fine. I see logic to handle a comma without a value set
+        ' Maybe this should be added to a value list (replacing single Value)
         Public Function ParseTagString(Input As String) As Tag
             If Input Is Nothing Or Input.Length = 0 Then
                 Return Nothing
