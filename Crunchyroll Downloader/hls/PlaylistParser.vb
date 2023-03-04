@@ -65,7 +65,7 @@ Namespace hls
                             Dim IFrameStream As New IFrameStream(parsedTag)
                             episodePlaylist.IframeStreams.Add(IFrameStream)
                         Case "EXT-X-INDEPENDENT-SEGMENTS"
-                            episodePlaylist.IsIndependentSegments = True
+                            episodePlaylist.IndependentSegments = True
                         Case "EXT-X-SESSION-KEY"
                             episodePlaylist.Key = New SessionKey(parsedTag)
                     End Select

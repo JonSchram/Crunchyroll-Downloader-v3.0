@@ -8,8 +8,7 @@ Namespace hls.playlist
     ''' A playlist that contains multiple multiple independent variants of a stream.
     ''' </summary>
     Public Class MasterPlaylist
-
-        Public Property IsIndependentSegments As Boolean = False
+        Inherits AbstractPlaylist
 
         Public Property Key As SessionKey
 
@@ -21,7 +20,8 @@ Namespace hls.playlist
 
         Public Overrides Function ToString() As String
             Return $"{{
-  isIndependentSegments: {IsIndependentSegments},
+  isIndependentSegments: {IndependentSegments},
+  StartPlayTime: {StartPlayTime},
   Key: {Key},
   PlaylistMedia: {FormatFieldList(PlaylistMedia)},
   StreamVariants: {FormatFieldList(StreamVariants)},
