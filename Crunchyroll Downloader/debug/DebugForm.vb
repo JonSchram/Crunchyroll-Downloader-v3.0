@@ -1,4 +1,6 @@
-﻿Public Class DebugForm
+﻿Imports Crunchyroll_Downloader.hls
+
+Public Class DebugForm
     Private Sub ParseJsonButton_Click(sender As Object, e As EventArgs) Handles ParseJsonButton.Click
         If FunimationRadioButton.Checked Then
             parseFunimation()

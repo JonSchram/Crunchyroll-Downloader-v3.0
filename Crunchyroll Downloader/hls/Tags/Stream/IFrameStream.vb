@@ -1,33 +1,35 @@
 ﻿Imports Microsoft.VisualBasic.Devices
-''' <summary>
-''' Represents an I-frame only video stream.
-''' </summary>
-Public Class IFrameStream
-    Inherits AbstractStream
 
-    Public Sub New(SourceTag As Tag)
-        MyBase.New(SourceTag)
+Namespace hls.tags.stream
+    ''' <summary>
+    ''' Represents an I-frame only video stream.
+    ''' </summary>
+    Public Class IFrameStream
+        Inherits AbstractStream
 
-        If GetTagName() <> SourceTag.getTagName() Then
-            Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for an I-frame stream, expected {GetTagName()}")
-        End If
+        Public Sub New(SourceTag As Tag)
+            MyBase.New(SourceTag)
 
-        Dim uri = SourceTag.GetAttribute("URI")
-        If uri Is Nothing Then
-            Throw New HlsFormatException($"{GetTagName()} requires a URI.")
-        End If
-        Me._uri = uri
+            If GetTagName() <> SourceTag.getTagName() Then
+                Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for an I-frame stream, expected {GetTagName()}")
+            End If
 
-    End Sub
+            Dim uri = SourceTag.GetAttribute("URI")
+            If uri Is Nothing Then
+                Throw New HlsFormatException($"{GetTagName()} requires a URI.")
+            End If
+            Me._uri = uri
 
-    Protected Overrides Function GetTagName() As String
-        Return "EXT-X-I-FRAME-STREAM-INF"
-    End Function
+        End Sub
+
+        Protected Overrides Function GetTagName() As String
+            Return "EXT-X-I-FRAME-STREAM-INF"
+        End Function
 
 
 
-    Public Overrides Function ToString() As String
-        Return $"{{
+        Public Overrides Function ToString() As String
+            Return $"{{
   Resolution: {StreamResolution.ToString()},
   Bandwidth: {Bandwidth},
   AverageBandwidth: {AverageBandwidth},
@@ -36,5 +38,6 @@ Public Class IFrameStream
   HdcpLevel: {HdcpLevel},
   Codecs: {Codecs}
 }}"
-    End Function
-End Class
+        End Function
+    End Class
+End Namespace

@@ -194,7 +194,7 @@
     <Compile Include="CheckBoxComboBox.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="hls\AbstractPlaylist.vb" />
+    <Compile Include="hls\Playlist\AbstractPlaylist.vb" />
     <Compile Include="hls\Tags\HlsHelpers.vb" />
     <Compile Include="hls\Tags\Start.vb" />
     <Compile Include="hls\Tags\Stream\AbstractStream.vb" />
@@ -208,7 +208,7 @@
     <Compile Include="hls\Tags\Media.vb" />
     <Compile Include="My Project\FileUtilities.vb" />
     <Compile Include="hls\Tags\TagParser.vb" />
-    <Compile Include="hls\MasterPlaylist.vb" />
+    <Compile Include="hls\Playlist\MasterPlaylist.vb" />
     <Compile Include="hls\PlaylistParser.vb" />
     <Compile Include="queue.Designer.vb">
       <DependentUpon>queue.vb</DependentUpon>
