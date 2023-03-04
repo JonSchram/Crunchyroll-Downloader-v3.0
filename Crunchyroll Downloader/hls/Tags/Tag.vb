@@ -1,8 +1,8 @@
 ﻿Public MustInherit Class Tag
-    Friend TagName As String
-    Friend Value As String
-    Friend HasAttributes As Boolean
-    Friend AttributeDictionary As Dictionary(Of String, String) = New Dictionary(Of String, String)
+    Protected TagName As String
+    Protected Value As String
+    Protected HasAttributes As Boolean
+    Protected AttributeDictionary As Dictionary(Of String, String) = New Dictionary(Of String, String)
 
     Public Sub New(name As String)
         TagName = name

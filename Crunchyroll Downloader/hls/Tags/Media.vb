@@ -74,12 +74,12 @@
         ' Booleans
         Dim DefaultString = SourceTag.GetAttribute("DEFAULT")
         If DefaultString IsNot Nothing Then
-            IsDefault = convertYesNoToBoolean(DefaultString)
+            IsDefault = HlsHelpers.ParseYesNoValue(DefaultString, "DEFAULT")
         End If
 
         Dim AutoselectString = SourceTag.GetAttribute("AUTOSELECT")
         If AutoselectString IsNot Nothing Then
-            Autoselect = convertYesNoToBoolean(AutoselectString)
+            Autoselect = HlsHelpers.ParseYesNoValue(AutoselectString, "AUTOSELECT")
         End If
 
         Dim ForcedString = SourceTag.GetAttribute("FORCED")
@@ -87,7 +87,7 @@
             If Type <> MediaType.SUBTITLES Then
                 Throw New HlsFormatException($"{TagName} cannot specify FORCED for non-subtitle media.")
             End If
-            Forced = convertYesNoToBoolean(ForcedString)
+            Forced = HlsHelpers.ParseYesNoValue(ForcedString, "FORCED")
         End If
 
         ' Strings
@@ -116,17 +116,6 @@
                 Return MediaType.CLOSED_CAPTIONS
             Case Else
                 Throw New HlsFormatException($"{TagName} type incorrect: {typeString}")
-        End Select
-    End Function
-
-    Private Shared Function convertYesNoToBoolean(Value As String) As Boolean
-        Select Case Value
-            Case "YES"
-                Return True
-            Case "NO"
-                Return False
-            Case Else
-                Throw New HlsFormatException($"{TagName} boolean value must be YES or NO, but was {Value}")
         End Select
     End Function
 
