@@ -194,10 +194,19 @@
     <Compile Include="CheckBoxComboBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="hls\Tags\Stream\AbstractStream.vb" />
+    <Compile Include="hls\Tags\Encryption\EncryptionMethod.vb" />
+    <Compile Include="hls\HlsFormatException.vb" />
+    <Compile Include="hls\Tags\Stream\IFrameStream.vb" />
+    <Compile Include="hls\Tags\Encryption\Key.vb" />
+    <Compile Include="hls\Tags\Encryption\SessionKey.vb" />
+    <Compile Include="hls\Tags\Stream\VariantStream.vb" />
+    <Compile Include="hls\Tags\Tag.vb" />
+    <Compile Include="hls\Tags\Media.vb" />
     <Compile Include="My Project\FileUtilities.vb" />
-    <Compile Include="playlist\CommentParser.vb" />
-    <Compile Include="playlist\Playlist.vb" />
-    <Compile Include="playlist\PlaylistParser.vb" />
+    <Compile Include="hls\Tags\TagParser.vb" />
+    <Compile Include="hls\MasterPlaylist.vb" />
+    <Compile Include="hls\PlaylistParser.vb" />
     <Compile Include="queue.Designer.vb">
       <DependentUpon>queue.vb</DependentUpon>
     </Compile>
