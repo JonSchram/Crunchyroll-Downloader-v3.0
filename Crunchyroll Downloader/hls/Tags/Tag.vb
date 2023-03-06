@@ -1,7 +1,7 @@
 ﻿Namespace hls.tags
     Public MustInherit Class Tag
         Protected TagName As String
-        Protected Value As String
+        Protected Values As List(Of String) = New List(Of String)
         Protected HasAttributes As Boolean
         Protected AttributeDictionary As Dictionary(Of String, String) = New Dictionary(Of String, String)
 
@@ -17,8 +17,8 @@
         ''' Returns the value of this tag if there are no named attributes
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetValue() As String
-            Return Value
+        Public Function GetValues() As List(Of String)
+            Return Values
         End Function
 
         Public Function GetHasAttributes() As Boolean
