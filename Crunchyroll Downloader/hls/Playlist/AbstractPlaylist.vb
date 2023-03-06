@@ -4,7 +4,7 @@ Namespace hls.playlist
     Public Class AbstractPlaylist
 
         Public Property IndependentSegments As Boolean?
-        Public Property StartPlayTime As Start
+        Public Property StartPlayTime As StartTag
 
     End Class
 

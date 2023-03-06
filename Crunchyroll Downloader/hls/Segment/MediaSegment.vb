@@ -1,11 +1,20 @@
-﻿Public Class MediaSegment
+﻿Imports Crunchyroll_Downloader.hls.tags
+Imports Crunchyroll_Downloader.hls.tags.segment
 
-    Public Property Duration As Double
-    Public Property Title As String
-    Public Property Bytes As ByteRange
+Namespace hls.segment
+    Public Class MediaSegment
 
-    Public Property Uri As String
+        Public Property Duration As Double
+        Public Property Title As String
+        Public Property Bytes As ByteRange
 
-    ' This isn't explicitly listed in a playlist file, but is calculated as they are added to a parsed object
-    Public Property SegmentNumber As Integer
-End Class
+        Public Property Uri As String
+
+        Public Property SegmentDateTime As DateTimeTag
+
+
+        ' This isn't explicitly listed in a playlist file, but is calculated as they are added to a parsed object
+        Public Property SegmentNumber As Integer
+    End Class
+
+End Namespace

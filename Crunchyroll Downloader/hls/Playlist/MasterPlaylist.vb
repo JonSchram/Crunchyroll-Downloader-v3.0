@@ -10,9 +10,9 @@ Namespace hls.playlist
     Public Class MasterPlaylist
         Inherits AbstractPlaylist
 
-        Public Property Key As SessionKey
+        Public Property Key As SessionKeyTag
 
-        Public Property PlaylistMedia As List(Of Media) = New List(Of Media)
+        Public Property PlaylistMedia As List(Of MediaTag) = New List(Of MediaTag)
 
         Public Property StreamVariants As List(Of VariantStream) = New List(Of VariantStream)
 

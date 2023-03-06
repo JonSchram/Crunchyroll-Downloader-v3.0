@@ -1,5 +1,5 @@
 ﻿Namespace hls.tags
-    Public Class Start
+    Public Class StartTag
         Const TagName = "EXT-X-START"
 
         ' Required

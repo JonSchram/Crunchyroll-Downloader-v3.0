@@ -52,7 +52,7 @@ Namespace hls
                     ' TODO: Lots of magic strings here. Might want to get these from the class for each parsed type.
                     Select Case parsedTag.getTagName()
                         Case "EXT-X-MEDIA"
-                            episodePlaylist.PlaylistMedia.Add(New Media(parsedTag))
+                            episodePlaylist.PlaylistMedia.Add(New MediaTag(parsedTag))
                         Case "EXT-X-STREAM-INF"
                             lineNumber += 1
                             If lineNumber < Lines.Length Then
@@ -67,7 +67,7 @@ Namespace hls
                         Case "EXT-X-INDEPENDENT-SEGMENTS"
                             episodePlaylist.IndependentSegments = True
                         Case "EXT-X-SESSION-KEY"
-                            episodePlaylist.Key = New SessionKey(parsedTag)
+                            episodePlaylist.Key = New SessionKeyTag(parsedTag)
                     End Select
                 End If
             Next

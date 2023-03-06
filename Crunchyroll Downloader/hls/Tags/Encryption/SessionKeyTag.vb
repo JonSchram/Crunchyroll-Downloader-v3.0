@@ -1,6 +1,6 @@
 ﻿Namespace hls.tags.encryption
-    Public Class SessionKey
-        Inherits Key
+    Public Class SessionKeyTag
+        Inherits KeyTag
         Const TagName = "EXT-X-SESSION-KEY"
 
         Public Sub New(ByRef attributes As Tag)

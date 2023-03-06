@@ -1,5 +1,5 @@
 ﻿Namespace hls.tags.encryption
-    Public Class Key
+    Public Class KeyTag
         Const TagName = "EXT-X-KEY"
 
         ' Parameter comments adapted from IETF RFC 8216: https://www.rfc-editor.org/rfc/rfc8216.html

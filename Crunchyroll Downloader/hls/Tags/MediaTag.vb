@@ -1,6 +1,6 @@
 ﻿Namespace hls.tags
 
-    Public Class Media
+    Public Class MediaTag
         Const TagName As String = "EXT-X-MEDIA"
 
         ' Parameter comments adapted from IETF RFC 8216: https://www.rfc-editor.org/rfc/rfc8216.html

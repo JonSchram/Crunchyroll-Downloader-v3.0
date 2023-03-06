@@ -194,25 +194,31 @@
     <Compile Include="CheckBoxComboBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="hls\Tags\DateRangeTag.vb" />
+    <Compile Include="hls\Tags\Segment\ByteRangeTag.vb" />
+    <Compile Include="hls\Tags\DateTimeTag.vb" />
     <Compile Include="hls\PlaylistParseException.vb" />
     <Compile Include="hls\Segment\ByteRange.vb" />
-    <Compile Include="hls\Segment\MediaInitialization.vb" />
+    <Compile Include="hls\Tags\MediaInitializationTag.vb" />
     <Compile Include="hls\Segment\MediaSegment.vb" />
-    <Compile Include="hls\Segment\MediaSegmentList.vb" />
+    <Compile Include="hls\Segment\GroupedMediaSegments.vb" />
     <Compile Include="hls\Playlist\AbstractPlaylist.vb" />
     <Compile Include="hls\Playlist\MediaPlaylist.vb" />
     <Compile Include="hls\Playlist\SegmentRangeData.vb" />
     <Compile Include="hls\Tags\HlsHelpers.vb" />
-    <Compile Include="hls\Tags\Start.vb" />
+    <Compile Include="hls\Tags\Segment\InfTag.vb" />
+    <Compile Include="hls\Tags\Segment\MapTag.vb" />
+    <Compile Include="hls\Tags\StartTag.vb" />
     <Compile Include="hls\Tags\Stream\AbstractStream.vb" />
     <Compile Include="hls\Tags\Encryption\EncryptionMethod.vb" />
     <Compile Include="hls\HlsFormatException.vb" />
     <Compile Include="hls\Tags\Stream\IFrameStream.vb" />
-    <Compile Include="hls\Tags\Encryption\Key.vb" />
-    <Compile Include="hls\Tags\Encryption\SessionKey.vb" />
+    <Compile Include="hls\Tags\Encryption\KeyTag.vb" />
+    <Compile Include="hls\Tags\Encryption\SessionKeyTag.vb" />
     <Compile Include="hls\Tags\Stream\VariantStream.vb" />
     <Compile Include="hls\Tags\Tag.vb" />
-    <Compile Include="hls\Tags\Media.vb" />
+    <Compile Include="hls\Tags\MediaTag.vb" />
+    <Compile Include="hls\Tags\TargetDurationTag.vb" />
     <Compile Include="My Project\FileUtilities.vb" />
     <Compile Include="hls\Tags\TagParser.vb" />
     <Compile Include="hls\Playlist\MasterPlaylist.vb" />
