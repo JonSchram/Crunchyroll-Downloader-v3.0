@@ -1,5 +1,18 @@
 ﻿Namespace hls.tags
     Public Class TargetDurationTag
+        Const TagName = "EXT-X-TARGETDURATION"
         Public Property Duration As Integer
+
+        Public Sub New(SourceTag As Tag)
+            If TagName <> SourceTag.getTagName() Then
+                Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for target duration, expected {TagName}")
+            End If
+
+            Dim values = SourceTag.GetValues()
+            If values.Count = 0 Then
+                Throw New HlsFormatException($"Target duration must be set for {TagName}")
+            End If
+            Duration = CInt(values(0))
+        End Sub
     End Class
 End Namespace

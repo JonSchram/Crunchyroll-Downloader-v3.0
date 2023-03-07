@@ -21,33 +21,23 @@ Namespace hls.playlist
 
         Public Property PlaylistEnds As Boolean
 
-        Public Property Type As PlaylistType
+        Public Property Type As PlaylistTypeTag.PlaylistType
 
         Public Property IFramesOnly As Boolean = False
 
+        ' Unused, seems to be for a server to give extra date range information to the player.
         Public Property DateRangeList As List(Of DateRangeTag)
 
-        ' Initialization applies to all media segments following it, until the next one
-        Public Property Initialization As SegmentRangeData(Of MediaInitializationTag)
+        Public Property AllSegments As MediaSegmentsCollection
 
-        Public Property Segments As GroupedMediaSegments
-
-        ' Key applies to all segments following that key
-        Private Property Keys As SegmentRangeData(Of KeyTag)
-
-        ' Value corresponds to a sequence number in the media segments.
-        ' A discontinuity happens at this segment (i.e. before it, appeared between it and the previous segment in the playlist)
-        Private Property Discontinuities As List(Of Integer)
-
-        Private CurrentSegmentInfo As InfTag
-        Private CurrentByteRange As ByteRange
-        Private nextSegmentNumber As Integer = 0
+        Private MediaStarted As Boolean = False
 
         Public Sub New()
 
         End Sub
 
-        Public Sub setTargetDuration(target As TargetDurationTag)
+        ' Playlist tags
+        Public Sub SetTargetDuration(target As TargetDurationTag)
             TargetDuration = target.Duration
         End Sub
 
@@ -56,7 +46,6 @@ Namespace hls.playlist
                 Throw New HlsFormatException("Media sequence cannot appear after the first media segment.")
             End If
             MediaSequenceNumber = start
-            nextSegmentNumber = start
         End Sub
 
         Public Sub SetDiscontinuitySequenceNumber(number As Integer)
@@ -66,57 +55,69 @@ Namespace hls.playlist
             DiscontinuitySequenceNumber = number
         End Sub
 
+        Public Sub SetEndlist()
+            ' TODO: Set end list somewhere
+        End Sub
+
+        Public Sub SetIFramesOnly()
+            IFramesOnly = True
+        End Sub
+
+        Public Sub SetPlaylistType(typeTag As PlaylistTypeTag)
+            Type = typeTag.Type
+        End Sub
+
+        ' Media sequence tags
+
+        Private Sub StartMediaSequences()
+            If Not MediaStarted Then
+                AllSegments = New MediaSegmentsCollection(MediaSequenceNumber, DiscontinuitySequenceNumber)
+            End If
+            MediaStarted = True
+        End Sub
+
         Private Function MediaSequencesStarted() As Boolean
-            Return Segments.GetSegmentCount > 0
+            Return MediaStarted
         End Function
 
-        Public Sub SetSegmentInfo(info As InfTag)
-            CurrentSegmentInfo = info
+        Public Sub AddSegmentInfo(info As InfTag)
+            StartMediaSequences()
+            AllSegments.AddSegmentInfo(info)
         End Sub
 
-        Public Sub SetSegmentByterange(range As ByteRange)
-            CurrentByteRange = range
+        Public Sub AddSegmentByterange(range As ByteRange)
+            StartMediaSequences()
+            AllSegments.AddSegmentByteRange(range)
         End Sub
 
-        Public Sub SetCurrentSegmentUrl(uri As String)
-            Dim currentMediaSegment = New MediaSegment With {
-                .Duration = CurrentSegmentInfo.Duration,
-                .Title = CurrentSegmentInfo.Title,
-                .Bytes = CurrentByteRange,
-                .Uri = uri,
-                .SegmentNumber = nextSegmentNumber
-            }
-
-            Segments.AddSegment(currentMediaSegment)
-
-            nextSegmentNumber += 1
-            CurrentSegmentInfo = Nothing
-            CurrentByteRange = Nothing
+        Public Sub AddKey(key As KeyTag)
+            StartMediaSequences()
+            AllSegments.AddEncryptionKey(key)
         End Sub
 
-        Public Function GetSegmentCount() As Integer
-            Return Segments.GetSegmentCount()
-        End Function
+        Public Sub AddInitialization(map As MediaInitializationTag)
+            StartMediaSequences()
+            AllSegments.AddInitialization(map)
+        End Sub
 
-        Public Function GetSegmentAtIndex(Index As Integer) As MediaSegment
-            Return Segments.GetSegment(Index)
-        End Function
+        Public Sub AddDateTime(dateTime As DateTimeTag)
+            StartMediaSequences()
+            AllSegments.AddDateTime(dateTime)
+        End Sub
 
-        Public Function GetKeyForIndex(Index As Integer) As KeyTag
-            ' TODO: This is likely really inefficient.
-            ' Each time it does this, it's a binary search. Each one is O(log(n)) but when a playlist has thousands of lines, it could add up.
-            ' Consider making a method that gets all segments with same key and initialization info
-            Return Keys.GetDataForSegmentIndex(Index)
-        End Function
+        Public Sub AddDateRange(dateRange As DateRangeTag)
+            StartMediaSequences()
+            DateRangeList.Add(dateRange)
+        End Sub
 
-        Public Function GetInitializationForIndex(Index As Integer) As MediaInitializationTag
-            Return Initialization.GetDataForSegmentIndex(Index)
-        End Function
+        Public Sub AddSegmentUri(uri As String)
+            StartMediaSequences()
+            AllSegments.SetCurrentSegmentUri(uri)
+        End Sub
+
+
+        ' TODO: Make API to get iterable segments
+
     End Class
-
-    Public Enum PlaylistType
-        EVENT_PLAYLIST
-        VOD
-    End Enum
 
 End Namespace

@@ -194,14 +194,15 @@
     <Compile Include="CheckBoxComboBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="hls\Segment\MediaSegmentsCollection.vb" />
     <Compile Include="hls\Tags\DateRangeTag.vb" />
+    <Compile Include="hls\Tags\PlaylistTypeTag.vb" />
     <Compile Include="hls\Tags\Segment\ByteRangeTag.vb" />
     <Compile Include="hls\Tags\DateTimeTag.vb" />
     <Compile Include="hls\PlaylistParseException.vb" />
     <Compile Include="hls\Segment\ByteRange.vb" />
     <Compile Include="hls\Tags\MediaInitializationTag.vb" />
     <Compile Include="hls\Segment\MediaSegment.vb" />
-    <Compile Include="hls\Segment\GroupedMediaSegments.vb" />
     <Compile Include="hls\Playlist\AbstractPlaylist.vb" />
     <Compile Include="hls\Playlist\MediaPlaylist.vb" />
     <Compile Include="hls\Playlist\SegmentRangeData.vb" />

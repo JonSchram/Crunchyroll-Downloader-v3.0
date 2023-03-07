@@ -1,4 +1,5 @@
 ﻿Imports Crunchyroll_Downloader.hls.tags
+Imports Crunchyroll_Downloader.hls.tags.encryption
 Imports Crunchyroll_Downloader.hls.tags.segment
 
 Namespace hls.segment
@@ -10,11 +11,20 @@ Namespace hls.segment
 
         Public Property Uri As String
 
+        Public Property EncryptionKey As KeyTag
+
+        Public Property Initialization As MediaInitializationTag
+
         Public Property SegmentDateTime As DateTimeTag
+
+        ' Whether this is the first media segment after a discontinuity
+        Public HasDiscontinuity As Boolean = False
 
 
         ' This isn't explicitly listed in a playlist file, but is calculated as they are added to a parsed object
-        Public Property SegmentNumber As Integer
+        Public Property SequenceNumber As Integer
+
+        Public Property DiscontinuitySequenceNumber As Integer
     End Class
 
 End Namespace
