@@ -12,7 +12,11 @@ Namespace hls.tags.segment
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for byte range, expected {TagName}")
             End If
 
-            Dim ByteRangeString = SourceTag.GetAttribute("BYTERANGE")
+            Dim values = SourceTag.GetValues()
+            If values.Count = 0 Then
+                Throw New HlsFormatException($"{TagName} requires a value indicating the length and/or offset")
+            End If
+            Dim ByteRangeString = values(0)
             Bytes = New ByteRange(ByteRangeString)
         End Sub
     End Class

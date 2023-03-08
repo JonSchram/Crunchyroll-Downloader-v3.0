@@ -41,18 +41,18 @@ Namespace hls.playlist
             TargetDuration = target.Duration
         End Sub
 
-        Public Sub SetStartSequenceNumber(start As Integer)
+        Public Sub SetStartSequenceNumber(start As MediaSequenceNumberTag)
             If MediaSequencesStarted() Then
                 Throw New HlsFormatException("Media sequence cannot appear after the first media segment.")
             End If
-            MediaSequenceNumber = start
+            MediaSequenceNumber = start.StartSequenceNumber
         End Sub
 
-        Public Sub SetDiscontinuitySequenceNumber(number As Integer)
+        Public Sub SetDiscontinuitySequenceNumber(start As DiscontinuitySequenceNumberTag)
             If MediaSequencesStarted() Then
                 Throw New HlsFormatException("Discontinuity sequence cannot appear after the first media segment.")
             End If
-            DiscontinuitySequenceNumber = number
+            DiscontinuitySequenceNumber = start.StartNumber
         End Sub
 
         Public Sub SetEndlist()
@@ -85,9 +85,9 @@ Namespace hls.playlist
             AllSegments.AddSegmentInfo(info)
         End Sub
 
-        Public Sub AddSegmentByterange(range As ByteRange)
+        Public Sub AddSegmentByteRange(range As ByteRangeTag)
             StartMediaSequences()
-            AllSegments.AddSegmentByteRange(range)
+            AllSegments.AddSegmentByteRange(range.Bytes)
         End Sub
 
         Public Sub AddKey(key As KeyTag)
@@ -108,6 +108,11 @@ Namespace hls.playlist
         Public Sub AddDateRange(dateRange As DateRangeTag)
             StartMediaSequences()
             DateRangeList.Add(dateRange)
+        End Sub
+
+        Public Sub AddDiscontinuity()
+            StartMediaSequences()
+            AllSegments.AddDiscontinuity()
         End Sub
 
         Public Sub AddSegmentUri(uri As String)

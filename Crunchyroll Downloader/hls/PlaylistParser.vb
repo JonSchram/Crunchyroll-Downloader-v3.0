@@ -1,9 +1,7 @@
-﻿Imports System.IO
-Imports System.Security.Cryptography.X509Certificates
-Imports System.Text
-Imports Crunchyroll_Downloader.hls.playlist
+﻿Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.tags
 Imports Crunchyroll_Downloader.hls.tags.encryption
+Imports Crunchyroll_Downloader.hls.tags.segment
 Imports Crunchyroll_Downloader.hls.tags.stream
 
 Namespace hls
@@ -27,22 +25,70 @@ Namespace hls
 
         End Sub
 
-        Public Function ParsePlaylist(playlist As String) As Object
+        Public Function ParseMediaPlaylist(playlist As String) As MediaPlaylist
 
-            Return Nothing
+            Dim tagParser = New TagParser()
+            Dim Lines() = SplitIntoLines(playlist)
+
+            If Not ValidatePlaylistFile(Lines) Then
+                Return Nothing
+            End If
+            Dim Result As MediaPlaylist = New MediaPlaylist()
+
+            For LineNumber = 1 To Lines.Length - 1
+                Dim Line = Lines(LineNumber)
+                If Line.StartsWith("#EXT") Then
+                    ' Tags can only begin with #EXT
+                    Dim tag = tagParser.ParseTagString(Line)
+
+                    Select Case tag.getTagName()
+                        Case "EXT-X-TARGETDURATION"
+                            Result.SetTargetDuration(New TargetDurationTag(tag))
+                        Case "EXT-X-MEDIA-SEQUENCE"
+                            Result.SetStartSequenceNumber(New MediaSequenceNumberTag(tag))
+                        Case "EXT-X-DISCONTINUITY-SEQUENCE"
+                            Result.SetDiscontinuitySequenceNumber(New DiscontinuitySequenceNumberTag(tag))
+                        Case "EXT-X-ENDLIST"
+                            Result.SetEndlist()
+                        Case "EXT-X-PLAYLIST-TYPE"
+                            Result.SetPlaylistType(New PlaylistTypeTag(tag))
+                        Case "EXT-X-I-FRAMES-ONLY"
+                            Result.SetIFramesOnly()
+                        Case "EXTINF"
+                            Result.AddSegmentInfo(New InfTag(tag))
+                        Case "EXT-X-BYTERANGE"
+                            Result.AddSegmentByteRange(New ByteRangeTag(tag))
+                        Case "EXT-X-DISCONTINUITY"
+                            Result.AddDiscontinuity()
+                        Case "EXT-X-KEY"
+                            Result.AddKey(New KeyTag(tag))
+                        Case "EXT-X-MAP"
+                            Result.AddInitialization(New MediaInitializationTag(tag))
+                        Case "EXT-X-PROGRAM-DATE-TIME"
+                            Result.AddDateTime(New DateTimeTag(tag))
+                        Case "EXT-X-DATERANGE"
+                            Result.AddDateRange(New DateRangeTag(tag))
+                    End Select
+                ElseIf Line(0) <> "#" Then
+                    ' Anything other than a # is a URI
+                    Result.AddSegmentUri(Line)
+                End If
+            Next
+
+            Return Result
         End Function
 
-        Public Function parseEpisodeStreams(playlist As String) As MasterPlaylist
-            Dim episodePlaylist As MasterPlaylist = New MasterPlaylist()
+        Public Function parseMasterPlaylist(playlist As String) As MasterPlaylist
 
             Dim tagParser = New TagParser()
 
-            Dim Lines() = splitIntoLines(playlist)
+            Dim Lines() = SplitIntoLines(playlist)
 
-            If Lines(0) <> "#EXTM3U" Then
-                Throw New FormatException("Input not an Extended M3U playlist!")
+            If Not ValidatePlaylistFile(Lines) Then
+                Return Nothing
             End If
 
+            Dim episodePlaylist As MasterPlaylist = New MasterPlaylist()
             For lineNumber = 1 To Lines.Length - 1
                 Dim Line = Lines(lineNumber)
                 Dim parsedTag = tagParser.ParseTagString(Line)
@@ -75,7 +121,14 @@ Namespace hls
             Return episodePlaylist
         End Function
 
-        Private Function splitIntoLines(playlist As String) As String()
+        Private Function ValidatePlaylistFile(Lines() As String) As Boolean
+            If Lines(0) <> "#EXTM3U" Then
+                Throw New HlsFormatException("Input not an Extended M3U playlist!")
+            End If
+            Return True
+        End Function
+
+        Private Function SplitIntoLines(playlist As String) As String()
             Return playlist.Split(New String() {vbCr, vbLf, vbCrLf}, StringSplitOptions.RemoveEmptyEntries)
         End Function
 

@@ -24,7 +24,14 @@ Public Class DebugForm
         Dim parser = New PlaylistParser()
         Dim playlistText = PlaylistTextBox.Text
 
-        Dim playlist = parser.parseEpisodeStreams(playlistText)
-        PlaylistOutputTextBox.Text = playlist.ToString
+        If MasterPlaylistRadioButton.Checked() Then
+            Dim playlist = parser.parseMasterPlaylist(playlistText)
+            PlaylistOutputTextBox.Text = playlist.ToString()
+
+        ElseIf MediaPlaylistRadioButton.Checked() Then
+            Dim playlist = parser.ParseMediaPlaylist(playlistText)
+            PlaylistOutputTextBox.Text = playlist.ToString()
+        End If
+
     End Sub
 End Class

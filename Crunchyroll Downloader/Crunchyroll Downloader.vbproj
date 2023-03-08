@@ -196,19 +196,20 @@
     </Compile>
     <Compile Include="hls\Segment\MediaSegmentsCollection.vb" />
     <Compile Include="hls\Tags\DateRangeTag.vb" />
+    <Compile Include="hls\Tags\DiscontinuitySequenceNumberTag.vb" />
+    <Compile Include="hls\Tags\MediaSequenceNumberTag.vb" />
     <Compile Include="hls\Tags\PlaylistTypeTag.vb" />
     <Compile Include="hls\Tags\Segment\ByteRangeTag.vb" />
     <Compile Include="hls\Tags\DateTimeTag.vb" />
     <Compile Include="hls\PlaylistParseException.vb" />
     <Compile Include="hls\Segment\ByteRange.vb" />
-    <Compile Include="hls\Tags\MediaInitializationTag.vb" />
+    <Compile Include="hls\Tags\Segment\MediaInitializationTag.vb" />
     <Compile Include="hls\Segment\MediaSegment.vb" />
     <Compile Include="hls\Playlist\AbstractPlaylist.vb" />
     <Compile Include="hls\Playlist\MediaPlaylist.vb" />
     <Compile Include="hls\Playlist\SegmentRangeData.vb" />
     <Compile Include="hls\Tags\HlsHelpers.vb" />
     <Compile Include="hls\Tags\Segment\InfTag.vb" />
-    <Compile Include="hls\Tags\Segment\MapTag.vb" />
     <Compile Include="hls\Tags\StartTag.vb" />
     <Compile Include="hls\Tags\Stream\AbstractStream.vb" />
     <Compile Include="hls\Tags\Encryption\EncryptionMethod.vb" />

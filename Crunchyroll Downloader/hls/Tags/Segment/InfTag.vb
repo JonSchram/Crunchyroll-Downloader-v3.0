@@ -17,7 +17,7 @@
             End If
 
             If Values.Count >= 2 Then
-                Title = Values(2)
+                Title = Values(1)
             End If
         End Sub
 
