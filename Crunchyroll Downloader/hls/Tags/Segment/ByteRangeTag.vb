@@ -6,7 +6,6 @@ Namespace hls.tags.segment
 
         Public ReadOnly Property Bytes As ByteRange
 
-
         Public Sub New(SourceTag As Tag)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for byte range, expected {TagName}")
@@ -19,6 +18,12 @@ Namespace hls.tags.segment
             Dim ByteRangeString = values(0)
             Bytes = New ByteRange(ByteRangeString)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+ByteRange: {Bytes}
+}}"
+        End Function
     End Class
 End Namespace
 

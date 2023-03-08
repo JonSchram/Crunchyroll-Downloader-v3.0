@@ -22,5 +22,12 @@ Namespace hls.tags.segment
             Dim ByteRangeString = SourceTag.GetAttribute("BYTERANGE")
             Bytes = New ByteRange(ByteRangeString)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+Uri: {Uri},
+ByteRange: {Bytes}
+}}"
+        End Function
     End Class
 End Namespace

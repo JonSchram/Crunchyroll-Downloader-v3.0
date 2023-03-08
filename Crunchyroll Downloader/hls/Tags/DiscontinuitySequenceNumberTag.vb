@@ -18,5 +18,11 @@ Namespace hls.tags
             End If
             StartNumber = CInt(values(0))
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+StartNumber: {StartNumber}
+}}"
+        End Function
     End Class
 End Namespace

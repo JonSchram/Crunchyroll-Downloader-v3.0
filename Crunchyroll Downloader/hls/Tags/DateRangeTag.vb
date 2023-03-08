@@ -31,5 +31,16 @@
             ' This doesn't bother parsing the x- prefix for custom attributes or the SCTE-35 data.
 
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+  Id: {Id},
+  Class: {ClassAttribute},
+  StartDate: {StartDate},
+  EndDate: {EndDate},
+  Duration: {Duration},
+  EndOnNext: {EndOnNext}
+}}"
+        End Function
     End Class
 End Namespace

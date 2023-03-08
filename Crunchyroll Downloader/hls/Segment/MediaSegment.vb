@@ -25,6 +25,10 @@ Namespace hls.segment
         Public Property SequenceNumber As Integer
 
         Public Property DiscontinuitySequenceNumber As Integer
+
+        Public Overrides Function ToString() As String
+            Return $"Segment, Duration: {Duration}, URI: {Uri}"
+        End Function
     End Class
 
 End Namespace

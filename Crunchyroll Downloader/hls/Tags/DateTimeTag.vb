@@ -13,5 +13,11 @@
                 ProgramDateTime = SourceTag.GetValues(0)
             End If
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+ProgramDateTime: {ProgramDateTime}
+}}"
+        End Function
     End Class
 End Namespace

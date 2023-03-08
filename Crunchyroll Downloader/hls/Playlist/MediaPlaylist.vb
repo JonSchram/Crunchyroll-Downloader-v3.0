@@ -56,7 +56,7 @@ Namespace hls.playlist
         End Sub
 
         Public Sub SetEndlist()
-            ' TODO: Set end list somewhere
+            PlaylistEnds = True
         End Sub
 
         Public Sub SetIFramesOnly()
@@ -123,6 +123,21 @@ Namespace hls.playlist
 
         ' TODO: Make API to get iterable segments
 
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+TargetDuration: {TargetDuration},
+MediaSequenceNumber: {MediaSequenceNumber},
+DiscontinuitySequenceNumber: {DiscontinuitySequenceNumber},
+PlaylistEnds: {PlaylistEnds},
+Type: {Type},
+IFramesOnly: {IFramesOnly},
+DateRangeList: {DateRangeList},
+IndependentSegments: {IndependentSegments},
+StartPlayTime: {StartPlayTime},
+Media segments: {AllSegments}
+}}"
+        End Function
     End Class
 
 End Namespace

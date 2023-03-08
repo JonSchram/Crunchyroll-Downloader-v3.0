@@ -47,7 +47,10 @@
         Public Overrides Function ToString() As String
             Return $"{{
   Method: {Method},
-  Uri: {Uri}
+  Uri: {Uri},
+  InitializationVector: {InitializationVector},
+  KeyFormat: {KeyFormat},
+  KeyFormatVersions: {KeyFormatVersions}
 }}"
         End Function
 

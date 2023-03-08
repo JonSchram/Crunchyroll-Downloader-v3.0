@@ -16,6 +16,12 @@
             Type = CType([Enum].Parse(GetType(PlaylistType), values(0)), PlaylistType)
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"{{
+Type: {Type}
+}}"
+        End Function
+
         Public Enum PlaylistType
             [EVENT]
             VOD

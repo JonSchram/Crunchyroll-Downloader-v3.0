@@ -102,5 +102,21 @@ Namespace hls.segment
         Private Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Return Segments.GetEnumerator
         End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+Segments: {FormatFieldList(Segments)}
+}}"
+        End Function
+        Private Function FormatFieldList(StreamList As IEnumerable(Of Object)) As String
+            Dim output As String = "["
+
+            For Each streamItem In StreamList
+                output += streamItem.ToString() + "," + vbCrLf
+            Next
+
+            output += "]"
+            Return output
+        End Function
     End Class
 End Namespace

@@ -21,5 +21,11 @@
             End If
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"{{
+Duration: {Duration},
+Title: {Title}
+}}"
+        End Function
     End Class
 End Namespace

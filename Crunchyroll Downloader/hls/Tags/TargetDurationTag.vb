@@ -14,5 +14,11 @@
             End If
             Duration = CInt(values(0))
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+Duration: {Duration}
+}}"
+        End Function
     End Class
 End Namespace

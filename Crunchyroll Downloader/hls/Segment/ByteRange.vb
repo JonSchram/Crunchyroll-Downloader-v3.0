@@ -24,6 +24,12 @@
             End If
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"{{
+Length: {Length},
+Offset: {Offset}
+}}"
+        End Function
     End Class
 
 End Namespace

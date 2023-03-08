@@ -15,5 +15,11 @@
             End If
             StartSequenceNumber = CInt(values(0))
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{{
+StartSequenceNumber: {StartSequenceNumber}
+}}"
+        End Function
     End Class
 End Namespace
