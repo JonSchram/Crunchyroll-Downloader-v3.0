@@ -17,6 +17,9 @@ Public Class DebugForm
             Dim parser = New FunimationExtractor("funimation.com/v/")
             Dim episodeInfo = parser.getEpisodeInfo()
             OutputTextBox.Text = episodeInfo.ToString()
+        ElseIf EpisodePlaybackRadioButton.Checked Then
+            Dim playbackInfo = EpisodePlaybackInfo.CreateFromJson(inputTextBox.Text)
+            OutputTextBox.Text = playbackInfo.ToString()
         End If
     End Sub
 

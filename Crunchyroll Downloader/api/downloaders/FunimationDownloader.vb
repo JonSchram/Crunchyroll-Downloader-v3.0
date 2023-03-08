@@ -49,67 +49,28 @@ Public Class FunimationDownloader
     ' - Maybe allow you to give a season and episode number and it knows how to get it?
     ' - New idea: pass a FunimationEpisodeInfo so it can pick out what it needs
 
+    ' TODO:
+    ' - Download JSON from url "https://playback.prd.funimationsvc.com/v1/play"
+    ' - Parse this JSON into a set of primary and fallback sources (use debug window)
+    ' - (Using parsed file) download subs & video playlists
+    ' - Find the resolution matching the user's choice
+
     Public Sub DownloadEpisode(Episode As EpisodeInfo) Implements IEpisodeDownloader.DownloadEpisode
         Throw New NotImplementedException()
     End Sub
 
-    Public Function GetPlaybacks(Episode As EpisodeInfo) As List(Of Playback)
+    Public Function GetPlaybacks(Episode As EpisodeInfo) As EpisodePlaybackInfo
         ' A playback file contains a primary and fallbacks. Not sure what they do but maybe it's in case the primary doesn't respond?
         ' File contents seem to be exactly the same format but with different bandwidth metadata / video download URLs (there is a slug that seems to be a GUID)
         ' API paths are the same
         ' So if we get a list of fallbacks, might as well parse them in case they're needed
         Dim playbackUrl = buildPlaybackUrl(Episode.VideoId)
         Dim playbackJson = DownloadJson(playbackUrl)
-        Dim playbackList = parsePlaybackJson(playbackJson)
+        Dim playbackList = EpisodePlaybackInfo.CreateFromJson(playbackJson)
 
         Return playbackList
     End Function
-    Private Function parsePlaybackJson(PlaybackJson As String) As List(Of Playback)
-        Dim Result = New List(Of Playback)
 
-        Dim playbackObject = JObject.Parse(PlaybackJson)
-
-        Dim primaryPlayback = playbackObject.Item("primary")
-        Dim fallbackPlaybacks = playbackObject.Item("fallback").Values
-
-        Result.Add(buildPlayback(primaryPlayback))
-
-        For Each fallback As JToken In fallbackPlaybacks
-            Result.Add(buildPlayback(fallback))
-        Next
-        Return Result
-    End Function
-
-    Private Function buildPlayback(playbackToken As JToken) As Playback
-        Dim videoId = playbackToken.Item("venueVideoId")
-        Dim playlistPath = playbackToken.Item("manifestPath")
-        Dim subtitlesToken = playbackToken.Item("subtitles")
-        Dim subtitlesList = buildSubtitles(subtitlesToken.Values(Of JToken))
-
-        Dim PlaybackObject = New Playback() With {
-               .VideoId = videoId.Value(Of String),
-               .PlaylistPath = playlistPath.Value(Of String),
-               .Subtitles = subtitlesList
-        }
-
-        Return PlaybackObject
-    End Function
-
-    Private Function buildSubtitles(SubtitlesList As IEnumerable(Of JToken)) As List(Of Subtitle)
-        Dim result = New List(Of Subtitle)
-        For Each Subtitle In SubtitlesList
-            Dim path = Subtitle.Item("FilePath")
-            Dim language = Subtitle.Item("languageCode")
-            Dim format = Subtitle.Item("fileExt")
-
-            result.Add(New Subtitle() With {
-            .Path = path.Value(Of String),
-            .Format = format.Value(Of String),
-            .Language = language.Value(Of String)
-            })
-        Next
-        Return result
-    End Function
 
     Private Function buildPlaybackUrl(episodeId As String) As String
         ' Original API call has playbackStreamId set

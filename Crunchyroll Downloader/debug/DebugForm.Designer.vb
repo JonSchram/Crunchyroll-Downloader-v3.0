@@ -37,14 +37,15 @@ Partial Class DebugForm
         Me.InputLabel = New System.Windows.Forms.Label()
         Me.inputTextBox = New System.Windows.Forms.TextBox()
         Me.TabPagePlaylist = New System.Windows.Forms.TabPage()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.MediaPlaylistRadioButton = New System.Windows.Forms.RadioButton()
+        Me.MasterPlaylistRadioButton = New System.Windows.Forms.RadioButton()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.PlaylistOutputTextBox = New System.Windows.Forms.TextBox()
         Me.ParsePlaylistButton = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PlaylistTextBox = New System.Windows.Forms.TextBox()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.MasterPlaylistRadioButton = New System.Windows.Forms.RadioButton()
-        Me.MediaPlaylistRadioButton = New System.Windows.Forms.RadioButton()
+        Me.EpisodePlaybackRadioButton = New System.Windows.Forms.RadioButton()
         Me.TabControlOperations.SuspendLayout()
         Me.TabPageEpisode.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -88,7 +89,7 @@ Partial Class DebugForm
         Me.ResultLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ResultLabel.AutoSize = True
-        Me.ResultLabel.Location = New System.Drawing.Point(303, 296)
+        Me.ResultLabel.Location = New System.Drawing.Point(299, 270)
         Me.ResultLabel.Name = "ResultLabel"
         Me.ResultLabel.Size = New System.Drawing.Size(62, 13)
         Me.ResultLabel.TabIndex = 6
@@ -98,11 +99,11 @@ Partial Class DebugForm
         '
         Me.OutputTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OutputTextBox.Location = New System.Drawing.Point(302, 315)
+        Me.OutputTextBox.Location = New System.Drawing.Point(302, 289)
         Me.OutputTextBox.Multiline = True
         Me.OutputTextBox.Name = "OutputTextBox"
         Me.OutputTextBox.ReadOnly = True
-        Me.OutputTextBox.Size = New System.Drawing.Size(361, 79)
+        Me.OutputTextBox.Size = New System.Drawing.Size(361, 105)
         Me.OutputTextBox.TabIndex = 5
         '
         'ParseJsonButton
@@ -118,12 +119,13 @@ Partial Class DebugForm
         'GroupBox2
         '
         Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox2.Controls.Add(Me.EpisodePlaybackRadioButton)
         Me.GroupBox2.Controls.Add(Me.EpisodeInfoRadioButton)
         Me.GroupBox2.Controls.Add(Me.SeasonInfoRadioButton)
         Me.GroupBox2.Controls.Add(Me.SeriesInfoRadioButton)
-        Me.GroupBox2.Location = New System.Drawing.Point(162, 296)
+        Me.GroupBox2.Location = New System.Drawing.Point(162, 270)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(134, 98)
+        Me.GroupBox2.Size = New System.Drawing.Size(134, 124)
         Me.GroupBox2.TabIndex = 3
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "API method"
@@ -166,9 +168,9 @@ Partial Class DebugForm
         Me.GroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.Controls.Add(Me.FunimationRadioButton)
         Me.GroupBox1.Controls.Add(Me.CrunchyrollRadioButton)
-        Me.GroupBox1.Location = New System.Drawing.Point(7, 296)
+        Me.GroupBox1.Location = New System.Drawing.Point(7, 270)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(149, 98)
+        Me.GroupBox1.Size = New System.Drawing.Size(149, 124)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Site"
@@ -213,7 +215,7 @@ Partial Class DebugForm
         Me.inputTextBox.Multiline = True
         Me.inputTextBox.Name = "inputTextBox"
         Me.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.inputTextBox.Size = New System.Drawing.Size(756, 270)
+        Me.inputTextBox.Size = New System.Drawing.Size(756, 245)
         Me.inputTextBox.TabIndex = 0
         '
         'TabPagePlaylist
@@ -231,6 +233,40 @@ Partial Class DebugForm
         Me.TabPagePlaylist.TabIndex = 1
         Me.TabPagePlaylist.Text = "M3u8 playlist"
         Me.TabPagePlaylist.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox3.Controls.Add(Me.MediaPlaylistRadioButton)
+        Me.GroupBox3.Controls.Add(Me.MasterPlaylistRadioButton)
+        Me.GroupBox3.Location = New System.Drawing.Point(649, 253)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(113, 90)
+        Me.GroupBox3.TabIndex = 9
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Parse as"
+        '
+        'MediaPlaylistRadioButton
+        '
+        Me.MediaPlaylistRadioButton.AutoSize = True
+        Me.MediaPlaylistRadioButton.Location = New System.Drawing.Point(7, 43)
+        Me.MediaPlaylistRadioButton.Name = "MediaPlaylistRadioButton"
+        Me.MediaPlaylistRadioButton.Size = New System.Drawing.Size(89, 17)
+        Me.MediaPlaylistRadioButton.TabIndex = 1
+        Me.MediaPlaylistRadioButton.TabStop = True
+        Me.MediaPlaylistRadioButton.Text = "Media Playlist"
+        Me.MediaPlaylistRadioButton.UseVisualStyleBackColor = True
+        '
+        'MasterPlaylistRadioButton
+        '
+        Me.MasterPlaylistRadioButton.AutoSize = True
+        Me.MasterPlaylistRadioButton.Location = New System.Drawing.Point(7, 20)
+        Me.MasterPlaylistRadioButton.Name = "MasterPlaylistRadioButton"
+        Me.MasterPlaylistRadioButton.Size = New System.Drawing.Size(91, 17)
+        Me.MasterPlaylistRadioButton.TabIndex = 0
+        Me.MasterPlaylistRadioButton.TabStop = True
+        Me.MasterPlaylistRadioButton.Text = "Master playlist"
+        Me.MasterPlaylistRadioButton.UseVisualStyleBackColor = True
         '
         'Label2
         '
@@ -287,39 +323,16 @@ Partial Class DebugForm
         Me.PlaylistTextBox.Size = New System.Drawing.Size(753, 215)
         Me.PlaylistTextBox.TabIndex = 2
         '
-        'GroupBox3
+        'EpisodePlaybackRadioButton
         '
-        Me.GroupBox3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox3.Controls.Add(Me.MediaPlaylistRadioButton)
-        Me.GroupBox3.Controls.Add(Me.MasterPlaylistRadioButton)
-        Me.GroupBox3.Location = New System.Drawing.Point(649, 253)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(113, 90)
-        Me.GroupBox3.TabIndex = 9
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Parse as"
-        '
-        'MasterPlaylistRadioButton
-        '
-        Me.MasterPlaylistRadioButton.AutoSize = True
-        Me.MasterPlaylistRadioButton.Location = New System.Drawing.Point(7, 20)
-        Me.MasterPlaylistRadioButton.Name = "MasterPlaylistRadioButton"
-        Me.MasterPlaylistRadioButton.Size = New System.Drawing.Size(91, 17)
-        Me.MasterPlaylistRadioButton.TabIndex = 0
-        Me.MasterPlaylistRadioButton.TabStop = True
-        Me.MasterPlaylistRadioButton.Text = "Master playlist"
-        Me.MasterPlaylistRadioButton.UseVisualStyleBackColor = True
-        '
-        'MediaPlaylistRadioButton
-        '
-        Me.MediaPlaylistRadioButton.AutoSize = True
-        Me.MediaPlaylistRadioButton.Location = New System.Drawing.Point(7, 43)
-        Me.MediaPlaylistRadioButton.Name = "MediaPlaylistRadioButton"
-        Me.MediaPlaylistRadioButton.Size = New System.Drawing.Size(89, 17)
-        Me.MediaPlaylistRadioButton.TabIndex = 1
-        Me.MediaPlaylistRadioButton.TabStop = True
-        Me.MediaPlaylistRadioButton.Text = "Media Playlist"
-        Me.MediaPlaylistRadioButton.UseVisualStyleBackColor = True
+        Me.EpisodePlaybackRadioButton.AutoSize = True
+        Me.EpisodePlaybackRadioButton.Location = New System.Drawing.Point(7, 89)
+        Me.EpisodePlaybackRadioButton.Name = "EpisodePlaybackRadioButton"
+        Me.EpisodePlaybackRadioButton.Size = New System.Drawing.Size(109, 17)
+        Me.EpisodePlaybackRadioButton.TabIndex = 3
+        Me.EpisodePlaybackRadioButton.TabStop = True
+        Me.EpisodePlaybackRadioButton.Text = "Episode playback"
+        Me.EpisodePlaybackRadioButton.UseVisualStyleBackColor = True
         '
         'DebugForm
         '
@@ -367,4 +380,5 @@ Partial Class DebugForm
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents MediaPlaylistRadioButton As RadioButton
     Friend WithEvents MasterPlaylistRadioButton As RadioButton
+    Friend WithEvents EpisodePlaybackRadioButton As RadioButton
 End Class

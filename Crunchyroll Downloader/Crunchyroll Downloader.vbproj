@@ -164,6 +164,7 @@
     <Compile Include="api\metadata\EpisodeInfo.vb" />
     <Compile Include="api\Extractors\IMetadataDownloader.vb" />
     <Compile Include="api\metadata\Episode.vb" />
+    <Compile Include="api\metadata\EpisodePlaybackInfo.vb" />
     <Compile Include="api\metadata\FunimationEpisodeInfo.vb" />
     <Compile Include="api\metadata\FunimationSeason.vb" />
     <Compile Include="api\metadata\FunimationSeries.vb" />
