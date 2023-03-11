@@ -1,14 +1,13 @@
-﻿Public MustInherit Class Season
-
+﻿Public MustInherit Class Season(Of T As EpisodeOverview)
     Public Property Name As String
 
     Public Property Number As Integer
 
-    ' The ID added to the URL that needs to be used to get season info
     Public Property ApiID As String
 
-    Public Overrides Function ToString() As String
-        Return Name
-    End Function
+    Public Property Episodes As List(Of T)
 
+    Public Function GetEpisodes() As IEnumerable(Of T)
+        Return Episodes.AsEnumerable()
+    End Function
 End Class

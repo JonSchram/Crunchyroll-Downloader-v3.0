@@ -33,16 +33,16 @@ Public Class FunimationExtractor
     End Sub
 
 
-    Public Function ListSeasons() As IEnumerable(Of Season) Implements IMetadataDownloader.ListSeasons
+    Public Function ListSeasons() As IEnumerable(Of SeasonOverview) Implements IMetadataDownloader.ListSeasons
         Main.Navigate(downloadUrl)
         If (IsSeriesUrl()) Then
             'Dim ListSeasonUrl = BuildSeasonListUrl(ShowPath)
             'Debug.WriteLine("URL to retrieve seasons: " + ListSeasonUrl)
             Dim SeriesJson = GetSeriesJson(downloadUrl)
-            Dim SeriesInfo = ParseSeriesJson(SeriesJson)
-            Return SeriesInfo.Seasons
+            Dim SeriesInfo = FunimationSeries.CreateFromJson(SeriesJson)
+            Return SeriesInfo.GetSeasons()
         End If
-        Return New List(Of FunimationSeason)
+        Return New List(Of FunimationSeasonOverview)
     End Function
 
     Private Function DownloadJson(JsonUrl As String) As String
@@ -71,34 +71,6 @@ Public Class FunimationExtractor
         Debug.WriteLine("Series JSON: ")
         Debug.WriteLine(SeriesJson)
         Return SeriesJson
-    End Function
-
-    Private Function ParseSeriesJson(SeriesJson As String) As FunimationSeries
-        Dim Result As New FunimationSeries()
-        Dim SeriesInfo = JObject.Parse(SeriesJson)
-
-        Dim SeriesName As String = SeriesInfo.Item("name").Value(Of String)
-        Result.Name = SeriesName
-
-        Dim SeasonsList = SeriesInfo.Item("seasons").Children()
-        For Each Season In SeasonsList
-            Dim Name = Season.Item("name")
-            Dim Id = Season.Item("id")
-            Dim Type = Season.Item("type")
-            Dim Number = Season.Item("number")
-            Dim EntitledSeason = Season.Item("entitledSeason")
-            Dim ContentId = Season.Item("contentId")
-            Dim SeasonObject = New FunimationSeason With {
-                    .Name = Name.Value(Of String),
-                    .Id = Id.Value(Of Integer),
-                    .ApiID = ContentId.Value(Of String),
-                    .Type = Type.Value(Of String),
-                    .Number = Number.Value(Of Integer),
-                    .IsFree = EntitledSeason.Value(Of Boolean)
-                }
-            Result.Seasons.Add(SeasonObject)
-        Next
-        Return Result
     End Function
 
     Async Sub getCookies()
@@ -143,7 +115,7 @@ Public Class FunimationExtractor
     End Function
 
 
-    Public Function ListEpisodes(SeasonName As String) As List(Of Episode) Implements IMetadataDownloader.ListEpisodes
+    Public Function ListEpisodes(SeasonName As String) As IEnumerable(Of EpisodeOverview) Implements IMetadataDownloader.ListEpisodes
         ' Implement this now.
         ' Might need to retrieve https://d33et77evd9bgg.cloudfront.net/data/v2/seasons/ first to get season info
         ' After, use https://d33et77evd9bgg.cloudfront.net/data/v2/episodes to get episode info
@@ -151,32 +123,9 @@ Public Class FunimationExtractor
 
         Dim SeasonUrl = BuildSeasonInfoUrl(SeasonName)
         Dim SeasonJson = DownloadJson(SeasonUrl)
-        Dim EpisodeList = ParseSeasonJson(SeasonJson)
-
+        Dim Season = FunimationSeason.CreateFromJson(SeasonJson)
+        Dim EpisodeList = Season.GetEpisodes()
         Return EpisodeList
-    End Function
-
-    Private Function ParseSeasonJson(SeasonJson As String) As List(Of Episode)
-        Dim Result = New List(Of Episode)
-        Dim SeasonInfo = JObject.Parse(SeasonJson)
-
-        Dim EpisodeList = SeasonInfo.Item("episodes").Children()
-        For Each Episode In EpisodeList
-            Dim Id = Episode.Item("id")
-            Dim Slug = Episode.Item("slug")
-            Dim ApiSlug = Episode.Item("venueId")
-            Dim Number = Episode.Item("episodeNumber")
-            Dim IsSubRequired = Episode.Item("isSubRequired")
-            Dim EpisodeObject = New Episode With {
-                    .EpisodeId = Id.Value(Of String),
-                    .EpisodeUrlSlug = Slug.Value(Of String),
-                    .ApiUrlSlug = ApiSlug.Value(Of String),
-                    .IsFree = Not IsSubRequired.Value(Of Boolean),
-                    .EpisodeNumber = Number.Value(Of String)
-                }
-            Result.Add(EpisodeObject)
-        Next
-        Return Result
     End Function
 
     ' TODO: Get info for a single episode.
@@ -203,75 +152,15 @@ Public Class FunimationExtractor
     ' Need a way to get episode info from the episode URL
     ' This class has a download URL as a class member so maybe that is good enough
 
-    Public Function getEpisodeInfo(EpisodeId As String) As EpisodeInfo Implements IMetadataDownloader.getEpisodeInfo
+    Public Function getEpisodeInfo(EpisodeId As String) As Episode Implements IMetadataDownloader.getEpisodeInfo
         Dim infoUrl = BuildEpisodeInfoUrl(EpisodeId)
         Dim EpisodeInfoJson = DownloadJson(infoUrl)
-        Dim EpisodeInfo = ParseEpisodeInfoJson(EpisodeInfoJson)
+        Dim EpisodeInfo = FunimationEpisode.CreateFromJson(EpisodeInfoJson)
 
         Return EpisodeInfo
     End Function
 
-    Private Function ParseEpisodeInfoJson(EpisodeInfoJson As String) As EpisodeInfo
-        Dim episodeInfo As JObject = JObject.Parse(EpisodeInfoJson)
-
-        Dim Id = episodeInfo.Item("id")
-        Dim slug = episodeInfo.Item("slug")
-        Dim apiId = episodeInfo.Item("venueId")
-        ' PROBLEM: The conversion below fails for some episode numbers
-        ' Usually those ".5" episodes. Needs to be a double, do a lot of testing to see
-        ' if there's anything else that can fail, like having a letter
-        Dim episodeNumber = episodeInfo.Item("episodeNumber")
-        Dim subRequired = episodeInfo.Item("isSubRequired")
-
-        Dim SeasonInfo = episodeInfo.Item("season")
-        Dim seasonNumber = SeasonInfo.Item("number")
-
-        Dim ShowInfo = episodeInfo.Item("show")
-        Dim showNameList = ShowInfo.Item("name")
-        Dim showName = extractShowName(showNameList)
-
-        Dim imagesList = episodeInfo.Item("images")
-        Dim imageUrl = extractEpisodeImageUrl(imagesList.ToList)
-
-        Dim Episode As New FunimationEpisodeInfo With {
-            .VideoId = Id.Value(Of String),
-            .ApiId = apiId.Value(Of Integer),
-            .UrlSlug = slug.Value(Of String),
-            .EpisodeNumber = episodeNumber.Value(Of Integer),
-            .SeasonNumber = seasonNumber.Value(Of Integer),
-            .ShowName = showName,
-            .ImageUrl = imageUrl,
-            .IsFree = Not subRequired.Value(Of Boolean)
-        }
-
-        Return Episode
-    End Function
-
-    Private Function extractShowName(nameObject As JToken) As String
-        ' Prefer English, then Spanish, then Portuguese
-        Dim languageList = {"en", "es", "pt"}
-        For Each language In languageList
-            Dim title = nameObject.Item(language).Value(Of String)
-            If title IsNot Nothing And title.Length > 0 Then
-                Return title
-            End If
-        Next
-        Return "UNDEFINED TITLE"
-    End Function
-
-    Private Function extractEpisodeImageUrl(imageList As IEnumerable(Of JToken)) As String
-        ' TODO Might want to more intelligently select the episode image than to take the first one that matches
-        For Each image As JToken In imageList
-            Dim key As String = image("key").Value(Of String)
-            If key = "Key Art - Official Video Image" Or key = "Episode Thumbnail" Then
-                Dim path As String = image("path").Value(Of String)
-                Return path
-            End If
-        Next
-        Return ""
-    End Function
-
-    Public Function getEpisodeInfo() As EpisodeInfo Implements IMetadataDownloader.getEpisodeInfo
+    Public Function getEpisodeInfo() As Episode Implements IMetadataDownloader.getEpisodeInfo
         If Not IsVideoUrl() Then
             Return Nothing
         End If
@@ -279,7 +168,7 @@ Public Class FunimationExtractor
         Dim episodeSlug = extractEpisodeSlug(downloadUrl)
         Dim episodeInfoUrl = BuildEpisodeInfoUrl(episodeSlug)
         Dim EpisodeJson = DownloadJson(episodeInfoUrl)
-        Return ParseEpisodeInfoJson(EpisodeJson)
+        Return FunimationEpisode.CreateFromJson(EpisodeJson)
     End Function
 
     Private Function extractEpisodeSlug(url As String) As String

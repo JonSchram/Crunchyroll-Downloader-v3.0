@@ -3,7 +3,7 @@
     ''' Gets information about all seasons available in a series.
     ''' </summary>
     ''' <returns></returns>
-    Function ListSeasons() As IEnumerable(Of Season)
+    Function ListSeasons() As IEnumerable(Of SeasonOverview)
 
     ''' <summary>
     ''' Gets the information about all episodes in a season and how to get more information about
@@ -11,7 +11,7 @@
     ''' </summary>
     ''' <param name="SeasonName"></param>
     ''' <returns></returns>
-    Function ListEpisodes(SeasonName As String) As List(Of Episode)
+    Function ListEpisodes(SeasonName As String) As IEnumerable(Of EpisodeOverview)
 
     ''' <summary>
     ''' Gets the information required to locate the episode playback
@@ -19,13 +19,13 @@
     ''' </summary>
     ''' <param name="EpisodeId"></param>
     ''' <returns></returns>
-    Function getEpisodeInfo(EpisodeId As String) As EpisodeInfo
+    Function getEpisodeInfo(EpisodeId As String) As Episode
 
     ''' <summary>
     ''' Downloads the episode info from the download URL, assumed to be a link to an episode.
     ''' </summary>
     ''' <returns></returns>
-    Function getEpisodeInfo() As EpisodeInfo
+    Function getEpisodeInfo() As Episode
 
     Function IsVideoUrl() As Boolean
 End Interface

@@ -8,17 +8,18 @@ Public Class DebugForm
     End Sub
 
     Private Sub parseFunimation()
-        ' TODO: Can't do anything with this. All JSON is expected to be downloaded, and the debug window is trying to let you parse from a text box
+        Dim json = inputTextBox.Text
         If SeriesInfoRadioButton.Checked Then
-            Dim parser = New FunimationExtractor("funimation.com/shows")
+            Dim series = FunimationSeries.CreateFromJson(json)
+            OutputTextBox.Text = series.ToString()
         ElseIf SeasonInfoRadioButton.Checked Then
-            Dim parser = New FunimationExtractor("funimation.com/shows")
+            Dim SeasonInfo = FunimationSeason.CreateFromJson(json)
+            OutputTextBox.Text = SeasonInfo.ToString()
         ElseIf EpisodeInfoRadioButton.Checked Then
-            Dim parser = New FunimationExtractor("funimation.com/v/")
-            Dim episodeInfo = parser.getEpisodeInfo()
+            Dim episodeInfo = FunimationEpisode.CreateFromJson(json)
             OutputTextBox.Text = episodeInfo.ToString()
         ElseIf EpisodePlaybackRadioButton.Checked Then
-            Dim playbackInfo = EpisodePlaybackInfo.CreateFromJson(inputTextBox.Text)
+            Dim playbackInfo = EpisodePlaybackInfo.CreateFromJson(json)
             OutputTextBox.Text = playbackInfo.ToString()
         End If
     End Sub

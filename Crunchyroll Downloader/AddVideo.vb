@@ -34,8 +34,9 @@ Public Class AddVideo
 
                 Dim minEpisode = Math.Min(startEpisode, endEpisode)
                 Dim maxEpisode = Math.Max(startEpisode, endEpisode)
+                Dim episodes = episodeList.ToList
                 For episodeNum = startEpisode To endEpisode
-                    Dim Episode = episodeList.Item(episodeNum)
+                    Dim Episode = episodes.Item(episodeNum)
                     Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode.ApiUrlSlug)
                     downloadQueue.enqueue(EpisodeInfo)
                 Next

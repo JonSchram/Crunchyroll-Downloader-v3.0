@@ -10,7 +10,7 @@ Imports System.Runtime.CompilerServices
 ''' Might want to consider creating queues for each site or allowing you to get the next one for a site.
 ''' </summary>
 Public Class DownloadQueue
-    Inherits BindingList(Of EpisodeInfo)
+    Inherits BindingList(Of Episode)
 
     Private Shared Instance As DownloadQueue = Nothing
 
@@ -38,12 +38,12 @@ Public Class DownloadQueue
         Return Instance
     End Function
 
-    Public Sub enqueue(episode As EpisodeInfo)
+    Public Sub enqueue(episode As Episode)
         Me.Add(episode)
         'NotifyQueue.Add(episode)
     End Sub
 
-    Public Sub enqueueRange(episodeList As List(Of EpisodeInfo), startNum As Integer, endNum As Integer)
+    Public Sub enqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer)
         Dim minEpisode = Math.Min(startNum, endNum)
         Dim maxEpisode = Math.Max(startNum, endNum)
         Dim episodeCount = maxEpisode - minEpisode + 1
@@ -54,7 +54,7 @@ Public Class DownloadQueue
         Next
     End Sub
 
-    Public Function Dequeue() As EpisodeInfo
+    Public Function Dequeue() As Episode
         ' TODO: This will dequeue episodes without the web site information.
         ' How do we get the episode info and the playlist? Save the API in the queue too?
         ' Allow the API to decide how to pick up from an episode?

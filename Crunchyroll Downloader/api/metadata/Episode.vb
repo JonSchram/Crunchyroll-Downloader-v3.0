@@ -1,23 +1,29 @@
-﻿' TODO: Might want to add episode download details here too?
-' Could build out details as they are retrieved from the API. The downside is that it becomes more confusing what is available at any given time.
-' If this is done, might need a flag like "detailsAvailable"
-Public Class Episode
-    ' An internal ID used to refer to the episode
-    Public Property EpisodeId As String
+﻿Public MustInherit Class Episode
+    ' The ID of the corresponding video playback info
+    Public Property VideoId As String
 
-    ' A slug to add to the URL to get the web viewer for this episode
-    Public Property EpisodeUrlSlug As String
+    ' The ID that the API uses to refer to this episode
+    Public Property ApiId As Integer
 
-    ' A slug to add to the URL to get episode details through the API
-    Public Property ApiUrlSlug As String
+    ' The slug added to the URL to get to the user-facing episode player
+    Public Property UrlSlug As String
+
+    Public Property ShowName As String
+
+    Public Property SeasonNumber As Integer
+
+    ' Episode number in season. Needs to be a double because some episodes like filler / recap episodes are numbered as ".5"
+    Public Property EpisodeNumber As Double
+
+    Public Property ImageUrl As String
+
+    ' Episode type. Usually "episode" but could be any descriptive string
+    Public Property Type As String
 
     Public Property IsFree As Boolean
 
-    ' Episode number is a string in the API so keep it that way
-    Public Property EpisodeNumber As String
-
     Public Overrides Function ToString() As String
-        Return "Episode " + EpisodeNumber
+        Return $"{ShowName} - Season {SeasonNumber} Episode {EpisodeNumber}"
     End Function
 
 End Class

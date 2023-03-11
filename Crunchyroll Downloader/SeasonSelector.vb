@@ -1,8 +1,8 @@
 ﻿Public Class SeasonSelector
-    Private SeasonList As List(Of Season)
+    Private SeasonList As List(Of SeasonOverview)
 
     ' The list of episodes to download
-    Public Property episodeList As List(Of Episode)
+    Public Property episodeList As IEnumerable(Of EpisodeOverview)
 
     ' Using list indices because there is technically no guarantee that the episode number is an integer
     ' or even unique in the list. At least by using indices, the combo box answer is unambiguous
@@ -16,7 +16,7 @@
 
     Private MetadataApi As IMetadataDownloader
 
-    Public Sub New(MetadataApi As IMetadataDownloader, SeasonList As IEnumerable(Of Season))
+    Public Sub New(MetadataApi As IMetadataDownloader, SeasonList As IEnumerable(Of SeasonOverview))
         InitializeComponent()
 
         Me.MetadataApi = MetadataApi
@@ -24,7 +24,7 @@
         updateControlsForSeason(Me.SeasonList)
     End Sub
 
-    Public Sub updateControlsForSeason(seasonList As List(Of Season))
+    Public Sub updateControlsForSeason(seasonList As List(Of SeasonOverview))
         resetComboBox(seasonSelectComboBox)
         resetComboBox(startEpisodeComboBox)
         resetComboBox(endEpisodeComboBox)
@@ -51,11 +51,11 @@
         comboBox.Text = Nothing
     End Sub
 
-    Private Sub CloseButton_Click(sender As Object, e As EventArgs) 
+    Private Sub CloseButton_Click(sender As Object, e As EventArgs)
         Close()
     End Sub
 
-    Private Sub MinimizeButton_Click(sender As Object, e As EventArgs) 
+    Private Sub MinimizeButton_Click(sender As Object, e As EventArgs)
         WindowState = FormWindowState.Minimized
     End Sub
 
@@ -65,7 +65,7 @@
         resetComboBox(endEpisodeComboBox)
 
         Dim selectedIndex As Integer = seasonSelectComboBox.SelectedIndex
-        Dim selectedItem As Season = CType(seasonSelectComboBox.SelectedItem, Season)
+        Dim selectedItem As SeasonOverview = CType(seasonSelectComboBox.SelectedItem, SeasonOverview)
 
         Dim SeasonName As String = selectedItem.ApiID
         episodeList = MetadataApi.ListEpisodes(SeasonName)
@@ -73,7 +73,7 @@
         setComboBoxEpisodes(endEpisodeComboBox, episodeList)
     End Sub
 
-    Private Sub setComboBoxEpisodes(comboBox As ComboBox, episodeList As List(Of Episode))
+    Private Sub setComboBoxEpisodes(comboBox As ComboBox, episodeList As IEnumerable(Of EpisodeOverview))
         comboBox.Items.AddRange(episodeList.ToArray)
         'episodeList.ForEach(Sub(episode)
         '                        comboBox.Items.Add(formatEpisodeNumber(episode.EpisodeNumber))

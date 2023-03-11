@@ -212,6 +212,7 @@ Partial Class DebugForm
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.inputTextBox.Location = New System.Drawing.Point(6, 19)
+        Me.inputTextBox.MaxLength = 9999999
         Me.inputTextBox.Multiline = True
         Me.inputTextBox.Name = "inputTextBox"
         Me.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both

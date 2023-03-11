@@ -25,12 +25,12 @@
         End If
     End Function
 
-    Public Function getEpisodeDownloader(Episode As EpisodeInfo) As IEpisodeDownloader
+    Public Function getEpisodeDownloader(Episode As Episode) As IEpisodeDownloader
         ' TODO: See if there's a better way to do this. Seems silly to pass in an episode to get the downloader and then
         ' another for actually downloading.
         ' Maybe add the episode as a constructor and pass it to the downloader.
         ' The only problem here is if it needs cookies to download the video, each instance has to set new ones.
-        If TypeOf Episode Is FunimationEpisodeInfo Then
+        If TypeOf Episode Is FunimationEpisode Then
             Return New FunimationDownloader()
         End If
         Return Nothing

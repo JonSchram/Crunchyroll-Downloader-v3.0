@@ -1,5 +1,7 @@
-﻿Public Class FunimationSeason
-    Inherits Season
+﻿Imports Newtonsoft.Json.Linq
+
+Public Class FunimationSeasonOverview
+    Inherits SeasonOverview
 
     Public Property Id As Integer
 

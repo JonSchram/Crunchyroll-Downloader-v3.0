@@ -55,11 +55,11 @@ Public Class FunimationDownloader
     ' - (Using parsed file) download subs & video playlists
     ' - Find the resolution matching the user's choice
 
-    Public Sub DownloadEpisode(Episode As EpisodeInfo) Implements IEpisodeDownloader.DownloadEpisode
+    Public Sub DownloadEpisode(Episode As Episode) Implements IEpisodeDownloader.DownloadEpisode
         Throw New NotImplementedException()
     End Sub
 
-    Public Function GetPlaybacks(Episode As EpisodeInfo) As EpisodePlaybackInfo
+    Public Function GetPlaybacks(Episode As Episode) As EpisodePlaybackInfo
         ' A playback file contains a primary and fallbacks. Not sure what they do but maybe it's in case the primary doesn't respond?
         ' File contents seem to be exactly the same format but with different bandwidth metadata / video download URLs (there is a slug that seems to be a GUID)
         ' API paths are the same
