@@ -3,6 +3,7 @@
 Imports System.Collections.ObjectModel
 Imports System.ComponentModel
 Imports System.Net
+Imports Crunchyroll_Downloader.settings
 Imports MetroFramework
 Imports MetroFramework.Components
 
@@ -76,7 +77,7 @@ Public Class Queue
             Main.RunningDownloads = Main.Panel1.Controls.Count
         End Try
 
-        If Main.RunningDownloads < Main.MaxDL Then
+        If Main.RunningDownloads < ProgramSettings.GetInstance().SimultaneousDownloads Then
             If Main.ListBoxList.Count > 0 Then
                 If CBool(InStr(ListBox1.GetItemText(Main.ListBoxList(0)), "funimation.com")) Then
                     ' TODO

@@ -4,11 +4,11 @@ Namespace settings
 
     Public Class ProgramSettings
         Public Shared Event DarkModeChanged(darkModeEnabled As Boolean)
-        Public Shared Instance As ProgramSettings = Nothing
+        Private Shared Instance As New ProgramSettings()
 
         Private Sub New()
-            DarkMode = My.Settings.DarkModeValue
-
+            _DarkMode = My.Settings.DarkModeValue
+            _SimultaneousDownloads = My.Settings.SL_DL
         End Sub
 
         Public Shared Function GetInstance() As ProgramSettings
@@ -28,6 +28,7 @@ Namespace settings
             End Get
             Set
                 _SimultaneousDownloads = Value
+                My.Settings.SL_DL = Value
             End Set
         End Property
 

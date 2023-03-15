@@ -139,7 +139,6 @@ Public Class Main
     Public Grapp_Abord As Boolean = False
     Public NameBuilder As String = ""
     Public LeadingZero As Integer = 1
-    Public MaxDL As Integer
     Public ResoNotFoundString As String
     Public ResoBackString As String
     Public WebbrowserHeadText As String = Nothing
@@ -554,8 +553,6 @@ Public Class Main
         Funimation_Bitrate = My.Settings.Funimation_Bitrate
 
         SubFolder_Value = My.Settings.SubFolder_Value
-
-        MaxDL = My.Settings.SL_DL
 
         ' TODO change name templates to be a little less brittle
         If My.Settings.NameTemplate = "Unused" Then 'convert old stlye

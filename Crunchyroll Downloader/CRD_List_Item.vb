@@ -9,7 +9,7 @@ Imports System.ComponentModel
 Imports MetroFramework
 Imports MetroFramework.Components
 Imports MetroFramework.Forms
-
+Imports Crunchyroll_Downloader.settings
 
 Public Class CRD_List_Item
     Inherits Controls.MetroUserControl
@@ -270,7 +270,7 @@ Public Class CRD_List_Item
     Private Sub BT_pause_Click(sender As Object, e As EventArgs) Handles bt_pause.Click
         If Canceld = True And HybridRunning = True Then
 
-            If Main.RunningDownloads < Main.MaxDL Then
+            If Main.RunningDownloads < ProgramSettings.GetInstance().SimultaneousDownloads Then
 
             Else
                 If MessageBox.Show("You have currtenly on your set Download limit." + vbNewLine + " You can Press OK to ignore it.", "Download maximum reached", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then
@@ -330,7 +330,7 @@ Public Class CRD_List_Item
             If proc.HasExited = True Then
                 If ProgressBar1.Value < 100 Then
                     If Retry = True Then
-                        If Main.RunningDownloads < Main.MaxDL Then
+                        If Main.RunningDownloads < ProgramSettings.GetInstance().SimultaneousDownloads Then
 
                         Else
                             If MessageBox.Show("You have currtenly on your set Download limit." + vbNewLine + " You can Press OK to ignore it.", "Download maximum reached", MessageBoxButtons.OKCancel) = DialogResult.Cancel Then

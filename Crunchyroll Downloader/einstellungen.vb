@@ -235,7 +235,7 @@ Public Class Einstellungen
 
 
         ErrorLimitInput.Value = Main.ErrorTolerance
-        SimultaneousDownloadsInput.Value = Main.MaxDL
+        SimultaneousDownloadsInput.Value = settings.SimultaneousDownloads
         DefaultWebsiteTextBox.Text = Main.Startseite
 
         Try
@@ -352,6 +352,8 @@ Public Class Einstellungen
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
+        Dim settings As ProgramSettings = ProgramSettings.GetInstance()
+
         Main.LeadingZero = LeadingZeroDD.SelectedIndex
         My.Settings.LeadingZero = LeadingZeroDD.SelectedIndex
 
@@ -694,8 +696,7 @@ Public Class Einstellungen
             End If
         End If
 
-        Main.MaxDL = CInt(SimultaneousDownloadsInput.Value)
-        My.Settings.SL_DL = Main.MaxDL
+        settings.SimultaneousDownloads = CInt(SimultaneousDownloadsInput.Value)
 
 
         Main.ErrorTolerance = CInt(ErrorLimitInput.Value)

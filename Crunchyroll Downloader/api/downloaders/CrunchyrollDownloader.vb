@@ -3,6 +3,7 @@ Imports System.Net
 Imports System.Threading
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Status
 Imports Crunchyroll_Downloader.CRD_Classes
+Imports Crunchyroll_Downloader.settings
 Imports Newtonsoft.Json.Linq
 
 Public Class CrunchyrollDownloader
@@ -44,7 +45,7 @@ Public Class CrunchyrollDownloader
                         Catch ex As Exception
                             Main.RunningDownloads = Main.Panel1.Controls.Count
                         End Try
-                        If Main.RunningDownloads < Main.MaxDL Then
+                        If Main.RunningDownloads < ProgramSettings.GetInstance().SimultaneousDownloads Then
                             Exit For
                         Else
                             'MsgBox(e)
