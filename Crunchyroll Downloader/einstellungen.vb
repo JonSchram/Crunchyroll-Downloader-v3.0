@@ -9,6 +9,7 @@ Imports MetroFramework.Forms
 Imports MetroFramework
 Imports MetroFramework.Components
 Imports System.Text.RegularExpressions
+Imports Crunchyroll_Downloader.settings
 
 Public Class Einstellungen
     Inherits MetroForm
@@ -20,6 +21,9 @@ Public Class Einstellungen
 
 
     Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
+
+        Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
         Label6.Text = "You have: v" + Application.ProductVersion.ToString '+ " WebView2_Test"
 
@@ -73,13 +77,14 @@ Public Class Einstellungen
             Chb_Ign_tls.Checked = True
         End If
 
-        If Main.DarkModeValue = True Then
+        If settings.DarkMode Then
             DarkMode.Checked = True
             GroupBoxColor(Color.FromArgb(150, 150, 150))
+            ' TODO: Set image box for dark mode directly instead of from Main
             pictureBox1.Image = Main.CloseImg
         Else
-            GroupBoxColor(Color.FromArgb(0, 0, 0))
             DarkMode.Checked = False
+            GroupBoxColor(Color.FromArgb(0, 0, 0))
         End If
 
         TabControl1.SelectedIndex = 0
@@ -229,9 +234,9 @@ Public Class Einstellungen
         DD_Episode_Prefix.Text = Main.Episode_Prefix
 
 
-        NumericUpDown2.Value = Main.ErrorTolerance
-        NumericUpDown1.Value = Main.MaxDL
-        TextBox1.Text = Main.Startseite
+        ErrorLimitInput.Value = Main.ErrorTolerance
+        SimultaneousDownloadsInput.Value = Main.MaxDL
+        DefaultWebsiteTextBox.Text = Main.Startseite
 
         Try
 
@@ -420,10 +425,10 @@ Public Class Einstellungen
         End If
 
         '  MsgBox(Name_season.Text)
-        If CBool(InStr(TextBox1.Text, "https://")) Then
-            Main.Startseite = TextBox1.Text
+        If CBool(InStr(DefaultWebsiteTextBox.Text, "https://")) Then
+            Main.Startseite = DefaultWebsiteTextBox.Text
             My.Settings.Startseite = Main.Startseite
-        ElseIf TextBox1.Text = Nothing Then
+        ElseIf DefaultWebsiteTextBox.Text = Nothing Then
             Main.Startseite = "https://www.crunchyroll.com/"
             My.Settings.Startseite = Main.Startseite
         Else
@@ -679,21 +684,21 @@ Public Class Einstellungen
 
 
         If CBool(InStr(FFMPEG_CommandP1.Text, "nvenc")) = True And CBool(Main.VideoFormat = ".aac") = False Then
-            If NumericUpDown1.Value > 2 Then
-                NumericUpDown1.Value = 2
+            If SimultaneousDownloadsInput.Value > 2 Then
+                SimultaneousDownloadsInput.Value = 2
             End If
 
         ElseIf CBool(InStr(FFMPEG_CommandP1.Text, "libx26")) = True And CBool(Main.VideoFormat = ".aac") = False Then
-            If NumericUpDown1.Value > 1 Then
-                NumericUpDown1.Value = 1
+            If SimultaneousDownloadsInput.Value > 1 Then
+                SimultaneousDownloadsInput.Value = 1
             End If
         End If
 
-        Main.MaxDL = CInt(NumericUpDown1.Value)
+        Main.MaxDL = CInt(SimultaneousDownloadsInput.Value)
         My.Settings.SL_DL = Main.MaxDL
 
 
-        Main.ErrorTolerance = CInt(NumericUpDown2.Value)
+        Main.ErrorTolerance = CInt(ErrorLimitInput.Value)
         My.Settings.ErrorTolerance = Main.ErrorTolerance
 
         If ListViewAdd_True.Checked = True Then
@@ -898,8 +903,8 @@ Public Class Einstellungen
 
 
     Sub GroupBoxColor(ByVal color As Color)
-        NumericUpDown1.ForeColor = color
-        NumericUpDown2.ForeColor = color
+        SimultaneousDownloadsInput.ForeColor = color
+        ErrorLimitInput.ForeColor = color
         FFMPEG_CommandP1.ForeColor = color
         FFMPEG_CommandP2.ForeColor = color
         FFMPEG_CommandP3.ForeColor = color
@@ -931,32 +936,22 @@ Public Class Einstellungen
         GroupBox20.ForeColor = color
     End Sub
 
-
-
-
+    Private Sub HandleDarkModeChanged(NewValue As Boolean)
+        If NewValue Then
+            GroupBoxColor(Color.FromArgb(150, 150, 150))
+            SimultaneousDownloadsInput.BackColor = Color.FromArgb(17, 17, 17)
+            ErrorLimitInput.BackColor = Color.FromArgb(17, 17, 17)
+        Else
+            GroupBoxColor(Color.FromArgb(0, 0, 0))
+            SimultaneousDownloadsInput.BackColor = Color.FromArgb(243, 243, 243)
+            ErrorLimitInput.BackColor = Color.FromArgb(243, 243, 243)
+        End If
+        ' TODO: Get correct close image for theme
+        pictureBox1.Image = Main.CloseImg
+    End Sub
 
     Private Sub DarkMode_CheckedChanged(sender As Object, e As EventArgs) Handles DarkMode.CheckedChanged
-
-        If DarkMode.Checked = True Then
-            My.Settings.DarkModeValue = True
-            Manager.Theme = MetroThemeStyle.Dark
-            GroupBoxColor(Color.FromArgb(150, 150, 150))
-            NumericUpDown1.BackColor = Color.FromArgb(17, 17, 17)
-            NumericUpDown2.BackColor = Color.FromArgb(17, 17, 17)
-            Main.DarkMode()
-            Main.DarkModeValue = True
-            pictureBox1.Image = Main.CloseImg
-        Else
-            Main.DarkModeValue = False
-            My.Settings.DarkModeValue = False
-
-            Manager.Theme = MetroThemeStyle.Light
-            Main.LightMode()
-            GroupBoxColor(Color.FromArgb(0, 0, 0))
-            NumericUpDown1.BackColor = Color.FromArgb(243, 243, 243)
-            NumericUpDown2.BackColor = Color.FromArgb(243, 243, 243)
-            pictureBox1.Image = Main.CloseImg
-        End If
+        ProgramSettings.GetInstance().DarkMode = DarkMode.Checked
     End Sub
 
 

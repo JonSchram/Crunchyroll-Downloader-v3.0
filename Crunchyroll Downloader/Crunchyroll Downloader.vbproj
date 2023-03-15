@@ -243,6 +243,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.vb" />
+    <Compile Include="Settings\CrunchyrollSettings.vb" />
+    <Compile Include="Settings\FfmpegCommand.vb" />
+    <Compile Include="Settings\Format.vb" />
+    <Compile Include="Settings\FunimationSettings.vb" />
+    <Compile Include="Settings\ProgramSettings.vb" />
     <Compile Include="Trackbar.Designer.vb">
       <DependentUpon>Trackbar.vb</DependentUpon>
     </Compile>

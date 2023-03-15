@@ -18,6 +18,8 @@ Imports System.Windows
 Imports Microsoft.Web.WebView2.Core
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.CRD_Classes
+Imports System.Drawing.Text
+Imports Crunchyroll_Downloader.settings
 
 Public Class Main
     Inherits MetroForm
@@ -57,7 +59,6 @@ Public Class Main
     Public LoadingUrl As String = ""
     Public LoadedUrls As New List(Of CoreWebView2WebResourceRequest)
     Public Manager As New MetroStyleManager
-    Public DarkModeValue As Boolean = False
     Public invalids As Char() = System.IO.Path.GetInvalidFileNameChars()
     Dim ServerThread As Thread
     Public KodiNaming As Boolean = False
@@ -207,7 +208,16 @@ Public Class Main
     Public MinImg As Bitmap = My.Resources.main_mini
     Public BackColorValue As Color = Color.FromArgb(243, 243, 243)
     Public ForeColorValue As Color = SystemColors.WindowText
+
+    Private Sub HandleDarkModeChanged(isDarkMode As Boolean)
+        If isDarkMode Then
+            DarkMode()
+        Else
+            LightMode()
+        End If
+    End Sub
     Public Sub DarkMode()
+        Manager.Theme = MetroThemeStyle.Dark
         Panel1.BackColor = Color.FromArgb(50, 50, 50)
         CloseImg = My.Resources.main_close_dark
         MinImg = My.Resources.main_mini_dark
@@ -218,6 +228,7 @@ Public Class Main
     End Sub
 
     Public Sub LightMode()
+        Manager.Theme = MetroThemeStyle.Light
         BackColorValue = Color.FromArgb(243, 243, 243)
         ForeColorValue = SystemColors.WindowText
         Panel1.BackColor = SystemColors.Control
@@ -422,6 +433,8 @@ Public Class Main
         FillArray()
 
 
+        AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
+        Dim settings = ProgramSettings.GetInstance()
 
 
 #Region "settings path"
@@ -441,15 +454,11 @@ Public Class Main
         Debug.WriteLine("Thread Name: " + Thread.CurrentThread.Name)
 
 
-        DarkModeValue = My.Settings.DarkModeValue
-
 
         Manager.Style = MetroColorStyle.Orange
-        If DarkModeValue = True Then
-            Manager.Theme = MetroThemeStyle.Dark
+        If settings.DarkMode Then
             DarkMode()
         Else
-            Manager.Theme = MetroThemeStyle.Light
             LightMode()
         End If
         Me.StyleManager = Manager

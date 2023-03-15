@@ -90,16 +90,16 @@ Partial Class Einstellungen
         Me.MetroLabel1 = New MetroFramework.Controls.MetroLabel()
         Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
         Me.Label2 = New MetroFramework.Controls.MetroLabel()
-        Me.NumericUpDown2 = New System.Windows.Forms.NumericUpDown()
+        Me.ErrorLimitInput = New System.Windows.Forms.NumericUpDown()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.Chb_Ign_tls = New MetroFramework.Controls.MetroCheckBox()
         Me.http_support = New MetroFramework.Controls.MetroComboBox()
         Me.DarkMode = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New MetroFramework.Controls.MetroLabel()
-        Me.TextBox1 = New MetroFramework.Controls.MetroTextBox()
+        Me.DefaultWebsiteTextBox = New MetroFramework.Controls.MetroTextBox()
         Me.DL_Count_simultaneous = New System.Windows.Forms.GroupBox()
-        Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
+        Me.SimultaneousDownloadsInput = New System.Windows.Forms.NumericUpDown()
         Me.TabControl1 = New MetroFramework.Controls.MetroTabControl()
         Me.MetroTabPage2 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
@@ -145,9 +145,9 @@ Partial Class Einstellungen
         Me.TabPage7 = New System.Windows.Forms.TabPage()
         Me.LastVersion = New MetroFramework.Controls.MetroLabel()
         Me.Label8 = New MetroFramework.Controls.MetroLabel()
-        Me.Label9 = New MetroFramework.Controls.MetroLabel()
-        Me.Label7 = New MetroFramework.Controls.MetroLabel()
-        Me.Label3 = New MetroFramework.Controls.MetroLabel()
+        Me.MetroFrameworkLabel = New MetroFramework.Controls.MetroLabel()
+        Me.WebviewLabel = New MetroFramework.Controls.MetroLabel()
+        Me.FfmpegLabel = New MetroFramework.Controls.MetroLabel()
         Me.PictureBox7 = New System.Windows.Forms.PictureBox()
         Me.Label4 = New MetroFramework.Controls.MetroLabel()
         Me.Label6 = New MetroFramework.Controls.MetroLabel()
@@ -169,11 +169,11 @@ Partial Class Einstellungen
         Me.TabPage1.SuspendLayout()
         Me.GroupBox21.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
-        CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ErrorLimitInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox5.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.DL_Count_simultaneous.SuspendLayout()
-        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SimultaneousDownloadsInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
         Me.MetroTabPage2.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -499,84 +499,84 @@ Partial Class Einstellungen
         'copy
         '
         Me.copy.Name = "copy"
-        Me.copy.Size = New System.Drawing.Size(172, 22)
+        Me.copy.Size = New System.Drawing.Size(180, 22)
         Me.copy.Text = "-c copy"
         '
         'CPU_h264
         '
         Me.CPU_h264.BackColor = System.Drawing.Color.DarkGray
         Me.CPU_h264.Name = "CPU_h264"
-        Me.CPU_h264.Size = New System.Drawing.Size(172, 22)
+        Me.CPU_h264.Size = New System.Drawing.Size(180, 22)
         Me.CPU_h264.Text = "-c:v libx264"
         '
         'CPU_h265
         '
         Me.CPU_h265.BackColor = System.Drawing.Color.DarkGray
         Me.CPU_h265.Name = "CPU_h265"
-        Me.CPU_h265.Size = New System.Drawing.Size(172, 22)
+        Me.CPU_h265.Size = New System.Drawing.Size(180, 22)
         Me.CPU_h265.Text = "-c:v libx265"
         '
         'CPU_AV1
         '
         Me.CPU_AV1.BackColor = System.Drawing.Color.DarkGray
         Me.CPU_AV1.Name = "CPU_AV1"
-        Me.CPU_AV1.Size = New System.Drawing.Size(172, 22)
+        Me.CPU_AV1.Size = New System.Drawing.Size(180, 22)
         Me.CPU_AV1.Text = "-c:v libsvtav1"
         '
         'nv_h264
         '
         Me.nv_h264.BackColor = System.Drawing.Color.YellowGreen
         Me.nv_h264.Name = "nv_h264"
-        Me.nv_h264.Size = New System.Drawing.Size(172, 22)
+        Me.nv_h264.Size = New System.Drawing.Size(180, 22)
         Me.nv_h264.Text = "-c:v h264_nvenc "
         '
         'nv_hevc
         '
         Me.nv_hevc.BackColor = System.Drawing.Color.YellowGreen
         Me.nv_hevc.Name = "nv_hevc"
-        Me.nv_hevc.Size = New System.Drawing.Size(172, 22)
+        Me.nv_hevc.Size = New System.Drawing.Size(180, 22)
         Me.nv_hevc.Text = "-c:v hevc_nvenc"
         '
         'nv_AV1
         '
         Me.nv_AV1.BackColor = System.Drawing.Color.YellowGreen
         Me.nv_AV1.Name = "nv_AV1"
-        Me.nv_AV1.Size = New System.Drawing.Size(172, 22)
+        Me.nv_AV1.Size = New System.Drawing.Size(180, 22)
         Me.nv_AV1.Text = "-c:v av1_nvenc"
         '
         'AMD_h264
         '
         Me.AMD_h264.BackColor = System.Drawing.Color.Tomato
         Me.AMD_h264.Name = "AMD_h264"
-        Me.AMD_h264.Size = New System.Drawing.Size(172, 22)
+        Me.AMD_h264.Size = New System.Drawing.Size(180, 22)
         Me.AMD_h264.Text = "-c:v h264_amf"
         '
         'AMD_hevc
         '
         Me.AMD_hevc.BackColor = System.Drawing.Color.Tomato
         Me.AMD_hevc.Name = "AMD_hevc"
-        Me.AMD_hevc.Size = New System.Drawing.Size(172, 22)
+        Me.AMD_hevc.Size = New System.Drawing.Size(180, 22)
         Me.AMD_hevc.Text = "-c:v hevc_amf"
         '
         'Intel_h264
         '
         Me.Intel_h264.BackColor = System.Drawing.Color.CornflowerBlue
         Me.Intel_h264.Name = "Intel_h264"
-        Me.Intel_h264.Size = New System.Drawing.Size(172, 22)
+        Me.Intel_h264.Size = New System.Drawing.Size(180, 22)
         Me.Intel_h264.Text = "-c:v h264_qsv"
         '
         'Intel_hevc
         '
         Me.Intel_hevc.BackColor = System.Drawing.Color.CornflowerBlue
         Me.Intel_hevc.Name = "Intel_hevc"
-        Me.Intel_hevc.Size = New System.Drawing.Size(172, 22)
+        Me.Intel_hevc.Size = New System.Drawing.Size(180, 22)
         Me.Intel_hevc.Text = "-c:v hevc_qsv"
         '
         'Intel_AV1
         '
         Me.Intel_AV1.BackColor = System.Drawing.Color.CornflowerBlue
         Me.Intel_AV1.Name = "Intel_AV1"
-        Me.Intel_AV1.Size = New System.Drawing.Size(172, 22)
+        Me.Intel_AV1.Size = New System.Drawing.Size(180, 22)
         Me.Intel_AV1.Text = "-c:v av1_qsv"
         '
         'FFMPEG_CommandP2
@@ -590,19 +590,19 @@ Partial Class Einstellungen
         'ListP1
         '
         Me.ListP1.Name = "ListP1"
-        Me.ListP1.Size = New System.Drawing.Size(146, 22)
+        Me.ListP1.Size = New System.Drawing.Size(180, 22)
         Me.ListP1.Text = "-preset fast"
         '
         'ListP2
         '
         Me.ListP2.Name = "ListP2"
-        Me.ListP2.Size = New System.Drawing.Size(146, 22)
+        Me.ListP2.Size = New System.Drawing.Size(180, 22)
         Me.ListP2.Text = "-preset slow"
         '
         'ListP3
         '
         Me.ListP3.Name = "ListP3"
-        Me.ListP3.Size = New System.Drawing.Size(146, 22)
+        Me.ListP3.Size = New System.Drawing.Size(180, 22)
         Me.ListP3.Text = "[no Preset]"
         '
         'FFMPEG_CommandP3
@@ -616,79 +616,79 @@ Partial Class Einstellungen
         'ListBit_7000
         '
         Me.ListBit_7000.Name = "ListBit_7000"
-        Me.ListBit_7000.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_7000.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_7000.Text = "-b:v 7000k"
         '
         'ListBit_6500
         '
         Me.ListBit_6500.Name = "ListBit_6500"
-        Me.ListBit_6500.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_6500.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_6500.Text = "-b:v 6500k"
         '
         'ListBit_6000
         '
         Me.ListBit_6000.Name = "ListBit_6000"
-        Me.ListBit_6000.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_6000.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_6000.Text = "-b:v 6000k"
         '
         'ListBit_5500
         '
         Me.ListBit_5500.Name = "ListBit_5500"
-        Me.ListBit_5500.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_5500.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_5500.Text = "-b:v 5500k"
         '
         'ListBit_5000
         '
         Me.ListBit_5000.Name = "ListBit_5000"
-        Me.ListBit_5000.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_5000.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_5000.Text = "-b:v 5000k"
         '
         'ListBit_4500
         '
         Me.ListBit_4500.Name = "ListBit_4500"
-        Me.ListBit_4500.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_4500.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_4500.Text = "-b:v 4500k"
         '
         'ListBit_4000
         '
         Me.ListBit_4000.Name = "ListBit_4000"
-        Me.ListBit_4000.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_4000.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_4000.Text = "-b:v 4000k"
         '
         'ListBit_3500
         '
         Me.ListBit_3500.Name = "ListBit_3500"
-        Me.ListBit_3500.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_3500.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_3500.Text = "-b:v 3500k"
         '
         'ListBit_3000
         '
         Me.ListBit_3000.Name = "ListBit_3000"
-        Me.ListBit_3000.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_3000.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_3000.Text = "-b:v 3000k"
         '
         'ListBit_2500
         '
         Me.ListBit_2500.Name = "ListBit_2500"
-        Me.ListBit_2500.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_2500.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_2500.Text = "-b:v 2500k"
         '
         'ListBit_2000
         '
         Me.ListBit_2000.Name = "ListBit_2000"
-        Me.ListBit_2000.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_2000.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_2000.Text = "-b:v 2000k"
         '
         'ListBit_1500
         '
         Me.ListBit_1500.Name = "ListBit_1500"
-        Me.ListBit_1500.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_1500.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_1500.Text = "-b:v 1500k"
         '
         'ListBit_1000
         '
         Me.ListBit_1000.Name = "ListBit_1000"
-        Me.ListBit_1000.Size = New System.Drawing.Size(134, 22)
+        Me.ListBit_1000.Size = New System.Drawing.Size(180, 22)
         Me.ListBit_1000.Text = "-b:v 1000k"
         '
         'FFMPEG_CommandP4
@@ -795,10 +795,10 @@ Partial Class Einstellungen
         Me.TabPage1.HorizontalScrollbarBarColor = True
         Me.TabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage1.HorizontalScrollbarSize = 10
-        Me.TabPage1.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 44)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(501, 528)
+        Me.TabPage1.Size = New System.Drawing.Size(501, 519)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "  Main"
         Me.TabPage1.VerticalScrollbar = True
@@ -839,7 +839,7 @@ Partial Class Einstellungen
         Me.GroupBox6.Controls.Add(Me.MetroLabel1)
         Me.GroupBox6.Controls.Add(Me.CheckBox2)
         Me.GroupBox6.Controls.Add(Me.Label2)
-        Me.GroupBox6.Controls.Add(Me.NumericUpDown2)
+        Me.GroupBox6.Controls.Add(Me.ErrorLimitInput)
         Me.GroupBox6.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox6.ForeColor = System.Drawing.Color.Black
         Me.GroupBox6.Location = New System.Drawing.Point(5, 299)
@@ -880,13 +880,13 @@ Partial Class Einstellungen
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "The amout of error(s) until the Download process get paused "
         '
-        'NumericUpDown2
+        'ErrorLimitInput
         '
-        Me.NumericUpDown2.Location = New System.Drawing.Point(135, 70)
-        Me.NumericUpDown2.Name = "NumericUpDown2"
-        Me.NumericUpDown2.Size = New System.Drawing.Size(200, 22)
-        Me.NumericUpDown2.TabIndex = 6
-        Me.NumericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.ErrorLimitInput.Location = New System.Drawing.Point(135, 70)
+        Me.ErrorLimitInput.Name = "ErrorLimitInput"
+        Me.ErrorLimitInput.Size = New System.Drawing.Size(200, 22)
+        Me.ErrorLimitInput.TabIndex = 6
+        Me.ErrorLimitInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'GroupBox5
         '
@@ -917,7 +917,6 @@ Partial Class Einstellungen
         'http_support
         '
         Me.http_support.DropDownHeight = 250
-        Me.http_support.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown
         Me.http_support.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.http_support.FormattingEnabled = True
         Me.http_support.IntegralHeight = False
@@ -944,7 +943,7 @@ Partial Class Einstellungen
         '
         Me.GroupBox1.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Controls.Add(Me.TextBox1)
+        Me.GroupBox1.Controls.Add(Me.DefaultWebsiteTextBox)
         Me.GroupBox1.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox1.ForeColor = System.Drawing.Color.Black
         Me.GroupBox1.Location = New System.Drawing.Point(5, 85)
@@ -964,43 +963,43 @@ Partial Class Einstellungen
         Me.Label1.Text = "Default Website"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TextBox1
+        'DefaultWebsiteTextBox
         '
         '
         '
         '
-        Me.TextBox1.CustomButton.Image = Nothing
-        Me.TextBox1.CustomButton.Location = New System.Drawing.Point(445, 1)
-        Me.TextBox1.CustomButton.Name = ""
-        Me.TextBox1.CustomButton.Size = New System.Drawing.Size(23, 23)
-        Me.TextBox1.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-        Me.TextBox1.CustomButton.TabIndex = 1
-        Me.TextBox1.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-        Me.TextBox1.CustomButton.UseSelectable = True
-        Me.TextBox1.CustomButton.Visible = False
-        Me.TextBox1.FontSize = MetroFramework.MetroTextBoxSize.Medium
-        Me.TextBox1.Lines = New String() {"https://www.crunchyroll.com/"}
-        Me.TextBox1.Location = New System.Drawing.Point(6, 45)
-        Me.TextBox1.MaxLength = 32767
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.TextBox1.ScrollBars = System.Windows.Forms.ScrollBars.None
-        Me.TextBox1.SelectedText = ""
-        Me.TextBox1.SelectionLength = 0
-        Me.TextBox1.SelectionStart = 0
-        Me.TextBox1.ShortcutsEnabled = True
-        Me.TextBox1.Size = New System.Drawing.Size(469, 25)
-        Me.TextBox1.TabIndex = 2
-        Me.TextBox1.Text = "https://www.crunchyroll.com/"
-        Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.TextBox1.UseSelectable = True
-        Me.TextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.TextBox1.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        Me.DefaultWebsiteTextBox.CustomButton.Image = Nothing
+        Me.DefaultWebsiteTextBox.CustomButton.Location = New System.Drawing.Point(445, 1)
+        Me.DefaultWebsiteTextBox.CustomButton.Name = ""
+        Me.DefaultWebsiteTextBox.CustomButton.Size = New System.Drawing.Size(23, 23)
+        Me.DefaultWebsiteTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.DefaultWebsiteTextBox.CustomButton.TabIndex = 1
+        Me.DefaultWebsiteTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.DefaultWebsiteTextBox.CustomButton.UseSelectable = True
+        Me.DefaultWebsiteTextBox.CustomButton.Visible = False
+        Me.DefaultWebsiteTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
+        Me.DefaultWebsiteTextBox.Lines = New String() {"https://www.crunchyroll.com/"}
+        Me.DefaultWebsiteTextBox.Location = New System.Drawing.Point(6, 45)
+        Me.DefaultWebsiteTextBox.MaxLength = 32767
+        Me.DefaultWebsiteTextBox.Name = "DefaultWebsiteTextBox"
+        Me.DefaultWebsiteTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.DefaultWebsiteTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.DefaultWebsiteTextBox.SelectedText = ""
+        Me.DefaultWebsiteTextBox.SelectionLength = 0
+        Me.DefaultWebsiteTextBox.SelectionStart = 0
+        Me.DefaultWebsiteTextBox.ShortcutsEnabled = True
+        Me.DefaultWebsiteTextBox.Size = New System.Drawing.Size(469, 25)
+        Me.DefaultWebsiteTextBox.TabIndex = 2
+        Me.DefaultWebsiteTextBox.Text = "https://www.crunchyroll.com/"
+        Me.DefaultWebsiteTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.DefaultWebsiteTextBox.UseSelectable = True
+        Me.DefaultWebsiteTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.DefaultWebsiteTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
         'DL_Count_simultaneous
         '
         Me.DL_Count_simultaneous.BackColor = System.Drawing.Color.Transparent
-        Me.DL_Count_simultaneous.Controls.Add(Me.NumericUpDown1)
+        Me.DL_Count_simultaneous.Controls.Add(Me.SimultaneousDownloadsInput)
         Me.DL_Count_simultaneous.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.DL_Count_simultaneous.ForeColor = System.Drawing.Color.Black
         Me.DL_Count_simultaneous.Location = New System.Drawing.Point(5, 11)
@@ -1010,15 +1009,15 @@ Partial Class Einstellungen
         Me.DL_Count_simultaneous.TabStop = False
         Me.DL_Count_simultaneous.Text = "simultaneous downloads"
         '
-        'NumericUpDown1
+        'SimultaneousDownloadsInput
         '
-        Me.NumericUpDown1.Location = New System.Drawing.Point(98, 30)
-        Me.NumericUpDown1.Maximum = New Decimal(New Integer() {12, 0, 0, 0})
-        Me.NumericUpDown1.Name = "NumericUpDown1"
-        Me.NumericUpDown1.Size = New System.Drawing.Size(265, 22)
-        Me.NumericUpDown1.TabIndex = 1
-        Me.NumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown1.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SimultaneousDownloadsInput.Location = New System.Drawing.Point(98, 30)
+        Me.SimultaneousDownloadsInput.Maximum = New Decimal(New Integer() {12, 0, 0, 0})
+        Me.SimultaneousDownloadsInput.Name = "SimultaneousDownloadsInput"
+        Me.SimultaneousDownloadsInput.Size = New System.Drawing.Size(265, 22)
+        Me.SimultaneousDownloadsInput.TabIndex = 1
+        Me.SimultaneousDownloadsInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SimultaneousDownloadsInput.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'TabControl1
         '
@@ -1032,7 +1031,7 @@ Partial Class Einstellungen
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 1
+        Me.TabControl1.SelectedIndex = 5
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -1434,10 +1433,10 @@ Partial Class Einstellungen
         Me.TabPage6.HorizontalScrollbarBarColor = True
         Me.TabPage6.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage6.HorizontalScrollbarSize = 10
-        Me.TabPage6.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 44)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(501, 528)
+        Me.TabPage6.Size = New System.Drawing.Size(501, 519)
         Me.TabPage6.TabIndex = 4
         Me.TabPage6.Text = " Funimation"
         Me.TabPage6.VerticalScrollbarBarColor = True
@@ -1664,16 +1663,16 @@ Partial Class Einstellungen
         Me.TabPage7.BackColor = System.Drawing.Color.Transparent
         Me.TabPage7.Controls.Add(Me.LastVersion)
         Me.TabPage7.Controls.Add(Me.Label8)
-        Me.TabPage7.Controls.Add(Me.Label9)
-        Me.TabPage7.Controls.Add(Me.Label7)
-        Me.TabPage7.Controls.Add(Me.Label3)
+        Me.TabPage7.Controls.Add(Me.MetroFrameworkLabel)
+        Me.TabPage7.Controls.Add(Me.WebviewLabel)
+        Me.TabPage7.Controls.Add(Me.FfmpegLabel)
         Me.TabPage7.Controls.Add(Me.PictureBox7)
         Me.TabPage7.Controls.Add(Me.Label4)
         Me.TabPage7.Controls.Add(Me.Label6)
         Me.TabPage7.Controls.Add(Me.Label5)
-        Me.TabPage7.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage7.Location = New System.Drawing.Point(4, 44)
         Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(501, 528)
+        Me.TabPage7.Size = New System.Drawing.Size(501, 519)
         Me.TabPage7.TabIndex = 5
         Me.TabPage7.Text = " About  "
         '
@@ -1701,44 +1700,44 @@ Partial Class Einstellungen
         Me.Label8.Text = "libraries: "
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'Label9
+        'MetroFrameworkLabel
         '
-        Me.Label9.BackColor = System.Drawing.Color.Transparent
-        Me.Label9.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Label9.FontSize = MetroFramework.MetroLabelSize.Tall
-        Me.Label9.ForeColor = System.Drawing.Color.FromArgb(CType(CType(48, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.Label9.Location = New System.Drawing.Point(127, 450)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(144, 30)
-        Me.Label9.TabIndex = 47
-        Me.Label9.Text = "MetroFramework"
-        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.MetroFrameworkLabel.BackColor = System.Drawing.Color.Transparent
+        Me.MetroFrameworkLabel.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.MetroFrameworkLabel.FontSize = MetroFramework.MetroLabelSize.Tall
+        Me.MetroFrameworkLabel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(48, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(175, Byte), Integer))
+        Me.MetroFrameworkLabel.Location = New System.Drawing.Point(127, 450)
+        Me.MetroFrameworkLabel.Name = "MetroFrameworkLabel"
+        Me.MetroFrameworkLabel.Size = New System.Drawing.Size(144, 30)
+        Me.MetroFrameworkLabel.TabIndex = 47
+        Me.MetroFrameworkLabel.Text = "MetroFramework"
+        Me.MetroFrameworkLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'Label7
+        'WebviewLabel
         '
-        Me.Label7.BackColor = System.Drawing.Color.Transparent
-        Me.Label7.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Label7.FontSize = MetroFramework.MetroLabelSize.Tall
-        Me.Label7.ForeColor = System.Drawing.Color.FromArgb(CType(CType(48, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.Label7.Location = New System.Drawing.Point(277, 450)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(100, 30)
-        Me.Label7.TabIndex = 46
-        Me.Label7.Text = "WebView2"
-        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.WebviewLabel.BackColor = System.Drawing.Color.Transparent
+        Me.WebviewLabel.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.WebviewLabel.FontSize = MetroFramework.MetroLabelSize.Tall
+        Me.WebviewLabel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(48, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(175, Byte), Integer))
+        Me.WebviewLabel.Location = New System.Drawing.Point(277, 450)
+        Me.WebviewLabel.Name = "WebviewLabel"
+        Me.WebviewLabel.Size = New System.Drawing.Size(100, 30)
+        Me.WebviewLabel.TabIndex = 46
+        Me.WebviewLabel.Text = "WebView2"
+        Me.WebviewLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'Label3
+        'FfmpegLabel
         '
-        Me.Label3.BackColor = System.Drawing.Color.Transparent
-        Me.Label3.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Label3.FontSize = MetroFramework.MetroLabelSize.Tall
-        Me.Label3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(48, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.Label3.Location = New System.Drawing.Point(383, 450)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(80, 30)
-        Me.Label3.TabIndex = 45
-        Me.Label3.Text = "ffmpeg"
-        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.FfmpegLabel.BackColor = System.Drawing.Color.Transparent
+        Me.FfmpegLabel.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.FfmpegLabel.FontSize = MetroFramework.MetroLabelSize.Tall
+        Me.FfmpegLabel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(48, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(175, Byte), Integer))
+        Me.FfmpegLabel.Location = New System.Drawing.Point(383, 450)
+        Me.FfmpegLabel.Name = "FfmpegLabel"
+        Me.FfmpegLabel.Size = New System.Drawing.Size(80, 30)
+        Me.FfmpegLabel.TabIndex = 45
+        Me.FfmpegLabel.Text = "ffmpeg"
+        Me.FfmpegLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PictureBox7
         '
@@ -1843,12 +1842,12 @@ Partial Class Einstellungen
         Me.GroupBox21.ResumeLayout(False)
         Me.GroupBox6.ResumeLayout(False)
         Me.GroupBox6.PerformLayout()
-        CType(Me.NumericUpDown2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ErrorLimitInput, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.DL_Count_simultaneous.ResumeLayout(False)
-        CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SimultaneousDownloadsInput, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControl1.ResumeLayout(False)
         Me.MetroTabPage2.ResumeLayout(False)
         Me.GroupBox17.ResumeLayout(False)
@@ -1904,12 +1903,12 @@ Partial Class Einstellungen
     Friend WithEvents GroupBox5 As GroupBox
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents DL_Count_simultaneous As GroupBox
-    Friend WithEvents NumericUpDown1 As NumericUpDown
+    Friend WithEvents SimultaneousDownloadsInput As NumericUpDown
     Friend WithEvents SoftSubs As GroupBox
     Friend WithEvents GB_SubLanguage As GroupBox
     Friend WithEvents GroupBox4 As GroupBox
     Friend WithEvents GroupBox6 As GroupBox
-    Friend WithEvents NumericUpDown2 As NumericUpDown
+    Friend WithEvents ErrorLimitInput As NumericUpDown
     Private WithEvents TabPage2 As MetroFramework.Controls.MetroTabPage
     Private WithEvents TabPage1 As MetroFramework.Controls.MetroTabPage
     Private WithEvents TabControl1 As MetroFramework.Controls.MetroTabControl
@@ -1938,12 +1937,12 @@ Partial Class Einstellungen
     Friend WithEvents A720p As MetroFramework.Controls.MetroRadioButton
     Friend WithEvents A1080p As MetroFramework.Controls.MetroRadioButton
     Public WithEvents Label8 As MetroFramework.Controls.MetroLabel
-    Public WithEvents Label9 As MetroFramework.Controls.MetroLabel
-    Public WithEvents Label7 As MetroFramework.Controls.MetroLabel
-    Public WithEvents Label3 As MetroFramework.Controls.MetroLabel
+    Public WithEvents MetroFrameworkLabel As MetroFramework.Controls.MetroLabel
+    Public WithEvents WebviewLabel As MetroFramework.Controls.MetroLabel
+    Public WithEvents FfmpegLabel As MetroFramework.Controls.MetroLabel
     Friend WithEvents MetroLabel1 As MetroFramework.Controls.MetroLabel
     Friend WithEvents DarkMode As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents TextBox1 As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents DefaultWebsiteTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CB_CR_Harsubs As MetroFramework.Controls.MetroComboBox
     Friend WithEvents CB_Fun_HardSubs As MetroFramework.Controls.MetroComboBox
     Friend WithEvents Fun_Dub_Over As MetroFramework.Controls.MetroComboBox
