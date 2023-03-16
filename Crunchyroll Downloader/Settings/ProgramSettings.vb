@@ -43,7 +43,14 @@ Namespace settings
             End Set
         End Property
 
-        Public Property AddOnPort As ServerPort
+        Public Property ServerPort As Integer
+            Get
+                Return My.Settings.ServerPort
+            End Get
+            Set
+                My.Settings.ServerPort = Value
+            End Set
+        End Property
 
         Public Property InsecureCurl As Boolean
 
@@ -85,12 +92,6 @@ Namespace settings
         Public ReadOnly Property Crunchyroll As CrunchyrollSettings = CrunchyrollSettings.GetInstance()
 
         Public ReadOnly Property Funimation As FunimationSettings = FunimationSettings.GetInstance()
-
-        Public Enum ServerPort As Integer
-            DISABLED = 0
-            PORT_80 = 80
-            PORT_8080 = 8080
-        End Enum
 
         Public Enum SubfolderDisplay
             SHOW_ALL

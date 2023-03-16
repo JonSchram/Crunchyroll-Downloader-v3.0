@@ -20,6 +20,8 @@
                 Return New List(Of Merge)({Merge.DISABLED, Merge.COPY, Merge.SRT})
             Case MediaFormat.AAC_AUDIO_ONLY
                 Return New List(Of Merge)({Merge.DISABLED})
+            Case Else
+                Return New List(Of Merge)()
         End Select
     End Function
 

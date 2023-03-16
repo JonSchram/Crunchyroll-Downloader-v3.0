@@ -70,7 +70,6 @@ Public Class Main
     'Public ItemList As New List(Of CRD_List_Item)
     Public RunningDownloads As Integer = 0
     Public UseQueue As Boolean = False
-    Public StartServer As Integer = 0
     Public ResoAvalibe As String = Nothing
     Public ResoSearchRunning As Boolean = False
     Public UsedMap As String = Nothing
@@ -463,10 +462,7 @@ Public Class Main
         Me.StyleManager = Manager
         Manager.Owner = Me
 
-        StartServer = My.Settings.ServerPort
-
-
-        If StartServer > 0 Then
+        If ProgramSettings.GetInstance().ServerPort > 0 Then
             Timer3.Enabled = True
             ServerThread = New Thread(AddressOf ServerStart)
             ServerThread.Priority = ThreadPriority.Normal
@@ -1622,12 +1618,11 @@ Public Class Main
         Dim server As TcpListener
         server = Nothing
         Try
-            Dim Port As String = StartServer.ToString
-            Dim localAddr As IPAddress = IPAddress.Parse("127.0.0.1")
-            server = New TcpListener(localAddr, Int32.Parse(Port))
+            Dim Port As Integer = ProgramSettings.GetInstance().ServerPort
+            server = New TcpListener(IPAddress.Loopback, Port)
             ' Start listening for client requests.
             server.Start()
-            Debug.WriteLine("Web server started at: " & localAddr.ToString() & ":" & Port)
+            Debug.WriteLine("Web server started at: " & IPAddress.Loopback.ToString() & ":" & Port)
             While True
                 Dim client As TcpClient = server.AcceptTcpClient()
                 Dim clientThread As New Thread(Sub() Me.ManageConnections(client))

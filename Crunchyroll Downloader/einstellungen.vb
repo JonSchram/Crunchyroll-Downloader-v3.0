@@ -10,9 +10,19 @@ Imports MetroFramework
 Imports MetroFramework.Components
 Imports System.Text.RegularExpressions
 Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.ProgramSettings
+Imports System.ComponentModel
+Imports System.Reflection
 
 Public Class Einstellungen
     Inherits MetroForm
+
+    Private ReadOnly ServerPortDisplayMap As New Dictionary(Of ServerPortOptions, ServerPortDisplay) From {
+        {ServerPortOptions.DISABLED, New ServerPortDisplay("add-on support disabled", ServerPortOptions.DISABLED)},
+        {ServerPortOptions.PORT_80, New ServerPortDisplay("80", ServerPortOptions.PORT_80)},
+        {ServerPortOptions.PORT_8080, New ServerPortDisplay("8080", ServerPortOptions.PORT_8080)},
+        {ServerPortOptions.CUSTOM, New ServerPortDisplay("Custom port", ServerPortOptions.CUSTOM)}
+    }
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
@@ -280,13 +290,7 @@ Public Class Einstellungen
         End Try
         ListViewAdd_True.Checked = Main.UseQueue
 
-
-
-        If Main.StartServer = 0 Then
-            http_support.Text = "add-on support disabled"
-        Else
-            http_support.Text = Main.StartServer.ToString
-        End If
+        InitializeAddOnPortInput()
 
 
         If Main.DefaultSubFunimation = "en" Then
@@ -351,6 +355,61 @@ Public Class Einstellungen
 
     End Sub
 
+    Private Sub InitializeAddOnPortInput()
+        ServerPortInput.Items.Clear()
+        ServerPortInput.DataSource = ServerPortDisplayMap.Values.ToArray
+        ServerPortInput.DisplayMember = "UiText"
+
+        Dim addOnPort = ProgramSettings.GetInstance().ServerPort
+        Dim newOption As ServerPortOptions
+        If addOnPort = 0 Then
+            newOption = ServerPortOptions.DISABLED
+        ElseIf addOnPort = 80 Then
+            newOption = ServerPortOptions.PORT_80
+            CustomServerPortInput.Value = addOnPort
+        ElseIf addOnPort = 8080 Then
+            newOption = ServerPortOptions.PORT_8080
+            CustomServerPortInput.Value = addOnPort
+        Else
+            newOption = ServerPortOptions.CUSTOM
+            CustomServerPortInput.Value = addOnPort
+        End If
+
+        ServerPortInput.SelectedItem = ServerPortDisplayMap.Item(newOption)
+
+        CustomServerPortInput.Enabled = (addOnPort = ServerPortOptions.CUSTOM)
+    End Sub
+
+    Private Sub SaveAddOnPortSetting()
+        Dim settings = ProgramSettings.GetInstance()
+
+        Dim previousAddOnPort = settings.ServerPort
+        Dim selectedItem As ServerPortDisplay = CType(ServerPortInput.SelectedItem, ServerPortDisplay)
+        Dim SelectedEnumValue = selectedItem.EnumValue
+        Dim port As Integer
+        Select Case SelectedEnumValue
+            Case ServerPortOptions.DISABLED
+                port = 0
+            Case ServerPortOptions.PORT_80
+                port = 80
+            Case ServerPortOptions.PORT_8080
+                port = 8080
+            Case ServerPortOptions.CUSTOM
+                port = CInt(CustomServerPortInput.Value)
+        End Select
+
+        settings.ServerPort = port
+
+        If previousAddOnPort <> port Then
+            MsgBox("Changing add-on support requires a restart of the downloader.", MsgBoxStyle.Information)
+        End If
+    End Sub
+
+    Private Sub ServerPortInput_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ServerPortInput.SelectedIndexChanged
+        Dim selectedItem As ServerPortDisplay = CType(ServerPortInput.SelectedItem, ServerPortDisplay)
+        CustomServerPortInput.Enabled = selectedItem.EnumValue = ServerPortOptions.CUSTOM
+    End Sub
+
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -360,31 +419,7 @@ Public Class Einstellungen
         Main.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
         My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
 
-
-        If http_support.Text = "add-on support disabled" Then
-            My.Settings.ServerPort = 0
-
-            Main.StartServer = CInt(False)
-
-        Else
-            Dim Port As Integer = 0
-            Try
-                Port = CInt(http_support.Text)
-                My.Settings.ServerPort = Port
-
-            Catch ex As Exception
-
-                MsgBox("The add-on support Port can only be numbers!", MsgBoxStyle.Exclamation)
-                'Exit Sub
-            End Try
-            If Main.StartServer = Port Then
-            Else
-                MsgBox("The add-on support needs a restart of the downloader.", MsgBoxStyle.Information)
-            End If
-        End If
-
-
-
+        SaveAddOnPortSetting()
 
         Main.HideFLInt = CB_HideSF.SelectedIndex
         My.Settings.HideSF = CB_HideSF.SelectedIndex
@@ -1202,5 +1237,25 @@ Public Class Einstellungen
 
 #End Region
 
+    Public Enum ServerPortOptions
+        DISABLED
+        PORT_80
+        PORT_8080
+        CUSTOM
+    End Enum
+
+    Private Class ServerPortDisplay
+        Public Property UiText As String
+        Public Property EnumValue As ServerPortOptions
+
+        Public Sub New(UiText As String, EnumValue As ServerPortOptions)
+            Me.UiText = UiText
+            Me.EnumValue = EnumValue
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return UiText
+        End Function
+    End Class
 
 End Class

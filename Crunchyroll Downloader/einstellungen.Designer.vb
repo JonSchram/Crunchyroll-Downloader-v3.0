@@ -93,7 +93,7 @@ Partial Class Einstellungen
         Me.ErrorLimitInput = New System.Windows.Forms.NumericUpDown()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.Chb_Ign_tls = New MetroFramework.Controls.MetroCheckBox()
-        Me.http_support = New MetroFramework.Controls.MetroComboBox()
+        Me.ServerPortInput = New MetroFramework.Controls.MetroComboBox()
         Me.DarkMode = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New MetroFramework.Controls.MetroLabel()
@@ -154,6 +154,8 @@ Partial Class Einstellungen
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
+        Me.ServerPortLabel = New MetroFramework.Controls.MetroLabel()
+        Me.CustomServerPortInput = New System.Windows.Forms.NumericUpDown()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox14.SuspendLayout()
         Me.SoftSubs.SuspendLayout()
@@ -193,6 +195,7 @@ Partial Class Einstellungen
         Me.GroupBox8.SuspendLayout()
         Me.TabPage7.SuspendLayout()
         CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolTip1
@@ -306,10 +309,10 @@ Partial Class Einstellungen
         Me.TabPage2.HorizontalScrollbarBarColor = True
         Me.TabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage2.HorizontalScrollbarSize = 10
-        Me.TabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage2.Size = New System.Drawing.Size(501, 528)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Output"
         Me.TabPage2.VerticalScrollbarBarColor = True
@@ -499,84 +502,84 @@ Partial Class Einstellungen
         'copy
         '
         Me.copy.Name = "copy"
-        Me.copy.Size = New System.Drawing.Size(180, 22)
+        Me.copy.Size = New System.Drawing.Size(172, 22)
         Me.copy.Text = "-c copy"
         '
         'CPU_h264
         '
         Me.CPU_h264.BackColor = System.Drawing.Color.DarkGray
         Me.CPU_h264.Name = "CPU_h264"
-        Me.CPU_h264.Size = New System.Drawing.Size(180, 22)
+        Me.CPU_h264.Size = New System.Drawing.Size(172, 22)
         Me.CPU_h264.Text = "-c:v libx264"
         '
         'CPU_h265
         '
         Me.CPU_h265.BackColor = System.Drawing.Color.DarkGray
         Me.CPU_h265.Name = "CPU_h265"
-        Me.CPU_h265.Size = New System.Drawing.Size(180, 22)
+        Me.CPU_h265.Size = New System.Drawing.Size(172, 22)
         Me.CPU_h265.Text = "-c:v libx265"
         '
         'CPU_AV1
         '
         Me.CPU_AV1.BackColor = System.Drawing.Color.DarkGray
         Me.CPU_AV1.Name = "CPU_AV1"
-        Me.CPU_AV1.Size = New System.Drawing.Size(180, 22)
+        Me.CPU_AV1.Size = New System.Drawing.Size(172, 22)
         Me.CPU_AV1.Text = "-c:v libsvtav1"
         '
         'nv_h264
         '
         Me.nv_h264.BackColor = System.Drawing.Color.YellowGreen
         Me.nv_h264.Name = "nv_h264"
-        Me.nv_h264.Size = New System.Drawing.Size(180, 22)
+        Me.nv_h264.Size = New System.Drawing.Size(172, 22)
         Me.nv_h264.Text = "-c:v h264_nvenc "
         '
         'nv_hevc
         '
         Me.nv_hevc.BackColor = System.Drawing.Color.YellowGreen
         Me.nv_hevc.Name = "nv_hevc"
-        Me.nv_hevc.Size = New System.Drawing.Size(180, 22)
+        Me.nv_hevc.Size = New System.Drawing.Size(172, 22)
         Me.nv_hevc.Text = "-c:v hevc_nvenc"
         '
         'nv_AV1
         '
         Me.nv_AV1.BackColor = System.Drawing.Color.YellowGreen
         Me.nv_AV1.Name = "nv_AV1"
-        Me.nv_AV1.Size = New System.Drawing.Size(180, 22)
+        Me.nv_AV1.Size = New System.Drawing.Size(172, 22)
         Me.nv_AV1.Text = "-c:v av1_nvenc"
         '
         'AMD_h264
         '
         Me.AMD_h264.BackColor = System.Drawing.Color.Tomato
         Me.AMD_h264.Name = "AMD_h264"
-        Me.AMD_h264.Size = New System.Drawing.Size(180, 22)
+        Me.AMD_h264.Size = New System.Drawing.Size(172, 22)
         Me.AMD_h264.Text = "-c:v h264_amf"
         '
         'AMD_hevc
         '
         Me.AMD_hevc.BackColor = System.Drawing.Color.Tomato
         Me.AMD_hevc.Name = "AMD_hevc"
-        Me.AMD_hevc.Size = New System.Drawing.Size(180, 22)
+        Me.AMD_hevc.Size = New System.Drawing.Size(172, 22)
         Me.AMD_hevc.Text = "-c:v hevc_amf"
         '
         'Intel_h264
         '
         Me.Intel_h264.BackColor = System.Drawing.Color.CornflowerBlue
         Me.Intel_h264.Name = "Intel_h264"
-        Me.Intel_h264.Size = New System.Drawing.Size(180, 22)
+        Me.Intel_h264.Size = New System.Drawing.Size(172, 22)
         Me.Intel_h264.Text = "-c:v h264_qsv"
         '
         'Intel_hevc
         '
         Me.Intel_hevc.BackColor = System.Drawing.Color.CornflowerBlue
         Me.Intel_hevc.Name = "Intel_hevc"
-        Me.Intel_hevc.Size = New System.Drawing.Size(180, 22)
+        Me.Intel_hevc.Size = New System.Drawing.Size(172, 22)
         Me.Intel_hevc.Text = "-c:v hevc_qsv"
         '
         'Intel_AV1
         '
         Me.Intel_AV1.BackColor = System.Drawing.Color.CornflowerBlue
         Me.Intel_AV1.Name = "Intel_AV1"
-        Me.Intel_AV1.Size = New System.Drawing.Size(180, 22)
+        Me.Intel_AV1.Size = New System.Drawing.Size(172, 22)
         Me.Intel_AV1.Text = "-c:v av1_qsv"
         '
         'FFMPEG_CommandP2
@@ -590,19 +593,19 @@ Partial Class Einstellungen
         'ListP1
         '
         Me.ListP1.Name = "ListP1"
-        Me.ListP1.Size = New System.Drawing.Size(180, 22)
+        Me.ListP1.Size = New System.Drawing.Size(146, 22)
         Me.ListP1.Text = "-preset fast"
         '
         'ListP2
         '
         Me.ListP2.Name = "ListP2"
-        Me.ListP2.Size = New System.Drawing.Size(180, 22)
+        Me.ListP2.Size = New System.Drawing.Size(146, 22)
         Me.ListP2.Text = "-preset slow"
         '
         'ListP3
         '
         Me.ListP3.Name = "ListP3"
-        Me.ListP3.Size = New System.Drawing.Size(180, 22)
+        Me.ListP3.Size = New System.Drawing.Size(146, 22)
         Me.ListP3.Text = "[no Preset]"
         '
         'FFMPEG_CommandP3
@@ -616,79 +619,79 @@ Partial Class Einstellungen
         'ListBit_7000
         '
         Me.ListBit_7000.Name = "ListBit_7000"
-        Me.ListBit_7000.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_7000.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_7000.Text = "-b:v 7000k"
         '
         'ListBit_6500
         '
         Me.ListBit_6500.Name = "ListBit_6500"
-        Me.ListBit_6500.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_6500.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_6500.Text = "-b:v 6500k"
         '
         'ListBit_6000
         '
         Me.ListBit_6000.Name = "ListBit_6000"
-        Me.ListBit_6000.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_6000.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_6000.Text = "-b:v 6000k"
         '
         'ListBit_5500
         '
         Me.ListBit_5500.Name = "ListBit_5500"
-        Me.ListBit_5500.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_5500.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_5500.Text = "-b:v 5500k"
         '
         'ListBit_5000
         '
         Me.ListBit_5000.Name = "ListBit_5000"
-        Me.ListBit_5000.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_5000.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_5000.Text = "-b:v 5000k"
         '
         'ListBit_4500
         '
         Me.ListBit_4500.Name = "ListBit_4500"
-        Me.ListBit_4500.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_4500.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_4500.Text = "-b:v 4500k"
         '
         'ListBit_4000
         '
         Me.ListBit_4000.Name = "ListBit_4000"
-        Me.ListBit_4000.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_4000.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_4000.Text = "-b:v 4000k"
         '
         'ListBit_3500
         '
         Me.ListBit_3500.Name = "ListBit_3500"
-        Me.ListBit_3500.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_3500.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_3500.Text = "-b:v 3500k"
         '
         'ListBit_3000
         '
         Me.ListBit_3000.Name = "ListBit_3000"
-        Me.ListBit_3000.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_3000.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_3000.Text = "-b:v 3000k"
         '
         'ListBit_2500
         '
         Me.ListBit_2500.Name = "ListBit_2500"
-        Me.ListBit_2500.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_2500.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_2500.Text = "-b:v 2500k"
         '
         'ListBit_2000
         '
         Me.ListBit_2000.Name = "ListBit_2000"
-        Me.ListBit_2000.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_2000.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_2000.Text = "-b:v 2000k"
         '
         'ListBit_1500
         '
         Me.ListBit_1500.Name = "ListBit_1500"
-        Me.ListBit_1500.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_1500.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_1500.Text = "-b:v 1500k"
         '
         'ListBit_1000
         '
         Me.ListBit_1000.Name = "ListBit_1000"
-        Me.ListBit_1000.Size = New System.Drawing.Size(180, 22)
+        Me.ListBit_1000.Size = New System.Drawing.Size(134, 22)
         Me.ListBit_1000.Text = "-b:v 1000k"
         '
         'FFMPEG_CommandP4
@@ -891,8 +894,10 @@ Partial Class Einstellungen
         'GroupBox5
         '
         Me.GroupBox5.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox5.Controls.Add(Me.CustomServerPortInput)
+        Me.GroupBox5.Controls.Add(Me.ServerPortLabel)
         Me.GroupBox5.Controls.Add(Me.Chb_Ign_tls)
-        Me.GroupBox5.Controls.Add(Me.http_support)
+        Me.GroupBox5.Controls.Add(Me.ServerPortInput)
         Me.GroupBox5.Controls.Add(Me.DarkMode)
         Me.GroupBox5.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox5.ForeColor = System.Drawing.Color.Black
@@ -907,32 +912,31 @@ Partial Class Einstellungen
         '
         Me.Chb_Ign_tls.AutoSize = True
         Me.Chb_Ign_tls.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.Chb_Ign_tls.Location = New System.Drawing.Point(135, 80)
+        Me.Chb_Ign_tls.Location = New System.Drawing.Point(228, 75)
         Me.Chb_Ign_tls.Name = "Chb_Ign_tls"
         Me.Chb_Ign_tls.Size = New System.Drawing.Size(223, 19)
         Me.Chb_Ign_tls.TabIndex = 46
         Me.Chb_Ign_tls.Text = "add ""--insecure"" to curl requests"
         Me.Chb_Ign_tls.UseSelectable = True
         '
-        'http_support
+        'ServerPortInput
         '
-        Me.http_support.DropDownHeight = 250
-        Me.http_support.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.http_support.FormattingEnabled = True
-        Me.http_support.IntegralHeight = False
-        Me.http_support.ItemHeight = 23
-        Me.http_support.Items.AddRange(New Object() {"add-on support disabled", "80", "8080"})
-        Me.http_support.Location = New System.Drawing.Point(214, 25)
-        Me.http_support.Name = "http_support"
-        Me.http_support.Size = New System.Drawing.Size(237, 29)
-        Me.http_support.TabIndex = 45
-        Me.http_support.UseSelectable = True
+        Me.ServerPortInput.DropDownHeight = 250
+        Me.ServerPortInput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ServerPortInput.FormattingEnabled = True
+        Me.ServerPortInput.IntegralHeight = False
+        Me.ServerPortInput.ItemHeight = 23
+        Me.ServerPortInput.Location = New System.Drawing.Point(157, 21)
+        Me.ServerPortInput.Name = "ServerPortInput"
+        Me.ServerPortInput.Size = New System.Drawing.Size(192, 29)
+        Me.ServerPortInput.TabIndex = 45
+        Me.ServerPortInput.UseSelectable = True
         '
         'DarkMode
         '
         Me.DarkMode.AutoSize = True
         Me.DarkMode.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.DarkMode.Location = New System.Drawing.Point(41, 30)
+        Me.DarkMode.Location = New System.Drawing.Point(56, 75)
         Me.DarkMode.Name = "DarkMode"
         Me.DarkMode.Size = New System.Drawing.Size(135, 19)
         Me.DarkMode.TabIndex = 5
@@ -1031,7 +1035,7 @@ Partial Class Einstellungen
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 5
+        Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -1045,9 +1049,9 @@ Partial Class Einstellungen
         Me.MetroTabPage2.HorizontalScrollbarBarColor = True
         Me.MetroTabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage2.HorizontalScrollbarSize = 10
-        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage2.Name = "MetroTabPage2"
-        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage2.TabIndex = 8
         Me.MetroTabPage2.Text = "Naming"
         Me.MetroTabPage2.VerticalScrollbarBarColor = True
@@ -1350,9 +1354,9 @@ Partial Class Einstellungen
         Me.MetroTabPage1.HorizontalScrollbarBarColor = True
         Me.MetroTabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage1.HorizontalScrollbarSize = 10
-        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage1.Name = "MetroTabPage1"
-        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage1.TabIndex = 7
         Me.MetroTabPage1.Text = "Crunchyroll"
         Me.MetroTabPage1.VerticalScrollbarBarColor = True
@@ -1433,10 +1437,10 @@ Partial Class Einstellungen
         Me.TabPage6.HorizontalScrollbarBarColor = True
         Me.TabPage6.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage6.HorizontalScrollbarSize = 10
-        Me.TabPage6.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 35)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage6.Size = New System.Drawing.Size(501, 528)
         Me.TabPage6.TabIndex = 4
         Me.TabPage6.Text = " Funimation"
         Me.TabPage6.VerticalScrollbarBarColor = True
@@ -1670,9 +1674,9 @@ Partial Class Einstellungen
         Me.TabPage7.Controls.Add(Me.Label4)
         Me.TabPage7.Controls.Add(Me.Label6)
         Me.TabPage7.Controls.Add(Me.Label5)
-        Me.TabPage7.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage7.Location = New System.Drawing.Point(4, 35)
         Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage7.Size = New System.Drawing.Size(501, 528)
         Me.TabPage7.TabIndex = 5
         Me.TabPage7.Text = " About  "
         '
@@ -1804,6 +1808,27 @@ Partial Class Einstellungen
         Me.Btn_Save.TabIndex = 9
         Me.Btn_Save.UseVisualStyleBackColor = False
         '
+        'ServerPortLabel
+        '
+        Me.ServerPortLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular
+        Me.ServerPortLabel.Location = New System.Drawing.Point(6, 21)
+        Me.ServerPortLabel.Name = "ServerPortLabel"
+        Me.ServerPortLabel.Size = New System.Drawing.Size(145, 29)
+        Me.ServerPortLabel.TabIndex = 47
+        Me.ServerPortLabel.Text = "Add-on server port"
+        Me.ServerPortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'CustomServerPortInput
+        '
+        Me.CustomServerPortInput.Enabled = False
+        Me.CustomServerPortInput.Location = New System.Drawing.Point(355, 25)
+        Me.CustomServerPortInput.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
+        Me.CustomServerPortInput.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.CustomServerPortInput.Name = "CustomServerPortInput"
+        Me.CustomServerPortInput.Size = New System.Drawing.Size(120, 22)
+        Me.CustomServerPortInput.TabIndex = 48
+        Me.CustomServerPortInput.Value = New Decimal(New Integer() {80, 0, 0, 0})
+        '
         'Einstellungen
         '
         Me.ApplyImageInvert = True
@@ -1871,6 +1896,7 @@ Partial Class Einstellungen
         Me.GroupBox8.PerformLayout()
         Me.TabPage7.ResumeLayout(False)
         CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1948,7 +1974,7 @@ Partial Class Einstellungen
     Friend WithEvents Fun_Dub_Over As MetroFramework.Controls.MetroComboBox
     Public WithEvents LastVersion As MetroFramework.Controls.MetroLabel
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents http_support As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents ServerPortInput As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox13 As GroupBox
     Friend WithEvents FunSubDef As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox14 As GroupBox
@@ -2007,4 +2033,6 @@ Partial Class Einstellungen
     Friend WithEvents ChB_Chapters As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CR_SoftSubs As MetroFramework.Controls.MetroComboBox
     Public WithEvents CR_SoftSubDefault As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents CustomServerPortInput As NumericUpDown
+    Friend WithEvents ServerPortLabel As MetroFramework.Controls.MetroLabel
 End Class
