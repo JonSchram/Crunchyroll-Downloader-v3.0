@@ -7,8 +7,6 @@ Namespace settings
         Private Shared Instance As New ProgramSettings()
 
         Private Sub New()
-            _DarkMode = My.Settings.DarkModeValue
-            _SimultaneousDownloads = My.Settings.SL_DL
         End Sub
 
         Public Shared Function GetInstance() As ProgramSettings
@@ -20,30 +18,26 @@ Namespace settings
 
         ' ----- Main settings
 
-        Private _SimultaneousDownloads As Integer = 1
-
         Public Property SimultaneousDownloads As Integer
             Get
-                Return _SimultaneousDownloads
+                Return My.Settings.SL_DL
             End Get
             Set
-                _SimultaneousDownloads = Value
                 My.Settings.SL_DL = Value
             End Set
         End Property
 
         Public Property DefaultWebsite As String
 
-        Private _DarkMode As Boolean
         Public Property DarkMode As Boolean
             Get
-                Return _DarkMode
+                Return My.Settings.DarkModeValue
             End Get
             Set
-                Dim modeChanged As Boolean = Value <> _DarkMode
-                _DarkMode = Value
+                Dim previousDarkMode = My.Settings.DarkModeValue
+                ' Make sure to set new dark mode first so no event handler can get confused over value from event vs. settings value.
                 My.Settings.DarkModeValue = Value
-                If modeChanged Then
+                If Value <> previousDarkMode Then
                     RaiseEvent DarkModeChanged(Value)
                 End If
             End Set
