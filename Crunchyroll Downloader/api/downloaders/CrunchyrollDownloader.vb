@@ -24,6 +24,8 @@ Public Class CrunchyrollDownloader
             Dim Last As Integer = Math.Max(startEpisode, endEpisode)
             Dim numberOfEpisodes As Integer = Last - First + 1
 
+            Dim settings As ProgramSettings = ProgramSettings.GetInstance()
+
             ' TODO:
             ' Seems to be an improvsed task that updates the number of downloading episodes?
             ' Very much duplicated from funimation code. Needs to be shared.
@@ -45,7 +47,7 @@ Public Class CrunchyrollDownloader
                         Catch ex As Exception
                             Main.RunningDownloads = Main.Panel1.Controls.Count
                         End Try
-                        If Main.RunningDownloads < ProgramSettings.GetInstance().SimultaneousDownloads Then
+                        If Main.RunningDownloads < settings.SimultaneousDownloads Then
                             Exit For
                         Else
                             'MsgBox(e)
@@ -61,7 +63,8 @@ Public Class CrunchyrollDownloader
                 '    Main.Grapp_Abord = True
                 '    Main.Grapp_RDY = True
                 'End If
-                If Main.UseQueue = True Then
+
+                If settings.UseDownloadQueue Then
                     'Anime_Add.ListBox1.Items.Add(ListOfEpisodes(i))
                     Main.ListBoxList.Add(ListOfEpisodes(i))
                     ' Color is #8D1D2C

@@ -68,7 +68,6 @@ Public Class Main
     Public ListBoxList As New List(Of String)
     'Public ItemList As New List(Of CRD_List_Item)
     Public RunningDownloads As Integer = 0
-    Public UseQueue As Boolean = False
     Public ResoAvalibe As String = Nothing
     Public ResoSearchRunning As Boolean = False
     Public UsedMap As String = Nothing
@@ -491,8 +490,6 @@ Public Class Main
         DefaultSubFunimation = My.Settings.DefaultSubFunimation
 
         DefaultSubCR = My.Settings.DefaultSubCR
-
-        UseQueue = My.Settings.QueueMode
 
         KodiNaming = My.Settings.KodiSupport
 

@@ -289,7 +289,6 @@ Public Class Einstellungen
         Catch ex As Exception
             MsgBox("Error processing ffmpeg command", MsgBoxStyle.Information)
         End Try
-        ListViewAdd_True.Checked = Main.UseQueue
 
 
         If Main.DefaultSubFunimation = "en" Then
@@ -379,6 +378,7 @@ Public Class Einstellungen
         ' Output settings
         InitializeDownloadModeInput()
         TemporaryFolderTextBox.Text = settings.TemporaryFolder
+        UseQueueCheckbox.Checked = settings.UseDownloadQueue
 
     End Sub
 
@@ -483,6 +483,7 @@ Public Class Einstellungen
         ' Output settings
         SaveDownloadModeSetting()
         settings.TemporaryFolder = TemporaryFolderTextBox.Text
+        settings.UseDownloadQueue = UseQueueCheckbox.Checked
 
     End Sub
 
@@ -770,16 +771,6 @@ Public Class Einstellungen
                 SimultaneousDownloadsInput.Value = 1
             End If
         End If
-
-
-        If ListViewAdd_True.Checked = True Then
-            Main.UseQueue = True
-            My.Settings.QueueMode = Main.UseQueue
-        ElseIf ListViewAdd_True.Checked = False Then
-            Main.UseQueue = False
-            My.Settings.QueueMode = Main.UseQueue
-        End If
-
 
         Main.SoftSubs.Clear()
         Main.SoftSubs.AddRange(CR_SoftSubsTemp)

@@ -129,6 +129,13 @@ Namespace settings
         End Property
 
         Public Property UseDownloadQueue As Boolean
+            Get
+                Return My.Settings.QueueMode
+            End Get
+            Set(value As Boolean)
+                My.Settings.QueueMode = value
+            End Set
+        End Property
 
         Public Property DownloadResolution As Resolution
 

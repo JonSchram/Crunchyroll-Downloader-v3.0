@@ -34,7 +34,7 @@ Partial Class Einstellungen
         Me.CB_CR_Harsubs = New MetroFramework.Controls.MetroComboBox()
         Me.TabPage2 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox18 = New System.Windows.Forms.GroupBox()
-        Me.ListViewAdd_True = New MetroFramework.Controls.MetroCheckBox()
+        Me.UseQueueCheckbox = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox16 = New System.Windows.Forms.GroupBox()
         Me.MetroLabel3 = New MetroFramework.Controls.MetroLabel()
         Me.TemporaryFolderTextBox = New MetroFramework.Controls.MetroTextBox()
@@ -323,7 +323,7 @@ Partial Class Einstellungen
         'GroupBox18
         '
         Me.GroupBox18.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox18.Controls.Add(Me.ListViewAdd_True)
+        Me.GroupBox18.Controls.Add(Me.UseQueueCheckbox)
         Me.GroupBox18.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox18.ForeColor = System.Drawing.Color.Black
         Me.GroupBox18.Location = New System.Drawing.Point(5, 150)
@@ -333,16 +333,16 @@ Partial Class Einstellungen
         Me.GroupBox18.TabStop = False
         Me.GroupBox18.Text = "Multi-Download"
         '
-        'ListViewAdd_True
+        'UseQueueCheckbox
         '
-        Me.ListViewAdd_True.AutoSize = True
-        Me.ListViewAdd_True.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.ListViewAdd_True.Location = New System.Drawing.Point(119, 21)
-        Me.ListViewAdd_True.Name = "ListViewAdd_True"
-        Me.ListViewAdd_True.Size = New System.Drawing.Size(255, 19)
-        Me.ListViewAdd_True.TabIndex = 5
-        Me.ListViewAdd_True.Text = "redirect multi-download to the queue"
-        Me.ListViewAdd_True.UseSelectable = True
+        Me.UseQueueCheckbox.AutoSize = True
+        Me.UseQueueCheckbox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.UseQueueCheckbox.Location = New System.Drawing.Point(119, 21)
+        Me.UseQueueCheckbox.Name = "UseQueueCheckbox"
+        Me.UseQueueCheckbox.Size = New System.Drawing.Size(255, 19)
+        Me.UseQueueCheckbox.TabIndex = 5
+        Me.UseQueueCheckbox.Text = "redirect multi-download to the queue"
+        Me.UseQueueCheckbox.UseSelectable = True
         '
         'GroupBox16
         '
@@ -2002,7 +2002,7 @@ Partial Class Einstellungen
     Friend WithEvents LangNameType_DD As MetroFramework.Controls.MetroComboBox
     Friend WithEvents CB_SoftSubSettings As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox18 As GroupBox
-    Friend WithEvents ListViewAdd_True As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents UseQueueCheckbox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents MetroLabel3 As MetroFramework.Controls.MetroLabel
     Friend WithEvents TemporaryFolderTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CB_Ignore As MetroFramework.Controls.MetroComboBox
