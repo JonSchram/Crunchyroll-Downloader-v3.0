@@ -79,7 +79,6 @@ Public Class Main
     Public MergeSubs As Boolean = False
     'Public IgnoreS1 As Boolean = False
     Public IgnoreSeason As Integer = 0
-    Public KeepCache As Boolean = False
     'Public SubsOnly As Boolean = False
     Public DownloadScope As Integer = 0
     Public VideoFormat As String = ".mp4"
@@ -146,7 +145,6 @@ Public Class Main
     Public WebbrowserTitle As String = Nothing
     Public WebbrowserCookie As String = Nothing
     Public UserBowser As Boolean = False
-    Public HybridMode As Boolean = False
     Public HardSubFunimation As String = "Disabled"
     Public Funimation_Bitrate As Integer = 0
     Public DubFunimation As String = "Disabled"
@@ -510,8 +508,6 @@ Public Class Main
 
         CR_Chapters = My.Settings.CR_Chapters
 
-        KeepCache = My.Settings.Keep_Cache
-
         ffmpeg_command = My.Settings.ffmpeg_command
 
         If My.Settings.ffmpeg_command_override = "null" Then
@@ -570,7 +566,6 @@ Public Class Main
         HybridThread = My.Settings.HybridThread
 
         IgnoreSeason = My.Settings.IgnoreSeason
-        HybridMode = My.Settings.HybridMode
         Funimation_srt = My.Settings.Funimation_srt
         Funimation_vtt = My.Settings.Funimation_vtt
 
@@ -647,6 +642,7 @@ Public Class Main
 
         ' TODO: Move item initialization into the constructor or a builder
         Dim settings = ProgramSettings.GetInstance()
+        Dim keepCache = settings.DownloadMode = ProgramSettings.DownloadModeOptions.HYBRID_MODE_KEEP_CACHE
 
 #Region "Set Variables"
         Item.SetService(Service)
@@ -658,7 +654,7 @@ Public Class Main
         Item.SetLabelHardsub(HardSub)
         Item.SetThumbnailImage(ThumbnialURL)
         Item.SetLabelPercent("0%")
-        Item.SetCache(KeepCache)
+        Item.SetCache(keepCache)
         Item.SetMergeSubstoMP4(MergeSubs)
         Item.SetDebug2(Debug2)
 #End Region
@@ -680,7 +676,8 @@ Public Class Main
         Panel1.Controls.Add(Item)
 
         Item.Visible = True
-        Dim TempHybridMode As Boolean = HybridMode
+        ' TODO: Support dash MPD files
+        Dim TempHybridMode As Boolean = Not ProgramSettings.GetInstance().DownloadMode = ProgramSettings.DownloadModeOptions.FFMPEG
         If CBool(InStr(URL_DL, ".mpd")) Then
             TempHybridMode = False
         End If
@@ -1002,7 +999,8 @@ Public Class Main
             Next
         Catch ex As Exception
         End Try
-        If KeepCache = False Then
+        Dim settings = ProgramSettings.GetInstance()
+        If settings.DownloadMode <> ProgramSettings.DownloadModeOptions.HYBRID_MODE_KEEP_CACHE Then
             Try
                 Dim di As New System.IO.DirectoryInfo(Pfad)
                 For Each fi As System.IO.DirectoryInfo In di.EnumerateDirectories("*.*", System.IO.SearchOption.TopDirectoryOnly)

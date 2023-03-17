@@ -38,7 +38,7 @@ Partial Class Einstellungen
         Me.GroupBox16 = New System.Windows.Forms.GroupBox()
         Me.MetroLabel3 = New MetroFramework.Controls.MetroLabel()
         Me.TempTB = New MetroFramework.Controls.MetroTextBox()
-        Me.DD_DLMode = New MetroFramework.Controls.MetroComboBox()
+        Me.DownloadModeDropdown = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.CB_Merge = New MetroFramework.Controls.MetroComboBox()
         Me.CB_Format = New MetroFramework.Controls.MetroComboBox()
@@ -309,10 +309,10 @@ Partial Class Einstellungen
         Me.TabPage2.HorizontalScrollbarBarColor = True
         Me.TabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage2.HorizontalScrollbarSize = 10
-        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 44)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(501, 528)
+        Me.TabPage2.Size = New System.Drawing.Size(501, 519)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Output"
         Me.TabPage2.VerticalScrollbarBarColor = True
@@ -349,7 +349,7 @@ Partial Class Einstellungen
         Me.GroupBox16.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox16.Controls.Add(Me.MetroLabel3)
         Me.GroupBox16.Controls.Add(Me.TempTB)
-        Me.GroupBox16.Controls.Add(Me.DD_DLMode)
+        Me.GroupBox16.Controls.Add(Me.DownloadModeDropdown)
         Me.GroupBox16.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox16.ForeColor = System.Drawing.Color.Black
         Me.GroupBox16.Location = New System.Drawing.Point(5, 11)
@@ -403,19 +403,19 @@ Partial Class Einstellungen
         Me.TempTB.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.TempTB.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
-        'DD_DLMode
+        'DownloadModeDropdown
         '
-        Me.DD_DLMode.DropDownHeight = 250
-        Me.DD_DLMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DD_DLMode.FormattingEnabled = True
-        Me.DD_DLMode.IntegralHeight = False
-        Me.DD_DLMode.ItemHeight = 23
-        Me.DD_DLMode.Items.AddRange(New Object() {"Default - ffmpeg", "Hybrid Mode", "Hybrid Mode - keep cache"})
-        Me.DD_DLMode.Location = New System.Drawing.Point(119, 21)
-        Me.DD_DLMode.Name = "DD_DLMode"
-        Me.DD_DLMode.Size = New System.Drawing.Size(225, 29)
-        Me.DD_DLMode.TabIndex = 18
-        Me.DD_DLMode.UseSelectable = True
+        Me.DownloadModeDropdown.DropDownHeight = 250
+        Me.DownloadModeDropdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DownloadModeDropdown.FormattingEnabled = True
+        Me.DownloadModeDropdown.IntegralHeight = False
+        Me.DownloadModeDropdown.ItemHeight = 23
+        Me.DownloadModeDropdown.Items.AddRange(New Object() {"Default - ffmpeg", "Hybrid Mode", "Hybrid Mode - keep cache"})
+        Me.DownloadModeDropdown.Location = New System.Drawing.Point(119, 21)
+        Me.DownloadModeDropdown.Name = "DownloadModeDropdown"
+        Me.DownloadModeDropdown.Size = New System.Drawing.Size(225, 29)
+        Me.DownloadModeDropdown.TabIndex = 18
+        Me.DownloadModeDropdown.UseSelectable = True
         '
         'GroupBox4
         '
@@ -1055,7 +1055,7 @@ Partial Class Einstellungen
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.SelectedIndex = 1
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -1993,7 +1993,7 @@ Partial Class Einstellungen
     Friend WithEvents GroupBox15 As GroupBox
     Friend WithEvents Bitrate_Funi As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox16 As GroupBox
-    Friend WithEvents DD_DLMode As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents DownloadModeDropdown As MetroFramework.Controls.MetroComboBox
     Friend WithEvents MetroTabPage2 As MetroFramework.Controls.MetroTabPage
     Friend WithEvents GB_Filename_Pre As GroupBox
     Friend WithEvents GroupBox12 As GroupBox

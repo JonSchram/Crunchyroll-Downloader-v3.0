@@ -26,14 +26,7 @@ Public Class Einstellungen
 
     Private ReadOnly SubfolderTextList As EnumTextList(Of SubfolderDisplay) = New EnumTextList(Of SubfolderDisplay)()
 
-    Private ReadOnly SubfolderDisplayMap As New Dictionary(Of SubfolderDisplay, String) From {
-        {SubfolderDisplay.SHOW_ALL, "Show all subfolders"},
-        {SubfolderDisplay.HIDE_ALL, "Hide all subfolders"},
-        {SubfolderDisplay.HIDE_OLDER_THAN_1_WEEK, "Hide subfolders last accessed > 1 week ago"},
-        {SubfolderDisplay.HIDE_OLDER_THAN_1_MONTH, "Hide subfolders last accessed > 1 month ago"},
-        {SubfolderDisplay.HIDE_OLDER_THAN_3_MONTHS, "Hide subfolders last accessed > 3 months ago"},
-        {SubfolderDisplay.HIDE_OLDER_THAN_6_MONTHS, "Hide subfolders last accessed > 6 months ago"}
-    }
+    Private ReadOnly DownloadModeTextList As EnumTextList(Of DownloadModeOptions) = New EnumTextList(Of DownloadModeOptions)()
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
@@ -51,6 +44,9 @@ Public Class Einstellungen
             .Add(SubfolderDisplay.HIDE_OLDER_THAN_3_MONTHS, "Hide subfolders last accessed > 3 months ago") _
             .Add(SubfolderDisplay.HIDE_OLDER_THAN_6_MONTHS, "Hide subfolders last accessed > 6 months ago")
 
+        DownloadModeTextList.Add(DownloadModeOptions.FFMPEG, "Default - ffmpeg") _
+            .Add(DownloadModeOptions.HYBRID_MODE, "Hybrid Mode") _
+            .Add(DownloadModeOptions.HYBRID_MODE_KEEP_CACHE, "Hybrid Mode - keep cache")
     End Sub
 
     Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -153,13 +149,7 @@ Public Class Einstellungen
 
         End Try
 
-        If Main.HybridMode = True And Main.KeepCache = True Then
-            DD_DLMode.SelectedIndex = 2
-        ElseIf Main.HybridMode = True Then
-            DD_DLMode.SelectedIndex = 1
-        Else
-            DD_DLMode.SelectedIndex = 0
-        End If
+        InitializeDownloadModeInput()
 
         If Main.Funimation_srt = True Then
             CB_srt.Checked = True
@@ -437,12 +427,26 @@ Public Class Einstellungen
         CB_HideSF.DataSource = SubfolderTextList.GetDisplayItems()
 
         Dim currentSetting = settings.SubfolderDisplayBehavior
-        CB_HideSF.SelectedItem = SubfolderTextList.GetItemForEnumValue(currentSetting)
+        CB_HideSF.SelectedItem = SubfolderTextList.Item(currentSetting)
     End Sub
 
     Private Sub SaveSubfolderDisplaySetting()
         Dim settings = ProgramSettings.GetInstance()
         settings.SubfolderDisplayBehavior = SubfolderTextList.GetEnumForItem(CB_HideSF.SelectedItem)
+    End Sub
+
+    Private Sub InitializeDownloadModeInput()
+        Dim settings = ProgramSettings.GetInstance()
+        DownloadModeDropdown.Items.Clear()
+        DownloadModeDropdown.DataSource = DownloadModeTextList.GetDisplayItems()
+
+        Dim currentSetting = settings.DownloadMode
+        DownloadModeDropdown.SelectedItem = DownloadModeTextList.Item(currentSetting)
+    End Sub
+
+    Private Sub SaveDownloadModeSetting()
+        Dim settings = ProgramSettings.GetInstance()
+        settings.DownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -612,21 +616,7 @@ Public Class Einstellungen
         End If
 
 
-        If DD_DLMode.SelectedIndex = 2 Then
-            Main.HybridMode = True
-            Main.KeepCache = True
-            My.Settings.HybridMode = Main.HybridMode
-        ElseIf DD_DLMode.SelectedIndex = 1 Then
-            Main.HybridMode = True
-            Main.KeepCache = False
-            My.Settings.HybridMode = Main.HybridMode
-        Else
-            Main.HybridMode = False
-            Main.KeepCache = False
-            My.Settings.HybridMode = Main.HybridMode
-        End If
-
-        My.Settings.Keep_Cache = Main.KeepCache
+        SaveDownloadModeSetting()
 
 
 #Region "funimation"
@@ -1156,9 +1146,9 @@ Public Class Einstellungen
         End If
     End Sub
 
-    Private Sub DD_DLMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DD_DLMode.SelectedIndexChanged
+    Private Sub DD_DLMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DownloadModeDropdown.SelectedIndexChanged
 
-        If DD_DLMode.SelectedIndex > 0 Then
+        If DownloadModeDropdown.SelectedIndex > 0 Then
             TempTB.Enabled = True
         Else
             TempTB.Enabled = False

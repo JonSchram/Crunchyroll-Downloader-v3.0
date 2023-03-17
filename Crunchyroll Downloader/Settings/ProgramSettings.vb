@@ -85,7 +85,32 @@ Namespace settings
         End Property
 
         ' ----- Output settings
-        Public Property Mode As DownloadMode
+        Public Property DownloadMode As DownloadModeOptions
+            Get
+                If My.Settings.HybridMode Then
+                    If My.Settings.Keep_Cache Then
+                        Return DownloadModeOptions.HYBRID_MODE_KEEP_CACHE
+                    Else
+                        Return DownloadModeOptions.HYBRID_MODE
+                    End If
+                Else
+                    Return DownloadModeOptions.FFMPEG
+                End If
+            End Get
+            Set(value As DownloadModeOptions)
+                Select Case value
+                    Case DownloadModeOptions.FFMPEG
+                        My.Settings.HybridMode = False
+                        My.Settings.Keep_Cache = False
+                    Case DownloadModeOptions.HYBRID_MODE
+                        My.Settings.HybridMode = True
+                        My.Settings.Keep_Cache = False
+                    Case DownloadModeOptions.HYBRID_MODE_KEEP_CACHE
+                        My.Settings.HybridMode = True
+                        My.Settings.Keep_Cache = True
+                End Select
+            End Set
+        End Property
 
         Public Property TemporaryFolder As String
 
@@ -127,7 +152,7 @@ Namespace settings
             HIDE_OLDER_THAN_6_MONTHS = 5
         End Enum
 
-        Public Enum DownloadMode
+        Public Enum DownloadModeOptions
             FFMPEG
             HYBRID_MODE
             HYBRID_MODE_KEEP_CACHE

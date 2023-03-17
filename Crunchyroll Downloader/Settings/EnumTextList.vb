@@ -38,7 +38,7 @@ Namespace settings
             Return displayItem.GetEnumValue()
         End Function
 
-        Public Function GetItemForEnumValue(value As T) As EnumDisplayEntry
+        Public Function Item(value As T) As EnumDisplayEntry
             Return EntryMap.Item(value)
         End Function
 

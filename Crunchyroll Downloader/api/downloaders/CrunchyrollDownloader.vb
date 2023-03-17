@@ -212,8 +212,6 @@ Public Class CrunchyrollDownloader
         'Debug.WriteLine(vbCrLf)
         Debug.WriteLine("Website: " + WebsiteURL)
 
-
-
         Try
             Main.Grapp_RDY = False
             Dim ffmpeg_command_temp As String = Main.ffmpeg_command
@@ -781,7 +779,8 @@ Public Class CrunchyrollDownloader
 
 #Region "GetResolution"
 
-            If Main.Reso = 42 And Main.HybridMode = False Then
+            Dim downloadMode = ProgramSettings.GetInstance().DownloadMode
+            If Main.Reso = 42 And downloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
 
                 ffmpegInput = "-i " + Chr(34) + CR_URI_Master(0) + Chr(34)
 
@@ -1023,7 +1022,8 @@ Public Class CrunchyrollDownloader
 
             Dim L2Name As String = String.Join(" ", CR_FilenName.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c) 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName_Backup, "[^\w\\-]", " ")
 
-            If Main.Reso = 42 And Main.HybridMode = False Then
+            ' TODO: After this class has been refactored, clean up the multiple accesses to ffmpeg mode
+            If Main.Reso = 42 And ProgramSettings.GetInstance().DownloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
                 ResoHTMLDisplay = "[Auto]"
             End If
 #End Region
