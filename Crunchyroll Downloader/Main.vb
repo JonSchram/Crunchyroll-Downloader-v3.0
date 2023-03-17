@@ -160,7 +160,6 @@ Public Class Main
     Public DefaultSubCR As String = "Disabled"
     Public DubMode As Boolean = True
     Public CR_Chapters As Boolean = False
-    Public Curl_insecure As Boolean = False
 #Region "Sprachen Vairablen"
     Public URL_Invaild As String = "something is wrong here..."
     Dim DL_Path_String As String = "Please choose download directory."
@@ -513,8 +512,6 @@ Public Class Main
 
         CR_Chapters = My.Settings.CR_Chapters
 
-        Curl_insecure = My.Settings.Curl_insecure
-
         KeepCache = My.Settings.Keep_Cache
 
         ffmpeg_command = My.Settings.ffmpeg_command
@@ -767,13 +764,14 @@ Public Class Main
 #Region "curl"
 
     Public Function Curl(ByVal Url As String) As String
+        Dim settings As ProgramSettings = ProgramSettings.GetInstance()
         Dim exepath As String = Path.Combine(Application.StartupPath, "lib", "curl.exe")
 
         Dim startinfo As New System.Diagnostics.ProcessStartInfo
         Dim sr As StreamReader
         Dim sr2 As StreamReader
         Dim cmd As String = ""
-        If Curl_insecure = True Then
+        If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
         cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + " " + Chr(34) + Url + Chr(34)
@@ -832,7 +830,7 @@ Public Class Main
     End Function
 
     Public Function CurlPost(ByVal Url As String, ByVal Cookies As String, ByVal Auth As String, ByVal Post As String) As String
-
+        Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
         Dim exepath As String = Path.Combine(Application.StartupPath, "lib", "curl.exe")
 
@@ -842,7 +840,7 @@ Public Class Main
 
 
         Dim cmd As String = ""
-        If Curl_insecure = True Then
+        If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
         cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + Cookies + Auth + Post + " " + Chr(34) + Url + Chr(34)
@@ -901,7 +899,7 @@ Public Class Main
 
     Public Function CurlAuth(ByVal Url As String, ByVal Cookies As String, ByVal Auth As String) As String
         ' TODO: Replace curl with HttpWebRequest
-
+        Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
         Dim exepath As String = Path.Combine(Application.StartupPath, "lib", "curl.exe")
 
@@ -912,7 +910,7 @@ Public Class Main
 
 
         Dim cmd As String = ""
-        If Curl_insecure = True Then
+        If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
         cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + Cookies + Auth + " " + Chr(34) + Url + Chr(34)

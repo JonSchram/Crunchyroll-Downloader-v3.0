@@ -53,6 +53,13 @@ Namespace settings
         End Property
 
         Public Property InsecureCurl As Boolean
+            Get
+                Return My.Settings.Curl_insecure
+            End Get
+            Set
+                My.Settings.Curl_insecure = Value
+            End Set
+        End Property
 
         ' The number of errors encountered before the download is paused
         Public Property ErrorThreshold As Integer

@@ -83,9 +83,7 @@ Public Class Einstellungen
             ChB_Chapters.Checked = True
         End If
 
-        If Main.Curl_insecure = True Then
-            Chb_Ign_tls.Checked = True
-        End If
+        Chb_Ign_tls.Checked = settings.InsecureCurl
 
         If settings.DarkMode Then
             DarkMode.Checked = True
@@ -445,13 +443,7 @@ Public Class Einstellungen
             My.Settings.CR_Chapters = False
         End If
 
-        If Chb_Ign_tls.Checked = True Then
-            Main.Curl_insecure = True
-            My.Settings.Curl_insecure = True
-        Else
-            Main.Curl_insecure = False
-            My.Settings.Curl_insecure = False
-        End If
+        settings.InsecureCurl = Chb_Ign_tls.Checked
 
         If CB_Kodi.Checked = True Then
             Main.KodiNaming = True
