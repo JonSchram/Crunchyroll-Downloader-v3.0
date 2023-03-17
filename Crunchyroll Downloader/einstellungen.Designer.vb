@@ -37,7 +37,7 @@ Partial Class Einstellungen
         Me.ListViewAdd_True = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox16 = New System.Windows.Forms.GroupBox()
         Me.MetroLabel3 = New MetroFramework.Controls.MetroLabel()
-        Me.TempTB = New MetroFramework.Controls.MetroTextBox()
+        Me.TemporaryFolderTextBox = New MetroFramework.Controls.MetroTextBox()
         Me.DownloadModeDropdown = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.CB_Merge = New MetroFramework.Controls.MetroComboBox()
@@ -348,7 +348,7 @@ Partial Class Einstellungen
         '
         Me.GroupBox16.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox16.Controls.Add(Me.MetroLabel3)
-        Me.GroupBox16.Controls.Add(Me.TempTB)
+        Me.GroupBox16.Controls.Add(Me.TemporaryFolderTextBox)
         Me.GroupBox16.Controls.Add(Me.DownloadModeDropdown)
         Me.GroupBox16.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox16.ForeColor = System.Drawing.Color.Black
@@ -369,39 +369,38 @@ Partial Class Einstellungen
         Me.MetroLabel3.Text = "Temporary Folder"
         Me.MetroLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TempTB
+        'TemporaryFolderTextBox
         '
         '
         '
         '
-        Me.TempTB.CustomButton.Image = Nothing
-        Me.TempTB.CustomButton.Location = New System.Drawing.Point(445, 1)
-        Me.TempTB.CustomButton.Name = ""
-        Me.TempTB.CustomButton.Size = New System.Drawing.Size(23, 23)
-        Me.TempTB.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-        Me.TempTB.CustomButton.TabIndex = 1
-        Me.TempTB.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-        Me.TempTB.CustomButton.UseSelectable = True
-        Me.TempTB.CustomButton.Visible = False
-        Me.TempTB.FontSize = MetroFramework.MetroTextBoxSize.Medium
-        Me.TempTB.Lines = New String() {"https://www.crunchyroll.com/"}
-        Me.TempTB.Location = New System.Drawing.Point(6, 90)
-        Me.TempTB.MaxLength = 32767
-        Me.TempTB.Name = "TempTB"
-        Me.TempTB.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.TempTB.ReadOnly = True
-        Me.TempTB.ScrollBars = System.Windows.Forms.ScrollBars.None
-        Me.TempTB.SelectedText = ""
-        Me.TempTB.SelectionLength = 0
-        Me.TempTB.SelectionStart = 0
-        Me.TempTB.ShortcutsEnabled = True
-        Me.TempTB.Size = New System.Drawing.Size(469, 25)
-        Me.TempTB.TabIndex = 20
-        Me.TempTB.Text = "https://www.crunchyroll.com/"
-        Me.TempTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.TempTB.UseSelectable = True
-        Me.TempTB.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.TempTB.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        Me.TemporaryFolderTextBox.CustomButton.Image = Nothing
+        Me.TemporaryFolderTextBox.CustomButton.Location = New System.Drawing.Point(445, 1)
+        Me.TemporaryFolderTextBox.CustomButton.Name = ""
+        Me.TemporaryFolderTextBox.CustomButton.Size = New System.Drawing.Size(23, 23)
+        Me.TemporaryFolderTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.TemporaryFolderTextBox.CustomButton.TabIndex = 1
+        Me.TemporaryFolderTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.TemporaryFolderTextBox.CustomButton.UseSelectable = True
+        Me.TemporaryFolderTextBox.CustomButton.Visible = False
+        Me.TemporaryFolderTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
+        Me.TemporaryFolderTextBox.Lines = New String(-1) {}
+        Me.TemporaryFolderTextBox.Location = New System.Drawing.Point(6, 90)
+        Me.TemporaryFolderTextBox.MaxLength = 32767
+        Me.TemporaryFolderTextBox.Name = "TemporaryFolderTextBox"
+        Me.TemporaryFolderTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.TemporaryFolderTextBox.ReadOnly = True
+        Me.TemporaryFolderTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.TemporaryFolderTextBox.SelectedText = ""
+        Me.TemporaryFolderTextBox.SelectionLength = 0
+        Me.TemporaryFolderTextBox.SelectionStart = 0
+        Me.TemporaryFolderTextBox.ShortcutsEnabled = True
+        Me.TemporaryFolderTextBox.Size = New System.Drawing.Size(469, 25)
+        Me.TemporaryFolderTextBox.TabIndex = 20
+        Me.TemporaryFolderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TemporaryFolderTextBox.UseSelectable = True
+        Me.TemporaryFolderTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.TemporaryFolderTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
         'DownloadModeDropdown
         '
@@ -798,10 +797,10 @@ Partial Class Einstellungen
         Me.TabPage1.HorizontalScrollbarBarColor = True
         Me.TabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage1.HorizontalScrollbarSize = 10
-        Me.TabPage1.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 35)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage1.Size = New System.Drawing.Size(501, 528)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "  Main"
         Me.TabPage1.VerticalScrollbar = True
@@ -2005,7 +2004,7 @@ Partial Class Einstellungen
     Friend WithEvents GroupBox18 As GroupBox
     Friend WithEvents ListViewAdd_True As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents MetroLabel3 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents TempTB As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents TemporaryFolderTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CB_Ignore As MetroFramework.Controls.MetroComboBox
     Friend WithEvents Intel_h264 As ToolStripMenuItem
     Friend WithEvents Intel_hevc As ToolStripMenuItem

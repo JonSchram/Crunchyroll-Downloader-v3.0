@@ -24,9 +24,9 @@ Public Class Einstellungen
         {ServerPortOptions.CUSTOM, New ServerPortDisplay("Custom port", ServerPortOptions.CUSTOM)}
     }
 
-    Private ReadOnly SubfolderTextList As EnumTextList(Of SubfolderDisplay) = New EnumTextList(Of SubfolderDisplay)()
+    Private ReadOnly SubfolderTextList As New EnumTextList(Of SubfolderDisplay)()
 
-    Private ReadOnly DownloadModeTextList As EnumTextList(Of DownloadModeOptions) = New EnumTextList(Of DownloadModeOptions)()
+    Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
@@ -36,17 +36,21 @@ Public Class Einstellungen
 
     Public Sub New()
         InitializeComponent()
-
-        SubfolderTextList.Add(SubfolderDisplay.SHOW_ALL, "Show all subfolders") _
-            .Add(SubfolderDisplay.HIDE_ALL, "Hide all subfolders") _
-            .Add(SubfolderDisplay.HIDE_OLDER_THAN_1_WEEK, "Hide subfolders last accessed > 1 week ago") _
-            .Add(SubfolderDisplay.HIDE_OLDER_THAN_1_MONTH, "Hide subfolders last accessed > 1 month ago") _
-            .Add(SubfolderDisplay.HIDE_OLDER_THAN_3_MONTHS, "Hide subfolders last accessed > 3 months ago") _
+        With SubfolderTextList
+            .Add(SubfolderDisplay.SHOW_ALL, "Show all subfolders")
+            .Add(SubfolderDisplay.HIDE_ALL, "Hide all subfolders")
+            .Add(SubfolderDisplay.HIDE_OLDER_THAN_1_WEEK, "Hide subfolders last accessed > 1 week ago")
+            .Add(SubfolderDisplay.HIDE_OLDER_THAN_1_MONTH, "Hide subfolders last accessed > 1 month ago")
+            .Add(SubfolderDisplay.HIDE_OLDER_THAN_3_MONTHS, "Hide subfolders last accessed > 3 months ago")
             .Add(SubfolderDisplay.HIDE_OLDER_THAN_6_MONTHS, "Hide subfolders last accessed > 6 months ago")
+        End With
 
-        DownloadModeTextList.Add(DownloadModeOptions.FFMPEG, "Default - ffmpeg") _
-            .Add(DownloadModeOptions.HYBRID_MODE, "Hybrid Mode") _
+        With DownloadModeTextList
+            .Add(DownloadModeOptions.FFMPEG, "Default - ffmpeg")
+            .Add(DownloadModeOptions.HYBRID_MODE, "Hybrid Mode")
             .Add(DownloadModeOptions.HYBRID_MODE_KEEP_CACHE, "Hybrid Mode - keep cache")
+        End With
+
     End Sub
 
     Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -67,7 +71,7 @@ Public Class Einstellungen
         Me.StyleManager = Manager
 
 
-        TempTB.Text = Main.TempFolder
+        TemporaryFolderTextBox.Text = settings.TemporaryFolder
         LeadingZeroDD.SelectedIndex = Main.LeadingZero
 
         Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
@@ -449,17 +453,32 @@ Public Class Einstellungen
         settings.DownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
     End Sub
 
-    Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
+    Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
+
+        ' Main settings
+        settings.SimultaneousDownloads = CInt(SimultaneousDownloadsInput.Value)
+
+        SaveAddOnPortSetting()
+        SaveSubfolderDisplaySetting()
+
+        settings.InsecureCurl = Chb_Ign_tls.Checked
+
+        settings.ErrorLimit = CInt(ErrorLimitInput.Value)
+
+        ' Output settings
+        SaveDownloadModeSetting()
+        settings.TemporaryFolder = TemporaryFolderTextBox.Text
+    End Sub
+
+    Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
+        SaveCurrentSettings()
 
         Main.LeadingZero = LeadingZeroDD.SelectedIndex
         My.Settings.LeadingZero = LeadingZeroDD.SelectedIndex
 
         Main.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
         My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
-
-        SaveAddOnPortSetting()
-        SaveSubfolderDisplaySetting()
 
         Main.IgnoreSeason = CB_Ignore.SelectedIndex
         My.Settings.IgnoreSeason = CB_Ignore.SelectedIndex
@@ -482,7 +501,6 @@ Public Class Einstellungen
             My.Settings.CR_Chapters = False
         End If
 
-        settings.InsecureCurl = Chb_Ign_tls.Checked
 
         If CB_Kodi.Checked = True Then
             Main.KodiNaming = True
@@ -616,7 +634,6 @@ Public Class Einstellungen
         End If
 
 
-        SaveDownloadModeSetting()
 
 
 #Region "funimation"
@@ -748,10 +765,6 @@ Public Class Einstellungen
             End If
         End If
 
-        settings.SimultaneousDownloads = CInt(SimultaneousDownloadsInput.Value)
-
-
-        settings.ErrorLimit = CInt(ErrorLimitInput.Value)
 
         If ListViewAdd_True.Checked = True Then
             Main.UseQueue = True
@@ -1147,26 +1160,21 @@ Public Class Einstellungen
     End Sub
 
     Private Sub DD_DLMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DownloadModeDropdown.SelectedIndexChanged
-
-        If DownloadModeDropdown.SelectedIndex > 0 Then
-            TempTB.Enabled = True
-        Else
-            TempTB.Enabled = False
-        End If
-
+        Dim currentDownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
+        TemporaryFolderTextBox.Enabled = currentDownloadMode <> DownloadModeOptions.FFMPEG
     End Sub
 
-    Private Sub TempTB_Click(sender As Object, e As EventArgs) Handles TempTB.Click
-
-        Dim FolderBrowserDialog1 As New FolderBrowserDialog()
-        FolderBrowserDialog1.RootFolder = Environment.SpecialFolder.MyComputer
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-
-            Main.TempFolder = FolderBrowserDialog1.SelectedPath
-            TempTB.Text = FolderBrowserDialog1.SelectedPath
-            My.Settings.TempFolder = Main.TempFolder
+    Private Sub TempTB_Click(sender As Object, e As EventArgs) Handles TemporaryFolderTextBox.Click
+        Dim folderDialog As New FolderBrowserDialog With {
+            .RootFolder = Environment.SpecialFolder.MyComputer
+        }
+        If TemporaryFolderTextBox.Text IsNot Nothing Then
+            folderDialog.SelectedPath = TemporaryFolderTextBox.Text
         End If
 
+        If folderDialog.ShowDialog() = DialogResult.OK Then
+            TemporaryFolderTextBox.Text = folderDialog.SelectedPath
+        End If
     End Sub
 #Region "Build Name String"
 

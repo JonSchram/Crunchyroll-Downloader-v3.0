@@ -22,8 +22,8 @@ Namespace settings
             Get
                 Return My.Settings.SL_DL
             End Get
-            Set
-                My.Settings.SL_DL = Value
+            Set(value As Integer)
+                My.Settings.SL_DL = value
             End Set
         End Property
 
@@ -33,12 +33,12 @@ Namespace settings
             Get
                 Return My.Settings.DarkModeValue
             End Get
-            Set
+            Set(value As Boolean)
                 Dim previousDarkMode = My.Settings.DarkModeValue
                 ' Make sure to set new dark mode first so no event handler can get confused over value from event vs. settings value.
-                My.Settings.DarkModeValue = Value
-                If Value <> previousDarkMode Then
-                    RaiseEvent DarkModeChanged(Value)
+                My.Settings.DarkModeValue = value
+                If value <> previousDarkMode Then
+                    RaiseEvent DarkModeChanged(value)
                 End If
             End Set
         End Property
@@ -47,8 +47,8 @@ Namespace settings
             Get
                 Return My.Settings.ServerPort
             End Get
-            Set
-                My.Settings.ServerPort = Value
+            Set(value As Integer)
+                My.Settings.ServerPort = value
             End Set
         End Property
 
@@ -56,8 +56,8 @@ Namespace settings
             Get
                 Return My.Settings.Curl_insecure
             End Get
-            Set
-                My.Settings.Curl_insecure = Value
+            Set(value As Boolean)
+                My.Settings.Curl_insecure = value
             End Set
         End Property
 
@@ -113,6 +113,13 @@ Namespace settings
         End Property
 
         Public Property TemporaryFolder As String
+            Get
+                Return My.Settings.TempFolder
+            End Get
+            Set(value As String)
+                My.Settings.TempFolder = value
+            End Set
+        End Property
 
         Public Property UseDownloadQueue As Boolean
 

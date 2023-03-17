@@ -100,7 +100,6 @@ Public Class Main
     Public b As Boolean
     Public LoginOnly As String = "False"
     Public Pfad As String = My.Computer.FileSystem.CurrentDirectory
-    Public TempFolder As String = Pfad
     Public ProfileFolder As String = Path.Combine(Application.StartupPath, "CRD-Profile") 'Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "CRD-Profile")
     Public ffmpeg_command As String = " -c copy -bsf:a aac_adtstoasc" '" -c:v hevc_nvenc -preset fast -b:v 6M -bsf:a aac_adtstoasc " 
     Public Reso As Integer
@@ -476,17 +475,14 @@ Public Class Main
         Catch ex As Exception
         End Try
 
-
         If My.Settings.Pfad = Nothing Then
             Pfad = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         Else
             Pfad = My.Settings.Pfad
         End If
 
-        If My.Settings.TempFolder = Nothing Then
-            TempFolder = Pfad
-        Else
-            TempFolder = My.Settings.TempFolder
+        If settings.TemporaryFolder = Nothing Then
+            settings.TemporaryFolder = Pfad
         End If
 
         Episode_Prefix = My.Settings.Prefix_E
@@ -689,7 +685,7 @@ Public Class Main
 
 
         'MsgBox(URL_DL + vbNewLine + Pfad_DL + vbNewLine + NameKomplett + vbNewLine + TempHybridMode.ToString)
-        Item.StartDownload(URL_DL, Pfad_DL, NameKomplett, TempHybridMode, TempFolder)
+        Item.StartDownload(URL_DL, Pfad_DL, NameKomplett, TempHybridMode, settings.TemporaryFolder)
     End Sub
 
 #Region "Sub to display"
