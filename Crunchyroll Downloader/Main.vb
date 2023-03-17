@@ -125,7 +125,6 @@ Public Class Main
     Public GeckoLogFile As String = Nothing
     Dim SoftSubsString As String
     Dim CR_Unlock_Error As String
-    Public Startseite As String = "https://www.crunchyroll.com/"
     Dim SubSprache2 As String
     'Dim URL_DL As String
     'Dim Pfad_DL As String
@@ -492,9 +491,6 @@ Public Class Main
         DefaultSubFunimation = My.Settings.DefaultSubFunimation
 
         DefaultSubCR = My.Settings.DefaultSubCR
-
-        Startseite = My.Settings.Startseite
-
 
         UseQueue = My.Settings.QueueMode
 

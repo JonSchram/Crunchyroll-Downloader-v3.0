@@ -58,6 +58,8 @@ Public Class Einstellungen
 
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
+        LoadSettings()
+
         Label6.Text = "You have: v" + Application.ProductVersion.ToString '+ " WebView2_Test"
 
         BackgroundWorker1.RunWorkerAsync()
@@ -71,14 +73,12 @@ Public Class Einstellungen
         Me.StyleManager = Manager
 
 
-        TemporaryFolderTextBox.Text = settings.TemporaryFolder
+
         LeadingZeroDD.SelectedIndex = Main.LeadingZero
 
         Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
 
         CB_Ignore.SelectedIndex = Main.IgnoreSeason
-
-        InitializeSubfolderDisplayInput()
 
         If Main.IncludeLangName = True Then
             CB_SoftSubSettings.SelectedIndex = 1
@@ -106,17 +106,7 @@ Public Class Einstellungen
             ChB_Chapters.Checked = True
         End If
 
-        Chb_Ign_tls.Checked = settings.InsecureCurl
 
-        If settings.DarkMode Then
-            DarkMode.Checked = True
-            GroupBoxColor(Color.FromArgb(150, 150, 150))
-            ' TODO: Set image box for dark mode directly instead of from Main
-            pictureBox1.Image = Main.CloseImg
-        Else
-            DarkMode.Checked = False
-            GroupBoxColor(Color.FromArgb(0, 0, 0))
-        End If
 
         TabControl1.SelectedIndex = 0
 
@@ -152,8 +142,6 @@ Public Class Einstellungen
         Catch ex As Exception
 
         End Try
-
-        InitializeDownloadModeInput()
 
         If Main.Funimation_srt = True Then
             CB_srt.Checked = True
@@ -259,10 +247,6 @@ Public Class Einstellungen
         DD_Episode_Prefix.Text = Main.Episode_Prefix
 
 
-        ErrorLimitInput.Value = settings.ErrorLimit
-        SimultaneousDownloadsInput.Value = settings.SimultaneousDownloads
-        DefaultWebsiteTextBox.Text = Main.Startseite
-
         Try
 
             If CBool(InStr(Main.ffmpeg_command, "-c copy")) Then
@@ -304,8 +288,6 @@ Public Class Einstellungen
             MsgBox("Error processing ffmpeg command", MsgBoxStyle.Information)
         End Try
         ListViewAdd_True.Checked = Main.UseQueue
-
-        InitializeAddOnPortInput()
 
 
         If Main.DefaultSubFunimation = "en" Then
@@ -367,6 +349,34 @@ Public Class Einstellungen
 
 
 
+
+    End Sub
+
+    Private Sub LoadSettings()
+        Dim settings = ProgramSettings.GetInstance()
+
+        ' Main settings
+        SimultaneousDownloadsInput.Value = settings.SimultaneousDownloads
+        DefaultWebsiteTextBox.Text = settings.DefaultWebsite
+
+        If settings.DarkMode Then
+            DarkMode.Checked = True
+            GroupBoxColor(Color.FromArgb(150, 150, 150))
+            ' TODO: Set image box for dark mode directly instead of from Main
+            pictureBox1.Image = Main.CloseImg
+        Else
+            DarkMode.Checked = False
+            GroupBoxColor(Color.FromArgb(0, 0, 0))
+        End If
+
+        InitializeAddOnPortInput()
+        Chb_Ign_tls.Checked = settings.InsecureCurl
+        ErrorLimitInput.Value = settings.ErrorLimit
+        InitializeSubfolderDisplayInput()
+
+        ' Output settings
+        InitializeDownloadModeInput()
+        TemporaryFolderTextBox.Text = settings.TemporaryFolder
 
     End Sub
 
@@ -458,6 +468,11 @@ Public Class Einstellungen
 
         ' Main settings
         settings.SimultaneousDownloads = CInt(SimultaneousDownloadsInput.Value)
+        If DefaultWebsiteTextBox.Text = Nothing Then
+            settings.DefaultWebsite = "https://www.crunchyroll.com/"
+        Else
+            settings.DefaultWebsite = DefaultWebsiteTextBox.Text
+        End If
 
         SaveAddOnPortSetting()
         SaveSubfolderDisplaySetting()
@@ -469,6 +484,7 @@ Public Class Einstellungen
         ' Output settings
         SaveDownloadModeSetting()
         settings.TemporaryFolder = TemporaryFolderTextBox.Text
+
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -510,16 +526,7 @@ Public Class Einstellungen
             My.Settings.KodiSupport = False
         End If
 
-        '  MsgBox(Name_season.Text)
-        If CBool(InStr(DefaultWebsiteTextBox.Text, "https://")) Then
-            Main.Startseite = DefaultWebsiteTextBox.Text
-            My.Settings.Startseite = Main.Startseite
-        ElseIf DefaultWebsiteTextBox.Text = Nothing Then
-            Main.Startseite = "https://www.crunchyroll.com/"
-            My.Settings.Startseite = Main.Startseite
-        Else
 
-        End If
         If DD_Season_Prefix.Text IsNot "[default season prefix]" Then
             Main.Season_Prefix = DD_Season_Prefix.Text
             My.Settings.Prefix_S = Main.Season_Prefix

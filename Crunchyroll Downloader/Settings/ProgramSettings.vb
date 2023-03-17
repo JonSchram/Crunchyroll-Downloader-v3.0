@@ -28,6 +28,13 @@ Namespace settings
         End Property
 
         Public Property DefaultWebsite As String
+            Get
+                Return My.Settings.Startseite
+            End Get
+            Set(value As String)
+                My.Settings.Startseite = value
+            End Set
+        End Property
 
         Public Property DarkMode As Boolean
             Get

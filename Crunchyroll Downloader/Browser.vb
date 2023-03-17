@@ -11,6 +11,7 @@ Imports System.Security.Policy
 Imports Microsoft.Web.WebView2.Core
 Imports MetroFramework.Drawing
 Imports Newtonsoft.Json.Linq
+Imports Crunchyroll_Downloader.settings
 
 Public Class Browser
 
@@ -29,8 +30,7 @@ Public Class Browser
         WebView2.CoreWebView2.Settings.UserAgent = My.Resources.ffmpeg_user_agend.Replace(Chr(34), "").Replace("User-Agent: ", "")
         If WebView2.CoreWebView2.Source = "about:blank" Or WebView2.CoreWebView2.Source = Nothing Then
             'TextBox1.Text = Main.Startseite
-            WebView2.CoreWebView2.Navigate(Main.Startseite)
-
+            WebView2.CoreWebView2.Navigate(ProgramSettings.GetInstance().DefaultWebsite)
         End If
 
     End Sub
@@ -101,7 +101,7 @@ Public Class Browser
             Me.Location = New Point(-10000, 10000)
             Timer1.Enabled = True
         End If
-        WebView2.Source = New Uri(Main.Startseite)
+        WebView2.Source = New Uri(ProgramSettings.GetInstance().DefaultWebsite)
     End Sub
 
     Private Sub Browser_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
