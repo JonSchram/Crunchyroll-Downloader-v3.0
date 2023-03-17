@@ -92,6 +92,8 @@ Partial Class Einstellungen
         Me.Label2 = New MetroFramework.Controls.MetroLabel()
         Me.ErrorLimitInput = New System.Windows.Forms.NumericUpDown()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.CustomServerPortInput = New System.Windows.Forms.NumericUpDown()
+        Me.ServerPortLabel = New MetroFramework.Controls.MetroLabel()
         Me.Chb_Ign_tls = New MetroFramework.Controls.MetroCheckBox()
         Me.ServerPortInput = New MetroFramework.Controls.MetroComboBox()
         Me.DarkMode = New MetroFramework.Controls.MetroCheckBox()
@@ -154,8 +156,6 @@ Partial Class Einstellungen
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
-        Me.ServerPortLabel = New MetroFramework.Controls.MetroLabel()
-        Me.CustomServerPortInput = New System.Windows.Forms.NumericUpDown()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox14.SuspendLayout()
         Me.SoftSubs.SuspendLayout()
@@ -173,6 +173,7 @@ Partial Class Einstellungen
         Me.GroupBox6.SuspendLayout()
         CType(Me.ErrorLimitInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox5.SuspendLayout()
+        CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.DL_Count_simultaneous.SuspendLayout()
         CType(Me.SimultaneousDownloadsInput, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -195,7 +196,6 @@ Partial Class Einstellungen
         Me.GroupBox8.SuspendLayout()
         Me.TabPage7.SuspendLayout()
         CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolTip1
@@ -829,7 +829,6 @@ Partial Class Einstellungen
         Me.CB_HideSF.FormattingEnabled = True
         Me.CB_HideSF.IntegralHeight = False
         Me.CB_HideSF.ItemHeight = 23
-        Me.CB_HideSF.Items.AddRange(New Object() {"show all subfolder", "hide all subfolder", "hide subfolder by last accessed [> 1 week]", "hide subfolder by last accessed [> 1 month]", "hide subfolder by last accessed [> 3 months]", "hide subfolder by last accessed [> 6 months]"})
         Me.CB_HideSF.Location = New System.Drawing.Point(82, 25)
         Me.CB_HideSF.Name = "CB_HideSF"
         Me.CB_HideSF.Size = New System.Drawing.Size(326, 29)
@@ -907,6 +906,27 @@ Partial Class Einstellungen
         Me.GroupBox5.TabIndex = 70
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Other"
+        '
+        'CustomServerPortInput
+        '
+        Me.CustomServerPortInput.Enabled = False
+        Me.CustomServerPortInput.Location = New System.Drawing.Point(355, 25)
+        Me.CustomServerPortInput.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
+        Me.CustomServerPortInput.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.CustomServerPortInput.Name = "CustomServerPortInput"
+        Me.CustomServerPortInput.Size = New System.Drawing.Size(120, 22)
+        Me.CustomServerPortInput.TabIndex = 48
+        Me.CustomServerPortInput.Value = New Decimal(New Integer() {80, 0, 0, 0})
+        '
+        'ServerPortLabel
+        '
+        Me.ServerPortLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular
+        Me.ServerPortLabel.Location = New System.Drawing.Point(6, 21)
+        Me.ServerPortLabel.Name = "ServerPortLabel"
+        Me.ServerPortLabel.Size = New System.Drawing.Size(145, 29)
+        Me.ServerPortLabel.TabIndex = 47
+        Me.ServerPortLabel.Text = "Add-on server port"
+        Me.ServerPortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Chb_Ign_tls
         '
@@ -1808,27 +1828,6 @@ Partial Class Einstellungen
         Me.Btn_Save.TabIndex = 9
         Me.Btn_Save.UseVisualStyleBackColor = False
         '
-        'ServerPortLabel
-        '
-        Me.ServerPortLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.ServerPortLabel.Location = New System.Drawing.Point(6, 21)
-        Me.ServerPortLabel.Name = "ServerPortLabel"
-        Me.ServerPortLabel.Size = New System.Drawing.Size(145, 29)
-        Me.ServerPortLabel.TabIndex = 47
-        Me.ServerPortLabel.Text = "Add-on server port"
-        Me.ServerPortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'CustomServerPortInput
-        '
-        Me.CustomServerPortInput.Enabled = False
-        Me.CustomServerPortInput.Location = New System.Drawing.Point(355, 25)
-        Me.CustomServerPortInput.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
-        Me.CustomServerPortInput.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.CustomServerPortInput.Name = "CustomServerPortInput"
-        Me.CustomServerPortInput.Size = New System.Drawing.Size(120, 22)
-        Me.CustomServerPortInput.TabIndex = 48
-        Me.CustomServerPortInput.Value = New Decimal(New Integer() {80, 0, 0, 0})
-        '
         'Einstellungen
         '
         Me.ApplyImageInvert = True
@@ -1870,6 +1869,7 @@ Partial Class Einstellungen
         CType(Me.ErrorLimitInput, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.DL_Count_simultaneous.ResumeLayout(False)
         CType(Me.SimultaneousDownloadsInput, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1896,7 +1896,6 @@ Partial Class Einstellungen
         Me.GroupBox8.PerformLayout()
         Me.TabPage7.ResumeLayout(False)
         CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

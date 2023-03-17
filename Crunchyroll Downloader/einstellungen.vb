@@ -24,11 +24,34 @@ Public Class Einstellungen
         {ServerPortOptions.CUSTOM, New ServerPortDisplay("Custom port", ServerPortOptions.CUSTOM)}
     }
 
+    Private ReadOnly SubfolderTextList As EnumTextList(Of SubfolderDisplay) = New EnumTextList(Of SubfolderDisplay)()
+
+    Private ReadOnly SubfolderDisplayMap As New Dictionary(Of SubfolderDisplay, String) From {
+        {SubfolderDisplay.SHOW_ALL, "Show all subfolders"},
+        {SubfolderDisplay.HIDE_ALL, "Hide all subfolders"},
+        {SubfolderDisplay.HIDE_OLDER_THAN_1_WEEK, "Hide subfolders last accessed > 1 week ago"},
+        {SubfolderDisplay.HIDE_OLDER_THAN_1_MONTH, "Hide subfolders last accessed > 1 month ago"},
+        {SubfolderDisplay.HIDE_OLDER_THAN_3_MONTHS, "Hide subfolders last accessed > 3 months ago"},
+        {SubfolderDisplay.HIDE_OLDER_THAN_6_MONTHS, "Hide subfolders last accessed > 6 months ago"}
+    }
+
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
 
     Public CR_SoftSubsTemp As New List(Of String)
 
+
+    Public Sub New()
+        InitializeComponent()
+
+        SubfolderTextList.Add(SubfolderDisplay.SHOW_ALL, "Show all subfolders") _
+            .Add(SubfolderDisplay.HIDE_ALL, "Hide all subfolders") _
+            .Add(SubfolderDisplay.HIDE_OLDER_THAN_1_WEEK, "Hide subfolders last accessed > 1 week ago") _
+            .Add(SubfolderDisplay.HIDE_OLDER_THAN_1_MONTH, "Hide subfolders last accessed > 1 month ago") _
+            .Add(SubfolderDisplay.HIDE_OLDER_THAN_3_MONTHS, "Hide subfolders last accessed > 3 months ago") _
+            .Add(SubfolderDisplay.HIDE_OLDER_THAN_6_MONTHS, "Hide subfolders last accessed > 6 months ago")
+
+    End Sub
 
     Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
@@ -55,7 +78,7 @@ Public Class Einstellungen
 
         CB_Ignore.SelectedIndex = Main.IgnoreSeason
 
-        CB_HideSF.SelectedIndex = Main.HideFLInt
+        InitializeSubfolderDisplayInput()
 
         If Main.IncludeLangName = True Then
             CB_SoftSubSettings.SelectedIndex = 1
@@ -408,6 +431,20 @@ Public Class Einstellungen
         CustomServerPortInput.Enabled = selectedItem.EnumValue = ServerPortOptions.CUSTOM
     End Sub
 
+    Private Sub InitializeSubfolderDisplayInput()
+        Dim settings = ProgramSettings.GetInstance()
+        CB_HideSF.Items.Clear()
+        CB_HideSF.DataSource = SubfolderTextList.GetDisplayItems()
+
+        Dim currentSetting = settings.SubfolderDisplayBehavior
+        CB_HideSF.SelectedItem = SubfolderTextList.GetItemForEnumValue(currentSetting)
+    End Sub
+
+    Private Sub SaveSubfolderDisplaySetting()
+        Dim settings = ProgramSettings.GetInstance()
+        settings.SubfolderDisplayBehavior = SubfolderTextList.GetEnumForItem(CB_HideSF.SelectedItem)
+    End Sub
+
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -418,9 +455,7 @@ Public Class Einstellungen
         My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
 
         SaveAddOnPortSetting()
-
-        Main.HideFLInt = CB_HideSF.SelectedIndex
-        My.Settings.HideSF = CB_HideSF.SelectedIndex
+        SaveSubfolderDisplaySetting()
 
         Main.IgnoreSeason = CB_Ignore.SelectedIndex
         My.Settings.IgnoreSeason = CB_Ignore.SelectedIndex

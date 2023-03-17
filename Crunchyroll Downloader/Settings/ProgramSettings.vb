@@ -72,6 +72,17 @@ Namespace settings
         End Property
 
         Public Property SubfolderDisplayBehavior As SubfolderDisplay
+            Get
+                Try
+                    Return CType(My.Settings.HideSF, SubfolderDisplay)
+                Catch
+                    Return SubfolderDisplay.SHOW_ALL
+                End Try
+            End Get
+            Set(value As SubfolderDisplay)
+                My.Settings.HideSF = value
+            End Set
+        End Property
 
         ' ----- Output settings
         Public Property Mode As DownloadMode
@@ -107,13 +118,13 @@ Namespace settings
 
         Public ReadOnly Property Funimation As FunimationSettings = FunimationSettings.GetInstance()
 
-        Public Enum SubfolderDisplay
-            SHOW_ALL
-            HIDE_ALL
-            HIDE_OLDER_THAN_1_WEEK
-            HIDE_OLDER_THAN_1_MONTH
-            HIDE_OLDER_THAN_3_MONTHS
-            HIDE_OLDER_THAN_6_MONTHS
+        Public Enum SubfolderDisplay As Integer
+            SHOW_ALL = 0
+            HIDE_ALL = 1
+            HIDE_OLDER_THAN_1_WEEK = 2
+            HIDE_OLDER_THAN_1_MONTH = 3
+            HIDE_OLDER_THAN_3_MONTHS = 4
+            HIDE_OLDER_THAN_6_MONTHS = 5
         End Enum
 
         Public Enum DownloadMode
