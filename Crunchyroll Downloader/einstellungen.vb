@@ -17,15 +17,9 @@ Imports System.Reflection
 Public Class Einstellungen
     Inherits MetroForm
 
-    Private ReadOnly ServerPortDisplayMap As New Dictionary(Of ServerPortOptions, ServerPortDisplay) From {
-        {ServerPortOptions.DISABLED, New ServerPortDisplay("add-on support disabled", ServerPortOptions.DISABLED)},
-        {ServerPortOptions.PORT_80, New ServerPortDisplay("80", ServerPortOptions.PORT_80)},
-        {ServerPortOptions.PORT_8080, New ServerPortDisplay("8080", ServerPortOptions.PORT_8080)},
-        {ServerPortOptions.CUSTOM, New ServerPortDisplay("Custom port", ServerPortOptions.CUSTOM)}
-    }
-
+    ' Display objects for combo boxes backed by enums
+    Private ReadOnly ServerPortTextList As New EnumTextList(Of ServerPortOptions)
     Private ReadOnly SubfolderTextList As New EnumTextList(Of SubfolderDisplay)()
-
     Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
 
     Dim Manager As MetroStyleManager = Main.Manager
@@ -36,6 +30,14 @@ Public Class Einstellungen
 
     Public Sub New()
         InitializeComponent()
+
+        With ServerPortTextList
+            .Add(ServerPortOptions.DISABLED, "add-on support disabled")
+            .Add(ServerPortOptions.PORT_80, "80")
+            .Add(ServerPortOptions.PORT_8080, "8080")
+            .Add(ServerPortOptions.CUSTOM, "Custom port")
+        End With
+
         With SubfolderTextList
             .Add(SubfolderDisplay.SHOW_ALL, "Show all subfolders")
             .Add(SubfolderDisplay.HIDE_ALL, "Hide all subfolders")
@@ -382,8 +384,7 @@ Public Class Einstellungen
 
     Private Sub InitializeAddOnPortInput()
         ServerPortInput.Items.Clear()
-        ServerPortInput.DataSource = ServerPortDisplayMap.Values.ToArray
-        ServerPortInput.DisplayMember = "UiText"
+        ServerPortInput.DataSource = ServerPortTextList.GetDisplayItems()
 
         Dim addOnPort = ProgramSettings.GetInstance().ServerPort
         Dim newOption As ServerPortOptions
@@ -400,19 +401,17 @@ Public Class Einstellungen
             CustomServerPortInput.Value = addOnPort
         End If
 
-        ServerPortInput.SelectedItem = ServerPortDisplayMap.Item(newOption)
+        ServerPortInput.SelectedItem = ServerPortTextList.Item(newOption)
 
-        CustomServerPortInput.Enabled = (addOnPort = ServerPortOptions.CUSTOM)
+        CustomServerPortInput.Enabled = (newOption = ServerPortOptions.CUSTOM)
     End Sub
 
     Private Sub SaveAddOnPortSetting()
         Dim settings = ProgramSettings.GetInstance()
 
         Dim previousAddOnPort = settings.ServerPort
-        Dim selectedItem As ServerPortDisplay = CType(ServerPortInput.SelectedItem, ServerPortDisplay)
-        Dim SelectedEnumValue = selectedItem.EnumValue
         Dim port As Integer
-        Select Case SelectedEnumValue
+        Select Case ServerPortTextList.GetEnumForItem(ServerPortInput.SelectedItem)
             Case ServerPortOptions.DISABLED
                 port = 0
             Case ServerPortOptions.PORT_80
@@ -431,8 +430,8 @@ Public Class Einstellungen
     End Sub
 
     Private Sub ServerPortInput_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ServerPortInput.SelectedIndexChanged
-        Dim selectedItem As ServerPortDisplay = CType(ServerPortInput.SelectedItem, ServerPortDisplay)
-        CustomServerPortInput.Enabled = selectedItem.EnumValue = ServerPortOptions.CUSTOM
+        Dim selectedEnum = ServerPortTextList.GetEnumForItem(ServerPortInput.SelectedItem)
+        CustomServerPortInput.Enabled = selectedEnum = ServerPortOptions.CUSTOM
     End Sub
 
     Private Sub InitializeSubfolderDisplayInput()
@@ -1268,25 +1267,12 @@ Public Class Einstellungen
 
 #End Region
 
+    ' TODO: This probably shouldn't use the HTTP port but the Chrome extension would probably have to be changed too.
     Public Enum ServerPortOptions
         DISABLED
         PORT_80
         PORT_8080
         CUSTOM
     End Enum
-
-    Private Class ServerPortDisplay
-        Public Property UiText As String
-        Public Property EnumValue As ServerPortOptions
-
-        Public Sub New(UiText As String, EnumValue As ServerPortOptions)
-            Me.UiText = UiText
-            Me.EnumValue = EnumValue
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return UiText
-        End Function
-    End Class
 
 End Class
