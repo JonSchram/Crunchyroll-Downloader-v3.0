@@ -62,7 +62,6 @@ Public Class Main
     Public invalids As Char() = System.IO.Path.GetInvalidFileNameChars()
     Dim ServerThread As Thread
     Public KodiNaming As Boolean = False
-    Public ErrorTolerance As Integer = 0
     Public CookieList As New List(Of CoreWebView2Cookie)
     'Public liList As New List(Of String)
     Public HTMLString As String = My.Resources.Startuphtml
@@ -562,8 +561,6 @@ Public Class Main
             NameBuilder = My.Settings.NameTemplate
         End If
 
-        ErrorTolerance = My.Settings.ErrorTolerance
-
 
         IncludeLangName = My.Settings.IncludeLangName
 
@@ -650,10 +647,12 @@ Public Class Main
         Dim Item As New CRD_List_Item
         Item.Visible = False
 
+        ' TODO: Move item initialization into the constructor or a builder
+        Dim settings = ProgramSettings.GetInstance()
 
 #Region "Set Variables"
         Item.SetService(Service)
-        Item.SetTolerance(ErrorTolerance)
+        Item.SetTolerance(settings.ErrorLimit)
         Item.SetTargetReso(Reso)
         Item.SetLabelWebsite(NameP1)
         Item.SetLabelAnimeTitel(NameP2)

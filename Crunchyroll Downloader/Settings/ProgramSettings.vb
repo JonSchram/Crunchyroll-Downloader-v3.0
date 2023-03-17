@@ -62,7 +62,14 @@ Namespace settings
         End Property
 
         ' The number of errors encountered before the download is paused
-        Public Property ErrorThreshold As Integer
+        Public Property ErrorLimit As Integer
+            Get
+                Return My.Settings.ErrorTolerance
+            End Get
+            Set(value As Integer)
+                My.Settings.ErrorTolerance = value
+            End Set
+        End Property
 
         Public Property SubfolderDisplayBehavior As SubfolderDisplay
 

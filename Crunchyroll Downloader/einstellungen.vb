@@ -242,7 +242,7 @@ Public Class Einstellungen
         DD_Episode_Prefix.Text = Main.Episode_Prefix
 
 
-        ErrorLimitInput.Value = Main.ErrorTolerance
+        ErrorLimitInput.Value = settings.ErrorLimit
         SimultaneousDownloadsInput.Value = settings.SimultaneousDownloads
         DefaultWebsiteTextBox.Text = Main.Startseite
 
@@ -726,8 +726,7 @@ Public Class Einstellungen
         settings.SimultaneousDownloads = CInt(SimultaneousDownloadsInput.Value)
 
 
-        Main.ErrorTolerance = CInt(ErrorLimitInput.Value)
-        My.Settings.ErrorTolerance = Main.ErrorTolerance
+        settings.ErrorLimit = CInt(ErrorLimitInput.Value)
 
         If ListViewAdd_True.Checked = True Then
             Main.UseQueue = True
