@@ -197,24 +197,11 @@ Public Class Einstellungen
 
 
         Try
-            GB_Resolution.Text = Main.GB_Resolution_Text
             GB_SubLanguage.Text = Main.GB_SubLanguage_Text
             DL_Count_simultaneous.Text = Main.DL_Count_simultaneousText
         Catch ex As Exception
 
         End Try
-
-        If Main.Reso = 1080 Then
-            A1080p.Checked = True
-        ElseIf Main.Reso = 720 Then
-            A720p.Checked = True
-        ElseIf Main.Reso = 480 Then
-            A480p.Checked = True
-        ElseIf Main.Reso = 360 Then
-            A360p.Checked = True
-        ElseIf Main.Reso = 42 Then
-            AAuto.Checked = True
-        End If
 
         CB_CR_Harsubs.Items.Clear()
 
@@ -379,7 +366,24 @@ Public Class Einstellungen
         InitializeDownloadModeInput()
         TemporaryFolderTextBox.Text = settings.TemporaryFolder
         UseQueueCheckbox.Checked = settings.UseDownloadQueue
+        InitializeResolutionInput()
 
+    End Sub
+
+    Private Sub InitializeResolutionInput()
+        Dim settings = ProgramSettings.GetInstance()
+        Select Case settings.DownloadResolution
+            Case Resolution.RESOLUTION_1080P
+                A1080p.Checked = True
+            Case Resolution.RESOLUTION_720P
+                A720p.Checked = True
+            Case Resolution.RESOLUTION_480P
+                A480p.Checked = True
+            Case Resolution.RESOLUTION_360P
+                A360p.Checked = True
+            Case Else
+                AAuto.Checked = True
+        End Select
     End Sub
 
     Private Sub InitializeAddOnPortInput()
@@ -462,6 +466,21 @@ Public Class Einstellungen
         settings.DownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
     End Sub
 
+    Private Sub SaveResolutionSetting()
+        Dim settings = ProgramSettings.GetInstance()
+        If A1080p.Checked Then
+            settings.DownloadResolution = Resolution.RESOLUTION_1080P
+        ElseIf A720p.Checked Then
+            settings.DownloadResolution = Resolution.RESOLUTION_720P
+        ElseIf A480p.Checked Then
+            settings.DownloadResolution = Resolution.RESOLUTION_480P
+        ElseIf A360p.Checked Then
+            settings.DownloadResolution = Resolution.RESOLUTION_360P
+        ElseIf AAuto.Checked Then
+            settings.DownloadResolution = Resolution.AUTO
+        End If
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -484,6 +503,7 @@ Public Class Einstellungen
         SaveDownloadModeSetting()
         settings.TemporaryFolder = TemporaryFolderTextBox.Text
         settings.UseDownloadQueue = UseQueueCheckbox.Checked
+        SaveResolutionSetting()
 
     End Sub
 
@@ -536,24 +556,6 @@ Public Class Einstellungen
             Main.Episode_Prefix = DD_Episode_Prefix.Text
             My.Settings.Prefix_E = Main.Episode_Prefix
         End If
-
-        If A1080p.Checked Then
-            Main.Reso = 1080
-            My.Settings.Reso = Main.Reso
-        ElseIf A720p.Checked Then
-            Main.Reso = 720
-            My.Settings.Reso = Main.Reso
-        ElseIf A360p.Checked Then
-            Main.Reso = 360
-            My.Settings.Reso = Main.Reso
-        ElseIf A480p.Checked Then
-            Main.Reso = 480
-            My.Settings.Reso = Main.Reso
-        ElseIf AAuto.Checked Then
-            Main.Reso = 42
-            My.Settings.Reso = Main.Reso
-        End If
-
 
         For i As Integer = 0 To Main.LangValueEnum.Count - 1
 
@@ -875,12 +877,6 @@ Public Class Einstellungen
                     A360p.Checked = True
                 End If
             End If
-            'ElseIf HybridMode_CB.Checked = True Then
-            '    If AAuto.Checked = True Then
-            '        MsgBox("Resolution '[Auto]' and 'Hybride Mode' does not work together", MsgBoxStyle.Information)
-            '        AAuto.Checked = False
-            '        A1080p.Checked = True
-            '    End If
         End If
     End Sub
 

@@ -716,7 +716,7 @@ Partial Class Einstellungen
         Me.GB_Resolution.Size = New System.Drawing.Size(490, 59)
         Me.GB_Resolution.TabIndex = 30
         Me.GB_Resolution.TabStop = False
-        Me.GB_Resolution.Text = "Auflösung"
+        Me.GB_Resolution.Text = "Resolution"
         '
         'AAuto
         '

@@ -138,6 +138,26 @@ Namespace settings
         End Property
 
         Public Property DownloadResolution As Resolution
+            Get
+                Dim resolution As Integer = My.Settings.Reso
+                Select Case resolution
+                    Case 360
+                        Return ProgramSettings.Resolution.RESOLUTION_360P
+                    Case 480
+                        Return ProgramSettings.Resolution.RESOLUTION_480P
+                    Case 720
+                        Return ProgramSettings.Resolution.RESOLUTION_720P
+                    Case 1080
+                        Return ProgramSettings.Resolution.RESOLUTION_1080P
+                    Case Else
+                        ' 0 is value from enum, but the value "42" is also used as a flag for "auto"
+                        Return ProgramSettings.Resolution.AUTO
+                End Select
+            End Get
+            Set(value As Resolution)
+                My.Settings.Reso = value
+            End Set
+        End Property
 
         Public Property DownloadFormat As Format
 

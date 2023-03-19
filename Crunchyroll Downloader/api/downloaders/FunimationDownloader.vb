@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Web.WebView2.Core
+﻿Imports Crunchyroll_Downloader.settings
+Imports Microsoft.Web.WebView2.Core
 Imports Newtonsoft.Json.Linq
 Imports System.Collections.Specialized
 Imports System.IO
@@ -782,7 +783,7 @@ Public Class FunimationDownloader
                 For i As Integer = 0 To Streams.Length - 1
 
 
-                    If CBool(InStr(Streams(i), "x" + Main.Reso.ToString)) Then
+                    If CBool(InStr(Streams(i), "x" + ProgramSettings.getInstance().DownloadResolution.ToString)) Then
 
                         Tartegt_m3u8_list.Add(Streams(i) + vbCrLf + Streams(i + 1))
                         FunimationBackupm3u8 = Streams(i + 1)
@@ -915,7 +916,7 @@ Public Class FunimationDownloader
                             End Sub)
             End If
             'MsgBox(FunimationName3)
-            Dim ResoHTMLDisplay As String = Main.Reso.ToString + "p"
+            Dim ResoHTMLDisplay As String = ProgramSettings.GetInstance().DownloadResolution.ToString + "p"
 #Region "Subs"
             Dim HardSubFound As Boolean = False
             Dim HardSubSplittString As String = Nothing

@@ -216,6 +216,7 @@ Public Class CrunchyrollDownloader
         Debug.WriteLine("Website: " + WebsiteURL)
 
         Try
+            Dim settings = ProgramSettings.GetInstance()
             Main.Grapp_RDY = False
             Dim ffmpeg_command_temp As String = Main.ffmpeg_command
             Dim CR_MetadataUsage As Boolean = False
@@ -231,7 +232,7 @@ Public Class CrunchyrollDownloader
             Dim CR_title As String = Nothing
             Dim CR_audio_locale As String = Nothing
             Dim CR_audio_isDubbed As Boolean = False
-            Dim ResoUsed As String = "x" + Main.Reso.ToString
+            Dim ResoUsed As String = "x" + settings.DownloadResolution.ToString
             Dim ffmpegInput As String = "-i [Subtitles only]"
 
 
@@ -782,8 +783,9 @@ Public Class CrunchyrollDownloader
 
 #Region "GetResolution"
 
-            Dim downloadMode = ProgramSettings.GetInstance().DownloadMode
-            If Main.Reso = 42 And downloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
+            Dim downloadMode = settings.DownloadMode
+            Dim resolution = settings.DownloadResolution
+            If resolution = ProgramSettings.Resolution.AUTO And downloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
 
                 ffmpegInput = "-i " + Chr(34) + CR_URI_Master(0) + Chr(34)
 
@@ -812,12 +814,12 @@ Public Class CrunchyrollDownloader
 
                     If CBool(InStr(str, "x480,")) Then
                         ResoUsed = "x480"
-                    ElseIf CBool(InStr(str, "x" + Main.Reso.ToString + ",")) Then
-                        ResoUsed = "x" + Main.Reso.ToString
+                    ElseIf CBool(InStr(str, "x" + settings.DownloadResolution.ToString + ",")) Then
+                        ResoUsed = "x" + settings.DownloadResolution.ToString
                     End If
 
-                ElseIf CBool(InStr(str, "x" + Main.Reso.ToString + ",")) Then
-                    ResoUsed = "x" + Main.Reso.ToString
+                ElseIf CBool(InStr(str, "x" + settings.DownloadResolution.ToString + ",")) Then
+                    ResoUsed = "x" + settings.DownloadResolution.ToString
                 Else
                     If CBool(InStr(str, Main.ResoSave + ",")) Then
                         ResoUsed = Main.ResoSave
@@ -1026,7 +1028,7 @@ Public Class CrunchyrollDownloader
             Dim L2Name As String = String.Join(" ", CR_FilenName.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c) 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName_Backup, "[^\w\\-]", " ")
 
             ' TODO: After this class has been refactored, clean up the multiple accesses to ffmpeg mode
-            If Main.Reso = 42 And ProgramSettings.GetInstance().DownloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
+            If settings.DownloadResolution = ProgramSettings.Resolution.AUTO And settings.DownloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
                 ResoHTMLDisplay = "[Auto]"
             End If
 #End Region

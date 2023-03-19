@@ -101,7 +101,6 @@ Public Class Main
     Public Pfad As String = My.Computer.FileSystem.CurrentDirectory
     Public ProfileFolder As String = Path.Combine(Application.StartupPath, "CRD-Profile") 'Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "CRD-Profile")
     Public ffmpeg_command As String = " -c copy -bsf:a aac_adtstoasc" '" -c:v hevc_nvenc -preset fast -b:v 6M -bsf:a aac_adtstoasc " 
-    Public Reso As Integer
     Public Season_Prefix As String = "[default season prefix]"
     Public Season_PrefixDefault As String = "[default season prefix]"
     Public Episode_Prefix As String = "[default episode prefix]"
@@ -505,8 +504,6 @@ Public Class Main
         End If
 
 
-        Reso = My.Settings.Reso
-
         LeadingZero = My.Settings.LeadingZero
 
 
@@ -636,7 +633,7 @@ Public Class Main
 #Region "Set Variables"
         Item.SetService(Service)
         Item.SetTolerance(settings.ErrorLimit)
-        Item.SetTargetReso(Reso)
+        Item.SetTargetReso(settings.DownloadResolution)
         Item.SetLabelWebsite(NameP1)
         Item.SetLabelAnimeTitel(NameP2)
         Item.SetLabelResolution(DisplayReso)
