@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.settings.ProgramSettings
+﻿Imports System.ComponentModel
+Imports Crunchyroll_Downloader.settings.ProgramSettings
 
 Namespace settings
 
@@ -9,13 +10,17 @@ Namespace settings
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     Public Class EnumTextList(Of T)
-        Private EntryMap As Dictionary(Of T, EnumDisplayEntry) = New Dictionary(Of T, EnumDisplayEntry)
-        Private textList As List(Of String) = New List(Of String)
+        Private ReadOnly EntryMap As New Dictionary(Of T, EnumDisplayEntry)
+        Private ReadOnly textList As New List(Of String)
+        ' Maintain a binding list so that if the display items are bound to a control, they are automatically updated.
+        Private ReadOnly DisplayItemsBinding As New BindingList(Of EnumDisplayEntry)()
 
 
         Public Function Add(enumValue As T, displayText As String) As EnumTextList(Of T)
-            EntryMap.Add(enumValue, New EnumDisplayEntry(enumValue, displayText))
+            Dim displayEntry = New EnumDisplayEntry(enumValue, displayText)
+            EntryMap.Add(enumValue, displayEntry)
             textList.Add(displayText)
+            DisplayItemsBinding.Add(displayEntry)
             Return Me
         End Function
 
@@ -27,8 +32,8 @@ Namespace settings
             Return textList
         End Function
 
-        Public Function GetDisplayItems() As List(Of EnumDisplayEntry)
-            Return EntryMap.Values.ToList
+        Public Function GetDisplayItems() As BindingList(Of EnumDisplayEntry)
+            Return DisplayItemsBinding
         End Function
         Public Function GetEnumForItem(item As Object) As T
             If item Is Nothing Or TypeOf item IsNot EnumDisplayEntry Then
@@ -41,6 +46,12 @@ Namespace settings
         Public Function Item(value As T) As EnumDisplayEntry
             Return EntryMap.Item(value)
         End Function
+
+        Public Sub Clear()
+            EntryMap.Clear()
+            textList.Clear()
+            DisplayItemsBinding.Clear()
+        End Sub
 
         Public Class EnumDisplayEntry
             Private ReadOnly Property EnumValue As T

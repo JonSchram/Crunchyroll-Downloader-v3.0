@@ -75,12 +75,10 @@ Public Class Main
     Public Debug2 As Boolean = False
     Public LogBrowserData As Boolean = False
     Public Thumbnail As String = Nothing
-    Public MergeSubs As Boolean = False
     'Public IgnoreS1 As Boolean = False
     Public IgnoreSeason As Integer = 0
     'Public SubsOnly As Boolean = False
     Public DownloadScope As Integer = 0
-    Public VideoFormat As String = ".mp4"
     Public MergeSubsFormat As String = "mov_text"
     'Public LoginDialog As Boolean = False
     'Public NonCR_Timeout As Integer = 5
@@ -589,23 +587,9 @@ Public Class Main
         MergeSubsFormat = My.Settings.MergeSubs
 
 
-        If MergeSubsFormat = "[merge disabled]" Then
-            MergeSubs = False
-        Else
-            MergeSubs = True
-        End If
-
-
-        VideoFormat = My.Settings.VideoFormat
-
-        If VideoFormat = ".aac" Then
-            VideoFormat = ".mp4"
-            'My.Settings.VideoFormat = ".mp4"
-            MsgBox("The 'Audio only' output option has been moved." + vbNewLine + "See https://github.com/hama3254/Crunchyroll-Downloader-v3.0/issues/698 for more information.")
-        End If
-
         RetryWithCachedFiles()
 
+        ' TODO: Maybe notify the user that some settings may need to be re-applied because of code changes.
 
 
     End Sub
@@ -629,7 +613,7 @@ Public Class Main
         ' TODO: Move item initialization into the constructor or a builder
         Dim settings = ProgramSettings.GetInstance()
         Dim keepCache = settings.DownloadMode = ProgramSettings.DownloadModeOptions.HYBRID_MODE_KEEP_CACHE
-
+        Dim mergeSubs = settings.OutputFormat.GetSubtitleFormat <> Format.SubtitleMerge.DISABLED
 #Region "Set Variables"
         Item.SetService(Service)
         Item.SetTolerance(settings.ErrorLimit)
@@ -641,7 +625,7 @@ Public Class Main
         Item.SetThumbnailImage(ThumbnialURL)
         Item.SetLabelPercent("0%")
         Item.SetCache(keepCache)
-        Item.SetMergeSubstoMP4(MergeSubs)
+        Item.SetMergeSubstoMP4(mergeSubs)
         Item.SetDebug2(Debug2)
 #End Region
 

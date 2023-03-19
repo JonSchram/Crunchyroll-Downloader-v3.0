@@ -96,3 +96,4 @@ End Class
 ' - Display "# episodes selected" when retrieving episodes
 ' - Set the display text box to color "#8D1D2C" for 1 second and return to black each time an epsiode is added
 ' - Set the display text box to display "<current #> / <total #>" when adding episodes
+' - Populate download type as seen in https://github.com/hama3254/Crunchyroll-Downloader-v3.0/discussions/701

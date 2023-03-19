@@ -159,7 +159,17 @@ Namespace settings
             End Set
         End Property
 
-        Public Property DownloadFormat As Format
+        Public Property OutputFormat As Format
+            Get
+                Dim videoFormat = CType(My.Settings.OutputMediaFormat, Format.MediaFormat)
+                Dim subtitleFormat = CType(My.Settings.OutputSubtitleMerge, Format.SubtitleMerge)
+                Return New Format(videoFormat, subtitleFormat)
+            End Get
+            Set(value As Format)
+                My.Settings.OutputMediaFormat = value.GetVideoFormat()
+                My.Settings.OutputSubtitleMerge = value.GetSubtitleFormat()
+            End Set
+        End Property
 
         Public Property Command As FfmpegCommand
 

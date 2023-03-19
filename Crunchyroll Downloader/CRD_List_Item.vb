@@ -1576,11 +1576,11 @@ Public Class CRD_List_Item
     End Sub
 
     Private Sub SaveToFile_Click(sender As Object, e As EventArgs) Handles SaveToFile.Click
+        Dim extension = ProgramSettings.GetInstance().OutputFormat.GetFileExtension()
         Try
             If HybridMode = True Then
                 Try
-
-                    Dim logfile As String = DownloadPfad.Replace(Main.VideoFormat, ".log").Replace(Chr(34), "")
+                    Dim logfile As String = DownloadPfad.Replace("." + extension, ".log").Replace(Chr(34), "")
 
                     'File.WriteAllText(logfile, HybrideLog)
                     WriteText(logfile, HybrideLog)
@@ -1594,7 +1594,7 @@ Public Class CRD_List_Item
 
         Try
 
-            Dim logfile As String = DownloadPfad.Replace(Main.VideoFormat, ".log").Replace(Chr(34), "")
+            Dim logfile As String = DownloadPfad.Replace("." + extension, ".log").Replace(Chr(34), "")
 
             Using sw As StreamWriter = File.AppendText(logfile)
                 sw.Write(LogText.Item(0))

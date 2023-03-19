@@ -18,15 +18,23 @@ Public Class Einstellungen
     Inherits MetroForm
 
     ' Display objects for combo boxes backed by enums
-    Private ReadOnly ServerPortTextList As New EnumTextList(Of ServerPortOptions)
+    Private ReadOnly ServerPortTextList As New EnumTextList(Of ServerPortOptions)()
     Private ReadOnly SubfolderTextList As New EnumTextList(Of SubfolderDisplay)()
     Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
+    Private ReadOnly VideoFormatTextList As New EnumTextList(Of Format.MediaFormat)()
+    Private ReadOnly SubtitleFormatTextList As New EnumTextList(Of Format.SubtitleMerge)()
+
+    Private ReadOnly SubToTextMap As New Dictionary(Of Format.SubtitleMerge, String)() From {
+    {Format.SubtitleMerge.DISABLED, "[merge disabled]"},
+    {Format.SubtitleMerge.MOV_TEXT, "mov_text"},
+    {Format.SubtitleMerge.COPY, "copy"},
+    {Format.SubtitleMerge.SRT, "srt"}
+    }
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
 
     Public CR_SoftSubsTemp As New List(Of String)
-
 
     Public Sub New()
         InitializeComponent()
@@ -53,6 +61,30 @@ Public Class Einstellungen
             .Add(DownloadModeOptions.HYBRID_MODE_KEEP_CACHE, "Hybrid Mode - keep cache")
         End With
 
+        With VideoFormatTextList
+            .Add(Format.MediaFormat.MP4, "MP4")
+            .Add(Format.MediaFormat.MKV, "MKV")
+            .Add(Format.MediaFormat.AAC_AUDIO_ONLY, "AAC (Audio only)")
+        End With
+    End Sub
+
+    Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)
+        Dim supportedSubtitleFormats = Format.GetValidSubtitleFormats(VideoFormat)
+
+        SubtitleFormatTextList.Clear()
+        For Each SubFormat In supportedSubtitleFormats
+            SubtitleFormatTextList.Add(SubFormat, SubToTextMap.Item(SubFormat))
+        Next
+    End Sub
+
+    Private Sub UpdateMergeFormatInput()
+        UpdateMergeFormatInput(VideoFormatTextList.GetEnumForItem(CB_Format.SelectedItem))
+    End Sub
+
+    Private Sub UpdateMergeFormatInput(VideoFormat As Format.MediaFormat)
+        PopulateSubFormats(VideoFormat)
+        CB_Merge.SelectedIndex = 0
+        CB_Merge.Enabled = VideoFormat <> Format.MediaFormat.AAC_AUDIO_ONLY
     End Sub
 
     Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -170,13 +202,6 @@ Public Class Einstellungen
         Else
             CB_Fun_HardSubs.SelectedItem = "Disabled"
             'FunimationHardsub.Checked = True
-        End If
-        If Main.VideoFormat = ".mkv" Then
-            CB_Format.SelectedItem = "MKV"
-        ElseIf Main.VideoFormat = ".aac" Then
-            CB_Format.SelectedItem = "AAC (Audio only)"
-        Else
-            CB_Format.SelectedItem = "MP4"
         End If
 
         If Main.DubFunimation = "english" Then
@@ -368,6 +393,23 @@ Public Class Einstellungen
         UseQueueCheckbox.Checked = settings.UseDownloadQueue
         InitializeResolutionInput()
 
+        InitializeOutputFormat()
+
+    End Sub
+
+    Public Sub InitializeOutputFormat()
+        Dim settings = ProgramSettings.GetInstance()
+        ' TODO: Maybe put in a try-catch block in case the object parses incorrectly?
+        Dim currentFormat = settings.OutputFormat
+
+        CB_Format.Items.Clear()
+        CB_Format.DataSource = VideoFormatTextList.GetDisplayItems()
+        CB_Format.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
+
+        ' Must set data source first because updating the merge format input sets selected index.
+        CB_Merge.DataSource = SubtitleFormatTextList.GetDisplayItems()
+        UpdateMergeFormatInput(currentFormat.GetVideoFormat())
+        CB_Merge.SelectedItem = SubtitleFormatTextList.Item(currentFormat.GetSubtitleFormat())
     End Sub
 
     Private Sub InitializeResolutionInput()
@@ -481,6 +523,15 @@ Public Class Einstellungen
         End If
     End Sub
 
+    Private Sub SaveOutputFormat()
+        Dim videoFormat = VideoFormatTextList.GetEnumForItem(CB_Format.SelectedItem)
+        Dim subFormat = SubtitleFormatTextList.GetEnumForItem(CB_Merge.SelectedItem)
+        Dim currentFormat = New Format(videoFormat, subFormat)
+
+        Dim settings = ProgramSettings.GetInstance()
+        settings.OutputFormat = currentFormat
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -504,6 +555,8 @@ Public Class Einstellungen
         settings.TemporaryFolder = TemporaryFolderTextBox.Text
         settings.UseDownloadQueue = UseQueueCheckbox.Checked
         SaveResolutionSetting()
+
+        SaveOutputFormat()
 
     End Sub
 
@@ -618,30 +671,6 @@ Public Class Einstellungen
         Main.NameBuilder = TB_NameString.Text
 
         My.Settings.NameTemplate = Main.NameBuilder
-
-
-        If CB_Format.Text = "MKV" Then
-            Main.VideoFormat = ".mkv"
-            My.Settings.VideoFormat = Main.VideoFormat
-        ElseIf CB_Format.Text = "AAC (Audio only)" Then
-            Main.VideoFormat = ".aac"
-            My.Settings.VideoFormat = Main.VideoFormat
-        Else
-            Main.VideoFormat = ".mp4"
-            My.Settings.VideoFormat = Main.VideoFormat
-        End If
-
-        If CB_Merge.SelectedIndex > 0 Then
-            Main.MergeSubs = True
-            Main.MergeSubsFormat = CB_Merge.SelectedItem.ToString
-            My.Settings.MergeSubs = Main.MergeSubsFormat
-
-        Else
-            Main.MergeSubsFormat = CB_Merge.SelectedItem.ToString
-            Main.MergeSubs = False
-            My.Settings.MergeSubs = Main.MergeSubsFormat
-        End If
-
 
 
 
@@ -761,14 +790,15 @@ Public Class Einstellungen
             My.Settings.ffmpeg_command = Main.ffmpeg_command
         End If
 
-
-
-        If CBool(InStr(FFMPEG_CommandP1.Text, "nvenc")) = True And CBool(Main.VideoFormat = ".aac") = False Then
+        ' TODO: Replace with values from currently applying settings to ensure the correct value is used.
+        Dim settings = ProgramSettings.GetInstance()
+        Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
+        If CBool(InStr(FFMPEG_CommandP1.Text, "nvenc")) = True And Not isAudioOnly Then
             If SimultaneousDownloadsInput.Value > 2 Then
                 SimultaneousDownloadsInput.Value = 2
             End If
 
-        ElseIf CBool(InStr(FFMPEG_CommandP1.Text, "libx26")) = True And CBool(Main.VideoFormat = ".aac") = False Then
+        ElseIf CBool(InStr(FFMPEG_CommandP1.Text, "libx26")) = True And Not isAudioOnly Then
             If SimultaneousDownloadsInput.Value > 1 Then
                 SimultaneousDownloadsInput.Value = 1
             End If
@@ -1118,32 +1148,15 @@ Public Class Einstellungen
     End Sub
 
     Private Sub CB_Format_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Format.SelectedIndexChanged
-        If CB_Format.Text = "AAC (Audio only)" Then
-            CB_Merge.Items.Clear()
-            CB_Merge.Items.Add("[merge disabled]")
-            CB_Merge.SelectedIndex = 0
-            CB_Merge.Enabled = False
-        ElseIf CB_Format.Text = "MP4" Then
-            CB_Merge.Enabled = True
-            CB_Merge.Items.Clear()
-            CB_Merge.Items.Add("[merge disabled]")
-            CB_Merge.Items.Add("mov_text")
-            CB_Merge.SelectedIndex = 0
-            'CB_Merge.Items.Add("srt")
-            CB_Merge.SelectedItem = Main.MergeSubsFormat
-        ElseIf CB_Format.Text = "MKV" Then
-            CB_Merge.Enabled = True
-            CB_Merge.Items.Clear()
-            CB_Merge.Items.Add("[merge disabled]")
-            CB_Merge.Items.Add("copy")
-            CB_Merge.Items.Add("srt")
-            CB_Merge.SelectedIndex = 0
-            CB_Merge.SelectedItem = Main.MergeSubsFormat
-        End If
+        UpdateMergeFormatInput()
+    End Sub
+
+    Private Sub RepopulateMergeComboBox()
 
     End Sub
 
     Private Sub MergeMP4_CheckedChanged(sender As Object, e As EventArgs)
+        ' I don't think this is ever used - this isn't a valid handler. Probably an old design
         If CB_Format.Text = "AAC (Audio only)" Then
             If CB_Merge.SelectedIndex > 0 Then
                 MsgBox("Merged subs are not avalible with audio only!", MsgBoxStyle.Information)

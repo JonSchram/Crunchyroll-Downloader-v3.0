@@ -621,18 +621,19 @@ Public Class CrunchyrollDownloader
             CR_FilenName = Main.RemoveExtraSpaces(CR_FilenName)
             'My.Computer.FileSystem.WriteAllText("log.log", WebbrowserText, False)
             Pfad2 = UseSubfolder(CR_series_title, CR_FolderSeason, Main.Pfad)
+            Dim extension = settings.OutputFormat.GetFileExtension()
             If Not Directory.Exists(Path.GetDirectoryName(Pfad2)) Then
                 ' Nein! Jetzt erstellen...
                 Try
                     Directory.CreateDirectory(Path.GetDirectoryName(Pfad2))
-                    Pfad2 = Chr(34) + Pfad2 + CR_FilenName + Main.VideoFormat + Chr(34)
+                    Pfad2 = """" + Pfad2 + CR_FilenName + "." + extension + """"
                 Catch ex As Exception
                     ' Ordner wurde nich erstellt
-                    Pfad2 = Chr(34) + Main.Pfad + "\" + CR_FilenName + Main.VideoFormat + Chr(34)
+                    Pfad2 = Chr(34) + Main.Pfad + "\" + CR_FilenName + "." + extension + Chr(34)
                     Pfad2 = Pfad2.Replace("\\", "\")
                 End Try
             Else
-                Pfad2 = Chr(34) + Pfad2 + CR_FilenName + Main.VideoFormat + Chr(34)
+                Pfad2 = Chr(34) + Pfad2 + CR_FilenName + "." + extension + Chr(34)
             End If
 #End Region
 
@@ -769,9 +770,9 @@ Public Class CrunchyrollDownloader
                 End If
 
             ElseIf Main.DownloadScope = DownloadScopeEnum.AudioOnly Then
-
+                ' TODO: Build better path from the start.
                 'replace format with aac
-                Pfad2 = Pfad2.Replace(Main.VideoFormat, ".aac")
+                Pfad2 = Pfad2.Replace("." + extension, ".aac")
 
                 'replace command for aac
                 Dim ffmpeg_command_Builder() As String = Main.ffmpeg_command.Split(New String() {"-c:a copy"}, System.StringSplitOptions.RemoveEmptyEntries)
@@ -883,8 +884,8 @@ Public Class CrunchyrollDownloader
 
 
             ElseIf SoftSubsAvailable.Count > 0 Then
-
-                Dim MergeSubsNow As Boolean = Main.MergeSubs
+                Dim outputFormat = settings.OutputFormat
+                Dim MergeSubsNow As Boolean = outputFormat.GetSubtitleFormat() <> Format.SubtitleMerge.DISABLED
 
                 If Main.DownloadScope = DownloadScopeEnum.SubsOnly Then
                     MergeSubsNow = False

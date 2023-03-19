@@ -542,17 +542,18 @@ Public Class FunimationDownloader
             End If
             DefaultName = DefaultName.Replace(":", "")
             DownloadPfad = Main.RemoveExtraSpaces(UseSubfolder(FunimationTitle, FunimationSeason, Main.Pfad))
+            Dim extension = ProgramSettings.GetInstance().OutputFormat.GetFileExtension()
             If Not Directory.Exists(Path.GetDirectoryName(DownloadPfad)) Then
                 ' Nein! Jetzt erstellen...
                 Try
                     Directory.CreateDirectory(Path.GetDirectoryName(DownloadPfad))
-                    DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + DownloadPfad + DefaultName + Main.VideoFormat + Chr(34))
+                    DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + DownloadPfad + DefaultName + "." + extension + Chr(34))
                 Catch ex As Exception
                     ' Ordner wurde nich erstellt
-                    DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + Main.Pfad + DefaultName + Main.VideoFormat + Chr(34))
+                    DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + Main.Pfad + DefaultName + "." + extension + Chr(34))
                 End Try
             Else
-                DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + DownloadPfad + DefaultName + Main.VideoFormat + Chr(34))
+                DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + DownloadPfad + DefaultName + "." + extension + Chr(34))
             End If
 #Region "lösche doppel download / Delete double download"
             Dim Pfad5 As String = DownloadPfad.Replace(Chr(34), "")
@@ -941,8 +942,10 @@ Public Class FunimationDownloader
                 SoftSubMergeMaps = " -map 0:v -map 1:a"
             End If
             Dim SoftSubMergeMetatata As String = Nothing
+            Dim settings = ProgramSettings.GetInstance()
+            Dim outputFormat = settings.OutputFormat
             If UsedSubs.Count > 0 Then
-                If Main.MergeSubs = True And Main.DownloadScope = 0 Then
+                If outputFormat.GetSubtitleFormat() <> Format.SubtitleMerge.DISABLED And Main.DownloadScope = 0 Then
                     Dim DispositionIndex As Integer = 999
                     Dim LastMerged As String = Nothing
                     Dim MapCount As Integer = -1
@@ -1025,11 +1028,13 @@ Public Class FunimationDownloader
             Else '
                 DubMetatata = " -metadata:s:a:0 language=eng"
             End If
-            If HardSubFound = True And CBool(InStr(Main.VideoFormat, ".aac")) = False Then
+            Dim mergeSubs = outputFormat.GetSubtitleFormat() <> Format.SubtitleMerge.DISABLED
+            Dim isAudioOnly = outputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
+            If HardSubFound = True And Not isAudioOnly Then
                 Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + FunimationAudioMap + " -vf subtitles=" + Chr(34) + UsedSub + Chr(34) + " " + ffmpeg_hardsub
-            ElseIf Main.MergeSubs = True Then
+            ElseIf mergeSubs Then
                 Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + FunimationAudioMap + SoftSubMergeURLs + SoftSubMergeMaps + " " + Main.ffmpeg_command + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + DubMetatata
-            ElseIf CBool(InStr(Main.VideoFormat, ".aac")) = True Then
+            ElseIf isAudioOnly Then
                 If FunimationAudioMap = Nothing Then
                     Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + DubMetatata + " " + ffmpeg_command_temp
                 Else

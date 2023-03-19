@@ -16,5 +16,4 @@ Module FileUtilities
 
         Return subDirectories
     End Function
-
 End Module

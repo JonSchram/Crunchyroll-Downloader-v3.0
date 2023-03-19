@@ -225,7 +225,7 @@
     <Compile Include="hls\Tags\Tag.vb" />
     <Compile Include="hls\Tags\MediaTag.vb" />
     <Compile Include="hls\Tags\TargetDurationTag.vb" />
-    <Compile Include="My Project\FileUtilities.vb" />
+    <Compile Include="FileUtilities.vb" />
     <Compile Include="hls\Tags\TagParser.vb" />
     <Compile Include="hls\Playlist\MasterPlaylist.vb" />
     <Compile Include="hls\PlaylistParser.vb" />
