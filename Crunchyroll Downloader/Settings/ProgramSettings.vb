@@ -171,7 +171,7 @@ Namespace settings
             End Set
         End Property
 
-        Public Property Command As FfmpegCommand
+        Public Property Ffmpeg As FfmpegSettings
 
         ' ------ Naming settings
         Public Property FilenameFormat As String

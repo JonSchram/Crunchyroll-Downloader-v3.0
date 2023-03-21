@@ -1082,7 +1082,7 @@ Public Class CRD_List_Item
         End If
 
         Dim di As New IO.DirectoryInfo(Pfad2)
-        Dim m3u8_url As String() = DL_URL.Split(New [Char]() {""""})
+        Dim m3u8_url As String() = DL_URL.Split(New [Char]() {""""c})
         Dim m3u8FFmpeg As String = Nothing
         HybridModePath = Pfad2
         Dim InuputStreams As String() = DL_URL.Split(New String() {"-i " + """"}, System.StringSplitOptions.RemoveEmptyEntries)
@@ -1100,7 +1100,7 @@ Public Class CRD_List_Item
                 Continue For
             End If
 
-            Dim InputURL As String() = InuputStreams(int).Split(New [Char]() {""""})
+            Dim InputURL As String() = InuputStreams(int).Split(New [Char]() {""""c})
             Dim InputClient As New WebClient
             InputClient.Encoding = Encoding.UTF8
 

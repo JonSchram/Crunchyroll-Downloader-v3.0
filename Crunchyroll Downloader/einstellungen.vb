@@ -23,6 +23,9 @@ Public Class Einstellungen
     Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
     Private ReadOnly VideoFormatTextList As New EnumTextList(Of Format.MediaFormat)()
     Private ReadOnly SubtitleFormatTextList As New EnumTextList(Of Format.SubtitleMerge)()
+    Private ReadOnly SpeedPresetTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Speed)()
+    Private ReadOnly CodecTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Codec)()
+    Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.EncoderImplementation)()
 
     Private ReadOnly SubToTextMap As New Dictionary(Of Format.SubtitleMerge, String)() From {
     {Format.SubtitleMerge.DISABLED, "[merge disabled]"},
@@ -65,6 +68,29 @@ Public Class Einstellungen
             .Add(Format.MediaFormat.MP4, "MP4")
             .Add(Format.MediaFormat.MKV, "MKV")
             .Add(Format.MediaFormat.AAC_AUDIO_ONLY, "AAC (Audio only)")
+        End With
+
+        With SpeedPresetTextList
+            .Add(FfmpegSettings.VideoEncoder.Speed.VERY_SLOW, "Very slow")
+            .Add(FfmpegSettings.VideoEncoder.Speed.SLOWER, "Slower")
+            .Add(FfmpegSettings.VideoEncoder.Speed.SLOW, "Slow")
+            .Add(FfmpegSettings.VideoEncoder.Speed.MEDIUM, "Medium (default)")
+            .Add(FfmpegSettings.VideoEncoder.Speed.FAST, "Fast")
+            .Add(FfmpegSettings.VideoEncoder.Speed.FASTER, "Faster")
+            .Add(FfmpegSettings.VideoEncoder.Speed.VERY_FAST, "Very fast")
+        End With
+
+        With CodecTextList
+            .Add(FfmpegSettings.VideoEncoder.Codec.H_264, "h.264")
+            .Add(FfmpegSettings.VideoEncoder.Codec.H_265, "h.265 / HEVC")
+            .Add(FfmpegSettings.VideoEncoder.Codec.AV1, "AV1")
+        End With
+
+        With EncoderHardwareTextList
+            .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE, "Software")
+            .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA, "Nvidia")
+            .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.AMD, "AMD")
+            .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL, "Intel")
         End With
     End Sub
 
@@ -261,48 +287,6 @@ Public Class Einstellungen
         DD_Episode_Prefix.Text = Main.Episode_Prefix
 
 
-        Try
-
-            If CBool(InStr(Main.ffmpeg_command, "-c copy")) Then
-                FFMPEG_CommandP1.Text = "-c copy"
-                FFMPEG_CommandP2.Enabled = False
-                FFMPEG_CommandP3.Enabled = False
-                FFMPEG_CommandP4.Text = "-c:a copy -bsf:a aac_adtstoasc"
-            ElseIf CBool(InStr(Main.ffmpeg_command, "-c:a copy ")) Then
-                Dim ffmpegDisplayCurrent As String() = Main.ffmpeg_command.Split(New String() {" "}, System.StringSplitOptions.RemoveEmptyEntries)
-                If ffmpegDisplayCurrent.Count > 8 Then
-                    FFMPEG_CommandP1.Text = ffmpegDisplayCurrent(0) + " " + ffmpegDisplayCurrent(1)
-                    FFMPEG_CommandP2.Text = ffmpegDisplayCurrent(2) + " " + ffmpegDisplayCurrent(3)
-                    FFMPEG_CommandP3.Text = ffmpegDisplayCurrent(4) + " " + ffmpegDisplayCurrent(5)
-                    FFMPEG_CommandP4.Text = "-c:a copy -bsf:a aac_adtstoasc"
-                Else
-                    FFMPEG_CommandP1.Text = ffmpegDisplayCurrent(0) + " " + ffmpegDisplayCurrent(1)
-                    FFMPEG_CommandP2.Text = "[no Preset]"
-                    FFMPEG_CommandP3.Text = ffmpegDisplayCurrent(2) + " " + ffmpegDisplayCurrent(3)
-                    FFMPEG_CommandP4.Text = "-c:a copy -bsf:a aac_adtstoasc"
-                End If
-
-
-            Else
-
-                Dim ffmpegDisplayCurrent As String() = Main.ffmpeg_command.Split(New String() {" "}, System.StringSplitOptions.RemoveEmptyEntries)
-                FFMPEG_CommandP1.Text = ffmpegDisplayCurrent(0) + " " + ffmpegDisplayCurrent(1)
-                FFMPEG_CommandP2.Text = ffmpegDisplayCurrent(2) + " " + ffmpegDisplayCurrent(3)
-                FFMPEG_CommandP3.Text = ffmpegDisplayCurrent(4) + " " + ffmpegDisplayCurrent(5)
-                FFMPEG_CommandP4.Text = "-c:a copy -bsf:a aac_adtstoasc"
-            End If
-
-
-            If FFMPEG_CommandP1.Text = "-c:v libsvtav1" And FFMPEG_CommandP2.Text = "[no Preset]" Then
-                FFMPEG_CommandP2.Enabled = False
-                FFMPEG_CommandP3.Enabled = True
-            End If
-
-        Catch ex As Exception
-            MsgBox("Error processing ffmpeg command", MsgBoxStyle.Information)
-        End Try
-
-
         If Main.DefaultSubFunimation = "en" Then
             FunSubDef.SelectedItem = "English"
         ElseIf Main.DefaultSubFunimation = "pt" Then
@@ -394,7 +378,70 @@ Public Class Einstellungen
         InitializeResolutionInput()
 
         InitializeOutputFormat()
+        InitializeFfmepgInputs()
 
+    End Sub
+
+    Private Sub InitializeFfmepgInputs()
+        Dim settings = ProgramSettings.GetInstance()
+
+        Dim ffmpegCommand = settings.Ffmpeg
+        Dim savedEncoder = ffmpegCommand.GetSavedEncoder()
+
+        VideoCodecComboBox.DataSource = CodecTextList.GetDisplayItems()
+        VideoEncoderComboBox.DataSource = EncoderHardwareTextList.GetDisplayItems()
+        FfmpegPresetComboBox.DataSource = SpeedPresetTextList.GetDisplayItems()
+
+        FfmpegCopyCheckBox.Checked = ffmpegCommand.Copy
+        VideoCodecComboBox.SelectedItem = CodecTextList.Item(savedEncoder.VideoCodec)
+        VideoEncoderComboBox.SelectedItem = EncoderHardwareTextList.Item(savedEncoder.Hardware)
+        FfmpegPresetComboBox.SelectedItem = SpeedPresetTextList.Item(savedEncoder.Preset)
+        TargetBitrateCheckBox.Checked = savedEncoder.UseTargetBitrate
+        BitrateNumericInput.Value = savedEncoder.TargetBitrate
+
+        UpdateFfmpegInputStates()
+        UpdateFfmpegDisplay()
+    End Sub
+
+    Private Sub UpdateFfmpegInputStates()
+        If FfmpegCopyCheckBox.Checked Then
+            VideoCodecComboBox.Enabled = False
+            VideoEncoderComboBox.Enabled = False
+            FfmpegPresetComboBox.Enabled = False
+            TargetBitrateCheckBox.Enabled = False
+            BitrateNumericInput.Enabled = False
+        Else
+            VideoCodecComboBox.Enabled = True
+            VideoEncoderComboBox.Enabled = True
+            FfmpegPresetComboBox.Enabled = True
+            TargetBitrateCheckBox.Enabled = True
+            BitrateNumericInput.Enabled = TargetBitrateCheckBox.Checked
+        End If
+    End Sub
+
+    Private Function CreateFfmpegSettingFromInputs() As FfmpegSettings
+        Dim builder = New FfmpegSettings.Builder()
+        builder.IncludeUnusedVideoSettings(True)
+
+        builder.SetCopyMode(FfmpegCopyCheckBox.Checked)
+
+        Dim codec = CodecTextList.GetEnumForItem(VideoCodecComboBox.SelectedItem)
+        builder.SetVideoCodec(codec)
+
+        Dim hardware = EncoderHardwareTextList.GetEnumForItem(VideoEncoderComboBox.SelectedItem)
+        builder.SetEncoderHardware(hardware)
+
+        Dim preset = SpeedPresetTextList.GetEnumForItem(FfmpegPresetComboBox.SelectedItem)
+        builder.SetPresetSpeed(preset)
+
+        builder.SetUseTargetBitrate(TargetBitrateCheckBox.Checked)
+        builder.SetVideoBitrate(CInt(BitrateNumericInput.Value))
+
+        Return builder.Build()
+    End Function
+
+    Private Sub UpdateFfmpegDisplay()
+        FfmpegCommandPreviewTextBox.Text = CreateFfmpegSettingFromInputs().GetFfmpegArguments()
     End Sub
 
     Public Sub InitializeOutputFormat()
@@ -772,15 +819,6 @@ Public Class Einstellungen
 
 
         Dim ffpmeg_cmd As String = Nothing
-        If FFMPEG_CommandP1.Text = "-c copy" Then
-            ffpmeg_cmd = " " + FFMPEG_CommandP1.Text + " " + FFMPEG_CommandP4.Text
-        ElseIf FFMPEG_CommandP2.Text = "[no Preset]" Then
-
-            ffpmeg_cmd = " " + FFMPEG_CommandP1.Text + " " + FFMPEG_CommandP3.Text + " " + FFMPEG_CommandP4.Text
-        Else
-
-            ffpmeg_cmd = " " + FFMPEG_CommandP1.Text + " " + FFMPEG_CommandP2.Text + " " + FFMPEG_CommandP3.Text + " " + FFMPEG_CommandP4.Text
-        End If
 
         If Main.ffmpeg_command = My.Settings.ffmpeg_command_override Then
             'override should not get overwritten 
@@ -793,14 +831,18 @@ Public Class Einstellungen
         ' TODO: Replace with values from currently applying settings to ensure the correct value is used.
         Dim settings = ProgramSettings.GetInstance()
         Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
-        If CBool(InStr(FFMPEG_CommandP1.Text, "nvenc")) = True And Not isAudioOnly Then
-            If SimultaneousDownloadsInput.Value > 2 Then
-                SimultaneousDownloadsInput.Value = 2
-            End If
+        Dim ffmpegCommand = settings.Ffmpeg
+        Dim encoder = ffmpegCommand.GetActiveEncoder()
+        If Not isAudioOnly Then
+            If encoder.Hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA Then
+                If SimultaneousDownloadsInput.Value > 2 Then
+                    SimultaneousDownloadsInput.Value = 2
+                End If
 
-        ElseIf CBool(InStr(FFMPEG_CommandP1.Text, "libx26")) = True And Not isAudioOnly Then
-            If SimultaneousDownloadsInput.Value > 1 Then
-                SimultaneousDownloadsInput.Value = 1
+            ElseIf encoder.Hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE Then
+                If SimultaneousDownloadsInput.Value > 1 Then
+                    SimultaneousDownloadsInput.Value = 1
+                End If
             End If
         End If
 
@@ -922,58 +964,48 @@ Public Class Einstellungen
         End If
     End Sub
 
+    Private Sub FfmpegCopyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FfmpegCopyCheckBox.CheckedChanged
+        UpdateFfmpegInputStates()
+        UpdateFfmpegDisplay()
+    End Sub
 
-
-
-
-
-
-
-
-
-
-
-    Private Sub ListC1_Click(sender As Object, e As EventArgs) Handles copy.Click, nv_h264.Click, nv_hevc.Click, nv_AV1.Click, CPU_h264.Click, CPU_h265.Click, CPU_AV1.Click, AMD_h264.Click, AMD_hevc.Click, Intel_h264.Click, Intel_hevc.Click, Intel_AV1.Click
-        Dim Button As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-
-        If CBool(InStr(Button.Text, "av1")) Then
-            If MessageBox.Show("The inculded ffmpeg version does not support any AV1 encoders." + vbNewLine + "The 'Help' button gets you to the ffmpeg download page.", "AV1 support", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, 0, "https://ffmpeg.org/download.html", "") = DialogResult.Cancel Then
-                Exit Sub
+    Private Sub VideoCodecComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles VideoCodecComboBox.SelectedIndexChanged
+        Dim selectedItem = CodecTextList.GetEnumForItem(VideoCodecComboBox.SelectedItem)
+        If selectedItem = FfmpegSettings.VideoEncoder.Codec.AV1 Then
+            ' TODO: Disable AMD hardware option
+            Dim messageBoxResult =
+                MessageBox.Show("The inculded ffmpeg version does not support any AV1 encoders." + vbNewLine +
+                               "Click 'Help' to go to the ffmpeg download page.",
+                               "AV1 support",
+                               MessageBoxButtons.OKCancel,
+                               MessageBoxIcon.Information,
+                               MessageBoxDefaultButton.Button1,
+                               0,
+                               "https://ffmpeg.org/download.html")
+            If messageBoxResult = DialogResult.Cancel Then
+                VideoCodecComboBox.SelectedItem = CodecTextList.Item(FfmpegSettings.VideoEncoder.Codec.H_264)
             End If
         End If
 
-        If Button.Text = "-c copy" Then
-            FFMPEG_CommandP1.Text = "-c copy"
-            FFMPEG_CommandP2.Enabled = False
-            FFMPEG_CommandP3.Enabled = False
-
-        ElseIf Button.Text = "-c:v libsvtav1" Then
-            FFMPEG_CommandP1.Text = Button.Text
-            FFMPEG_CommandP2.Text = "[no Preset]"
-            FFMPEG_CommandP2.Enabled = False
-            FFMPEG_CommandP3.Enabled = True
-        Else
-            FFMPEG_CommandP1.Text = Button.Text
-            FFMPEG_CommandP2.Enabled = True
-            FFMPEG_CommandP3.Enabled = True
-        End If
-
+        UpdateFfmpegDisplay()
     End Sub
 
-    Private Sub ListP1_Click(sender As Object, e As EventArgs) Handles ListP1.Click, ListP2.Click, ListP3.Click
-        Dim Button As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-        FFMPEG_CommandP2.Text = Button.Text
-        FFMPEG_CommandP2.Enabled = True
-        FFMPEG_CommandP3.Enabled = True
+    Private Sub VideoEncoderComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles VideoEncoderComboBox.SelectedIndexChanged
+        UpdateFfmpegDisplay()
     End Sub
 
-    Private Sub ListBit1_Click(sender As Object, e As EventArgs) Handles ListBit_7000.Click, ListBit_6500.Click, ListBit_6000.Click, ListBit_5500.Click, ListBit_5000.Click, ListBit_4500.Click, ListBit_4000.Click, ListBit_3500.Click, ListBit_3000.Click, ListBit_2500.Click, ListBit_2000.Click, ListBit_1500.Click, ListBit_1000.Click
-        Dim Button As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-        FFMPEG_CommandP3.Text = Button.Text
-        FFMPEG_CommandP2.Enabled = True
-        FFMPEG_CommandP3.Enabled = True
+    Private Sub FfmpegPresetComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FfmpegPresetComboBox.SelectedIndexChanged
+        UpdateFfmpegDisplay()
     End Sub
 
+    Private Sub TargetBitrateCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TargetBitrateCheckBox.CheckedChanged
+        UpdateFfmpegInputStates()
+        UpdateFfmpegDisplay()
+    End Sub
+
+    Private Sub BitrateNumericInput_ValueChanged(sender As Object, e As EventArgs) Handles BitrateNumericInput.ValueChanged
+        UpdateFfmpegDisplay()
+    End Sub
 
 
     Private Sub Label7_Click(sender As Object, e As EventArgs)
@@ -993,17 +1025,13 @@ Public Class Einstellungen
     Sub GroupBoxColor(ByVal color As Color)
         SimultaneousDownloadsInput.ForeColor = color
         ErrorLimitInput.ForeColor = color
-        FFMPEG_CommandP1.ForeColor = color
-        FFMPEG_CommandP2.ForeColor = color
-        FFMPEG_CommandP3.ForeColor = color
-        FFMPEG_CommandP4.ForeColor = color
         SoftSubs.ForeColor = color
         GB_SubLanguage.ForeColor = color
         DL_Count_simultaneous.ForeColor = color
         GB_Resolution.ForeColor = color
         GB_Filename_Pre.ForeColor = color
         GroupBox1.ForeColor = color
-        GroupBox2.ForeColor = color
+        FfmpegCommandGroupBox.ForeColor = color
         GroupBox3.ForeColor = color
         GroupBox4.ForeColor = color
         GroupBox5.ForeColor = color
@@ -1088,10 +1116,14 @@ Public Class Einstellungen
         If CB_Fun_HardSubs.SelectedIndex = 0 Then
         Else
             If Main.HardSubFunimation = "Disabled" Then
-                If FFMPEG_CommandP1.Text = "-c copy" Then
-                    If MessageBox.Show("Funimation hard subtitle are post-processed." + vbNewLine + "This cost a lot of performance and it should not more than one download run at the time!", "Prepare for unforeseen consequences.", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-
-                    Else
+                If FfmpegCopyCheckBox.Checked Then
+                    Dim messageBoxResult =
+                        MessageBox.Show("Funimation hard subtitles are post-processed." + vbNewLine +
+                        "This will take a lot of resources and it should not do more than one download at a time!" + vbNewLine +
+                        "Continue with this setting?",
+                        "Prepare for unforeseen consequences.",
+                        MessageBoxButtons.YesNo)
+                    If messageBoxResult = DialogResult.No Then
                         CB_Fun_HardSubs.SelectedIndex = 0
                     End If
                 End If

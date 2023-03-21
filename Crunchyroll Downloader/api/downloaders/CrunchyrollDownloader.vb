@@ -896,7 +896,7 @@ Public Class CrunchyrollDownloader
                 For i As Integer = 0 To SoftSubsAvailable.Count - 1
 
                     Dim SoftSub As String() = VideoJson.Split(New String() {"""" + "locale" + """" + ":" + """" + SoftSubsAvailable(i) + """" + "," + """" + "url" + """" + ":" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim SoftSub_2 As String() = SoftSub(1).Split(New [Char]() {""""})
+                    Dim SoftSub_2 As String() = SoftSub(1).Split(New [Char]() {""""c})
                     Dim SoftSub_3 As String = SoftSub_2(0).Replace("&amp;", "&").Replace("/u0026", "&").Replace("\u002F", "/").Replace("\u0026", "&")
                     SoftSubsList.Add(New CR_Subtiles(SoftSubsAvailable(i), Main.HardSubValuesToDisplay(SoftSubsAvailable(i)), " -i " + """" + SoftSub_3 + """", i.ToString, SoftSubsAvailable(i) = Main.DefaultSubCR))
 

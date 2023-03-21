@@ -42,41 +42,18 @@ Partial Class Einstellungen
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.CB_Merge = New MetroFramework.Controls.MetroComboBox()
         Me.CB_Format = New MetroFramework.Controls.MetroComboBox()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
-        Me.FFMPEG_CommandP1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.copy = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CPU_h264 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CPU_h265 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CPU_AV1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.nv_h264 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.nv_hevc = New System.Windows.Forms.ToolStripMenuItem()
-        Me.nv_AV1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AMD_h264 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AMD_hevc = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Intel_h264 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Intel_hevc = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Intel_AV1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FFMPEG_CommandP2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListP1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListP2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListP3 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FFMPEG_CommandP3 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_7000 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_6500 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_6000 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_5500 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_5000 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_4500 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_4000 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_3500 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_3000 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_2500 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_2000 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_1500 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListBit_1000 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FFMPEG_CommandP4 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FfmpegCommandGroupBox = New System.Windows.Forms.GroupBox()
+        Me.FfmpegCopyCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.TargetBitrateCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.VideoCodecComboBox = New MetroFramework.Controls.MetroComboBox()
+        Me.MetroLabel6 = New MetroFramework.Controls.MetroLabel()
+        Me.VideoEncoderComboBox = New MetroFramework.Controls.MetroComboBox()
+        Me.MetroLabel5 = New MetroFramework.Controls.MetroLabel()
+        Me.FfmpegPresetComboBox = New MetroFramework.Controls.MetroComboBox()
+        Me.MetroLabel4 = New MetroFramework.Controls.MetroLabel()
+        Me.BitrateNumericInput = New System.Windows.Forms.NumericUpDown()
+        Me.MetroLabel2 = New MetroFramework.Controls.MetroLabel()
+        Me.FfmpegCommandPreviewTextBox = New MetroFramework.Controls.MetroTextBox()
         Me.GB_Resolution = New System.Windows.Forms.GroupBox()
         Me.AAuto = New MetroFramework.Controls.MetroRadioButton()
         Me.A480p = New MetroFramework.Controls.MetroRadioButton()
@@ -164,9 +141,8 @@ Partial Class Einstellungen
         Me.GroupBox18.SuspendLayout()
         Me.GroupBox16.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
-        Me.Panel1.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
+        Me.FfmpegCommandGroupBox.SuspendLayout()
+        CType(Me.BitrateNumericInput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GB_Resolution.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox21.SuspendLayout()
@@ -304,7 +280,7 @@ Partial Class Einstellungen
         Me.TabPage2.Controls.Add(Me.GroupBox18)
         Me.TabPage2.Controls.Add(Me.GroupBox16)
         Me.TabPage2.Controls.Add(Me.GroupBox4)
-        Me.TabPage2.Controls.Add(Me.GroupBox2)
+        Me.TabPage2.Controls.Add(Me.FfmpegCommandGroupBox)
         Me.TabPage2.Controls.Add(Me.GB_Resolution)
         Me.TabPage2.HorizontalScrollbarBarColor = True
         Me.TabPage2.HorizontalScrollbarHighlightOnWheel = False
@@ -375,7 +351,7 @@ Partial Class Einstellungen
         '
         '
         Me.TemporaryFolderTextBox.CustomButton.Image = Nothing
-        Me.TemporaryFolderTextBox.CustomButton.Location = New System.Drawing.Point(445, 1)
+        Me.TemporaryFolderTextBox.CustomButton.Location = New System.Drawing.Point(441, 1)
         Me.TemporaryFolderTextBox.CustomButton.Name = ""
         Me.TemporaryFolderTextBox.CustomButton.Size = New System.Drawing.Size(23, 23)
         Me.TemporaryFolderTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
@@ -385,7 +361,7 @@ Partial Class Einstellungen
         Me.TemporaryFolderTextBox.CustomButton.Visible = False
         Me.TemporaryFolderTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
         Me.TemporaryFolderTextBox.Lines = New String(-1) {}
-        Me.TemporaryFolderTextBox.Location = New System.Drawing.Point(6, 90)
+        Me.TemporaryFolderTextBox.Location = New System.Drawing.Point(10, 90)
         Me.TemporaryFolderTextBox.MaxLength = 32767
         Me.TemporaryFolderTextBox.Name = "TemporaryFolderTextBox"
         Me.TemporaryFolderTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
@@ -395,7 +371,7 @@ Partial Class Einstellungen
         Me.TemporaryFolderTextBox.SelectionLength = 0
         Me.TemporaryFolderTextBox.SelectionStart = 0
         Me.TemporaryFolderTextBox.ShortcutsEnabled = True
-        Me.TemporaryFolderTextBox.Size = New System.Drawing.Size(469, 25)
+        Me.TemporaryFolderTextBox.Size = New System.Drawing.Size(465, 25)
         Me.TemporaryFolderTextBox.TabIndex = 20
         Me.TemporaryFolderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.TemporaryFolderTextBox.UseSelectable = True
@@ -457,248 +433,160 @@ Partial Class Einstellungen
         Me.CB_Format.TabIndex = 17
         Me.CB_Format.UseSelectable = True
         '
-        'GroupBox2
-        '
-        Me.GroupBox2.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox2.Controls.Add(Me.Panel1)
-        Me.GroupBox2.Font = New System.Drawing.Font("Arial", 9.75!)
-        Me.GroupBox2.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox2.Location = New System.Drawing.Point(5, 350)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(490, 63)
-        Me.GroupBox2.TabIndex = 50
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "ffmpeg command"
-        '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.MenuStrip1)
-        Me.Panel1.Location = New System.Drawing.Point(0, 21)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(503, 32)
-        Me.Panel1.TabIndex = 37
-        '
-        'MenuStrip1
-        '
-        Me.MenuStrip1.BackColor = System.Drawing.Color.Transparent
-        Me.MenuStrip1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FFMPEG_CommandP1, Me.FFMPEG_CommandP2, Me.FFMPEG_CommandP3, Me.FFMPEG_CommandP4})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(503, 24)
-        Me.MenuStrip1.TabIndex = 37
-        Me.MenuStrip1.Text = "MenuStrip1"
-        '
-        'FFMPEG_CommandP1
-        '
-        Me.FFMPEG_CommandP1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.copy, Me.CPU_h264, Me.CPU_h265, Me.CPU_AV1, Me.nv_h264, Me.nv_hevc, Me.nv_AV1, Me.AMD_h264, Me.AMD_hevc, Me.Intel_h264, Me.Intel_hevc, Me.Intel_AV1})
-        Me.FFMPEG_CommandP1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FFMPEG_CommandP1.Name = "FFMPEG_CommandP1"
-        Me.FFMPEG_CommandP1.Size = New System.Drawing.Size(63, 20)
-        Me.FFMPEG_CommandP1.Text = "-c copy"
-        '
-        'copy
-        '
-        Me.copy.Name = "copy"
-        Me.copy.Size = New System.Drawing.Size(172, 22)
-        Me.copy.Text = "-c copy"
-        '
-        'CPU_h264
-        '
-        Me.CPU_h264.BackColor = System.Drawing.Color.DarkGray
-        Me.CPU_h264.Name = "CPU_h264"
-        Me.CPU_h264.Size = New System.Drawing.Size(172, 22)
-        Me.CPU_h264.Text = "-c:v libx264"
-        '
-        'CPU_h265
-        '
-        Me.CPU_h265.BackColor = System.Drawing.Color.DarkGray
-        Me.CPU_h265.Name = "CPU_h265"
-        Me.CPU_h265.Size = New System.Drawing.Size(172, 22)
-        Me.CPU_h265.Text = "-c:v libx265"
-        '
-        'CPU_AV1
-        '
-        Me.CPU_AV1.BackColor = System.Drawing.Color.DarkGray
-        Me.CPU_AV1.Name = "CPU_AV1"
-        Me.CPU_AV1.Size = New System.Drawing.Size(172, 22)
-        Me.CPU_AV1.Text = "-c:v libsvtav1"
-        '
-        'nv_h264
-        '
-        Me.nv_h264.BackColor = System.Drawing.Color.YellowGreen
-        Me.nv_h264.Name = "nv_h264"
-        Me.nv_h264.Size = New System.Drawing.Size(172, 22)
-        Me.nv_h264.Text = "-c:v h264_nvenc "
-        '
-        'nv_hevc
-        '
-        Me.nv_hevc.BackColor = System.Drawing.Color.YellowGreen
-        Me.nv_hevc.Name = "nv_hevc"
-        Me.nv_hevc.Size = New System.Drawing.Size(172, 22)
-        Me.nv_hevc.Text = "-c:v hevc_nvenc"
-        '
-        'nv_AV1
-        '
-        Me.nv_AV1.BackColor = System.Drawing.Color.YellowGreen
-        Me.nv_AV1.Name = "nv_AV1"
-        Me.nv_AV1.Size = New System.Drawing.Size(172, 22)
-        Me.nv_AV1.Text = "-c:v av1_nvenc"
-        '
-        'AMD_h264
-        '
-        Me.AMD_h264.BackColor = System.Drawing.Color.Tomato
-        Me.AMD_h264.Name = "AMD_h264"
-        Me.AMD_h264.Size = New System.Drawing.Size(172, 22)
-        Me.AMD_h264.Text = "-c:v h264_amf"
-        '
-        'AMD_hevc
-        '
-        Me.AMD_hevc.BackColor = System.Drawing.Color.Tomato
-        Me.AMD_hevc.Name = "AMD_hevc"
-        Me.AMD_hevc.Size = New System.Drawing.Size(172, 22)
-        Me.AMD_hevc.Text = "-c:v hevc_amf"
-        '
-        'Intel_h264
-        '
-        Me.Intel_h264.BackColor = System.Drawing.Color.CornflowerBlue
-        Me.Intel_h264.Name = "Intel_h264"
-        Me.Intel_h264.Size = New System.Drawing.Size(172, 22)
-        Me.Intel_h264.Text = "-c:v h264_qsv"
-        '
-        'Intel_hevc
-        '
-        Me.Intel_hevc.BackColor = System.Drawing.Color.CornflowerBlue
-        Me.Intel_hevc.Name = "Intel_hevc"
-        Me.Intel_hevc.Size = New System.Drawing.Size(172, 22)
-        Me.Intel_hevc.Text = "-c:v hevc_qsv"
-        '
-        'Intel_AV1
-        '
-        Me.Intel_AV1.BackColor = System.Drawing.Color.CornflowerBlue
-        Me.Intel_AV1.Name = "Intel_AV1"
-        Me.Intel_AV1.Size = New System.Drawing.Size(172, 22)
-        Me.Intel_AV1.Text = "-c:v av1_qsv"
-        '
-        'FFMPEG_CommandP2
-        '
-        Me.FFMPEG_CommandP2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListP1, Me.ListP2, Me.ListP3})
-        Me.FFMPEG_CommandP2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FFMPEG_CommandP2.Name = "FFMPEG_CommandP2"
-        Me.FFMPEG_CommandP2.Size = New System.Drawing.Size(85, 20)
-        Me.FFMPEG_CommandP2.Text = "-preset fast"
-        '
-        'ListP1
-        '
-        Me.ListP1.Name = "ListP1"
-        Me.ListP1.Size = New System.Drawing.Size(146, 22)
-        Me.ListP1.Text = "-preset fast"
-        '
-        'ListP2
-        '
-        Me.ListP2.Name = "ListP2"
-        Me.ListP2.Size = New System.Drawing.Size(146, 22)
-        Me.ListP2.Text = "-preset slow"
-        '
-        'ListP3
-        '
-        Me.ListP3.Name = "ListP3"
-        Me.ListP3.Size = New System.Drawing.Size(146, 22)
-        Me.ListP3.Text = "[no Preset]"
-        '
-        'FFMPEG_CommandP3
-        '
-        Me.FFMPEG_CommandP3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListBit_7000, Me.ListBit_6500, Me.ListBit_6000, Me.ListBit_5500, Me.ListBit_5000, Me.ListBit_4500, Me.ListBit_4000, Me.ListBit_3500, Me.ListBit_3000, Me.ListBit_2500, Me.ListBit_2000, Me.ListBit_1500, Me.ListBit_1000})
-        Me.FFMPEG_CommandP3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FFMPEG_CommandP3.Name = "FFMPEG_CommandP3"
-        Me.FFMPEG_CommandP3.Size = New System.Drawing.Size(79, 20)
-        Me.FFMPEG_CommandP3.Text = "-b:v 7000k"
-        '
-        'ListBit_7000
-        '
-        Me.ListBit_7000.Name = "ListBit_7000"
-        Me.ListBit_7000.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_7000.Text = "-b:v 7000k"
-        '
-        'ListBit_6500
-        '
-        Me.ListBit_6500.Name = "ListBit_6500"
-        Me.ListBit_6500.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_6500.Text = "-b:v 6500k"
-        '
-        'ListBit_6000
-        '
-        Me.ListBit_6000.Name = "ListBit_6000"
-        Me.ListBit_6000.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_6000.Text = "-b:v 6000k"
-        '
-        'ListBit_5500
-        '
-        Me.ListBit_5500.Name = "ListBit_5500"
-        Me.ListBit_5500.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_5500.Text = "-b:v 5500k"
-        '
-        'ListBit_5000
-        '
-        Me.ListBit_5000.Name = "ListBit_5000"
-        Me.ListBit_5000.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_5000.Text = "-b:v 5000k"
-        '
-        'ListBit_4500
-        '
-        Me.ListBit_4500.Name = "ListBit_4500"
-        Me.ListBit_4500.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_4500.Text = "-b:v 4500k"
-        '
-        'ListBit_4000
-        '
-        Me.ListBit_4000.Name = "ListBit_4000"
-        Me.ListBit_4000.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_4000.Text = "-b:v 4000k"
-        '
-        'ListBit_3500
-        '
-        Me.ListBit_3500.Name = "ListBit_3500"
-        Me.ListBit_3500.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_3500.Text = "-b:v 3500k"
-        '
-        'ListBit_3000
-        '
-        Me.ListBit_3000.Name = "ListBit_3000"
-        Me.ListBit_3000.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_3000.Text = "-b:v 3000k"
-        '
-        'ListBit_2500
-        '
-        Me.ListBit_2500.Name = "ListBit_2500"
-        Me.ListBit_2500.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_2500.Text = "-b:v 2500k"
-        '
-        'ListBit_2000
-        '
-        Me.ListBit_2000.Name = "ListBit_2000"
-        Me.ListBit_2000.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_2000.Text = "-b:v 2000k"
-        '
-        'ListBit_1500
-        '
-        Me.ListBit_1500.Name = "ListBit_1500"
-        Me.ListBit_1500.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_1500.Text = "-b:v 1500k"
-        '
-        'ListBit_1000
-        '
-        Me.ListBit_1000.Name = "ListBit_1000"
-        Me.ListBit_1000.Size = New System.Drawing.Size(134, 22)
-        Me.ListBit_1000.Text = "-b:v 1000k"
-        '
-        'FFMPEG_CommandP4
-        '
-        Me.FFMPEG_CommandP4.Enabled = False
-        Me.FFMPEG_CommandP4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FFMPEG_CommandP4.Name = "FFMPEG_CommandP4"
-        Me.FFMPEG_CommandP4.Size = New System.Drawing.Size(202, 20)
-        Me.FFMPEG_CommandP4.Text = "-c:a copy -bsf:a aac_adtstoasc"
+        'FfmpegCommandGroupBox
+        '
+        Me.FfmpegCommandGroupBox.BackColor = System.Drawing.Color.Transparent
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegCopyCheckBox)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.TargetBitrateCheckBox)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.VideoCodecComboBox)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel6)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.VideoEncoderComboBox)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel5)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegPresetComboBox)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel4)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.BitrateNumericInput)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel2)
+        Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegCommandPreviewTextBox)
+        Me.FfmpegCommandGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
+        Me.FfmpegCommandGroupBox.ForeColor = System.Drawing.Color.Black
+        Me.FfmpegCommandGroupBox.Location = New System.Drawing.Point(5, 350)
+        Me.FfmpegCommandGroupBox.Name = "FfmpegCommandGroupBox"
+        Me.FfmpegCommandGroupBox.Size = New System.Drawing.Size(490, 111)
+        Me.FfmpegCommandGroupBox.TabIndex = 50
+        Me.FfmpegCommandGroupBox.TabStop = False
+        Me.FfmpegCommandGroupBox.Text = "ffmpeg command"
+        '
+        'FfmpegCopyCheckBox
+        '
+        Me.FfmpegCopyCheckBox.AutoSize = True
+        Me.FfmpegCopyCheckBox.Location = New System.Drawing.Point(10, 22)
+        Me.FfmpegCopyCheckBox.Name = "FfmpegCopyCheckBox"
+        Me.FfmpegCopyCheckBox.Size = New System.Drawing.Size(51, 15)
+        Me.FfmpegCopyCheckBox.TabIndex = 52
+        Me.FfmpegCopyCheckBox.Text = "Copy"
+        Me.FfmpegCopyCheckBox.UseSelectable = True
+        '
+        'TargetBitrateCheckBox
+        '
+        Me.TargetBitrateCheckBox.AutoSize = True
+        Me.TargetBitrateCheckBox.Location = New System.Drawing.Point(362, 22)
+        Me.TargetBitrateCheckBox.Name = "TargetBitrateCheckBox"
+        Me.TargetBitrateCheckBox.Size = New System.Drawing.Size(92, 15)
+        Me.TargetBitrateCheckBox.TabIndex = 51
+        Me.TargetBitrateCheckBox.Text = "Target bitrate"
+        Me.TargetBitrateCheckBox.UseSelectable = True
+        '
+        'VideoCodecComboBox
+        '
+        Me.VideoCodecComboBox.FormattingEnabled = True
+        Me.VideoCodecComboBox.ItemHeight = 23
+        Me.VideoCodecComboBox.Location = New System.Drawing.Point(81, 40)
+        Me.VideoCodecComboBox.Name = "VideoCodecComboBox"
+        Me.VideoCodecComboBox.Size = New System.Drawing.Size(74, 29)
+        Me.VideoCodecComboBox.TabIndex = 50
+        Me.VideoCodecComboBox.UseSelectable = True
+        '
+        'MetroLabel6
+        '
+        Me.MetroLabel6.AutoSize = True
+        Me.MetroLabel6.FontWeight = MetroFramework.MetroLabelWeight.Regular
+        Me.MetroLabel6.Location = New System.Drawing.Point(81, 18)
+        Me.MetroLabel6.Name = "MetroLabel6"
+        Me.MetroLabel6.Size = New System.Drawing.Size(47, 19)
+        Me.MetroLabel6.TabIndex = 49
+        Me.MetroLabel6.Text = "Codec"
+        '
+        'VideoEncoderComboBox
+        '
+        Me.VideoEncoderComboBox.FormattingEnabled = True
+        Me.VideoEncoderComboBox.ItemHeight = 23
+        Me.VideoEncoderComboBox.Location = New System.Drawing.Point(161, 40)
+        Me.VideoEncoderComboBox.Name = "VideoEncoderComboBox"
+        Me.VideoEncoderComboBox.Size = New System.Drawing.Size(80, 29)
+        Me.VideoEncoderComboBox.TabIndex = 48
+        Me.VideoEncoderComboBox.UseSelectable = True
+        '
+        'MetroLabel5
+        '
+        Me.MetroLabel5.AutoSize = True
+        Me.MetroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Regular
+        Me.MetroLabel5.Location = New System.Drawing.Point(161, 18)
+        Me.MetroLabel5.Name = "MetroLabel5"
+        Me.MetroLabel5.Size = New System.Drawing.Size(58, 19)
+        Me.MetroLabel5.TabIndex = 47
+        Me.MetroLabel5.Text = "Encoder"
+        '
+        'FfmpegPresetComboBox
+        '
+        Me.FfmpegPresetComboBox.FormattingEnabled = True
+        Me.FfmpegPresetComboBox.ItemHeight = 23
+        Me.FfmpegPresetComboBox.Location = New System.Drawing.Point(247, 40)
+        Me.FfmpegPresetComboBox.Name = "FfmpegPresetComboBox"
+        Me.FfmpegPresetComboBox.Size = New System.Drawing.Size(109, 29)
+        Me.FfmpegPresetComboBox.TabIndex = 46
+        Me.FfmpegPresetComboBox.UseSelectable = True
+        '
+        'MetroLabel4
+        '
+        Me.MetroLabel4.AutoSize = True
+        Me.MetroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Regular
+        Me.MetroLabel4.Location = New System.Drawing.Point(247, 18)
+        Me.MetroLabel4.Name = "MetroLabel4"
+        Me.MetroLabel4.Size = New System.Drawing.Size(88, 19)
+        Me.MetroLabel4.TabIndex = 45
+        Me.MetroLabel4.Text = "Speed preset"
+        '
+        'BitrateNumericInput
+        '
+        Me.BitrateNumericInput.Increment = New Decimal(New Integer() {100, 0, 0, 0})
+        Me.BitrateNumericInput.Location = New System.Drawing.Point(362, 41)
+        Me.BitrateNumericInput.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.BitrateNumericInput.Minimum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.BitrateNumericInput.Name = "BitrateNumericInput"
+        Me.BitrateNumericInput.Size = New System.Drawing.Size(67, 22)
+        Me.BitrateNumericInput.TabIndex = 43
+        Me.BitrateNumericInput.Value = New Decimal(New Integer() {1000, 0, 0, 0})
+        '
+        'MetroLabel2
+        '
+        Me.MetroLabel2.AutoSize = True
+        Me.MetroLabel2.Location = New System.Drawing.Point(435, 41)
+        Me.MetroLabel2.Name = "MetroLabel2"
+        Me.MetroLabel2.Size = New System.Drawing.Size(49, 19)
+        Me.MetroLabel2.TabIndex = 44
+        Me.MetroLabel2.Text = "(KBit/s)"
+        '
+        'FfmpegCommandPreviewTextBox
+        '
+        '
+        '
+        '
+        Me.FfmpegCommandPreviewTextBox.CustomButton.Image = Nothing
+        Me.FfmpegCommandPreviewTextBox.CustomButton.Location = New System.Drawing.Point(443, 1)
+        Me.FfmpegCommandPreviewTextBox.CustomButton.Name = ""
+        Me.FfmpegCommandPreviewTextBox.CustomButton.Size = New System.Drawing.Size(21, 21)
+        Me.FfmpegCommandPreviewTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.FfmpegCommandPreviewTextBox.CustomButton.TabIndex = 1
+        Me.FfmpegCommandPreviewTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.FfmpegCommandPreviewTextBox.CustomButton.UseSelectable = True
+        Me.FfmpegCommandPreviewTextBox.CustomButton.Visible = False
+        Me.FfmpegCommandPreviewTextBox.Lines = New String() {"(ffmpeg command)"}
+        Me.FfmpegCommandPreviewTextBox.Location = New System.Drawing.Point(10, 82)
+        Me.FfmpegCommandPreviewTextBox.MaxLength = 32767
+        Me.FfmpegCommandPreviewTextBox.Name = "FfmpegCommandPreviewTextBox"
+        Me.FfmpegCommandPreviewTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.FfmpegCommandPreviewTextBox.ReadOnly = True
+        Me.FfmpegCommandPreviewTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.FfmpegCommandPreviewTextBox.SelectedText = ""
+        Me.FfmpegCommandPreviewTextBox.SelectionLength = 0
+        Me.FfmpegCommandPreviewTextBox.SelectionStart = 0
+        Me.FfmpegCommandPreviewTextBox.ShortcutsEnabled = True
+        Me.FfmpegCommandPreviewTextBox.Size = New System.Drawing.Size(465, 23)
+        Me.FfmpegCommandPreviewTextBox.TabIndex = 38
+        Me.FfmpegCommandPreviewTextBox.Text = "(ffmpeg command)"
+        Me.FfmpegCommandPreviewTextBox.UseSelectable = True
+        Me.FfmpegCommandPreviewTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.FfmpegCommandPreviewTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
         'GB_Resolution
         '
@@ -796,10 +684,10 @@ Partial Class Einstellungen
         Me.TabPage1.HorizontalScrollbarBarColor = True
         Me.TabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage1.HorizontalScrollbarSize = 10
-        Me.TabPage1.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 35)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage1.Size = New System.Drawing.Size(501, 528)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "  Main"
         Me.TabPage1.VerticalScrollbar = True
@@ -1067,9 +955,9 @@ Partial Class Einstellungen
         Me.MetroTabPage2.HorizontalScrollbarBarColor = True
         Me.MetroTabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage2.HorizontalScrollbarSize = 10
-        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage2.Name = "MetroTabPage2"
-        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage2.TabIndex = 8
         Me.MetroTabPage2.Text = "Naming"
         Me.MetroTabPage2.VerticalScrollbarBarColor = True
@@ -1372,9 +1260,9 @@ Partial Class Einstellungen
         Me.MetroTabPage1.HorizontalScrollbarBarColor = True
         Me.MetroTabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage1.HorizontalScrollbarSize = 10
-        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage1.Name = "MetroTabPage1"
-        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage1.TabIndex = 7
         Me.MetroTabPage1.Text = "Crunchyroll"
         Me.MetroTabPage1.VerticalScrollbarBarColor = True
@@ -1853,11 +1741,9 @@ Partial Class Einstellungen
         Me.GroupBox18.PerformLayout()
         Me.GroupBox16.ResumeLayout(False)
         Me.GroupBox4.ResumeLayout(False)
-        Me.GroupBox2.ResumeLayout(False)
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
+        Me.FfmpegCommandGroupBox.ResumeLayout(False)
+        Me.FfmpegCommandGroupBox.PerformLayout()
+        CType(Me.BitrateNumericInput, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GB_Resolution.ResumeLayout(False)
         Me.GB_Resolution.PerformLayout()
         Me.TabPage1.ResumeLayout(False)
@@ -1901,27 +1787,7 @@ Partial Class Einstellungen
     Friend WithEvents ToolTip1 As ToolTip
     Private WithEvents pictureBox1 As PictureBox
     Friend WithEvents ToolTip2 As ToolTip
-    Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents Panel1 As Panel
-    Friend WithEvents MenuStrip1 As MenuStrip
-    Friend WithEvents FFMPEG_CommandP1 As ToolStripMenuItem
-    Friend WithEvents copy As ToolStripMenuItem
-    Friend WithEvents nv_h264 As ToolStripMenuItem
-    Friend WithEvents nv_hevc As ToolStripMenuItem
-    Friend WithEvents CPU_h264 As ToolStripMenuItem
-    Friend WithEvents CPU_h265 As ToolStripMenuItem
-    Friend WithEvents FFMPEG_CommandP2 As ToolStripMenuItem
-    Friend WithEvents ListP1 As ToolStripMenuItem
-    Friend WithEvents ListP2 As ToolStripMenuItem
-    Friend WithEvents FFMPEG_CommandP3 As ToolStripMenuItem
-    Friend WithEvents ListBit_7000 As ToolStripMenuItem
-    Friend WithEvents ListBit_6000 As ToolStripMenuItem
-    Friend WithEvents ListBit_5000 As ToolStripMenuItem
-    Friend WithEvents ListBit_4000 As ToolStripMenuItem
-    Friend WithEvents ListBit_3000 As ToolStripMenuItem
-    Friend WithEvents ListBit_2000 As ToolStripMenuItem
-    Friend WithEvents ListBit_1000 As ToolStripMenuItem
-    Friend WithEvents FFMPEG_CommandP4 As ToolStripMenuItem
+    Friend WithEvents FfmpegCommandGroupBox As GroupBox
     Friend WithEvents GB_Resolution As GroupBox
     Friend WithEvents GroupBox5 As GroupBox
     Friend WithEvents GroupBox1 As GroupBox
@@ -1977,16 +1843,7 @@ Partial Class Einstellungen
     Friend WithEvents GroupBox14 As GroupBox
     Friend WithEvents CB_Format As MetroFramework.Controls.MetroComboBox
     Friend WithEvents MetroTabPage1 As MetroFramework.Controls.MetroTabPage
-    Friend WithEvents AMD_h264 As ToolStripMenuItem
-    Friend WithEvents AMD_hevc As ToolStripMenuItem
-    Friend WithEvents ListP3 As ToolStripMenuItem
     Friend WithEvents Btn_Save As Button
-    Friend WithEvents ListBit_1500 As ToolStripMenuItem
-    Friend WithEvents ListBit_6500 As ToolStripMenuItem
-    Friend WithEvents ListBit_5500 As ToolStripMenuItem
-    Friend WithEvents ListBit_4500 As ToolStripMenuItem
-    Friend WithEvents ListBit_3500 As ToolStripMenuItem
-    Friend WithEvents ListBit_2500 As ToolStripMenuItem
     Friend WithEvents GroupBox8 As GroupBox
     Friend WithEvents GroupBox15 As GroupBox
     Friend WithEvents Bitrate_Funi As MetroFramework.Controls.MetroComboBox
@@ -2005,15 +1862,10 @@ Partial Class Einstellungen
     Friend WithEvents MetroLabel3 As MetroFramework.Controls.MetroLabel
     Friend WithEvents TemporaryFolderTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CB_Ignore As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents Intel_h264 As ToolStripMenuItem
-    Friend WithEvents Intel_hevc As ToolStripMenuItem
     Friend WithEvents GroupBox19 As GroupBox
     Friend WithEvents DubMode As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CB_Merge As MetroFramework.Controls.MetroComboBox
     Friend WithEvents Chb_Ign_tls As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents Intel_AV1 As ToolStripMenuItem
-    Friend WithEvents CPU_AV1 As ToolStripMenuItem
-    Friend WithEvents nv_AV1 As ToolStripMenuItem
     Public WithEvents CB_EpisodeName As MetroFramework.Controls.MetroCheckBox
     Public WithEvents CB_AnimeDub As MetroFramework.Controls.MetroCheckBox
     Public WithEvents CB_EpisodeNR As MetroFramework.Controls.MetroCheckBox
@@ -2032,4 +1884,15 @@ Partial Class Einstellungen
     Public WithEvents CR_SoftSubDefault As MetroFramework.Controls.MetroComboBox
     Friend WithEvents CustomServerPortInput As NumericUpDown
     Friend WithEvents ServerPortLabel As MetroFramework.Controls.MetroLabel
+    Friend WithEvents FfmpegCommandPreviewTextBox As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents MetroLabel2 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents BitrateNumericInput As NumericUpDown
+    Friend WithEvents FfmpegPresetComboBox As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents MetroLabel4 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents VideoCodecComboBox As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents MetroLabel6 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents VideoEncoderComboBox As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents MetroLabel5 As MetroFramework.Controls.MetroLabel
+    Friend WithEvents TargetBitrateCheckBox As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents FfmpegCopyCheckBox As MetroFramework.Controls.MetroCheckBox
 End Class

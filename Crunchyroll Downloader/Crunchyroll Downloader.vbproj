@@ -245,7 +245,7 @@
     <Compile Include="Settings.vb" />
     <Compile Include="Settings\CrunchyrollSettings.vb" />
     <Compile Include="Settings\EnumTextList.vb" />
-    <Compile Include="Settings\FfmpegCommand.vb" />
+    <Compile Include="Settings\FfmpegSettings.vb" />
     <Compile Include="Settings\Format.vb" />
     <Compile Include="Settings\FunimationSettings.vb" />
     <Compile Include="Settings\ProgramSettings.vb" />
