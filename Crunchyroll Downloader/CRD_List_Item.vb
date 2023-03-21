@@ -278,9 +278,9 @@ Public Class CRD_List_Item
                 End If
             End If
             Canceld = False
-            'If My.Computer.FileSystem.FileExists(HistoryDL_Pfad.Replace(Chr(34), "")) Then 'Pfad = Kompeltter Pfad mit Dateinamen + ENdung
+            'If My.Computer.FileSystem.FileExists(HistoryDL_Pfad.Replace("""", "")) Then 'Pfad = Kompeltter Pfad mit Dateinamen + ENdung
             '    Try
-            '        My.Computer.FileSystem.DeleteFile(HistoryDL_Pfad.Replace(Chr(34), ""))
+            '        My.Computer.FileSystem.DeleteFile(HistoryDL_Pfad.Replace("""", ""))
             '    Catch ex As Exception
             '    End Try
             'End If
@@ -337,9 +337,9 @@ Public Class CRD_List_Item
                                 Exit Sub
                             End If
                         End If
-                        If My.Computer.FileSystem.FileExists(HistoryDL_Pfad.Replace(Chr(34), "")) Then 'Pfad = Kompeltter Pfad mit Dateinamen + ENdung
+                        If My.Computer.FileSystem.FileExists(HistoryDL_Pfad.Replace("""", "")) Then 'Pfad = Kompeltter Pfad mit Dateinamen + ENdung
                             Try
-                                My.Computer.FileSystem.DeleteFile(HistoryDL_Pfad.Replace(Chr(34), ""))
+                                My.Computer.FileSystem.DeleteFile(HistoryDL_Pfad.Replace("""", ""))
                             Catch ex As Exception
                             End Try
                         End If
@@ -448,7 +448,7 @@ Public Class CRD_List_Item
         HistoryDL_Pfad = DL_Pfad
         HistoryFilename = Filename
 
-        GlobalLogfile = DL_Pfad.Replace(".mkv", ".txt").Replace(Chr(34), "")
+        GlobalLogfile = DL_Pfad.Replace(".mkv", ".txt").Replace("""", "")
 
         'Debug.WriteLine(GlobalLogfile)
 
@@ -636,8 +636,8 @@ Public Class CRD_List_Item
         Dim m3u8FileContent As String = Nothing
 
         Dim m3u8Text As String = InputData
-        Dim m3u8Key() As String = m3u8Text.Split(New String() {"URI=" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-        Dim m3u8Key2() As String = m3u8Key(1).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+        Dim m3u8Key() As String = m3u8Text.Split(New String() {"URI=" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+        Dim m3u8Key2() As String = m3u8Key(1).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
 
         Dim KeyFileDL = New Thread(Sub() Me.TS_DownloadAsync(GetFullUri(url, m3u8Key2(0)), KeyFilePath))
         KeyFileDL.Start()
@@ -709,9 +709,9 @@ Public Class CRD_List_Item
                 'Update.Start()
                 RaiseEvent UpdateUI(CInt(FragmentsFinised), di, PauseTime)
 
-            ElseIf zeile.Contains("URI=" + Chr(34)) Then
-                Dim Zeile2() As String = zeile.Split(New String() {"URI=" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                m3u8FileContent = m3u8FileContent + Zeile2(0) + "URI=" + Chr(34) + KeyFile + Chr(34) + vbNewLine ' a full path does not work here, that's why KeyFilePath is in the ffmpeg/downloader folder
+            ElseIf zeile.Contains("URI=" + """") Then
+                Dim Zeile2() As String = zeile.Split(New String() {"URI=" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+                m3u8FileContent = m3u8FileContent + Zeile2(0) + "URI=" + """" + KeyFile + """" + vbNewLine ' a full path does not work here, that's why KeyFilePath is in the ffmpeg/downloader folder
 
             ElseIf zeile.Contains("https://") Then
                 'If zeile = DownloadFile Then
@@ -744,7 +744,7 @@ Public Class CRD_List_Item
 
                 Dim Request As HttpWebRequest = CType(WebRequest.Create(DL_URL), HttpWebRequest)
                 Dim Bytes(NewBytes) As Byte
-                Request.UserAgent = My.Resources.ffmpeg_user_agend.Replace(Chr(34), "").Replace("User-Agent: ", "")
+                Request.UserAgent = My.Resources.ffmpeg_user_agend.Replace("""", "").Replace("User-Agent: ", "")
                 Request.Timeout = 30000
                 Request.Method = "GET"
                 Request.AddRange(CurrentSize, CurrentSize + NewBytes)
@@ -919,14 +919,14 @@ Public Class CRD_List_Item
 
             ElseIf textLenght(i) = "#EXT-X-PLAYLIST-TYPE:VOD" Then
 
-            ElseIf CBool(InStr(textLenght(i), "URI=" + Chr(34))) Then
+            ElseIf CBool(InStr(textLenght(i), "URI=" + """")) Then
                 Dim KeyLine As String = textLenght(i)
 
-                Dim KeyFileUri() As String = KeyLine.Split(New String() {"URI=" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim KeyFileUri2() As String = KeyFileUri(1).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+                Dim KeyFileUri() As String = KeyLine.Split(New String() {"URI=" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+                Dim KeyFileUri2() As String = KeyFileUri(1).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
                 Dim KeyFileUri3 As String = GetFullUri(url, KeyFileUri2(0))
                 If LoadedKeys.Item(LoadedKeys.Count - 1) = KeyFileUri3 Then
-                    KeyLine = KeyFileUri(0) + "URI=" + Chr(34) + KeyFileCache + Chr(34)
+                    KeyLine = KeyFileUri(0) + "URI=" + """" + KeyFileCache + """"
                 Else
 
                     Dim KeyFile As String = GeräteID() + ".key"
@@ -940,9 +940,9 @@ Public Class CRD_List_Item
 
                     LoadedKeys.Add(KeyFileUri3)
                     If KeyFileUri2.Count > 1 Then
-                        KeyLine = KeyFileUri(0) + "URI=" + Chr(34) + KeyFileCache + Chr(34) + KeyFileUri2(1)
+                        KeyLine = KeyFileUri(0) + "URI=" + """" + KeyFileCache + """" + KeyFileUri2(1)
                     Else
-                        KeyLine = KeyFileUri(0) + "URI=" + Chr(34) + KeyFileCache + Chr(34)
+                        KeyLine = KeyFileUri(0) + "URI=" + """" + KeyFileCache + """"
                     End If
 
                     If KeepCacheFiles = True Then
@@ -975,7 +975,7 @@ Public Class CRD_List_Item
         If KeepCacheFiles = True Then
             Using sink As New StreamWriter(Folder + "\index-VLC.m3u8", False, utf8WithoutBom)
                 m3u8FileContent = m3u8FileContent.Replace(Folder, "file:///" + Folder.Replace("\", "/"))
-                m3u8FileContent = m3u8FileContent.Replace("URI=" + Chr(34), "URI=" + Chr(34) + "file:///" + Folder.Replace("\", "/"))
+                m3u8FileContent = m3u8FileContent.Replace("URI=" + """", "URI=" + """" + "file:///" + Folder.Replace("\", "/"))
                 sink.WriteLine(m3u8FileContent)
             End Using
         End If
@@ -1049,7 +1049,7 @@ Public Class CRD_List_Item
         Dim Folder As String = GeräteID()
         Dim DL_URL_old As String = DL_URL
         Dim PauseTime As Integer = 0
-        Dim Pfad2 As String = TempFolder + "\" + Folder + "\" 'Path.GetDirectoryName(DL_Pfad.Replace(Chr(34), "")) + "\" + Folder + "\"
+        Dim Pfad2 As String = TempFolder + "\" + Folder + "\" 'Path.GetDirectoryName(DL_Pfad.Replace("""", "")) + "\" + Folder + "\"
 
         If Not Directory.Exists(Path.GetDirectoryName(Pfad2)) Then
             ' Nein! Jetzt erstellen...
@@ -1064,14 +1064,14 @@ Public Class CRD_List_Item
 
 
         If CBool(InStr(DL_Pfad, "CRD-Temp-File-")) Then
-            Pfad2 = DL_Pfad.Replace(Chr(34), "") + "\"
+            Pfad2 = DL_Pfad.Replace("""", "") + "\"
             Dim DL_PfadSplit() As String = DL_Pfad.Split(New String() {"CRD-Temp-File-"}, System.StringSplitOptions.RemoveEmptyEntries)
-            DL_Pfad = Chr(34) + DL_PfadSplit(0) + Filename + Chr(34)
+            DL_Pfad = """" + DL_PfadSplit(0) + Filename + """"
         End If
 
-        If CBool(InStr(DL_URL, "-mdata.txt" + Chr(34))) Then
-            Dim DL_URLSplit() As String = DL_URL.Split(New String() {"-mdata.txt" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim DL_URLSplit1() As String = DL_URLSplit(0).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+        If CBool(InStr(DL_URL, "-mdata.txt" + """")) Then
+            Dim DL_URLSplit() As String = DL_URL.Split(New String() {"-mdata.txt" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim DL_URLSplit1() As String = DL_URLSplit(0).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
             Dim mdataFile As String = DL_URLSplit1(DL_URLSplit1.Count - 1) + "-mdata.txt"
             Debug.WriteLine(mdataFile)
             Dim mdata As String = ReadText(mdataFile)
@@ -1082,10 +1082,10 @@ Public Class CRD_List_Item
         End If
 
         Dim di As New IO.DirectoryInfo(Pfad2)
-        Dim m3u8_url As String() = DL_URL.Split(New [Char]() {Chr(34)})
+        Dim m3u8_url As String() = DL_URL.Split(New [Char]() {""""})
         Dim m3u8FFmpeg As String = Nothing
         HybridModePath = Pfad2
-        Dim InuputStreams As String() = DL_URL.Split(New String() {"-i " + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+        Dim InuputStreams As String() = DL_URL.Split(New String() {"-i " + """"}, System.StringSplitOptions.RemoveEmptyEntries)
 
         Me.Invoke(New Action(Function() As Object
                                  Label_percent.Text = "Checking input..."
@@ -1100,7 +1100,7 @@ Public Class CRD_List_Item
                 Continue For
             End If
 
-            Dim InputURL As String() = InuputStreams(int).Split(New [Char]() {Chr(34)})
+            Dim InputURL As String() = InuputStreams(int).Split(New [Char]() {""""})
             Dim InputClient As New WebClient
             InputClient.Encoding = Encoding.UTF8
 
@@ -1147,16 +1147,16 @@ Public Class CRD_List_Item
                 If CBool(InStr(InputData, "#EXT-X-VERSION:3")) Or CBool(InStr(InputData, "#EXT-X-VERSION:5")) Then
 
                     If KeepCacheFiles = True Then
-                        Pfad2 = Path.GetDirectoryName(DL_Pfad.Replace(Chr(34), "")) + "\" + NameP2.Replace(" ", "-") + "\"
+                        Pfad2 = Path.GetDirectoryName(DL_Pfad.Replace("""", "")) + "\" + NameP2.Replace(" ", "-") + "\"
                     End If
 
                     ProcessV3(InputURL(0), InputData, Pfad2, DL_Pfad, DL_URL)
 
-                    DL_URL = DL_URL.Replace("-i " + Chr(34) + InputURL(0), "-allowed_extensions ALL " + "-i " + Chr(34) + Pfad2 + "index.m3u8")
+                    DL_URL = DL_URL.Replace("-i " + """" + InputURL(0), "-allowed_extensions ALL " + "-i " + """" + Pfad2 + "index.m3u8")
 
                 ElseIf CBool(InStr(InputData, "#EXT-X-VERSION:4")) Then
                     ProcessV4(InputURL(0), InputData, Pfad2 + "Stream-" + int.ToString + "\")
-                    DL_URL = DL_URL.Replace("-i " + Chr(34) + InputURL(0), "-allowed_extensions ALL " + "-i " + Chr(34) + Pfad2 + "Stream-" + int.ToString + "\index.m3u8")
+                    DL_URL = DL_URL.Replace("-i " + """" + InputURL(0), "-allowed_extensions ALL " + "-i " + """" + Pfad2 + "Stream-" + int.ToString + "\index.m3u8")
                 Else
                     'write string to file
                     If Not Directory.Exists(Path.GetDirectoryName(Pfad2)) Then
@@ -1252,7 +1252,7 @@ Public Class CRD_List_Item
 
         Dim exepath As String = Application.StartupPath + "\ffmpeg.exe"
         Dim startinfo As New System.Diagnostics.ProcessStartInfo
-        Dim cmd As String = "-user_agent " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + " -headers " + Chr(34) + "ACCEPT-ENCODING: *" + Chr(34) + " " + DLCommand + " " + DL_Pfad 'start ffmpeg with command strFFCMD string
+        Dim cmd As String = "-user_agent " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + " -headers " + """" + "ACCEPT-ENCODING: *" + """" + " " + DLCommand + " " + DL_Pfad 'start ffmpeg with command strFFCMD string
         LogText.Add(Date.Now.ToString + " " + cmd)
         If Debug2 = True Then
             MsgBox(cmd)
@@ -1303,7 +1303,7 @@ Public Class CRD_List_Item
             LogText.Add(Date.Now.ToString + " " + e.Data)
             'My.Computer.FileSystem.WriteAllText(GlobalLogfile, Date.Now.ToString + " " + e.Data, True)
             'Dim Log As String = ""
-            'Dim logfile As String = DownloadPfad.Replace(Main.VideoFormat, ".log").Replace(Chr(34), "")
+            'Dim logfile As String = DownloadPfad.Replace(Main.VideoFormat, ".log").Replace("""", "")
 
             'For i As Integer = 1 To LogText.Count - 1
             '    Log = Log + vbNewLine
@@ -1464,7 +1464,7 @@ Public Class CRD_List_Item
             'MsgBox(BaseURL + SiteList(i) + vbNewLine + Pfad_DL + "\" + SiteList(i))
             Dim iWert As Integer = i
             Using client As New WebClient()
-                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
                 client.Headers.Add(HttpRequestHeader.AcceptEncoding, "*")
                 client.DownloadFile(BaseURL + SiteList(i), Pfad_DL + "\" + SiteList(i))
                 Pause(1)
@@ -1563,7 +1563,7 @@ Public Class CRD_List_Item
     'End Sub
 
     Private Sub ViewInExplorerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewInExplorerToolStripMenuItem.Click
-        Process.Start(Path.GetDirectoryName(DownloadPfad.Replace(Chr(34), "")))
+        Process.Start(Path.GetDirectoryName(DownloadPfad.Replace("""", "")))
     End Sub
 
     Private Sub PlaybackVideoFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PlaybackVideoFileToolStripMenuItem.Click
@@ -1572,7 +1572,7 @@ Public Class CRD_List_Item
         Else
             PlaybackVideoFileToolStripMenuItem.Enabled = False
         End If
-        Process.Start(DownloadPfad.Replace(Chr(34), ""))
+        Process.Start(DownloadPfad.Replace("""", ""))
     End Sub
 
     Private Sub SaveToFile_Click(sender As Object, e As EventArgs) Handles SaveToFile.Click
@@ -1580,7 +1580,7 @@ Public Class CRD_List_Item
         Try
             If HybridMode = True Then
                 Try
-                    Dim logfile As String = DownloadPfad.Replace("." + extension, ".log").Replace(Chr(34), "")
+                    Dim logfile As String = DownloadPfad.Replace("." + extension, ".log").Replace("""", "")
 
                     'File.WriteAllText(logfile, HybrideLog)
                     WriteText(logfile, HybrideLog)
@@ -1594,7 +1594,7 @@ Public Class CRD_List_Item
 
         Try
 
-            Dim logfile As String = DownloadPfad.Replace("." + extension, ".log").Replace(Chr(34), "")
+            Dim logfile As String = DownloadPfad.Replace("." + extension, ".log").Replace("""", "")
 
             Using sw As StreamWriter = File.AppendText(logfile)
                 sw.Write(LogText.Item(0))
@@ -1625,7 +1625,7 @@ Public Class CRD_List_Item
 
     Private Sub TN_DL_Tick(sender As Object, e As EventArgs) Handles TN_DL.Tick
         If My.Settings.SaveThumbnail = True Then
-            Dim FilePath As String = DownloadPfad.Replace(Chr(34), "")
+            Dim FilePath As String = DownloadPfad.Replace("""", "")
             Dim FilePath2 As String = Path.GetFullPath(FilePath).Replace(Path.GetExtension(FilePath), "") + ".png"
 
             If Not Directory.Exists(Path.GetDirectoryName(FilePath2)) Then

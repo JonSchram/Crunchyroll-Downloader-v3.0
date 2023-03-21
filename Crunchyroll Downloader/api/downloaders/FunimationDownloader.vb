@@ -207,7 +207,7 @@ Public Class FunimationDownloader
             Try
                 Using client As New WebClient()
                     client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
                     v1Json = client.DownloadString(v1JsonUrl)
                 End Using
                 Main.WebbrowserURL = currentEpisode
@@ -238,7 +238,7 @@ Public Class FunimationDownloader
             Try
                 Using client As New WebClient()
                     client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
                     SeasonJson = client.DownloadString(JsonUrl)
                 End Using
             Catch ex As Exception
@@ -369,7 +369,7 @@ Public Class FunimationDownloader
                 'Throw New Exception("TEst")
                 Using client As New WebClient()
                     client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
                     v1Json = client.DownloadString(v1JsonUrl)
                 End Using
             Catch ex As Exception
@@ -489,8 +489,8 @@ Public Class FunimationDownloader
                         Next
                 End Select
             Next
-            FunimationTitle = Main.RemoveExtraSpaces(String.Join(" ", FunimationTitle.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace(Chr(34), "").Replace("\", "").Replace("/", "")
-            FunimationEpisodeTitle = String.Join(" ", FunimationEpisodeTitle.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace(Chr(34), "").Replace("\", "").Replace("/", "")
+            FunimationTitle = Main.RemoveExtraSpaces(String.Join(" ", FunimationTitle.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace("""", "").Replace("\", "").Replace("/", "")
+            FunimationEpisodeTitle = String.Join(" ", FunimationEpisodeTitle.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace("""", "").Replace("\", "").Replace("/", "")
             FunimationDub = ConvertFunimationDub(Main.DubFunimation) 'FunimationDub2(0)
             Dim DefaultName As String = Main.RemoveExtraSpaces(FunimationTitle + " " + FunimationSeason + " " + FunimationEpisode)
 
@@ -547,16 +547,16 @@ Public Class FunimationDownloader
                 ' Nein! Jetzt erstellen...
                 Try
                     Directory.CreateDirectory(Path.GetDirectoryName(DownloadPfad))
-                    DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + DownloadPfad + DefaultName + "." + extension + Chr(34))
+                    DownloadPfad = Main.RemoveExtraSpaces("""" + DownloadPfad + DefaultName + "." + extension + """")
                 Catch ex As Exception
                     ' Ordner wurde nich erstellt
-                    DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + Main.Pfad + DefaultName + "." + extension + Chr(34))
+                    DownloadPfad = Main.RemoveExtraSpaces("""" + Main.Pfad + DefaultName + "." + extension + """")
                 End Try
             Else
-                DownloadPfad = Main.RemoveExtraSpaces(Chr(34) + DownloadPfad + DefaultName + "." + extension + Chr(34))
+                DownloadPfad = Main.RemoveExtraSpaces("""" + DownloadPfad + DefaultName + "." + extension + """")
             End If
 #Region "lösche doppel download / Delete double download"
-            Dim Pfad5 As String = DownloadPfad.Replace(Chr(34), "")
+            Dim Pfad5 As String = DownloadPfad.Replace("""", "")
             If My.Computer.FileSystem.FileExists(Pfad5) Then 'Pfad = Kompeltter Pfad mit Dateinamen + ENdung
                 ' TODO: Make method in main that sets main window and status text
                 Main.Invoke(Sub()
@@ -593,7 +593,7 @@ Public Class FunimationDownloader
             Dim EpisodeJsonString As String = Nothing
             Dim PlayerClient As New WebClient()
             PlayerClient.Encoding = Encoding.UTF8
-            PlayerClient.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+            PlayerClient.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
             PlayerClient.Headers.Add(HttpRequestHeader.Accept, "application/json, text/plain, */*")
             PlayerClient.Headers.Add("origin: https://www.funimation.com/")
             PlayerClient.Headers.Add(HttpRequestHeader.Referer, "https://www.funimation.com/")
@@ -761,12 +761,12 @@ Public Class FunimationDownloader
                                 ' Anime_Add.StatusLabel.Text = "Status: Video found!"
                                 Main.Invalidate()
                             End Sub)
-                Dim str1 As String = client0.DownloadString(Funimation_m3u8_Main.Replace(Chr(34), ""))
+                Dim str1 As String = client0.DownloadString(Funimation_m3u8_Main.Replace("""", ""))
                 If CBool(InStr(str1, "# AUDIO groups")) Then
                     Dim FunimationAudio() As String = str1.Split(New String() {"# AUDIO groups"}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim FunimationAudio2() As String = FunimationAudio(1).Split(New String() {"URI=" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim FunimationAudio3() As String = FunimationAudio2(1).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                    FunimationAudioMap = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + Chr(34) + FunimationAudio3(0) + Chr(34)
+                    Dim FunimationAudio2() As String = FunimationAudio(1).Split(New String() {"URI=" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+                    Dim FunimationAudio3() As String = FunimationAudio2(1).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
+                    FunimationAudioMap = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + """" + FunimationAudio3(0) + """"
                 End If
 
                 Dim str2() As String = str1.Split(New String() {"# keyframes"}, System.StringSplitOptions.RemoveEmptyEntries)
@@ -784,7 +784,7 @@ Public Class FunimationDownloader
                 For i As Integer = 0 To Streams.Length - 1
 
 
-                    If CBool(InStr(Streams(i), "x" + ProgramSettings.getInstance().DownloadResolution.ToString)) Then
+                    If CBool(InStr(Streams(i), "x" + ProgramSettings.GetInstance().DownloadResolution.ToString)) Then
 
                         Tartegt_m3u8_list.Add(Streams(i) + vbCrLf + Streams(i + 1))
                         FunimationBackupm3u8 = Streams(i + 1)
@@ -871,8 +871,8 @@ Public Class FunimationDownloader
                             End If
                             Dim m3u8String As String = CheckClient.DownloadString(StreamURL)
                             'MsgBox(textLenght(i))
-                            Dim keyfileurl() As String = m3u8String.Split(New String() {"URI=" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Dim keyfileurl2() As String = keyfileurl(1).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+                            Dim keyfileurl() As String = m3u8String.Split(New String() {"URI=" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+                            Dim keyfileurl2() As String = keyfileurl(1).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
                             Dim keyfileurl3 As String = keyfileurl2(0)
                             If CBool(InStr(keyfileurl2(0), "https://")) Then
                             Else
@@ -907,7 +907,7 @@ Public Class FunimationDownloader
                                 End Sub)
                 End If
                 Debug.WriteLine("Funimation_m3u8_final: " + Funimation_m3u8_final)
-                Funimation_m3u8_final = Funimation_m3u8_final.Replace(Chr(34), "")
+                Funimation_m3u8_final = Funimation_m3u8_final.Replace("""", "")
             Else
                 ' TODO
                 Main.Invoke(Sub()
@@ -962,9 +962,9 @@ Public Class FunimationDownloader
                             DispositionIndex = MapCount
                         End If
                         If SoftSubMergeURLs = Nothing Then
-                            SoftSubMergeURLs = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + Chr(34) + SoftSub(0) + Chr(34)
+                            SoftSubMergeURLs = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + """" + SoftSub(0) + """"
                         Else
-                            SoftSubMergeURLs = SoftSubMergeURLs + " -headers " + My.Resources.ffmpeg_user_agend + " -i " + Chr(34) + SoftSub(0) + Chr(34)
+                            SoftSubMergeURLs = SoftSubMergeURLs + " -headers " + My.Resources.ffmpeg_user_agend + " -i " + """" + SoftSub(0) + """"
                         End If
                         If FunimationAudioMap = Nothing Then
                             SoftSubMergeMaps = SoftSubMergeMaps + " -map " + (MapCount + 1).ToString
@@ -973,9 +973,9 @@ Public Class FunimationDownloader
                         End If
                         If SoftSubMergeMetatata = Nothing Then
                             'SoftSubMergeMetatata = " -metadata:s:s:" + i.ToString + " language=" + CCtoMP4CC(SoftSub(1))
-                            SoftSubMergeMetatata = " -metadata:s:s:" + MapCount.ToString + " language=" + Main.CCtoMP4CC(SoftSub(1)) + " -metadata:s:s:" + MapCount.ToString + " title=" + Chr(34) + Main.HardSubValuesToDisplay(Chr(34) + SoftSub(1) + Chr(34)) + Chr(34) + " -metadata:s:s:" + MapCount.ToString + " handler_name=" + Chr(34) + Main.HardSubValuesToDisplay(Chr(34) + SoftSub(1) + Chr(34)) + Chr(34)
+                            SoftSubMergeMetatata = " -metadata:s:s:" + MapCount.ToString + " language=" + Main.CCtoMP4CC(SoftSub(1)) + " -metadata:s:s:" + MapCount.ToString + " title=" + """" + Main.HardSubValuesToDisplay("""" + SoftSub(1) + """") + """" + " -metadata:s:s:" + MapCount.ToString + " handler_name=" + """" + Main.HardSubValuesToDisplay("""" + SoftSub(1) + """") + """"
                         Else
-                            SoftSubMergeMetatata = SoftSubMergeMetatata + " -metadata:s:s:" + MapCount.ToString + " language=" + Main.CCtoMP4CC(SoftSub(1)) + " -metadata:s:s:" + MapCount.ToString + " title=" + Chr(34) + Main.HardSubValuesToDisplay(Chr(34) + SoftSub(1) + Chr(34)) + Chr(34) + " -metadata:s:s:" + MapCount.ToString + " handler_name=" + Chr(34) + Main.HardSubValuesToDisplay(Chr(34) + SoftSub(1) + Chr(34)) + Chr(34)
+                            SoftSubMergeMetatata = SoftSubMergeMetatata + " -metadata:s:s:" + MapCount.ToString + " language=" + Main.CCtoMP4CC(SoftSub(1)) + " -metadata:s:s:" + MapCount.ToString + " title=" + """" + Main.HardSubValuesToDisplay("""" + SoftSub(1) + """") + """" + " -metadata:s:s:" + MapCount.ToString + " handler_name=" + """" + Main.HardSubValuesToDisplay("""" + SoftSub(1) + """") + """"
                             'SoftSubMergeMetatata + " -metadata:s:s:" + i.ToString + " language=" + CCtoMP4CC(SoftSubs2(i))
                         End If
                     Next
@@ -996,7 +996,7 @@ Public Class FunimationDownloader
                         Dim SoftSub As String() = UsedSubs.Item(i).Split(New String() {" , "}, System.StringSplitOptions.RemoveEmptyEntries)
                         Dim SoftSub_3 As String = SoftSub(0).Replace("\/", "/")
                         Dim Subfile As String = SubsClient.DownloadString(SoftSub_3)
-                        Dim Pfad3 As String = DownloadPfad.Replace(Chr(34), "")
+                        Dim Pfad3 As String = DownloadPfad.Replace("""", "")
                         'MsgBox(FN)
                         Dim SubtitelFormat As String = "srt"
                         If CBool(InStr(SoftSub_3, ".vtt")) Then
@@ -1031,17 +1031,17 @@ Public Class FunimationDownloader
             Dim mergeSubs = outputFormat.GetSubtitleFormat() <> Format.SubtitleMerge.DISABLED
             Dim isAudioOnly = outputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
             If HardSubFound = True And Not isAudioOnly Then
-                Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + FunimationAudioMap + " -vf subtitles=" + Chr(34) + UsedSub + Chr(34) + " " + ffmpeg_hardsub
+                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + " -vf subtitles=" + """" + UsedSub + """" + " " + ffmpeg_hardsub
             ElseIf mergeSubs Then
-                Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + FunimationAudioMap + SoftSubMergeURLs + SoftSubMergeMaps + " " + Main.ffmpeg_command + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + DubMetatata
+                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + SoftSubMergeURLs + SoftSubMergeMaps + " " + Main.ffmpeg_command + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + DubMetatata
             ElseIf isAudioOnly Then
                 If FunimationAudioMap = Nothing Then
-                    Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + DubMetatata + " " + ffmpeg_command_temp
+                    Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + DubMetatata + " " + ffmpeg_command_temp
                 Else
                     Funimation_m3u8_final = FunimationAudioMap.Replace(" -headers " + My.Resources.ffmpeg_user_agend + " ", "") + DubMetatata + " " + ffmpeg_command_temp
                 End If
             Else
-                Funimation_m3u8_final = "-i " + Chr(34) + Funimation_m3u8_final + Chr(34) + FunimationAudioMap + DubMetatata + " " + Main.ffmpeg_command
+                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + DubMetatata + " " + Main.ffmpeg_command
             End If
             Funimation_m3u8_final = Funimation_m3u8_final + " -metadata:g encoding_tool=CrD_Funimation_JS"
 #End Region

@@ -1053,11 +1053,11 @@ Public Class Einstellungen
         Try
             Dim client0 As New WebClient
             client0.Encoding = Encoding.UTF8
-            client0.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+            client0.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
 
             Dim str0 As String = client0.DownloadString("https://api.github.com/repos/hama3254/Crunchyroll-Downloader-v3.0/releases")
 
-            Dim GitHubLastIsPre() As String = str0.Split(New String() {Chr(34) + "prerelease" + Chr(34) + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim GitHubLastIsPre() As String = str0.Split(New String() {"""" + "prerelease" + """" + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
             Dim LastNonPreRelase As Integer = 0
 
             For i As Integer = 1 To GitHubLastIsPre.Count - 1
@@ -1069,8 +1069,8 @@ Public Class Einstellungen
                 End If
             Next
 
-            Dim GitHubLastTag() As String = str0.Split(New String() {Chr(34) + "tag_name" + Chr(34) + ": " + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim GitHubLastTag1() As String = GitHubLastTag(LastNonPreRelase).Split(New String() {Chr(34) + ","}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim GitHubLastTag() As String = str0.Split(New String() {"""" + "tag_name" + """" + ": " + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim GitHubLastTag1() As String = GitHubLastTag(LastNonPreRelase).Split(New String() {"""" + ","}, System.StringSplitOptions.RemoveEmptyEntries)
 
             LastVersionString = GitHubLastTag1(0)
 

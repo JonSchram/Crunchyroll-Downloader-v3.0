@@ -244,7 +244,7 @@ Public Class FunimationExtractor
         Try
             Using client As New WebClient()
                 client.Encoding = System.Text.Encoding.UTF8
-                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
                 EpisodeJson = client.DownloadString(EpisodeJsonURL)
             End Using
         Catch ex As Exception

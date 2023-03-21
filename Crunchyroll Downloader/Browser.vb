@@ -27,7 +27,7 @@ Public Class Browser
         AddHandler WebView2.CoreWebView2.WebResourceResponseReceived, AddressOf ObserveResponse
 
         AddHandler WebView2.CoreWebView2.WebResourceRequested, AddressOf ObserveHttp
-        WebView2.CoreWebView2.Settings.UserAgent = My.Resources.ffmpeg_user_agend.Replace(Chr(34), "").Replace("User-Agent: ", "")
+        WebView2.CoreWebView2.Settings.UserAgent = My.Resources.ffmpeg_user_agend.Replace("""", "").Replace("User-Agent: ", "")
         If WebView2.CoreWebView2.Source = "about:blank" Or WebView2.CoreWebView2.Source = Nothing Then
             'TextBox1.Text = Main.Startseite
             WebView2.CoreWebView2.Navigate(ProgramSettings.GetInstance().DefaultWebsite)
@@ -124,7 +124,7 @@ Public Class Browser
         'MsgBox(Main.CheckCRLogin.ToString)
         Try
             My.Computer.Clipboard.SetText(WebView2.CoreWebView2.Source)
-            MsgBox("copied: " + Chr(34) + WebView2.CoreWebView2.Source + Chr(34))
+            MsgBox("copied: " + """" + WebView2.CoreWebView2.Source + """")
         Catch ex As Exception
         End Try
 
@@ -156,13 +156,13 @@ Public Class Browser
                 ContentString = reader.ReadToEnd
 
 
-                Dim Loc_CR_Cookies = " -H " + Chr(34) + Main.CR_Cookies + Chr(34)
+                Dim Loc_CR_Cookies = " -H " + """" + Main.CR_Cookies + """"
 
-                Dim Token() As String = ContentString.Split(New String() {Chr(34) + "access_token" + Chr(34) + ":" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim Token2() As String = Token(1).Split(New String() {Chr(34) + "," + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+                Dim Token() As String = ContentString.Split(New String() {"""" + "access_token" + """" + ":" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+                Dim Token2() As String = Token(1).Split(New String() {"""" + "," + """"}, System.StringSplitOptions.RemoveEmptyEntries)
 
                 Dim Auth As String = "Bearer " + Token2(0)
-                Dim Auth2 As String = " -H " + Chr(34) + "Authorization: " + Auth + Chr(34)
+                Dim Auth2 As String = " -H " + """" + "Authorization: " + Auth + """"
                 Main.ProcessLoading(Main.LoadingUrl, Auth2, Loc_CR_Cookies)
                 Main.CR_v1Token = ""
                 Exit Sub

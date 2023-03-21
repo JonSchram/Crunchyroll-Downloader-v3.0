@@ -23,7 +23,7 @@ Public Class ErrorDialog
         If Main.DialogTaskString = "Language" Then
             'CheckBox1.Visible = False
             StatusLabel.Text = Main.LabelLangNotFoundText
-            Dim lang_avalibe As String() = Main.ResoNotFoundString.Split(New String() {Chr(34) + "hardsub_lang" + Chr(34) + ":"}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim lang_avalibe As String() = Main.ResoNotFoundString.Split(New String() {"""" + "hardsub_lang" + """" + ":"}, System.StringSplitOptions.RemoveEmptyEntries)
             For i As Integer = 1 To lang_avalibe.Count - 1
                 Dim langsplit As String() = lang_avalibe(i).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
 
@@ -37,19 +37,19 @@ Public Class ErrorDialog
             Debug.WriteLine(Main.ResoNotFoundString)
             Debug.WriteLine("ResoNotFoundString")
 
-            Dim lang_avalibe As String() = Main.ResoNotFoundString.Split(New String() {"hardsub_locale" + Chr(34) + ":" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim lang_avalibe As String() = Main.ResoNotFoundString.Split(New String() {"hardsub_locale" + """" + ":" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
 
             For i As Integer = 1 To lang_avalibe.Count - 1
                 If CBool(InStr(lang_avalibe(i), "https://")) Then
                 Else
                     Continue For
                 End If
-                If lang_avalibe(i).Substring(0, 1) = Chr(34) Then
+                If lang_avalibe(i).Substring(0, 1) = """" Then
                     ComboBox1.Items.Add("No Hardsubs")
-                    Continue For 'Chr(34) +
+                    Continue For '"""" +
                 End If
                 'MsgBox(lang_avalibe(i))
-                Dim langsplit As String() = lang_avalibe(i).Split(New String() {Chr(34) + ","}, System.StringSplitOptions.RemoveEmptyEntries)
+                Dim langsplit As String() = lang_avalibe(i).Split(New String() {"""" + ","}, System.StringSplitOptions.RemoveEmptyEntries)
                 ComboBox1.Items.Add(Main.HardSubValuesToDisplay(langsplit(0)))
             Next
             SurroundingSub()
@@ -57,7 +57,7 @@ Public Class ErrorDialog
             StatusLabel.Text = Main.LabelResoNotFoundText
             Dim Reso_avaible1 As String() = Main.ResoNotFoundString.Split(New String() {"RESOLUTION="}, System.StringSplitOptions.RemoveEmptyEntries)
             For i As Integer = 1 To Reso_avaible1.Count - 1
-                Dim Reso_avaible2 As String() = Reso_avaible1(i).Split(New [Char]() {Chr(44)})
+                Dim Reso_avaible2 As String() = Reso_avaible1(i).Split(New [Char]() {","c})
                 ComboBox1.Items.Add(Reso_avaible2(0))
             Next
             SurroundingSub()

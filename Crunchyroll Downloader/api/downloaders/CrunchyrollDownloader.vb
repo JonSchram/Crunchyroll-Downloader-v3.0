@@ -112,7 +112,7 @@ Public Class CrunchyrollDownloader
         Main.CR_MassSeasons.Clear()
         If BrowserData = Nothing Then
 
-            Dim Loc_CR_Cookies = " -H " + Chr(34) + Main.CR_Cookies.Replace(Chr(34), "").Replace(" -H ", "") + Chr(34)
+            Dim Loc_CR_Cookies = " -H " + """" + Main.CR_Cookies.Replace("""", "").Replace(" -H ", "") + """"
 
             SeasonJson = Main.CurlAuth(JsonUrl, Loc_CR_Cookies, Auth)
 
@@ -253,9 +253,9 @@ Public Class CrunchyrollDownloader
             Dim ObjectsURL As String = ObjectsURLBuilder(0) + "objects/" + ObjectsURLBuilder4(0) + ObjectsURLBuilder2(1)
             Debug.WriteLine(ObjectsURL)
 
-            Dim Loc_CR_Cookies = " -H " + Chr(34) + Main.CR_Cookies + Chr(34)
+            Dim Loc_CR_Cookies = " -H " + """" + Main.CR_Cookies + """"
 
-            Dim Loc_AuthToken = " -H " + Chr(34) + "Authorization: " + AuthToken + Chr(34)
+            Dim Loc_AuthToken = " -H " + """" + "Authorization: " + AuthToken + """"
 
             If CBool(InStr(AuthToken, "Authorization")) = True Then
                 Loc_AuthToken = AuthToken
@@ -308,7 +308,7 @@ Public Class CrunchyrollDownloader
                         For Each Entry As JObject In item.Values
                             Try
                                 Dim Title As String = Entry("title").ToString
-                                CR_title = String.Join(" ", Title.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
+                                CR_title = String.Join(" ", Title.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace("""", "").Replace("\", "").Replace("/", "").Replace(":", "")
                                 Debug.WriteLine(Date.Now.ToString + " CR-Title: " + CR_title)
                             Catch ex As Exception
                             End Try
@@ -320,19 +320,19 @@ Public Class CrunchyrollDownloader
                                         For Each SubEntry As JProperty In SubItem.Values
                                             Select Case SubEntry.Name
                                                 Case "series_title"
-                                                    CR_series_title = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
+                                                    CR_series_title = SubEntry.Value.ToString.Replace("""", "").Replace("\", "").Replace("/", "").Replace(":", "")
                                                     'Case "season_title"
                                                     '    CR_season_title = SubEntry.Value.ToString
                                                 Case "season_number"
-                                                    CR_season_number = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
+                                                    CR_season_number = SubEntry.Value.ToString.Replace("""", "").Replace("\", "").Replace("/", "").Replace(":", "")
                                                 Case "episode_number"
-                                                    CR_episode2 = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
+                                                    CR_episode2 = SubEntry.Value.ToString.Replace("""", "").Replace("\", "").Replace("/", "").Replace(":", "")
                                                 Case "episode"
-                                                    CR_episode = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
+                                                    CR_episode = SubEntry.Value.ToString.Replace("""", "").Replace("\", "").Replace("/", "").Replace(":", "")
                                                 Case "duration_ms"
-                                                    CR_episode_duration_ms = SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
+                                                    CR_episode_duration_ms = SubEntry.Value.ToString.Replace("""", "").Replace("\", "").Replace("/", "").Replace(":", "")
                                                 Case "is_dubbed"
-                                                    CR_audio_isDubbed = CBool(SubEntry.Value.ToString.Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", ""))
+                                                    CR_audio_isDubbed = CBool(SubEntry.Value.ToString.Replace("""", "").Replace("\", "").Replace("/", "").Replace(":", ""))
                                             End Select
                                         Next '
                                 End Select
@@ -429,7 +429,7 @@ Public Class CrunchyrollDownloader
                                 Case "audio_locale"
                                     If CR_audio_isDubbed = True Then
                                         Dim AudioTag As String = MetaEntrys.Value.ToString
-                                        CR_audio_locale = String.Join(" ", AudioTag.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace(Chr(34), "").Replace("\", "").Replace("/", "").Replace(":", "")
+                                        CR_audio_locale = String.Join(" ", AudioTag.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace("""", "").Replace("\", "").Replace("/", "").Replace(":", "")
                                     Else
                                         CR_audio_locale = "ja-JP"
                                     End If
@@ -469,7 +469,7 @@ Public Class CrunchyrollDownloader
                                 ErrorDialog.ShowDialog()
                             End Sub)
                 If Main.UserCloseDialog = True Then
-                    Throw New System.Exception(Chr(34) + "UserAbort" + Chr(34))
+                    Throw New System.Exception("""" + "UserAbort" + """")
                 Else
                     'MsgBox(CR_HardSubLang)
                     CR_HardSubLang = Main.ResoBackString
@@ -600,7 +600,7 @@ Public Class CrunchyrollDownloader
 
 #End Region
             Else
-                CR_FilenName = Main.RemoveExtraSpaces(String.Join(" ", TextBox2_Text.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace(Chr(34), "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(TextBox2_Text, "[^\w\\-]", " "))
+                CR_FilenName = Main.RemoveExtraSpaces(String.Join(" ", TextBox2_Text.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace("""", "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(TextBox2_Text, "[^\w\\-]", " "))
             End If
 
             If Main.KodiNaming = True Then
@@ -617,7 +617,7 @@ Public Class CrunchyrollDownloader
             End If
             Debug.WriteLine(CR_FilenName)
 
-            CR_FilenName = String.Join(" ", CR_FilenName.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace(Chr(34), "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName, "[^\w\\-]", " ")
+            CR_FilenName = String.Join(" ", CR_FilenName.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace("""", "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName, "[^\w\\-]", " ")
             CR_FilenName = Main.RemoveExtraSpaces(CR_FilenName)
             'My.Computer.FileSystem.WriteAllText("log.log", WebbrowserText, False)
             Pfad2 = UseSubfolder(CR_series_title, CR_FolderSeason, Main.Pfad)
@@ -629,11 +629,11 @@ Public Class CrunchyrollDownloader
                     Pfad2 = """" + Pfad2 + CR_FilenName + "." + extension + """"
                 Catch ex As Exception
                     ' Ordner wurde nich erstellt
-                    Pfad2 = Chr(34) + Main.Pfad + "\" + CR_FilenName + "." + extension + Chr(34)
+                    Pfad2 = """" + Main.Pfad + "\" + CR_FilenName + "." + extension + """"
                     Pfad2 = Pfad2.Replace("\\", "\")
                 End Try
             Else
-                Pfad2 = Chr(34) + Pfad2 + CR_FilenName + "." + extension + Chr(34)
+                Pfad2 = """" + Pfad2 + CR_FilenName + "." + extension + """"
             End If
 #End Region
 
@@ -661,7 +661,7 @@ Public Class CrunchyrollDownloader
                 End If
                 If ChaptersJson IsNot Nothing Then
 
-                    Dim StartTime As String() = ChaptersJson.Split(New String() {Chr(34) + "startTime" + Chr(34) + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
+                    Dim StartTime As String() = ChaptersJson.Split(New String() {"""" + "startTime" + """" + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
                     Dim StartTime2 As String() = StartTime(1).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
                     Dim StartTime3 As String() = StartTime2(0).Split(New String() {"."}, System.StringSplitOptions.RemoveEmptyEntries)
                     Dim StartTime4 As String = StartTime3(1)
@@ -673,7 +673,7 @@ Public Class CrunchyrollDownloader
                     Dim StartTime_ms As String = StartTime3(0) + StartTime4
 
 
-                    Dim EndTime As String() = ChaptersJson.Split(New String() {Chr(34) + "endTime" + Chr(34) + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
+                    Dim EndTime As String() = ChaptersJson.Split(New String() {"""" + "endTime" + """" + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
                     Dim EndTime2 As String() = EndTime(1).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
                     Dim EndTime3 As String() = EndTime2(0).Split(New String() {"."}, System.StringSplitOptions.RemoveEmptyEntries)
 
@@ -723,7 +723,7 @@ Public Class CrunchyrollDownloader
 
 #Region "lösche doppel download"
             'MsgBox(Pfad2)
-            Dim Pfad5 As String = Pfad2.Replace(Chr(34), "")
+            Dim Pfad5 As String = Pfad2.Replace("""", "")
             Dim Pfad6 As String = Pfad5
             Dim MergeAudio As Boolean = False
 
@@ -788,7 +788,7 @@ Public Class CrunchyrollDownloader
             Dim resolution = settings.DownloadResolution
             If resolution = ProgramSettings.Resolution.AUTO And downloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
 
-                ffmpegInput = "-i " + Chr(34) + CR_URI_Master(0) + Chr(34)
+                ffmpegInput = "-i " + """" + CR_URI_Master(0) + """"
 
             ElseIf Main.DownloadScope = DownloadScopeEnum.SubsOnly Then
                 ffmpegInput = "-i [Subtitles only]"
@@ -832,7 +832,7 @@ Public Class CrunchyrollDownloader
                                         ErrorDialog.ShowDialog()
                                     End Sub)
                         If Main.UserCloseDialog = True Then
-                            Throw New System.Exception(Chr(34) + "UserAbort" + Chr(34))
+                            Throw New System.Exception("""" + "UserAbort" + """")
                         Else
                             ResoUsed = Main.ResoBackString
                             Main.ResoSave = Main.ResoBackString
@@ -855,7 +855,7 @@ Public Class CrunchyrollDownloader
                     End If
                 Next
 
-                ffmpegInput = "-i " + Chr(34) + ffmpeg_url_3.Trim() + Chr(34)
+                ffmpegInput = "-i " + """" + ffmpeg_url_3.Trim() + """"
 
             End If
 
@@ -870,7 +870,7 @@ Public Class CrunchyrollDownloader
 
             If Main.SoftSubs.Count > 0 Then
                 For i As Integer = 0 To Main.SoftSubs.Count - 1
-                    If CBool(InStr(VideoJson, Chr(34) + "locale" + Chr(34) + ":" + Chr(34) + Main.SoftSubs(i) + Chr(34) + "," + Chr(34) + "url" + Chr(34) + ":" + Chr(34))) Then
+                    If CBool(InStr(VideoJson, """" + "locale" + """" + ":" + """" + Main.SoftSubs(i) + """" + "," + """" + "url" + """" + ":" + """")) Then
                         SoftSubsAvailable.Add(Main.SoftSubs(i))
                     End If
                 Next
@@ -895,10 +895,10 @@ Public Class CrunchyrollDownloader
 
                 For i As Integer = 0 To SoftSubsAvailable.Count - 1
 
-                    Dim SoftSub As String() = VideoJson.Split(New String() {Chr(34) + "locale" + Chr(34) + ":" + Chr(34) + SoftSubsAvailable(i) + Chr(34) + "," + Chr(34) + "url" + Chr(34) + ":" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                    Dim SoftSub_2 As String() = SoftSub(1).Split(New [Char]() {Chr(34)})
+                    Dim SoftSub As String() = VideoJson.Split(New String() {"""" + "locale" + """" + ":" + """" + SoftSubsAvailable(i) + """" + "," + """" + "url" + """" + ":" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+                    Dim SoftSub_2 As String() = SoftSub(1).Split(New [Char]() {""""})
                     Dim SoftSub_3 As String = SoftSub_2(0).Replace("&amp;", "&").Replace("/u0026", "&").Replace("\u002F", "/").Replace("\u0026", "&")
-                    SoftSubsList.Add(New CR_Subtiles(SoftSubsAvailable(i), Main.HardSubValuesToDisplay(SoftSubsAvailable(i)), " -i " + Chr(34) + SoftSub_3 + Chr(34), i.ToString, SoftSubsAvailable(i) = Main.DefaultSubCR))
+                    SoftSubsList.Add(New CR_Subtiles(SoftSubsAvailable(i), Main.HardSubValuesToDisplay(SoftSubsAvailable(i)), " -i " + """" + SoftSub_3 + """", i.ToString, SoftSubsAvailable(i) = Main.DefaultSubCR))
 
                 Next
 
@@ -917,7 +917,7 @@ Public Class CrunchyrollDownloader
 
                         SoftSubMergeURLs = SoftSubMergeURLs + " " + SoftSubsList(i).Url
                         SoftSubMergeMaps = SoftSubMergeMaps + " -map " + (i + IndexMoveMap).ToString
-                        SoftSubMergeMetatata = SoftSubMergeMetatata + " -metadata:s:s:" + i.ToString + " language=" + Main.CCtoMP4CC(SoftSubsList(i).SubLangValue) + " -metadata:s:s:" + i.ToString + " title=" + Chr(34) + SoftSubsList(i).SubLangName + Chr(34) + " -metadata:s:s:" + i.ToString + " handler_name=" + Chr(34) + SoftSubsList(i).SubLangName + Chr(34)
+                        SoftSubMergeMetatata = SoftSubMergeMetatata + " -metadata:s:s:" + i.ToString + " language=" + Main.CCtoMP4CC(SoftSubsList(i).SubLangValue) + " -metadata:s:s:" + i.ToString + " title=" + """" + SoftSubsList(i).SubLangName + """" + " -metadata:s:s:" + i.ToString + " handler_name=" + """" + SoftSubsList(i).SubLangName + """"
 
                         If SoftSubsList(i).DefaultSub = True Then
                             DispositionIndex = i
@@ -934,7 +934,7 @@ Public Class CrunchyrollDownloader
                     If CR_MetadataUsage = False Then
                         ffmpegInput = ffmpegInput + " " + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpeg_command_temp + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale)
                     Else
-                        ffmpegInput = ffmpegInput + " -i " + Chr(34) + Mdata_File + Chr(34) + SoftSubMergeURLs + SoftSubMergeMaps + " -map_metadata 1 " + ffmpeg_command_temp + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale)
+                        ffmpegInput = ffmpegInput + " -i " + """" + Mdata_File + """" + SoftSubMergeURLs + SoftSubMergeMaps + " -map_metadata 1 " + ffmpeg_command_temp + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale)
 
                     End If
 
@@ -951,8 +951,8 @@ Public Class CrunchyrollDownloader
                                     End Sub)
 
                         Dim SubText As String = ""
-                        SubText = Main.Curl(SoftSubsList(i2).Url.Replace(" -i ", "").Replace(Chr(34), ""))
-                        Dim Pfad3 As String = Pfad2.Replace(Chr(34), "")
+                        SubText = Main.Curl(SoftSubsList(i2).Url.Replace(" -i ", "").Replace("""", ""))
+                        Dim Pfad3 As String = Pfad2.Replace("""", "")
                         Dim FN As String = Path.ChangeExtension(Path.Combine(Path.GetFileNameWithoutExtension(Pfad3) + "." + Main.GetSubFileLangName(SoftSubsList(i2).SubLangValue) + Path.GetExtension(Pfad3)), "ass")
                         If i = 0 And Main.IncludeLangName = False Then
                             FN = Path.ChangeExtension(Path.GetFileName(Pfad3), "ass")
@@ -966,7 +966,7 @@ Public Class CrunchyrollDownloader
                     If CR_MetadataUsage = False Then
                         ffmpegInput = ffmpegInput + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale) + " " + ffmpeg_command_temp
                     Else
-                        ffmpegInput = ffmpegInput + " -i " + Chr(34) + Mdata_File + Chr(34) + " -map_metadata 1" + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale) + " " + ffmpeg_command_temp
+                        ffmpegInput = ffmpegInput + " -i " + """" + Mdata_File + """" + " -map_metadata 1" + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale) + " " + ffmpeg_command_temp
                     End If
                 End If
 
@@ -979,16 +979,16 @@ Public Class CrunchyrollDownloader
             Dim thumbnail As String() = ObjectJson.Split(New String() {"https://"}, System.StringSplitOptions.RemoveEmptyEntries)
             Dim thumbnail3 As String = ""
             For i As Integer = 0 To thumbnail.Count - 1
-                If CBool(InStr(thumbnail(i), ".jpg" + Chr(34))) Then
-                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpg" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
+                If CBool(InStr(thumbnail(i), ".jpg" + """")) Then
+                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpg" + """"}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
                     thumbnail3 = "https://" + thumbnail2(0).Replace("\/", "/") + ".jpg"
                     Exit For
-                ElseIf CBool(InStr(thumbnail(i), ".jpeg" + Chr(34))) Then
-                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpeg" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
+                ElseIf CBool(InStr(thumbnail(i), ".jpeg" + """")) Then
+                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpeg" + """"}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
                     thumbnail3 = "https://" + thumbnail2(0).Replace("\/", "/") + ".jpeg"
                     Exit For
-                ElseIf CBool(InStr(thumbnail(i), ".jpe" + Chr(34))) Then
-                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpe" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
+                ElseIf CBool(InStr(thumbnail(i), ".jpe" + """")) Then
+                    Dim thumbnail2 As String() = thumbnail(i).Split(New String() {".jpe" + """"}, System.StringSplitOptions.RemoveEmptyEntries) '(New [Char]() {"-"})
                     thumbnail3 = "https://" + thumbnail2(0).Replace("\/", "/") + ".jpe"
                     Exit For
                 End If
@@ -1042,7 +1042,7 @@ Public Class CrunchyrollDownloader
 
             ' TODO
             Main.Invoke(Sub()
-                            Main.ListItemAdd(Path.GetFileName(Pfad2.Replace(Chr(34), "")), L1Name, L2Name, ResoHTMLDisplay, SubType_Value, thumbnail3, ffmpegInput, Pfad2)
+                            Main.ListItemAdd(Path.GetFileName(Pfad2.Replace("""", "")), L1Name, L2Name, ResoHTMLDisplay, SubType_Value, thumbnail3, ffmpegInput, Pfad2)
                         End Sub)
             'liList.Add(My.Resources.htmlvorThumbnail + thumbnail3 + My.Resources.htmlnachTumbnail + CR_title + " <br> " + CR_season_number + " " + CR_episode + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + Subsprache3 + My.Resources.htmlnachHardSubs + "<!-- " + L2Name + "-->")
             'Form1.RichTextBox1.Text = My.Resources.htmlvorThumbnail + thumbnail3 + My.Resources.htmlnachTumbnail + CR_Anime_Titel + " <br> " + CR_Anime_Staffel + " " + CR_Anime_Folge + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + Subsprache3 + My.Resources.htmlnachHardSubs + "<!-- " + L2Name + "-->"
@@ -1073,7 +1073,7 @@ Public Class CrunchyrollDownloader
                 MsgBox(Main.Premium_Stream, MsgBoxStyle.Information)
             ElseIf CBool(InStr(ex.ToString, "System.UnauthorizedAccessException")) Then
                 MsgBox(Main.ErrorNoPermisson + vbNewLine + ex.ToString, MsgBoxStyle.Information)
-            ElseIf CBool(InStr(ex.ToString, Chr(34) + "UserAbort" + Chr(34))) Then
+            ElseIf CBool(InStr(ex.ToString, """" + "UserAbort" + """")) Then
                 MsgBox(ex.ToString, MsgBoxStyle.Information)
             ElseIf CBool(InStr(ex.ToString, "Error - Getting")) Then
                 Main.Navigate(WebsiteURL)

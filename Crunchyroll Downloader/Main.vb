@@ -654,7 +654,7 @@ Public Class Main
 
         If Pfad_DL.Length > 255 Then
             'MsgBox(Pfad_DL.Length.ToString)
-            Pfad_DL = Chr(34) + "\\?\" + Pfad_DL.Replace(Chr(34), "") + Chr(34)
+            Pfad_DL = """" + "\\?\" + Pfad_DL.Replace("""", "") + """"
         End If
 
 
@@ -667,7 +667,7 @@ Public Class Main
 
     Public Function GetSubFileLangName(ByVal HardSub As String) As String
 
-        HardSub = HardSub.Replace(Chr(34), "")
+        HardSub = HardSub.Replace("""", "")
 
         If LangNameType = 1 Then
             Return CCtoMP4CC(HardSub)
@@ -738,7 +738,7 @@ Public Class Main
         If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
-        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + " " + Chr(34) + Url + Chr(34)
+        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + " " + """" + Url + """"
         Dim Proc As New Process
         'MsgBox(cmd)
         Dim CurlOutput As String = Nothing
@@ -807,7 +807,7 @@ Public Class Main
         If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
-        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + Cookies + Auth + Post + " " + Chr(34) + Url + Chr(34)
+        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + Cookies + Auth + Post + " " + """" + Url + """"
         Dim Proc As New Process
         'Debug.WriteLine("CurlPost: " + cmd)
         Dim CurlOutput As String = Nothing
@@ -877,7 +877,7 @@ Public Class Main
         If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
-        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + Cookies + Auth + " " + Chr(34) + Url + Chr(34)
+        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + Cookies + Auth + " " + """" + Url + """"
         Dim Proc As New Process
         'MsgBox(cmd)
         Dim CurlOutput As String = Nothing
@@ -1018,7 +1018,7 @@ Public Class Main
                                     ElseIf i = 4 Then
                                         Subsprache3 = a
                                     ElseIf i = 5 Then
-                                        Filename = Path.GetFileName(a.Replace(Chr(34), ""))
+                                        Filename = Path.GetFileName(a.Replace("""", ""))
                                     End If
                                 Next
                                 reader.Close()
@@ -1191,11 +1191,11 @@ Public Class Main
         If CBool(InStr(Address, "title-api.prd.funimationsvc.com")) Then
             ' TODO: Move this into the downloader or extractor
             'If FunimationJsonBrowser = "EpisodeJson" Then
-            '    ' Anime_Add.FillFunimationEpisodes(localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
+            '    ' Anime_Add.FillFunimationEpisodes(localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + """" + "word-wrap: break-word; white-space: pre-wrap;" + """" + ">", "")) '
             '    FunimationJsonBrowser = Nothing
             '    WebbrowserURL = "https://funimation.com/js"
             'ElseIf FunimationJsonBrowser = "v1Json" Then
-            '    GetFunimationNewJS_VideoProxy(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
+            '    GetFunimationNewJS_VideoProxy(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + """" + "word-wrap: break-word; white-space: pre-wrap;" + """" + ">", "")) '
             '    FunimationJsonBrowser = Nothing
             '    WebbrowserURL = "https://funimation.com/js"
             'End If
@@ -1206,7 +1206,7 @@ Public Class Main
             '    Me.Invoke(New Action(Function() As Object
             '                             'My.Computer.Clipboard.SetText(localHTML)
             '                             FunimationSeasonAPIUrl = Address
-            '                             GetFunimationJS_Seasons(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + Chr(34) + "word-wrap: break-word; white-space: pre-wrap;" + Chr(34) + ">", "")) '
+            '                             GetFunimationJS_Seasons(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + """" + "word-wrap: break-word; white-space: pre-wrap;" + """" + ">", "")) '
             '                             FunimationJsonBrowser = Nothing
             '                             WebbrowserURL = "https://funimation.com/js"
             '                             Return Nothing
@@ -1214,13 +1214,13 @@ Public Class Main
             'End If
             Exit Sub
         ElseIf CBool(InStr(Address, "wakanim.tv")) Then
-            If CBool(InStr(document, "var tracks = [{" + Chr(34) + "file" + Chr(34) + ":" + Chr(34))) Then
-                Dim WakanimSub() As String = document.Split(New String() {"var tracks = [{" + Chr(34) + "file" + Chr(34) + ":" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim WakanimSub2() As String = WakanimSub(1).Split(New String() {Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+            If CBool(InStr(document, "var tracks = [{" + """" + "file" + """" + ":" + """")) Then
+                Dim WakanimSub() As String = document.Split(New String() {"var tracks = [{" + """" + "file" + """" + ":" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+                Dim WakanimSub2() As String = WakanimSub(1).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
                 Try
                     Using client As New WebClient()
                         client.Encoding = System.Text.Encoding.UTF8
-                        client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace(Chr(34), ""))
+                        client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
                         Dim SaveName As String = System.Text.RegularExpressions.Regex.Replace(DocumentTitle.Replace(" - Schaue legal auf Wakanim.TV", ""), "[^\w\\-]", " ").Replace(":", "")
                         SaveName = RemoveExtraSpaces(SaveName)
                         client.DownloadFile(WakanimSub2(0), Pfad + "\" + SaveName + ".vtt")
@@ -1399,7 +1399,7 @@ Public Class Main
                     Me.Text = "Status: Crunchyroll season found."
                     Debug.WriteLine("Crunchyroll season found")
 
-                    Dim Auth As String = " -H " + Chr(34) + "Authorization: " + Request.Headers.GetHeader("Authorization") + Chr(34)
+                    Dim Auth As String = " -H " + """" + "Authorization: " + Request.Headers.GetHeader("Authorization") + """"
                     Debug.WriteLine(Auth)
 
                     CR_Cookies = "Cookie: " + Request.Headers.GetHeader("Cookie")
@@ -2180,7 +2180,7 @@ Public Class Main
 
     Private Sub DummyItemToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DummyItemToolStripMenuItem.Click
         Dim TN As String = "https://invalid.com/"
-        Dim cmd As String = "-i " + Chr(34) + "https://invalid.com/" + Chr(34) + " -c copy "
+        Dim cmd As String = "-i " + """" + "https://invalid.com/" + """" + " -c copy "
         ListItemAdd("TestDL", "CR", "TestDL", "9987p", "DE", "None", TN, cmd, "E:\Test\RWBY\Testdl.mkv")
 
 
@@ -2327,7 +2327,7 @@ Public Class Main
 
             Debug.WriteLine("###" + CR_Cookies + "###")
 
-            Dim Loc_CR_Cookies = " -H " + Chr(34) + CR_Cookies + Chr(34)
+            Dim Loc_CR_Cookies = " -H " + """" + CR_Cookies + """"
 
 
             'CR_v1Token = "Get"
@@ -2335,8 +2335,8 @@ Public Class Main
             'Exit Sub
 
 #End Region
-            Dim Auth As String = " -H " + Chr(34) + "Authorization: " + CrBetaBasic + Chr(34)
-            Dim Post As String = " -d " + Chr(34) + "grant_type=etp_rt_cookie" + Chr(34) + " -X POST"
+            Dim Auth As String = " -H " + """" + "Authorization: " + CrBetaBasic + """"
+            Dim Post As String = " -d " + """" + "grant_type=etp_rt_cookie" + """" + " -X POST"
 
             Dim CRBetaBearer As String = "Bearer "
 
@@ -2376,11 +2376,11 @@ Public Class Main
 
             End If
 
-            Dim Token() As String = v1Token.Split(New String() {Chr(34) + "access_token" + Chr(34) + ":" + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim Token2() As String = Token(1).Split(New String() {Chr(34) + "," + Chr(34)}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim Token() As String = v1Token.Split(New String() {"""" + "access_token" + """" + ":" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim Token2() As String = Token(1).Split(New String() {"""" + "," + """"}, System.StringSplitOptions.RemoveEmptyEntries)
             CRBetaBearer = CRBetaBearer + Token2(0)
 
-            Dim Auth2 As String = " -H " + Chr(34) + "Authorization: " + CRBetaBearer + Chr(34)
+            Dim Auth2 As String = " -H " + """" + "Authorization: " + CRBetaBearer + """"
 
             ProcessLoading(Url, Auth2, Loc_CR_Cookies)
 
@@ -2489,7 +2489,7 @@ Public Class Main
 
         For i As Integer = 0 To Cookie_txt1.Count - 1
 
-            Dim Cookie_txt2() As String = Cookie_txt1(i).Split(New String() {Chr(9)}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim Cookie_txt2() As String = Cookie_txt1(i).Split(New String() {vbTab}, System.StringSplitOptions.RemoveEmptyEntries)
 
             If CBool(InStr(Cookie_txt2(0), Host)) = True Then
 
