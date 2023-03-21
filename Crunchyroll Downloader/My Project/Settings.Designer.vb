@@ -605,6 +605,102 @@ Namespace My
                 Me("OutputSubtitleMerge") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property ffmpeg_copy() As Boolean
+            Get
+                Return CType(Me("ffmpeg_copy"),Boolean)
+            End Get
+            Set
+                Me("ffmpeg_copy") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ffmpeg_video_codec() As Integer
+            Get
+                Return CType(Me("ffmpeg_video_codec"),Integer)
+            End Get
+            Set
+                Me("ffmpeg_video_codec") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ffmpeg_video_hardware() As Integer
+            Get
+                Return CType(Me("ffmpeg_video_hardware"),Integer)
+            End Get
+            Set
+                Me("ffmpeg_video_hardware") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property fffmpeg_target_bitrate() As Integer
+            Get
+                Return CType(Me("fffmpeg_target_bitrate"),Integer)
+            End Get
+            Set
+                Me("fffmpeg_target_bitrate") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property ffmpeg_use_target_bitrate() As Boolean
+            Get
+                Return CType(Me("ffmpeg_use_target_bitrate"),Boolean)
+            End Get
+            Set
+                Me("ffmpeg_use_target_bitrate") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ffmpeg_video_preset() As Integer
+            Get
+                Return CType(Me("ffmpeg_video_preset"),Integer)
+            End Get
+            Set
+                Me("ffmpeg_video_preset") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property Setting() As Integer
+            Get
+                Return CType(Me("Setting"),Integer)
+            End Get
+            Set
+                Me("Setting") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("7000")>  _
+        Public Property ffmpeg_video_bitrate() As Integer
+            Get
+                Return CType(Me("ffmpeg_video_bitrate"),Integer)
+            End Get
+            Set
+                Me("ffmpeg_video_bitrate") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

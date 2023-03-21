@@ -459,7 +459,7 @@ Partial Class Einstellungen
         'FfmpegCopyCheckBox
         '
         Me.FfmpegCopyCheckBox.AutoSize = True
-        Me.FfmpegCopyCheckBox.Location = New System.Drawing.Point(10, 22)
+        Me.FfmpegCopyCheckBox.Location = New System.Drawing.Point(10, 21)
         Me.FfmpegCopyCheckBox.Name = "FfmpegCopyCheckBox"
         Me.FfmpegCopyCheckBox.Size = New System.Drawing.Size(51, 15)
         Me.FfmpegCopyCheckBox.TabIndex = 52
@@ -480,9 +480,9 @@ Partial Class Einstellungen
         '
         Me.VideoCodecComboBox.FormattingEnabled = True
         Me.VideoCodecComboBox.ItemHeight = 23
-        Me.VideoCodecComboBox.Location = New System.Drawing.Point(81, 40)
+        Me.VideoCodecComboBox.Location = New System.Drawing.Point(90, 40)
         Me.VideoCodecComboBox.Name = "VideoCodecComboBox"
-        Me.VideoCodecComboBox.Size = New System.Drawing.Size(74, 29)
+        Me.VideoCodecComboBox.Size = New System.Drawing.Size(65, 29)
         Me.VideoCodecComboBox.TabIndex = 50
         Me.VideoCodecComboBox.UseSelectable = True
         '
@@ -490,7 +490,7 @@ Partial Class Einstellungen
         '
         Me.MetroLabel6.AutoSize = True
         Me.MetroLabel6.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.MetroLabel6.Location = New System.Drawing.Point(81, 18)
+        Me.MetroLabel6.Location = New System.Drawing.Point(90, 17)
         Me.MetroLabel6.Name = "MetroLabel6"
         Me.MetroLabel6.Size = New System.Drawing.Size(47, 19)
         Me.MetroLabel6.TabIndex = 49

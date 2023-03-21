@@ -1,16 +1,16 @@
 ﻿Namespace settings
     Public Class FfmpegSettings
         Private ReadOnly _Encoder As VideoEncoder
-        Public ReadOnly Property Copy As Boolean
+        Public ReadOnly Property VideoCopy As Boolean
 
         Public ReadOnly Property AudioCopy As Boolean = True
 
         Public ReadOnly Property AudioBitstreamFilterName As String = "aac_adtstoasc"
 
         Private Sub New(commandBuilder As Builder)
-            Copy = commandBuilder.Copy
+            VideoCopy = commandBuilder.Copy
 
-            If commandBuilder.IncludeUnusedSettings Or Not Copy Then
+            If commandBuilder.IncludeUnusedSettings Or Not VideoCopy Then
                 _Encoder = New VideoEncoder(commandBuilder.VideoCodec, commandBuilder.Hardware, commandBuilder.PresetSpeed,
                                             commandBuilder.UseVideoBitrate, commandBuilder.VideoBitrate)
             End If
@@ -22,7 +22,7 @@
         ''' </summary>
         ''' <returns></returns>
         Public Function GetActiveEncoder() As VideoEncoder
-            If Copy Then
+            If VideoCopy Then
                 Return Nothing
             End If
             Return _Encoder
@@ -39,7 +39,7 @@
 
         Public Function GetFfmpegArguments() As String
             Dim command As String
-            If Copy Then
+            If VideoCopy Then
                 command = "-c copy"
             Else
                 command = _Encoder.GetFfmpegArguments()
@@ -185,7 +185,7 @@
 
             Private Function GetBitrateArgument() As String
                 If UseTargetBitrate Then
-                    Return "-b:v " + CStr(TargetBitrate)
+                    Return "-b:v " + CStr(TargetBitrate) + "k"
                 Else
                     Return ""
                 End If
@@ -249,7 +249,7 @@
                 Me.VideoBitrate = bitrate
             End Sub
 
-            Public Sub IncludeUnusedVideoSettings(UseAllSettings As Boolean)
+            Public Sub SetIncludeUnusedVideoSettings(UseAllSettings As Boolean)
                 IncludeUnusedSettings = UseAllSettings
             End Sub
 

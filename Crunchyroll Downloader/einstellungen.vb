@@ -71,10 +71,11 @@ Public Class Einstellungen
         End With
 
         With SpeedPresetTextList
+            .Add(FfmpegSettings.VideoEncoder.Speed.NO_PRESET, "(No preset)")
             .Add(FfmpegSettings.VideoEncoder.Speed.VERY_SLOW, "Very slow")
             .Add(FfmpegSettings.VideoEncoder.Speed.SLOWER, "Slower")
             .Add(FfmpegSettings.VideoEncoder.Speed.SLOW, "Slow")
-            .Add(FfmpegSettings.VideoEncoder.Speed.MEDIUM, "Medium (default)")
+            .Add(FfmpegSettings.VideoEncoder.Speed.MEDIUM, "Medium")
             .Add(FfmpegSettings.VideoEncoder.Speed.FAST, "Fast")
             .Add(FfmpegSettings.VideoEncoder.Speed.FASTER, "Faster")
             .Add(FfmpegSettings.VideoEncoder.Speed.VERY_FAST, "Very fast")
@@ -82,7 +83,7 @@ Public Class Einstellungen
 
         With CodecTextList
             .Add(FfmpegSettings.VideoEncoder.Codec.H_264, "h.264")
-            .Add(FfmpegSettings.VideoEncoder.Codec.H_265, "h.265 / HEVC")
+            .Add(FfmpegSettings.VideoEncoder.Codec.H_265, "h.265")
             .Add(FfmpegSettings.VideoEncoder.Codec.AV1, "AV1")
         End With
 
@@ -392,7 +393,7 @@ Public Class Einstellungen
         VideoEncoderComboBox.DataSource = EncoderHardwareTextList.GetDisplayItems()
         FfmpegPresetComboBox.DataSource = SpeedPresetTextList.GetDisplayItems()
 
-        FfmpegCopyCheckBox.Checked = ffmpegCommand.Copy
+        FfmpegCopyCheckBox.Checked = ffmpegCommand.VideoCopy
         VideoCodecComboBox.SelectedItem = CodecTextList.Item(savedEncoder.VideoCodec)
         VideoEncoderComboBox.SelectedItem = EncoderHardwareTextList.Item(savedEncoder.Hardware)
         FfmpegPresetComboBox.SelectedItem = SpeedPresetTextList.Item(savedEncoder.Preset)
@@ -421,7 +422,7 @@ Public Class Einstellungen
 
     Private Function CreateFfmpegSettingFromInputs() As FfmpegSettings
         Dim builder = New FfmpegSettings.Builder()
-        builder.IncludeUnusedVideoSettings(True)
+        builder.SetIncludeUnusedVideoSettings(True)
 
         builder.SetCopyMode(FfmpegCopyCheckBox.Checked)
 
@@ -579,6 +580,12 @@ Public Class Einstellungen
         settings.OutputFormat = currentFormat
     End Sub
 
+    Private Sub SaveFfmpegSettings()
+        Dim ffmpeg = CreateFfmpegSettingFromInputs()
+        Dim settings = ProgramSettings.GetInstance()
+        settings.Ffmpeg = ffmpeg
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -604,7 +611,7 @@ Public Class Einstellungen
         SaveResolutionSetting()
 
         SaveOutputFormat()
-
+        SaveFfmpegSettings()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -832,8 +839,8 @@ Public Class Einstellungen
         Dim settings = ProgramSettings.GetInstance()
         Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
         Dim ffmpegCommand = settings.Ffmpeg
-        Dim encoder = ffmpegCommand.GetActiveEncoder()
-        If Not isAudioOnly Then
+        Dim encoder = ffmpegCommand.GetSavedEncoder()
+        If Not isAudioOnly And encoder IsNot Nothing Then
             If encoder.Hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA Then
                 If SimultaneousDownloadsInput.Value > 2 Then
                     SimultaneousDownloadsInput.Value = 2

@@ -172,6 +172,36 @@ Namespace settings
         End Property
 
         Public Property Ffmpeg As FfmpegSettings
+            Get
+                Dim codec = CType(My.Settings.ffmpeg_video_codec, FfmpegSettings.VideoEncoder.Codec)
+                Dim hardware = CType(My.Settings.ffmpeg_video_hardware, FfmpegSettings.VideoEncoder.EncoderImplementation)
+                Dim preset = CType(My.Settings.ffmpeg_video_preset, FfmpegSettings.VideoEncoder.Speed)
+
+                Dim settingBuilder = New FfmpegSettings.Builder()
+                With settingBuilder
+                    .SetIncludeUnusedVideoSettings(True)
+                    .SetCopyMode(My.Settings.ffmpeg_copy)
+                    .SetVideoCodec(codec)
+                    .SetEncoderHardware(hardware)
+                    .SetPresetSpeed(preset)
+                    .SetUseTargetBitrate(My.Settings.ffmpeg_use_target_bitrate)
+                    .SetVideoBitrate(My.Settings.ffmpeg_video_bitrate)
+                End With
+
+                Return settingBuilder.Build()
+            End Get
+            Set(value As FfmpegSettings)
+                My.Settings.ffmpeg_copy = value.VideoCopy
+                Dim encoder = value.GetSavedEncoder()
+                If encoder IsNot Nothing Then
+                    My.Settings.ffmpeg_video_codec = encoder.VideoCodec
+                    My.Settings.ffmpeg_video_hardware = encoder.Hardware
+                    My.Settings.ffmpeg_video_preset = encoder.Preset
+                    My.Settings.ffmpeg_use_target_bitrate = encoder.UseTargetBitrate
+                    My.Settings.ffmpeg_video_bitrate = encoder.TargetBitrate
+                End If
+            End Set
+        End Property
 
         ' ------ Naming settings
         Public Property FilenameFormat As String
