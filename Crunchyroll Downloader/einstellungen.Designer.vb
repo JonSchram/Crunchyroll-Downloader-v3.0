@@ -129,7 +129,7 @@ Partial Class Einstellungen
         Me.FfmpegLabel = New MetroFramework.Controls.MetroLabel()
         Me.PictureBox7 = New System.Windows.Forms.PictureBox()
         Me.Label4 = New MetroFramework.Controls.MetroLabel()
-        Me.Label6 = New MetroFramework.Controls.MetroLabel()
+        Me.CurrentVersionLabel = New MetroFramework.Controls.MetroLabel()
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
@@ -941,7 +941,7 @@ Partial Class Einstellungen
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 1
+        Me.TabControl1.SelectedIndex = 5
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -1578,11 +1578,11 @@ Partial Class Einstellungen
         Me.TabPage7.Controls.Add(Me.FfmpegLabel)
         Me.TabPage7.Controls.Add(Me.PictureBox7)
         Me.TabPage7.Controls.Add(Me.Label4)
-        Me.TabPage7.Controls.Add(Me.Label6)
+        Me.TabPage7.Controls.Add(Me.CurrentVersionLabel)
         Me.TabPage7.Controls.Add(Me.Label5)
-        Me.TabPage7.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage7.Location = New System.Drawing.Point(4, 44)
         Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(501, 528)
+        Me.TabPage7.Size = New System.Drawing.Size(501, 519)
         Me.TabPage7.TabIndex = 5
         Me.TabPage7.Text = " About  "
         '
@@ -1671,17 +1671,17 @@ Partial Class Einstellungen
         Me.Label4.Text = "Crunchyroll Downloader"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'Label6
+        'CurrentVersionLabel
         '
-        Me.Label6.BackColor = System.Drawing.Color.Transparent
-        Me.Label6.FontSize = MetroFramework.MetroLabelSize.Tall
-        Me.Label6.ForeColor = System.Drawing.Color.Black
-        Me.Label6.Location = New System.Drawing.Point(1, 275)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(491, 45)
-        Me.Label6.TabIndex = 37
-        Me.Label6.Text = "Created by hama3254"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CurrentVersionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.CurrentVersionLabel.FontSize = MetroFramework.MetroLabelSize.Tall
+        Me.CurrentVersionLabel.ForeColor = System.Drawing.Color.Black
+        Me.CurrentVersionLabel.Location = New System.Drawing.Point(1, 275)
+        Me.CurrentVersionLabel.Name = "CurrentVersionLabel"
+        Me.CurrentVersionLabel.Size = New System.Drawing.Size(491, 45)
+        Me.CurrentVersionLabel.TabIndex = 37
+        Me.CurrentVersionLabel.Text = "You have:"
+        Me.CurrentVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label5
         '
@@ -1812,7 +1812,7 @@ Partial Class Einstellungen
     Friend WithEvents Label1 As MetroFramework.Controls.MetroLabel
     Friend WithEvents Label2 As MetroFramework.Controls.MetroLabel
     Public WithEvents Label4 As MetroFramework.Controls.MetroLabel
-    Public WithEvents Label6 As MetroFramework.Controls.MetroLabel
+    Public WithEvents CurrentVersionLabel As MetroFramework.Controls.MetroLabel
     Public WithEvents Label5 As MetroFramework.Controls.MetroLabel
     Friend WithEvents CheckBox2 As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CB_fun_ptbr As MetroFramework.Controls.MetroCheckBox

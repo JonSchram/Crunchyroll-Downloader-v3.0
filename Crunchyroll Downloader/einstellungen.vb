@@ -121,7 +121,7 @@ Public Class Einstellungen
 
         LoadSettings()
 
-        Label6.Text = "You have: v" + Application.ProductVersion.ToString '+ " WebView2_Test"
+        CurrentVersionLabel.Text = "You have: v" + Application.ProductVersion.ToString '+ " WebView2_Test"
 
         BackgroundWorker1.RunWorkerAsync()
 
