@@ -644,18 +644,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property fffmpeg_target_bitrate() As Integer
-            Get
-                Return CType(Me("fffmpeg_target_bitrate"),Integer)
-            End Get
-            Set
-                Me("fffmpeg_target_bitrate") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property ffmpeg_use_target_bitrate() As Boolean
             Get

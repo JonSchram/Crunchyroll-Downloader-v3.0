@@ -418,7 +418,6 @@ Public Class Main
 
         FillArray()
 
-
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
         Dim settings = ProgramSettings.GetInstance()
 
@@ -431,6 +430,7 @@ Public Class Main
                 MessageBoxButtons.YesNo)
             If messageBoxResult = DialogResult.Yes Then
                 settings.UpgradeSettings()
+                MessageBox.Show("Done! You may want to review the program settinsg to confirm they are correct.")
             Else
                 settings.DiscardOldSettings()
             End If

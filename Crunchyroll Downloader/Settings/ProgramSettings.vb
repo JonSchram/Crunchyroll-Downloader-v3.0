@@ -157,12 +157,10 @@ Namespace settings
                 My.Settings.ffmpeg_use_target_bitrate = True
 
                 Dim match = Regex.Match(command, "-b:v (\d+)k")
-                Try
-                    Dim bitrate = CInt(match.Groups(0).Value)
-                    My.Settings.fffmpeg_target_bitrate = bitrate
-                Catch
-                    My.Settings.fffmpeg_target_bitrate = 7000
-                End Try
+                If match.Success Then
+                    Dim bitrate = CInt(match.Groups(1).Value)
+                    My.Settings.ffmpeg_video_bitrate = bitrate
+                End If
             End If
 
             My.Settings.ffmpeg_command = ""
