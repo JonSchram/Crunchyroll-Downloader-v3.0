@@ -87,7 +87,7 @@ Partial Class Einstellungen
         Me.LangNameType_DD = New MetroFramework.Controls.MetroComboBox()
         Me.CB_SoftSubSettings = New MetroFramework.Controls.MetroComboBox()
         Me.GB_Filename_Pre = New System.Windows.Forms.GroupBox()
-        Me.DD_Season_Prefix = New MetroFramework.Controls.MetroTextBox()
+        Me.SeasonPrefixTextBox = New MetroFramework.Controls.MetroTextBox()
         Me.DD_Episode_Prefix = New MetroFramework.Controls.MetroTextBox()
         Me.SeasonNumberBehaviorComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox12 = New System.Windows.Forms.GroupBox()
@@ -1036,7 +1036,7 @@ Partial Class Einstellungen
         'GB_Filename_Pre
         '
         Me.GB_Filename_Pre.BackColor = System.Drawing.Color.Transparent
-        Me.GB_Filename_Pre.Controls.Add(Me.DD_Season_Prefix)
+        Me.GB_Filename_Pre.Controls.Add(Me.SeasonPrefixTextBox)
         Me.GB_Filename_Pre.Controls.Add(Me.DD_Episode_Prefix)
         Me.GB_Filename_Pre.Controls.Add(Me.SeasonNumberBehaviorComboBox)
         Me.GB_Filename_Pre.Font = New System.Drawing.Font("Arial", 9.75!)
@@ -1048,37 +1048,37 @@ Partial Class Einstellungen
         Me.GB_Filename_Pre.TabStop = False
         Me.GB_Filename_Pre.Text = "Filename Extras"
         '
-        'DD_Season_Prefix
+        'SeasonPrefixTextBox
         '
         '
         '
         '
-        Me.DD_Season_Prefix.CustomButton.Image = Nothing
-        Me.DD_Season_Prefix.CustomButton.Location = New System.Drawing.Point(197, 1)
-        Me.DD_Season_Prefix.CustomButton.Name = ""
-        Me.DD_Season_Prefix.CustomButton.Size = New System.Drawing.Size(27, 27)
-        Me.DD_Season_Prefix.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-        Me.DD_Season_Prefix.CustomButton.TabIndex = 1
-        Me.DD_Season_Prefix.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-        Me.DD_Season_Prefix.CustomButton.UseSelectable = True
-        Me.DD_Season_Prefix.CustomButton.Visible = False
-        Me.DD_Season_Prefix.FontSize = MetroFramework.MetroTextBoxSize.Medium
-        Me.DD_Season_Prefix.Lines = New String(-1) {}
-        Me.DD_Season_Prefix.Location = New System.Drawing.Point(6, 69)
-        Me.DD_Season_Prefix.MaxLength = 32767
-        Me.DD_Season_Prefix.Name = "DD_Season_Prefix"
-        Me.DD_Season_Prefix.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.DD_Season_Prefix.ScrollBars = System.Windows.Forms.ScrollBars.None
-        Me.DD_Season_Prefix.SelectedText = ""
-        Me.DD_Season_Prefix.SelectionLength = 0
-        Me.DD_Season_Prefix.SelectionStart = 0
-        Me.DD_Season_Prefix.ShortcutsEnabled = True
-        Me.DD_Season_Prefix.Size = New System.Drawing.Size(225, 29)
-        Me.DD_Season_Prefix.TabIndex = 33
-        Me.DD_Season_Prefix.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.DD_Season_Prefix.UseSelectable = True
-        Me.DD_Season_Prefix.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.DD_Season_Prefix.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        Me.SeasonPrefixTextBox.CustomButton.Image = Nothing
+        Me.SeasonPrefixTextBox.CustomButton.Location = New System.Drawing.Point(197, 1)
+        Me.SeasonPrefixTextBox.CustomButton.Name = ""
+        Me.SeasonPrefixTextBox.CustomButton.Size = New System.Drawing.Size(27, 27)
+        Me.SeasonPrefixTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.SeasonPrefixTextBox.CustomButton.TabIndex = 1
+        Me.SeasonPrefixTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.SeasonPrefixTextBox.CustomButton.UseSelectable = True
+        Me.SeasonPrefixTextBox.CustomButton.Visible = False
+        Me.SeasonPrefixTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
+        Me.SeasonPrefixTextBox.Lines = New String(-1) {}
+        Me.SeasonPrefixTextBox.Location = New System.Drawing.Point(6, 69)
+        Me.SeasonPrefixTextBox.MaxLength = 32767
+        Me.SeasonPrefixTextBox.Name = "SeasonPrefixTextBox"
+        Me.SeasonPrefixTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.SeasonPrefixTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.SeasonPrefixTextBox.SelectedText = ""
+        Me.SeasonPrefixTextBox.SelectionLength = 0
+        Me.SeasonPrefixTextBox.SelectionStart = 0
+        Me.SeasonPrefixTextBox.ShortcutsEnabled = True
+        Me.SeasonPrefixTextBox.Size = New System.Drawing.Size(225, 29)
+        Me.SeasonPrefixTextBox.TabIndex = 33
+        Me.SeasonPrefixTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SeasonPrefixTextBox.UseSelectable = True
+        Me.SeasonPrefixTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.SeasonPrefixTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
         'DD_Episode_Prefix
         '
@@ -1874,7 +1874,7 @@ Partial Class Einstellungen
     Public WithEvents SeriesNameCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents FilenameTemplatePreview As MetroFramework.Controls.MetroTextBox
     Friend WithEvents DD_Episode_Prefix As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents DD_Season_Prefix As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents SeasonPrefixTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CB_CR_Audio As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox21 As GroupBox
     Friend WithEvents CB_HideSF As MetroFramework.Controls.MetroComboBox

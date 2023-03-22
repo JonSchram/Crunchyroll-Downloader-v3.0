@@ -17,6 +17,9 @@ Imports System.Reflection
 Public Class Einstellungen
     Inherits MetroForm
 
+    Private Const SEASON_PREFIX_PLACEHOLDER = "[default season prefix]"
+    Private Const DEFAULT_SEASON_PREFIX = "Season"
+
     ' Display objects for combo boxes backed by enums
     Private ReadOnly ServerPortTextList As New EnumTextList(Of ServerPortOptions)()
     Private ReadOnly SubfolderTextList As New EnumTextList(Of SubfolderDisplay)()
@@ -288,9 +291,6 @@ Public Class Einstellungen
         Next
 
 
-
-        DD_Season_Prefix.Text = Main.Season_Prefix
-
         DD_Episode_Prefix.Text = Main.Episode_Prefix
 
 
@@ -367,6 +367,17 @@ Public Class Einstellungen
         InitializeNamingInputs()
         InitializeKodiNaming()
         InitializeSeasonNumberBehaviorInput()
+        InitializeSeasonPrefixInput()
+    End Sub
+
+    Private Sub InitializeSeasonPrefixInput()
+        Dim settings = ProgramSettings.GetInstance()
+        Dim seasonPrefix = settings.SeasonPrefix
+        If seasonPrefix Is Nothing Or seasonPrefix = "" Or seasonPrefix = DEFAULT_SEASON_PREFIX Then
+            SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER
+        Else
+            SeasonPrefixTextBox.Text = seasonPrefix
+        End If
     End Sub
 
     Private Sub InitializeSeasonNumberBehaviorInput()
@@ -613,6 +624,15 @@ Public Class Einstellungen
         settings.SeasonNumberNaming = SeasonNumberBehaviorTextlist.GetEnumForItem(SeasonNumberBehaviorComboBox.SelectedItem)
     End Sub
 
+    Private Sub SaveSeasonPrefix()
+        Dim settings = ProgramSettings.GetInstance()
+        If SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER Then
+            settings.SeasonPrefix = DEFAULT_SEASON_PREFIX
+        Else
+            settings.SeasonPrefix = SeasonPrefixTextBox.Text
+        End If
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -644,6 +664,7 @@ Public Class Einstellungen
         SaveFilenameTemplate()
         SaveKodiNaming()
         SaveSeasonNumberBehavior()
+        SaveSeasonPrefix()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -672,11 +693,6 @@ Public Class Einstellungen
             My.Settings.CR_Chapters = False
         End If
 
-
-        If DD_Season_Prefix.Text IsNot "[default season prefix]" Then
-            Main.Season_Prefix = DD_Season_Prefix.Text
-            My.Settings.Prefix_S = Main.Season_Prefix
-        End If
 
         If DD_Episode_Prefix.Text IsNot "[default episode prefix]" Then
             Main.Episode_Prefix = DD_Episode_Prefix.Text
@@ -1258,15 +1274,15 @@ Public Class Einstellungen
         FilenameTemplatePreview.Text = nameFormatter.GetTemplate()
     End Sub
 
-    Private Sub DD_Season_Prefix_UserAction(sender As Object, e As EventArgs) Handles DD_Season_Prefix.Click, DD_Season_Prefix.GotFocus
-        If DD_Season_Prefix.Text = Main.Season_PrefixDefault Then
-            DD_Season_Prefix.Text = Nothing
+    Private Sub SeasonPrefixTextBox_UserAction(sender As Object, e As EventArgs) Handles SeasonPrefixTextBox.Click, SeasonPrefixTextBox.GotFocus
+        If SeasonPrefixTextBox.Text = Main.Season_PrefixDefault Then
+            SeasonPrefixTextBox.Text = Nothing
         End If
     End Sub
 
-    Private Sub DD_Season_Prefix_LostFocus(sender As Object, e As EventArgs) Handles DD_Season_Prefix.LostFocus
-        If DD_Season_Prefix.Text = Nothing Then
-            DD_Season_Prefix.Text = Main.Season_PrefixDefault
+    Private Sub SeasonPrefixTextBox_LostFocus(sender As Object, e As EventArgs) Handles SeasonPrefixTextBox.LostFocus
+        If SeasonPrefixTextBox.Text = Nothing Then
+            SeasonPrefixTextBox.Text = Main.Season_PrefixDefault
         End If
     End Sub
 

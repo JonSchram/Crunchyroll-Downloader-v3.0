@@ -36,10 +36,10 @@
       <Value Profile="(Default)">https://www.crunchyroll.com/</Value>
     </Setting>
     <Setting Name="Prefix_S" Type="System.String" Scope="User">
-      <Value Profile="(Default)">[default season prefix]</Value>
+      <Value Profile="(Default)">Season</Value>
     </Setting>
     <Setting Name="Prefix_E" Type="System.String" Scope="User">
-      <Value Profile="(Default)">[default episode prefix]</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DefaultSubCR" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

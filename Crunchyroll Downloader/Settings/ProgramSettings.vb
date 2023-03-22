@@ -37,6 +37,10 @@ Namespace settings
                 Return True
             End If
 
+            If My.Settings.Prefix_S = "[default season prefix]" Then
+                Return True
+            End If
+
             Return False
         End Function
 
@@ -49,6 +53,7 @@ Namespace settings
             UpgradeMergeSubs()
             UpgradeFfmpegCommand()
             UpgradeNameTemplate()
+            UpgradeSeasonPrefix()
         End Sub
 
         Public Sub DiscardOldSettings()
@@ -56,6 +61,7 @@ Namespace settings
             DiscardOldMergeSubs()
             DiscardOldFfmpegCommand()
             DiscardOldNameTemplate()
+            DiscardOldSeasonPrefix()
         End Sub
 
         Private Sub UpgradeVideoFormat()
@@ -190,6 +196,16 @@ Namespace settings
 
         Private Sub DiscardOldNameTemplate()
             My.Settings.CR_NameMethode = -1
+        End Sub
+
+        Private Sub UpgradeSeasonPrefix()
+            If My.Settings.Prefix_S = "[default season prefix]" Then
+                My.Settings.Prefix_S = "Season"
+            End If
+        End Sub
+
+        Private Sub DiscardOldSeasonPrefix()
+            UpgradeSeasonPrefix()
         End Sub
 
         ' ----- Main settings
@@ -408,6 +424,13 @@ Namespace settings
         End Property
 
         Public Property SeasonPrefix As String
+            Get
+                Return My.Settings.Prefix_S
+            End Get
+            Set(value As String)
+                My.Settings.Prefix_S = value
+            End Set
+        End Property
         Public Property EpisodePrefix As String
 
         ' Length of zero-padded episode / season number in file name

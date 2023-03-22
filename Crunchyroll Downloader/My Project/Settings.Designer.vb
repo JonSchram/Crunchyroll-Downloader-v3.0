@@ -188,7 +188,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("[default season prefix]")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Season")>  _
         Public Property Prefix_S() As String
             Get
                 Return CType(Me("Prefix_S"),String)
@@ -200,7 +200,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("[default episode prefix]")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property Prefix_E() As String
             Get
                 Return CType(Me("Prefix_E"),String)

@@ -520,8 +520,9 @@ Public Class CrunchyrollDownloader
 
             If TextBox2_Text = Nothing Or TextBox2_Text = "Use Custom Name" Or CBool(InStr(TextBox2_Text, "++")) = True Then
 
-
-                If Main.Season_Prefix = "[default season prefix]" Then
+                Dim seasonPrefix = settings.SeasonPrefix
+                ' TODO: clean up season prefix. This is now set to be the actual prefix.
+                If seasonPrefix = "Season" Then
                     If CR_episode = Nothing And CR_episode2 = Nothing Then 'no episode number means most likey a movie 
                         CR_season_number = Nothing
                     ElseIf CR_season_number = Nothing Then
@@ -533,7 +534,7 @@ Public Class CrunchyrollDownloader
                         CR_season_number = Nothing
                     ElseIf CR_season_number = Nothing Then
                     Else
-                        CR_season_number = Main.Season_Prefix + CR_season_number
+                        CR_season_number = seasonPrefix + CR_season_number
                     End If
                 End If
 

@@ -448,11 +448,12 @@ Public Class FunimationDownloader
                             End Select
                         Next
                     Case "season" 'each record is inside the entries array
+                        Dim seasonPrefix = ProgramSettings.GetInstance().SeasonPrefix
                         Dim SubData As List(Of JToken) = item.Values.ToList()
                         For Each SubItem As JProperty In SubData
                             Select Case SubItem.Name
                                 Case "name"
-                                    If Main.Season_Prefix = "[default season prefix]" Then
+                                    If seasonPrefix = "Season" Then
                                         Dim SeasonNameData As List(Of JToken) = SubItem.Values.ToList()
                                         For Each SeasonName As JProperty In SeasonNameData
                                             Select Case SeasonName.Name
@@ -463,11 +464,11 @@ Public Class FunimationDownloader
                                         Next
                                     End If
                                 Case "number"
-                                    If Main.Season_Prefix = "[default season prefix]" Then
+                                    If seasonPrefix = "Season" Then
                                         'FunimationSeason = Entry("name")
                                     Else
                                         Dim EpisodeNumer As String = SubItem.Value.ToString
-                                        FunimationSeason = Main.Season_Prefix + " " + EpisodeNumer
+                                        FunimationSeason = seasonPrefix + " " + EpisodeNumer
                                         Debug.WriteLine("FunimationSeason: " + FunimationSeason)
                                     End If
                             End Select
