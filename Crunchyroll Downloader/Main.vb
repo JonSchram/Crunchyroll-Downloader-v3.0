@@ -126,7 +126,6 @@ Public Class Main
     Public Grapp_RDY As Boolean = True
     Public Grapp_non_cr_RDY As Boolean = True
     Public Grapp_Abord As Boolean = False
-    Public NameBuilder As String = ""
     Public LeadingZero As Integer = 1
     Public ResoNotFoundString As String
     Public ResoBackString As String
@@ -530,8 +529,6 @@ Public Class Main
         Funimation_Bitrate = My.Settings.Funimation_Bitrate
 
         SubFolder_Value = My.Settings.SubFolder_Value
-
-        NameBuilder = My.Settings.NameTemplate
 
         IncludeLangName = My.Settings.IncludeLangName
 

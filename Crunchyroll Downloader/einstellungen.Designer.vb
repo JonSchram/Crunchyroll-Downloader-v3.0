@@ -97,7 +97,7 @@ Partial Class Einstellungen
         Me.KodiNamingCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.SeasonNumberCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.SeriesNameCheckBox = New MetroFramework.Controls.MetroCheckBox()
-        Me.TB_NameString = New MetroFramework.Controls.MetroTextBox()
+        Me.FilenameTemplatePreview = New MetroFramework.Controls.MetroTextBox()
         Me.MetroTabPage1 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox20 = New System.Windows.Forms.GroupBox()
         Me.ChB_Chapters = New MetroFramework.Controls.MetroCheckBox()
@@ -285,10 +285,10 @@ Partial Class Einstellungen
         Me.TabPage2.HorizontalScrollbarBarColor = True
         Me.TabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage2.HorizontalScrollbarSize = 10
-        Me.TabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage2.Size = New System.Drawing.Size(501, 528)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Output"
         Me.TabPage2.VerticalScrollbarBarColor = True
@@ -1135,7 +1135,7 @@ Partial Class Einstellungen
         Me.GroupBox12.Controls.Add(Me.KodiNamingCheckBox)
         Me.GroupBox12.Controls.Add(Me.SeasonNumberCheckBox)
         Me.GroupBox12.Controls.Add(Me.SeriesNameCheckBox)
-        Me.GroupBox12.Controls.Add(Me.TB_NameString)
+        Me.GroupBox12.Controls.Add(Me.FilenameTemplatePreview)
         Me.GroupBox12.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox12.ForeColor = System.Drawing.Color.Black
         Me.GroupBox12.Location = New System.Drawing.Point(5, 11)
@@ -1217,38 +1217,38 @@ Partial Class Einstellungen
         Me.SeriesNameCheckBox.Text = "Series Name"
         Me.SeriesNameCheckBox.UseSelectable = True
         '
-        'TB_NameString
+        'FilenameTemplatePreview
         '
         '
         '
         '
-        Me.TB_NameString.CustomButton.Image = Nothing
-        Me.TB_NameString.CustomButton.Location = New System.Drawing.Point(439, 1)
-        Me.TB_NameString.CustomButton.Name = ""
-        Me.TB_NameString.CustomButton.Size = New System.Drawing.Size(27, 27)
-        Me.TB_NameString.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-        Me.TB_NameString.CustomButton.TabIndex = 1
-        Me.TB_NameString.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-        Me.TB_NameString.CustomButton.UseSelectable = True
-        Me.TB_NameString.CustomButton.Visible = False
-        Me.TB_NameString.FontSize = MetroFramework.MetroTextBoxSize.Medium
-        Me.TB_NameString.Lines = New String(-1) {}
-        Me.TB_NameString.Location = New System.Drawing.Point(6, 35)
-        Me.TB_NameString.MaxLength = 32767
-        Me.TB_NameString.Name = "TB_NameString"
-        Me.TB_NameString.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.TB_NameString.ReadOnly = True
-        Me.TB_NameString.ScrollBars = System.Windows.Forms.ScrollBars.None
-        Me.TB_NameString.SelectedText = ""
-        Me.TB_NameString.SelectionLength = 0
-        Me.TB_NameString.SelectionStart = 0
-        Me.TB_NameString.ShortcutsEnabled = True
-        Me.TB_NameString.Size = New System.Drawing.Size(467, 29)
-        Me.TB_NameString.TabIndex = 21
-        Me.TB_NameString.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.TB_NameString.UseSelectable = True
-        Me.TB_NameString.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.TB_NameString.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        Me.FilenameTemplatePreview.CustomButton.Image = Nothing
+        Me.FilenameTemplatePreview.CustomButton.Location = New System.Drawing.Point(439, 1)
+        Me.FilenameTemplatePreview.CustomButton.Name = ""
+        Me.FilenameTemplatePreview.CustomButton.Size = New System.Drawing.Size(27, 27)
+        Me.FilenameTemplatePreview.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.FilenameTemplatePreview.CustomButton.TabIndex = 1
+        Me.FilenameTemplatePreview.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.FilenameTemplatePreview.CustomButton.UseSelectable = True
+        Me.FilenameTemplatePreview.CustomButton.Visible = False
+        Me.FilenameTemplatePreview.FontSize = MetroFramework.MetroTextBoxSize.Medium
+        Me.FilenameTemplatePreview.Lines = New String(-1) {}
+        Me.FilenameTemplatePreview.Location = New System.Drawing.Point(6, 35)
+        Me.FilenameTemplatePreview.MaxLength = 32767
+        Me.FilenameTemplatePreview.Name = "FilenameTemplatePreview"
+        Me.FilenameTemplatePreview.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.FilenameTemplatePreview.ReadOnly = True
+        Me.FilenameTemplatePreview.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.FilenameTemplatePreview.SelectedText = ""
+        Me.FilenameTemplatePreview.SelectionLength = 0
+        Me.FilenameTemplatePreview.SelectionStart = 0
+        Me.FilenameTemplatePreview.ShortcutsEnabled = True
+        Me.FilenameTemplatePreview.Size = New System.Drawing.Size(467, 29)
+        Me.FilenameTemplatePreview.TabIndex = 21
+        Me.FilenameTemplatePreview.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.FilenameTemplatePreview.UseSelectable = True
+        Me.FilenameTemplatePreview.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.FilenameTemplatePreview.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
         'MetroTabPage1
         '
@@ -1580,9 +1580,9 @@ Partial Class Einstellungen
         Me.TabPage7.Controls.Add(Me.Label4)
         Me.TabPage7.Controls.Add(Me.CurrentVersionLabel)
         Me.TabPage7.Controls.Add(Me.Label5)
-        Me.TabPage7.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage7.Location = New System.Drawing.Point(4, 35)
         Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage7.Size = New System.Drawing.Size(501, 528)
         Me.TabPage7.TabIndex = 5
         Me.TabPage7.Text = " About  "
         '
@@ -1872,7 +1872,7 @@ Partial Class Einstellungen
     Public WithEvents KodiNamingCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents SeasonNumberCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents SeriesNameCheckBox As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents TB_NameString As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents FilenameTemplatePreview As MetroFramework.Controls.MetroTextBox
     Friend WithEvents DD_Episode_Prefix As MetroFramework.Controls.MetroTextBox
     Friend WithEvents DD_Season_Prefix As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CB_CR_Audio As MetroFramework.Controls.MetroComboBox

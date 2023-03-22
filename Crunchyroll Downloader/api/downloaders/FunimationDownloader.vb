@@ -494,7 +494,9 @@ Public Class FunimationDownloader
             FunimationDub = ConvertFunimationDub(Main.DubFunimation) 'FunimationDub2(0)
             Dim DefaultName As String = Main.RemoveExtraSpaces(FunimationTitle + " " + FunimationSeason + " " + FunimationEpisode)
 
-            Dim NameParts As String() = Main.NameBuilder.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
+            Dim settings = ProgramSettings.GetInstance()
+            Dim nameTemplate = settings.FilenameFormat
+            Dim NameParts As String() = nameTemplate.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
 
             ' TODO: Refactor this when refactoring renaming code
             For i As Integer = 0 To NameParts.Count - 1
@@ -942,7 +944,6 @@ Public Class FunimationDownloader
                 SoftSubMergeMaps = " -map 0:v -map 1:a"
             End If
             Dim SoftSubMergeMetatata As String = Nothing
-            Dim settings = ProgramSettings.GetInstance()
             Dim outputFormat = settings.OutputFormat
             If UsedSubs.Count > 0 Then
                 If outputFormat.GetSubtitleFormat() <> Format.SubtitleMerge.DISABLED And Main.DownloadScope = 0 Then

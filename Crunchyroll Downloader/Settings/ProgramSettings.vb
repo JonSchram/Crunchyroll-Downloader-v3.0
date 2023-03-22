@@ -381,6 +381,13 @@ Namespace settings
 
         ' ------ Naming settings
         Public Property FilenameFormat As String
+            Get
+                Return My.Settings.NameTemplate
+            End Get
+            Set(value As String)
+                My.Settings.NameTemplate = value
+            End Set
+        End Property
 
         Public Property SeasonNumberNaming As SeasonNumberBehavior
 

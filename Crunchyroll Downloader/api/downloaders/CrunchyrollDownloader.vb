@@ -559,8 +559,8 @@ Public Class CrunchyrollDownloader
                     CR_episode = Main.Episode_Prefix + Main.AddLeadingZeros(CR_episode)
                 End If
 
-
-                Dim NameParts As String() = Main.NameBuilder.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
+                Dim nameTemplate = settings.FilenameFormat
+                Dim NameParts As String() = nameTemplate.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
 
                 For i As Integer = 0 To NameParts.Count - 1
 

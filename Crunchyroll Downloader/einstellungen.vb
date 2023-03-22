@@ -38,6 +38,7 @@ Public Class Einstellungen
     Dim LastVersionString As String = "v3.8-Beta"
 
     Private nameFormatter As FilenameFormatter
+    Private nameInitializing As Boolean = False
 
     Public CR_SoftSubsTemp As New List(Of String)
 
@@ -328,30 +329,6 @@ Public Class Einstellungen
         End If
 
 
-        Dim NameParts As String() = Main.NameBuilder.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-
-
-        For i As Integer = 0 To NameParts.Count - 1
-
-            If NameParts(i) = "AnimeTitle" Then
-                SeriesNameCheckBox.Checked = True
-            ElseIf NameParts(i) = "Season" Then
-                SeasonNumberCheckBox.Checked = True
-            ElseIf NameParts(i) = "EpisodeNR" Then
-                EpisodeNumberCheckBox.Checked = True
-            ElseIf NameParts(i) = "EpisodeName" Then
-                EpisodeTitleCheckBox.Checked = True
-            ElseIf NameParts(i) = "AnimeDub" Then
-                AudioLanguageCheckBox.Checked = True
-            End If
-
-        Next
-
-
-
-
-
     End Sub
 
     Private Sub LoadSettings()
@@ -385,6 +362,24 @@ Public Class Einstellungen
         InitializeOutputFormat()
         InitializeFfmepgInputs()
 
+        ' Naming settings
+        InitializeNamingInputs()
+
+    End Sub
+
+    Private Sub InitializeNamingInputs()
+        ' Prevent changing the filename template as the checkboxes are set up.
+        nameInitializing = True
+        Dim placeholders = nameFormatter.GetCurrentPlaceholders()
+
+        SeriesNameCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.SERIES_NAME)
+        SeasonNumberCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.SEASON_NUMBER)
+        EpisodeNumberCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.EPISODE_NUMBER)
+        EpisodeTitleCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.EPISODE_TITLE)
+        AudioLanguageCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.AUDIO_LANGUAGE)
+        nameInitializing = False
+
+        FilenameTemplatePreview.Text = nameFormatter.GetTemplate()
     End Sub
 
     Private Sub InitializeFfmepgInputs()
@@ -590,6 +585,11 @@ Public Class Einstellungen
         settings.Ffmpeg = ffmpeg
     End Sub
 
+    Private Sub SaveFilenameTemplate()
+        Dim settings = ProgramSettings.GetInstance()
+        settings.FilenameFormat = nameFormatter.GetTemplate()
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -616,6 +616,7 @@ Public Class Einstellungen
 
         SaveOutputFormat()
         SaveFfmpegSettings()
+        SaveFilenameTemplate()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -724,11 +725,6 @@ Public Class Einstellungen
             Main.DefaultSubCR = "None"
             My.Settings.DefaultSubCR = Main.DefaultSubCR
         End If
-
-
-        Main.NameBuilder = TB_NameString.Text
-
-        My.Settings.NameTemplate = Main.NameBuilder
 
 
 
@@ -1215,41 +1211,38 @@ Public Class Einstellungen
     End Sub
 #Region "Build Name String"
 
-    Private Sub CB_Anime_CheckedChanged(sender As Object, e As EventArgs) Handles SeriesNameCheckBox.CheckedChanged, SeasonNumberCheckBox.CheckedChanged, EpisodeNumberCheckBox.CheckedChanged, EpisodeTitleCheckBox.CheckedChanged, AudioLanguageCheckBox.CheckedChanged, KodiNamingCheckBox.CheckedChanged
-        If SeriesNameCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "AnimeTitle;")) = False Then
-            TB_NameString.AppendText("AnimeTitle;")
-        ElseIf SeriesNameCheckBox.Checked = False Then
-            TB_NameString.Text = TB_NameString.Text.Replace("AnimeTitle;", "")
-        End If
-
-        If SeasonNumberCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "Season;")) = False Then
-            TB_NameString.AppendText("Season;")
-        ElseIf SeasonNumberCheckBox.Checked = False Then
-            TB_NameString.Text = TB_NameString.Text.Replace("Season;", "")
-        End If
-
-        If EpisodeNumberCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "EpisodeNR;")) = False Then
-            TB_NameString.AppendText("EpisodeNR;")
-        ElseIf EpisodeNumberCheckBox.Checked = False Then
-            TB_NameString.Text = TB_NameString.Text.Replace("EpisodeNR;", "")
-        End If
-
-        If EpisodeTitleCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "EpisodeName;")) = False Then
-            TB_NameString.AppendText("EpisodeName;")
-        ElseIf EpisodeTitleCheckBox.Checked = False Then
-            TB_NameString.Text = TB_NameString.Text.Replace("EpisodeName;", "")
-        End If
-
-        If AudioLanguageCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "AnimeDub;")) = False Then
-            TB_NameString.AppendText("AnimeDub;")
-        ElseIf AudioLanguageCheckBox.Checked = False Then
-            TB_NameString.Text = TB_NameString.Text.Replace("AnimeDub;", "")
-        End If
-
-
-
+    Private Sub SeriesNameCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SeriesNameCheckBox.CheckedChanged
+        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.SERIES_NAME, SeriesNameCheckBox.Checked)
     End Sub
 
+    Private Sub EpisodeNumberCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles EpisodeNumberCheckBox.CheckedChanged
+        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.EPISODE_NUMBER, EpisodeNumberCheckBox.Checked)
+    End Sub
+
+    Private Sub EpisodeTitleCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles EpisodeTitleCheckBox.CheckedChanged
+        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.EPISODE_TITLE, EpisodeTitleCheckBox.Checked)
+    End Sub
+
+    Private Sub SeasonNumberCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SeasonNumberCheckBox.CheckedChanged
+        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.SEASON_NUMBER, SeasonNumberCheckBox.Checked)
+    End Sub
+
+    Private Sub AudioLanguageCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles AudioLanguageCheckBox.CheckedChanged
+        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.AUDIO_LANGUAGE, AudioLanguageCheckBox.Checked)
+    End Sub
+
+    Private Sub UpdateFilenameTemplate(item As FilenameFormatter.TemplateItem, add As Boolean)
+        If nameInitializing Then
+            ' Checkbox initial values are being set, don't modify the template.
+            Exit Sub
+        End If
+        If add Then
+            nameFormatter.AppendTemplateItem(item)
+        Else
+            nameFormatter.RemoveTemplateItem(item)
+        End If
+        FilenameTemplatePreview.Text = nameFormatter.GetTemplate()
+    End Sub
 
     Private Sub DD_Season_Prefix_UserAction(sender As Object, e As EventArgs) Handles DD_Season_Prefix.Click, DD_Season_Prefix.GotFocus
         If DD_Season_Prefix.Text = Main.Season_PrefixDefault Then

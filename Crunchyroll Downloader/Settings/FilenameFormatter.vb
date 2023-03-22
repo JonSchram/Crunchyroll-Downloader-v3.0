@@ -16,8 +16,25 @@
         End Sub
 
         Public Sub RemoveTemplateItem(item As TemplateItem)
-            FilenameTemplate.Replace(GetNameFragment(item), "")
+            FilenameTemplate = FilenameTemplate.Replace(GetNameFragment(item), "")
         End Sub
+
+        Public Function GetCurrentPlaceholders() As HashSet(Of TemplateItem)
+            Dim templates As New HashSet(Of TemplateItem)
+
+            For Each item In System.Enum.GetValues(GetType(TemplateItem))
+                Dim itemEnum As TemplateItem = CType(item, TemplateItem)
+                If FilenameTemplate.Contains(GetNameFragment(itemEnum)) Then
+                    templates.Add(itemEnum)
+                End If
+            Next
+
+            Return templates
+        End Function
+
+        Public Function GetTemplate() As String
+            Return FilenameTemplate
+        End Function
 
         Private Function GetNameFragment(item As TemplateItem) As String
             Select Case item
