@@ -549,7 +549,8 @@ Public Class CrunchyrollDownloader
                 End If
 
 
-                If Main.Episode_Prefix = "[default episode prefix]" Then
+                Dim episodePrefix = settings.EpisodePrefix
+                If episodePrefix = "Episode" Then
                     If CR_episode = Nothing Or CR_episode = "" And CR_episode2 = Nothing Then
                         CR_episode = CR_title
                     ElseIf CR_episode IsNot Nothing And CR_episode IsNot "" Then
@@ -559,7 +560,7 @@ Public Class CrunchyrollDownloader
                     End If
                     'CR_episode = "Episode " + AddLeadingZeros(CR_episode)
                 Else
-                    CR_episode = Main.Episode_Prefix + Main.AddLeadingZeros(CR_episode)
+                    CR_episode = episodePrefix + Main.AddLeadingZeros(CR_episode)
                 End If
 
                 Dim nameTemplate = settings.FilenameFormat

@@ -97,7 +97,6 @@ Public Class Main
     Public Pfad As String = My.Computer.FileSystem.CurrentDirectory
     Public ProfileFolder As String = Path.Combine(Application.StartupPath, "CRD-Profile") 'Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "CRD-Profile")
     Public Season_PrefixDefault As String = "[default season prefix]"
-    Public Episode_Prefix As String = "[default episode prefix]"
     Public Episode_PrefixDefault As String = "[default episode prefix]"
 
     Public ResoSave As String = "6666x6666"
@@ -488,8 +487,6 @@ Public Class Main
         If settings.TemporaryFolder = Nothing Then
             settings.TemporaryFolder = Pfad
         End If
-
-        Episode_Prefix = My.Settings.Prefix_E
 
         DefaultSubFunimation = My.Settings.DefaultSubFunimation
 

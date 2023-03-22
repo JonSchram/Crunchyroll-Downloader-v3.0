@@ -20,6 +20,9 @@ Public Class Einstellungen
     Private Const SEASON_PREFIX_PLACEHOLDER = "[default season prefix]"
     Private Const DEFAULT_SEASON_PREFIX = "Season"
 
+    Private Const EPISODE_PREFIX_PLACEHOLDER = "[default episode prefix]"
+    Private Const DEFAULT_EPISODE_PREFIX = "Episode"
+
     ' Display objects for combo boxes backed by enums
     Private ReadOnly ServerPortTextList As New EnumTextList(Of ServerPortOptions)()
     Private ReadOnly SubfolderTextList As New EnumTextList(Of SubfolderDisplay)()
@@ -291,9 +294,6 @@ Public Class Einstellungen
         Next
 
 
-        DD_Episode_Prefix.Text = Main.Episode_Prefix
-
-
         If Main.DefaultSubFunimation = "en" Then
             FunSubDef.SelectedItem = "English"
         ElseIf Main.DefaultSubFunimation = "pt" Then
@@ -368,6 +368,7 @@ Public Class Einstellungen
         InitializeKodiNaming()
         InitializeSeasonNumberBehaviorInput()
         InitializeSeasonPrefixInput()
+        InitializeEpisodePrefixInput()
     End Sub
 
     Private Sub InitializeSeasonPrefixInput()
@@ -377,6 +378,16 @@ Public Class Einstellungen
             SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER
         Else
             SeasonPrefixTextBox.Text = seasonPrefix
+        End If
+    End Sub
+
+    Private Sub InitializeEpisodePrefixInput()
+        Dim settings = ProgramSettings.GetInstance()
+        Dim episodePrefix = settings.EpisodePrefix
+        If episodePrefix Is Nothing Or episodePrefix = "" Or episodePrefix = DEFAULT_EPISODE_PREFIX Then
+            EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER
+        Else
+            EpisodePrefixTextBox.Text = episodePrefix
         End If
     End Sub
 
@@ -633,6 +644,15 @@ Public Class Einstellungen
         End If
     End Sub
 
+    Private Sub SaveEpisodePrefix()
+        Dim settings = ProgramSettings.GetInstance()
+        If EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER Then
+            settings.EpisodePrefix = DEFAULT_EPISODE_PREFIX
+        Else
+            settings.EpisodePrefix = EpisodePrefixTextBox.Text
+        End If
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -665,6 +685,7 @@ Public Class Einstellungen
         SaveKodiNaming()
         SaveSeasonNumberBehavior()
         SaveSeasonPrefix()
+        SaveEpisodePrefix()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -691,12 +712,6 @@ Public Class Einstellungen
         Else
             Main.CR_Chapters = False
             My.Settings.CR_Chapters = False
-        End If
-
-
-        If DD_Episode_Prefix.Text IsNot "[default episode prefix]" Then
-            Main.Episode_Prefix = DD_Episode_Prefix.Text
-            My.Settings.Prefix_E = Main.Episode_Prefix
         End If
 
         For i As Integer = 0 To Main.LangValueEnum.Count - 1
@@ -1287,15 +1302,15 @@ Public Class Einstellungen
     End Sub
 
 
-    Private Sub DD_Episode_Prefix_UserAction(sender As Object, e As EventArgs) Handles DD_Episode_Prefix.Click, DD_Episode_Prefix.GotFocus
-        If DD_Episode_Prefix.Text = Main.Episode_PrefixDefault Then
-            DD_Episode_Prefix.Text = Nothing
+    Private Sub EpisodePrefixTextBox_UserAction(sender As Object, e As EventArgs) Handles EpisodePrefixTextBox.Click, EpisodePrefixTextBox.GotFocus
+        If EpisodePrefixTextBox.Text = Main.Episode_PrefixDefault Then
+            EpisodePrefixTextBox.Text = Nothing
         End If
     End Sub
 
-    Private Sub DD_Episode_Prefix_LostFocus(sender As Object, e As EventArgs) Handles DD_Episode_Prefix.LostFocus
-        If DD_Episode_Prefix.Text = Nothing Then
-            DD_Episode_Prefix.Text = Main.Episode_PrefixDefault
+    Private Sub EpisodePrefixTextBox_LostFocus(sender As Object, e As EventArgs) Handles EpisodePrefixTextBox.LostFocus
+        If EpisodePrefixTextBox.Text = Nothing Then
+            EpisodePrefixTextBox.Text = Main.Episode_PrefixDefault
         End If
     End Sub
 

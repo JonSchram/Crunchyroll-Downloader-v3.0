@@ -88,7 +88,7 @@ Partial Class Einstellungen
         Me.CB_SoftSubSettings = New MetroFramework.Controls.MetroComboBox()
         Me.GB_Filename_Pre = New System.Windows.Forms.GroupBox()
         Me.SeasonPrefixTextBox = New MetroFramework.Controls.MetroTextBox()
-        Me.DD_Episode_Prefix = New MetroFramework.Controls.MetroTextBox()
+        Me.EpisodePrefixTextBox = New MetroFramework.Controls.MetroTextBox()
         Me.SeasonNumberBehaviorComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox12 = New System.Windows.Forms.GroupBox()
         Me.EpisodeTitleCheckBox = New MetroFramework.Controls.MetroCheckBox()
@@ -1037,7 +1037,7 @@ Partial Class Einstellungen
         '
         Me.GB_Filename_Pre.BackColor = System.Drawing.Color.Transparent
         Me.GB_Filename_Pre.Controls.Add(Me.SeasonPrefixTextBox)
-        Me.GB_Filename_Pre.Controls.Add(Me.DD_Episode_Prefix)
+        Me.GB_Filename_Pre.Controls.Add(Me.EpisodePrefixTextBox)
         Me.GB_Filename_Pre.Controls.Add(Me.SeasonNumberBehaviorComboBox)
         Me.GB_Filename_Pre.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GB_Filename_Pre.ForeColor = System.Drawing.Color.Black
@@ -1080,37 +1080,37 @@ Partial Class Einstellungen
         Me.SeasonPrefixTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.SeasonPrefixTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
-        'DD_Episode_Prefix
+        'EpisodePrefixTextBox
         '
         '
         '
         '
-        Me.DD_Episode_Prefix.CustomButton.Image = Nothing
-        Me.DD_Episode_Prefix.CustomButton.Location = New System.Drawing.Point(197, 1)
-        Me.DD_Episode_Prefix.CustomButton.Name = ""
-        Me.DD_Episode_Prefix.CustomButton.Size = New System.Drawing.Size(27, 27)
-        Me.DD_Episode_Prefix.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-        Me.DD_Episode_Prefix.CustomButton.TabIndex = 1
-        Me.DD_Episode_Prefix.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-        Me.DD_Episode_Prefix.CustomButton.UseSelectable = True
-        Me.DD_Episode_Prefix.CustomButton.Visible = False
-        Me.DD_Episode_Prefix.FontSize = MetroFramework.MetroTextBoxSize.Medium
-        Me.DD_Episode_Prefix.Lines = New String(-1) {}
-        Me.DD_Episode_Prefix.Location = New System.Drawing.Point(248, 69)
-        Me.DD_Episode_Prefix.MaxLength = 32767
-        Me.DD_Episode_Prefix.Name = "DD_Episode_Prefix"
-        Me.DD_Episode_Prefix.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-        Me.DD_Episode_Prefix.ScrollBars = System.Windows.Forms.ScrollBars.None
-        Me.DD_Episode_Prefix.SelectedText = ""
-        Me.DD_Episode_Prefix.SelectionLength = 0
-        Me.DD_Episode_Prefix.SelectionStart = 0
-        Me.DD_Episode_Prefix.ShortcutsEnabled = True
-        Me.DD_Episode_Prefix.Size = New System.Drawing.Size(225, 29)
-        Me.DD_Episode_Prefix.TabIndex = 34
-        Me.DD_Episode_Prefix.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.DD_Episode_Prefix.UseSelectable = True
-        Me.DD_Episode_Prefix.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-        Me.DD_Episode_Prefix.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+        Me.EpisodePrefixTextBox.CustomButton.Image = Nothing
+        Me.EpisodePrefixTextBox.CustomButton.Location = New System.Drawing.Point(197, 1)
+        Me.EpisodePrefixTextBox.CustomButton.Name = ""
+        Me.EpisodePrefixTextBox.CustomButton.Size = New System.Drawing.Size(27, 27)
+        Me.EpisodePrefixTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+        Me.EpisodePrefixTextBox.CustomButton.TabIndex = 1
+        Me.EpisodePrefixTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+        Me.EpisodePrefixTextBox.CustomButton.UseSelectable = True
+        Me.EpisodePrefixTextBox.CustomButton.Visible = False
+        Me.EpisodePrefixTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
+        Me.EpisodePrefixTextBox.Lines = New String(-1) {}
+        Me.EpisodePrefixTextBox.Location = New System.Drawing.Point(248, 69)
+        Me.EpisodePrefixTextBox.MaxLength = 32767
+        Me.EpisodePrefixTextBox.Name = "EpisodePrefixTextBox"
+        Me.EpisodePrefixTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+        Me.EpisodePrefixTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.EpisodePrefixTextBox.SelectedText = ""
+        Me.EpisodePrefixTextBox.SelectionLength = 0
+        Me.EpisodePrefixTextBox.SelectionStart = 0
+        Me.EpisodePrefixTextBox.ShortcutsEnabled = True
+        Me.EpisodePrefixTextBox.Size = New System.Drawing.Size(225, 29)
+        Me.EpisodePrefixTextBox.TabIndex = 34
+        Me.EpisodePrefixTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.EpisodePrefixTextBox.UseSelectable = True
+        Me.EpisodePrefixTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+        Me.EpisodePrefixTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
         'SeasonNumberBehaviorComboBox
         '
@@ -1873,7 +1873,7 @@ Partial Class Einstellungen
     Public WithEvents SeasonNumberCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents SeriesNameCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents FilenameTemplatePreview As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents DD_Episode_Prefix As MetroFramework.Controls.MetroTextBox
+    Friend WithEvents EpisodePrefixTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents SeasonPrefixTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CB_CR_Audio As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox21 As GroupBox

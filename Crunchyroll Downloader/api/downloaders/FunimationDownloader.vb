@@ -433,11 +433,8 @@ Public Class FunimationDownloader
                         FunimationEpisodeJson = item.Value.ToString
                     Case "episodeNumber"
                         Dim FunimationEpisode3 As String = Main.RemoveExtraSpaces(item.Value.ToString)
-                        If Main.Episode_Prefix = "[default episode prefix]" Then
-                            FunimationEpisode = "Episode " + Main.AddLeadingZeros(FunimationEpisode3)
-                        Else
-                            FunimationEpisode = Main.Episode_Prefix + Main.AddLeadingZeros(FunimationEpisode3)
-                        End If
+                        Dim episodePrefix = ProgramSettings.GetInstance().EpisodePrefix
+                        FunimationEpisode = episodePrefix + Main.AddLeadingZeros(FunimationEpisode3)
                     Case "name"
                         Dim NameData As List(Of JToken) = item.Values.ToList()
                         For Each Name As JProperty In NameData
