@@ -218,7 +218,7 @@ Public Class CrunchyrollDownloader
         Try
             Dim settings = ProgramSettings.GetInstance()
             Main.Grapp_RDY = False
-            Dim ffmpeg_command_temp As String = Main.ffmpeg_command
+            Dim ffmpeg_command_temp As String = settings.Ffmpeg.GetFfmpegArguments()
             Dim CR_MetadataUsage As Boolean = False
             Dim CR_Streams As New List(Of CR_Beta_Stream)
             Dim CR_series_title As String = Nothing
@@ -775,7 +775,8 @@ Public Class CrunchyrollDownloader
                 Pfad2 = Pfad2.Replace("." + extension, ".aac")
 
                 'replace command for aac
-                Dim ffmpeg_command_Builder() As String = Main.ffmpeg_command.Split(New String() {"-c:a copy"}, System.StringSplitOptions.RemoveEmptyEntries)
+                ' TODO: Make a better way of building ffmpeg command. This now breaks if the video mode is set to copy
+                Dim ffmpeg_command_Builder() As String = settings.Ffmpeg.GetFfmpegArguments().Split(New String() {"-c:a copy"}, System.StringSplitOptions.RemoveEmptyEntries)
                 ffmpeg_command_temp = "-c:a copy" + ffmpeg_command_Builder(1)
 
             End If

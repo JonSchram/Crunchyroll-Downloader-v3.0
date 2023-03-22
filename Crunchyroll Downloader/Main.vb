@@ -98,7 +98,6 @@ Public Class Main
     Public LoginOnly As String = "False"
     Public Pfad As String = My.Computer.FileSystem.CurrentDirectory
     Public ProfileFolder As String = Path.Combine(Application.StartupPath, "CRD-Profile") 'Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "CRD-Profile")
-    Public ffmpeg_command As String = " -c copy -bsf:a aac_adtstoasc" '" -c:v hevc_nvenc -preset fast -b:v 6M -bsf:a aac_adtstoasc " 
     Public Season_Prefix As String = "[default season prefix]"
     Public Season_PrefixDefault As String = "[default season prefix]"
     Public Episode_Prefix As String = "[default episode prefix]"
@@ -507,13 +506,6 @@ Public Class Main
         DubMode = My.Settings.DubMode
 
         CR_Chapters = My.Settings.CR_Chapters
-
-        ffmpeg_command = My.Settings.ffmpeg_command
-
-        If My.Settings.ffmpeg_command_override = "null" Then
-        Else
-            ffmpeg_command = My.Settings.ffmpeg_command_override
-        End If
 
 
         LeadingZero = My.Settings.LeadingZero
@@ -2225,10 +2217,9 @@ Public Class Main
     Private Sub QueueToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QueueToolStripMenuItem.Click
         'ffmpeg_options.ShowDialog()
         Dim newCmd As New ffmpeg_options
-        newCmd.command = ffmpeg_command
+        newCmd.command = ProgramSettings.GetInstance().Ffmpeg.GetFfmpegArguments()
         'MsgBox(newCmd.ShowDialog.ToString)
         If newCmd.ShowDialog = DialogResult.OK Then
-            ffmpeg_command = newCmd.command
             My.Settings.ffmpeg_command_override = newCmd.command
         End If
     End Sub

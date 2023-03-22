@@ -823,18 +823,6 @@ Public Class Einstellungen
 
 
 
-
-
-        Dim ffpmeg_cmd As String = Nothing
-
-        If Main.ffmpeg_command = My.Settings.ffmpeg_command_override Then
-            'override should not get overwritten 
-
-        Else
-            Main.ffmpeg_command = ffpmeg_cmd
-            My.Settings.ffmpeg_command = Main.ffmpeg_command
-        End If
-
         ' TODO: Replace with values from currently applying settings to ensure the correct value is used.
         Dim settings = ProgramSettings.GetInstance()
         Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY

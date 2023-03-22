@@ -397,7 +397,7 @@ Public Class FunimationDownloader
             Exit Sub
         End If
         Try
-            Dim ffmpeg_command_temp As String = Main.ffmpeg_command
+            Dim ffmpeg_command_temp As String = ProgramSettings.GetInstance().Ffmpeg.GetFfmpegArguments()
 
             ' TODO: Make method in Main that sets a status
             Main.Invoke(Sub()
@@ -1030,10 +1030,11 @@ Public Class FunimationDownloader
             End If
             Dim mergeSubs = outputFormat.GetSubtitleFormat() <> Format.SubtitleMerge.DISABLED
             Dim isAudioOnly = outputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
+            Dim ffmpegArguments = settings.Ffmpeg.GetFfmpegArguments()
             If HardSubFound = True And Not isAudioOnly Then
                 Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + " -vf subtitles=" + """" + UsedSub + """" + " " + ffmpeg_hardsub
             ElseIf mergeSubs Then
-                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + SoftSubMergeURLs + SoftSubMergeMaps + " " + Main.ffmpeg_command + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + DubMetatata
+                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpegArguments + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + DubMetatata
             ElseIf isAudioOnly Then
                 If FunimationAudioMap = Nothing Then
                     Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + DubMetatata + " " + ffmpeg_command_temp
@@ -1041,7 +1042,7 @@ Public Class FunimationDownloader
                     Funimation_m3u8_final = FunimationAudioMap.Replace(" -headers " + My.Resources.ffmpeg_user_agend + " ", "") + DubMetatata + " " + ffmpeg_command_temp
                 End If
             Else
-                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + DubMetatata + " " + Main.ffmpeg_command
+                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + DubMetatata + " " + ffmpegArguments
             End If
             Funimation_m3u8_final = Funimation_m3u8_final + " -metadata:g encoding_tool=CrD_Funimation_JS"
 #End Region
