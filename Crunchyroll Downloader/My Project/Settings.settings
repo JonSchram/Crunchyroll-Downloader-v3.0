@@ -158,9 +158,6 @@
     <Setting Name="ffmpeg_video_preset" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Setting" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="ffmpeg_video_bitrate" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">7000</Value>
     </Setting>

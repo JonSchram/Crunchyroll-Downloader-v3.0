@@ -680,18 +680,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property Setting() As Integer
-            Get
-                Return CType(Me("Setting"),Integer)
-            End Get
-            Set
-                Me("Setting") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("7000")>  _
         Public Property ffmpeg_video_bitrate() As Integer
             Get

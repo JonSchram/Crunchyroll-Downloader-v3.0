@@ -423,6 +423,20 @@ Public Class Main
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
         Dim settings = ProgramSettings.GetInstance()
 
+        If settings.NeedsUpgrade() Then
+            Dim messageBoxResult = MessageBox.Show(
+                "Some settings options have changed." + vbNewLine +
+                "Do you want to migrate your old settings?" + vbNewLine +
+                "Selecting no will discard your old settings.",
+                "Upgrade settings",
+                MessageBoxButtons.YesNo)
+            If messageBoxResult = DialogResult.Yes Then
+                settings.UpgradeSettings()
+            Else
+                settings.DiscardOldSettings()
+            End If
+        End If
+
 
 #Region "settings path"
 
