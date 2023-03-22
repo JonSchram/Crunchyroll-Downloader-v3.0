@@ -91,12 +91,12 @@ Partial Class Einstellungen
         Me.DD_Episode_Prefix = New MetroFramework.Controls.MetroTextBox()
         Me.CB_Ignore = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox12 = New System.Windows.Forms.GroupBox()
-        Me.CB_EpisodeName = New MetroFramework.Controls.MetroCheckBox()
-        Me.CB_AnimeDub = New MetroFramework.Controls.MetroCheckBox()
-        Me.CB_EpisodeNR = New MetroFramework.Controls.MetroCheckBox()
-        Me.CB_Kodi = New MetroFramework.Controls.MetroCheckBox()
-        Me.CB_Season = New MetroFramework.Controls.MetroCheckBox()
-        Me.CB_Anime = New MetroFramework.Controls.MetroCheckBox()
+        Me.EpisodeTitleCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.AudioLanguageCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.EpisodeNumberCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.KodiNamingCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.SeasonNumberCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.SeriesNameCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.TB_NameString = New MetroFramework.Controls.MetroTextBox()
         Me.MetroTabPage1 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox20 = New System.Windows.Forms.GroupBox()
@@ -941,7 +941,7 @@ Partial Class Einstellungen
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 5
+        Me.TabControl1.SelectedIndex = 2
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -955,9 +955,9 @@ Partial Class Einstellungen
         Me.MetroTabPage2.HorizontalScrollbarBarColor = True
         Me.MetroTabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage2.HorizontalScrollbarSize = 10
-        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 35)
+        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 44)
         Me.MetroTabPage2.Name = "MetroTabPage2"
-        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 528)
+        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 519)
         Me.MetroTabPage2.TabIndex = 8
         Me.MetroTabPage2.Text = "Naming"
         Me.MetroTabPage2.VerticalScrollbarBarColor = True
@@ -1129,12 +1129,12 @@ Partial Class Einstellungen
         'GroupBox12
         '
         Me.GroupBox12.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox12.Controls.Add(Me.CB_EpisodeName)
-        Me.GroupBox12.Controls.Add(Me.CB_AnimeDub)
-        Me.GroupBox12.Controls.Add(Me.CB_EpisodeNR)
-        Me.GroupBox12.Controls.Add(Me.CB_Kodi)
-        Me.GroupBox12.Controls.Add(Me.CB_Season)
-        Me.GroupBox12.Controls.Add(Me.CB_Anime)
+        Me.GroupBox12.Controls.Add(Me.EpisodeTitleCheckBox)
+        Me.GroupBox12.Controls.Add(Me.AudioLanguageCheckBox)
+        Me.GroupBox12.Controls.Add(Me.EpisodeNumberCheckBox)
+        Me.GroupBox12.Controls.Add(Me.KodiNamingCheckBox)
+        Me.GroupBox12.Controls.Add(Me.SeasonNumberCheckBox)
+        Me.GroupBox12.Controls.Add(Me.SeriesNameCheckBox)
         Me.GroupBox12.Controls.Add(Me.TB_NameString)
         Me.GroupBox12.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox12.ForeColor = System.Drawing.Color.Black
@@ -1145,77 +1145,77 @@ Partial Class Einstellungen
         Me.GroupBox12.TabStop = False
         Me.GroupBox12.Text = "Filename"
         '
-        'CB_EpisodeName
+        'EpisodeTitleCheckBox
         '
-        Me.CB_EpisodeName.AutoSize = True
-        Me.CB_EpisodeName.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_EpisodeName.ForeColor = System.Drawing.Color.Black
-        Me.CB_EpisodeName.Location = New System.Drawing.Point(153, 124)
-        Me.CB_EpisodeName.Name = "CB_EpisodeName"
-        Me.CB_EpisodeName.Size = New System.Drawing.Size(101, 19)
-        Me.CB_EpisodeName.TabIndex = 31
-        Me.CB_EpisodeName.Text = "Episode Title"
-        Me.CB_EpisodeName.UseSelectable = True
+        Me.EpisodeTitleCheckBox.AutoSize = True
+        Me.EpisodeTitleCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.EpisodeTitleCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.EpisodeTitleCheckBox.Location = New System.Drawing.Point(153, 124)
+        Me.EpisodeTitleCheckBox.Name = "EpisodeTitleCheckBox"
+        Me.EpisodeTitleCheckBox.Size = New System.Drawing.Size(101, 19)
+        Me.EpisodeTitleCheckBox.TabIndex = 31
+        Me.EpisodeTitleCheckBox.Text = "Episode Title"
+        Me.EpisodeTitleCheckBox.UseSelectable = True
         '
-        'CB_AnimeDub
+        'AudioLanguageCheckBox
         '
-        Me.CB_AnimeDub.AutoSize = True
-        Me.CB_AnimeDub.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_AnimeDub.ForeColor = System.Drawing.Color.Black
-        Me.CB_AnimeDub.Location = New System.Drawing.Point(320, 86)
-        Me.CB_AnimeDub.Name = "CB_AnimeDub"
-        Me.CB_AnimeDub.Size = New System.Drawing.Size(125, 19)
-        Me.CB_AnimeDub.TabIndex = 29
-        Me.CB_AnimeDub.Text = "Audio Language"
-        Me.CB_AnimeDub.UseSelectable = True
+        Me.AudioLanguageCheckBox.AutoSize = True
+        Me.AudioLanguageCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.AudioLanguageCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.AudioLanguageCheckBox.Location = New System.Drawing.Point(320, 86)
+        Me.AudioLanguageCheckBox.Name = "AudioLanguageCheckBox"
+        Me.AudioLanguageCheckBox.Size = New System.Drawing.Size(125, 19)
+        Me.AudioLanguageCheckBox.TabIndex = 29
+        Me.AudioLanguageCheckBox.Text = "Audio Language"
+        Me.AudioLanguageCheckBox.UseSelectable = True
         '
-        'CB_EpisodeNR
+        'EpisodeNumberCheckBox
         '
-        Me.CB_EpisodeNR.AutoSize = True
-        Me.CB_EpisodeNR.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_EpisodeNR.ForeColor = System.Drawing.Color.Black
-        Me.CB_EpisodeNR.Location = New System.Drawing.Point(153, 86)
-        Me.CB_EpisodeNR.Name = "CB_EpisodeNR"
-        Me.CB_EpisodeNR.Size = New System.Drawing.Size(126, 19)
-        Me.CB_EpisodeNR.TabIndex = 28
-        Me.CB_EpisodeNR.Text = "Episode Number"
-        Me.CB_EpisodeNR.UseSelectable = True
+        Me.EpisodeNumberCheckBox.AutoSize = True
+        Me.EpisodeNumberCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.EpisodeNumberCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.EpisodeNumberCheckBox.Location = New System.Drawing.Point(153, 86)
+        Me.EpisodeNumberCheckBox.Name = "EpisodeNumberCheckBox"
+        Me.EpisodeNumberCheckBox.Size = New System.Drawing.Size(126, 19)
+        Me.EpisodeNumberCheckBox.TabIndex = 28
+        Me.EpisodeNumberCheckBox.Text = "Episode Number"
+        Me.EpisodeNumberCheckBox.UseSelectable = True
         '
-        'CB_Kodi
+        'KodiNamingCheckBox
         '
-        Me.CB_Kodi.AutoSize = True
-        Me.CB_Kodi.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_Kodi.ForeColor = System.Drawing.Color.Black
-        Me.CB_Kodi.Location = New System.Drawing.Point(320, 124)
-        Me.CB_Kodi.Name = "CB_Kodi"
-        Me.CB_Kodi.Size = New System.Drawing.Size(102, 19)
-        Me.CB_Kodi.TabIndex = 32
-        Me.CB_Kodi.Text = "Kodi naming"
-        Me.CB_Kodi.UseSelectable = True
+        Me.KodiNamingCheckBox.AutoSize = True
+        Me.KodiNamingCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.KodiNamingCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.KodiNamingCheckBox.Location = New System.Drawing.Point(320, 124)
+        Me.KodiNamingCheckBox.Name = "KodiNamingCheckBox"
+        Me.KodiNamingCheckBox.Size = New System.Drawing.Size(102, 19)
+        Me.KodiNamingCheckBox.TabIndex = 32
+        Me.KodiNamingCheckBox.Text = "Kodi naming"
+        Me.KodiNamingCheckBox.UseSelectable = True
         '
-        'CB_Season
+        'SeasonNumberCheckBox
         '
-        Me.CB_Season.AutoSize = True
-        Me.CB_Season.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_Season.ForeColor = System.Drawing.Color.Black
-        Me.CB_Season.Location = New System.Drawing.Point(17, 124)
-        Me.CB_Season.Name = "CB_Season"
-        Me.CB_Season.Size = New System.Drawing.Size(122, 19)
-        Me.CB_Season.TabIndex = 30
-        Me.CB_Season.Text = "Season Number"
-        Me.CB_Season.UseSelectable = True
+        Me.SeasonNumberCheckBox.AutoSize = True
+        Me.SeasonNumberCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.SeasonNumberCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.SeasonNumberCheckBox.Location = New System.Drawing.Point(17, 124)
+        Me.SeasonNumberCheckBox.Name = "SeasonNumberCheckBox"
+        Me.SeasonNumberCheckBox.Size = New System.Drawing.Size(122, 19)
+        Me.SeasonNumberCheckBox.TabIndex = 30
+        Me.SeasonNumberCheckBox.Text = "Season Number"
+        Me.SeasonNumberCheckBox.UseSelectable = True
         '
-        'CB_Anime
+        'SeriesNameCheckBox
         '
-        Me.CB_Anime.AutoSize = True
-        Me.CB_Anime.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_Anime.ForeColor = System.Drawing.Color.Black
-        Me.CB_Anime.Location = New System.Drawing.Point(17, 86)
-        Me.CB_Anime.Name = "CB_Anime"
-        Me.CB_Anime.Size = New System.Drawing.Size(100, 19)
-        Me.CB_Anime.TabIndex = 27
-        Me.CB_Anime.Text = "Series Name"
-        Me.CB_Anime.UseSelectable = True
+        Me.SeriesNameCheckBox.AutoSize = True
+        Me.SeriesNameCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.SeriesNameCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.SeriesNameCheckBox.Location = New System.Drawing.Point(17, 86)
+        Me.SeriesNameCheckBox.Name = "SeriesNameCheckBox"
+        Me.SeriesNameCheckBox.Size = New System.Drawing.Size(100, 19)
+        Me.SeriesNameCheckBox.TabIndex = 27
+        Me.SeriesNameCheckBox.Text = "Series Name"
+        Me.SeriesNameCheckBox.UseSelectable = True
         '
         'TB_NameString
         '
@@ -1866,12 +1866,12 @@ Partial Class Einstellungen
     Friend WithEvents DubMode As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CB_Merge As MetroFramework.Controls.MetroComboBox
     Friend WithEvents Chb_Ign_tls As MetroFramework.Controls.MetroCheckBox
-    Public WithEvents CB_EpisodeName As MetroFramework.Controls.MetroCheckBox
-    Public WithEvents CB_AnimeDub As MetroFramework.Controls.MetroCheckBox
-    Public WithEvents CB_EpisodeNR As MetroFramework.Controls.MetroCheckBox
-    Public WithEvents CB_Kodi As MetroFramework.Controls.MetroCheckBox
-    Public WithEvents CB_Season As MetroFramework.Controls.MetroCheckBox
-    Public WithEvents CB_Anime As MetroFramework.Controls.MetroCheckBox
+    Public WithEvents EpisodeTitleCheckBox As MetroFramework.Controls.MetroCheckBox
+    Public WithEvents AudioLanguageCheckBox As MetroFramework.Controls.MetroCheckBox
+    Public WithEvents EpisodeNumberCheckBox As MetroFramework.Controls.MetroCheckBox
+    Public WithEvents KodiNamingCheckBox As MetroFramework.Controls.MetroCheckBox
+    Public WithEvents SeasonNumberCheckBox As MetroFramework.Controls.MetroCheckBox
+    Public WithEvents SeriesNameCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents TB_NameString As MetroFramework.Controls.MetroTextBox
     Friend WithEvents DD_Episode_Prefix As MetroFramework.Controls.MetroTextBox
     Friend WithEvents DD_Season_Prefix As MetroFramework.Controls.MetroTextBox

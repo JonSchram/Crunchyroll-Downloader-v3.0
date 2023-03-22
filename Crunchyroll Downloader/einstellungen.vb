@@ -160,7 +160,7 @@ Public Class Einstellungen
         End If
 
         If Main.KodiNaming = True Then
-            CB_Kodi.Checked = True
+            KodiNamingCheckBox.Checked = True
         End If
 
         If Main.DubMode = True Then
@@ -335,15 +335,15 @@ Public Class Einstellungen
         For i As Integer = 0 To NameParts.Count - 1
 
             If NameParts(i) = "AnimeTitle" Then
-                CB_Anime.Checked = True
+                SeriesNameCheckBox.Checked = True
             ElseIf NameParts(i) = "Season" Then
-                CB_Season.Checked = True
+                SeasonNumberCheckBox.Checked = True
             ElseIf NameParts(i) = "EpisodeNR" Then
-                CB_EpisodeNR.Checked = True
+                EpisodeNumberCheckBox.Checked = True
             ElseIf NameParts(i) = "EpisodeName" Then
-                CB_EpisodeName.Checked = True
+                EpisodeTitleCheckBox.Checked = True
             ElseIf NameParts(i) = "AnimeDub" Then
-                CB_AnimeDub.Checked = True
+                AudioLanguageCheckBox.Checked = True
             End If
 
         Next
@@ -649,7 +649,7 @@ Public Class Einstellungen
         End If
 
 
-        If CB_Kodi.Checked = True Then
+        If KodiNamingCheckBox.Checked = True Then
             Main.KodiNaming = True
             My.Settings.KodiSupport = True
         Else
@@ -1215,34 +1215,34 @@ Public Class Einstellungen
     End Sub
 #Region "Build Name String"
 
-    Private Sub CB_Anime_CheckedChanged(sender As Object, e As EventArgs) Handles CB_Anime.CheckedChanged, CB_Season.CheckedChanged, CB_EpisodeNR.CheckedChanged, CB_EpisodeName.CheckedChanged, CB_AnimeDub.CheckedChanged, CB_Kodi.CheckedChanged
-        If CB_Anime.Checked = True And CBool(InStr(TB_NameString.Text, "AnimeTitle;")) = False Then
+    Private Sub CB_Anime_CheckedChanged(sender As Object, e As EventArgs) Handles SeriesNameCheckBox.CheckedChanged, SeasonNumberCheckBox.CheckedChanged, EpisodeNumberCheckBox.CheckedChanged, EpisodeTitleCheckBox.CheckedChanged, AudioLanguageCheckBox.CheckedChanged, KodiNamingCheckBox.CheckedChanged
+        If SeriesNameCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "AnimeTitle;")) = False Then
             TB_NameString.AppendText("AnimeTitle;")
-        ElseIf CB_Anime.Checked = False Then
+        ElseIf SeriesNameCheckBox.Checked = False Then
             TB_NameString.Text = TB_NameString.Text.Replace("AnimeTitle;", "")
         End If
 
-        If CB_Season.Checked = True And CBool(InStr(TB_NameString.Text, "Season;")) = False Then
+        If SeasonNumberCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "Season;")) = False Then
             TB_NameString.AppendText("Season;")
-        ElseIf CB_Season.Checked = False Then
+        ElseIf SeasonNumberCheckBox.Checked = False Then
             TB_NameString.Text = TB_NameString.Text.Replace("Season;", "")
         End If
 
-        If CB_EpisodeNR.Checked = True And CBool(InStr(TB_NameString.Text, "EpisodeNR;")) = False Then
+        If EpisodeNumberCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "EpisodeNR;")) = False Then
             TB_NameString.AppendText("EpisodeNR;")
-        ElseIf CB_EpisodeNR.Checked = False Then
+        ElseIf EpisodeNumberCheckBox.Checked = False Then
             TB_NameString.Text = TB_NameString.Text.Replace("EpisodeNR;", "")
         End If
 
-        If CB_EpisodeName.Checked = True And CBool(InStr(TB_NameString.Text, "EpisodeName;")) = False Then
+        If EpisodeTitleCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "EpisodeName;")) = False Then
             TB_NameString.AppendText("EpisodeName;")
-        ElseIf CB_EpisodeName.Checked = False Then
+        ElseIf EpisodeTitleCheckBox.Checked = False Then
             TB_NameString.Text = TB_NameString.Text.Replace("EpisodeName;", "")
         End If
 
-        If CB_AnimeDub.Checked = True And CBool(InStr(TB_NameString.Text, "AnimeDub;")) = False Then
+        If AudioLanguageCheckBox.Checked = True And CBool(InStr(TB_NameString.Text, "AnimeDub;")) = False Then
             TB_NameString.AppendText("AnimeDub;")
-        ElseIf CB_AnimeDub.Checked = False Then
+        ElseIf AudioLanguageCheckBox.Checked = False Then
             TB_NameString.Text = TB_NameString.Text.Replace("AnimeDub;", "")
         End If
 
