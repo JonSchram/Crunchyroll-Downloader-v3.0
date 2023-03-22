@@ -99,7 +99,6 @@ Public Class Main
     Public Grapp_RDY As Boolean = True
     Public Grapp_non_cr_RDY As Boolean = True
     Public Grapp_Abord As Boolean = False
-    Public LeadingZero As Integer = 1
     Public ResoNotFoundString As String
     Public ResoBackString As String
     Public WebbrowserHeadText As String = Nothing
@@ -366,14 +365,8 @@ Public Class Main
             Post = "." + txt_split(1)
         End If
 
-        For i As Integer = 0 To LeadingZero + 1
-            If txt.Count = LeadingZero + 1 Or txt.Count > LeadingZero + 1 Then
-                Exit For
-            Else
-                txt = "0" + txt
-            End If
-        Next
-
+        Dim paddedLength = ProgramSettings.GetInstance().ZeroPaddingLength
+        txt = txt.PadLeft(paddedLength, "0"c)
         Dim Output As String = txt + Post
 
         Return Output
@@ -472,9 +465,6 @@ Public Class Main
         DubMode = My.Settings.DubMode
 
         CR_Chapters = My.Settings.CR_Chapters
-
-
-        LeadingZero = My.Settings.LeadingZero
 
 
         For i As Integer = 0 To LangValueEnum.Count - 1

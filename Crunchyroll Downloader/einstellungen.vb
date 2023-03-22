@@ -151,10 +151,6 @@ Public Class Einstellungen
         Manager.Owner = Me
         Me.StyleManager = Manager
 
-
-
-        LeadingZeroDD.SelectedIndex = Main.LeadingZero
-
         Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
 
         If Main.IncludeLangName = True Then
@@ -369,8 +365,19 @@ Public Class Einstellungen
         InitializeSeasonNumberBehaviorInput()
         InitializeSeasonPrefixInput()
         InitializeEpisodePrefixInput()
+        InitializeZeroPaddingInput()
     End Sub
 
+    Private Sub InitializeZeroPaddingInput()
+        Dim settings = ProgramSettings.GetInstance()
+        Dim zeroPadding = settings.ZeroPaddingLength
+        If zeroPadding >= 5 Then
+            zeroPadding = 4
+        ElseIf zeroPadding < 1 Then
+            zeroPadding = 1
+        End If
+        LeadingZerosComboBox.SelectedIndex = zeroPadding - 1
+    End Sub
     Private Sub InitializeSeasonPrefixInput()
         Dim settings = ProgramSettings.GetInstance()
         Dim seasonPrefix = settings.SeasonPrefix
@@ -653,6 +660,11 @@ Public Class Einstellungen
         End If
     End Sub
 
+    Private Sub SaveLeadingZeros()
+        Dim settings = ProgramSettings.GetInstance()
+        settings.ZeroPaddingLength = LeadingZerosComboBox.SelectedIndex + 1
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -686,13 +698,11 @@ Public Class Einstellungen
         SaveSeasonNumberBehavior()
         SaveSeasonPrefix()
         SaveEpisodePrefix()
+        SaveLeadingZeros()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
         SaveCurrentSettings()
-
-        Main.LeadingZero = LeadingZeroDD.SelectedIndex
-        My.Settings.LeadingZero = LeadingZeroDD.SelectedIndex
 
         Main.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
         My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex

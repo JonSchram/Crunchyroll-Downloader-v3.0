@@ -82,7 +82,7 @@ Partial Class Einstellungen
         Me.TabControl1 = New MetroFramework.Controls.MetroTabControl()
         Me.MetroTabPage2 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
-        Me.LeadingZeroDD = New MetroFramework.Controls.MetroComboBox()
+        Me.LeadingZerosComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.LangNameType_DD = New MetroFramework.Controls.MetroComboBox()
         Me.CB_SoftSubSettings = New MetroFramework.Controls.MetroComboBox()
@@ -967,7 +967,7 @@ Partial Class Einstellungen
         'GroupBox17
         '
         Me.GroupBox17.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox17.Controls.Add(Me.LeadingZeroDD)
+        Me.GroupBox17.Controls.Add(Me.LeadingZerosComboBox)
         Me.GroupBox17.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox17.ForeColor = System.Drawing.Color.Black
         Me.GroupBox17.Location = New System.Drawing.Point(5, 300)
@@ -977,19 +977,19 @@ Partial Class Einstellungen
         Me.GroupBox17.TabStop = False
         Me.GroupBox17.Text = "Filename Prefix"
         '
-        'LeadingZeroDD
+        'LeadingZerosComboBox
         '
-        Me.LeadingZeroDD.DropDownHeight = 250
-        Me.LeadingZeroDD.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LeadingZeroDD.FormattingEnabled = True
-        Me.LeadingZeroDD.IntegralHeight = False
-        Me.LeadingZeroDD.ItemHeight = 23
-        Me.LeadingZeroDD.Items.AddRange(New Object() {"1", "01", "001", "0001"})
-        Me.LeadingZeroDD.Location = New System.Drawing.Point(123, 21)
-        Me.LeadingZeroDD.Name = "LeadingZeroDD"
-        Me.LeadingZeroDD.Size = New System.Drawing.Size(225, 29)
-        Me.LeadingZeroDD.TabIndex = 20
-        Me.LeadingZeroDD.UseSelectable = True
+        Me.LeadingZerosComboBox.DropDownHeight = 250
+        Me.LeadingZerosComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LeadingZerosComboBox.FormattingEnabled = True
+        Me.LeadingZerosComboBox.IntegralHeight = False
+        Me.LeadingZerosComboBox.ItemHeight = 23
+        Me.LeadingZerosComboBox.Items.AddRange(New Object() {"1", "01", "001", "0001"})
+        Me.LeadingZerosComboBox.Location = New System.Drawing.Point(123, 21)
+        Me.LeadingZerosComboBox.Name = "LeadingZerosComboBox"
+        Me.LeadingZerosComboBox.Size = New System.Drawing.Size(225, 29)
+        Me.LeadingZerosComboBox.TabIndex = 20
+        Me.LeadingZerosComboBox.UseSelectable = True
         '
         'GroupBox3
         '
@@ -1852,7 +1852,7 @@ Partial Class Einstellungen
     Friend WithEvents MetroTabPage2 As MetroFramework.Controls.MetroTabPage
     Friend WithEvents GB_Filename_Pre As GroupBox
     Friend WithEvents GroupBox12 As GroupBox
-    Friend WithEvents LeadingZeroDD As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents LeadingZerosComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox17 As GroupBox
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents LangNameType_DD As MetroFramework.Controls.MetroComboBox

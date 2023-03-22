@@ -451,8 +451,19 @@ Namespace settings
             End Set
         End Property
 
-        ' Length of zero-padded episode / season number in file name
-        Public Property FilenamePrefixDigits As Integer
+        ''' <summary>
+        ''' Length of zero-padded episode / season number in file name
+        ''' Length is after padding has been applied, so 1 -> no padding, 2 -> add a zero such that length = 2
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ZeroPaddingLength As Integer
+            Get
+                Return My.Settings.LeadingZero
+            End Get
+            Set(value As Integer)
+                My.Settings.LeadingZero = value
+            End Set
+        End Property
 
         Public Property IncludeSubtitleLanguageInFirstSubtitleFile As Boolean
 
