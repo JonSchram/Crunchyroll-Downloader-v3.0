@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Runtime.Serialization
 Imports Crunchyroll_Downloader.settings.ProgramSettings
 
 Namespace settings
@@ -53,6 +54,7 @@ Namespace settings
             DisplayItemsBinding.Clear()
         End Sub
 
+        <Serializable>
         Public Class EnumDisplayEntry
             Private ReadOnly Property EnumValue As T
             Private ReadOnly Property EnumText As String

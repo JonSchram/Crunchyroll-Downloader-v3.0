@@ -84,6 +84,7 @@ Partial Class Einstellungen
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
         Me.LeadingZerosComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.IncludeLanguageNameCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.SubLanguageNamingComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GB_Filename_Pre = New System.Windows.Forms.GroupBox()
         Me.SeasonPrefixTextBox = New MetroFramework.Controls.MetroTextBox()
@@ -101,7 +102,7 @@ Partial Class Einstellungen
         Me.GroupBox20 = New System.Windows.Forms.GroupBox()
         Me.ChB_Chapters = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
-        Me.CB_CR_Audio = New MetroFramework.Controls.MetroComboBox()
+        Me.CrunchyrollAudioLanguageCheckBox = New MetroFramework.Controls.MetroComboBox()
         Me.DubMode = New MetroFramework.Controls.MetroCheckBox()
         Me.TabPage6 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox15 = New System.Windows.Forms.GroupBox()
@@ -132,7 +133,7 @@ Partial Class Einstellungen
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
-        Me.IncludeLanguageNameCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.CrunchyrollSoftSubsCheckedListBox = New System.Windows.Forms.CheckedListBox()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox14.SuspendLayout()
         Me.SoftSubs.SuspendLayout()
@@ -199,7 +200,7 @@ Partial Class Einstellungen
         Me.GroupBox14.Controls.Add(Me.CR_SoftSubDefault)
         Me.GroupBox14.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox14.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox14.Location = New System.Drawing.Point(5, 255)
+        Me.GroupBox14.Location = New System.Drawing.Point(5, 284)
         Me.GroupBox14.Name = "GroupBox14"
         Me.GroupBox14.Size = New System.Drawing.Size(490, 70)
         Me.GroupBox14.TabIndex = 30
@@ -224,11 +225,11 @@ Partial Class Einstellungen
         'SoftSubs
         '
         Me.SoftSubs.BackColor = System.Drawing.Color.Transparent
-        Me.SoftSubs.Controls.Add(Me.CR_SoftSubs)
+        Me.SoftSubs.Controls.Add(Me.CrunchyrollSoftSubsCheckedListBox)
         Me.SoftSubs.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SoftSubs.Location = New System.Drawing.Point(5, 190)
         Me.SoftSubs.Name = "SoftSubs"
-        Me.SoftSubs.Size = New System.Drawing.Size(490, 65)
+        Me.SoftSubs.Size = New System.Drawing.Size(490, 88)
         Me.SoftSubs.TabIndex = 20
         Me.SoftSubs.TabStop = False
         Me.SoftSubs.Text = "SoftSubs"
@@ -241,7 +242,7 @@ Partial Class Einstellungen
         Me.CR_SoftSubs.IntegralHeight = False
         Me.CR_SoftSubs.ItemHeight = 23
         Me.CR_SoftSubs.Items.AddRange(New Object() {"select Softsubs"})
-        Me.CR_SoftSubs.Location = New System.Drawing.Point(85, 21)
+        Me.CR_SoftSubs.Location = New System.Drawing.Point(5, 452)
         Me.CR_SoftSubs.MaxDropDownItems = 1
         Me.CR_SoftSubs.Name = "CR_SoftSubs"
         Me.CR_SoftSubs.Size = New System.Drawing.Size(320, 29)
@@ -941,7 +942,7 @@ Partial Class Einstellungen
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 2
+        Me.TabControl1.SelectedIndex = 3
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -955,9 +956,9 @@ Partial Class Einstellungen
         Me.MetroTabPage2.HorizontalScrollbarBarColor = True
         Me.MetroTabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage2.HorizontalScrollbarSize = 10
-        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage2.Name = "MetroTabPage2"
-        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage2.TabIndex = 8
         Me.MetroTabPage2.Text = "Naming"
         Me.MetroTabPage2.VerticalScrollbarBarColor = True
@@ -1004,6 +1005,16 @@ Partial Class Einstellungen
         Me.GroupBox3.TabIndex = 52
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Subtitle File naming"
+        '
+        'IncludeLanguageNameCheckBox
+        '
+        Me.IncludeLanguageNameCheckBox.AutoSize = True
+        Me.IncludeLanguageNameCheckBox.Location = New System.Drawing.Point(128, 36)
+        Me.IncludeLanguageNameCheckBox.Name = "IncludeLanguageNameCheckBox"
+        Me.IncludeLanguageNameCheckBox.Size = New System.Drawing.Size(244, 15)
+        Me.IncludeLanguageNameCheckBox.TabIndex = 32
+        Me.IncludeLanguageNameCheckBox.Text = "Include language name in first subtitle file"
+        Me.IncludeLanguageNameCheckBox.UseSelectable = True
         '
         'SubLanguageNamingComboBox
         '
@@ -1238,6 +1249,7 @@ Partial Class Einstellungen
         '
         'MetroTabPage1
         '
+        Me.MetroTabPage1.Controls.Add(Me.CR_SoftSubs)
         Me.MetroTabPage1.Controls.Add(Me.GroupBox20)
         Me.MetroTabPage1.Controls.Add(Me.GroupBox19)
         Me.MetroTabPage1.Controls.Add(Me.GroupBox14)
@@ -1246,9 +1258,9 @@ Partial Class Einstellungen
         Me.MetroTabPage1.HorizontalScrollbarBarColor = True
         Me.MetroTabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage1.HorizontalScrollbarSize = 10
-        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 35)
+        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 44)
         Me.MetroTabPage1.Name = "MetroTabPage1"
-        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 528)
+        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 519)
         Me.MetroTabPage1.TabIndex = 7
         Me.MetroTabPage1.Text = "Crunchyroll"
         Me.MetroTabPage1.VerticalScrollbarBarColor = True
@@ -1261,7 +1273,7 @@ Partial Class Einstellungen
         Me.GroupBox20.Controls.Add(Me.ChB_Chapters)
         Me.GroupBox20.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox20.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox20.Location = New System.Drawing.Point(3, 330)
+        Me.GroupBox20.Location = New System.Drawing.Point(5, 360)
         Me.GroupBox20.Name = "GroupBox20"
         Me.GroupBox20.Size = New System.Drawing.Size(490, 65)
         Me.GroupBox20.TabIndex = 34
@@ -1282,7 +1294,7 @@ Partial Class Einstellungen
         'GroupBox19
         '
         Me.GroupBox19.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox19.Controls.Add(Me.CB_CR_Audio)
+        Me.GroupBox19.Controls.Add(Me.CrunchyrollAudioLanguageCheckBox)
         Me.GroupBox19.Controls.Add(Me.DubMode)
         Me.GroupBox19.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox19.ForeColor = System.Drawing.Color.Black
@@ -1293,18 +1305,18 @@ Partial Class Einstellungen
         Me.GroupBox19.TabStop = False
         Me.GroupBox19.Text = "Dubbed"
         '
-        'CB_CR_Audio
+        'CrunchyrollAudioLanguageCheckBox
         '
-        Me.CB_CR_Audio.DropDownHeight = 275
-        Me.CB_CR_Audio.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CB_CR_Audio.FormattingEnabled = True
-        Me.CB_CR_Audio.IntegralHeight = False
-        Me.CB_CR_Audio.ItemHeight = 23
-        Me.CB_CR_Audio.Location = New System.Drawing.Point(85, 55)
-        Me.CB_CR_Audio.Name = "CB_CR_Audio"
-        Me.CB_CR_Audio.Size = New System.Drawing.Size(320, 29)
-        Me.CB_CR_Audio.TabIndex = 21
-        Me.CB_CR_Audio.UseSelectable = True
+        Me.CrunchyrollAudioLanguageCheckBox.DropDownHeight = 275
+        Me.CrunchyrollAudioLanguageCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CrunchyrollAudioLanguageCheckBox.FormattingEnabled = True
+        Me.CrunchyrollAudioLanguageCheckBox.IntegralHeight = False
+        Me.CrunchyrollAudioLanguageCheckBox.ItemHeight = 23
+        Me.CrunchyrollAudioLanguageCheckBox.Location = New System.Drawing.Point(85, 55)
+        Me.CrunchyrollAudioLanguageCheckBox.Name = "CrunchyrollAudioLanguageCheckBox"
+        Me.CrunchyrollAudioLanguageCheckBox.Size = New System.Drawing.Size(320, 29)
+        Me.CrunchyrollAudioLanguageCheckBox.TabIndex = 21
+        Me.CrunchyrollAudioLanguageCheckBox.UseSelectable = True
         '
         'DubMode
         '
@@ -1700,15 +1712,13 @@ Partial Class Einstellungen
         Me.Btn_Save.TabIndex = 9
         Me.Btn_Save.UseVisualStyleBackColor = False
         '
-        'IncludeLanguageNameCheckBox
+        'CrunchyrollSoftSubsCheckedListBox
         '
-        Me.IncludeLanguageNameCheckBox.AutoSize = True
-        Me.IncludeLanguageNameCheckBox.Location = New System.Drawing.Point(128, 36)
-        Me.IncludeLanguageNameCheckBox.Name = "IncludeLanguageNameCheckBox"
-        Me.IncludeLanguageNameCheckBox.Size = New System.Drawing.Size(244, 15)
-        Me.IncludeLanguageNameCheckBox.TabIndex = 32
-        Me.IncludeLanguageNameCheckBox.Text = "Include language name in first subtitle file"
-        Me.IncludeLanguageNameCheckBox.UseSelectable = True
+        Me.CrunchyrollSoftSubsCheckedListBox.FormattingEnabled = True
+        Me.CrunchyrollSoftSubsCheckedListBox.Location = New System.Drawing.Point(121, 21)
+        Me.CrunchyrollSoftSubsCheckedListBox.Name = "CrunchyrollSoftSubsCheckedListBox"
+        Me.CrunchyrollSoftSubsCheckedListBox.Size = New System.Drawing.Size(230, 55)
+        Me.CrunchyrollSoftSubsCheckedListBox.TabIndex = 0
         '
         'Einstellungen
         '
@@ -1871,7 +1881,7 @@ Partial Class Einstellungen
     Friend WithEvents FilenameTemplatePreview As MetroFramework.Controls.MetroTextBox
     Friend WithEvents EpisodePrefixTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents SeasonPrefixTextBox As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents CB_CR_Audio As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents CrunchyrollAudioLanguageCheckBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox21 As GroupBox
     Friend WithEvents CB_HideSF As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox20 As GroupBox
@@ -1892,4 +1902,5 @@ Partial Class Einstellungen
     Friend WithEvents TargetBitrateCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents FfmpegCopyCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents IncludeLanguageNameCheckBox As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents CrunchyrollSoftSubsCheckedListBox As CheckedListBox
 End Class

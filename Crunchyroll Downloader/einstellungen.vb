@@ -34,6 +34,7 @@ Public Class Einstellungen
     Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.EncoderImplementation)()
     Private ReadOnly SeasonNumberBehaviorTextlist As New EnumTextList(Of SeasonNumberBehavior)()
     Private ReadOnly SubtitleNamingTextList As New EnumTextList(Of LanguageNameMethod)()
+    Private ReadOnly CrunchyrollLanguageTextList As New EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage)
 
     Private ReadOnly SubToTextMap As New Dictionary(Of Format.SubtitleMerge, String)() From {
     {Format.SubtitleMerge.DISABLED, "[merge disabled]"},
@@ -115,6 +116,19 @@ Public Class Einstellungen
             .Add(LanguageNameMethod.CRUNCHYROLL, "Crunchyroll language names")
             .Add(LanguageNameMethod.ISO639_2_CODES, "ISO639-2 language codes")
             .Add(LanguageNameMethod.CRUNCHYROLL_AND_ISO639_2_CODES, "Crunchyroll + ISO639-2 language codes")
+        End With
+
+        With CrunchyrollLanguageTextList
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.GERMAN_GERMANY, "Deutsch (Germany)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.ENGLISH_US, "English (US)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.PORTUGUESE_BRAZIL, "Português (Brazil)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_LATIN_AMERICA, "Español (LA)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.FRENCH_FRANCE, "Français (France)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.ARABIC, "العربية (Arabic)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.RUSSIAN, "Русский (Russian)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.ITALIAN, "Italiano (Italian)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_SPAIN, "Español (Spain)")
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.JAPANESE, "日本語 (Japanese)")
         End With
 
         nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
@@ -270,13 +284,13 @@ Public Class Einstellungen
         Next
 
 
-        CB_CR_Audio.Items.Clear()
+        CrunchyrollAudioLanguageCheckBox.Items.Clear()
 
         For i As Integer = 1 To Main.LangValueEnum.Count - 1
 
-            CB_CR_Audio.Items.Add(Main.LangValueEnum(i).Name)
+            CrunchyrollAudioLanguageCheckBox.Items.Add(Main.LangValueEnum(i).Name)
             If Main.LangValueEnum(i).CR_Value = Main.DubSprache.CR_Value Then
-                CB_CR_Audio.SelectedIndex = i - 1
+                CrunchyrollAudioLanguageCheckBox.SelectedIndex = i - 1
 
             End If
 
@@ -361,8 +375,16 @@ Public Class Einstellungen
         InitializeZeroPaddingInput()
         IncludeLanguageNameCheckBox.Checked = settings.IncludeSubtitleLanguageInFirstSubtitle
         InitializeSubtitleNamingInput()
+
+        ' Crunchyroll settings
+        InitializeCrunchyrollSoftSubs()
     End Sub
 
+    Private Sub InitializeCrunchyrollSoftSubs()
+        CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
+        CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollLanguageTextList.GetDisplayItems()
+
+    End Sub
     Private Sub InitializeSubtitleNamingInput()
         Dim settings = ProgramSettings.GetInstance()
         SubLanguageNamingComboBox.Items.Clear()
@@ -746,7 +768,7 @@ Public Class Einstellungen
 
         For i As Integer = 0 To Main.LangValueEnum.Count - 1
 
-            If CB_CR_Audio.SelectedItem.ToString = Main.LangValueEnum(i).Name Then
+            If CrunchyrollAudioLanguageCheckBox.SelectedItem.ToString = Main.LangValueEnum(i).Name Then
                 Main.DubSprache = Main.LangValueEnum(i)
                 My.Settings.CR_Dub = Main.DubSprache.CR_Value
 
