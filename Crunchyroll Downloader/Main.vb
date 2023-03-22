@@ -38,24 +38,15 @@ Public Class Main
     Public CR_v1Token As String = ""
 
 
-    'Public GetBetaSeasonsRetry As Boolean = False
-    'Public GetBetaSeasonSingle As Boolean = False
 
     Public CR_MassSeasons As New List(Of CR_Seasons)
     Public CR_MassEpisodes As New List(Of CR_Seasons)
 
-    'Public CrBetaMass As String = Nothing
-    'Public CrBetaMassEpisodes As String = Nothing
-    'Public CrBetaMassParameters As String = Nothing
-    'Public CrBetaMassBaseURL As String = Nothing
 
     Public CrBetaBasic As String = Nothing
     Public locale As String = Nothing
     Public Url_locale As String = Nothing
     Dim ProcessCounting As Integer = 30
-    'Public CrBetaObjects As String = Nothing
-    'Public CrBetaStreams As String = Nothing
-    'Public CrBetaStreamsUrl As String = Nothing
     Public LoadingUrl As String = ""
     Public LoadedUrls As New List(Of CoreWebView2WebResourceRequest)
     Public Manager As New MetroStyleManager
@@ -74,21 +65,11 @@ Public Class Main
     Public Debug2 As Boolean = False
     Public LogBrowserData As Boolean = False
     Public Thumbnail As String = Nothing
-    'Public IgnoreS1 As Boolean = False
-    'Public SubsOnly As Boolean = False
     Public DownloadScope As Integer = 0
     Public MergeSubsFormat As String = "mov_text"
-    'Public LoginDialog As Boolean = False
-    'Public NonCR_Timeout As Integer = 5
-    'Public NonCR_URL As String = Nothing
     Public DlSoftSubsRDY As Boolean = True
     Public DialogTaskString As String
-    'Public ErrorBrowserString As String
-    'Public ErrorBrowserUrl As String
-    'Public ErrorBrowserBackString As String
     Public UserCloseDialog As Boolean = False
-    Dim Aktuell As String
-    Dim Gesamt As String
     Public LabelUpdate As String = "Status: idle"
     Public LabelEpisode As String = "..."
     ' I think this indicates the user is just browsing in the browser
@@ -96,8 +77,6 @@ Public Class Main
     Public LoginOnly As String = "False"
     Public Pfad As String = My.Computer.FileSystem.CurrentDirectory
     Public ProfileFolder As String = Path.Combine(Application.StartupPath, "CRD-Profile") 'Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "CRD-Profile")
-    Public Season_PrefixDefault As String = "[default season prefix]"
-    Public Episode_PrefixDefault As String = "[default episode prefix]"
 
     Public ResoSave As String = "6666x6666"
     Public ResoFunBackup As String = "6666x6666"
@@ -117,8 +96,6 @@ Public Class Main
     Dim SoftSubsString As String
     Dim CR_Unlock_Error As String
     Dim SubSprache2 As String
-    'Dim URL_DL As String
-    'Dim Pfad_DL As String
     Public Grapp_RDY As Boolean = True
     Public Grapp_non_cr_RDY As Boolean = True
     Public Grapp_Abord As Boolean = False

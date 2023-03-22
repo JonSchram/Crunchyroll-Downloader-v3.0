@@ -1290,27 +1290,27 @@ Public Class Einstellungen
     End Sub
 
     Private Sub SeasonPrefixTextBox_UserAction(sender As Object, e As EventArgs) Handles SeasonPrefixTextBox.Click, SeasonPrefixTextBox.GotFocus
-        If SeasonPrefixTextBox.Text = Main.Season_PrefixDefault Then
+        If SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER Then
             SeasonPrefixTextBox.Text = Nothing
         End If
     End Sub
 
     Private Sub SeasonPrefixTextBox_LostFocus(sender As Object, e As EventArgs) Handles SeasonPrefixTextBox.LostFocus
         If SeasonPrefixTextBox.Text = Nothing Then
-            SeasonPrefixTextBox.Text = Main.Season_PrefixDefault
+            SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER
         End If
     End Sub
 
 
     Private Sub EpisodePrefixTextBox_UserAction(sender As Object, e As EventArgs) Handles EpisodePrefixTextBox.Click, EpisodePrefixTextBox.GotFocus
-        If EpisodePrefixTextBox.Text = Main.Episode_PrefixDefault Then
+        If EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER Then
             EpisodePrefixTextBox.Text = Nothing
         End If
     End Sub
 
     Private Sub EpisodePrefixTextBox_LostFocus(sender As Object, e As EventArgs) Handles EpisodePrefixTextBox.LostFocus
         If EpisodePrefixTextBox.Text = Nothing Then
-            EpisodePrefixTextBox.Text = Main.Episode_PrefixDefault
+            EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER
         End If
     End Sub
 
