@@ -474,7 +474,14 @@ Namespace settings
             End Set
         End Property
 
-        Public Property SubNaming As LanguageNameMethod
+        Public Property SubLanguageNaming As LanguageNameMethod
+            Get
+                Return CType(My.Settings.LangNameType, LanguageNameMethod)
+            End Get
+            Set(value As LanguageNameMethod)
+                My.Settings.LangNameType = value
+            End Set
+        End Property
 
 
         ' ----- Site settings
@@ -511,10 +518,10 @@ Namespace settings
             IGNORE_ALL_SEASON_NUMBERS = 2
         End Enum
 
-        Public Enum LanguageNameMethod
-            CRUNCHYROLL
-            ISO639_2_CODES
-            CRUNCHYROLL_AND_ISO639_2_CODES
+        Public Enum LanguageNameMethod As Integer
+            CRUNCHYROLL = 0
+            ISO639_2_CODES = 1
+            CRUNCHYROLL_AND_ISO639_2_CODES = 2
         End Enum
     End Class
 

@@ -33,6 +33,7 @@ Public Class Einstellungen
     Private ReadOnly CodecTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Codec)()
     Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.EncoderImplementation)()
     Private ReadOnly SeasonNumberBehaviorTextlist As New EnumTextList(Of SeasonNumberBehavior)()
+    Private ReadOnly SubtitleNamingTextList As New EnumTextList(Of LanguageNameMethod)()
 
     Private ReadOnly SubToTextMap As New Dictionary(Of Format.SubtitleMerge, String)() From {
     {Format.SubtitleMerge.DISABLED, "[merge disabled]"},
@@ -110,6 +111,12 @@ Public Class Einstellungen
             .Add(SeasonNumberBehavior.IGNORE_ALL_SEASON_NUMBERS, "Ignore all season numbers")
         End With
 
+        With SubtitleNamingTextList
+            .Add(LanguageNameMethod.CRUNCHYROLL, "Crunchyroll language names")
+            .Add(LanguageNameMethod.ISO639_2_CODES, "ISO639-2 language codes")
+            .Add(LanguageNameMethod.CRUNCHYROLL_AND_ISO639_2_CODES, "Crunchyroll + ISO639-2 language codes")
+        End With
+
         nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
     End Sub
 
@@ -152,14 +159,6 @@ Public Class Einstellungen
         Me.StyleManager = Manager
 
         Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
-
-        If Main.LangNameType = 1 Then
-            LangNameType_DD.SelectedIndex = 1
-        ElseIf Main.LangNameType = 2 Then
-            LangNameType_DD.SelectedIndex = 2
-        Else
-            LangNameType_DD.SelectedIndex = 0
-        End If
 
         If Main.DubMode = True Then
             DubMode.Checked = True
@@ -361,8 +360,15 @@ Public Class Einstellungen
         InitializeEpisodePrefixInput()
         InitializeZeroPaddingInput()
         IncludeLanguageNameCheckBox.Checked = settings.IncludeSubtitleLanguageInFirstSubtitle
+        InitializeSubtitleNamingInput()
     End Sub
 
+    Private Sub InitializeSubtitleNamingInput()
+        Dim settings = ProgramSettings.GetInstance()
+        SubLanguageNamingComboBox.Items.Clear()
+        SubLanguageNamingComboBox.DataSource = SubtitleNamingTextList.GetDisplayItems()
+        SubLanguageNamingComboBox.SelectedItem = SubtitleNamingTextList.Item(settings.SubLanguageNaming)
+    End Sub
     Private Sub InitializeZeroPaddingInput()
         Dim settings = ProgramSettings.GetInstance()
         Dim zeroPadding = settings.ZeroPaddingLength
@@ -660,6 +666,11 @@ Public Class Einstellungen
         settings.ZeroPaddingLength = LeadingZerosComboBox.SelectedIndex + 1
     End Sub
 
+    Private Sub SaveSubLanguageNaming()
+        Dim settings = ProgramSettings.GetInstance()
+        settings.SubLanguageNaming = SubtitleNamingTextList.GetEnumForItem(SubLanguageNamingComboBox.SelectedItem)
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -695,6 +706,7 @@ Public Class Einstellungen
         SaveEpisodePrefix()
         SaveLeadingZeros()
         settings.IncludeSubtitleLanguageInFirstSubtitle = IncludeLanguageNameCheckBox.Checked
+        SaveSubLanguageNaming()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -909,17 +921,6 @@ Public Class Einstellungen
         End If
         My.Settings.AddedSubs = SaveString
 
-
-        If LangNameType_DD.SelectedIndex = 1 Then
-            Main.LangNameType = 1
-            My.Settings.LangNameType = Main.LangNameType
-        ElseIf LangNameType_DD.SelectedIndex = 2 Then
-            Main.LangNameType = 2
-            My.Settings.LangNameType = Main.LangNameType
-        Else
-            Main.LangNameType = 0
-            My.Settings.LangNameType = Main.LangNameType
-        End If
 
         My.Settings.Save()
 

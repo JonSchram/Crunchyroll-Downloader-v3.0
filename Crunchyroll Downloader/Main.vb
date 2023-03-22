@@ -86,7 +86,6 @@ Public Class Main
     Public SubSprache As NameValuePair = New NameValuePair("[ null ]", "", Nothing)
 
     Public SoftSubs As New List(Of String)
-    Public LangNameType As Integer = 0
     Public HybridThread As Integer = CInt(Environment.ProcessorCount / 2 - 1)
     Public TempSoftSubs As New List(Of String)
     Public AbourtList As New List(Of String)
@@ -487,9 +486,6 @@ Public Class Main
         SubFolder_Value = My.Settings.SubFolder_Value
 
 
-        LangNameType = My.Settings.LangNameType
-
-
         HybridThread = My.Settings.HybridThread
 
         Funimation_srt = My.Settings.Funimation_srt
@@ -611,9 +607,10 @@ Public Class Main
 
         HardSub = HardSub.Replace("""", "")
 
-        If LangNameType = 1 Then
+        Dim subLanguageNaming = ProgramSettings.GetInstance().SubLanguageNaming
+        If subLanguageNaming = ProgramSettings.LanguageNameMethod.ISO639_2_CODES Then
             Return CCtoMP4CC(HardSub)
-        ElseIf LangNameType = 2 Then
+        ElseIf subLanguageNaming = ProgramSettings.LanguageNameMethod.CRUNCHYROLL_AND_ISO639_2_CODES Then
             Dim RS As String = HardSubValuesToDisplay(HardSub) + "." + CCtoMP4CC(HardSub)
             Return RS
         Else

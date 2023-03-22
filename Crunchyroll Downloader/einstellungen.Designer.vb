@@ -84,7 +84,7 @@ Partial Class Einstellungen
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
         Me.LeadingZerosComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.LangNameType_DD = New MetroFramework.Controls.MetroComboBox()
+        Me.SubLanguageNamingComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GB_Filename_Pre = New System.Windows.Forms.GroupBox()
         Me.SeasonPrefixTextBox = New MetroFramework.Controls.MetroTextBox()
         Me.EpisodePrefixTextBox = New MetroFramework.Controls.MetroTextBox()
@@ -995,7 +995,7 @@ Partial Class Einstellungen
         '
         Me.GroupBox3.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox3.Controls.Add(Me.IncludeLanguageNameCheckBox)
-        Me.GroupBox3.Controls.Add(Me.LangNameType_DD)
+        Me.GroupBox3.Controls.Add(Me.SubLanguageNamingComboBox)
         Me.GroupBox3.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox3.ForeColor = System.Drawing.Color.Black
         Me.GroupBox3.Location = New System.Drawing.Point(5, 380)
@@ -1005,19 +1005,19 @@ Partial Class Einstellungen
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Subtitle File naming"
         '
-        'LangNameType_DD
+        'SubLanguageNamingComboBox
         '
-        Me.LangNameType_DD.DropDownHeight = 250
-        Me.LangNameType_DD.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LangNameType_DD.FormattingEnabled = True
-        Me.LangNameType_DD.IntegralHeight = False
-        Me.LangNameType_DD.ItemHeight = 23
-        Me.LangNameType_DD.Items.AddRange(New Object() {"Crunchyroll language names", "ISO639-2 language codes", "Crunchyroll + ISO639-2 language codes"})
-        Me.LangNameType_DD.Location = New System.Drawing.Point(87, 80)
-        Me.LangNameType_DD.Name = "LangNameType_DD"
-        Me.LangNameType_DD.Size = New System.Drawing.Size(326, 29)
-        Me.LangNameType_DD.TabIndex = 31
-        Me.LangNameType_DD.UseSelectable = True
+        Me.SubLanguageNamingComboBox.DropDownHeight = 250
+        Me.SubLanguageNamingComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SubLanguageNamingComboBox.FormattingEnabled = True
+        Me.SubLanguageNamingComboBox.IntegralHeight = False
+        Me.SubLanguageNamingComboBox.ItemHeight = 23
+        Me.SubLanguageNamingComboBox.Items.AddRange(New Object() {"Crunchyroll language names", "ISO639-2 language codes", "Crunchyroll + ISO639-2 language codes"})
+        Me.SubLanguageNamingComboBox.Location = New System.Drawing.Point(87, 80)
+        Me.SubLanguageNamingComboBox.Name = "SubLanguageNamingComboBox"
+        Me.SubLanguageNamingComboBox.Size = New System.Drawing.Size(326, 29)
+        Me.SubLanguageNamingComboBox.TabIndex = 31
+        Me.SubLanguageNamingComboBox.UseSelectable = True
         '
         'GB_Filename_Pre
         '
@@ -1852,7 +1852,7 @@ Partial Class Einstellungen
     Friend WithEvents LeadingZerosComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox17 As GroupBox
     Friend WithEvents GroupBox3 As GroupBox
-    Friend WithEvents LangNameType_DD As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents SubLanguageNamingComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox18 As GroupBox
     Friend WithEvents UseQueueCheckbox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents MetroLabel3 As MetroFramework.Controls.MetroLabel
