@@ -117,7 +117,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="NameTemplate" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Unused</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="CR_Dub" Type="System.String" Scope="User">
       <Value Profile="(Default)">ja-JP</Value>

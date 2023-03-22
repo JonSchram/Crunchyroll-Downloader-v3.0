@@ -33,6 +33,10 @@ Namespace settings
                 Return True
             End If
 
+            If My.Settings.NameTemplate = "Unused" Then
+                Return True
+            End If
+
             Return False
         End Function
 
@@ -44,12 +48,14 @@ Namespace settings
             UpgradeVideoFormat()
             UpgradeMergeSubs()
             UpgradeFfmpegCommand()
+            UpgradeNameTemplate()
         End Sub
 
         Public Sub DiscardOldSettings()
             DiscardOldVideoFormat()
             DiscardOldMergeSubs()
             DiscardOldFfmpegCommand()
+            DiscardOldNameTemplate()
         End Sub
 
         Private Sub UpgradeVideoFormat()
@@ -167,6 +173,23 @@ Namespace settings
         End Sub
         Private Sub DiscardOldFfmpegCommand()
             My.Settings.ffmpeg_command = ""
+        End Sub
+
+        Private Sub UpgradeNameTemplate()
+            If My.Settings.CR_NameMethode = 0 Then
+                My.Settings.NameTemplate = "AnimeTitle;Season;EpisodeNR;"
+            ElseIf My.Settings.CR_NameMethode = 1 Then
+                My.Settings.NameTemplate = "AnimeTitle;Season;EpisodeName;"
+            ElseIf My.Settings.CR_NameMethode = 2 Then
+                My.Settings.NameTemplate = "AnimeTitle;Season;EpisodeNR;EpisodeName;"
+            ElseIf My.Settings.CR_NameMethode = 3 Then
+                My.Settings.NameTemplate = "AnimeTitle;Season;EpisodeName;EpisodeNR;"
+            End If
+            My.Settings.CR_NameMethode = -1
+        End Sub
+
+        Private Sub DiscardOldNameTemplate()
+            My.Settings.CR_NameMethode = -1
         End Sub
 
         ' ----- Main settings

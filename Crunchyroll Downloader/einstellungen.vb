@@ -37,6 +37,8 @@ Public Class Einstellungen
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
 
+    Private nameFormatter As FilenameFormatter
+
     Public CR_SoftSubsTemp As New List(Of String)
 
     Public Sub New()
@@ -93,6 +95,8 @@ Public Class Einstellungen
             .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.AMD, "AMD")
             .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL, "Intel")
         End With
+
+        nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
     End Sub
 
     Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)

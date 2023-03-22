@@ -512,7 +512,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Unused")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property NameTemplate() As String
             Get
                 Return CType(Me("NameTemplate"),String)

@@ -531,21 +531,7 @@ Public Class Main
 
         SubFolder_Value = My.Settings.SubFolder_Value
 
-        ' TODO change name templates to be a little less brittle
-        If My.Settings.NameTemplate = "Unused" Then 'convert old stlye
-            If My.Settings.CR_NameMethode = 0 Then
-                NameBuilder = "AnimeTitle;Season;EpisodeNR;"
-            ElseIf My.Settings.CR_NameMethode = 1 Then
-                NameBuilder = "AnimeTitle;Season;EpisodeName;"
-            ElseIf My.Settings.CR_NameMethode = 2 Then
-                NameBuilder = "AnimeTitle;Season;EpisodeNR;EpisodeName;"
-            ElseIf My.Settings.CR_NameMethode = 3 Then
-                NameBuilder = "AnimeTitle;Season;EpisodeName;EpisodeNR;"
-            End If
-        Else
-            NameBuilder = My.Settings.NameTemplate
-        End If
-
+        NameBuilder = My.Settings.NameTemplate
 
         IncludeLangName = My.Settings.IncludeLangName
 

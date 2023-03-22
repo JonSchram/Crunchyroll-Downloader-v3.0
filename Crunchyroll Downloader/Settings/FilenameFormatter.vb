@@ -10,7 +10,7 @@
             FilenameTemplate = template
         End Sub
 
-
+        ' TODO: Make filename template a little more intuitive to use.
         Public Sub AppendTemplateItem(item As TemplateItem)
             FilenameTemplate += GetNameFragment(item)
         End Sub
