@@ -61,7 +61,6 @@ Public Class Main
     Public Manager As New MetroStyleManager
     Public invalids As Char() = System.IO.Path.GetInvalidFileNameChars()
     Dim ServerThread As Thread
-    Public KodiNaming As Boolean = False
     Public CookieList As New List(Of CoreWebView2Cookie)
     'Public liList As New List(Of String)
     Public HTMLString As String = My.Resources.Startuphtml
@@ -499,8 +498,6 @@ Public Class Main
         DefaultSubFunimation = My.Settings.DefaultSubFunimation
 
         DefaultSubCR = My.Settings.DefaultSubCR
-
-        KodiNaming = My.Settings.KodiSupport
 
         DubMode = My.Settings.DubMode
 

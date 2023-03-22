@@ -1260,9 +1260,9 @@ Partial Class Einstellungen
         Me.MetroTabPage1.HorizontalScrollbarBarColor = True
         Me.MetroTabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage1.HorizontalScrollbarSize = 10
-        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 35)
+        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 44)
         Me.MetroTabPage1.Name = "MetroTabPage1"
-        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 528)
+        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 519)
         Me.MetroTabPage1.TabIndex = 7
         Me.MetroTabPage1.Text = "Crunchyroll"
         Me.MetroTabPage1.VerticalScrollbarBarColor = True

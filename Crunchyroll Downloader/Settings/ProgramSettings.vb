@@ -389,6 +389,15 @@ Namespace settings
             End Set
         End Property
 
+        Public Property KodiNaming As Boolean
+            Get
+                Return My.Settings.KodiSupport
+            End Get
+            Set(value As Boolean)
+                My.Settings.KodiSupport = value
+            End Set
+        End Property
+
         Public Property SeasonNumberNaming As SeasonNumberBehavior
 
         Public Property SeasonPrefix As String

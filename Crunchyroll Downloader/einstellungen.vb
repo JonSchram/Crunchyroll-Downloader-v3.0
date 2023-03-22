@@ -160,10 +160,6 @@ Public Class Einstellungen
             LangNameType_DD.SelectedIndex = 0
         End If
 
-        If Main.KodiNaming = True Then
-            KodiNamingCheckBox.Checked = True
-        End If
-
         If Main.DubMode = True Then
             DubMode.Checked = True
         End If
@@ -364,7 +360,13 @@ Public Class Einstellungen
 
         ' Naming settings
         InitializeNamingInputs()
+        InitializeKodiNaming()
 
+    End Sub
+
+    Private Sub InitializeKodiNaming()
+        Dim settings = ProgramSettings.GetInstance()
+        KodiNamingCheckBox.Checked = settings.KodiNaming
     End Sub
 
     Private Sub InitializeNamingInputs()
@@ -590,6 +592,11 @@ Public Class Einstellungen
         settings.FilenameFormat = nameFormatter.GetTemplate()
     End Sub
 
+    Private Sub SaveKodiNaming()
+        Dim settings = ProgramSettings.GetInstance()
+        settings.KodiNaming = KodiNamingCheckBox.Checked
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -616,7 +623,10 @@ Public Class Einstellungen
 
         SaveOutputFormat()
         SaveFfmpegSettings()
+
+        ' Naming settings
         SaveFilenameTemplate()
+        SaveKodiNaming()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -647,15 +657,6 @@ Public Class Einstellungen
         Else
             Main.CR_Chapters = False
             My.Settings.CR_Chapters = False
-        End If
-
-
-        If KodiNamingCheckBox.Checked = True Then
-            Main.KodiNaming = True
-            My.Settings.KodiSupport = True
-        Else
-            Main.KodiNaming = False
-            My.Settings.KodiSupport = False
         End If
 
 
@@ -1274,8 +1275,6 @@ Public Class Einstellungen
         Popup.Text = "CR Sub selection"
         Popup.Show()
     End Sub
-
-
 
     'Private Sub CB_CR_Audio_Click(sender As Object, e As EventArgs) Handles CB_CR_Audio.Click
     '    Dim Popup As New CheckBoxComboBox

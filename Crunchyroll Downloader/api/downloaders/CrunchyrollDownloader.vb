@@ -603,7 +603,7 @@ Public Class CrunchyrollDownloader
                 CR_FilenName = Main.RemoveExtraSpaces(String.Join(" ", TextBox2_Text.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace("""", "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(TextBox2_Text, "[^\w\\-]", " "))
             End If
 
-            If Main.KodiNaming = True Then
+            If settings.KodiNaming Then
                 Dim KodiString As String = "[S"
                 If CR_Anime_Staffel_int = "0" Then
                     CR_Anime_Staffel_int = "01"
