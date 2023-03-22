@@ -153,12 +153,6 @@ Public Class Einstellungen
 
         Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
 
-        If Main.IncludeLangName = True Then
-            CB_SoftSubSettings.SelectedIndex = 1
-        Else
-            CB_SoftSubSettings.SelectedIndex = 0
-        End If
-
         If Main.LangNameType = 1 Then
             LangNameType_DD.SelectedIndex = 1
         ElseIf Main.LangNameType = 2 Then
@@ -366,6 +360,7 @@ Public Class Einstellungen
         InitializeSeasonPrefixInput()
         InitializeEpisodePrefixInput()
         InitializeZeroPaddingInput()
+        IncludeLanguageNameCheckBox.Checked = settings.IncludeSubtitleLanguageInFirstSubtitle
     End Sub
 
     Private Sub InitializeZeroPaddingInput()
@@ -699,6 +694,7 @@ Public Class Einstellungen
         SaveSeasonPrefix()
         SaveEpisodePrefix()
         SaveLeadingZeros()
+        settings.IncludeSubtitleLanguageInFirstSubtitle = IncludeLanguageNameCheckBox.Checked
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -913,16 +909,6 @@ Public Class Einstellungen
         End If
         My.Settings.AddedSubs = SaveString
 
-
-
-
-        If CB_SoftSubSettings.SelectedIndex = 0 Then
-            Main.IncludeLangName = False
-            My.Settings.IncludeLangName = Main.IncludeLangName
-        Else
-            Main.IncludeLangName = True
-            My.Settings.IncludeLangName = Main.IncludeLangName
-        End If
 
         If LangNameType_DD.SelectedIndex = 1 Then
             Main.LangNameType = 1

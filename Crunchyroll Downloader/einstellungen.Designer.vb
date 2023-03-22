@@ -85,7 +85,6 @@ Partial Class Einstellungen
         Me.LeadingZerosComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.LangNameType_DD = New MetroFramework.Controls.MetroComboBox()
-        Me.CB_SoftSubSettings = New MetroFramework.Controls.MetroComboBox()
         Me.GB_Filename_Pre = New System.Windows.Forms.GroupBox()
         Me.SeasonPrefixTextBox = New MetroFramework.Controls.MetroTextBox()
         Me.EpisodePrefixTextBox = New MetroFramework.Controls.MetroTextBox()
@@ -133,6 +132,7 @@ Partial Class Einstellungen
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
+        Me.IncludeLanguageNameCheckBox = New MetroFramework.Controls.MetroCheckBox()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox14.SuspendLayout()
         Me.SoftSubs.SuspendLayout()
@@ -994,8 +994,8 @@ Partial Class Einstellungen
         'GroupBox3
         '
         Me.GroupBox3.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox3.Controls.Add(Me.IncludeLanguageNameCheckBox)
         Me.GroupBox3.Controls.Add(Me.LangNameType_DD)
-        Me.GroupBox3.Controls.Add(Me.CB_SoftSubSettings)
         Me.GroupBox3.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox3.ForeColor = System.Drawing.Color.Black
         Me.GroupBox3.Location = New System.Drawing.Point(5, 380)
@@ -1013,25 +1013,11 @@ Partial Class Einstellungen
         Me.LangNameType_DD.IntegralHeight = False
         Me.LangNameType_DD.ItemHeight = 23
         Me.LangNameType_DD.Items.AddRange(New Object() {"Crunchyroll language names", "ISO639-2 language codes", "Crunchyroll + ISO639-2 language codes"})
-        Me.LangNameType_DD.Location = New System.Drawing.Point(69, 80)
+        Me.LangNameType_DD.Location = New System.Drawing.Point(87, 80)
         Me.LangNameType_DD.Name = "LangNameType_DD"
         Me.LangNameType_DD.Size = New System.Drawing.Size(326, 29)
         Me.LangNameType_DD.TabIndex = 31
         Me.LangNameType_DD.UseSelectable = True
-        '
-        'CB_SoftSubSettings
-        '
-        Me.CB_SoftSubSettings.DropDownHeight = 250
-        Me.CB_SoftSubSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CB_SoftSubSettings.FormattingEnabled = True
-        Me.CB_SoftSubSettings.IntegralHeight = False
-        Me.CB_SoftSubSettings.ItemHeight = 23
-        Me.CB_SoftSubSettings.Items.AddRange(New Object() {"Exclude language name in first subtitle file", "Include language name in first subtitle file"})
-        Me.CB_SoftSubSettings.Location = New System.Drawing.Point(69, 30)
-        Me.CB_SoftSubSettings.Name = "CB_SoftSubSettings"
-        Me.CB_SoftSubSettings.Size = New System.Drawing.Size(326, 29)
-        Me.CB_SoftSubSettings.TabIndex = 30
-        Me.CB_SoftSubSettings.UseSelectable = True
         '
         'GB_Filename_Pre
         '
@@ -1714,6 +1700,16 @@ Partial Class Einstellungen
         Me.Btn_Save.TabIndex = 9
         Me.Btn_Save.UseVisualStyleBackColor = False
         '
+        'IncludeLanguageNameCheckBox
+        '
+        Me.IncludeLanguageNameCheckBox.AutoSize = True
+        Me.IncludeLanguageNameCheckBox.Location = New System.Drawing.Point(128, 36)
+        Me.IncludeLanguageNameCheckBox.Name = "IncludeLanguageNameCheckBox"
+        Me.IncludeLanguageNameCheckBox.Size = New System.Drawing.Size(244, 15)
+        Me.IncludeLanguageNameCheckBox.TabIndex = 32
+        Me.IncludeLanguageNameCheckBox.Text = "Include language name in first subtitle file"
+        Me.IncludeLanguageNameCheckBox.UseSelectable = True
+        '
         'Einstellungen
         '
         Me.ApplyImageInvert = True
@@ -1761,6 +1757,7 @@ Partial Class Einstellungen
         Me.MetroTabPage2.ResumeLayout(False)
         Me.GroupBox17.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.GB_Filename_Pre.ResumeLayout(False)
         Me.GroupBox12.ResumeLayout(False)
         Me.GroupBox12.PerformLayout()
@@ -1856,7 +1853,6 @@ Partial Class Einstellungen
     Friend WithEvents GroupBox17 As GroupBox
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents LangNameType_DD As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents CB_SoftSubSettings As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox18 As GroupBox
     Friend WithEvents UseQueueCheckbox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents MetroLabel3 As MetroFramework.Controls.MetroLabel
@@ -1895,4 +1891,5 @@ Partial Class Einstellungen
     Friend WithEvents MetroLabel5 As MetroFramework.Controls.MetroLabel
     Friend WithEvents TargetBitrateCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents FfmpegCopyCheckBox As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents IncludeLanguageNameCheckBox As MetroFramework.Controls.MetroCheckBox
 End Class

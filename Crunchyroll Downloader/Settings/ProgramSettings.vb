@@ -465,7 +465,14 @@ Namespace settings
             End Set
         End Property
 
-        Public Property IncludeSubtitleLanguageInFirstSubtitleFile As Boolean
+        Public Property IncludeSubtitleLanguageInFirstSubtitle As Boolean
+            Get
+                Return My.Settings.IncludeLangName
+            End Get
+            Set(value As Boolean)
+                My.Settings.IncludeLangName = value
+            End Set
+        End Property
 
         Public Property SubNaming As LanguageNameMethod
 

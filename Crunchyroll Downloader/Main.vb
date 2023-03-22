@@ -86,7 +86,6 @@ Public Class Main
     Public SubSprache As NameValuePair = New NameValuePair("[ null ]", "", Nothing)
 
     Public SoftSubs As New List(Of String)
-    Public IncludeLangName As Boolean = False
     Public LangNameType As Integer = 0
     Public HybridThread As Integer = CInt(Environment.ProcessorCount / 2 - 1)
     Public TempSoftSubs As New List(Of String)
@@ -486,8 +485,6 @@ Public Class Main
         Funimation_Bitrate = My.Settings.Funimation_Bitrate
 
         SubFolder_Value = My.Settings.SubFolder_Value
-
-        IncludeLangName = My.Settings.IncludeLangName
 
 
         LangNameType = My.Settings.LangNameType

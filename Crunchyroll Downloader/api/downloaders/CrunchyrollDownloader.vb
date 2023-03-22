@@ -959,7 +959,7 @@ Public Class CrunchyrollDownloader
                         SubText = Main.Curl(SoftSubsList(i2).Url.Replace(" -i ", "").Replace("""", ""))
                         Dim Pfad3 As String = Pfad2.Replace("""", "")
                         Dim FN As String = Path.ChangeExtension(Path.Combine(Path.GetFileNameWithoutExtension(Pfad3) + "." + Main.GetSubFileLangName(SoftSubsList(i2).SubLangValue) + Path.GetExtension(Pfad3)), "ass")
-                        If i = 0 And Main.IncludeLangName = False Then
+                        If i = 0 And Not settings.IncludeSubtitleLanguageInFirstSubtitle Then
                             FN = Path.ChangeExtension(Path.GetFileName(Pfad3), "ass")
                         End If
                         Dim Pfad4 As String = Path.Combine(Path.GetDirectoryName(Pfad3), FN)
