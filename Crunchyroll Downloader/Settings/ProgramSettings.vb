@@ -399,6 +399,13 @@ Namespace settings
         End Property
 
         Public Property SeasonNumberNaming As SeasonNumberBehavior
+            Get
+                Return CType(My.Settings.IgnoreSeason, SeasonNumberBehavior)
+            End Get
+            Set(value As SeasonNumberBehavior)
+                My.Settings.IgnoreSeason = value
+            End Set
+        End Property
 
         Public Property SeasonPrefix As String
         Public Property EpisodePrefix As String
@@ -439,10 +446,10 @@ Namespace settings
             RESOLUTION_1080P = 1080
         End Enum
 
-        Public Enum SeasonNumberBehavior
-            USE_SEASON_NUMBERS
-            IGNORE_SEASON_1
-            IGNORE_ALL_SEASON_NUMBERS
+        Public Enum SeasonNumberBehavior As Integer
+            USE_SEASON_NUMBERS = 0
+            IGNORE_SEASON_1 = 1
+            IGNORE_ALL_SEASON_NUMBERS = 2
         End Enum
 
         Public Enum LanguageNameMethod

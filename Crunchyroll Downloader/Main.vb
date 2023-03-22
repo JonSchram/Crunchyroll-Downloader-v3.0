@@ -75,7 +75,6 @@ Public Class Main
     Public LogBrowserData As Boolean = False
     Public Thumbnail As String = Nothing
     'Public IgnoreS1 As Boolean = False
-    Public IgnoreSeason As Integer = 0
     'Public SubsOnly As Boolean = False
     Public DownloadScope As Integer = 0
     Public MergeSubsFormat As String = "mov_text"
@@ -535,7 +534,6 @@ Public Class Main
 
         HybridThread = My.Settings.HybridThread
 
-        IgnoreSeason = My.Settings.IgnoreSeason
         Funimation_srt = My.Settings.Funimation_srt
         Funimation_vtt = My.Settings.Funimation_vtt
 

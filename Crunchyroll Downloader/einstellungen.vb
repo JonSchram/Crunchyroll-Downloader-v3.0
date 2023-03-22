@@ -26,6 +26,7 @@ Public Class Einstellungen
     Private ReadOnly SpeedPresetTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Speed)()
     Private ReadOnly CodecTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Codec)()
     Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.EncoderImplementation)()
+    Private ReadOnly SeasonNumberBehaviorTextlist As New EnumTextList(Of SeasonNumberBehavior)()
 
     Private ReadOnly SubToTextMap As New Dictionary(Of Format.SubtitleMerge, String)() From {
     {Format.SubtitleMerge.DISABLED, "[merge disabled]"},
@@ -97,6 +98,12 @@ Public Class Einstellungen
             .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL, "Intel")
         End With
 
+        With SeasonNumberBehaviorTextlist
+            .Add(SeasonNumberBehavior.USE_SEASON_NUMBERS, "Use season numbers (default)")
+            .Add(SeasonNumberBehavior.IGNORE_SEASON_1, "Ignore season 1")
+            .Add(SeasonNumberBehavior.IGNORE_ALL_SEASON_NUMBERS, "Ignore all season numbers")
+        End With
+
         nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
     End Sub
 
@@ -143,8 +150,6 @@ Public Class Einstellungen
         LeadingZeroDD.SelectedIndex = Main.LeadingZero
 
         Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
-
-        CB_Ignore.SelectedIndex = Main.IgnoreSeason
 
         If Main.IncludeLangName = True Then
             CB_SoftSubSettings.SelectedIndex = 1
@@ -361,7 +366,13 @@ Public Class Einstellungen
         ' Naming settings
         InitializeNamingInputs()
         InitializeKodiNaming()
+        InitializeSeasonNumberBehaviorInput()
+    End Sub
 
+    Private Sub InitializeSeasonNumberBehaviorInput()
+        Dim settings = ProgramSettings.GetInstance()
+        SeasonNumberBehaviorComboBox.DataSource = SeasonNumberBehaviorTextlist.GetDisplayItems()
+        SeasonNumberBehaviorComboBox.SelectedItem = SeasonNumberBehaviorTextlist.Item(settings.SeasonNumberNaming)
     End Sub
 
     Private Sub InitializeKodiNaming()
@@ -597,6 +608,11 @@ Public Class Einstellungen
         settings.KodiNaming = KodiNamingCheckBox.Checked
     End Sub
 
+    Private Sub SaveSeasonNumberBehavior()
+        Dim settings = ProgramSettings.GetInstance()
+        settings.SeasonNumberNaming = SeasonNumberBehaviorTextlist.GetEnumForItem(SeasonNumberBehaviorComboBox.SelectedItem)
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -627,6 +643,7 @@ Public Class Einstellungen
         ' Naming settings
         SaveFilenameTemplate()
         SaveKodiNaming()
+        SaveSeasonNumberBehavior()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -637,10 +654,6 @@ Public Class Einstellungen
 
         Main.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
         My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
-
-        Main.IgnoreSeason = CB_Ignore.SelectedIndex
-        My.Settings.IgnoreSeason = CB_Ignore.SelectedIndex
-
 
         If DubMode.Checked = True Then
             Main.DubMode = True

@@ -89,7 +89,7 @@ Partial Class Einstellungen
         Me.GB_Filename_Pre = New System.Windows.Forms.GroupBox()
         Me.DD_Season_Prefix = New MetroFramework.Controls.MetroTextBox()
         Me.DD_Episode_Prefix = New MetroFramework.Controls.MetroTextBox()
-        Me.CB_Ignore = New MetroFramework.Controls.MetroComboBox()
+        Me.SeasonNumberBehaviorComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox12 = New System.Windows.Forms.GroupBox()
         Me.EpisodeTitleCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.AudioLanguageCheckBox = New MetroFramework.Controls.MetroCheckBox()
@@ -1038,7 +1038,7 @@ Partial Class Einstellungen
         Me.GB_Filename_Pre.BackColor = System.Drawing.Color.Transparent
         Me.GB_Filename_Pre.Controls.Add(Me.DD_Season_Prefix)
         Me.GB_Filename_Pre.Controls.Add(Me.DD_Episode_Prefix)
-        Me.GB_Filename_Pre.Controls.Add(Me.CB_Ignore)
+        Me.GB_Filename_Pre.Controls.Add(Me.SeasonNumberBehaviorComboBox)
         Me.GB_Filename_Pre.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GB_Filename_Pre.ForeColor = System.Drawing.Color.Black
         Me.GB_Filename_Pre.Location = New System.Drawing.Point(5, 172)
@@ -1112,19 +1112,19 @@ Partial Class Einstellungen
         Me.DD_Episode_Prefix.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
         Me.DD_Episode_Prefix.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
         '
-        'CB_Ignore
+        'SeasonNumberBehaviorComboBox
         '
-        Me.CB_Ignore.DropDownHeight = 250
-        Me.CB_Ignore.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CB_Ignore.FormattingEnabled = True
-        Me.CB_Ignore.IntegralHeight = False
-        Me.CB_Ignore.ItemHeight = 23
-        Me.CB_Ignore.Items.AddRange(New Object() {"[Default] use season numbers", "ignore Season 1", "ignore all season numbers"})
-        Me.CB_Ignore.Location = New System.Drawing.Point(123, 21)
-        Me.CB_Ignore.Name = "CB_Ignore"
-        Me.CB_Ignore.Size = New System.Drawing.Size(225, 29)
-        Me.CB_Ignore.TabIndex = 40
-        Me.CB_Ignore.UseSelectable = True
+        Me.SeasonNumberBehaviorComboBox.DropDownHeight = 250
+        Me.SeasonNumberBehaviorComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SeasonNumberBehaviorComboBox.FormattingEnabled = True
+        Me.SeasonNumberBehaviorComboBox.IntegralHeight = False
+        Me.SeasonNumberBehaviorComboBox.ItemHeight = 23
+        Me.SeasonNumberBehaviorComboBox.Items.AddRange(New Object() {"[Default] use season numbers", "ignore Season 1", "ignore all season numbers"})
+        Me.SeasonNumberBehaviorComboBox.Location = New System.Drawing.Point(123, 21)
+        Me.SeasonNumberBehaviorComboBox.Name = "SeasonNumberBehaviorComboBox"
+        Me.SeasonNumberBehaviorComboBox.Size = New System.Drawing.Size(225, 29)
+        Me.SeasonNumberBehaviorComboBox.TabIndex = 40
+        Me.SeasonNumberBehaviorComboBox.UseSelectable = True
         '
         'GroupBox12
         '
@@ -1260,9 +1260,9 @@ Partial Class Einstellungen
         Me.MetroTabPage1.HorizontalScrollbarBarColor = True
         Me.MetroTabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage1.HorizontalScrollbarSize = 10
-        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage1.Name = "MetroTabPage1"
-        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage1.TabIndex = 7
         Me.MetroTabPage1.Text = "Crunchyroll"
         Me.MetroTabPage1.VerticalScrollbarBarColor = True
@@ -1861,7 +1861,7 @@ Partial Class Einstellungen
     Friend WithEvents UseQueueCheckbox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents MetroLabel3 As MetroFramework.Controls.MetroLabel
     Friend WithEvents TemporaryFolderTextBox As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents CB_Ignore As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents SeasonNumberBehaviorComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox19 As GroupBox
     Friend WithEvents DubMode As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CB_Merge As MetroFramework.Controls.MetroComboBox

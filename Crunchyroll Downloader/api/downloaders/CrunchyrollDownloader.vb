@@ -539,9 +539,11 @@ Public Class CrunchyrollDownloader
 
                 CR_FolderSeason = CR_season_number
 
-                If Main.IgnoreSeason = 1 And CR_season_number = "1" Or Main.IgnoreSeason = 1 And CR_season_number = "0" Then
-                    CR_season_number = Nothing
-                ElseIf Main.IgnoreSeason = 2 Then
+                If settings.SeasonNumberNaming = ProgramSettings.SeasonNumberBehavior.IGNORE_SEASON_1 Then
+                    If CR_season_number = "1" Or CR_season_number = "0" Then
+                        CR_season_number = Nothing
+                    End If
+                ElseIf settings.SeasonNumberNaming = ProgramSettings.SeasonNumberBehavior.IGNORE_ALL_SEASON_NUMBERS Then
                     CR_season_number = Nothing
                 End If
 
