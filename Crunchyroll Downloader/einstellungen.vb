@@ -38,6 +38,9 @@ Public Class Einstellungen
     Private ReadOnly SubtitleNamingTextList As New EnumTextList(Of LanguageNameMethod)()
     Private ReadOnly CrunchyrollLanguageTextList As New EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage)
 
+    Private ReadOnly CrunchyrollSoftSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
+    Private ReadOnly CrunchyrollDefaultLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
+
     Private ReadOnly SubToTextMap As New Dictionary(Of Format.SubtitleMerge, String)() From {
     {Format.SubtitleMerge.DISABLED, "[merge disabled]"},
     {Format.SubtitleMerge.MOV_TEXT, "mov_text"},
@@ -121,6 +124,7 @@ Public Class Einstellungen
         End With
 
         With CrunchyrollLanguageTextList
+            .Add(CrunchyrollSettings.CrunchyrollLanguage.NONE, "[Disabled]")
             .Add(CrunchyrollSettings.CrunchyrollLanguage.GERMAN_GERMANY, "Deutsch (Germany)")
             .Add(CrunchyrollSettings.CrunchyrollLanguage.ENGLISH_US, "English (US)")
             .Add(CrunchyrollSettings.CrunchyrollLanguage.PORTUGUESE_BRAZIL, "Português (Brazil)")
@@ -134,6 +138,9 @@ Public Class Einstellungen
         End With
 
         nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
+
+        CrunchyrollSoftSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
+        CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
     End Sub
 
     Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)
@@ -383,9 +390,27 @@ Public Class Einstellungen
     End Sub
 
     Private Sub InitializeCrunchyrollSoftSubs()
-        CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
-        CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollLanguageTextList.GetDisplayItems()
+        ' Use a sub list so that the soft sub combo box can exclude CrunchyrollLanguage.NONE
+        With CrunchyrollSoftSubLanguageSubList
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.JAPANESE)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_SPAIN)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.ITALIAN)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.RUSSIAN)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.ARABIC)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.FRENCH_FRANCE)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_LATIN_AMERICA)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.PORTUGUESE_BRAZIL)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.ENGLISH_US)
+            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.GERMAN_GERMANY)
+        End With
 
+        CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
+        CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollSoftSubLanguageSubList.GetDisplayItems()
+
+        CrunchyrollDefaultLanguageSubList.AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.NONE)
+        CR_SoftSubDefault.DataSource = CrunchyrollDefaultLanguageSubList.GetDisplayItems()
+
+        ' Load enum values from settings into check boxes
         Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
         Dim selectedSoftSubs = crSettings.SoftSubLanguages
         For itemNumber As Integer = 0 To CrunchyrollSoftSubsCheckedListBox.Items.Count - 1
@@ -395,6 +420,7 @@ Public Class Einstellungen
                 CrunchyrollSoftSubsCheckedListBox.SetItemChecked(itemNumber, True)
             End If
         Next
+
     End Sub
     Private Sub InitializeSubtitleNamingInput()
         Dim settings = ProgramSettings.GetInstance()
@@ -1267,12 +1293,25 @@ Public Class Einstellungen
         UpdateMergeFormatInput()
     End Sub
 
-    Private Sub CrunchyrollSoftSubsCheckedListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CrunchyrollSoftSubsCheckedListBox.SelectedIndexChanged
-        System.Console.WriteLine(CrunchyrollSoftSubsCheckedListBox.SelectedItems.Count)
-    End Sub
-
     Private Sub CrunchyrollSoftSubsCheckedListBox_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CrunchyrollSoftSubsCheckedListBox.ItemCheck
-        System.Console.WriteLine(CrunchyrollSoftSubsCheckedListBox.CheckedItems.Count)
+        Dim currentSelectedItem = CR_SoftSubDefault.SelectedItem
+        Dim currentDefaultSub = CrunchyrollLanguageTextList.GetEnumForItem(currentSelectedItem)
+
+        Dim changedIndex = e.Index
+        Dim changedItem = CrunchyrollSoftSubsCheckedListBox.Items.Item(changedIndex)
+        Dim changedEnum = CrunchyrollLanguageTextList.GetEnumForItem(changedItem)
+        If e.NewValue = CheckState.Checked Then
+            CrunchyrollDefaultLanguageSubList.AddFromParent(changedEnum)
+        ElseIf e.NewValue = CheckState.Unchecked Then
+            CrunchyrollDefaultLanguageSubList.RemoveEnum(changedEnum)
+        End If
+
+        ' Must set the selected item because it may have changed when adding or removing an item
+        ' Combo box seems to maintain the selected index, not the selected item
+        If changedEnum <> currentDefaultSub Then
+            CR_SoftSubDefault.SelectedItem = currentSelectedItem
+        End If
+
     End Sub
 
     Private Sub RepopulateMergeComboBox()

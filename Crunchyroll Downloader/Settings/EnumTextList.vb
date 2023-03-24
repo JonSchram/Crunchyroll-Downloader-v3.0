@@ -16,7 +16,7 @@ Namespace settings
         ' Maintain a binding list so that if the display items are bound to a control, they are automatically updated.
         Private ReadOnly DisplayItemsBinding As New BindingList(Of EnumDisplayEntry)()
         ' Sub-lists that have been created (so they can be cleared when the main list is)
-        Dim SubLists As List(Of SubTextList)
+        Dim SubLists As New List(Of SubTextList)
 
 
         Public Function Add(enumValue As T, displayText As String) As EnumTextList(Of T)
@@ -90,11 +90,10 @@ Namespace settings
             End Sub
 
             Public Sub RemoveEnum(value As T)
-                For Each displayEntry In BoundList
-                    If displayEntry.GetEnumValue().Equals(value) Then
-                        BoundList.Remove(displayEntry)
-                    End If
-                Next
+                Dim removed = True
+                While removed
+                    removed = BoundList.Remove(parentTextList.GetItemForEnum(value))
+                End While
             End Sub
 
             Public Sub Clear()

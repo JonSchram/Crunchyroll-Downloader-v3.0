@@ -28,6 +28,7 @@ Partial Class Einstellungen
         Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
         Me.CR_SoftSubDefault = New MetroFramework.Controls.MetroComboBox()
         Me.SoftSubs = New System.Windows.Forms.GroupBox()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.CrunchyrollSoftSubsCheckedListBox = New System.Windows.Forms.CheckedListBox()
         Me.CR_SoftSubs = New MetroFramework.Controls.MetroComboBox()
         Me.GB_SubLanguage = New System.Windows.Forms.GroupBox()
@@ -133,7 +134,6 @@ Partial Class Einstellungen
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SoftSubs.SuspendLayout()
         Me.GB_SubLanguage.SuspendLayout()
@@ -222,6 +222,15 @@ Partial Class Einstellungen
         Me.SoftSubs.TabStop = False
         Me.SoftSubs.Text = "SoftSubs"
         '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(241, 21)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(96, 16)
+        Me.Label3.TabIndex = 31
+        Me.Label3.Text = "Default Subtitle"
+        '
         'CrunchyrollSoftSubsCheckedListBox
         '
         Me.CrunchyrollSoftSubsCheckedListBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -231,6 +240,7 @@ Partial Class Einstellungen
         Me.CrunchyrollSoftSubsCheckedListBox.Location = New System.Drawing.Point(7, 21)
         Me.CrunchyrollSoftSubsCheckedListBox.Name = "CrunchyrollSoftSubsCheckedListBox"
         Me.CrunchyrollSoftSubsCheckedListBox.Size = New System.Drawing.Size(228, 140)
+        Me.CrunchyrollSoftSubsCheckedListBox.Sorted = True
         Me.CrunchyrollSoftSubsCheckedListBox.TabIndex = 0
         '
         'CR_SoftSubs
@@ -1709,15 +1719,6 @@ Partial Class Einstellungen
         Me.Btn_Save.Size = New System.Drawing.Size(355, 30)
         Me.Btn_Save.TabIndex = 9
         Me.Btn_Save.UseVisualStyleBackColor = False
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(241, 21)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(96, 16)
-        Me.Label3.TabIndex = 31
-        Me.Label3.Text = "Default Subtitle"
         '
         'Einstellungen
         '
