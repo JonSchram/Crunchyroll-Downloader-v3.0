@@ -386,8 +386,14 @@ Public Class Einstellungen
         CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
         CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollLanguageTextList.GetDisplayItems()
 
-        For Each item In CrunchyrollLanguageTextList.GetEnums()
-            ' TODO: Set the checked state of each control
+        Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
+        Dim selectedSoftSubs = crSettings.SoftSubLanguages
+        For itemNumber As Integer = 0 To CrunchyrollSoftSubsCheckedListBox.Items.Count - 1
+            Dim item = CrunchyrollSoftSubsCheckedListBox.Items.Item(itemNumber)
+            Dim itemEnum = CrunchyrollLanguageTextList.GetEnumForItem(item)
+            If selectedSoftSubs.Contains(itemEnum) And itemEnum <> CrunchyrollSettings.CrunchyrollLanguage.NONE Then
+                CrunchyrollSoftSubsCheckedListBox.SetItemChecked(itemNumber, True)
+            End If
         Next
     End Sub
     Private Sub InitializeSubtitleNamingInput()
@@ -698,6 +704,19 @@ Public Class Einstellungen
         settings.SubLanguageNaming = SubtitleNamingTextList.GetEnumForItem(SubLanguageNamingComboBox.SelectedItem)
     End Sub
 
+    Private Sub SaveCrunchyrollSoftSubs()
+        Dim selectedItems = CrunchyrollSoftSubsCheckedListBox.CheckedItems
+
+        Dim selectedEnumList = New List(Of CrunchyrollSettings.CrunchyrollLanguage)
+        For Each item In selectedItems
+            Dim enumValue = CrunchyrollLanguageTextList.GetEnumForItem(item)
+            selectedEnumList.Add(enumValue)
+        Next
+
+        Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
+        crSettings.SoftSubLanguages = selectedEnumList
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
@@ -734,6 +753,9 @@ Public Class Einstellungen
         SaveLeadingZeros()
         settings.IncludeSubtitleLanguageInFirstSubtitle = IncludeLanguageNameCheckBox.Checked
         SaveSubLanguageNaming()
+
+        ' Crunchyroll settings
+        SaveCrunchyrollSoftSubs()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click

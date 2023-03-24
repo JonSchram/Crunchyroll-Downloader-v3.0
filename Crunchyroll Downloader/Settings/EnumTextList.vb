@@ -43,6 +43,9 @@ Namespace settings
             Dim displayItem = CType(item, EnumDisplayEntry)
             Return displayItem.GetEnumValue()
         End Function
+        Public Function GetItemForEnum(enumValue As T) As EnumDisplayEntry
+            Return EntryMap.Item(enumValue)
+        End Function
 
         Public Function Item(value As T) As EnumDisplayEntry
             Return EntryMap.Item(value)

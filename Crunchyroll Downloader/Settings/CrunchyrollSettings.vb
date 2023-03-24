@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.settings.ProgramSettings
+﻿Imports System.Collections.Specialized
+Imports Crunchyroll_Downloader.settings.ProgramSettings
 
 Namespace settings
     Public Class CrunchyrollSettings
@@ -18,7 +19,32 @@ Namespace settings
         Public Property AcceptHardsubs As Boolean
         Public Property AudioLanguage As CrunchyrollLanguage
         Public Property HardSubLanguage As CrunchyrollLanguage
-        Public Property SoftSubLanguage As List(Of CrunchyrollLanguage)
+        ' TODO: Might want this to accept / return a Set because that is how it is used in code.
+        Public Property SoftSubLanguages As List(Of CrunchyrollLanguage)
+            Get
+                Dim subCollection = My.Settings.SelectedCrunchyrollSoftSubs
+                Dim subList As New List(Of CrunchyrollLanguage)
+
+                If subCollection IsNot Nothing Then
+                    For Each item In subCollection
+                        Dim parsedItem As CrunchyrollLanguage
+                        If System.Enum.TryParse(item, parsedItem) Then
+                            subList.Add(parsedItem)
+                        End If
+                    Next
+                End If
+
+                Return subList
+            End Get
+            Set(value As List(Of CrunchyrollLanguage))
+                Dim subCollection = New StringCollection()
+                For Each item As CrunchyrollLanguage In value
+                    subCollection.Add(item.ToString())
+                Next
+
+                My.Settings.SelectedCrunchyrollSoftSubs = subCollection
+            End Set
+        End Property
 
         Public Property DefaultSoftSubLanguage As CrunchyrollLanguage
             Get
