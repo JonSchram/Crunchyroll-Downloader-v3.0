@@ -15,6 +15,8 @@ Namespace settings
         Private ReadOnly textList As New List(Of String)
         ' Maintain a binding list so that if the display items are bound to a control, they are automatically updated.
         Private ReadOnly DisplayItemsBinding As New BindingList(Of EnumDisplayEntry)()
+        ' Sub-lists that have been created (so they can be cleared when the main list is)
+        Dim SubLists As List(Of SubTextList)
 
 
         Public Function Add(enumValue As T, displayText As String) As EnumTextList(Of T)
@@ -51,13 +53,59 @@ Namespace settings
             Return EntryMap.Item(value)
         End Function
 
+        ''' <summary>
+        ''' Returns 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function CreateSubList() As SubTextList
+            Dim newSubList As New SubTextList(Me)
+            SubLists.Add(newSubList)
+            Return newSubList
+        End Function
+
         Public Sub Clear()
             EntryMap.Clear()
             textList.Clear()
             DisplayItemsBinding.Clear()
+            ' Make sure no sub list is using the old display entries.
+            For Each subList In SubLists
+                subList.Clear()
+            Next
         End Sub
 
-        <Serializable>
+        ''' <summary>
+        ''' A list populated from the same pool of display items but containing a different subset of these items.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        Public Class SubTextList
+            Private ReadOnly parentTextList As EnumTextList(Of T)
+            Private ReadOnly BoundList As New BindingList(Of EnumDisplayEntry)
+
+            Public Sub New(parent As EnumTextList(Of T))
+                parentTextList = parent
+            End Sub
+
+            Public Sub AddFromParent(value As T)
+                BoundList.Add(parentTextList.GetItemForEnum(value))
+            End Sub
+
+            Public Sub RemoveEnum(value As T)
+                For Each displayEntry In BoundList
+                    If displayEntry.GetEnumValue().Equals(value) Then
+                        BoundList.Remove(displayEntry)
+                    End If
+                Next
+            End Sub
+
+            Public Sub Clear()
+                BoundList.Clear()
+            End Sub
+
+            Public Function GetDisplayItems() As BindingList(Of EnumDisplayEntry)
+                Return BoundList
+            End Function
+        End Class
+
         Public Class EnumDisplayEntry
             Private ReadOnly Property EnumValue As T
             Private ReadOnly Property EnumText As String
