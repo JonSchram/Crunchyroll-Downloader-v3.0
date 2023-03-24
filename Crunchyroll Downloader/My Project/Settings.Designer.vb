@@ -677,6 +677,18 @@ Namespace My
                 Me("ffmpeg_video_bitrate") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property DefaultCrunchyrollSoftSub() As Integer
+            Get
+                Return CType(Me("DefaultCrunchyrollSoftSub"),Integer)
+            End Get
+            Set
+                Me("DefaultCrunchyrollSoftSub") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

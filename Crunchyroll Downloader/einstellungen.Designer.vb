@@ -26,9 +26,9 @@ Partial Class Einstellungen
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.pictureBox1 = New System.Windows.Forms.PictureBox()
         Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.GroupBox14 = New System.Windows.Forms.GroupBox()
         Me.CR_SoftSubDefault = New MetroFramework.Controls.MetroComboBox()
         Me.SoftSubs = New System.Windows.Forms.GroupBox()
+        Me.CrunchyrollSoftSubsCheckedListBox = New System.Windows.Forms.CheckedListBox()
         Me.CR_SoftSubs = New MetroFramework.Controls.MetroComboBox()
         Me.GB_SubLanguage = New System.Windows.Forms.GroupBox()
         Me.CB_CR_Harsubs = New MetroFramework.Controls.MetroComboBox()
@@ -133,9 +133,8 @@ Partial Class Einstellungen
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
-        Me.CrunchyrollSoftSubsCheckedListBox = New System.Windows.Forms.CheckedListBox()
+        Me.Label3 = New System.Windows.Forms.Label()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox14.SuspendLayout()
         Me.SoftSubs.SuspendLayout()
         Me.GB_SubLanguage.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -194,19 +193,6 @@ Partial Class Einstellungen
         Me.pictureBox1.TabIndex = 7
         Me.pictureBox1.TabStop = False
         '
-        'GroupBox14
-        '
-        Me.GroupBox14.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox14.Controls.Add(Me.CR_SoftSubDefault)
-        Me.GroupBox14.Font = New System.Drawing.Font("Arial", 9.75!)
-        Me.GroupBox14.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox14.Location = New System.Drawing.Point(5, 284)
-        Me.GroupBox14.Name = "GroupBox14"
-        Me.GroupBox14.Size = New System.Drawing.Size(490, 70)
-        Me.GroupBox14.TabIndex = 30
-        Me.GroupBox14.TabStop = False
-        Me.GroupBox14.Text = "Default Subtitle"
-        '
         'CR_SoftSubDefault
         '
         Me.CR_SoftSubDefault.DropDownHeight = 250
@@ -215,9 +201,9 @@ Partial Class Einstellungen
         Me.CR_SoftSubDefault.IntegralHeight = False
         Me.CR_SoftSubDefault.ItemHeight = 23
         Me.CR_SoftSubDefault.Items.AddRange(New Object() {"[Disabled]"})
-        Me.CR_SoftSubDefault.Location = New System.Drawing.Point(85, 30)
+        Me.CR_SoftSubDefault.Location = New System.Drawing.Point(241, 40)
         Me.CR_SoftSubDefault.Name = "CR_SoftSubDefault"
-        Me.CR_SoftSubDefault.Size = New System.Drawing.Size(320, 29)
+        Me.CR_SoftSubDefault.Size = New System.Drawing.Size(238, 29)
         Me.CR_SoftSubDefault.Sorted = True
         Me.CR_SoftSubDefault.TabIndex = 30
         Me.CR_SoftSubDefault.UseSelectable = True
@@ -225,14 +211,27 @@ Partial Class Einstellungen
         'SoftSubs
         '
         Me.SoftSubs.BackColor = System.Drawing.Color.Transparent
+        Me.SoftSubs.Controls.Add(Me.Label3)
+        Me.SoftSubs.Controls.Add(Me.CR_SoftSubDefault)
         Me.SoftSubs.Controls.Add(Me.CrunchyrollSoftSubsCheckedListBox)
         Me.SoftSubs.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SoftSubs.Location = New System.Drawing.Point(5, 190)
         Me.SoftSubs.Name = "SoftSubs"
-        Me.SoftSubs.Size = New System.Drawing.Size(490, 88)
+        Me.SoftSubs.Size = New System.Drawing.Size(490, 172)
         Me.SoftSubs.TabIndex = 20
         Me.SoftSubs.TabStop = False
         Me.SoftSubs.Text = "SoftSubs"
+        '
+        'CrunchyrollSoftSubsCheckedListBox
+        '
+        Me.CrunchyrollSoftSubsCheckedListBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.CrunchyrollSoftSubsCheckedListBox.CheckOnClick = True
+        Me.CrunchyrollSoftSubsCheckedListBox.FormattingEnabled = True
+        Me.CrunchyrollSoftSubsCheckedListBox.Location = New System.Drawing.Point(7, 21)
+        Me.CrunchyrollSoftSubsCheckedListBox.Name = "CrunchyrollSoftSubsCheckedListBox"
+        Me.CrunchyrollSoftSubsCheckedListBox.Size = New System.Drawing.Size(228, 140)
+        Me.CrunchyrollSoftSubsCheckedListBox.TabIndex = 0
         '
         'CR_SoftSubs
         '
@@ -242,7 +241,7 @@ Partial Class Einstellungen
         Me.CR_SoftSubs.IntegralHeight = False
         Me.CR_SoftSubs.ItemHeight = 23
         Me.CR_SoftSubs.Items.AddRange(New Object() {"select Softsubs"})
-        Me.CR_SoftSubs.Location = New System.Drawing.Point(5, 452)
+        Me.CR_SoftSubs.Location = New System.Drawing.Point(5, 451)
         Me.CR_SoftSubs.MaxDropDownItems = 1
         Me.CR_SoftSubs.Name = "CR_SoftSubs"
         Me.CR_SoftSubs.Size = New System.Drawing.Size(320, 29)
@@ -1252,7 +1251,6 @@ Partial Class Einstellungen
         Me.MetroTabPage1.Controls.Add(Me.CR_SoftSubs)
         Me.MetroTabPage1.Controls.Add(Me.GroupBox20)
         Me.MetroTabPage1.Controls.Add(Me.GroupBox19)
-        Me.MetroTabPage1.Controls.Add(Me.GroupBox14)
         Me.MetroTabPage1.Controls.Add(Me.GB_SubLanguage)
         Me.MetroTabPage1.Controls.Add(Me.SoftSubs)
         Me.MetroTabPage1.HorizontalScrollbarBarColor = True
@@ -1273,7 +1271,7 @@ Partial Class Einstellungen
         Me.GroupBox20.Controls.Add(Me.ChB_Chapters)
         Me.GroupBox20.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox20.ForeColor = System.Drawing.Color.Black
-        Me.GroupBox20.Location = New System.Drawing.Point(5, 360)
+        Me.GroupBox20.Location = New System.Drawing.Point(5, 368)
         Me.GroupBox20.Name = "GroupBox20"
         Me.GroupBox20.Size = New System.Drawing.Size(490, 65)
         Me.GroupBox20.TabIndex = 34
@@ -1712,13 +1710,14 @@ Partial Class Einstellungen
         Me.Btn_Save.TabIndex = 9
         Me.Btn_Save.UseVisualStyleBackColor = False
         '
-        'CrunchyrollSoftSubsCheckedListBox
+        'Label3
         '
-        Me.CrunchyrollSoftSubsCheckedListBox.FormattingEnabled = True
-        Me.CrunchyrollSoftSubsCheckedListBox.Location = New System.Drawing.Point(121, 21)
-        Me.CrunchyrollSoftSubsCheckedListBox.Name = "CrunchyrollSoftSubsCheckedListBox"
-        Me.CrunchyrollSoftSubsCheckedListBox.Size = New System.Drawing.Size(230, 55)
-        Me.CrunchyrollSoftSubsCheckedListBox.TabIndex = 0
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(241, 21)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(96, 16)
+        Me.Label3.TabIndex = 31
+        Me.Label3.Text = "Default Subtitle"
         '
         'Einstellungen
         '
@@ -1739,8 +1738,8 @@ Partial Class Einstellungen
         Me.Text = " Settings"
         Me.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox14.ResumeLayout(False)
         Me.SoftSubs.ResumeLayout(False)
+        Me.SoftSubs.PerformLayout()
         Me.GB_SubLanguage.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
         Me.GroupBox18.ResumeLayout(False)
@@ -1847,7 +1846,6 @@ Partial Class Einstellungen
     Friend WithEvents ServerPortInput As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox13 As GroupBox
     Friend WithEvents FunSubDef As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents GroupBox14 As GroupBox
     Friend WithEvents CB_Format As MetroFramework.Controls.MetroComboBox
     Friend WithEvents MetroTabPage1 As MetroFramework.Controls.MetroTabPage
     Friend WithEvents Btn_Save As Button
@@ -1903,4 +1901,5 @@ Partial Class Einstellungen
     Friend WithEvents FfmpegCopyCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents IncludeLanguageNameCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CrunchyrollSoftSubsCheckedListBox As CheckedListBox
+    Friend WithEvents Label3 As Label
 End Class

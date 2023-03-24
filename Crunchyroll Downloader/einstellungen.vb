@@ -13,6 +13,7 @@ Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.ProgramSettings
 Imports System.ComponentModel
 Imports System.Reflection
+Imports Microsoft.VisualBasic.Logging
 
 Public Class Einstellungen
     Inherits MetroForm
@@ -384,6 +385,9 @@ Public Class Einstellungen
         CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
         CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollLanguageTextList.GetDisplayItems()
 
+        For Each item In CrunchyrollLanguageTextList.GetEnums()
+            ' TODO: Set the checked state of each control
+        Next
     End Sub
     Private Sub InitializeSubtitleNamingInput()
         Dim settings = ProgramSettings.GetInstance()
@@ -1102,7 +1106,6 @@ Public Class Einstellungen
         GroupBox11.ForeColor = color
         GroupBox12.ForeColor = color
         GroupBox13.ForeColor = color
-        GroupBox14.ForeColor = color
         GroupBox15.ForeColor = color
         GroupBox16.ForeColor = color
         GroupBox17.ForeColor = color
@@ -1240,6 +1243,14 @@ Public Class Einstellungen
 
     Private Sub CB_Format_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Format.SelectedIndexChanged
         UpdateMergeFormatInput()
+    End Sub
+
+    Private Sub CrunchyrollSoftSubsCheckedListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CrunchyrollSoftSubsCheckedListBox.SelectedIndexChanged
+        System.Console.WriteLine(CrunchyrollSoftSubsCheckedListBox.SelectedItems.Count)
+    End Sub
+
+    Private Sub CrunchyrollSoftSubsCheckedListBox_ItemCheck(sender As Object, e As ItemCheckEventArgs) Handles CrunchyrollSoftSubsCheckedListBox.ItemCheck
+        System.Console.WriteLine(CrunchyrollSoftSubsCheckedListBox.CheckedItems.Count)
     End Sub
 
     Private Sub RepopulateMergeComboBox()
