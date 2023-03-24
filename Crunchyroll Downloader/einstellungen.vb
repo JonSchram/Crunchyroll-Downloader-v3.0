@@ -14,6 +14,7 @@ Imports Crunchyroll_Downloader.settings.ProgramSettings
 Imports System.ComponentModel
 Imports System.Reflection
 Imports Microsoft.VisualBasic.Logging
+Imports System.Collections.Specialized
 
 Public Class Einstellungen
     Inherits MetroForm
@@ -946,7 +947,6 @@ Public Class Einstellungen
             SaveString = "None"
         End If
         My.Settings.AddedSubs = SaveString
-
 
         My.Settings.Save()
 

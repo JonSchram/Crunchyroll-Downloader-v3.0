@@ -161,5 +161,8 @@
     <Setting Name="DefaultCrunchyrollSoftSub" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="SelectedCrunchyrollSoftSubs" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
