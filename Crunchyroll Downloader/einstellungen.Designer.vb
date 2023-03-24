@@ -134,6 +134,7 @@ Partial Class Einstellungen
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
+        Me.Label6 = New System.Windows.Forms.Label()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SoftSubs.SuspendLayout()
         Me.GB_SubLanguage.SuspendLayout()
@@ -211,6 +212,7 @@ Partial Class Einstellungen
         'SoftSubs
         '
         Me.SoftSubs.BackColor = System.Drawing.Color.Transparent
+        Me.SoftSubs.Controls.Add(Me.Label6)
         Me.SoftSubs.Controls.Add(Me.Label3)
         Me.SoftSubs.Controls.Add(Me.CR_SoftSubDefault)
         Me.SoftSubs.Controls.Add(Me.CrunchyrollSoftSubsCheckedListBox)
@@ -237,9 +239,9 @@ Partial Class Einstellungen
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.CrunchyrollSoftSubsCheckedListBox.CheckOnClick = True
         Me.CrunchyrollSoftSubsCheckedListBox.FormattingEnabled = True
-        Me.CrunchyrollSoftSubsCheckedListBox.Location = New System.Drawing.Point(7, 21)
+        Me.CrunchyrollSoftSubsCheckedListBox.Location = New System.Drawing.Point(7, 40)
         Me.CrunchyrollSoftSubsCheckedListBox.Name = "CrunchyrollSoftSubsCheckedListBox"
-        Me.CrunchyrollSoftSubsCheckedListBox.Size = New System.Drawing.Size(228, 140)
+        Me.CrunchyrollSoftSubsCheckedListBox.Size = New System.Drawing.Size(228, 123)
         Me.CrunchyrollSoftSubsCheckedListBox.Sorted = True
         Me.CrunchyrollSoftSubsCheckedListBox.TabIndex = 0
         '
@@ -269,7 +271,7 @@ Partial Class Einstellungen
         Me.GB_SubLanguage.Size = New System.Drawing.Size(490, 65)
         Me.GB_SubLanguage.TabIndex = 10
         Me.GB_SubLanguage.TabStop = False
-        Me.GB_SubLanguage.Text = "Sub Sprache"
+        Me.GB_SubLanguage.Text = "Hardsub language"
         '
         'CB_CR_Harsubs
         '
@@ -1720,6 +1722,15 @@ Partial Class Einstellungen
         Me.Btn_Save.TabIndex = 9
         Me.Btn_Save.UseVisualStyleBackColor = False
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(6, 21)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(134, 16)
+        Me.Label6.TabIndex = 32
+        Me.Label6.Text = "Subtitles to download"
+        '
         'Einstellungen
         '
         Me.ApplyImageInvert = True
@@ -1903,4 +1914,5 @@ Partial Class Einstellungen
     Friend WithEvents IncludeLanguageNameCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CrunchyrollSoftSubsCheckedListBox As CheckedListBox
     Friend WithEvents Label3 As Label
+    Friend WithEvents Label6 As Label
 End Class
