@@ -448,13 +448,13 @@ Public Class CrunchyrollDownloader
             Dim RawStream As New List(Of String)
 
 
-
+            Dim crSettings = settings.Crunchyroll
             For c As Integer = 0 To CR_Streams.Count - 1
                 Dim i As Integer = c
                 'Debug.WriteLine("1457: " + i.ToString + "/" + CR_Streams.Count.ToString + " " + CR_Streams.Item(i).subLang + " " + CR_Streams.Item(i).Format)
                 If CR_Streams.Item(i).subLang = CR_HardSubLang Then
                     CR_URI_Master.Add(CR_Streams.Item(i).Url)
-                ElseIf CR_Streams.Item(i).subLang = "" And CR_audio_locale IsNot "ja-JP" And Main.DubMode = True Then 'nothing/raw
+                ElseIf CR_Streams.Item(i).subLang = "" And CR_audio_locale IsNot "ja-JP" And Not crSettings.AcceptHardsubs Then 'nothing/raw
                     RawStream.Add(CR_Streams.Item(i).Url)
                 End If
             Next

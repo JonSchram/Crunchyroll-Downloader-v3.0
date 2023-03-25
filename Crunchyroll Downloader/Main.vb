@@ -111,7 +111,6 @@ Public Class Main
     Public SubFunimation As New List(Of String)
     Public DefaultSubFunimation As String = "Disabled"
     Public DefaultSubCR As String = "Disabled"
-    Public DubMode As Boolean = True
     Public CR_Chapters As Boolean = False
 #Region "Sprachen Vairablen"
     Public URL_Invaild As String = "something is wrong here..."
@@ -452,8 +451,6 @@ Public Class Main
         DefaultSubFunimation = My.Settings.DefaultSubFunimation
 
         DefaultSubCR = My.Settings.DefaultSubCR
-
-        DubMode = My.Settings.DubMode
 
         CR_Chapters = My.Settings.CR_Chapters
 

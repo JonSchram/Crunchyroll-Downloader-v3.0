@@ -183,10 +183,6 @@ Public Class Einstellungen
 
         Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
 
-        If Main.DubMode = True Then
-            DubMode.Checked = True
-        End If
-
         If Main.CR_Chapters = True Then
             ChB_Chapters.Checked = True
         End If
@@ -310,6 +306,7 @@ Public Class Einstellungen
 
     Private Sub LoadSettings()
         Dim settings = ProgramSettings.GetInstance()
+        Dim crSettings = settings.Crunchyroll
 
         ' Main settings
         SimultaneousDownloadsInput.Value = settings.SimultaneousDownloads
@@ -350,6 +347,7 @@ Public Class Einstellungen
         InitializeSubtitleNamingInput()
 
         ' Crunchyroll settings
+        CrunchyrollAcceptHardsubsCheckBox.Checked = crSettings.AcceptHardsubs
         InitializeCrunchyrollDub()
         InitializeCrunchyrollHardSubs()
         InitializeCrunchyrollSoftSubs()
@@ -750,6 +748,7 @@ Public Class Einstellungen
 
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
+        Dim crSettings = settings.Crunchyroll
 
         ' Main settings
         settings.SimultaneousDownloads = CInt(SimultaneousDownloadsInput.Value)
@@ -786,6 +785,7 @@ Public Class Einstellungen
         SaveSubLanguageNaming()
 
         ' Crunchyroll settings
+        crSettings.AcceptHardsubs = CrunchyrollAcceptHardsubsCheckBox.Checked
         SaveCrunchyrollDub()
         SaveCrunchyrollHardSubs()
         SaveCrunchyrollSoftSubs()
@@ -797,14 +797,6 @@ Public Class Einstellungen
         Main.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
         My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
 
-        If DubMode.Checked = True Then
-            Main.DubMode = True
-            My.Settings.DubMode = True
-        Else
-            Main.DubMode = False
-            My.Settings.DubMode = False
-
-        End If
 
         If ChB_Chapters.Checked = True Then
             Main.CR_Chapters = True

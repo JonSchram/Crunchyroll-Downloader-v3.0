@@ -21,8 +21,16 @@ Namespace settings
         ' Upgrade My.settings.AddedSubs to SelectedCrunchyrollSoftSubs
         '   - Is a list of locales
         ' Upgrade My.settings.CR_Dub to CrunchyrollDubLanguage
+        ' Upgrade My.settings.DubMode to CrunchyrollAcceptHardsubs
 
         Public Property AcceptHardsubs As Boolean
+            Get
+                Return My.Settings.CrunchyrollAcceptHardsubs
+            End Get
+            Set(value As Boolean)
+                My.Settings.CrunchyrollAcceptHardsubs = value
+            End Set
+        End Property
         Public Property AudioLanguage As CrunchyrollLanguage
             Get
                 Return CType(My.Settings.CrunchyrollDubLanguage, CrunchyrollLanguage)

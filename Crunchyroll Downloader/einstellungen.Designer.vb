@@ -104,7 +104,7 @@ Partial Class Einstellungen
         Me.ChB_Chapters = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
         Me.CrunchyrollAudioLanguageComboBox = New MetroFramework.Controls.MetroComboBox()
-        Me.DubMode = New MetroFramework.Controls.MetroCheckBox()
+        Me.CrunchyrollAcceptHardsubsCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.TabPage6 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox15 = New System.Windows.Forms.GroupBox()
         Me.Bitrate_Funi = New MetroFramework.Controls.MetroComboBox()
@@ -1297,7 +1297,7 @@ Partial Class Einstellungen
         '
         Me.GroupBox19.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox19.Controls.Add(Me.CrunchyrollAudioLanguageComboBox)
-        Me.GroupBox19.Controls.Add(Me.DubMode)
+        Me.GroupBox19.Controls.Add(Me.CrunchyrollAcceptHardsubsCheckBox)
         Me.GroupBox19.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox19.ForeColor = System.Drawing.Color.Black
         Me.GroupBox19.Location = New System.Drawing.Point(5, 15)
@@ -1320,18 +1320,18 @@ Partial Class Einstellungen
         Me.CrunchyrollAudioLanguageComboBox.TabIndex = 21
         Me.CrunchyrollAudioLanguageComboBox.UseSelectable = True
         '
-        'DubMode
+        'CrunchyrollAcceptHardsubsCheckBox
         '
-        Me.DubMode.BackColor = System.Drawing.Color.Transparent
-        Me.DubMode.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.DubMode.Location = New System.Drawing.Point(85, 21)
-        Me.DubMode.Name = "DubMode"
-        Me.DubMode.Size = New System.Drawing.Size(320, 28)
-        Me.DubMode.TabIndex = 5
-        Me.DubMode.Text = "accept no hardsubs for dubbed shows"
-        Me.DubMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.DubMode.UseCustomBackColor = True
-        Me.DubMode.UseSelectable = True
+        Me.CrunchyrollAcceptHardsubsCheckBox.BackColor = System.Drawing.Color.Transparent
+        Me.CrunchyrollAcceptHardsubsCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.CrunchyrollAcceptHardsubsCheckBox.Location = New System.Drawing.Point(85, 21)
+        Me.CrunchyrollAcceptHardsubsCheckBox.Name = "CrunchyrollAcceptHardsubsCheckBox"
+        Me.CrunchyrollAcceptHardsubsCheckBox.Size = New System.Drawing.Size(320, 28)
+        Me.CrunchyrollAcceptHardsubsCheckBox.TabIndex = 5
+        Me.CrunchyrollAcceptHardsubsCheckBox.Text = "Accept hardsubs for dubbed shows"
+        Me.CrunchyrollAcceptHardsubsCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CrunchyrollAcceptHardsubsCheckBox.UseCustomBackColor = True
+        Me.CrunchyrollAcceptHardsubsCheckBox.UseSelectable = True
         '
         'TabPage6
         '
@@ -1862,7 +1862,7 @@ Partial Class Einstellungen
     Friend WithEvents TemporaryFolderTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents SeasonNumberBehaviorComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox19 As GroupBox
-    Friend WithEvents DubMode As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents CrunchyrollAcceptHardsubsCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CB_Merge As MetroFramework.Controls.MetroComboBox
     Friend WithEvents Chb_Ign_tls As MetroFramework.Controls.MetroCheckBox
     Public WithEvents EpisodeTitleCheckBox As MetroFramework.Controls.MetroCheckBox
