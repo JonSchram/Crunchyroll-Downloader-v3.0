@@ -31,6 +31,7 @@ Public Class Einstellungen
     Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
     Private ReadOnly VideoFormatTextList As New EnumTextList(Of Format.MediaFormat)()
     Private ReadOnly SubtitleFormatTextList As New EnumTextList(Of Format.SubtitleMerge)()
+    Private ReadOnly ValidSubtitleFormatList As EnumTextList(Of Format.SubtitleMerge).SubTextList
     Private ReadOnly SpeedPresetTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Speed)()
     Private ReadOnly CodecTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Codec)()
     Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.EncoderImplementation)()
@@ -40,14 +41,6 @@ Public Class Einstellungen
 
     Private ReadOnly CrunchyrollSoftSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
     Private ReadOnly CrunchyrollDefaultLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
-
-    ' TODO: Now that there is a sub-textList, consider making this a sub list.
-    Private ReadOnly SubToTextMap As New Dictionary(Of Format.SubtitleMerge, String)() From {
-    {Format.SubtitleMerge.DISABLED, "[merge disabled]"},
-    {Format.SubtitleMerge.MOV_TEXT, "mov_text"},
-    {Format.SubtitleMerge.COPY, "copy"},
-    {Format.SubtitleMerge.SRT, "srt"}
-    }
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
@@ -136,18 +129,27 @@ Public Class Einstellungen
             .Add(CrunchyrollSettings.CrunchyrollLanguage.JAPANESE, "日本語 (Japanese)")
         End With
 
+        With SubtitleFormatTextList
+            .Add(Format.SubtitleMerge.DISABLED, "[merge disabled]")
+            .Add(Format.SubtitleMerge.MOV_TEXT, "mov_text")
+            .Add(Format.SubtitleMerge.COPY, "copy")
+            .Add(Format.SubtitleMerge.SRT, "srt")
+        End With
+        ValidSubtitleFormatList = SubtitleFormatTextList.CreateSubList()
+
         nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
 
         CrunchyrollSoftSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
         CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
+
     End Sub
 
     Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)
         Dim supportedSubtitleFormats = Format.GetValidSubtitleFormats(VideoFormat)
 
-        SubtitleFormatTextList.Clear()
+        ValidSubtitleFormatList.Clear()
         For Each SubFormat In supportedSubtitleFormats
-            SubtitleFormatTextList.Add(SubFormat, SubToTextMap.Item(SubFormat))
+            ValidSubtitleFormatList.AddFromParent(SubFormat)
         Next
     End Sub
 
@@ -541,7 +543,7 @@ Public Class Einstellungen
         CB_Format.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
 
         ' Must set data source first because updating the merge format input sets selected index.
-        CB_Merge.DataSource = SubtitleFormatTextList.GetDisplayItems()
+        CB_Merge.DataSource = ValidSubtitleFormatList.GetDisplayItems()
         UpdateMergeFormatInput(currentFormat.GetVideoFormat())
         CB_Merge.SelectedItem = SubtitleFormatTextList.Item(currentFormat.GetSubtitleFormat())
     End Sub
