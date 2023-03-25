@@ -42,6 +42,7 @@ Public Class Einstellungen
     Private ReadOnly CrunchyrollSoftSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
     Private ReadOnly CrunchyrollDefaultLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
     Private ReadOnly CrunchyrollHardSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
+    Private ReadOnly CrunchyrollDubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
@@ -143,6 +144,7 @@ Public Class Einstellungen
         CrunchyrollSoftSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
         CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
         CrunchyrollHardSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
+        CrunchyrollDubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
     End Sub
 
     Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)
@@ -267,18 +269,6 @@ Public Class Einstellungen
 
         End Try
 
-        CrunchyrollAudioLanguageComboBox.Items.Clear()
-
-        For i As Integer = 1 To Main.LangValueEnum.Count - 1
-
-            CrunchyrollAudioLanguageComboBox.Items.Add(Main.LangValueEnum(i).Name)
-            If Main.LangValueEnum(i).CR_Value = Main.DubSprache.CR_Value Then
-                CrunchyrollAudioLanguageComboBox.SelectedIndex = i - 1
-
-            End If
-
-        Next
-
 
         If Main.DefaultSubFunimation = "en" Then
             FunSubDef.SelectedItem = "English"
@@ -360,8 +350,18 @@ Public Class Einstellungen
         InitializeSubtitleNamingInput()
 
         ' Crunchyroll settings
+        InitializeCrunchyrollDub()
         InitializeCrunchyrollHardSubs()
         InitializeCrunchyrollSoftSubs()
+    End Sub
+
+    Private Sub InitializeCrunchyrollDub()
+        InitializeCrunchyrollLanguageList(CrunchyrollDubLanguageSubList)
+        CrunchyrollAudioLanguageComboBox.DataSource = CrunchyrollDubLanguageSubList.GetDisplayItems()
+
+        Dim settings = ProgramSettings.GetInstance()
+        Dim crSettings = settings.Crunchyroll
+        CrunchyrollAudioLanguageComboBox.SelectedItem = CrunchyrollLanguageTextList.Item(crSettings.AudioLanguage)
     End Sub
 
     Private Sub InitializeCrunchyrollHardSubs()
@@ -722,6 +722,12 @@ Public Class Einstellungen
         settings.SubLanguageNaming = SubtitleNamingTextList.GetEnumForItem(SubLanguageNamingComboBox.SelectedItem)
     End Sub
 
+    Private Sub SaveCrunchyrollDub()
+        Dim settings = ProgramSettings.GetInstance()
+        Dim crSettings = settings.Crunchyroll
+        crSettings.AudioLanguage = CrunchyrollLanguageTextList.GetEnumForItem(CrunchyrollAudioLanguageComboBox.SelectedItem)
+    End Sub
+
     Private Sub SaveCrunchyrollHardSubs()
         Dim selectedEnum = CrunchyrollLanguageTextList.GetEnumForItem(CrunchyrollHardsubComboBox.SelectedItem)
 
@@ -780,6 +786,7 @@ Public Class Einstellungen
         SaveSubLanguageNaming()
 
         ' Crunchyroll settings
+        SaveCrunchyrollDub()
         SaveCrunchyrollHardSubs()
         SaveCrunchyrollSoftSubs()
     End Sub
@@ -806,17 +813,6 @@ Public Class Einstellungen
             Main.CR_Chapters = False
             My.Settings.CR_Chapters = False
         End If
-
-        For i As Integer = 0 To Main.LangValueEnum.Count - 1
-
-            If CrunchyrollAudioLanguageComboBox.SelectedItem.ToString = Main.LangValueEnum(i).Name Then
-                Main.DubSprache = Main.LangValueEnum(i)
-                My.Settings.CR_Dub = Main.DubSprache.CR_Value
-
-                Exit For
-            End If
-
-        Next
 
 
 

@@ -82,7 +82,6 @@ Public Class Main
     Public ResoFunBackup As String = "6666x6666"
 
     Public LangValueEnum As New List(Of NameValuePair)
-    Public DubSprache As NameValuePair = New NameValuePair("Japanese", "ja-JP", Nothing)
 
     Public HybridThread As Integer = CInt(Environment.ProcessorCount / 2 - 1)
     Public AbourtList As New List(Of String)
@@ -457,14 +456,6 @@ Public Class Main
         DubMode = My.Settings.DubMode
 
         CR_Chapters = My.Settings.CR_Chapters
-
-
-        For i As Integer = 0 To LangValueEnum.Count - 1
-            If LangValueEnum(i).CR_Value = My.Settings.CR_Dub Then
-                DubSprache = LangValueEnum(i)
-                Exit For
-            End If
-        Next
 
 
         Funimation_Bitrate = My.Settings.Funimation_Bitrate
@@ -2290,9 +2281,9 @@ Public Class Main
             Dim SeriesUrlBuilder() As String = url.Split(New String() {"series/"}, System.StringSplitOptions.RemoveEmptyEntries)
             Dim SeriesUrlBuilder2() As String = SeriesUrlBuilder(1).Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
 
-
-            Dim SeriesUrl As String = "https://www.crunchyroll.com/content/v2/cms/series/" + SeriesUrlBuilder2(0) + "/seasons?preferred_audio_language=" + DubSprache.CR_Value + "&locale=" + locale '+ "&Signature=" + signature2(0) + "&Policy=" + policy2(0) + "&Key-Pair-Id=" + key_pair_id2(0)
-            Debug.WriteLine(SeriesUrl)
+            ' TODO: Convert Crunchyroll audio language to language string (like ja-jp) and use here
+            'Dim SeriesUrl As String = "https://www.crunchyroll.com/content/v2/cms/series/" + SeriesUrlBuilder2(0) + "/seasons?preferred_audio_language=" + DubSprache.CR_Value + "&locale=" + locale '+ "&Signature=" + signature2(0) + "&Policy=" + policy2(0) + "&Key-Pair-Id=" + key_pair_id2(0)
+            'Debug.WriteLine(SeriesUrl)
             ' TODO
             'GetBetaSeasons(url, SeriesUrl, Auth2)
 
@@ -2307,8 +2298,9 @@ Public Class Main
             Dim ObjectsURLBuilder4() As String = ObjectsURLBuilder3(1).Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
 
 
-
-            ObjectsUrl = "https://www.crunchyroll.com/content/v2/cms/objects/" + ObjectsURLBuilder4(0) + "?preferred_audio_language=" + DubSprache.CR_Value + "&locale=" + locale
+            ' TODO: Get audio language as string here as well from settings
+            Dim audioLanguage = "ja-jp"
+            ObjectsUrl = "https://www.crunchyroll.com/content/v2/cms/objects/" + ObjectsURLBuilder4(0) + "?preferred_audio_language=" + audioLanguage + "&locale=" + locale
             'End Using
             'MsgBox(ObjectsUrl)
 
