@@ -111,7 +111,6 @@ Public Class Main
     Public SubFunimation As New List(Of String)
     Public DefaultSubFunimation As String = "Disabled"
     Public DefaultSubCR As String = "Disabled"
-    Public CR_Chapters As Boolean = False
 #Region "Sprachen Vairablen"
     Public URL_Invaild As String = "something is wrong here..."
     Dim DL_Path_String As String = "Please choose download directory."
@@ -451,9 +450,6 @@ Public Class Main
         DefaultSubFunimation = My.Settings.DefaultSubFunimation
 
         DefaultSubCR = My.Settings.DefaultSubCR
-
-        CR_Chapters = My.Settings.CR_Chapters
-
 
         Funimation_Bitrate = My.Settings.Funimation_Bitrate
 

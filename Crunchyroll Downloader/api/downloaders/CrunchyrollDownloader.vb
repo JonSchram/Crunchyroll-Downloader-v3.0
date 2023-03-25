@@ -647,7 +647,7 @@ Public Class CrunchyrollDownloader
 #Region "Chapters"
             Dim Mdata_File As String = Application.StartupPath + "\" + ObjectsURLBuilder4(0) + "-mdata.txt"
 
-            If Main.CR_Chapters = True Then
+            If crSettings.EnableChapters Then
 
 
                 Dim ChaptersUrl As String = "https://static.crunchyroll.com/datalab-intro-v2/" + ObjectsURLBuilder4(0) + ".json"

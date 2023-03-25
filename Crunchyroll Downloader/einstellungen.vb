@@ -183,12 +183,6 @@ Public Class Einstellungen
 
         Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
 
-        If Main.CR_Chapters = True Then
-            ChB_Chapters.Checked = True
-        End If
-
-
-
         TabControl1.SelectedIndex = 0
 
 #Region "sof subs"
@@ -351,6 +345,7 @@ Public Class Einstellungen
         InitializeCrunchyrollDub()
         InitializeCrunchyrollHardSubs()
         InitializeCrunchyrollSoftSubs()
+        CrunchyrollChaptersCheckBox.Checked = crSettings.EnableChapters
     End Sub
 
     Private Sub InitializeCrunchyrollDub()
@@ -789,6 +784,7 @@ Public Class Einstellungen
         SaveCrunchyrollDub()
         SaveCrunchyrollHardSubs()
         SaveCrunchyrollSoftSubs()
+        crSettings.EnableChapters = CrunchyrollChaptersCheckBox.Checked
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -796,15 +792,6 @@ Public Class Einstellungen
 
         Main.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
         My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
-
-
-        If ChB_Chapters.Checked = True Then
-            Main.CR_Chapters = True
-            My.Settings.CR_Chapters = True
-        Else
-            Main.CR_Chapters = False
-            My.Settings.CR_Chapters = False
-        End If
 
 
 

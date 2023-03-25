@@ -101,7 +101,7 @@ Partial Class Einstellungen
         Me.FilenameTemplatePreview = New MetroFramework.Controls.MetroTextBox()
         Me.MetroTabPage1 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox20 = New System.Windows.Forms.GroupBox()
-        Me.ChB_Chapters = New MetroFramework.Controls.MetroCheckBox()
+        Me.CrunchyrollChaptersCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
         Me.CrunchyrollAudioLanguageComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.CrunchyrollAcceptHardsubsCheckBox = New MetroFramework.Controls.MetroCheckBox()
@@ -1272,7 +1272,7 @@ Partial Class Einstellungen
         'GroupBox20
         '
         Me.GroupBox20.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox20.Controls.Add(Me.ChB_Chapters)
+        Me.GroupBox20.Controls.Add(Me.CrunchyrollChaptersCheckBox)
         Me.GroupBox20.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox20.ForeColor = System.Drawing.Color.Black
         Me.GroupBox20.Location = New System.Drawing.Point(5, 368)
@@ -1282,16 +1282,16 @@ Partial Class Einstellungen
         Me.GroupBox20.TabStop = False
         Me.GroupBox20.Text = "Chapters"
         '
-        'ChB_Chapters
+        'CrunchyrollChaptersCheckBox
         '
-        Me.ChB_Chapters.AutoSize = True
-        Me.ChB_Chapters.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.ChB_Chapters.Location = New System.Drawing.Point(158, 23)
-        Me.ChB_Chapters.Name = "ChB_Chapters"
-        Me.ChB_Chapters.Size = New System.Drawing.Size(145, 19)
-        Me.ChB_Chapters.TabIndex = 5
-        Me.ChB_Chapters.Text = "enable CR Chapters"
-        Me.ChB_Chapters.UseSelectable = True
+        Me.CrunchyrollChaptersCheckBox.AutoSize = True
+        Me.CrunchyrollChaptersCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.CrunchyrollChaptersCheckBox.Location = New System.Drawing.Point(158, 23)
+        Me.CrunchyrollChaptersCheckBox.Name = "CrunchyrollChaptersCheckBox"
+        Me.CrunchyrollChaptersCheckBox.Size = New System.Drawing.Size(145, 19)
+        Me.CrunchyrollChaptersCheckBox.TabIndex = 5
+        Me.CrunchyrollChaptersCheckBox.Text = "enable CR Chapters"
+        Me.CrunchyrollChaptersCheckBox.UseSelectable = True
         '
         'GroupBox19
         '
@@ -1878,7 +1878,7 @@ Partial Class Einstellungen
     Friend WithEvents GroupBox21 As GroupBox
     Friend WithEvents CB_HideSF As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox20 As GroupBox
-    Friend WithEvents ChB_Chapters As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents CrunchyrollChaptersCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents CR_SoftSubDefault As MetroFramework.Controls.MetroComboBox
     Friend WithEvents CustomServerPortInput As NumericUpDown
     Friend WithEvents ServerPortLabel As MetroFramework.Controls.MetroLabel

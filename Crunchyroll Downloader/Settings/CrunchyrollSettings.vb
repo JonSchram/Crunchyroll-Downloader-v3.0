@@ -85,6 +85,13 @@ Namespace settings
         End Property
 
         Public Property EnableChapters As Boolean
+            Get
+                Return My.Settings.CR_Chapters
+            End Get
+            Set(value As Boolean)
+                My.Settings.CR_Chapters = value
+            End Set
+        End Property
 
         ' TODO: allow getting locale name from enum value
         'LangValueEnum.Add(New NameValuePair("[ null ]", "", Nothing))
