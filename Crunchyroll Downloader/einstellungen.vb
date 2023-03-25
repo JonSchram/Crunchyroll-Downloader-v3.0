@@ -1405,20 +1405,6 @@ Public Class Einstellungen
         End If
     End Sub
 
-    Private Sub CR_SoftSubs_Change(sender As Object, e As EventArgs) Handles CR_SoftSubs.Click
-        Dim Popup As New CheckBoxComboBox
-        Popup.Text = "CR Sub selection"
-        Popup.Show()
-    End Sub
-
-    'Private Sub CB_CR_Audio_Click(sender As Object, e As EventArgs) Handles CB_CR_Audio.Click
-    '    Dim Popup As New CheckBoxComboBox
-    '    Popup.Text = "CR Dub selection"
-    '    Popup.Show()
-    'End Sub
-
-
-
 
 
 #End Region

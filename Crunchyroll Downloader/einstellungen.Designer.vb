@@ -28,9 +28,9 @@ Partial Class Einstellungen
         Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
         Me.CR_SoftSubDefault = New MetroFramework.Controls.MetroComboBox()
         Me.SoftSubs = New System.Windows.Forms.GroupBox()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.CrunchyrollSoftSubsCheckedListBox = New System.Windows.Forms.CheckedListBox()
-        Me.CR_SoftSubs = New MetroFramework.Controls.MetroComboBox()
         Me.GB_SubLanguage = New System.Windows.Forms.GroupBox()
         Me.CB_CR_Harsubs = New MetroFramework.Controls.MetroComboBox()
         Me.TabPage2 = New MetroFramework.Controls.MetroTabPage()
@@ -134,7 +134,6 @@ Partial Class Einstellungen
         Me.Label5 = New MetroFramework.Controls.MetroLabel()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.Btn_Save = New System.Windows.Forms.Button()
-        Me.Label6 = New System.Windows.Forms.Label()
         CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SoftSubs.SuspendLayout()
         Me.GB_SubLanguage.SuspendLayout()
@@ -224,6 +223,15 @@ Partial Class Einstellungen
         Me.SoftSubs.TabStop = False
         Me.SoftSubs.Text = "SoftSubs"
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(6, 21)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(134, 16)
+        Me.Label6.TabIndex = 32
+        Me.Label6.Text = "Subtitles to download"
+        '
         'Label3
         '
         Me.Label3.AutoSize = True
@@ -244,21 +252,6 @@ Partial Class Einstellungen
         Me.CrunchyrollSoftSubsCheckedListBox.Size = New System.Drawing.Size(228, 123)
         Me.CrunchyrollSoftSubsCheckedListBox.Sorted = True
         Me.CrunchyrollSoftSubsCheckedListBox.TabIndex = 0
-        '
-        'CR_SoftSubs
-        '
-        Me.CR_SoftSubs.DropDownHeight = 1
-        Me.CR_SoftSubs.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CR_SoftSubs.FormattingEnabled = True
-        Me.CR_SoftSubs.IntegralHeight = False
-        Me.CR_SoftSubs.ItemHeight = 23
-        Me.CR_SoftSubs.Items.AddRange(New Object() {"select Softsubs"})
-        Me.CR_SoftSubs.Location = New System.Drawing.Point(5, 451)
-        Me.CR_SoftSubs.MaxDropDownItems = 1
-        Me.CR_SoftSubs.Name = "CR_SoftSubs"
-        Me.CR_SoftSubs.Size = New System.Drawing.Size(320, 29)
-        Me.CR_SoftSubs.TabIndex = 22
-        Me.CR_SoftSubs.UseSelectable = True
         '
         'GB_SubLanguage
         '
@@ -1260,7 +1253,6 @@ Partial Class Einstellungen
         '
         'MetroTabPage1
         '
-        Me.MetroTabPage1.Controls.Add(Me.CR_SoftSubs)
         Me.MetroTabPage1.Controls.Add(Me.GroupBox20)
         Me.MetroTabPage1.Controls.Add(Me.GroupBox19)
         Me.MetroTabPage1.Controls.Add(Me.GB_SubLanguage)
@@ -1722,15 +1714,6 @@ Partial Class Einstellungen
         Me.Btn_Save.TabIndex = 9
         Me.Btn_Save.UseVisualStyleBackColor = False
         '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(6, 21)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(134, 16)
-        Me.Label6.TabIndex = 32
-        Me.Label6.Text = "Subtitles to download"
-        '
         'Einstellungen
         '
         Me.ApplyImageInvert = True
@@ -1896,7 +1879,6 @@ Partial Class Einstellungen
     Friend WithEvents CB_HideSF As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox20 As GroupBox
     Friend WithEvents ChB_Chapters As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents CR_SoftSubs As MetroFramework.Controls.MetroComboBox
     Public WithEvents CR_SoftSubDefault As MetroFramework.Controls.MetroComboBox
     Friend WithEvents CustomServerPortInput As NumericUpDown
     Friend WithEvents ServerPortLabel As MetroFramework.Controls.MetroLabel

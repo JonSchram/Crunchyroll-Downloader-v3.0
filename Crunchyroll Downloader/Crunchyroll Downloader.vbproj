@@ -192,12 +192,6 @@
     <Compile Include="ffmpeg_option.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CheckBoxComboBox.Designer.vb">
-      <DependentUpon>CheckBoxComboBox.vb</DependentUpon>
-    </Compile>
-    <Compile Include="CheckBoxComboBox.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="hls\Segment\MediaSegmentsCollection.vb" />
     <Compile Include="hls\Tags\DateRangeTag.vb" />
     <Compile Include="hls\Tags\DiscontinuitySequenceNumberTag.vb" />
@@ -316,9 +310,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ffmpeg_option.resx">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CheckBoxComboBox.resx">
-      <DependentUpon>CheckBoxComboBox.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="queue.resx">
       <DependentUpon>queue.vb</DependentUpon>
