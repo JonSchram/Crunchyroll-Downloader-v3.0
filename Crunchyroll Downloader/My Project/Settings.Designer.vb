@@ -736,6 +736,18 @@ Namespace My
                 Me("CrunchyrollAcceptHardsubs") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property FunimationDubLanguage() As Integer
+            Get
+                Return CType(Me("FunimationDubLanguage"),Integer)
+            End Get
+            Set
+                Me("FunimationDubLanguage") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

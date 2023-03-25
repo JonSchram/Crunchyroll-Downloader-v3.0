@@ -6,6 +6,26 @@
 
         End Sub
 
+        Public Sub UpgradeSettings()
+            UpgradeDubs()
+        End Sub
+
+        Private Sub UpgradeDubs()
+            Dim dub = My.Settings.FunimationDub
+            Select Case dub
+                Case "english"
+                    DubLanguage = FunimationLanguage.ENGLISH
+                Case "japanese"
+                    DubLanguage = FunimationLanguage.JAPANESE
+                Case "portuguese(Brazil)"
+                    DubLanguage = FunimationLanguage.PORTUGUESE
+                Case "spanish(Mexico)"
+                    DubLanguage = FunimationLanguage.SPANISH
+                Case Else
+                    DubLanguage = FunimationLanguage.NONE
+            End Select
+        End Sub
+
         Public Shared Function GetInstance() As FunimationSettings
             If Instance Is Nothing Then
                 Instance = New FunimationSettings()
@@ -14,6 +34,13 @@
         End Function
 
         Public Property DubLanguage As FunimationLanguage
+            Get
+                Return CType(My.Settings.FunimationDubLanguage, FunimationLanguage)
+            End Get
+            Set(value As FunimationLanguage)
+                My.Settings.FunimationDubLanguage = value
+            End Set
+        End Property
 
         Public Property SoftSubtitleLanguages As List(Of FunimationLanguage)
 
@@ -25,12 +52,12 @@
 
         Public Property PreferredBitrate As BitrateSetting
 
-        Public Enum FunimationLanguage
-            NONE
-            ENGLISH
-            JAPANESE
-            PORTUGUESE
-            SPANISH
+        Public Enum FunimationLanguage As Integer
+            NONE = 0
+            ENGLISH = 1
+            JAPANESE = 2
+            PORTUGUESE = 3
+            SPANISH = 4
         End Enum
 
         Public Enum SubFormat

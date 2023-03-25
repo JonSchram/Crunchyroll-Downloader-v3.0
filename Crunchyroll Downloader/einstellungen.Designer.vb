@@ -109,7 +109,7 @@ Partial Class Einstellungen
         Me.GroupBox15 = New System.Windows.Forms.GroupBox()
         Me.Bitrate_Funi = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox10 = New System.Windows.Forms.GroupBox()
-        Me.Fun_Dub_Over = New MetroFramework.Controls.MetroComboBox()
+        Me.FunimationDubComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
         Me.CB_Fun_HardSubs = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
@@ -946,7 +946,7 @@ Partial Class Einstellungen
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 3
+        Me.TabControl1.SelectedIndex = 4
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -1343,10 +1343,10 @@ Partial Class Einstellungen
         Me.TabPage6.HorizontalScrollbarBarColor = True
         Me.TabPage6.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage6.HorizontalScrollbarSize = 10
-        Me.TabPage6.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 44)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(501, 528)
+        Me.TabPage6.Size = New System.Drawing.Size(501, 519)
         Me.TabPage6.TabIndex = 4
         Me.TabPage6.Text = " Funimation"
         Me.TabPage6.VerticalScrollbarBarColor = True
@@ -1385,7 +1385,7 @@ Partial Class Einstellungen
         'GroupBox10
         '
         Me.GroupBox10.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox10.Controls.Add(Me.Fun_Dub_Over)
+        Me.GroupBox10.Controls.Add(Me.FunimationDubComboBox)
         Me.GroupBox10.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox10.ForeColor = System.Drawing.Color.Black
         Me.GroupBox10.Location = New System.Drawing.Point(0, 6)
@@ -1395,20 +1395,20 @@ Partial Class Einstellungen
         Me.GroupBox10.TabStop = False
         Me.GroupBox10.Text = "Funimation Dub"
         '
-        'Fun_Dub_Over
+        'FunimationDubComboBox
         '
-        Me.Fun_Dub_Over.DropDownHeight = 250
-        Me.Fun_Dub_Over.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Fun_Dub_Over.FormattingEnabled = True
-        Me.Fun_Dub_Over.IntegralHeight = False
-        Me.Fun_Dub_Over.ItemHeight = 23
-        Me.Fun_Dub_Over.Items.AddRange(New Object() {"Disabled", "english", "japanese", "portuguese(Brazil)", "spanish(Mexico)"})
-        Me.Fun_Dub_Over.Location = New System.Drawing.Point(79, 30)
-        Me.Fun_Dub_Over.Name = "Fun_Dub_Over"
-        Me.Fun_Dub_Over.Size = New System.Drawing.Size(326, 29)
-        Me.Fun_Dub_Over.Sorted = True
-        Me.Fun_Dub_Over.TabIndex = 40
-        Me.Fun_Dub_Over.UseSelectable = True
+        Me.FunimationDubComboBox.DropDownHeight = 250
+        Me.FunimationDubComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FunimationDubComboBox.FormattingEnabled = True
+        Me.FunimationDubComboBox.IntegralHeight = False
+        Me.FunimationDubComboBox.ItemHeight = 23
+        Me.FunimationDubComboBox.Items.AddRange(New Object() {"Disabled", "english", "japanese", "portuguese(Brazil)", "spanish(Mexico)"})
+        Me.FunimationDubComboBox.Location = New System.Drawing.Point(79, 30)
+        Me.FunimationDubComboBox.Name = "FunimationDubComboBox"
+        Me.FunimationDubComboBox.Size = New System.Drawing.Size(326, 29)
+        Me.FunimationDubComboBox.Sorted = True
+        Me.FunimationDubComboBox.TabIndex = 40
+        Me.FunimationDubComboBox.UseSelectable = True
         '
         'GroupBox7
         '
@@ -1835,7 +1835,7 @@ Partial Class Einstellungen
     Friend WithEvents DefaultWebsiteTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CrunchyrollHardsubComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents CB_Fun_HardSubs As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents Fun_Dub_Over As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents FunimationDubComboBox As MetroFramework.Controls.MetroComboBox
     Public WithEvents LastVersion As MetroFramework.Controls.MetroLabel
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
     Friend WithEvents ServerPortInput As MetroFramework.Controls.MetroComboBox

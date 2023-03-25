@@ -37,12 +37,14 @@ Public Class Einstellungen
     Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.EncoderImplementation)()
     Private ReadOnly SeasonNumberBehaviorTextlist As New EnumTextList(Of SeasonNumberBehavior)()
     Private ReadOnly SubtitleNamingTextList As New EnumTextList(Of LanguageNameMethod)()
-    Private ReadOnly CrunchyrollLanguageTextList As New EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage)
 
+    Private ReadOnly CrunchyrollLanguageTextList As New EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage)
     Private ReadOnly CrunchyrollSoftSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
     Private ReadOnly CrunchyrollDefaultLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
     Private ReadOnly CrunchyrollHardSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
     Private ReadOnly CrunchyrollDubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
+
+    Private ReadOnly FunimationLanguageTextList As New EnumTextList(Of FunimationSettings.FunimationLanguage)()
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
@@ -130,6 +132,10 @@ Public Class Einstellungen
             .Add(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_SPAIN, "Español (Spain)")
             .Add(CrunchyrollSettings.CrunchyrollLanguage.JAPANESE, "日本語 (Japanese)")
         End With
+        CrunchyrollSoftSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
+        CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
+        CrunchyrollHardSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
+        CrunchyrollDubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
 
         With SubtitleFormatTextList
             .Add(Format.SubtitleMerge.DISABLED, "[merge disabled]")
@@ -139,12 +145,15 @@ Public Class Einstellungen
         End With
         ValidSubtitleFormatList = SubtitleFormatTextList.CreateSubList()
 
-        nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
+        With FunimationLanguageTextList
+            .Add(FunimationSettings.FunimationLanguage.NONE, "[None]")
+            .Add(FunimationSettings.FunimationLanguage.ENGLISH, "English")
+            .Add(FunimationSettings.FunimationLanguage.JAPANESE, "Japanese")
+            .Add(FunimationSettings.FunimationLanguage.PORTUGUESE, "Português (Brazil)")
+            .Add(FunimationSettings.FunimationLanguage.SPANISH, "Spanish (Mexico)")
+        End With
 
-        CrunchyrollSoftSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
-        CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
-        CrunchyrollHardSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
-        CrunchyrollDubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
+        nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
     End Sub
 
     Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)
@@ -234,23 +243,6 @@ Public Class Einstellungen
             CB_Fun_HardSubs.SelectedItem = "Disabled"
             'FunimationHardsub.Checked = True
         End If
-
-        If Main.DubFunimation = "english" Then
-            Fun_Dub_Over.SelectedItem = "english"
-
-        ElseIf Main.DubFunimation = "japanese" Then
-            Fun_Dub_Over.SelectedItem = "japanese"
-
-        ElseIf Main.DubFunimation = "portuguese(Brazil)" Then
-            Fun_Dub_Over.SelectedItem = "portuguese(Brazil)"
-
-        ElseIf Main.DubFunimation = "spanish(Mexico)" Then
-            Fun_Dub_Over.SelectedItem = "spanish(Mexico)"
-
-        Else
-            Fun_Dub_Over.SelectedItem = "Disabled"
-        End If
-
 
         Try
             GB_SubLanguage.Text = Main.GB_SubLanguage_Text
@@ -346,6 +338,17 @@ Public Class Einstellungen
         InitializeCrunchyrollHardSubs()
         InitializeCrunchyrollSoftSubs()
         CrunchyrollChaptersCheckBox.Checked = crSettings.EnableChapters
+
+        ' Funimation settings
+        InitializeFunimationDub()
+    End Sub
+
+    Private Sub InitializeFunimationDub()
+        FunimationDubComboBox.DataSource = FunimationLanguageTextList.GetDisplayItems()
+
+        Dim settings = ProgramSettings.GetInstance()
+        Dim funSettings = settings.Funimation
+        FunimationDubComboBox.SelectedItem = FunimationLanguageTextList.Item(funSettings.DubLanguage)
     End Sub
 
     Private Sub InitializeCrunchyrollDub()
@@ -741,6 +744,12 @@ Public Class Einstellungen
         crSettings.SoftSubLanguages = selectedEnumList
     End Sub
 
+    Private Sub SaveFunimationDub()
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        Dim selectedEnum = FunimationLanguageTextList.GetEnumForItem(FunimationDubComboBox.SelectedItem)
+        funSettings.DubLanguage = selectedEnum
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
         Dim crSettings = settings.Crunchyroll
@@ -785,6 +794,9 @@ Public Class Einstellungen
         SaveCrunchyrollHardSubs()
         SaveCrunchyrollSoftSubs()
         crSettings.EnableChapters = CrunchyrollChaptersCheckBox.Checked
+
+        ' Funimation settings
+        SaveFunimationDub()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -832,9 +844,6 @@ Public Class Einstellungen
 #Region "funimation"
 
 
-
-
-        Main.DubFunimation = Fun_Dub_Over.SelectedItem.ToString
 
 
         My.Settings.FunimationDub = Main.DubFunimation
@@ -977,7 +986,7 @@ Public Class Einstellungen
     End Sub
 
 
-    Private Sub ComboBox1_DrawItem(sender As Object, e As DrawItemEventArgs) Handles CrunchyrollHardsubComboBox.DrawItem, CB_Fun_HardSubs.DrawItem, Fun_Dub_Over.DrawItem
+    Private Sub ComboBox1_DrawItem(sender As Object, e As DrawItemEventArgs) Handles CrunchyrollHardsubComboBox.DrawItem, CB_Fun_HardSubs.DrawItem, FunimationDubComboBox.DrawItem
         Dim CB As ComboBox = CType(sender, ComboBox)
         CB.BackColor = Color.White
         If e.Index >= 0 Then
