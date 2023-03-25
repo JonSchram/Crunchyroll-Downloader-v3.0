@@ -873,13 +873,14 @@ Public Class CrunchyrollDownloader
 
             Dim SoftSubsList As New List(Of CR_Subtiles)
 
-            If Main.SoftSubs.Count > 0 Then
-                For i As Integer = 0 To Main.SoftSubs.Count - 1
-                    If CBool(InStr(VideoJson, """" + "locale" + """" + ":" + """" + Main.SoftSubs(i) + """" + "," + """" + "url" + """" + ":" + """")) Then
-                        SoftSubsAvailable.Add(Main.SoftSubs(i))
-                    End If
-                Next
-            End If
+            ' TODO: Get locale from soft sub crunchyroll language enum
+            'If Main.SoftSubs.Count > 0 Then
+            '    For i As Integer = 0 To Main.SoftSubs.Count - 1
+            '        If CBool(InStr(VideoJson, """" + "locale" + """" + ":" + """" + Main.SoftSubs(i) + """" + "," + """" + "url" + """" + ":" + """")) Then
+            '            SoftSubsAvailable.Add(Main.SoftSubs(i))
+            '        End If
+            '    Next
+            'End If
 
 
             If Main.DownloadScope = DownloadScopeEnum.AudioOnly Then

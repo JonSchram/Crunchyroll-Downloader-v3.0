@@ -55,8 +55,6 @@ Public Class Einstellungen
     Private nameFormatter As FilenameFormatter
     Private nameInitializing As Boolean = False
 
-    Public CR_SoftSubsTemp As New List(Of String)
-
     Public Sub New()
         InitializeComponent()
 
@@ -175,10 +173,6 @@ Public Class Einstellungen
         BackgroundWorker1.RunWorkerAsync()
 
 
-        'CR_Anime_Folge = CR_Name_Staffel0_Folge1(1)
-        'If GitHubLastTag1(0)
-        CR_SoftSubsTemp.AddRange(Main.SoftSubs)
-
         Manager.Owner = Me
         Me.StyleManager = Manager
 
@@ -198,16 +192,6 @@ Public Class Einstellungen
 
 #Region "sof subs"
         CR_SoftSubDefault.SelectedIndex = 0
-
-        For i As Integer = 1 To Main.LangValueEnum.Count - 2 ' index 0 = 'null' | last index = jp
-
-            If Main.SoftSubs.Contains(Main.LangValueEnum(i).CR_Value) Then
-                CR_SoftSubDefault.Items.Add(Main.LangValueEnum(i).Name)
-
-            End If
-
-        Next
-        CR_SoftSubs.SelectedIndex = 0
 
 #End Region
 
@@ -979,23 +963,6 @@ Public Class Einstellungen
                 End If
             End If
         End If
-
-        Main.SoftSubs.Clear()
-        Main.SoftSubs.AddRange(CR_SoftSubsTemp)
-
-
-        Dim SaveString As String = Nothing
-        For ii As Integer = 0 To Main.SoftSubs.Count - 1
-            If SaveString = Nothing Then
-                SaveString = Main.SoftSubs(ii)
-            Else
-                SaveString = SaveString + "," + Main.SoftSubs(ii)
-            End If
-        Next
-        If SaveString = Nothing Then
-            SaveString = "None"
-        End If
-        My.Settings.AddedSubs = SaveString
 
         My.Settings.Save()
 

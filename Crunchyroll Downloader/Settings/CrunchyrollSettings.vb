@@ -57,7 +57,7 @@ Namespace settings
 
         Public Property EnableChapters As Boolean
 
-        ' TODO: Add display names from here:
+        ' TODO: allow getting locale name from enum value
         'LangValueEnum.Add(New NameValuePair("[ null ]", "", Nothing))
         'LangValueEnum.Add(New NameValuePair("Deutsch", "de-DE", Nothing))
         'LangValueEnum.Add(New NameValuePair("English", "en-US", "en"))

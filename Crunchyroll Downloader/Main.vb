@@ -85,13 +85,10 @@ Public Class Main
     Public DubSprache As NameValuePair = New NameValuePair("Japanese", "ja-JP", Nothing)
     Public SubSprache As NameValuePair = New NameValuePair("[ null ]", "", Nothing)
 
-    Public SoftSubs As New List(Of String)
     Public HybridThread As Integer = CInt(Environment.ProcessorCount / 2 - 1)
-    Public TempSoftSubs As New List(Of String)
     Public AbourtList As New List(Of String)
     Public watingList As New List(Of String)
     Public GeckoLogFile As String = Nothing
-    Dim SoftSubsString As String
     Dim CR_Unlock_Error As String
     Dim SubSprache2 As String
     Public Grapp_RDY As Boolean = True
@@ -379,8 +376,6 @@ Public Class Main
         DebugButton.Visible = false
 #End If
 
-        FillArray()
-
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
         Dim settings = ProgramSettings.GetInstance()
 
@@ -495,18 +490,6 @@ Public Class Main
 
 
         HardSubFunimation = "Disabled"
-
-
-        SoftSubsString = My.Settings.AddedSubs
-
-
-        If SoftSubsString = "None" Then
-        Else
-            Dim SoftSubsStringSplit() As String = SoftSubsString.Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
-            For i As Integer = 0 To SoftSubsStringSplit.Count - 1
-                SoftSubs.Add(SoftSubsStringSplit(i))
-            Next
-        End If
 
 
 
@@ -2128,24 +2111,6 @@ Public Class Main
 #End Region
 
 #Region "enum"
-
-    Sub FillArray() '
-
-        LangValueEnum.Add(New NameValuePair("[ null ]", "", Nothing))
-        LangValueEnum.Add(New NameValuePair("Deutsch", "de-DE", Nothing))
-        LangValueEnum.Add(New NameValuePair("English", "en-US", "en"))
-        LangValueEnum.Add(New NameValuePair("Português (Brasil)", "pt-BR", "pt"))
-        LangValueEnum.Add(New NameValuePair("Español (LA)", "es-419", "es"))
-        LangValueEnum.Add(New NameValuePair("Français (France)", "fr-FR", Nothing))
-        LangValueEnum.Add(New NameValuePair("العربية (Arabic)", "ar-SA", Nothing))
-        LangValueEnum.Add(New NameValuePair("Русский (Russian)", "ru-RU", Nothing))
-        LangValueEnum.Add(New NameValuePair("Italiano (Italian)", "it-IT", Nothing))
-        LangValueEnum.Add(New NameValuePair("Español (España)", "es-ES", Nothing))
-        LangValueEnum.Add(New NameValuePair("Japanese", "ja-JP", Nothing))
-
-    End Sub
-
-
 
     Private Sub QueueToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QueueToolStripMenuItem.Click
         'ffmpeg_options.ShowDialog()
