@@ -41,6 +41,7 @@ Public Class Einstellungen
     Private ReadOnly CrunchyrollSoftSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
     Private ReadOnly CrunchyrollDefaultLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
 
+    ' TODO: Now that there is a sub-textList, consider making this a sub list.
     Private ReadOnly SubToTextMap As New Dictionary(Of Format.SubtitleMerge, String)() From {
     {Format.SubtitleMerge.DISABLED, "[merge disabled]"},
     {Format.SubtitleMerge.MOV_TEXT, "mov_text"},
@@ -293,13 +294,13 @@ Public Class Einstellungen
         Next
 
 
-        CrunchyrollAudioLanguageCheckBox.Items.Clear()
+        CrunchyrollAudioLanguageComboBox.Items.Clear()
 
         For i As Integer = 1 To Main.LangValueEnum.Count - 1
 
-            CrunchyrollAudioLanguageCheckBox.Items.Add(Main.LangValueEnum(i).Name)
+            CrunchyrollAudioLanguageComboBox.Items.Add(Main.LangValueEnum(i).Name)
             If Main.LangValueEnum(i).CR_Value = Main.DubSprache.CR_Value Then
-                CrunchyrollAudioLanguageCheckBox.SelectedIndex = i - 1
+                CrunchyrollAudioLanguageComboBox.SelectedIndex = i - 1
 
             End If
 
@@ -821,7 +822,7 @@ Public Class Einstellungen
 
         For i As Integer = 0 To Main.LangValueEnum.Count - 1
 
-            If CrunchyrollAudioLanguageCheckBox.SelectedItem.ToString = Main.LangValueEnum(i).Name Then
+            If CrunchyrollAudioLanguageComboBox.SelectedItem.ToString = Main.LangValueEnum(i).Name Then
                 Main.DubSprache = Main.LangValueEnum(i)
                 My.Settings.CR_Dub = Main.DubSprache.CR_Value
 

@@ -103,7 +103,7 @@ Partial Class Einstellungen
         Me.GroupBox20 = New System.Windows.Forms.GroupBox()
         Me.ChB_Chapters = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox19 = New System.Windows.Forms.GroupBox()
-        Me.CrunchyrollAudioLanguageCheckBox = New MetroFramework.Controls.MetroComboBox()
+        Me.CrunchyrollAudioLanguageComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.DubMode = New MetroFramework.Controls.MetroCheckBox()
         Me.TabPage6 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox15 = New System.Windows.Forms.GroupBox()
@@ -1296,7 +1296,7 @@ Partial Class Einstellungen
         'GroupBox19
         '
         Me.GroupBox19.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox19.Controls.Add(Me.CrunchyrollAudioLanguageCheckBox)
+        Me.GroupBox19.Controls.Add(Me.CrunchyrollAudioLanguageComboBox)
         Me.GroupBox19.Controls.Add(Me.DubMode)
         Me.GroupBox19.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox19.ForeColor = System.Drawing.Color.Black
@@ -1307,18 +1307,18 @@ Partial Class Einstellungen
         Me.GroupBox19.TabStop = False
         Me.GroupBox19.Text = "Dubbed"
         '
-        'CrunchyrollAudioLanguageCheckBox
+        'CrunchyrollAudioLanguageComboBox
         '
-        Me.CrunchyrollAudioLanguageCheckBox.DropDownHeight = 275
-        Me.CrunchyrollAudioLanguageCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CrunchyrollAudioLanguageCheckBox.FormattingEnabled = True
-        Me.CrunchyrollAudioLanguageCheckBox.IntegralHeight = False
-        Me.CrunchyrollAudioLanguageCheckBox.ItemHeight = 23
-        Me.CrunchyrollAudioLanguageCheckBox.Location = New System.Drawing.Point(85, 55)
-        Me.CrunchyrollAudioLanguageCheckBox.Name = "CrunchyrollAudioLanguageCheckBox"
-        Me.CrunchyrollAudioLanguageCheckBox.Size = New System.Drawing.Size(320, 29)
-        Me.CrunchyrollAudioLanguageCheckBox.TabIndex = 21
-        Me.CrunchyrollAudioLanguageCheckBox.UseSelectable = True
+        Me.CrunchyrollAudioLanguageComboBox.DropDownHeight = 275
+        Me.CrunchyrollAudioLanguageComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CrunchyrollAudioLanguageComboBox.FormattingEnabled = True
+        Me.CrunchyrollAudioLanguageComboBox.IntegralHeight = False
+        Me.CrunchyrollAudioLanguageComboBox.ItemHeight = 23
+        Me.CrunchyrollAudioLanguageComboBox.Location = New System.Drawing.Point(85, 55)
+        Me.CrunchyrollAudioLanguageComboBox.Name = "CrunchyrollAudioLanguageComboBox"
+        Me.CrunchyrollAudioLanguageComboBox.Size = New System.Drawing.Size(320, 29)
+        Me.CrunchyrollAudioLanguageComboBox.TabIndex = 21
+        Me.CrunchyrollAudioLanguageComboBox.UseSelectable = True
         '
         'DubMode
         '
@@ -1874,7 +1874,7 @@ Partial Class Einstellungen
     Friend WithEvents FilenameTemplatePreview As MetroFramework.Controls.MetroTextBox
     Friend WithEvents EpisodePrefixTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents SeasonPrefixTextBox As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents CrunchyrollAudioLanguageCheckBox As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents CrunchyrollAudioLanguageComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox21 As GroupBox
     Friend WithEvents CB_HideSF As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox20 As GroupBox
