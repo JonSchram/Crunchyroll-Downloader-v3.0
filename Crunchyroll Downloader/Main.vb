@@ -104,7 +104,6 @@ Public Class Main
     Public UserBowser As Boolean = False
     Public HardSubFunimation As String = "Disabled"
     Public Funimation_Bitrate As Integer = 0
-    Public DubFunimation As String = "Disabled"
     Public Funimation_srt As Boolean = False
     Public Funimation_vtt As Boolean = False
     Public SubFunimationString As String = "en"
@@ -460,8 +459,6 @@ Public Class Main
 
         Funimation_srt = My.Settings.Funimation_srt
         Funimation_vtt = My.Settings.Funimation_vtt
-
-        DubFunimation = My.Settings.FunimationDub
 
 
         HardSubFunimation = "Disabled"
@@ -1643,8 +1640,22 @@ Public Class Main
                         Dim URLSplit2() As String = URLSplit(1).Split(New String() {"&FunimationCookie="}, System.StringSplitOptions.RemoveEmptyEntries)
                         SystemWebBrowserCookie = URLSplit2(1)
                         WebbrowserURL = UrlDecode(URLSplit2(0))
+
                         If CBool(InStr(WebbrowserURL, "funimation.com")) Then
-                            If DubFunimation = "Disabled" Then
+                            Dim settings = ProgramSettings.GetInstance()
+                            Dim funSettings = settings.Funimation
+                            Dim DubFunimation = ""
+                            Select Case funSettings.DubLanguage
+                                Case FunimationSettings.FunimationLanguage.JAPANESE
+                                    DubFunimation = "japanese"
+                                Case FunimationSettings.FunimationLanguage.ENGLISH
+                                    DubFunimation = "english"
+                                Case FunimationSettings.FunimationLanguage.PORTUGUESE
+                                    DubFunimation = "portuguese(Brazil)"
+                                Case FunimationSettings.FunimationLanguage.SPANISH
+                                    DubFunimation = "spanish(Mexico)"
+                            End Select
+                            If funSettings.DubLanguage = FunimationSettings.FunimationLanguage.NONE Then
                             Else
                                 If CBool(InStr(WebbrowserURL, "?lang=")) Then
                                     Dim ClearUri As String() = WebbrowserURL.Split(New String() {"?lang="}, System.StringSplitOptions.RemoveEmptyEntries)

@@ -21,7 +21,7 @@
                     DubLanguage = FunimationLanguage.PORTUGUESE
                 Case "spanish(Mexico)"
                     DubLanguage = FunimationLanguage.SPANISH
-                Case Else
+                Case "Disabled"
                     DubLanguage = FunimationLanguage.NONE
             End Select
         End Sub

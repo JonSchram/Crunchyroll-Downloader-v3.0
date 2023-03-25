@@ -1402,11 +1402,9 @@ Partial Class Einstellungen
         Me.FunimationDubComboBox.FormattingEnabled = True
         Me.FunimationDubComboBox.IntegralHeight = False
         Me.FunimationDubComboBox.ItemHeight = 23
-        Me.FunimationDubComboBox.Items.AddRange(New Object() {"Disabled", "english", "japanese", "portuguese(Brazil)", "spanish(Mexico)"})
         Me.FunimationDubComboBox.Location = New System.Drawing.Point(79, 30)
         Me.FunimationDubComboBox.Name = "FunimationDubComboBox"
         Me.FunimationDubComboBox.Size = New System.Drawing.Size(326, 29)
-        Me.FunimationDubComboBox.Sorted = True
         Me.FunimationDubComboBox.TabIndex = 40
         Me.FunimationDubComboBox.UseSelectable = True
         '

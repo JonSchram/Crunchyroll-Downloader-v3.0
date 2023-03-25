@@ -304,14 +304,14 @@ Public Class FunimationDownloader
             Return "N/A"
         End If
     End Function
-    Private Function ConvertFunimationDubToJson(ByVal Dub As String) As String
-        If Dub = "english" Then
+    Private Function ConvertFunimationDubToJson(ByVal Dub As FunimationSettings.FunimationLanguage) As String
+        If Dub = FunimationSettings.FunimationLanguage.ENGLISH Then
             Return "en"
-        ElseIf Dub = "spanish(Mexico)" Then
+        ElseIf Dub = FunimationSettings.FunimationLanguage.SPANISH Then
             Return "es"
-        ElseIf Dub = "portuguese(Brazil)" Then
+        ElseIf Dub = FunimationSettings.FunimationLanguage.PORTUGUESE Then
             Return "pt"
-        ElseIf Dub = "japanese" Then 'japanese
+        ElseIf Dub = FunimationSettings.FunimationLanguage.JAPANESE Then 'japanese
             Return "ja"
         Else
             Return "N/A"
@@ -412,7 +412,7 @@ Public Class FunimationDownloader
             Dim FunimationEpisode As String = Nothing
             Dim FunimationTitle As String = Nothing
             Dim FunimationEpisodeTitle As String = Nothing
-            Dim FunimationDub As String = Nothing
+            Dim FunimationDub As FunimationSettings.FunimationLanguage = FunimationSettings.FunimationLanguage.NONE
             Dim FunimationAudioMap As String = Nothing
             Dim FunimationEpisodeJson As String = Nothing
             Dim thumbnail4 As String = ""
@@ -487,12 +487,14 @@ Public Class FunimationDownloader
                         Next
                 End Select
             Next
+            Dim settings = ProgramSettings.GetInstance()
+            Dim funSettings = settings.Funimation
+            Dim dubLanguage = funSettings.DubLanguage
             FunimationTitle = Main.RemoveExtraSpaces(String.Join(" ", FunimationTitle.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace("""", "").Replace("\", "").Replace("/", "")
             FunimationEpisodeTitle = String.Join(" ", FunimationEpisodeTitle.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace("""", "").Replace("\", "").Replace("/", "")
-            FunimationDub = ConvertFunimationDub(Main.DubFunimation) 'FunimationDub2(0)
+            FunimationDub = dubLanguage
             Dim DefaultName As String = Main.RemoveExtraSpaces(FunimationTitle + " " + FunimationSeason + " " + FunimationEpisode)
 
-            Dim settings = ProgramSettings.GetInstance()
             Dim nameTemplate = settings.FilenameFormat
             Dim NameParts As String() = nameTemplate.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
 
@@ -727,10 +729,10 @@ Public Class FunimationDownloader
                         Funimation_m3u8_Primary_Version = VideoStreams(i).version
                         Funimation_m3u8_Primary_audioLanguage = VideoStreams(i).audioLanguage
                     End If
-                    If VideoStreams(i).audioLanguage = ConvertFunimationDubToJson(Main.DubFunimation) And Funimation_m3u8_Main = Nothing Then
+                    If VideoStreams(i).audioLanguage = ConvertFunimationDubToJson(funSettings.DubLanguage) And Funimation_m3u8_Main = Nothing Then
                         Funimation_m3u8_Main = VideoStreams(i).Url
                         Funimation_m3u8_MainVersion = VideoStreams(i).version
-                    ElseIf VideoStreams(i).audioLanguage = ConvertFunimationDubToJson(Main.DubFunimation) And VideoStreams(i).version = "uncut" Then
+                    ElseIf VideoStreams(i).audioLanguage = ConvertFunimationDubToJson(funSettings.DubLanguage) And VideoStreams(i).version = "uncut" Then
                         Funimation_m3u8_Main = VideoStreams(i).Url
                         Funimation_m3u8_MainVersion = VideoStreams(i).version
                     End If
@@ -739,7 +741,8 @@ Public Class FunimationDownloader
                 If Funimation_m3u8_Main = Nothing Then
                     Funimation_m3u8_Main = Funimation_m3u8_Primary
                     Funimation_m3u8_MainVersion = Funimation_m3u8_Primary_Version
-                    FunimationDub = ConvertFunimationDub(ConvertJsonToFunimationDub(Funimation_m3u8_Primary_audioLanguage))
+                    ' TODO: Convert language from json to enum and use here
+                    'FunimationDub = ConvertFunimationDub(ConvertJsonToFunimationDub(Funimation_m3u8_Primary_audioLanguage))
                 End If
                 If Funimation_m3u8_Main = Nothing Then
                     If MessageBox.Show("No media matching your settings." + vbNewLine + "Avalible: Not implimentented, press 'Yes' to copy the data into the clipboard.", "No media", MessageBoxButtons.YesNo) = DialogResult.Yes Then
@@ -1018,11 +1021,11 @@ Public Class FunimationDownloader
 #End Region
 #Region "ffmpeg command"
             Dim DubMetatata As String = Nothing
-            If FunimationDub = "Japanese" Then
+            If FunimationDub = FunimationSettings.FunimationLanguage.JAPANESE Then
                 DubMetatata = " -metadata:s:a:0 language=jpn"
-            ElseIf FunimationDub = "Portuguese (Brazil)" Then
+            ElseIf FunimationDub = FunimationSettings.FunimationLanguage.PORTUGUESE Then
                 DubMetatata = " -metadata:s:a:0 language=por"
-            ElseIf FunimationDub = "Spanish (Latin Am)" Then
+            ElseIf FunimationDub = FunimationSettings.FunimationLanguage.SPANISH Then
                 DubMetatata = " -metadata:s:a:0 language=spa"
             Else '
                 DubMetatata = " -metadata:s:a:0 language=eng"
@@ -1049,7 +1052,7 @@ Public Class FunimationDownloader
                 Funimation_m3u8_final = "-i [Subtitles only]"
             End If
             Dim L1Name_Split As String() = Main.WebbrowserURL.Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim L1Name As String = L1Name_Split(1).Replace("www.", "") + " | Dub : " + FunimationDub
+            Dim L1Name As String = L1Name_Split(1).Replace("www.", "") + " | Dub : " + api.LocaleConverter.ConvertFunimationLanguageToLocale(funSettings.DubLanguage)
             Main.Invoke(Sub()
                             Main.ListItemAdd(DownloadPfad, L1Name, DefaultName, ResoHTMLDisplay, Funimation_m3u8_MainVersion, thumbnail4, Funimation_m3u8_final, DownloadPfad, "FM")
                         End Sub)

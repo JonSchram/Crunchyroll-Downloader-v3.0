@@ -846,9 +846,6 @@ Public Class Einstellungen
 
 
 
-        My.Settings.FunimationDub = Main.DubFunimation
-
-
         'If CB_Fun_HardSubs.SelectedItem.ToString = "Disabled" Then
         '    Main.HardSubFunimation = "Disabled"
         '    rk.SetValue("FunimationHardsub", "Disabled", RegistryValueKind.String)
