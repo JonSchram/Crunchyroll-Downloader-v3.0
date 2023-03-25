@@ -50,7 +50,7 @@ Namespace settings
         End Function
 
         Public Function Item(value As T) As EnumDisplayEntry
-            Return EntryMap.Item(value)
+            Return GetItemForEnum(value)
         End Function
 
         ''' <summary>
@@ -79,7 +79,7 @@ Namespace settings
         ''' <typeparam name="T"></typeparam>
         Public Class SubTextList
             Private ReadOnly parentTextList As EnumTextList(Of T)
-            Private ReadOnly BoundList As New BindingList(Of EnumDisplayEntry)
+            Private ReadOnly BoundList As New BindingList(Of EnumDisplayEntry)()
 
             Public Sub New(parent As EnumTextList(Of T))
                 parentTextList = parent

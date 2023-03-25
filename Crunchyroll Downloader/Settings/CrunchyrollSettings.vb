@@ -16,9 +16,22 @@ Namespace settings
             Return Instance
         End Function
 
+        ' TODO:
+        ' Upgrade My.settings.Subtitle to CrunchyrollHardSubLanguage
+        ' Upgrade My.settings.AddedSubs to SelectedCrunchyrollSoftSubs
+        '   - Is a list of locales
+
         Public Property AcceptHardsubs As Boolean
         Public Property AudioLanguage As CrunchyrollLanguage
         Public Property HardSubLanguage As CrunchyrollLanguage
+            Get
+                Return CType(My.Settings.CrunchyrollHardSubLanguage, CrunchyrollLanguage)
+            End Get
+            Set(value As CrunchyrollLanguage)
+                My.Settings.CrunchyrollHardSubLanguage = value
+            End Set
+        End Property
+
         ' TODO: Might want this to accept / return a Set because that is how it is used in code.
         Public Property SoftSubLanguages As List(Of CrunchyrollLanguage)
             Get

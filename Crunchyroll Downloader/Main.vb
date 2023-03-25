@@ -83,7 +83,6 @@ Public Class Main
 
     Public LangValueEnum As New List(Of NameValuePair)
     Public DubSprache As NameValuePair = New NameValuePair("Japanese", "ja-JP", Nothing)
-    Public SubSprache As NameValuePair = New NameValuePair("[ null ]", "", Nothing)
 
     Public HybridThread As Integer = CInt(Environment.ProcessorCount / 2 - 1)
     Public AbourtList As New List(Of String)
@@ -459,14 +458,6 @@ Public Class Main
 
         CR_Chapters = My.Settings.CR_Chapters
 
-
-        For i As Integer = 0 To LangValueEnum.Count - 1
-            If LangValueEnum(i).CR_Value = My.Settings.Subtitle Then
-                'MsgBox(My.Settings.Subtitle)
-                SubSprache = LangValueEnum(i)
-                Exit For
-            End If
-        Next
 
         For i As Integer = 0 To LangValueEnum.Count - 1
             If LangValueEnum(i).CR_Value = My.Settings.CR_Dub Then

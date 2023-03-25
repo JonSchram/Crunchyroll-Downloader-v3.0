@@ -32,7 +32,7 @@ Partial Class Einstellungen
         Me.Label3 = New System.Windows.Forms.Label()
         Me.CrunchyrollSoftSubsCheckedListBox = New System.Windows.Forms.CheckedListBox()
         Me.GB_SubLanguage = New System.Windows.Forms.GroupBox()
-        Me.CB_CR_Harsubs = New MetroFramework.Controls.MetroComboBox()
+        Me.CrunchyrollHardsubComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.TabPage2 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox18 = New System.Windows.Forms.GroupBox()
         Me.UseQueueCheckbox = New MetroFramework.Controls.MetroCheckBox()
@@ -256,7 +256,7 @@ Partial Class Einstellungen
         'GB_SubLanguage
         '
         Me.GB_SubLanguage.BackColor = System.Drawing.Color.Transparent
-        Me.GB_SubLanguage.Controls.Add(Me.CB_CR_Harsubs)
+        Me.GB_SubLanguage.Controls.Add(Me.CrunchyrollHardsubComboBox)
         Me.GB_SubLanguage.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GB_SubLanguage.ForeColor = System.Drawing.Color.Black
         Me.GB_SubLanguage.Location = New System.Drawing.Point(5, 120)
@@ -266,18 +266,18 @@ Partial Class Einstellungen
         Me.GB_SubLanguage.TabStop = False
         Me.GB_SubLanguage.Text = "Hardsub language"
         '
-        'CB_CR_Harsubs
+        'CrunchyrollHardsubComboBox
         '
-        Me.CB_CR_Harsubs.DropDownHeight = 275
-        Me.CB_CR_Harsubs.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CB_CR_Harsubs.FormattingEnabled = True
-        Me.CB_CR_Harsubs.IntegralHeight = False
-        Me.CB_CR_Harsubs.ItemHeight = 23
-        Me.CB_CR_Harsubs.Location = New System.Drawing.Point(85, 25)
-        Me.CB_CR_Harsubs.Name = "CB_CR_Harsubs"
-        Me.CB_CR_Harsubs.Size = New System.Drawing.Size(320, 29)
-        Me.CB_CR_Harsubs.TabIndex = 20
-        Me.CB_CR_Harsubs.UseSelectable = True
+        Me.CrunchyrollHardsubComboBox.DropDownHeight = 275
+        Me.CrunchyrollHardsubComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CrunchyrollHardsubComboBox.FormattingEnabled = True
+        Me.CrunchyrollHardsubComboBox.IntegralHeight = False
+        Me.CrunchyrollHardsubComboBox.ItemHeight = 23
+        Me.CrunchyrollHardsubComboBox.Location = New System.Drawing.Point(85, 25)
+        Me.CrunchyrollHardsubComboBox.Name = "CrunchyrollHardsubComboBox"
+        Me.CrunchyrollHardsubComboBox.Size = New System.Drawing.Size(320, 29)
+        Me.CrunchyrollHardsubComboBox.TabIndex = 20
+        Me.CrunchyrollHardsubComboBox.UseSelectable = True
         '
         'TabPage2
         '
@@ -1833,7 +1833,7 @@ Partial Class Einstellungen
     Friend WithEvents MetroLabel1 As MetroFramework.Controls.MetroLabel
     Friend WithEvents DarkMode As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents DefaultWebsiteTextBox As MetroFramework.Controls.MetroTextBox
-    Friend WithEvents CB_CR_Harsubs As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents CrunchyrollHardsubComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents CB_Fun_HardSubs As MetroFramework.Controls.MetroComboBox
     Friend WithEvents Fun_Dub_Over As MetroFramework.Controls.MetroComboBox
     Public WithEvents LastVersion As MetroFramework.Controls.MetroLabel

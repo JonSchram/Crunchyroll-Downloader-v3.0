@@ -375,7 +375,8 @@ Public Class CrunchyrollDownloader
             Debug.WriteLine("VideoStreams: " + Streams)
 
 
-            Dim CR_HardSubLang As String = Main.SubSprache.CR_Value
+            ' TODO: Get locale for language
+            Dim CR_HardSubLang As String = "" ' Main.SubSprache.CR_Value
 #End Region
 
 #Region "m3u8 suche"
@@ -1071,8 +1072,9 @@ Public Class CrunchyrollDownloader
                             Main.Invalidate()
                         End Sub)
             Main.Grapp_RDY = True
+            Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
             If CBool(InStr(ex.ToString, "Could not find the sub language")) Then
-                MsgBox(Main.Sub_language_NotFound + Main.SubSprache.Name)
+                MsgBox(Main.Sub_language_NotFound + crSettings.HardSubLanguage.ToString())
             ElseIf CBool(InStr(ex.ToString, "RESOLUTION Not Found")) Then
                 MsgBox(Main.Resolution_NotFound)
             ElseIf CBool(InStr(ex.ToString, "Premium Episode")) Then
