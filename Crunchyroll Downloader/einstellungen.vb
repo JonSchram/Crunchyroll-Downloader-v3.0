@@ -51,6 +51,7 @@ Public Class Einstellungen
 
     Private nameFormatter As FilenameFormatter
     Private nameInitializing As Boolean = False
+    Private videoFormatsInitializing As Boolean = False
 
     Public Sub New()
         InitializeComponent()
@@ -170,7 +171,12 @@ Public Class Einstellungen
     End Sub
 
     Private Sub UpdateMergeFormatInput(VideoFormat As Format.MediaFormat)
+        If videoFormatsInitializing Then
+            Return
+        End If
         PopulateSubFormats(VideoFormat)
+        CB_Merge.Items.Clear()
+        CB_Merge.Items.AddRange(ValidSubtitleFormatList.GetDisplayItems().ToArray())
         CB_Merge.SelectedIndex = 0
         CB_Merge.Enabled = VideoFormat <> Format.MediaFormat.AAC_AUDIO_ONLY
     End Sub
@@ -540,17 +546,19 @@ Public Class Einstellungen
     End Sub
 
     Public Sub InitializeOutputFormat()
+        videoFormatsInitializing = True
         Dim settings = ProgramSettings.GetInstance()
         ' TODO: Maybe put in a try-catch block in case the object parses incorrectly?
         Dim currentFormat = settings.OutputFormat
 
+        ' Setting a data source and selected item both trigger a selected item change, so a manual call to set merge formats
+        ' isn't necessary. It would be nice to disable the first update though so it isn't populated with irrelevant data.
         CB_Format.Items.Clear()
         CB_Format.DataSource = VideoFormatTextList.GetDisplayItems()
-        CB_Format.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
+        videoFormatsInitializing = False
 
-        ' Must set data source first because updating the merge format input sets selected index.
-        CB_Merge.DataSource = ValidSubtitleFormatList.GetDisplayItems()
-        UpdateMergeFormatInput(currentFormat.GetVideoFormat())
+        ' Allow the automatic selected item change to populate items for subtitle merge check box.
+        CB_Format.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
         CB_Merge.SelectedItem = SubtitleFormatTextList.Item(currentFormat.GetSubtitleFormat())
     End Sub
 
