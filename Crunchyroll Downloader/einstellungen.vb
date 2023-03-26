@@ -200,11 +200,6 @@ Public Class Einstellungen
 
         TabControl1.SelectedIndex = 0
 
-#Region "sof subs"
-        CR_SoftSubDefault.SelectedIndex = 0
-
-#End Region
-
         For i As Integer = 0 To Main.SubFunimation.Count - 1
             If Main.SubFunimation(i) = "en" Then
                 CB_fun_eng.Checked = True
@@ -267,30 +262,6 @@ Public Class Einstellungen
         Else
             FunSubDef.SelectedItem = "[Disabled]"
             'FunimationHardsub.Checked = True
-        End If
-
-
-
-        If Main.DefaultSubCR = "de-DE" Then
-            CR_SoftSubDefault.SelectedItem = "Deutsch"
-        ElseIf Main.DefaultSubCR = "en-US" Then
-            CR_SoftSubDefault.SelectedItem = "English"
-        ElseIf Main.DefaultSubCR = "pt-BR" Then
-            CR_SoftSubDefault.SelectedItem = "Português (Brasil)"
-        ElseIf Main.DefaultSubCR = "es-419" Then
-            CR_SoftSubDefault.SelectedItem = "Español (LA)"
-        ElseIf Main.DefaultSubCR = "fr-FR" Then
-            CR_SoftSubDefault.SelectedItem = "Français (France)"
-        ElseIf Main.DefaultSubCR = "ar-SA" Then
-            CR_SoftSubDefault.SelectedItem = "العربية (Arabic)"
-        ElseIf Main.DefaultSubCR = "ru-RU" Then
-            CR_SoftSubDefault.SelectedItem = "Русский (Russian)"
-        ElseIf Main.DefaultSubCR = "it-IT" Then
-            CR_SoftSubDefault.SelectedItem = "Italiano (Italian)"
-        ElseIf Main.DefaultSubCR = "es-ES" Then
-            CR_SoftSubDefault.SelectedItem = "Español (España)"
-        Else
-            CR_SoftSubDefault.SelectedItem = "[Disabled]"
         End If
 
 
@@ -390,9 +361,6 @@ Public Class Einstellungen
         CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
         CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollSoftSubLanguageSubList.GetDisplayItems()
 
-        CrunchyrollDefaultLanguageSubList.AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.NONE)
-        CR_SoftSubDefault.DataSource = CrunchyrollDefaultLanguageSubList.GetDisplayItems()
-
         ' Load enum values from settings into check boxes
         Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
         Dim selectedSoftSubs = crSettings.SoftSubLanguages
@@ -404,6 +372,12 @@ Public Class Einstellungen
             End If
         Next
 
+        ' Can set the default sub after the defaults have been populated from the checked list box.
+        Dim defaultSub = crSettings.DefaultSoftSubLanguage
+        CrunchyrollDefaultLanguageSubList.AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.NONE)
+        ' TODO: setting data source means the combo box can't be sorted. Need to figure out how to sort a data source.
+        CR_SoftSubDefault.DataSource = CrunchyrollDefaultLanguageSubList.GetDisplayItems()
+        CR_SoftSubDefault.SelectedItem = CrunchyrollLanguageTextList.Item(defaultSub)
     End Sub
 
     Private Sub InitializeCrunchyrollLanguageList(subList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList)
@@ -755,6 +729,9 @@ Public Class Einstellungen
 
         Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
         crSettings.SoftSubLanguages = selectedEnumList
+
+        Dim selectedDefaultSoftSub = CrunchyrollLanguageTextList.GetEnumForItem(CR_SoftSubDefault.SelectedItem)
+        crSettings.DefaultSoftSubLanguage = selectedDefaultSoftSub
     End Sub
 
     Private Sub SaveFunimationDub()
@@ -817,40 +794,6 @@ Public Class Einstellungen
 
         Main.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
         My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
-
-
-
-        If CR_SoftSubDefault.SelectedItem.ToString = "English" Then
-            Main.DefaultSubCR = "en-US"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "Deutsch" Then
-            Main.DefaultSubCR = "de-DE"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "Português (Brasil)" Then
-            Main.DefaultSubCR = "pt-BR"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "Español (LA)" Then
-            Main.DefaultSubCR = "es-419"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "Français (France)" Then
-            Main.DefaultSubCR = "fr-FR"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "العربية (Arabic)" Then
-            Main.DefaultSubCR = "ar-SA"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "Русский (Russian)" Then
-            Main.DefaultSubCR = "ru-RU"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "Italiano (Italian)" Then
-            Main.DefaultSubCR = "it-IT"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "Español (España)" Then
-            Main.DefaultSubCR = "es-ES"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        ElseIf CR_SoftSubDefault.SelectedItem.ToString = "[Disabled]" Then
-            Main.DefaultSubCR = "None"
-            My.Settings.DefaultSubCR = Main.DefaultSubCR
-        End If
 
 
 
@@ -1383,5 +1326,4 @@ Public Class Einstellungen
         PORT_8080
         CUSTOM
     End Enum
-
 End Class

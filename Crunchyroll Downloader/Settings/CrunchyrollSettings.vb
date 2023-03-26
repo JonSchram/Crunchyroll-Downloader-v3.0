@@ -22,6 +22,7 @@ Namespace settings
         '   - Is a list of locales
         ' Upgrade My.settings.CR_Dub to CrunchyrollDubLanguage
         ' Upgrade My.settings.DubMode to CrunchyrollAcceptHardsubs
+        ' Upgrade My.settings.DefaultSubCR to DefaultCrunchyrollSoftSub
 
         Public Property AcceptHardsubs As Boolean
             Get
