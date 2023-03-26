@@ -204,7 +204,6 @@ Partial Class Einstellungen
         Me.CR_SoftSubDefault.Location = New System.Drawing.Point(241, 40)
         Me.CR_SoftSubDefault.Name = "CR_SoftSubDefault"
         Me.CR_SoftSubDefault.Size = New System.Drawing.Size(238, 29)
-        Me.CR_SoftSubDefault.Sorted = True
         Me.CR_SoftSubDefault.TabIndex = 30
         Me.CR_SoftSubDefault.UseSelectable = True
         '
@@ -290,10 +289,10 @@ Partial Class Einstellungen
         Me.TabPage2.HorizontalScrollbarBarColor = True
         Me.TabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage2.HorizontalScrollbarSize = 10
-        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 44)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(501, 528)
+        Me.TabPage2.Size = New System.Drawing.Size(501, 519)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Output"
         Me.TabPage2.VerticalScrollbarBarColor = True
