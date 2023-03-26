@@ -107,7 +107,7 @@ Namespace settings
 
         Public Class EnumDisplayEntry
             Private ReadOnly Property EnumValue As T
-            Private ReadOnly Property EnumText As String
+            Public ReadOnly Property EnumText As String
 
             Public Sub New(value As T, text As String)
                 EnumValue = value

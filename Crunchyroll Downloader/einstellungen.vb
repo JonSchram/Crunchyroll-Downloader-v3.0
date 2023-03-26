@@ -376,6 +376,11 @@ Public Class Einstellungen
         ' Use a sub list so that the soft sub combo box can exclude CrunchyrollLanguage.NONE
         InitializeCrunchyrollLanguageList(CrunchyrollSoftSubLanguageSubList)
 
+        ' Must set the data items manually before setting as a data source.
+        ' Setting a data source refreshes the items and it tries to get the old item corresponding to a new item number.
+        Dim displayItems = CrunchyrollSoftSubLanguageSubList.GetDisplayItems()
+        CrunchyrollSoftSubsCheckedListBox.Items.AddRange(displayItems.ToArray)
+
         CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
         CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollSoftSubLanguageSubList.GetDisplayItems()
 
