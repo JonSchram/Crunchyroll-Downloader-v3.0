@@ -134,7 +134,7 @@ Public Class Einstellungen
             .Add(CrunchyrollSettings.CrunchyrollLanguage.JAPANESE, "日本語 (Japanese)")
         End With
         CrunchyrollSoftSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
-        CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
+        CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSublist(OrderType.PARENT_ORDER)
         CrunchyrollHardSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
         CrunchyrollDubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
 
@@ -361,6 +361,9 @@ Public Class Einstellungen
         CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
         CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollSoftSubLanguageSubList.GetDisplayItems()
 
+        CrunchyrollDefaultLanguageSubList.AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.NONE)
+        CR_SoftSubDefault.DataSource = CrunchyrollDefaultLanguageSubList.GetDisplayItems()
+
         ' Load enum values from settings into check boxes
         Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
         Dim selectedSoftSubs = crSettings.SoftSubLanguages
@@ -374,9 +377,6 @@ Public Class Einstellungen
 
         ' Can set the default sub after the defaults have been populated from the checked list box.
         Dim defaultSub = crSettings.DefaultSoftSubLanguage
-        CrunchyrollDefaultLanguageSubList.AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.NONE)
-        ' TODO: setting data source means the combo box can't be sorted. Need to figure out how to sort a data source.
-        CR_SoftSubDefault.DataSource = CrunchyrollDefaultLanguageSubList.GetDisplayItems()
         CR_SoftSubDefault.SelectedItem = CrunchyrollLanguageTextList.Item(defaultSub)
     End Sub
 

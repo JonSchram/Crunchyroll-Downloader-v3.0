@@ -58,7 +58,15 @@ Namespace settings
         ''' </summary>
         ''' <returns></returns>
         Public Function CreateSubList() As SubTextList
-            Dim newSubList As New SubTextList(Me)
+            Return CreateSublist(OrderType.NO_ORDER)
+        End Function
+
+        Public Function CreateSublist(Order As OrderType) As SubTextList
+            Return CreateSublist(Order, False)
+        End Function
+
+        Public Function CreateSublist(Order As OrderType, reverse As Boolean) As SubTextList
+            Dim newSubList As New SubTextList(Me, Order, reverse)
             SubLists.Add(newSubList)
             Return newSubList
         End Function
@@ -78,15 +86,97 @@ Namespace settings
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         Public Class SubTextList
+            Private ReadOnly Ordering As OrderType
+            Private ReadOnly reverseOrder As Boolean
+
             Private ReadOnly parentTextList As EnumTextList(Of T)
             Private ReadOnly BoundList As New BindingList(Of EnumDisplayEntry)()
 
             Public Sub New(parent As EnumTextList(Of T))
+                Me.New(parent, OrderType.NO_ORDER)
+            End Sub
+            Public Sub New(parent As EnumTextList(Of T), order As OrderType)
+                Me.New(parent, order, False)
+            End Sub
+
+            Public Sub New(parent As EnumTextList(Of T), order As OrderType, reverse As Boolean)
                 parentTextList = parent
+                Ordering = order
+                reverseOrder = reverse
             End Sub
 
             Public Sub AddFromParent(value As T)
-                BoundList.Add(parentTextList.GetItemForEnum(value))
+                Select Case Ordering
+                    Case OrderType.NO_ORDER
+                        Add(value)
+                    Case OrderType.ALPHABETICAL
+                        InsertAlphabetical(value)
+                    Case OrderType.PARENT_ORDER
+                        InsertParentOrder(value)
+                End Select
+            End Sub
+
+            Private Sub Add(value As T)
+                Dim newItem = parentTextList.GetItemForEnum(value)
+                If reverseOrder Then
+                    BoundList.Insert(0, newItem)
+                Else
+                    BoundList.Add(newItem)
+                End If
+            End Sub
+
+            Private Sub InsertAlphabetical(value As T)
+                Dim newItem = parentTextList.GetItemForEnum(value)
+
+                If reverseOrder Then
+                    Dim insertIndex = BoundList.Count - 1
+                    While insertIndex >= 0
+                        If newItem.EnumText < BoundList.Item(insertIndex).EnumText Then
+                            BoundList.Insert(insertIndex, newItem)
+                            Return
+                        End If
+                        insertIndex -= 1
+                    End While
+                    BoundList.Insert(0, newItem)
+                Else
+                    Dim insertIndex = 0
+                    While insertIndex < BoundList.Count
+                        If newItem.EnumText >= BoundList.Item(insertIndex).EnumText Then
+                            BoundList.Insert(insertIndex, newItem)
+                            Return
+                        End If
+                        insertIndex += 1
+                    End While
+                    BoundList.Add(newItem)
+                End If
+            End Sub
+
+            Private Sub InsertParentOrder(value As T)
+                Dim newItem = parentTextList.GetItemForEnum(value)
+
+                If reverseOrder Then
+                    Dim insertIndex = BoundList.Count - 1
+                    While insertIndex >= 0
+                        Dim parentIndex = parentTextList.DisplayItemsBinding.IndexOf(newItem)
+                        If insertIndex < parentIndex Then
+                            BoundList.Insert(insertIndex, newItem)
+                            Return
+                        End If
+                        insertIndex -= 1
+                    End While
+                    BoundList.Insert(0, newItem)
+                Else
+                    Dim insertIndex = 0
+                    While insertIndex < BoundList.Count
+                        Dim parentIndex = parentTextList.DisplayItemsBinding.IndexOf(newItem)
+                        If insertIndex >= parentIndex Then
+                            BoundList.Insert(insertIndex, newItem)
+                            Return
+                        End If
+                        insertIndex += 1
+                    End While
+                    BoundList.Add(newItem)
+                End If
             End Sub
 
             Public Sub RemoveEnum(value As T)
@@ -123,5 +213,20 @@ Namespace settings
             End Function
         End Class
     End Class
+
+    Public Enum OrderType
+        ''' <summary>
+        '''   No sort order. New items are added to the end of the sub list (or the beginning in reverse order).
+        ''' </summary>
+        NO_ORDER
+        ''' <summary>
+        ''' New items are added to the proper location in the sub list according to the alphabetical order of display text (or reverse).
+        ''' </summary>
+        ALPHABETICAL
+        ''' <summary>
+        ''' New items are added to the location in the sub list to match the order they exist in the parent list (or in reverse of this order).
+        ''' </summary>
+        PARENT_ORDER
+    End Enum
 
 End Namespace
