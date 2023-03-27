@@ -938,6 +938,7 @@ Public Class CrunchyrollDownloader
                         SoftSubMergeMetatata = SoftSubMergeMetatata + " -disposition:s:" + DispositionIndex.ToString + " default"
                     End If
 
+                    'TODO: Use subtitle merge format name here, or just generally improve the way ffmpeg commands are handled.
                     If CR_MetadataUsage = False Then
                         ffmpegInput = ffmpegInput + " " + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpeg_command_temp + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale)
                     Else
