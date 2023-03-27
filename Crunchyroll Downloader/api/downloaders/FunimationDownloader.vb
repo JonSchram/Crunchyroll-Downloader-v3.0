@@ -2,6 +2,7 @@
 Imports Microsoft.Web.WebView2.Core
 Imports Newtonsoft.Json.Linq
 Imports System.Collections.Specialized
+Imports System.Configuration
 Imports System.IO
 Imports System.Net
 Imports System.Net.Http
@@ -927,9 +928,10 @@ Public Class FunimationDownloader
             Dim UsedSub As String = Nothing
             Dim UsedSubs As New List(Of String)
             Dim ffmpeg_hardsub As String = Nothing
+            Dim funimationSubLanguages = settings.Funimation.SoftSubtitleLanguages
             For i As Integer = 0 To SubsFiles.Count - 1
                 Debug.WriteLine(SubsFiles(i).LangugageCode + "-" + SubsFiles(i).Format)
-                If Main.SubFunimation.Count = 0 Then
+                If funimationSubLanguages.Count = 0 Then
                     Exit For
                 End If
                 If Main.Funimation_vtt = True And SubsFiles(i).Format = "vtt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then

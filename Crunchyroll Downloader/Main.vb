@@ -107,7 +107,6 @@ Public Class Main
     Public Funimation_srt As Boolean = False
     Public Funimation_vtt As Boolean = False
     Public SubFunimationString As String = "en"
-    Public SubFunimation As New List(Of String)
     Public DefaultSubFunimation As String = "Disabled"
 #Region "Sprachen Vairablen"
     Public URL_Invaild As String = "something is wrong here..."
@@ -459,18 +458,6 @@ Public Class Main
 
 
         HardSubFunimation = "Disabled"
-
-
-
-        SubFunimationString = My.Settings.Fun_Sub
-
-        If SubFunimationString = "None" Then
-        Else
-            Dim SoftSubsStringSplit() As String = SubFunimationString.Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
-            For i As Integer = 0 To SoftSubsStringSplit.Count - 1
-                SubFunimation.Add(SoftSubsStringSplit(i))
-            Next
-        End If
 
 
 

@@ -200,17 +200,6 @@ Public Class Einstellungen
 
         TabControl1.SelectedIndex = 0
 
-        For i As Integer = 0 To Main.SubFunimation.Count - 1
-            If Main.SubFunimation(i) = "en" Then
-                FunimationEnglishCheckBox.Checked = True
-            ElseIf Main.SubFunimation(i) = "es" Then
-                FunimationSpanishCheckBox.Checked = True
-            ElseIf Main.SubFunimation(i) = "pt" Then
-                FunimationPortugueseCheckBox.Checked = True
-            End If
-
-        Next
-
         Me.Location = New Point(CInt(Main.Location.X + Main.Width / 2 - Me.Width / 2), CInt(Main.Location.Y + Main.Height / 2 - Me.Height / 2))
         Try
             Me.Icon = My.Resources.icon
@@ -318,6 +307,17 @@ Public Class Einstellungen
 
         ' Funimation settings
         InitializeFunimationDub()
+        InitializeFunimationSoftSubs()
+    End Sub
+
+    Private Sub InitializeFunimationSoftSubs()
+        Dim settings = ProgramSettings.GetInstance()
+        Dim funSettings = settings.Funimation
+        Dim softSubs = funSettings.SoftSubtitleLanguages
+
+        FunimationEnglishCheckBox.Checked = softSubs.Contains(FunimationSettings.FunimationLanguage.ENGLISH)
+        FunimationSpanishCheckBox.Checked = softSubs.Contains(FunimationSettings.FunimationLanguage.SPANISH)
+        FunimationPortugueseCheckBox.Checked = softSubs.Contains(FunimationSettings.FunimationLanguage.PORTUGUESE)
     End Sub
 
     Private Sub InitializeFunimationDub()
@@ -740,6 +740,23 @@ Public Class Einstellungen
         funSettings.DubLanguage = selectedEnum
     End Sub
 
+    Private Sub SaveFunimationSoftSubs()
+        Dim subList = New HashSet(Of FunimationSettings.FunimationLanguage)
+
+        If FunimationEnglishCheckBox.Checked Then
+            subList.Add(FunimationSettings.FunimationLanguage.ENGLISH)
+        End If
+        If FunimationSpanishCheckBox.Checked Then
+            subList.Add(FunimationSettings.FunimationLanguage.SPANISH)
+        End If
+        If FunimationPortugueseCheckBox.Checked Then
+            subList.Add(FunimationSettings.FunimationLanguage.PORTUGUESE)
+        End If
+
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        funSettings.SoftSubtitleLanguages = subList
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
         Dim crSettings = settings.Crunchyroll
@@ -787,6 +804,7 @@ Public Class Einstellungen
 
         ' Funimation settings
         SaveFunimationDub()
+        SaveFunimationSoftSubs()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -834,21 +852,11 @@ Public Class Einstellungen
             My.Settings.DefaultSubFunimation = Main.DefaultSubFunimation
         End If
 
-        Main.SubFunimation.Clear()
-        If FunimationEnglishCheckBox.Checked = True Then
-            Main.SubFunimation.Add("en")
-        End If
 
-        If FunimationSpanishCheckBox.Checked = True Then
-            Main.SubFunimation.Add("es")
-
-        End If
-
-        If FunimationPortugueseCheckBox.Checked = True Then
-            Main.SubFunimation.Add("pt")
-        End If
-
-        If Main.SubFunimation.Count > 0 And CB_vtt.Checked = False And CB_srt.Checked = False Then
+        ' TODO: If there are any soft subs selected but no sub formats checked, choose VTT
+        ' And use newest version of the property
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        If funSettings.SoftSubtitleLanguages.Count > 0 And CB_vtt.Checked = False And CB_srt.Checked = False Then
             CB_vtt.Checked = True
         End If
 
@@ -868,19 +876,6 @@ Public Class Einstellungen
             My.Settings.Funimation_vtt = False
         End If
 
-
-        Dim FunimationSaveString As String = Nothing
-        For ii As Integer = 0 To Main.SubFunimation.Count - 1
-            If FunimationSaveString = Nothing Then
-                FunimationSaveString = Main.SubFunimation(ii)
-            Else
-                FunimationSaveString = FunimationSaveString + "," + Main.SubFunimation(ii)
-            End If
-        Next
-        If FunimationSaveString = Nothing Then
-            FunimationSaveString = "None"
-        End If
-        My.Settings.Fun_Sub = FunimationSaveString
 
 #End Region
 
