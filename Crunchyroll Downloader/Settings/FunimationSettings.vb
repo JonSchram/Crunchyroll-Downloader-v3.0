@@ -1,4 +1,6 @@
-﻿Namespace settings
+﻿Imports System.Net.Http.Headers
+
+Namespace settings
     Public Class FunimationSettings
         Private Shared Instance As FunimationSettings
 
@@ -8,6 +10,7 @@
 
         Public Sub UpgradeSettings()
             UpgradeDubs()
+            UpgradeSubs()
         End Sub
 
         Private Sub UpgradeDubs()
@@ -26,6 +29,25 @@
             End Select
         End Sub
 
+        Private Sub UpgradeSubs()
+            Dim subs = My.Settings.Fun_Sub
+            Dim newSubs = New HashSet(Of FunimationLanguage)
+            If subs <> "None" Then
+                Dim SoftSubsStringSplit() As String = subs.Split(New Char() {","c}, System.StringSplitOptions.RemoveEmptyEntries)
+                For Each item In SoftSubsStringSplit
+                    Select Case item
+                        Case "en"
+                            newSubs.Add(FunimationLanguage.ENGLISH)
+                        Case "es"
+                            newSubs.Add(FunimationLanguage.SPANISH)
+                        Case "pt"
+                            newSubs.Add(FunimationLanguage.PORTUGUESE)
+                    End Select
+                Next
+            End If
+            SoftSubtitleLanguages = newSubs
+        End Sub
+
         Public Shared Function GetInstance() As FunimationSettings
             If Instance Is Nothing Then
                 Instance = New FunimationSettings()
@@ -42,7 +64,39 @@
             End Set
         End Property
 
-        Public Property SoftSubtitleLanguages As List(Of FunimationLanguage)
+        Public Property SoftSubtitleLanguages As ISet(Of FunimationLanguage)
+            Get
+                Dim csv = My.Settings.FunimationSoftSubList
+                Dim result = New HashSet(Of FunimationLanguage)
+
+                If csv = Nothing Then
+                    Return result
+                End If
+
+                ' Property is a CSV list of integers corresponding to the language enum, so a simple string split is enough.
+                Dim splitList = csv.Split(New Char() {","c})
+                For Each item In splitList
+                    Dim itemValue = CInt(item)
+                    result.Add(CType(itemValue, FunimationLanguage))
+                Next
+
+                Return result
+            End Get
+            Set(value As ISet(Of FunimationLanguage))
+                Dim resultString = ""
+                Dim enumerator = value.GetEnumerator()
+                Dim isFirst = True
+                While enumerator.MoveNext()
+                    If Not isFirst Then
+                        resultString += ","
+                    Else
+                        isFirst = False
+                    End If
+                    resultString += CStr(enumerator.Current)
+                End While
+                My.Settings.FunimationSoftSubList = resultString
+            End Set
+        End Property
 
         Public Property SubtitleFormats As List(Of SubFormat)
 
@@ -51,6 +105,7 @@
         Public Property HardSubtitleLanguage As FunimationLanguage
 
         Public Property PreferredBitrate As BitrateSetting
+
 
         Public Enum FunimationLanguage As Integer
             NONE = 0

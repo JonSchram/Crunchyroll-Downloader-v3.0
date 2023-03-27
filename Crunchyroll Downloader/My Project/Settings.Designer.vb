@@ -748,6 +748,18 @@ Namespace My
                 Me("FunimationDubLanguage") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property FunimationSoftSubList() As String
+            Get
+                Return CType(Me("FunimationSoftSubList"),String)
+            End Get
+            Set
+                Me("FunimationSoftSubList") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

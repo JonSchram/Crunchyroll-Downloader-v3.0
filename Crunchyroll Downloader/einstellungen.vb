@@ -202,11 +202,11 @@ Public Class Einstellungen
 
         For i As Integer = 0 To Main.SubFunimation.Count - 1
             If Main.SubFunimation(i) = "en" Then
-                CB_fun_eng.Checked = True
+                FunimationEnglishCheckBox.Checked = True
             ElseIf Main.SubFunimation(i) = "es" Then
-                CB_fun_es.Checked = True
+                FunimationSpanishCheckBox.Checked = True
             ElseIf Main.SubFunimation(i) = "pt" Then
-                CB_fun_ptbr.Checked = True
+                FunimationPortugueseCheckBox.Checked = True
             End If
 
         Next
@@ -835,16 +835,16 @@ Public Class Einstellungen
         End If
 
         Main.SubFunimation.Clear()
-        If CB_fun_eng.Checked = True Then
+        If FunimationEnglishCheckBox.Checked = True Then
             Main.SubFunimation.Add("en")
         End If
 
-        If CB_fun_es.Checked = True Then
+        If FunimationSpanishCheckBox.Checked = True Then
             Main.SubFunimation.Add("es")
 
         End If
 
-        If CB_fun_ptbr.Checked = True Then
+        If FunimationPortugueseCheckBox.Checked = True Then
             Main.SubFunimation.Add("pt")
         End If
 
@@ -1154,8 +1154,8 @@ Public Class Einstellungen
 
     End Sub
 
-    Private Sub CB_fun_eng_CheckedChanged(sender As Object, e As EventArgs) Handles CB_fun_eng.CheckedChanged
-        If CB_fun_eng.Checked = True Then
+    Private Sub CB_fun_eng_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationEnglishCheckBox.CheckedChanged
+        If FunimationEnglishCheckBox.Checked = True Then
             FunSubDef.Items.Add("English")
         Else
             FunSubDef.Items.Remove("English")
@@ -1165,8 +1165,8 @@ Public Class Einstellungen
         End If
     End Sub
 
-    Private Sub CB_fun_es_CheckedChanged(sender As Object, e As EventArgs) Handles CB_fun_es.CheckedChanged
-        If CB_fun_es.Checked = True Then
+    Private Sub CB_fun_es_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationSpanishCheckBox.CheckedChanged
+        If FunimationSpanishCheckBox.Checked = True Then
             FunSubDef.Items.Add("Español (LA)")
         Else
             FunSubDef.Items.Remove("Español (LA)")
@@ -1176,8 +1176,8 @@ Public Class Einstellungen
         End If
     End Sub
 
-    Private Sub CB_fun_ptbr_CheckedChanged(sender As Object, e As EventArgs) Handles CB_fun_ptbr.CheckedChanged
-        If CB_fun_ptbr.Checked = True Then
+    Private Sub CB_fun_ptbr_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationPortugueseCheckBox.CheckedChanged
+        If FunimationPortugueseCheckBox.Checked = True Then
             FunSubDef.Items.Add("Português (Brasil)")
         Else
             FunSubDef.Items.Remove("Português (Brasil)")

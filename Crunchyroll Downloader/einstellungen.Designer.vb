@@ -119,9 +119,9 @@ Partial Class Einstellungen
         Me.CB_srt = New MetroFramework.Controls.MetroCheckBox()
         Me.CB_vtt = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
-        Me.CB_fun_eng = New MetroFramework.Controls.MetroCheckBox()
-        Me.CB_fun_es = New MetroFramework.Controls.MetroCheckBox()
-        Me.CB_fun_ptbr = New MetroFramework.Controls.MetroCheckBox()
+        Me.FunimationEnglishCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.FunimationSpanishCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.FunimationPortugueseCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
         Me.LastVersion = New MetroFramework.Controls.MetroLabel()
         Me.Label8 = New MetroFramework.Controls.MetroLabel()
@@ -289,10 +289,10 @@ Partial Class Einstellungen
         Me.TabPage2.HorizontalScrollbarBarColor = True
         Me.TabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage2.HorizontalScrollbarSize = 10
-        Me.TabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage2.Size = New System.Drawing.Size(501, 528)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Output"
         Me.TabPage2.VerticalScrollbarBarColor = True
@@ -945,7 +945,7 @@ Partial Class Einstellungen
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 3
+        Me.TabControl1.SelectedIndex = 4
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -959,9 +959,9 @@ Partial Class Einstellungen
         Me.MetroTabPage2.HorizontalScrollbarBarColor = True
         Me.MetroTabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage2.HorizontalScrollbarSize = 10
-        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage2.Name = "MetroTabPage2"
-        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage2.TabIndex = 8
         Me.MetroTabPage2.Text = "Naming"
         Me.MetroTabPage2.VerticalScrollbarBarColor = True
@@ -1518,9 +1518,9 @@ Partial Class Einstellungen
         'GroupBox8
         '
         Me.GroupBox8.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox8.Controls.Add(Me.CB_fun_eng)
-        Me.GroupBox8.Controls.Add(Me.CB_fun_es)
-        Me.GroupBox8.Controls.Add(Me.CB_fun_ptbr)
+        Me.GroupBox8.Controls.Add(Me.FunimationEnglishCheckBox)
+        Me.GroupBox8.Controls.Add(Me.FunimationSpanishCheckBox)
+        Me.GroupBox8.Controls.Add(Me.FunimationPortugueseCheckBox)
         Me.GroupBox8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox8.Location = New System.Drawing.Point(10, 21)
         Me.GroupBox8.Name = "GroupBox8"
@@ -1529,41 +1529,41 @@ Partial Class Einstellungen
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Language"
         '
-        'CB_fun_eng
+        'FunimationEnglishCheckBox
         '
-        Me.CB_fun_eng.AutoSize = True
-        Me.CB_fun_eng.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_fun_eng.ForeColor = System.Drawing.Color.Black
-        Me.CB_fun_eng.Location = New System.Drawing.Point(34, 35)
-        Me.CB_fun_eng.Name = "CB_fun_eng"
-        Me.CB_fun_eng.Size = New System.Drawing.Size(68, 19)
-        Me.CB_fun_eng.TabIndex = 33
-        Me.CB_fun_eng.Text = "English"
-        Me.CB_fun_eng.UseSelectable = True
+        Me.FunimationEnglishCheckBox.AutoSize = True
+        Me.FunimationEnglishCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.FunimationEnglishCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.FunimationEnglishCheckBox.Location = New System.Drawing.Point(34, 35)
+        Me.FunimationEnglishCheckBox.Name = "FunimationEnglishCheckBox"
+        Me.FunimationEnglishCheckBox.Size = New System.Drawing.Size(68, 19)
+        Me.FunimationEnglishCheckBox.TabIndex = 33
+        Me.FunimationEnglishCheckBox.Text = "English"
+        Me.FunimationEnglishCheckBox.UseSelectable = True
         '
-        'CB_fun_es
+        'FunimationSpanishCheckBox
         '
-        Me.CB_fun_es.AutoSize = True
-        Me.CB_fun_es.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_fun_es.ForeColor = System.Drawing.Color.Black
-        Me.CB_fun_es.Location = New System.Drawing.Point(148, 35)
-        Me.CB_fun_es.Name = "CB_fun_es"
-        Me.CB_fun_es.Size = New System.Drawing.Size(100, 19)
-        Me.CB_fun_es.TabIndex = 34
-        Me.CB_fun_es.Text = "Español (LA)"
-        Me.CB_fun_es.UseSelectable = True
+        Me.FunimationSpanishCheckBox.AutoSize = True
+        Me.FunimationSpanishCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.FunimationSpanishCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.FunimationSpanishCheckBox.Location = New System.Drawing.Point(148, 35)
+        Me.FunimationSpanishCheckBox.Name = "FunimationSpanishCheckBox"
+        Me.FunimationSpanishCheckBox.Size = New System.Drawing.Size(100, 19)
+        Me.FunimationSpanishCheckBox.TabIndex = 34
+        Me.FunimationSpanishCheckBox.Text = "Español (LA)"
+        Me.FunimationSpanishCheckBox.UseSelectable = True
         '
-        'CB_fun_ptbr
+        'FunimationPortugueseCheckBox
         '
-        Me.CB_fun_ptbr.AutoSize = True
-        Me.CB_fun_ptbr.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_fun_ptbr.ForeColor = System.Drawing.Color.Black
-        Me.CB_fun_ptbr.Location = New System.Drawing.Point(270, 35)
-        Me.CB_fun_ptbr.Name = "CB_fun_ptbr"
-        Me.CB_fun_ptbr.Size = New System.Drawing.Size(131, 19)
-        Me.CB_fun_ptbr.TabIndex = 35
-        Me.CB_fun_ptbr.Text = "Português (Brasil)"
-        Me.CB_fun_ptbr.UseSelectable = True
+        Me.FunimationPortugueseCheckBox.AutoSize = True
+        Me.FunimationPortugueseCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.FunimationPortugueseCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.FunimationPortugueseCheckBox.Location = New System.Drawing.Point(270, 35)
+        Me.FunimationPortugueseCheckBox.Name = "FunimationPortugueseCheckBox"
+        Me.FunimationPortugueseCheckBox.Size = New System.Drawing.Size(131, 19)
+        Me.FunimationPortugueseCheckBox.TabIndex = 35
+        Me.FunimationPortugueseCheckBox.Text = "Português (Brasil)"
+        Me.FunimationPortugueseCheckBox.UseSelectable = True
         '
         'TabPage7
         '
@@ -1813,9 +1813,9 @@ Partial Class Einstellungen
     Public WithEvents CurrentVersionLabel As MetroFramework.Controls.MetroLabel
     Public WithEvents Label5 As MetroFramework.Controls.MetroLabel
     Friend WithEvents CheckBox2 As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents CB_fun_ptbr As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents CB_fun_es As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents CB_fun_eng As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents FunimationPortugueseCheckBox As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents FunimationSpanishCheckBox As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents FunimationEnglishCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CB_srt As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CB_vtt As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents AAuto As MetroFramework.Controls.MetroRadioButton
