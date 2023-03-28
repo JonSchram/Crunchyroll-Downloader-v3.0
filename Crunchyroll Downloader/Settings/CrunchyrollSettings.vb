@@ -78,10 +78,10 @@ Namespace settings
 
         Public Property DefaultSoftSubLanguage As CrunchyrollLanguage
             Get
-                Return CType(My.Settings.DefaultCrunchyrollSoftSub, CrunchyrollLanguage)
+                Return CType(My.Settings.CrunchyrollDefaultSoftSub, CrunchyrollLanguage)
             End Get
             Set(value As CrunchyrollLanguage)
-                My.Settings.DefaultCrunchyrollSoftSub = value
+                My.Settings.CrunchyrollDefaultSoftSub = value
             End Set
         End Property
 

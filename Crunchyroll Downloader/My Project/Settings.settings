@@ -158,7 +158,7 @@
     <Setting Name="ffmpeg_video_bitrate" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">7000</Value>
     </Setting>
-    <Setting Name="DefaultCrunchyrollSoftSub" Type="System.Int32" Scope="User">
+    <Setting Name="CrunchyrollDefaultSoftSub" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="SelectedCrunchyrollSoftSubs" Type="System.Collections.Specialized.StringCollection" Scope="User">

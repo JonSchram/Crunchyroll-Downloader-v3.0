@@ -681,12 +681,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property DefaultCrunchyrollSoftSub() As Integer
+        Public Property CrunchyrollDefaultSoftSub() As Integer
             Get
-                Return CType(Me("DefaultCrunchyrollSoftSub"),Integer)
+                Return CType(Me("CrunchyrollDefaultSoftSub"),Integer)
             End Get
             Set
-                Me("DefaultCrunchyrollSoftSub") = value
+                Me("CrunchyrollDefaultSoftSub") = value
             End Set
         End Property
         
