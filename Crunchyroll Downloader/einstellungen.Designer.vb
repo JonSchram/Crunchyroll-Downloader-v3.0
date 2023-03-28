@@ -114,7 +114,7 @@ Partial Class Einstellungen
         Me.CB_Fun_HardSubs = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
         Me.GroupBox13 = New System.Windows.Forms.GroupBox()
-        Me.FunSubDef = New MetroFramework.Controls.MetroComboBox()
+        Me.FunimationDefaultSubComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox11 = New System.Windows.Forms.GroupBox()
         Me.CB_srt = New MetroFramework.Controls.MetroCheckBox()
         Me.CB_vtt = New MetroFramework.Controls.MetroCheckBox()
@@ -1259,9 +1259,9 @@ Partial Class Einstellungen
         Me.MetroTabPage1.HorizontalScrollbarBarColor = True
         Me.MetroTabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage1.HorizontalScrollbarSize = 10
-        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage1.Name = "MetroTabPage1"
-        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage1.TabIndex = 7
         Me.MetroTabPage1.Text = "Crunchyroll"
         Me.MetroTabPage1.VerticalScrollbarBarColor = True
@@ -1453,7 +1453,7 @@ Partial Class Einstellungen
         'GroupBox13
         '
         Me.GroupBox13.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox13.Controls.Add(Me.FunSubDef)
+        Me.GroupBox13.Controls.Add(Me.FunimationDefaultSubComboBox)
         Me.GroupBox13.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox13.ForeColor = System.Drawing.Color.Black
         Me.GroupBox13.Location = New System.Drawing.Point(10, 180)
@@ -1463,20 +1463,19 @@ Partial Class Einstellungen
         Me.GroupBox13.TabStop = False
         Me.GroupBox13.Text = "Default Subtitle"
         '
-        'FunSubDef
+        'FunimationDefaultSubComboBox
         '
-        Me.FunSubDef.DropDownHeight = 250
-        Me.FunSubDef.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FunSubDef.FormattingEnabled = True
-        Me.FunSubDef.IntegralHeight = False
-        Me.FunSubDef.ItemHeight = 23
-        Me.FunSubDef.Items.AddRange(New Object() {"[Disabled]"})
-        Me.FunSubDef.Location = New System.Drawing.Point(69, 30)
-        Me.FunSubDef.Name = "FunSubDef"
-        Me.FunSubDef.Size = New System.Drawing.Size(326, 29)
-        Me.FunSubDef.Sorted = True
-        Me.FunSubDef.TabIndex = 39
-        Me.FunSubDef.UseSelectable = True
+        Me.FunimationDefaultSubComboBox.DropDownHeight = 250
+        Me.FunimationDefaultSubComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FunimationDefaultSubComboBox.FormattingEnabled = True
+        Me.FunimationDefaultSubComboBox.IntegralHeight = False
+        Me.FunimationDefaultSubComboBox.ItemHeight = 23
+        Me.FunimationDefaultSubComboBox.Items.AddRange(New Object() {"[Disabled]"})
+        Me.FunimationDefaultSubComboBox.Location = New System.Drawing.Point(69, 30)
+        Me.FunimationDefaultSubComboBox.Name = "FunimationDefaultSubComboBox"
+        Me.FunimationDefaultSubComboBox.Size = New System.Drawing.Size(326, 29)
+        Me.FunimationDefaultSubComboBox.TabIndex = 39
+        Me.FunimationDefaultSubComboBox.UseSelectable = True
         '
         'GroupBox11
         '
@@ -1837,7 +1836,7 @@ Partial Class Einstellungen
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
     Friend WithEvents ServerPortInput As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox13 As GroupBox
-    Friend WithEvents FunSubDef As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents FunimationDefaultSubComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents CB_Format As MetroFramework.Controls.MetroComboBox
     Friend WithEvents MetroTabPage1 As MetroFramework.Controls.MetroTabPage
     Friend WithEvents Btn_Save As Button

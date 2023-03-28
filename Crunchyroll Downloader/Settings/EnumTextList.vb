@@ -58,14 +58,14 @@ Namespace settings
         ''' </summary>
         ''' <returns></returns>
         Public Function CreateSubList() As SubTextList
-            Return CreateSublist(OrderType.NO_ORDER)
+            Return CreateSubList(OrderType.NO_ORDER)
         End Function
 
-        Public Function CreateSublist(Order As OrderType) As SubTextList
-            Return CreateSublist(Order, False)
+        Public Function CreateSubList(Order As OrderType) As SubTextList
+            Return CreateSubList(Order, False)
         End Function
 
-        Public Function CreateSublist(Order As OrderType, reverse As Boolean) As SubTextList
+        Public Function CreateSubList(Order As OrderType, reverse As Boolean) As SubTextList
             Dim newSubList As New SubTextList(Me, Order, reverse)
             SubLists.Add(newSubList)
             Return newSubList

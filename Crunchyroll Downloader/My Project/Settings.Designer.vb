@@ -760,6 +760,18 @@ Namespace My
                 Me("FunimationSoftSubList") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property FunimationDefaultSoftSub() As Integer
+            Get
+                Return CType(Me("FunimationDefaultSoftSub"),Integer)
+            End Get
+            Set
+                Me("FunimationDefaultSoftSub") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

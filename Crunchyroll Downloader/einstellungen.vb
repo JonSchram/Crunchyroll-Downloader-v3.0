@@ -45,6 +45,7 @@ Public Class Einstellungen
     Private ReadOnly CrunchyrollDubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
 
     Private ReadOnly FunimationLanguageTextList As New EnumTextList(Of FunimationSettings.FunimationLanguage)()
+    Private ReadOnly FunimationDefaultSubOptionsList As EnumTextList(Of FunimationSettings.FunimationLanguage).SubTextList
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
@@ -134,7 +135,7 @@ Public Class Einstellungen
             .Add(CrunchyrollSettings.CrunchyrollLanguage.JAPANESE, "日本語 (Japanese)")
         End With
         CrunchyrollSoftSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
-        CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSublist(OrderType.PARENT_ORDER)
+        CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
         CrunchyrollHardSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
         CrunchyrollDubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
 
@@ -153,6 +154,7 @@ Public Class Einstellungen
             .Add(FunimationSettings.FunimationLanguage.PORTUGUESE, "Português (Brazil)")
             .Add(FunimationSettings.FunimationLanguage.SPANISH, "Spanish (Mexico)")
         End With
+        FunimationDefaultSubOptionsList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
 
         nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
     End Sub
@@ -243,13 +245,13 @@ Public Class Einstellungen
 
 
         If Main.DefaultSubFunimation = "en" Then
-            FunSubDef.SelectedItem = "English"
+            FunimationDefaultSubComboBox.SelectedItem = "English"
         ElseIf Main.DefaultSubFunimation = "pt" Then
-            FunSubDef.SelectedItem = "Português (Brasil)"
+            FunimationDefaultSubComboBox.SelectedItem = "Português (Brasil)"
         ElseIf Main.DefaultSubFunimation = "es" Then
-            FunSubDef.SelectedItem = "Español (LA)"
+            FunimationDefaultSubComboBox.SelectedItem = "Español (LA)"
         Else
-            FunSubDef.SelectedItem = "[Disabled]"
+            FunimationDefaultSubComboBox.SelectedItem = "[Disabled]"
             'FunimationHardsub.Checked = True
         End If
 
@@ -308,6 +310,17 @@ Public Class Einstellungen
         ' Funimation settings
         InitializeFunimationDub()
         InitializeFunimationSoftSubs()
+        InitializeFunimationDefaultSub()
+    End Sub
+
+    Private Sub InitializeFunimationDefaultSub()
+        FunimationDefaultSubOptionsList.AddFromParent(FunimationSettings.FunimationLanguage.NONE)
+        FunimationDefaultSubComboBox.DataSource = FunimationDefaultSubOptionsList.GetDisplayItems()
+
+        ' Requires that the selected languages have already been set in the sub list.
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        Dim defaultSub = funSettings.DefaultSubtitle
+        FunimationDefaultSubComboBox.SelectedItem = FunimationLanguageTextList.Item(defaultSub)
     End Sub
 
     Private Sub InitializeFunimationSoftSubs()
@@ -757,6 +770,13 @@ Public Class Einstellungen
         funSettings.SoftSubtitleLanguages = subList
     End Sub
 
+    Private Sub SaveFunimationDefaultSub()
+        Dim selectedDefault = FunimationLanguageTextList.GetEnumForItem(FunimationDefaultSubComboBox.SelectedItem)
+
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        funSettings.DefaultSubtitle = selectedDefault
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
         Dim crSettings = settings.Crunchyroll
@@ -805,6 +825,7 @@ Public Class Einstellungen
         ' Funimation settings
         SaveFunimationDub()
         SaveFunimationSoftSubs()
+        SaveFunimationDefaultSub()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -837,20 +858,6 @@ Public Class Einstellungen
         '    rk.SetValue("FunimationHardsub", "es", RegistryValueKind.String)
 
         'End If
-
-        If FunSubDef.SelectedItem.ToString = "[Disabled]" Then
-            Main.DefaultSubFunimation = "Disabled"
-            My.Settings.DefaultSubFunimation = Main.DefaultSubFunimation
-        ElseIf FunSubDef.SelectedItem.ToString = "English" Then
-            Main.DefaultSubFunimation = "en"
-            My.Settings.DefaultSubFunimation = Main.DefaultSubFunimation
-        ElseIf FunSubDef.SelectedItem.ToString = "Português (Brasil)" Then
-            Main.DefaultSubFunimation = "pt"
-            My.Settings.DefaultSubFunimation = Main.DefaultSubFunimation
-        ElseIf FunSubDef.SelectedItem.ToString = "Español (LA)" Then
-            Main.DefaultSubFunimation = "es"
-            My.Settings.DefaultSubFunimation = Main.DefaultSubFunimation
-        End If
 
 
         ' TODO: If there are any soft subs selected but no sub formats checked, choose VTT
@@ -1149,36 +1156,23 @@ Public Class Einstellungen
 
     End Sub
 
-    Private Sub CB_fun_eng_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationEnglishCheckBox.CheckedChanged
-        If FunimationEnglishCheckBox.Checked = True Then
-            FunSubDef.Items.Add("English")
-        Else
-            FunSubDef.Items.Remove("English")
-            If FunSubDef.Text = "English" Then
-                FunSubDef.SelectedItem = "[Disabled]"
-            End If
-        End If
+    Private Sub FunimationEnglishCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationEnglishCheckBox.CheckedChanged
+        UpdateFunimationDefaultSubList(FunimationSettings.FunimationLanguage.ENGLISH, FunimationEnglishCheckBox.Checked)
     End Sub
 
-    Private Sub CB_fun_es_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationSpanishCheckBox.CheckedChanged
-        If FunimationSpanishCheckBox.Checked = True Then
-            FunSubDef.Items.Add("Español (LA)")
-        Else
-            FunSubDef.Items.Remove("Español (LA)")
-            If FunSubDef.Text = "Español (LA)" Then
-                FunSubDef.SelectedItem = "[Disabled]"
-            End If
-        End If
+    Private Sub FunimationSpanishCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationSpanishCheckBox.CheckedChanged
+        UpdateFunimationDefaultSubList(FunimationSettings.FunimationLanguage.SPANISH, FunimationSpanishCheckBox.Checked)
     End Sub
 
-    Private Sub CB_fun_ptbr_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationPortugueseCheckBox.CheckedChanged
-        If FunimationPortugueseCheckBox.Checked = True Then
-            FunSubDef.Items.Add("Português (Brasil)")
+    Private Sub FunimationPortugueseCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationPortugueseCheckBox.CheckedChanged
+        UpdateFunimationDefaultSubList(FunimationSettings.FunimationLanguage.PORTUGUESE, FunimationPortugueseCheckBox.Checked)
+    End Sub
+
+    Private Sub UpdateFunimationDefaultSubList(language As FunimationSettings.FunimationLanguage, enabled As Boolean)
+        If enabled Then
+            FunimationDefaultSubOptionsList.AddFromParent(language)
         Else
-            FunSubDef.Items.Remove("Português (Brasil)")
-            If FunSubDef.Text = "Português (Brasil)" Then
-                FunSubDef.SelectedItem = "[Disabled]"
-            End If
+            FunimationDefaultSubOptionsList.RemoveEnum(language)
         End If
     End Sub
 
