@@ -772,6 +772,17 @@ Namespace My
                 Me("FunimationDefaultSoftSub") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property FunimationSubFormats() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("FunimationSubFormats"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("FunimationSubFormats") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

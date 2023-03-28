@@ -209,18 +209,6 @@ Public Class Einstellungen
 
         End Try
 
-        If Main.Funimation_srt = True Then
-            CB_srt.Checked = True
-        Else
-            CB_srt.Checked = False
-        End If
-
-        If Main.Funimation_vtt = True Then
-            CB_vtt.Checked = True
-        Else
-            CB_vtt.Checked = False
-        End If
-
 
         If Main.HardSubFunimation = "en" Then
             CB_Fun_HardSubs.SelectedItem = "English"
@@ -242,19 +230,6 @@ Public Class Einstellungen
         Catch ex As Exception
 
         End Try
-
-
-        If Main.DefaultSubFunimation = "en" Then
-            FunimationDefaultSubComboBox.SelectedItem = "English"
-        ElseIf Main.DefaultSubFunimation = "pt" Then
-            FunimationDefaultSubComboBox.SelectedItem = "Português (Brasil)"
-        ElseIf Main.DefaultSubFunimation = "es" Then
-            FunimationDefaultSubComboBox.SelectedItem = "Español (LA)"
-        Else
-            FunimationDefaultSubComboBox.SelectedItem = "[Disabled]"
-            'FunimationHardsub.Checked = True
-        End If
-
 
     End Sub
 
@@ -311,6 +286,20 @@ Public Class Einstellungen
         InitializeFunimationDub()
         InitializeFunimationSoftSubs()
         InitializeFunimationDefaultSub()
+        InitializeFunimationSubFormats()
+    End Sub
+
+    Private Sub InitializeFunimationSubFormats()
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        Dim formats = funSettings.SubtitleFormats
+
+        FunimationSubSrtCheckBox.Checked = formats.Contains(FunimationSettings.SubFormat.SRT)
+        FunimationSubVttCheckBox.Checked = formats.Contains(FunimationSettings.SubFormat.VTT)
+
+        Dim languages = funSettings.SoftSubtitleLanguages
+        If languages.Count > 0 And formats.Count = 0 Then
+            FunimationSubVttCheckBox.Checked = True
+        End If
     End Sub
 
     Private Sub InitializeFunimationDefaultSub()
@@ -777,6 +766,24 @@ Public Class Einstellungen
         funSettings.DefaultSubtitle = selectedDefault
     End Sub
 
+    Private Sub SaveFunimationSubFormats()
+        Dim subSet = New HashSet(Of FunimationSettings.SubFormat)
+
+        If FunimationSubSrtCheckBox.Checked Then
+            subSet.Add(FunimationSettings.SubFormat.SRT)
+        End If
+        If FunimationSubVttCheckBox.Checked Then
+            subSet.Add(FunimationSettings.SubFormat.VTT)
+        End If
+
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        If funSettings.SoftSubtitleLanguages.Count > 0 And subSet.Count = 0 Then
+            subSet.Add(FunimationSettings.SubFormat.VTT)
+        End If
+
+        funSettings.SubtitleFormats = subSet
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
         Dim crSettings = settings.Crunchyroll
@@ -826,6 +833,7 @@ Public Class Einstellungen
         SaveFunimationDub()
         SaveFunimationSoftSubs()
         SaveFunimationDefaultSub()
+        SaveFunimationSubFormats()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -859,29 +867,6 @@ Public Class Einstellungen
 
         'End If
 
-
-        ' TODO: If there are any soft subs selected but no sub formats checked, choose VTT
-        ' And use newest version of the property
-        Dim funSettings = ProgramSettings.GetInstance().Funimation
-        If funSettings.SoftSubtitleLanguages.Count > 0 And CB_vtt.Checked = False And CB_srt.Checked = False Then
-            CB_vtt.Checked = True
-        End If
-
-
-        If CB_srt.Checked = True Then
-            Main.Funimation_srt = True
-            My.Settings.Funimation_srt = True
-        Else
-            Main.Funimation_srt = False
-            My.Settings.Funimation_srt = False
-        End If
-        If CB_vtt.Checked = True Then
-            Main.Funimation_vtt = True
-            My.Settings.Funimation_vtt = True
-        Else
-            Main.Funimation_vtt = False
-            My.Settings.Funimation_vtt = False
-        End If
 
 
 #End Region

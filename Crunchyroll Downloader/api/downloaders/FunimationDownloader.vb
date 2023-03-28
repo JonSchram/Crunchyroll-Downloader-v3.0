@@ -934,9 +934,10 @@ Public Class FunimationDownloader
                 If funimationSubLanguages.Count = 0 Then
                     Exit For
                 End If
-                If Main.Funimation_vtt = True And SubsFiles(i).Format = "vtt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then
+                Dim subFormats = funSettings.SubtitleFormats
+                If subFormats.Contains(FunimationSettings.SubFormat.VTT) And SubsFiles(i).Format = "vtt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then
                     UsedSubs.Add(SubsFiles(i).Url + " , " + SubsFiles(i).LangugageCode)
-                ElseIf Main.Funimation_srt = True And SubsFiles(i).Format = "srt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then
+                ElseIf subFormats.Contains(FunimationSettings.SubFormat.SRT) And SubsFiles(i).Format = "srt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then
                     UsedSubs.Add(SubsFiles(i).Url + " , " + SubsFiles(i).LangugageCode)
                 End If
             Next
@@ -961,10 +962,11 @@ Public Class FunimationDownloader
                             LastMerged = Main.CCtoMP4CC(SoftSub(1))
                         End If
                         MapCount = MapCount + 1
-                        If Main.DefaultSubFunimation = SoftSub(1) Then
-                            'Debug.WriteLine(SoftSub(1))
-                            DispositionIndex = MapCount
-                        End If
+                        ' TODO: Compare langauge code from episode info against the default sub language
+                        'If Main.DefaultSubFunimation = SoftSub(1) Then
+                        '    'Debug.WriteLine(SoftSub(1))
+                        '    DispositionIndex = MapCount
+                        'End If
                         If SoftSubMergeURLs = Nothing Then
                             SoftSubMergeURLs = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + """" + SoftSub(0) + """"
                         Else

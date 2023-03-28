@@ -1,4 +1,5 @@
-﻿Imports System.Net.Http.Headers
+﻿Imports System.Collections.Specialized
+Imports System.Net.Http.Headers
 
 Namespace settings
     Public Class FunimationSettings
@@ -113,7 +114,30 @@ Namespace settings
             End Set
         End Property
 
-        Public Property SubtitleFormats As List(Of SubFormat)
+        Public Property SubtitleFormats As ISet(Of SubFormat)
+            Get
+                Dim subFormatList = My.Settings.FunimationSubFormats
+                Dim result = New HashSet(Of SubFormat)
+
+                If subFormatList IsNot Nothing Then
+                    For Each item In subFormatList
+                        Dim parsed As SubFormat
+                        If [Enum].TryParse(item, parsed) Then
+                            result.Add(parsed)
+                        End If
+                    Next
+                End If
+
+                Return result
+            End Get
+            Set(value As ISet(Of SubFormat))
+                Dim stringList = New StringCollection()
+                For Each item In value
+                    stringList.Add(item.ToString())
+                Next
+                My.Settings.FunimationSubFormats = stringList
+            End Set
+        End Property
 
         Public Property DefaultSubtitle As FunimationLanguage
             Get

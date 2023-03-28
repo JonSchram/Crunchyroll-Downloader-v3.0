@@ -104,10 +104,7 @@ Public Class Main
     Public UserBowser As Boolean = False
     Public HardSubFunimation As String = "Disabled"
     Public Funimation_Bitrate As Integer = 0
-    Public Funimation_srt As Boolean = False
-    Public Funimation_vtt As Boolean = False
     Public SubFunimationString As String = "en"
-    Public DefaultSubFunimation As String = "Disabled"
 #Region "Sprachen Vairablen"
     Public URL_Invaild As String = "something is wrong here..."
     Dim DL_Path_String As String = "Please choose download directory."
@@ -444,17 +441,12 @@ Public Class Main
             settings.TemporaryFolder = Pfad
         End If
 
-        DefaultSubFunimation = My.Settings.DefaultSubFunimation
-
         Funimation_Bitrate = My.Settings.Funimation_Bitrate
 
         SubFolder_Value = My.Settings.SubFolder_Value
 
 
         HybridThread = My.Settings.HybridThread
-
-        Funimation_srt = My.Settings.Funimation_srt
-        Funimation_vtt = My.Settings.Funimation_vtt
 
 
         HardSubFunimation = "Disabled"

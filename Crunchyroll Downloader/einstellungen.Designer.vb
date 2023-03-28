@@ -116,8 +116,8 @@ Partial Class Einstellungen
         Me.GroupBox13 = New System.Windows.Forms.GroupBox()
         Me.FunimationDefaultSubComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox11 = New System.Windows.Forms.GroupBox()
-        Me.CB_srt = New MetroFramework.Controls.MetroCheckBox()
-        Me.CB_vtt = New MetroFramework.Controls.MetroCheckBox()
+        Me.FunimationSubSrtCheckBox = New MetroFramework.Controls.MetroCheckBox()
+        Me.FunimationSubVttCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
         Me.FunimationEnglishCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.FunimationSpanishCheckBox = New MetroFramework.Controls.MetroCheckBox()
@@ -1480,8 +1480,8 @@ Partial Class Einstellungen
         'GroupBox11
         '
         Me.GroupBox11.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox11.Controls.Add(Me.CB_srt)
-        Me.GroupBox11.Controls.Add(Me.CB_vtt)
+        Me.GroupBox11.Controls.Add(Me.FunimationSubSrtCheckBox)
+        Me.GroupBox11.Controls.Add(Me.FunimationSubVttCheckBox)
         Me.GroupBox11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox11.Location = New System.Drawing.Point(10, 100)
         Me.GroupBox11.Name = "GroupBox11"
@@ -1490,29 +1490,29 @@ Partial Class Einstellungen
         Me.GroupBox11.TabStop = False
         Me.GroupBox11.Text = "Format"
         '
-        'CB_srt
+        'FunimationSubSrtCheckBox
         '
-        Me.CB_srt.AutoSize = True
-        Me.CB_srt.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_srt.ForeColor = System.Drawing.Color.Black
-        Me.CB_srt.Location = New System.Drawing.Point(139, 35)
-        Me.CB_srt.Name = "CB_srt"
-        Me.CB_srt.Size = New System.Drawing.Size(41, 19)
-        Me.CB_srt.TabIndex = 36
-        Me.CB_srt.Text = "srt"
-        Me.CB_srt.UseSelectable = True
+        Me.FunimationSubSrtCheckBox.AutoSize = True
+        Me.FunimationSubSrtCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.FunimationSubSrtCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.FunimationSubSrtCheckBox.Location = New System.Drawing.Point(139, 35)
+        Me.FunimationSubSrtCheckBox.Name = "FunimationSubSrtCheckBox"
+        Me.FunimationSubSrtCheckBox.Size = New System.Drawing.Size(41, 19)
+        Me.FunimationSubSrtCheckBox.TabIndex = 36
+        Me.FunimationSubSrtCheckBox.Text = "srt"
+        Me.FunimationSubSrtCheckBox.UseSelectable = True
         '
-        'CB_vtt
+        'FunimationSubVttCheckBox
         '
-        Me.CB_vtt.AutoSize = True
-        Me.CB_vtt.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.CB_vtt.ForeColor = System.Drawing.Color.Black
-        Me.CB_vtt.Location = New System.Drawing.Point(261, 35)
-        Me.CB_vtt.Name = "CB_vtt"
-        Me.CB_vtt.Size = New System.Drawing.Size(42, 19)
-        Me.CB_vtt.TabIndex = 37
-        Me.CB_vtt.Text = "vtt"
-        Me.CB_vtt.UseSelectable = True
+        Me.FunimationSubVttCheckBox.AutoSize = True
+        Me.FunimationSubVttCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.FunimationSubVttCheckBox.ForeColor = System.Drawing.Color.Black
+        Me.FunimationSubVttCheckBox.Location = New System.Drawing.Point(261, 35)
+        Me.FunimationSubVttCheckBox.Name = "FunimationSubVttCheckBox"
+        Me.FunimationSubVttCheckBox.Size = New System.Drawing.Size(42, 19)
+        Me.FunimationSubVttCheckBox.TabIndex = 37
+        Me.FunimationSubVttCheckBox.Text = "vtt"
+        Me.FunimationSubVttCheckBox.UseSelectable = True
         '
         'GroupBox8
         '
@@ -1815,8 +1815,8 @@ Partial Class Einstellungen
     Friend WithEvents FunimationPortugueseCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents FunimationSpanishCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents FunimationEnglishCheckBox As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents CB_srt As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents CB_vtt As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents FunimationSubSrtCheckBox As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents FunimationSubVttCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents AAuto As MetroFramework.Controls.MetroRadioButton
     Friend WithEvents A480p As MetroFramework.Controls.MetroRadioButton
     Friend WithEvents A360p As MetroFramework.Controls.MetroRadioButton
