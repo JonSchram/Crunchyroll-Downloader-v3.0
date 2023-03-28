@@ -107,11 +107,11 @@ Partial Class Einstellungen
         Me.CrunchyrollAcceptHardsubsCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.TabPage6 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox15 = New System.Windows.Forms.GroupBox()
-        Me.Bitrate_Funi = New MetroFramework.Controls.MetroComboBox()
+        Me.FunimationBitrateComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox10 = New System.Windows.Forms.GroupBox()
         Me.FunimationDubComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
-        Me.CB_Fun_HardSubs = New MetroFramework.Controls.MetroComboBox()
+        Me.FunimationHardSubCheckBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
         Me.GroupBox13 = New System.Windows.Forms.GroupBox()
         Me.FunimationDefaultSubComboBox = New MetroFramework.Controls.MetroComboBox()
@@ -1356,7 +1356,7 @@ Partial Class Einstellungen
         'GroupBox15
         '
         Me.GroupBox15.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox15.Controls.Add(Me.Bitrate_Funi)
+        Me.GroupBox15.Controls.Add(Me.FunimationBitrateComboBox)
         Me.GroupBox15.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox15.ForeColor = System.Drawing.Color.Black
         Me.GroupBox15.Location = New System.Drawing.Point(0, 365)
@@ -1366,20 +1366,18 @@ Partial Class Einstellungen
         Me.GroupBox15.TabStop = False
         Me.GroupBox15.Text = "Bitrate"
         '
-        'Bitrate_Funi
+        'FunimationBitrateComboBox
         '
-        Me.Bitrate_Funi.DropDownHeight = 250
-        Me.Bitrate_Funi.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Bitrate_Funi.FormattingEnabled = True
-        Me.Bitrate_Funi.IntegralHeight = False
-        Me.Bitrate_Funi.ItemHeight = 23
-        Me.Bitrate_Funi.Items.AddRange(New Object() {"prefer high bitrate", "prefer low bitrate"})
-        Me.Bitrate_Funi.Location = New System.Drawing.Point(79, 24)
-        Me.Bitrate_Funi.Name = "Bitrate_Funi"
-        Me.Bitrate_Funi.Size = New System.Drawing.Size(326, 29)
-        Me.Bitrate_Funi.Sorted = True
-        Me.Bitrate_Funi.TabIndex = 32
-        Me.Bitrate_Funi.UseSelectable = True
+        Me.FunimationBitrateComboBox.DropDownHeight = 250
+        Me.FunimationBitrateComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FunimationBitrateComboBox.FormattingEnabled = True
+        Me.FunimationBitrateComboBox.IntegralHeight = False
+        Me.FunimationBitrateComboBox.ItemHeight = 23
+        Me.FunimationBitrateComboBox.Location = New System.Drawing.Point(79, 24)
+        Me.FunimationBitrateComboBox.Name = "FunimationBitrateComboBox"
+        Me.FunimationBitrateComboBox.Size = New System.Drawing.Size(326, 29)
+        Me.FunimationBitrateComboBox.TabIndex = 32
+        Me.FunimationBitrateComboBox.UseSelectable = True
         '
         'GroupBox10
         '
@@ -1410,7 +1408,7 @@ Partial Class Einstellungen
         'GroupBox7
         '
         Me.GroupBox7.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox7.Controls.Add(Me.CB_Fun_HardSubs)
+        Me.GroupBox7.Controls.Add(Me.FunimationHardSubCheckBox)
         Me.GroupBox7.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox7.ForeColor = System.Drawing.Color.Black
         Me.GroupBox7.Location = New System.Drawing.Point(0, 440)
@@ -1420,21 +1418,21 @@ Partial Class Einstellungen
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Hard Subtitle (post-processed)"
         '
-        'CB_Fun_HardSubs
+        'FunimationHardSubCheckBox
         '
-        Me.CB_Fun_HardSubs.DropDownHeight = 250
-        Me.CB_Fun_HardSubs.Enabled = False
-        Me.CB_Fun_HardSubs.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CB_Fun_HardSubs.FormattingEnabled = True
-        Me.CB_Fun_HardSubs.IntegralHeight = False
-        Me.CB_Fun_HardSubs.ItemHeight = 23
-        Me.CB_Fun_HardSubs.Items.AddRange(New Object() {"Disabled", "English", "Español (LA)", "Português (Brasil)"})
-        Me.CB_Fun_HardSubs.Location = New System.Drawing.Point(79, 30)
-        Me.CB_Fun_HardSubs.Name = "CB_Fun_HardSubs"
-        Me.CB_Fun_HardSubs.Size = New System.Drawing.Size(326, 29)
-        Me.CB_Fun_HardSubs.Sorted = True
-        Me.CB_Fun_HardSubs.TabIndex = 32
-        Me.CB_Fun_HardSubs.UseSelectable = True
+        Me.FunimationHardSubCheckBox.DropDownHeight = 250
+        Me.FunimationHardSubCheckBox.Enabled = False
+        Me.FunimationHardSubCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FunimationHardSubCheckBox.FormattingEnabled = True
+        Me.FunimationHardSubCheckBox.IntegralHeight = False
+        Me.FunimationHardSubCheckBox.ItemHeight = 23
+        Me.FunimationHardSubCheckBox.Items.AddRange(New Object() {"Disabled", "English", "Español (LA)", "Português (Brasil)"})
+        Me.FunimationHardSubCheckBox.Location = New System.Drawing.Point(79, 30)
+        Me.FunimationHardSubCheckBox.Name = "FunimationHardSubCheckBox"
+        Me.FunimationHardSubCheckBox.Size = New System.Drawing.Size(326, 29)
+        Me.FunimationHardSubCheckBox.Sorted = True
+        Me.FunimationHardSubCheckBox.TabIndex = 32
+        Me.FunimationHardSubCheckBox.UseSelectable = True
         '
         'GroupBox9
         '
@@ -1830,7 +1828,7 @@ Partial Class Einstellungen
     Friend WithEvents DarkMode As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents DefaultWebsiteTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CrunchyrollHardsubComboBox As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents CB_Fun_HardSubs As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents FunimationHardSubCheckBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents FunimationDubComboBox As MetroFramework.Controls.MetroComboBox
     Public WithEvents LastVersion As MetroFramework.Controls.MetroLabel
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
@@ -1842,7 +1840,7 @@ Partial Class Einstellungen
     Friend WithEvents Btn_Save As Button
     Friend WithEvents GroupBox8 As GroupBox
     Friend WithEvents GroupBox15 As GroupBox
-    Friend WithEvents Bitrate_Funi As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents FunimationBitrateComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox16 As GroupBox
     Friend WithEvents DownloadModeDropdown As MetroFramework.Controls.MetroComboBox
     Friend WithEvents MetroTabPage2 As MetroFramework.Controls.MetroTabPage

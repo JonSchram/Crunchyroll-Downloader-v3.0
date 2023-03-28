@@ -151,6 +151,13 @@ Namespace settings
         Public Property HardSubtitleLanguage As FunimationLanguage
 
         Public Property PreferredBitrate As BitrateSetting
+            Get
+                Return CType(My.Settings.Funimation_Bitrate, BitrateSetting)
+            End Get
+            Set(value As BitrateSetting)
+                My.Settings.Funimation_Bitrate = value
+            End Set
+        End Property
 
 
         Public Enum FunimationLanguage As Integer

@@ -46,6 +46,7 @@ Public Class Einstellungen
 
     Private ReadOnly FunimationLanguageTextList As New EnumTextList(Of FunimationSettings.FunimationLanguage)()
     Private ReadOnly FunimationDefaultSubOptionsList As EnumTextList(Of FunimationSettings.FunimationLanguage).SubTextList
+    Private ReadOnly FunimationBitrateTextList As New EnumTextList(Of FunimationSettings.BitrateSetting)()
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
@@ -156,6 +157,11 @@ Public Class Einstellungen
         End With
         FunimationDefaultSubOptionsList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
 
+        With FunimationBitrateTextList
+            .Add(FunimationSettings.BitrateSetting.HIGH, "Prefer high bitrate")
+            .Add(FunimationSettings.BitrateSetting.LOW, "Prefer low bitrate")
+        End With
+
         nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
     End Sub
 
@@ -198,8 +204,6 @@ Public Class Einstellungen
         Manager.Owner = Me
         Me.StyleManager = Manager
 
-        Bitrate_Funi.SelectedIndex = Main.Funimation_Bitrate
-
         TabControl1.SelectedIndex = 0
 
         Me.Location = New Point(CInt(Main.Location.X + Main.Width / 2 - Me.Width / 2), CInt(Main.Location.Y + Main.Height / 2 - Me.Height / 2))
@@ -211,16 +215,16 @@ Public Class Einstellungen
 
 
         If Main.HardSubFunimation = "en" Then
-            CB_Fun_HardSubs.SelectedItem = "English"
+            FunimationHardSubCheckBox.SelectedItem = "English"
 
         ElseIf Main.HardSubFunimation = "pt" Then
-            CB_Fun_HardSubs.SelectedItem = "Português (Brasil)"
+            FunimationHardSubCheckBox.SelectedItem = "Português (Brasil)"
 
         ElseIf Main.HardSubFunimation = "es" Then
-            CB_Fun_HardSubs.SelectedItem = "Español (LA)"
+            FunimationHardSubCheckBox.SelectedItem = "Español (LA)"
 
         Else
-            CB_Fun_HardSubs.SelectedItem = "Disabled"
+            FunimationHardSubCheckBox.SelectedItem = "Disabled"
             'FunimationHardsub.Checked = True
         End If
 
@@ -287,6 +291,15 @@ Public Class Einstellungen
         InitializeFunimationSoftSubs()
         InitializeFunimationDefaultSub()
         InitializeFunimationSubFormats()
+        InitializeFunimationBitrate()
+    End Sub
+
+    Private Sub InitializeFunimationBitrate()
+        FunimationBitrateComboBox.DataSource = FunimationBitrateTextList.GetDisplayItems()
+
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        Dim preferredBitrate = funSettings.PreferredBitrate
+        FunimationBitrateComboBox.SelectedItem = FunimationBitrateTextList.Item(preferredBitrate)
     End Sub
 
     Private Sub InitializeFunimationSubFormats()
@@ -784,6 +797,13 @@ Public Class Einstellungen
         funSettings.SubtitleFormats = subSet
     End Sub
 
+    Private Sub SaveFunimationBitrate()
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+
+        Dim selectedEnum = FunimationBitrateTextList.GetEnumForItem(FunimationBitrateComboBox.SelectedItem)
+        funSettings.PreferredBitrate = selectedEnum
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
         Dim crSettings = settings.Crunchyroll
@@ -834,14 +854,11 @@ Public Class Einstellungen
         SaveFunimationSoftSubs()
         SaveFunimationDefaultSub()
         SaveFunimationSubFormats()
+        SaveFunimationBitrate()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
         SaveCurrentSettings()
-
-        Main.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
-        My.Settings.Funimation_Bitrate = Bitrate_Funi.SelectedIndex
-
 
 
 #Region "funimation"
@@ -926,7 +943,7 @@ Public Class Einstellungen
     End Sub
 
 
-    Private Sub ComboBox1_DrawItem(sender As Object, e As DrawItemEventArgs) Handles CrunchyrollHardsubComboBox.DrawItem, CB_Fun_HardSubs.DrawItem, FunimationDubComboBox.DrawItem
+    Private Sub ComboBox1_DrawItem(sender As Object, e As DrawItemEventArgs) Handles CrunchyrollHardsubComboBox.DrawItem, FunimationHardSubCheckBox.DrawItem, FunimationDubComboBox.DrawItem
         Dim CB As ComboBox = CType(sender, ComboBox)
         CB.BackColor = Color.White
         If e.Index >= 0 Then
@@ -1117,8 +1134,8 @@ Public Class Einstellungen
 
 
 
-    Private Sub CB_Fun_HardSubs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Fun_HardSubs.SelectedIndexChanged
-        If CB_Fun_HardSubs.SelectedIndex = 0 Then
+    Private Sub CB_Fun_HardSubs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FunimationHardSubCheckBox.SelectedIndexChanged
+        If FunimationHardSubCheckBox.SelectedIndex = 0 Then
         Else
             If Main.HardSubFunimation = "Disabled" Then
                 If FfmpegCopyCheckBox.Checked Then
@@ -1129,7 +1146,7 @@ Public Class Einstellungen
                         "Prepare for unforeseen consequences.",
                         MessageBoxButtons.YesNo)
                     If messageBoxResult = DialogResult.No Then
-                        CB_Fun_HardSubs.SelectedIndex = 0
+                        FunimationHardSubCheckBox.SelectedIndex = 0
                     End If
                 End If
             End If
