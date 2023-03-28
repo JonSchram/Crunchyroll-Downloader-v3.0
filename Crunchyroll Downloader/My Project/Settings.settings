@@ -8,24 +8,6 @@
     <Setting Name="Pfad" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Fun_Sub" Type="System.String" Scope="User">
-      <Value Profile="(Default)">None</Value>
-    </Setting>
-    <Setting Name="ffmpeg_command" Type="System.String" Scope="User">
-      <Value Profile="(Default)"> -c copy -c:a copy -bsf:a aac_adtstoasc</Value>
-    </Setting>
-    <Setting Name="AddedSubs" Type="System.String" Scope="User">
-      <Value Profile="(Default)">None</Value>
-    </Setting>
-    <Setting Name="FunimationDub" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Disabled</Value>
-    </Setting>
-    <Setting Name="FunimationHardsub" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Disabled</Value>
-    </Setting>
-    <Setting Name="DefaultSubFunimation" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Disabled</Value>
-    </Setting>
     <Setting Name="SubFolder_Value" Type="System.String" Scope="User">
       <Value Profile="(Default)">[ ignore subfolder ]</Value>
     </Setting>
@@ -40,15 +22,6 @@
     </Setting>
     <Setting Name="Prefix_E" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="DefaultSubCR" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="VideoFormat" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.mp4</Value>
-    </Setting>
-    <Setting Name="MergeSubs" Type="System.String" Scope="User">
-      <Value Profile="(Default)">[merge disabled]</Value>
     </Setting>
     <Setting Name="KodiSupport" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -74,9 +47,6 @@
     <Setting Name="Curl_insecure" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DubMode" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="Keep_Cache" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -95,9 +65,6 @@
     <Setting Name="Reso" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1080</Value>
     </Setting>
-    <Setting Name="CR_NameMethode" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="LeadingZero" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
@@ -110,17 +77,11 @@
     <Setting Name="IgnoreSeason" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Subtitle" Type="System.String" Scope="User">
-      <Value Profile="(Default)">None</Value>
-    </Setting>
     <Setting Name="ErrorTolerance" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="NameTemplate" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="CR_Dub" Type="System.String" Scope="User">
-      <Value Profile="(Default)">ja-JP</Value>
     </Setting>
     <Setting Name="ffmpeg_command_override" Type="System.String" Scope="User">
       <Value Profile="(Default)">null</Value>
@@ -187,6 +148,9 @@
     </Setting>
     <Setting Name="FunimationHardsubLanguage" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="NeedsUpgrade" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

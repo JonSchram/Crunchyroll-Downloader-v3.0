@@ -21,27 +21,7 @@ Namespace settings
 
         ' TODO: Remove upgrade options after the new settings have been used for a few releases
         Public Function NeedsUpgrade() As Boolean
-            If My.Settings.VideoFormat <> "" Then
-                Return True
-            End If
-
-            If My.Settings.MergeSubs <> "" Then
-                Return True
-            End If
-
-            If My.Settings.ffmpeg_command <> "" Then
-                Return True
-            End If
-
-            If My.Settings.NameTemplate = "Unused" Then
-                Return True
-            End If
-
-            If My.Settings.Prefix_S = "[default season prefix]" Then
-                Return True
-            End If
-
-            Return False
+            Return My.Settings.NeedsUpgrade
         End Function
 
         ''' <summary>
@@ -49,155 +29,152 @@ Namespace settings
         ''' Sets old settings version to empty or default values so that the upgrade doesn't happen next time.
         ''' </summary>
         Public Sub UpgradeSettings()
+            My.Settings.Upgrade()
             UpgradeVideoFormat()
             UpgradeMergeSubs()
             UpgradeFfmpegCommand()
             UpgradeNameTemplate()
             UpgradeSeasonPrefix()
             UpgradeEpisodePrefix()
-        End Sub
 
-        Public Sub DiscardOldSettings()
-            DiscardOldVideoFormat()
-            DiscardOldMergeSubs()
-            DiscardOldFfmpegCommand()
-            DiscardOldNameTemplate()
-            DiscardOldSeasonPrefix()
-            DiscardOldEpisodePrefix()
+            Crunchyroll.UpgradeSettings()
+            Funimation.UpgradeSettings()
+
+            My.Settings.NeedsUpgrade = False
         End Sub
 
         Private Sub UpgradeVideoFormat()
-            Dim videoFormat = My.Settings.VideoFormat
-            If videoFormat = "" Then
-                Exit Sub
-            End If
-            Dim NewSetting = Format.MediaFormat.MP4
-            If videoFormat = ".mp4" Then
-                NewSetting = Format.MediaFormat.MP4
-            ElseIf videoFormat = ".mkv" Then
-                NewSetting = Format.MediaFormat.MKV
-            ElseIf videoFormat = ".aac" Then
-                NewSetting = Format.MediaFormat.AAC_AUDIO_ONLY
-            End If
-            My.Settings.OutputMediaFormat = NewSetting
-            My.Settings.VideoFormat = ""
-        End Sub
-        Private Sub DiscardOldVideoFormat()
-            My.Settings.VideoFormat = ""
+            Try
+                Dim videoFormat As String = CStr(My.Settings.GetPreviousVersion("VideoFormat"))
+                If videoFormat = "" Then
+                    Exit Sub
+                End If
+                Dim NewSetting = Format.MediaFormat.MP4
+                If videoFormat = ".mp4" Then
+                    NewSetting = Format.MediaFormat.MP4
+                ElseIf videoFormat = ".mkv" Then
+                    NewSetting = Format.MediaFormat.MKV
+                ElseIf videoFormat = ".aac" Then
+                    NewSetting = Format.MediaFormat.AAC_AUDIO_ONLY
+                End If
+                My.Settings.OutputMediaFormat = NewSetting
+            Catch ex As Exception
+                My.Settings.OutputMediaFormat = Format.MediaFormat.MP4
+            End Try
         End Sub
 
         Private Sub UpgradeMergeSubs()
-            Dim mergeSubs = My.Settings.MergeSubs
-            If mergeSubs = "" Then
-                Exit Sub
-            End If
-            Dim NewSetting = Format.SubtitleMerge.DISABLED
-            If mergeSubs = "[merge disabled]" Then
-                NewSetting = Format.SubtitleMerge.DISABLED
-            ElseIf mergeSubs = "mov_text" Then
-                NewSetting = Format.SubtitleMerge.MOV_TEXT
-            ElseIf mergeSubs = "copy" Then
-                NewSetting = Format.SubtitleMerge.COPY
-            ElseIf mergeSubs = "srt" Then
-                NewSetting = Format.SubtitleMerge.SRT
-            End If
-            My.Settings.OutputSubtitleMerge = NewSetting
-            My.Settings.MergeSubs = ""
-        End Sub
-
-        Private Sub DiscardOldMergeSubs()
-            My.Settings.MergeSubs = ""
+            Try
+                Dim mergeSubs = CStr(My.Settings.GetPreviousVersion("MergeSubs"))
+                If mergeSubs = "" Then
+                    Exit Sub
+                End If
+                Dim NewSetting = Format.SubtitleMerge.DISABLED
+                If mergeSubs = "[merge disabled]" Then
+                    NewSetting = Format.SubtitleMerge.DISABLED
+                ElseIf mergeSubs = "mov_text" Then
+                    NewSetting = Format.SubtitleMerge.MOV_TEXT
+                ElseIf mergeSubs = "copy" Then
+                    NewSetting = Format.SubtitleMerge.COPY
+                ElseIf mergeSubs = "srt" Then
+                    NewSetting = Format.SubtitleMerge.SRT
+                End If
+                My.Settings.OutputSubtitleMerge = NewSetting
+            Catch ex As Exception
+                My.Settings.OutputSubtitleMerge = Format.SubtitleMerge.DISABLED
+            End Try
         End Sub
 
         Private Sub UpgradeFfmpegCommand()
-            Dim command = My.Settings.ffmpeg_command
-            If command Is Nothing Or command = "" Then
-                Exit Sub
-            End If
-            If command.Contains("-c copy") Then
-                My.Settings.ffmpeg_copy = True
-            ElseIf command.Contains("-c:v") Then
-                My.Settings.ffmpeg_copy = False
-
-                If command.Contains("libx264") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
-                ElseIf command.Contains("libx265") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
-                ElseIf command.Contains("libstav1") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
-
-                    ' NVIDIA encoders
-                ElseIf command.Contains("h264_nvenc") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
-                ElseIf command.Contains("hevc_nvenc") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
-                ElseIf command.Contains("av1_nvenc") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
-
-                    ' AMD encoders
-                ElseIf command.Contains("h264_amf") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.AMD
-                ElseIf command.Contains("hevc_amf") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.AMD
-
-                    ' Intel encoders
-                ElseIf command.Contains("h264_qsv") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
-                ElseIf command.Contains("hevc_qsv") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
-                ElseIf command.Contains("av1_qsv") Then
-                    My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
-                    My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
+            Try
+                Dim command = CStr(My.Settings.GetPreviousVersion("ffmpeg_command"))
+                If command Is Nothing Or command = "" Then
+                    Exit Sub
                 End If
-            End If
+                If command.Contains("-c copy") Then
+                    My.Settings.ffmpeg_copy = True
+                ElseIf command.Contains("-c:v") Then
+                    My.Settings.ffmpeg_copy = False
 
-            If command.Contains("-preset fast") Then
-                My.Settings.ffmpeg_video_preset = FfmpegSettings.VideoEncoder.Speed.FAST
-            ElseIf command.Contains("-preset slow") Then
-                My.Settings.ffmpeg_video_preset = FfmpegSettings.VideoEncoder.Speed.SLOW
-            End If
+                    If command.Contains("libx264") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
+                    ElseIf command.Contains("libx265") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
+                    ElseIf command.Contains("libstav1") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
 
-            If command.Contains("-b:v") Then
-                My.Settings.ffmpeg_use_target_bitrate = True
+                        ' NVIDIA encoders
+                    ElseIf command.Contains("h264_nvenc") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
+                    ElseIf command.Contains("hevc_nvenc") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
+                    ElseIf command.Contains("av1_nvenc") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
 
-                Dim match = Regex.Match(command, "-b:v (\d+)k")
-                If match.Success Then
-                    Dim bitrate = CInt(match.Groups(1).Value)
-                    My.Settings.ffmpeg_video_bitrate = bitrate
+                        ' AMD encoders
+                    ElseIf command.Contains("h264_amf") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.AMD
+                    ElseIf command.Contains("hevc_amf") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.AMD
+
+                        ' Intel encoders
+                    ElseIf command.Contains("h264_qsv") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
+                    ElseIf command.Contains("hevc_qsv") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
+                    ElseIf command.Contains("av1_qsv") Then
+                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
+                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
+                    End If
                 End If
-            End If
 
-            My.Settings.ffmpeg_command = ""
-        End Sub
-        Private Sub DiscardOldFfmpegCommand()
-            My.Settings.ffmpeg_command = ""
+                If command.Contains("-preset fast") Then
+                    My.Settings.ffmpeg_video_preset = FfmpegSettings.VideoEncoder.Speed.FAST
+                ElseIf command.Contains("-preset slow") Then
+                    My.Settings.ffmpeg_video_preset = FfmpegSettings.VideoEncoder.Speed.SLOW
+                End If
+
+                If command.Contains("-b:v") Then
+                    My.Settings.ffmpeg_use_target_bitrate = True
+
+                    Dim match = Regex.Match(command, "-b:v (\d+)k")
+                    If match.Success Then
+                        Dim bitrate = CInt(match.Groups(1).Value)
+                        My.Settings.ffmpeg_video_bitrate = bitrate
+                    End If
+                End If
+
+            Catch ex As Exception
+                Ffmpeg = New FfmpegSettings.Builder().SetCopyMode(True).build()
+            End Try
         End Sub
 
         Private Sub UpgradeNameTemplate()
-            If My.Settings.CR_NameMethode = 0 Then
-                My.Settings.NameTemplate = "AnimeTitle;Season;EpisodeNR;"
-            ElseIf My.Settings.CR_NameMethode = 1 Then
-                My.Settings.NameTemplate = "AnimeTitle;Season;EpisodeName;"
-            ElseIf My.Settings.CR_NameMethode = 2 Then
-                My.Settings.NameTemplate = "AnimeTitle;Season;EpisodeNR;EpisodeName;"
-            ElseIf My.Settings.CR_NameMethode = 3 Then
-                My.Settings.NameTemplate = "AnimeTitle;Season;EpisodeName;EpisodeNR;"
-            End If
-            My.Settings.CR_NameMethode = -1
-        End Sub
-
-        Private Sub DiscardOldNameTemplate()
-            My.Settings.CR_NameMethode = -1
+            Try
+                Dim oldNameMethod As Integer = CInt(My.Settings.GetPreviousVersion("CR_NameMethode"))
+                Select Case oldNameMethod
+                    Case 0
+                        FilenameFormat = "AnimeTitle;Season;EpisodeNR;"
+                    Case 1
+                        FilenameFormat = "AnimeTitle;Season;EpisodeName;"
+                    Case 2
+                        FilenameFormat = "AnimeTitle;Season;EpisodeNR;EpisodeName;"
+                    Case 3
+                        FilenameFormat = "AnimeTitle;Season;EpisodeName;EpisodeNR;"
+                End Select
+            Catch ex As Exception
+                FilenameFormat = ""
+            End Try
         End Sub
 
         Private Sub UpgradeSeasonPrefix()
@@ -206,18 +183,12 @@ Namespace settings
             End If
         End Sub
 
-        Private Sub DiscardOldSeasonPrefix()
-            UpgradeSeasonPrefix()
-        End Sub
-
         Private Sub UpgradeEpisodePrefix()
             If My.Settings.Prefix_E = "[default episode prefix]" Then
                 My.Settings.Prefix_E = "Episode"
             End If
         End Sub
-        Private Sub DiscardOldEpisodePrefix()
-            UpgradeEpisodePrefix()
-        End Sub
+
 
         ' ----- Main settings
 

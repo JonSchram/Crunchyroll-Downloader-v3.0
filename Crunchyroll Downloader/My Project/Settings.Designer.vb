@@ -80,78 +80,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("None")>  _
-        Public Property Fun_Sub() As String
-            Get
-                Return CType(Me("Fun_Sub"),String)
-            End Get
-            Set
-                Me("Fun_Sub") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute(" -c copy -c:a copy -bsf:a aac_adtstoasc")>  _
-        Public Property ffmpeg_command() As String
-            Get
-                Return CType(Me("ffmpeg_command"),String)
-            End Get
-            Set
-                Me("ffmpeg_command") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("None")>  _
-        Public Property AddedSubs() As String
-            Get
-                Return CType(Me("AddedSubs"),String)
-            End Get
-            Set
-                Me("AddedSubs") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Disabled")>  _
-        Public Property FunimationDub() As String
-            Get
-                Return CType(Me("FunimationDub"),String)
-            End Get
-            Set
-                Me("FunimationDub") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Disabled")>  _
-        Public Property FunimationHardsub() As String
-            Get
-                Return CType(Me("FunimationHardsub"),String)
-            End Get
-            Set
-                Me("FunimationHardsub") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Disabled")>  _
-        Public Property DefaultSubFunimation() As String
-            Get
-                Return CType(Me("DefaultSubFunimation"),String)
-            End Get
-            Set
-                Me("DefaultSubFunimation") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("[ ignore subfolder ]")>  _
         Public Property SubFolder_Value() As String
             Get
@@ -207,42 +135,6 @@ Namespace My
             End Get
             Set
                 Me("Prefix_E") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property DefaultSubCR() As String
-            Get
-                Return CType(Me("DefaultSubCR"),String)
-            End Get
-            Set
-                Me("DefaultSubCR") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute(".mp4")>  _
-        Public Property VideoFormat() As String
-            Get
-                Return CType(Me("VideoFormat"),String)
-            End Get
-            Set
-                Me("VideoFormat") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("[merge disabled]")>  _
-        Public Property MergeSubs() As String
-            Get
-                Return CType(Me("MergeSubs"),String)
-            End Get
-            Set
-                Me("MergeSubs") = value
             End Set
         End Property
         
@@ -345,18 +237,6 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property DubMode() As Boolean
-            Get
-                Return CType(Me("DubMode"),Boolean)
-            End Get
-            Set
-                Me("DubMode") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property Keep_Cache() As Boolean
             Get
                 Return CType(Me("Keep_Cache"),Boolean)
@@ -429,18 +309,6 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property CR_NameMethode() As Integer
-            Get
-                Return CType(Me("CR_NameMethode"),Integer)
-            End Get
-            Set
-                Me("CR_NameMethode") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
         Public Property LeadingZero() As Integer
             Get
                 Return CType(Me("LeadingZero"),Integer)
@@ -488,18 +356,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("None")>  _
-        Public Property Subtitle() As String
-            Get
-                Return CType(Me("Subtitle"),String)
-            End Get
-            Set
-                Me("Subtitle") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
         Public Property ErrorTolerance() As Integer
             Get
@@ -519,18 +375,6 @@ Namespace My
             End Get
             Set
                 Me("NameTemplate") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("ja-JP")>  _
-        Public Property CR_Dub() As String
-            Get
-                Return CType(Me("CR_Dub"),String)
-            End Get
-            Set
-                Me("CR_Dub") = value
             End Set
         End Property
         
@@ -793,6 +637,18 @@ Namespace My
             End Get
             Set
                 Me("FunimationHardsubLanguage") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property NeedsUpgrade() As Boolean
+            Get
+                Return CType(Me("NeedsUpgrade"),Boolean)
+            End Get
+            Set
+                Me("NeedsUpgrade") = value
             End Set
         End Property
     End Class

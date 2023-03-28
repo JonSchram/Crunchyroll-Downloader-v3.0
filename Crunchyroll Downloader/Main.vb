@@ -66,7 +66,6 @@ Public Class Main
     Public LogBrowserData As Boolean = False
     Public Thumbnail As String = Nothing
     Public DownloadScope As Integer = 0
-    Public MergeSubsFormat As String = "mov_text"
     Public DlSoftSubsRDY As Boolean = True
     Public DialogTaskString As String
     Public UserCloseDialog As Boolean = False
@@ -368,18 +367,7 @@ Public Class Main
         Dim settings = ProgramSettings.GetInstance()
 
         If settings.NeedsUpgrade() Then
-            Dim messageBoxResult = MessageBox.Show(
-                "Some settings options have changed." + vbNewLine +
-                "Do you want to migrate your old settings?" + vbNewLine +
-                "Selecting no will discard your old settings.",
-                "Upgrade settings",
-                MessageBoxButtons.YesNo)
-            If messageBoxResult = DialogResult.Yes Then
-                settings.UpgradeSettings()
-                MessageBox.Show("Done! You may want to review the program settinsg to confirm they are correct.")
-            Else
-                settings.DiscardOldSettings()
-            End If
+            settings.UpgradeSettings()
         End If
 
 
@@ -444,9 +432,6 @@ Public Class Main
 
         HybridThread = My.Settings.HybridThread
 
-
-
-        MergeSubsFormat = My.Settings.MergeSubs
 
 
         RetryWithCachedFiles()

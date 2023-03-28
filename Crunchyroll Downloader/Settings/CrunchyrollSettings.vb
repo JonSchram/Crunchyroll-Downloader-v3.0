@@ -9,6 +9,92 @@ Namespace settings
 
         End Sub
 
+        Friend Sub UpgradeSettings()
+            UpgradeHardsubs()
+            UpgradeSoftSubs()
+            UpgradeDub()
+            UpgradeAcceptHardsub()
+            UpgradeDefaultSub()
+        End Sub
+
+        Private Sub UpgradeHardsubs()
+            Try
+                Dim oldHardsub As String = CStr(My.Settings.GetPreviousVersion("Subtitle"))
+                Select Case oldHardsub
+                    Case "[ null ]"
+                        HardSubLanguage = CrunchyrollLanguage.NONE
+                    Case "Deutsch"
+                        HardSubLanguage = CrunchyrollLanguage.GERMAN_GERMANY
+                    Case "English"
+                        HardSubLanguage = CrunchyrollLanguage.ENGLISH_US
+                    Case "Português (Brasil)"
+                        HardSubLanguage = CrunchyrollLanguage.PORTUGUESE_BRAZIL
+                    Case "Español (LA)"
+                        HardSubLanguage = CrunchyrollLanguage.SPANISH_LATIN_AMERICA
+                    Case "Français (France)"
+                        HardSubLanguage = CrunchyrollLanguage.FRENCH_FRANCE
+                    Case "العربية (Arabic)"
+                        HardSubLanguage = CrunchyrollLanguage.ARABIC
+                    Case "Русский (Russian)"
+                        HardSubLanguage = CrunchyrollLanguage.RUSSIAN
+                    Case "Italiano (Italian)"
+                        HardSubLanguage = CrunchyrollLanguage.ITALIAN
+                    Case "Español (España)"
+                        HardSubLanguage = CrunchyrollLanguage.SPANISH_SPAIN
+                    Case "Japanese"
+                        HardSubLanguage = CrunchyrollLanguage.JAPANESE
+                End Select
+            Catch ex As Exception
+                HardSubLanguage = CrunchyrollLanguage.NONE
+            End Try
+        End Sub
+
+        Private Sub UpgradeSoftSubs()
+            Dim newSoftSubs = New List(Of CrunchyrollLanguage)
+            Try
+                Dim oldSoftSubs = CStr(My.Settings.GetPreviousVersion("AddedSubs"))
+                Dim oldSubsArray = oldSoftSubs.Split(New Char() {","c})
+                For Each item In oldSubsArray
+                    Dim language = LocaleToLanguage(item)
+                    If language <> CrunchyrollLanguage.NONE Then
+                        newSoftSubs.Add(language)
+                    End If
+                Next
+                SoftSubLanguages = newSoftSubs
+            Catch ex As Exception
+                SoftSubLanguages = newSoftSubs
+            End Try
+        End Sub
+
+        Private Sub UpgradeDub()
+            Try
+                Dim oldDub As String = CStr(My.Settings.GetPreviousVersion("CR_Dub"))
+                Dim language = LocaleToLanguage(oldDub)
+                AudioLanguage = language
+            Catch ex As Exception
+                AudioLanguage = CrunchyrollLanguage.NONE
+            End Try
+        End Sub
+
+        Private Sub UpgradeAcceptHardsub()
+            Try
+                Dim oldHardsub As Boolean = CBool(My.Settings.GetPreviousVersion("DubMode"))
+                AcceptHardsubs = oldHardsub
+            Catch ex As Exception
+                AcceptHardsubs = False
+            End Try
+        End Sub
+
+        Private Sub UpgradeDefaultSub()
+            Try
+                Dim oldDefaultSub = CStr(My.Settings.GetPreviousVersion("DefaultSubCR"))
+                Dim newDefault = LocaleToLanguage(oldDefaultSub)
+                DefaultSoftSubLanguage = newDefault
+            Catch ex As Exception
+                DefaultSoftSubLanguage = CrunchyrollLanguage.NONE
+            End Try
+        End Sub
+
         Public Shared Function GetInstance() As CrunchyrollSettings
             If Instance Is Nothing Then
                 Instance = New CrunchyrollSettings()
@@ -16,13 +102,33 @@ Namespace settings
             Return Instance
         End Function
 
-        ' TODO:
-        ' Upgrade My.settings.Subtitle to CrunchyrollHardSubLanguage
-        ' Upgrade My.settings.AddedSubs to SelectedCrunchyrollSoftSubs
-        '   - Is a list of locales
-        ' Upgrade My.settings.CR_Dub to CrunchyrollDubLanguage
-        ' Upgrade My.settings.DubMode to CrunchyrollAcceptHardsubs
-        ' Upgrade My.settings.DefaultSubCR to DefaultCrunchyrollSoftSub
+        Private Function LocaleToLanguage(locale As String) As CrunchyrollLanguage
+            Select Case locale
+                Case "None"
+                    Return CrunchyrollLanguage.NONE
+                Case "de-DE"
+                    Return CrunchyrollLanguage.GERMAN_GERMANY
+                Case "en-US"
+                    Return CrunchyrollLanguage.ENGLISH_US
+                Case "pt-BR"
+                    Return CrunchyrollLanguage.PORTUGUESE_BRAZIL
+                Case "es-419"
+                    Return CrunchyrollLanguage.SPANISH_LATIN_AMERICA
+                Case "fr-FR"
+                    Return CrunchyrollLanguage.FRENCH_FRANCE
+                Case "ar-SA"
+                    Return CrunchyrollLanguage.ARABIC
+                Case "ru-RU"
+                    Return CrunchyrollLanguage.RUSSIAN
+                Case "it-IT"
+                    Return CrunchyrollLanguage.ITALIAN
+                Case "es-ES"
+                    Return CrunchyrollLanguage.SPANISH_SPAIN
+                Case "ja-JP"
+                    Return CrunchyrollLanguage.JAPANESE
+            End Select
+            Return CrunchyrollLanguage.NONE
+        End Function
 
         Public Property AcceptHardsubs As Boolean
             Get

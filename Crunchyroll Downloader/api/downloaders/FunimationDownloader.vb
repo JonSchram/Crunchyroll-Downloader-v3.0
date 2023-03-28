@@ -1041,7 +1041,16 @@ Public Class FunimationDownloader
             If HardSubFound = True And Not isAudioOnly Then
                 Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + " -vf subtitles=" + """" + UsedSub + """" + " " + ffmpeg_hardsub
             ElseIf mergeSubs Then
-                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpegArguments + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + DubMetatata
+                Dim subFormat = settings.OutputFormat.GetSubtitleFormat()
+                Dim subCodec = ""
+                If subFormat = Format.SubtitleMerge.MOV_TEXT Then
+                    subCodec = "mov_text"
+                ElseIf subFormat = Format.SubtitleMerge.SRT Then
+                    subCodec = "srt"
+                ElseIf subFormat = Format.SubtitleMerge.COPY Then
+                    subCodec = "copy"
+                End If
+                Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpegArguments + " -c:s " + subCodec + SoftSubMergeMetatata + DubMetatata
             ElseIf isAudioOnly Then
                 If FunimationAudioMap = Nothing Then
                     Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + DubMetatata + " " + ffmpeg_command_temp

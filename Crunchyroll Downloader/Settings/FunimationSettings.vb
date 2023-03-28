@@ -9,7 +9,7 @@ Namespace settings
 
         End Sub
 
-        Public Sub UpgradeSettings()
+        Friend Sub UpgradeSettings()
             UpgradeDubs()
             UpgradeSubs()
             UpgradeDefaultSub()
@@ -17,67 +17,81 @@ Namespace settings
         End Sub
 
         Private Sub UpgradeDubs()
-            Dim dub = My.Settings.FunimationDub
-            Select Case dub
-                Case "english"
-                    DubLanguage = FunimationLanguage.ENGLISH
-                Case "japanese"
-                    DubLanguage = FunimationLanguage.JAPANESE
-                Case "portuguese(Brazil)"
-                    DubLanguage = FunimationLanguage.PORTUGUESE
-                Case "spanish(Mexico)"
-                    DubLanguage = FunimationLanguage.SPANISH
-                Case "Disabled"
-                    DubLanguage = FunimationLanguage.NONE
-            End Select
+            Try
+                Dim dub As String = CStr(My.Settings.GetPreviousVersion("FunimationDub"))
+                Select Case dub
+                    Case "english"
+                        DubLanguage = FunimationLanguage.ENGLISH
+                    Case "japanese"
+                        DubLanguage = FunimationLanguage.JAPANESE
+                    Case "portuguese(Brazil)"
+                        DubLanguage = FunimationLanguage.PORTUGUESE
+                    Case "spanish(Mexico)"
+                        DubLanguage = FunimationLanguage.SPANISH
+                    Case "Disabled"
+                        DubLanguage = FunimationLanguage.NONE
+                End Select
+            Catch ex As Exception
+                DubLanguage = FunimationLanguage.NONE
+            End Try
         End Sub
 
         Private Sub UpgradeSubs()
-            Dim subs = My.Settings.Fun_Sub
             Dim newSubs = New HashSet(Of FunimationLanguage)
-            If subs <> "None" Then
-                Dim SoftSubsStringSplit() As String = subs.Split(New Char() {","c}, System.StringSplitOptions.RemoveEmptyEntries)
-                For Each item In SoftSubsStringSplit
-                    Select Case item
-                        Case "en"
-                            newSubs.Add(FunimationLanguage.ENGLISH)
-                        Case "es"
-                            newSubs.Add(FunimationLanguage.SPANISH)
-                        Case "pt"
-                            newSubs.Add(FunimationLanguage.PORTUGUESE)
-                    End Select
-                Next
-            End If
-            SoftSubtitleLanguages = newSubs
+            Try
+                Dim subs As String = CStr(My.Settings.GetPreviousVersion("Fun_Sub"))
+                If subs <> "None" Then
+                    Dim SoftSubsStringSplit() As String = subs.Split(New Char() {","c}, System.StringSplitOptions.RemoveEmptyEntries)
+                    For Each item In SoftSubsStringSplit
+                        Select Case item
+                            Case "en"
+                                newSubs.Add(FunimationLanguage.ENGLISH)
+                            Case "es"
+                                newSubs.Add(FunimationLanguage.SPANISH)
+                            Case "pt"
+                                newSubs.Add(FunimationLanguage.PORTUGUESE)
+                        End Select
+                    Next
+                End If
+                SoftSubtitleLanguages = newSubs
+            Catch ex As Exception
+                SoftSubtitleLanguages = newSubs
+            End Try
         End Sub
 
         Private Sub UpgradeDefaultSub()
-            Dim oldDefault = My.Settings.DefaultSubFunimation
-            If oldDefault = "Disabled" Then
+            Try
+                Dim oldDefault As String = CStr(My.Settings.GetPreviousVersion("DefaultSubFunimation"))
+                If oldDefault = "Disabled" Then
+                    DefaultSubtitle = FunimationLanguage.NONE
+                ElseIf oldDefault = "en" Then
+                    DefaultSubtitle = FunimationLanguage.ENGLISH
+                ElseIf oldDefault = "pt" Then
+                    DefaultSubtitle = FunimationLanguage.PORTUGUESE
+                ElseIf oldDefault = "es" Then
+                    DefaultSubtitle = FunimationLanguage.SPANISH
+                End If
+            Catch ex As Exception
                 DefaultSubtitle = FunimationLanguage.NONE
-            ElseIf oldDefault = "en" Then
-                DefaultSubtitle = FunimationLanguage.ENGLISH
-            ElseIf oldDefault = "pt" Then
-                DefaultSubtitle = FunimationLanguage.PORTUGUESE
-            ElseIf oldDefault = "es" Then
-                DefaultSubtitle = FunimationLanguage.SPANISH
-            End If
-            My.Settings.DefaultSubFunimation = ""
+            End Try
         End Sub
 
         Private Sub UpgradeHardsubs()
-            Dim oldSub = My.Settings.FunimationHardsub
-            Select Case oldSub
-                Case "en"
-                    HardSubtitleLanguage = FunimationLanguage.ENGLISH
-                Case "pt"
-                    HardSubtitleLanguage = FunimationLanguage.PORTUGUESE
-                Case "es"
-                    HardSubtitleLanguage = FunimationLanguage.SPANISH
-                Case "Disabled"
-                    HardSubtitleLanguage = FunimationLanguage.NONE
-            End Select
-            My.Settings.FunimationHardsub = ""
+            Try
+                Dim oldSub As String = CStr(My.Settings.GetPreviousVersion("FunimationHardsub"))
+                Select Case oldSub
+                    Case "en"
+                        HardSubtitleLanguage = FunimationLanguage.ENGLISH
+                    Case "pt"
+                        HardSubtitleLanguage = FunimationLanguage.PORTUGUESE
+                    Case "es"
+                        HardSubtitleLanguage = FunimationLanguage.SPANISH
+                    Case "Disabled"
+                        HardSubtitleLanguage = FunimationLanguage.NONE
+                End Select
+            Catch ex As Exception
+                HardSubtitleLanguage = FunimationLanguage.NONE
+            End Try
         End Sub
 
         Public Shared Function GetInstance() As FunimationSettings

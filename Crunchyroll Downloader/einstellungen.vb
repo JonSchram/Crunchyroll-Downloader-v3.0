@@ -551,8 +551,9 @@ Public Class Einstellungen
         CB_Format.DataSource = VideoFormatTextList.GetDisplayItems()
         videoFormatsInitializing = False
 
-        ' Allow the automatic selected item change to populate items for subtitle merge check box.
         CB_Format.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
+        ' Even though setting the selected item will update the merge format combo box, we need to explicitly set it in case the value didn't change.
+        UpdateMergeFormatInput(currentFormat.GetVideoFormat())
         CB_Merge.SelectedItem = SubtitleFormatTextList.Item(currentFormat.GetSubtitleFormat())
     End Sub
 

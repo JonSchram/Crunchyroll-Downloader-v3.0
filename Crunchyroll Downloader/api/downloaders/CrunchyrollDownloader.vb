@@ -939,10 +939,19 @@ Public Class CrunchyrollDownloader
                     End If
 
                     'TODO: Use subtitle merge format name here, or just generally improve the way ffmpeg commands are handled.
+                    Dim subFormat = settings.OutputFormat.GetSubtitleFormat()
+                    Dim mergeSubs = ""
+                    If subFormat = Format.SubtitleMerge.MOV_TEXT Then
+                        mergeSubs = "mov_text"
+                    ElseIf subFormat = Format.SubtitleMerge.SRT Then
+                        mergeSubs = "srt"
+                    ElseIf subFormat = Format.SubtitleMerge.COPY Then
+                        mergeSubs = "copy"
+                    End If
                     If CR_MetadataUsage = False Then
-                        ffmpegInput = ffmpegInput + " " + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpeg_command_temp + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale)
+                        ffmpegInput = ffmpegInput + " " + SoftSubMergeURLs + SoftSubMergeMaps + " " + ffmpeg_command_temp + " -c:s " + mergeSubs + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale)
                     Else
-                        ffmpegInput = ffmpegInput + " -i " + """" + Mdata_File + """" + SoftSubMergeURLs + SoftSubMergeMaps + " -map_metadata 1 " + ffmpeg_command_temp + " -c:s " + Main.MergeSubsFormat + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale)
+                        ffmpegInput = ffmpegInput + " -i " + """" + Mdata_File + """" + SoftSubMergeURLs + SoftSubMergeMaps + " -map_metadata 1 " + ffmpeg_command_temp + " -c:s " + mergeSubs + SoftSubMergeMetatata + " -metadata:s:a:0 language=" + Main.CCtoMP4CC(CR_audio_locale)
 
                     End If
 

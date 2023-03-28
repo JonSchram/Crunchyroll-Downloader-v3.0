@@ -225,33 +225,40 @@
             Friend VideoBitrate As Integer
             Friend IncludeUnusedSettings As Boolean
 
-            Public Sub SetCopyMode(copy As Boolean)
+            Public Function SetCopyMode(copy As Boolean) As Builder
                 Me.Copy = copy
-            End Sub
+                Return Me
+            End Function
 
-            Public Sub SetVideoCodec(videoCodec As VideoEncoder.Codec)
+            Public Function SetVideoCodec(videoCodec As VideoEncoder.Codec) As Builder
                 Me.VideoCodec = videoCodec
-            End Sub
+                Return Me
+            End Function
 
-            Public Sub SetEncoderHardware(hardware As VideoEncoder.EncoderImplementation)
+            Public Function SetEncoderHardware(hardware As VideoEncoder.EncoderImplementation) As Builder
                 Me.Hardware = hardware
-            End Sub
+                Return Me
+            End Function
 
-            Public Sub SetPresetSpeed(presetSpeed As VideoEncoder.Speed)
+            Public Function SetPresetSpeed(presetSpeed As VideoEncoder.Speed) As Builder
                 Me.PresetSpeed = presetSpeed
-            End Sub
+                Return Me
+            End Function
 
-            Public Sub SetUseTargetBitrate(useBitrate As Boolean)
+            Public Function SetUseTargetBitrate(useBitrate As Boolean) As Builder
                 UseVideoBitrate = useBitrate
-            End Sub
+                Return Me
+            End Function
 
-            Public Sub SetVideoBitrate(bitrate As Integer)
+            Public Function SetVideoBitrate(bitrate As Integer) As Builder
                 Me.VideoBitrate = bitrate
-            End Sub
+                Return Me
+            End Function
 
-            Public Sub SetIncludeUnusedVideoSettings(UseAllSettings As Boolean)
+            Public Function SetIncludeUnusedVideoSettings(UseAllSettings As Boolean) As Builder
                 IncludeUnusedSettings = UseAllSettings
-            End Sub
+                Return Me
+            End Function
 
             Public Function Build() As FfmpegSettings
                 Return New FfmpegSettings(Me)
