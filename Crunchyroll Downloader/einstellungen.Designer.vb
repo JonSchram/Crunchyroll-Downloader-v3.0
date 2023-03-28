@@ -63,7 +63,7 @@ Partial Class Einstellungen
         Me.A1080p = New MetroFramework.Controls.MetroRadioButton()
         Me.TabPage1 = New MetroFramework.Controls.MetroTabPage()
         Me.GroupBox21 = New System.Windows.Forms.GroupBox()
-        Me.CB_HideSF = New MetroFramework.Controls.MetroComboBox()
+        Me.HideSubfoldersComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
         Me.MetroLabel1 = New MetroFramework.Controls.MetroLabel()
         Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
@@ -72,9 +72,9 @@ Partial Class Einstellungen
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.CustomServerPortInput = New System.Windows.Forms.NumericUpDown()
         Me.ServerPortLabel = New MetroFramework.Controls.MetroLabel()
-        Me.Chb_Ign_tls = New MetroFramework.Controls.MetroCheckBox()
+        Me.IgnoreTlsCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.ServerPortInput = New MetroFramework.Controls.MetroComboBox()
-        Me.DarkMode = New MetroFramework.Controls.MetroCheckBox()
+        Me.DarkModeCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New MetroFramework.Controls.MetroLabel()
         Me.DefaultWebsiteTextBox = New MetroFramework.Controls.MetroTextBox()
@@ -702,7 +702,7 @@ Partial Class Einstellungen
         'GroupBox21
         '
         Me.GroupBox21.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox21.Controls.Add(Me.CB_HideSF)
+        Me.GroupBox21.Controls.Add(Me.HideSubfoldersComboBox)
         Me.GroupBox21.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox21.ForeColor = System.Drawing.Color.Black
         Me.GroupBox21.Location = New System.Drawing.Point(5, 417)
@@ -712,18 +712,18 @@ Partial Class Einstellungen
         Me.GroupBox21.TabStop = False
         Me.GroupBox21.Text = "Subfolder"
         '
-        'CB_HideSF
+        'HideSubfoldersComboBox
         '
-        Me.CB_HideSF.DropDownHeight = 275
-        Me.CB_HideSF.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CB_HideSF.FormattingEnabled = True
-        Me.CB_HideSF.IntegralHeight = False
-        Me.CB_HideSF.ItemHeight = 23
-        Me.CB_HideSF.Location = New System.Drawing.Point(82, 25)
-        Me.CB_HideSF.Name = "CB_HideSF"
-        Me.CB_HideSF.Size = New System.Drawing.Size(326, 29)
-        Me.CB_HideSF.TabIndex = 21
-        Me.CB_HideSF.UseSelectable = True
+        Me.HideSubfoldersComboBox.DropDownHeight = 275
+        Me.HideSubfoldersComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.HideSubfoldersComboBox.FormattingEnabled = True
+        Me.HideSubfoldersComboBox.IntegralHeight = False
+        Me.HideSubfoldersComboBox.ItemHeight = 23
+        Me.HideSubfoldersComboBox.Location = New System.Drawing.Point(82, 25)
+        Me.HideSubfoldersComboBox.Name = "HideSubfoldersComboBox"
+        Me.HideSubfoldersComboBox.Size = New System.Drawing.Size(326, 29)
+        Me.HideSubfoldersComboBox.TabIndex = 21
+        Me.HideSubfoldersComboBox.UseSelectable = True
         '
         'GroupBox6
         '
@@ -785,9 +785,9 @@ Partial Class Einstellungen
         Me.GroupBox5.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox5.Controls.Add(Me.CustomServerPortInput)
         Me.GroupBox5.Controls.Add(Me.ServerPortLabel)
-        Me.GroupBox5.Controls.Add(Me.Chb_Ign_tls)
+        Me.GroupBox5.Controls.Add(Me.IgnoreTlsCheckBox)
         Me.GroupBox5.Controls.Add(Me.ServerPortInput)
-        Me.GroupBox5.Controls.Add(Me.DarkMode)
+        Me.GroupBox5.Controls.Add(Me.DarkModeCheckBox)
         Me.GroupBox5.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox5.ForeColor = System.Drawing.Color.Black
         Me.GroupBox5.Location = New System.Drawing.Point(5, 179)
@@ -818,16 +818,16 @@ Partial Class Einstellungen
         Me.ServerPortLabel.Text = "Add-on server port"
         Me.ServerPortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'Chb_Ign_tls
+        'IgnoreTlsCheckBox
         '
-        Me.Chb_Ign_tls.AutoSize = True
-        Me.Chb_Ign_tls.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.Chb_Ign_tls.Location = New System.Drawing.Point(228, 75)
-        Me.Chb_Ign_tls.Name = "Chb_Ign_tls"
-        Me.Chb_Ign_tls.Size = New System.Drawing.Size(223, 19)
-        Me.Chb_Ign_tls.TabIndex = 46
-        Me.Chb_Ign_tls.Text = "add ""--insecure"" to curl requests"
-        Me.Chb_Ign_tls.UseSelectable = True
+        Me.IgnoreTlsCheckBox.AutoSize = True
+        Me.IgnoreTlsCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.IgnoreTlsCheckBox.Location = New System.Drawing.Point(228, 75)
+        Me.IgnoreTlsCheckBox.Name = "IgnoreTlsCheckBox"
+        Me.IgnoreTlsCheckBox.Size = New System.Drawing.Size(223, 19)
+        Me.IgnoreTlsCheckBox.TabIndex = 46
+        Me.IgnoreTlsCheckBox.Text = "add ""--insecure"" to curl requests"
+        Me.IgnoreTlsCheckBox.UseSelectable = True
         '
         'ServerPortInput
         '
@@ -842,16 +842,16 @@ Partial Class Einstellungen
         Me.ServerPortInput.TabIndex = 45
         Me.ServerPortInput.UseSelectable = True
         '
-        'DarkMode
+        'DarkModeCheckBox
         '
-        Me.DarkMode.AutoSize = True
-        Me.DarkMode.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-        Me.DarkMode.Location = New System.Drawing.Point(56, 75)
-        Me.DarkMode.Name = "DarkMode"
-        Me.DarkMode.Size = New System.Drawing.Size(135, 19)
-        Me.DarkMode.TabIndex = 5
-        Me.DarkMode.Text = "enable dark mode"
-        Me.DarkMode.UseSelectable = True
+        Me.DarkModeCheckBox.AutoSize = True
+        Me.DarkModeCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+        Me.DarkModeCheckBox.Location = New System.Drawing.Point(56, 75)
+        Me.DarkModeCheckBox.Name = "DarkModeCheckBox"
+        Me.DarkModeCheckBox.Size = New System.Drawing.Size(135, 19)
+        Me.DarkModeCheckBox.TabIndex = 5
+        Me.DarkModeCheckBox.Text = "enable dark mode"
+        Me.DarkModeCheckBox.UseSelectable = True
         '
         'GroupBox1
         '
@@ -1342,10 +1342,10 @@ Partial Class Einstellungen
         Me.TabPage6.HorizontalScrollbarBarColor = True
         Me.TabPage6.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage6.HorizontalScrollbarSize = 10
-        Me.TabPage6.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 35)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage6.Size = New System.Drawing.Size(501, 528)
         Me.TabPage6.TabIndex = 4
         Me.TabPage6.Text = " Funimation"
         Me.TabPage6.VerticalScrollbarBarColor = True
@@ -1823,7 +1823,7 @@ Partial Class Einstellungen
     Public WithEvents WebviewLabel As MetroFramework.Controls.MetroLabel
     Public WithEvents FfmpegLabel As MetroFramework.Controls.MetroLabel
     Friend WithEvents MetroLabel1 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents DarkMode As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents DarkModeCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents DefaultWebsiteTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CrunchyrollHardsubComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents FunimationHardSubComboBox As MetroFramework.Controls.MetroComboBox
@@ -1856,7 +1856,7 @@ Partial Class Einstellungen
     Friend WithEvents GroupBox19 As GroupBox
     Friend WithEvents CrunchyrollAcceptHardsubsCheckBox As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents CB_Merge As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents Chb_Ign_tls As MetroFramework.Controls.MetroCheckBox
+    Friend WithEvents IgnoreTlsCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents EpisodeTitleCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents AudioLanguageCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents EpisodeNumberCheckBox As MetroFramework.Controls.MetroCheckBox
@@ -1868,7 +1868,7 @@ Partial Class Einstellungen
     Friend WithEvents SeasonPrefixTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CrunchyrollAudioLanguageComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox21 As GroupBox
-    Friend WithEvents CB_HideSF As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents HideSubfoldersComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox20 As GroupBox
     Friend WithEvents CrunchyrollChaptersCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents CR_SoftSubDefault As MetroFramework.Controls.MetroComboBox

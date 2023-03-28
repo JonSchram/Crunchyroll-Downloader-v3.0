@@ -222,7 +222,7 @@ Public Class Einstellungen
 
     Private Sub InitializeMainTab()
         ServerPortInput.DataSource = ServerPortTextList.GetDisplayItems()
-        CB_HideSF.DataSource = SubfolderTextList.GetDisplayItems()
+        HideSubfoldersComboBox.DataSource = SubfolderTextList.GetDisplayItems()
     End Sub
 
     Private Sub InitializeOutputTab()
@@ -283,6 +283,7 @@ Public Class Einstellungen
         Next
     End Sub
 
+#Region "Loading"
     Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
 
@@ -323,19 +324,19 @@ Public Class Einstellungen
         DefaultWebsiteTextBox.Text = settings.DefaultWebsite
 
         If settings.DarkMode Then
-            DarkMode.Checked = True
+            DarkModeCheckBox.Checked = True
             GroupBoxColor(Color.FromArgb(150, 150, 150))
             ' TODO: Set image box for dark mode directly instead of from Main
             pictureBox1.Image = Main.CloseImg
         Else
-            DarkMode.Checked = False
+            DarkModeCheckBox.Checked = False
             GroupBoxColor(Color.FromArgb(0, 0, 0))
         End If
 
         LoadAddOnPort()
-        Chb_Ign_tls.Checked = settings.InsecureCurl
+        IgnoreTlsCheckBox.Checked = settings.InsecureCurl
         ErrorLimitInput.Value = settings.ErrorLimit
-        CB_HideSF.SelectedItem = SubfolderTextList.Item(settings.SubfolderDisplayBehavior)
+        HideSubfoldersComboBox.SelectedItem = SubfolderTextList.Item(settings.SubfolderDisplayBehavior)
     End Sub
     Private Sub LoadAddOnPort()
         Dim addOnPort = settings.ServerPort
@@ -514,261 +515,9 @@ Public Class Einstellungen
         End If
     End Sub
 
-    Private Sub SaveAddOnPortSetting()
-        Dim settings = ProgramSettings.GetInstance()
+#End Region
 
-        Dim previousAddOnPort = settings.ServerPort
-        Dim port As Integer
-        Select Case ServerPortTextList.GetEnumForItem(ServerPortInput.SelectedItem)
-            Case ServerPortOptions.DISABLED
-                port = 0
-            Case ServerPortOptions.PORT_80
-                port = 80
-            Case ServerPortOptions.PORT_8080
-                port = 8080
-            Case ServerPortOptions.CUSTOM
-                port = CInt(CustomServerPortInput.Value)
-        End Select
-
-        settings.ServerPort = port
-
-        If previousAddOnPort <> port Then
-            MsgBox("Changing add-on support requires a restart of the downloader.", MsgBoxStyle.Information)
-        End If
-    End Sub
-
-    Private Sub ServerPortInput_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ServerPortInput.SelectedIndexChanged
-        Dim selectedEnum = ServerPortTextList.GetEnumForItem(ServerPortInput.SelectedItem)
-        CustomServerPortInput.Enabled = selectedEnum = ServerPortOptions.CUSTOM
-    End Sub
-
-
-    Private Sub SaveSubfolderDisplaySetting()
-        settings.SubfolderDisplayBehavior = SubfolderTextList.GetEnumForItem(CB_HideSF.SelectedItem)
-    End Sub
-
-    Private Sub SaveDownloadModeSetting()
-        Dim settings = ProgramSettings.GetInstance()
-        settings.DownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
-    End Sub
-
-    Private Sub SaveResolutionSetting()
-        Dim settings = ProgramSettings.GetInstance()
-        If A1080p.Checked Then
-            settings.DownloadResolution = Resolution.RESOLUTION_1080P
-        ElseIf A720p.Checked Then
-            settings.DownloadResolution = Resolution.RESOLUTION_720P
-        ElseIf A480p.Checked Then
-            settings.DownloadResolution = Resolution.RESOLUTION_480P
-        ElseIf A360p.Checked Then
-            settings.DownloadResolution = Resolution.RESOLUTION_360P
-        ElseIf AAuto.Checked Then
-            settings.DownloadResolution = Resolution.AUTO
-        End If
-    End Sub
-
-    Private Sub SaveOutputFormat()
-        Dim videoFormat = VideoFormatTextList.GetEnumForItem(CB_Format.SelectedItem)
-        Dim subFormat = SubtitleFormatTextList.GetEnumForItem(CB_Merge.SelectedItem)
-        Dim currentFormat = New Format(videoFormat, subFormat)
-
-        Dim settings = ProgramSettings.GetInstance()
-        settings.OutputFormat = currentFormat
-    End Sub
-
-    Private Sub SaveFfmpegSettings()
-        Dim ffmpeg = CreateFfmpegSettingFromInputs()
-        Dim settings = ProgramSettings.GetInstance()
-        settings.Ffmpeg = ffmpeg
-    End Sub
-
-    Private Sub SaveFilenameTemplate()
-        Dim settings = ProgramSettings.GetInstance()
-        settings.FilenameFormat = nameFormatter.GetTemplate()
-    End Sub
-
-    Private Sub SaveKodiNaming()
-        Dim settings = ProgramSettings.GetInstance()
-        settings.KodiNaming = KodiNamingCheckBox.Checked
-    End Sub
-
-    Private Sub SaveSeasonNumberBehavior()
-        Dim settings = ProgramSettings.GetInstance()
-        settings.SeasonNumberNaming = SeasonNumberBehaviorTextlist.GetEnumForItem(SeasonNumberBehaviorComboBox.SelectedItem)
-    End Sub
-
-    Private Sub SaveSeasonPrefix()
-        Dim settings = ProgramSettings.GetInstance()
-        If SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER Then
-            settings.SeasonPrefix = DEFAULT_SEASON_PREFIX
-        Else
-            settings.SeasonPrefix = SeasonPrefixTextBox.Text
-        End If
-    End Sub
-
-    Private Sub SaveEpisodePrefix()
-        Dim settings = ProgramSettings.GetInstance()
-        If EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER Then
-            settings.EpisodePrefix = DEFAULT_EPISODE_PREFIX
-        Else
-            settings.EpisodePrefix = EpisodePrefixTextBox.Text
-        End If
-    End Sub
-
-    Private Sub SaveLeadingZeros()
-        Dim settings = ProgramSettings.GetInstance()
-        settings.ZeroPaddingLength = LeadingZerosComboBox.SelectedIndex + 1
-    End Sub
-
-    Private Sub SaveSubLanguageNaming()
-        Dim settings = ProgramSettings.GetInstance()
-        settings.SubLanguageNaming = SubtitleNamingTextList.GetEnumForItem(SubLanguageNamingComboBox.SelectedItem)
-    End Sub
-
-    Private Sub SaveCrunchyrollDub()
-        Dim settings = ProgramSettings.GetInstance()
-        Dim crSettings = settings.Crunchyroll
-        crSettings.AudioLanguage = CrunchyrollLanguageTextList.GetEnumForItem(CrunchyrollAudioLanguageComboBox.SelectedItem)
-    End Sub
-
-    Private Sub SaveCrunchyrollHardSubs()
-        Dim selectedEnum = CrunchyrollLanguageTextList.GetEnumForItem(CrunchyrollHardsubComboBox.SelectedItem)
-
-        Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
-        crSettings.HardSubLanguage = selectedEnum
-    End Sub
-
-    Private Sub SaveCrunchyrollSoftSubs()
-        Dim selectedItems = CrunchyrollSoftSubsCheckedListBox.CheckedItems
-
-        Dim selectedEnumList = New List(Of CrunchyrollLanguage)
-        For Each item In selectedItems
-            Dim enumValue = CrunchyrollLanguageTextList.GetEnumForItem(item)
-            selectedEnumList.Add(enumValue)
-        Next
-
-        Dim crSettings = ProgramSettings.GetInstance().Crunchyroll
-        crSettings.SoftSubLanguages = selectedEnumList
-
-        Dim selectedDefaultSoftSub = CrunchyrollLanguageTextList.GetEnumForItem(CR_SoftSubDefault.SelectedItem)
-        crSettings.DefaultSoftSubLanguage = selectedDefaultSoftSub
-    End Sub
-
-    Private Sub SaveFunimationDub()
-        Dim funSettings = ProgramSettings.GetInstance().Funimation
-        Dim selectedEnum = FunimationLanguageTextList.GetEnumForItem(FunimationDubComboBox.SelectedItem)
-        funSettings.DubLanguage = selectedEnum
-    End Sub
-
-    Private Sub SaveFunimationSoftSubs()
-        Dim subList = New HashSet(Of FunimationLanguage)
-
-        If FunimationEnglishCheckBox.Checked Then
-            subList.Add(FunimationLanguage.ENGLISH)
-        End If
-        If FunimationSpanishCheckBox.Checked Then
-            subList.Add(FunimationLanguage.SPANISH)
-        End If
-        If FunimationPortugueseCheckBox.Checked Then
-            subList.Add(FunimationLanguage.PORTUGUESE)
-        End If
-
-        Dim funSettings = ProgramSettings.GetInstance().Funimation
-        funSettings.SoftSubtitleLanguages = subList
-    End Sub
-
-    Private Sub SaveFunimationDefaultSub()
-        Dim selectedDefault = FunimationLanguageTextList.GetEnumForItem(FunimationDefaultSubComboBox.SelectedItem)
-
-        Dim funSettings = ProgramSettings.GetInstance().Funimation
-        funSettings.DefaultSubtitle = selectedDefault
-    End Sub
-
-    Private Sub SaveFunimationSubFormats()
-        Dim subSet = New HashSet(Of SubFormat)
-
-        If FunimationSubSrtCheckBox.Checked Then
-            subSet.Add(SubFormat.SRT)
-        End If
-        If FunimationSubVttCheckBox.Checked Then
-            subSet.Add(SubFormat.VTT)
-        End If
-
-        Dim funSettings = ProgramSettings.GetInstance().Funimation
-        If funSettings.SoftSubtitleLanguages.Count > 0 And subSet.Count = 0 Then
-            subSet.Add(SubFormat.VTT)
-        End If
-
-        funSettings.SubtitleFormats = subSet
-    End Sub
-
-    Private Sub SaveFunimationBitrate()
-        Dim funSettings = ProgramSettings.GetInstance().Funimation
-
-        Dim selectedEnum = FunimationBitrateTextList.GetEnumForItem(FunimationBitrateComboBox.SelectedItem)
-        funSettings.PreferredBitrate = selectedEnum
-    End Sub
-
-    Private Sub SaveFunimationHardsub()
-        Dim selectedEnum = FunimationLanguageTextList.GetEnumForItem(FunimationHardSubComboBox.SelectedItem)
-        Dim funSettings = ProgramSettings.GetInstance().Funimation
-        funSettings.HardSubtitleLanguage = selectedEnum
-    End Sub
-
-    Private Sub SaveCurrentSettings()
-        Dim settings As ProgramSettings = ProgramSettings.GetInstance()
-        Dim crSettings = settings.Crunchyroll
-
-        ' Main settings
-        settings.SimultaneousDownloads = CInt(SimultaneousDownloadsInput.Value)
-        If DefaultWebsiteTextBox.Text = Nothing Then
-            settings.DefaultWebsite = "https://www.crunchyroll.com/"
-        Else
-            settings.DefaultWebsite = DefaultWebsiteTextBox.Text
-        End If
-
-        SaveAddOnPortSetting()
-        SaveSubfolderDisplaySetting()
-
-        settings.InsecureCurl = Chb_Ign_tls.Checked
-
-        settings.ErrorLimit = CInt(ErrorLimitInput.Value)
-
-        ' Output settings
-        SaveDownloadModeSetting()
-        settings.TemporaryFolder = TemporaryFolderTextBox.Text
-        settings.UseDownloadQueue = UseQueueCheckbox.Checked
-        SaveResolutionSetting()
-
-        SaveOutputFormat()
-        SaveFfmpegSettings()
-
-        ' Naming settings
-        SaveFilenameTemplate()
-        SaveKodiNaming()
-        SaveSeasonNumberBehavior()
-        SaveSeasonPrefix()
-        SaveEpisodePrefix()
-        SaveLeadingZeros()
-        settings.IncludeSubtitleLanguageInFirstSubtitle = IncludeLanguageNameCheckBox.Checked
-        SaveSubLanguageNaming()
-
-        ' Crunchyroll settings
-        crSettings.AcceptHardsubs = CrunchyrollAcceptHardsubsCheckBox.Checked
-        SaveCrunchyrollDub()
-        SaveCrunchyrollHardSubs()
-        SaveCrunchyrollSoftSubs()
-        crSettings.EnableChapters = CrunchyrollChaptersCheckBox.Checked
-
-        ' Funimation settings
-        SaveFunimationDub()
-        SaveFunimationSoftSubs()
-        SaveFunimationDefaultSub()
-        SaveFunimationSubFormats()
-        SaveFunimationBitrate()
-        SaveFunimationHardsub()
-    End Sub
-
+#Region "Saving"
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
         SaveCurrentSettings()
 
@@ -793,6 +542,171 @@ Public Class Einstellungen
         My.Settings.Save()
 
         Me.Close()
+    End Sub
+
+
+    Private Sub SaveCurrentSettings()
+        SaveMainSettings()
+        SaveOutputSettings()
+        SaveNamingSettings()
+        SaveCrunchyrollSettings()
+        SaveFunimationSettings()
+    End Sub
+
+    Private Sub SaveMainSettings()
+        SaveAddOnPortSetting()
+
+        settings.SimultaneousDownloads = CInt(SimultaneousDownloadsInput.Value)
+        If DefaultWebsiteTextBox.Text = Nothing Then
+            settings.DefaultWebsite = "https://www.crunchyroll.com/"
+        Else
+            settings.DefaultWebsite = DefaultWebsiteTextBox.Text
+        End If
+
+        settings.SubfolderDisplayBehavior = SubfolderTextList.GetEnumForItem(HideSubfoldersComboBox.SelectedItem)
+        settings.InsecureCurl = IgnoreTlsCheckBox.Checked
+        settings.ErrorLimit = CInt(ErrorLimitInput.Value)
+    End Sub
+
+    Private Sub SaveAddOnPortSetting()
+        Dim previousAddOnPort = settings.ServerPort
+        Dim port As Integer
+        Select Case ServerPortTextList.GetEnumForItem(ServerPortInput.SelectedItem)
+            Case ServerPortOptions.DISABLED
+                port = 0
+            Case ServerPortOptions.PORT_80
+                port = 80
+            Case ServerPortOptions.PORT_8080
+                port = 8080
+            Case ServerPortOptions.CUSTOM
+                port = CInt(CustomServerPortInput.Value)
+        End Select
+
+        settings.ServerPort = port
+
+        If previousAddOnPort <> port Then
+            MsgBox("Changing add-on support requires a restart of the downloader.", MsgBoxStyle.Information)
+        End If
+    End Sub
+
+    Private Sub SaveOutputSettings()
+        SaveResolutionSetting()
+        SaveOutputFormat()
+        settings.DownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
+        settings.TemporaryFolder = TemporaryFolderTextBox.Text
+        settings.UseDownloadQueue = UseQueueCheckbox.Checked
+        settings.Ffmpeg = CreateFfmpegSettingFromInputs()
+    End Sub
+    Private Sub SaveResolutionSetting()
+        Dim settings = ProgramSettings.GetInstance()
+        If A1080p.Checked Then
+            settings.DownloadResolution = Resolution.RESOLUTION_1080P
+        ElseIf A720p.Checked Then
+            settings.DownloadResolution = Resolution.RESOLUTION_720P
+        ElseIf A480p.Checked Then
+            settings.DownloadResolution = Resolution.RESOLUTION_480P
+        ElseIf A360p.Checked Then
+            settings.DownloadResolution = Resolution.RESOLUTION_360P
+        ElseIf AAuto.Checked Then
+            settings.DownloadResolution = Resolution.AUTO
+        End If
+    End Sub
+    Private Sub SaveOutputFormat()
+        Dim videoFormat = VideoFormatTextList.GetEnumForItem(CB_Format.SelectedItem)
+        Dim subFormat = SubtitleFormatTextList.GetEnumForItem(CB_Merge.SelectedItem)
+        settings.OutputFormat = New Format(videoFormat, subFormat)
+    End Sub
+
+    Private Sub SaveNamingSettings()
+        SaveSeasonPrefix()
+        SaveEpisodePrefix()
+        settings.FilenameFormat = nameFormatter.GetTemplate()
+        settings.KodiNaming = KodiNamingCheckBox.Checked
+        settings.SeasonNumberNaming = SeasonNumberBehaviorTextlist.GetEnumForItem(SeasonNumberBehaviorComboBox.SelectedItem)
+        settings.ZeroPaddingLength = LeadingZerosComboBox.SelectedIndex + 1
+        settings.IncludeSubtitleLanguageInFirstSubtitle = IncludeLanguageNameCheckBox.Checked
+        settings.SubLanguageNaming = SubtitleNamingTextList.GetEnumForItem(SubLanguageNamingComboBox.SelectedItem)
+    End Sub
+    Private Sub SaveSeasonPrefix()
+        If SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER Then
+            settings.SeasonPrefix = DEFAULT_SEASON_PREFIX
+        Else
+            settings.SeasonPrefix = SeasonPrefixTextBox.Text
+        End If
+    End Sub
+    Private Sub SaveEpisodePrefix()
+        If EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER Then
+            settings.EpisodePrefix = DEFAULT_EPISODE_PREFIX
+        Else
+            settings.EpisodePrefix = EpisodePrefixTextBox.Text
+        End If
+    End Sub
+
+    Private Sub SaveCrunchyrollSettings()
+        SaveCrunchyrollSoftSubs()
+        crSettings.AcceptHardsubs = CrunchyrollAcceptHardsubsCheckBox.Checked
+        crSettings.AudioLanguage = CrunchyrollLanguageTextList.GetEnumForItem(CrunchyrollAudioLanguageComboBox.SelectedItem)
+        crSettings.HardSubLanguage = CrunchyrollLanguageTextList.GetEnumForItem(CrunchyrollHardsubComboBox.SelectedItem)
+        crSettings.DefaultSoftSubLanguage = CrunchyrollLanguageTextList.GetEnumForItem(CR_SoftSubDefault.SelectedItem)
+        crSettings.EnableChapters = CrunchyrollChaptersCheckBox.Checked
+    End Sub
+    Private Sub SaveCrunchyrollSoftSubs()
+        Dim selectedItems = CrunchyrollSoftSubsCheckedListBox.CheckedItems
+
+        Dim selectedEnumList = New List(Of CrunchyrollLanguage)
+        For Each item In selectedItems
+            Dim enumValue = CrunchyrollLanguageTextList.GetEnumForItem(item)
+            selectedEnumList.Add(enumValue)
+        Next
+
+        crSettings.SoftSubLanguages = selectedEnumList
+    End Sub
+
+    Private Sub SaveFunimationSettings()
+        SaveFunimationSoftSubs()
+        SaveFunimationSubFormats()
+        funSettings.DubLanguage = FunimationLanguageTextList.GetEnumForItem(FunimationDubComboBox.SelectedItem)
+        funSettings.DefaultSubtitle = FunimationLanguageTextList.GetEnumForItem(FunimationDefaultSubComboBox.SelectedItem)
+        funSettings.PreferredBitrate = FunimationBitrateTextList.GetEnumForItem(FunimationBitrateComboBox.SelectedItem)
+        funSettings.HardSubtitleLanguage = FunimationLanguageTextList.GetEnumForItem(FunimationHardSubComboBox.SelectedItem)
+    End Sub
+    Private Sub SaveFunimationSoftSubs()
+        Dim subList = New HashSet(Of FunimationLanguage)
+
+        If FunimationEnglishCheckBox.Checked Then
+            subList.Add(FunimationLanguage.ENGLISH)
+        End If
+        If FunimationSpanishCheckBox.Checked Then
+            subList.Add(FunimationLanguage.SPANISH)
+        End If
+        If FunimationPortugueseCheckBox.Checked Then
+            subList.Add(FunimationLanguage.PORTUGUESE)
+        End If
+
+        funSettings.SoftSubtitleLanguages = subList
+    End Sub
+    Private Sub SaveFunimationSubFormats()
+        Dim subSet = New HashSet(Of SubFormat)
+
+        If FunimationSubSrtCheckBox.Checked Then
+            subSet.Add(SubFormat.SRT)
+        End If
+        If FunimationSubVttCheckBox.Checked Then
+            subSet.Add(SubFormat.VTT)
+        End If
+
+        If funSettings.SoftSubtitleLanguages.Count > 0 And subSet.Count = 0 Then
+            subSet.Add(SubFormat.VTT)
+        End If
+
+        funSettings.SubtitleFormats = subSet
+    End Sub
+
+#End Region
+
+    Private Sub ServerPortInput_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ServerPortInput.SelectedIndexChanged
+        Dim selectedEnum = ServerPortTextList.GetEnumForItem(ServerPortInput.SelectedItem)
+        CustomServerPortInput.Enabled = selectedEnum = ServerPortOptions.CUSTOM
     End Sub
 
 
@@ -988,8 +902,8 @@ Public Class Einstellungen
         pictureBox1.Image = Main.CloseImg
     End Sub
 
-    Private Sub DarkMode_CheckedChanged(sender As Object, e As EventArgs) Handles DarkMode.CheckedChanged
-        ProgramSettings.GetInstance().DarkMode = DarkMode.Checked
+    Private Sub DarkMode_CheckedChanged(sender As Object, e As EventArgs) Handles DarkModeCheckBox.CheckedChanged
+        ProgramSettings.GetInstance().DarkMode = DarkModeCheckBox.Checked
     End Sub
 
 
