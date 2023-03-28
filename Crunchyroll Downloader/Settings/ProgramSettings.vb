@@ -2,6 +2,10 @@
 Imports System.Text.RegularExpressions
 Imports Crunchyroll_Downloader.My
 Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.crunchyroll
+Imports Crunchyroll_Downloader.settings.ffmpeg
+Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
+Imports Crunchyroll_Downloader.settings.funimation
 
 Namespace settings
 
@@ -97,51 +101,51 @@ Namespace settings
                     My.Settings.ffmpeg_copy = False
 
                     If command.Contains("libx264") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
+                        My.Settings.ffmpeg_video_codec = Codec.H_264
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.SOFTWARE
                     ElseIf command.Contains("libx265") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
+                        My.Settings.ffmpeg_video_codec = Codec.H_265
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.SOFTWARE
                     ElseIf command.Contains("libstav1") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE
+                        My.Settings.ffmpeg_video_codec = Codec.AV1
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.SOFTWARE
 
                         ' NVIDIA encoders
                     ElseIf command.Contains("h264_nvenc") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
+                        My.Settings.ffmpeg_video_codec = Codec.H_264
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.NVIDIA
                     ElseIf command.Contains("hevc_nvenc") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
+                        My.Settings.ffmpeg_video_codec = Codec.H_265
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.NVIDIA
                     ElseIf command.Contains("av1_nvenc") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA
+                        My.Settings.ffmpeg_video_codec = Codec.AV1
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.NVIDIA
 
                         ' AMD encoders
                     ElseIf command.Contains("h264_amf") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.AMD
+                        My.Settings.ffmpeg_video_codec = Codec.H_264
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.AMD
                     ElseIf command.Contains("hevc_amf") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.AMD
+                        My.Settings.ffmpeg_video_codec = Codec.H_265
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.AMD
 
                         ' Intel encoders
                     ElseIf command.Contains("h264_qsv") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_264
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
+                        My.Settings.ffmpeg_video_codec = Codec.H_264
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.INTEL
                     ElseIf command.Contains("hevc_qsv") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.H_265
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
+                        My.Settings.ffmpeg_video_codec = Codec.H_265
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.INTEL
                     ElseIf command.Contains("av1_qsv") Then
-                        My.Settings.ffmpeg_video_codec = FfmpegSettings.VideoEncoder.Codec.AV1
-                        My.Settings.ffmpeg_video_hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL
+                        My.Settings.ffmpeg_video_codec = Codec.AV1
+                        My.Settings.ffmpeg_video_hardware = EncoderImplementation.INTEL
                     End If
                 End If
 
                 If command.Contains("-preset fast") Then
-                    My.Settings.ffmpeg_video_preset = FfmpegSettings.VideoEncoder.Speed.FAST
+                    My.Settings.ffmpeg_video_preset = Speed.FAST
                 ElseIf command.Contains("-preset slow") Then
-                    My.Settings.ffmpeg_video_preset = FfmpegSettings.VideoEncoder.Speed.SLOW
+                    My.Settings.ffmpeg_video_preset = Speed.SLOW
                 End If
 
                 If command.Contains("-b:v") Then
@@ -155,7 +159,7 @@ Namespace settings
                 End If
 
             Catch ex As Exception
-                Ffmpeg = New FfmpegSettings.Builder().SetCopyMode(True).build()
+                Ffmpeg = New FfmpegOptions.Builder().SetCopyMode(True).Build()
             End Try
         End Sub
 
@@ -345,13 +349,13 @@ Namespace settings
             End Set
         End Property
 
-        Public Property Ffmpeg As FfmpegSettings
+        Public Property Ffmpeg As FfmpegOptions
             Get
-                Dim codec = CType(My.Settings.ffmpeg_video_codec, FfmpegSettings.VideoEncoder.Codec)
-                Dim hardware = CType(My.Settings.ffmpeg_video_hardware, FfmpegSettings.VideoEncoder.EncoderImplementation)
-                Dim preset = CType(My.Settings.ffmpeg_video_preset, FfmpegSettings.VideoEncoder.Speed)
+                Dim codec = CType(My.Settings.ffmpeg_video_codec, Codec)
+                Dim hardware = CType(My.Settings.ffmpeg_video_hardware, EncoderImplementation)
+                Dim preset = CType(My.Settings.ffmpeg_video_preset, Speed)
 
-                Dim settingBuilder = New FfmpegSettings.Builder()
+                Dim settingBuilder = New FfmpegOptions.Builder()
                 With settingBuilder
                     .SetIncludeUnusedVideoSettings(True)
                     .SetCopyMode(My.Settings.ffmpeg_copy)
@@ -364,7 +368,7 @@ Namespace settings
 
                 Return settingBuilder.Build()
             End Get
-            Set(value As FfmpegSettings)
+            Set(value As FfmpegOptions)
                 My.Settings.ffmpeg_copy = value.VideoCopy
                 Dim encoder = value.GetSavedEncoder()
                 If encoder IsNot Nothing Then

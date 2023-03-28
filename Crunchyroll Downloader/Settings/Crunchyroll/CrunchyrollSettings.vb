@@ -1,7 +1,7 @@
 ﻿Imports System.Collections.Specialized
 Imports Crunchyroll_Downloader.settings.ProgramSettings
 
-Namespace settings
+Namespace settings.crunchyroll
     Public Class CrunchyrollSettings
         Public Shared Instance As CrunchyrollSettings = Nothing
 
@@ -213,18 +213,5 @@ Namespace settings
         'LangValueEnum.Add(New NameValuePair("Español (España)", "es-ES", Nothing))
         'LangValueEnum.Add(New NameValuePair("Japanese", "ja-JP", Nothing))
 
-        Public Enum CrunchyrollLanguage As Integer
-            NONE = 0
-            JAPANESE = 1
-            SPANISH_SPAIN = 2
-            ITALIAN = 3
-            RUSSIAN = 4
-            ARABIC = 5
-            FRENCH_FRANCE = 6
-            SPANISH_LATIN_AMERICA = 7
-            PORTUGUESE_BRAZIL = 8
-            ENGLISH_US = 9
-            GERMAN_GERMANY = 10
-        End Enum
     End Class
 End Namespace

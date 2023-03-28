@@ -1,4 +1,5 @@
 ﻿Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.funimation
 Imports Microsoft.Web.WebView2.Core
 Imports Newtonsoft.Json.Linq
 Imports System.Collections.Specialized
@@ -305,14 +306,14 @@ Public Class FunimationDownloader
             Return "N/A"
         End If
     End Function
-    Private Function ConvertFunimationDubToJson(ByVal Dub As FunimationSettings.FunimationLanguage) As String
-        If Dub = FunimationSettings.FunimationLanguage.ENGLISH Then
+    Private Function ConvertFunimationDubToJson(ByVal Dub As FunimationLanguage) As String
+        If Dub = FunimationLanguage.ENGLISH Then
             Return "en"
-        ElseIf Dub = FunimationSettings.FunimationLanguage.SPANISH Then
+        ElseIf Dub = FunimationLanguage.SPANISH Then
             Return "es"
-        ElseIf Dub = FunimationSettings.FunimationLanguage.PORTUGUESE Then
+        ElseIf Dub = FunimationLanguage.PORTUGUESE Then
             Return "pt"
-        ElseIf Dub = FunimationSettings.FunimationLanguage.JAPANESE Then 'japanese
+        ElseIf Dub = FunimationLanguage.JAPANESE Then 'japanese
             Return "ja"
         Else
             Return "N/A"
@@ -413,7 +414,7 @@ Public Class FunimationDownloader
             Dim FunimationEpisode As String = Nothing
             Dim FunimationTitle As String = Nothing
             Dim FunimationEpisodeTitle As String = Nothing
-            Dim FunimationDub As FunimationSettings.FunimationLanguage = FunimationSettings.FunimationLanguage.NONE
+            Dim FunimationDub As FunimationLanguage = FunimationLanguage.NONE
             Dim FunimationAudioMap As String = Nothing
             Dim FunimationEpisodeJson As String = Nothing
             Dim thumbnail4 As String = ""
@@ -821,7 +822,7 @@ Public Class FunimationDownloader
                         Dim BitRate() As String = Tartegt_m3u8_list.Item(i2).Split(New String() {Bandwidth_String}, System.StringSplitOptions.RemoveEmptyEntries)
                         Dim BitRate2() As String = BitRate(1).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
                         Dim preferredBitrate = funSettings.PreferredBitrate
-                        If preferredBitrate = FunimationSettings.BitrateSetting.HIGH Then
+                        If preferredBitrate = BitrateSetting.HIGH Then
                             If CInt(BitRate2(0)) > HigestBitrate Then
                                 HigestBitrate = CInt(BitRate2(0))
                             End If
@@ -936,9 +937,9 @@ Public Class FunimationDownloader
                     Exit For
                 End If
                 Dim subFormats = funSettings.SubtitleFormats
-                If subFormats.Contains(FunimationSettings.SubFormat.VTT) And SubsFiles(i).Format = "vtt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then
+                If subFormats.Contains(SubFormat.VTT) And SubsFiles(i).Format = "vtt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then
                     UsedSubs.Add(SubsFiles(i).Url + " , " + SubsFiles(i).LangugageCode)
-                ElseIf subFormats.Contains(FunimationSettings.SubFormat.SRT) And SubsFiles(i).Format = "srt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then
+                ElseIf subFormats.Contains(SubFormat.SRT) And SubsFiles(i).Format = "srt" And CBool(InStr(Main.SubFunimationString, SubsFiles(i).LangugageCode)) Then
                     UsedSubs.Add(SubsFiles(i).Url + " , " + SubsFiles(i).LangugageCode)
                 End If
             Next
@@ -1026,11 +1027,11 @@ Public Class FunimationDownloader
 #End Region
 #Region "ffmpeg command"
             Dim DubMetatata As String = Nothing
-            If FunimationDub = FunimationSettings.FunimationLanguage.JAPANESE Then
+            If FunimationDub = FunimationLanguage.JAPANESE Then
                 DubMetatata = " -metadata:s:a:0 language=jpn"
-            ElseIf FunimationDub = FunimationSettings.FunimationLanguage.PORTUGUESE Then
+            ElseIf FunimationDub = FunimationLanguage.PORTUGUESE Then
                 DubMetatata = " -metadata:s:a:0 language=por"
-            ElseIf FunimationDub = FunimationSettings.FunimationLanguage.SPANISH Then
+            ElseIf FunimationDub = FunimationLanguage.SPANISH Then
                 DubMetatata = " -metadata:s:a:0 language=spa"
             Else '
                 DubMetatata = " -metadata:s:a:0 language=eng"

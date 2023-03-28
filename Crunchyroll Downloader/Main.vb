@@ -20,6 +20,7 @@ Imports System.Net.Http
 Imports Crunchyroll_Downloader.CRD_Classes
 Imports System.Drawing.Text
 Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.funimation
 
 Public Class Main
     Inherits MetroForm
@@ -1600,16 +1601,16 @@ Public Class Main
                             Dim funSettings = settings.Funimation
                             Dim DubFunimation = ""
                             Select Case funSettings.DubLanguage
-                                Case FunimationSettings.FunimationLanguage.JAPANESE
+                                Case FunimationLanguage.JAPANESE
                                     DubFunimation = "japanese"
-                                Case FunimationSettings.FunimationLanguage.ENGLISH
+                                Case FunimationLanguage.ENGLISH
                                     DubFunimation = "english"
-                                Case FunimationSettings.FunimationLanguage.PORTUGUESE
+                                Case FunimationLanguage.PORTUGUESE
                                     DubFunimation = "portuguese(Brazil)"
-                                Case FunimationSettings.FunimationLanguage.SPANISH
+                                Case FunimationLanguage.SPANISH
                                     DubFunimation = "spanish(Mexico)"
                             End Select
-                            If funSettings.DubLanguage = FunimationSettings.FunimationLanguage.NONE Then
+                            If funSettings.DubLanguage = FunimationLanguage.NONE Then
                             Else
                                 If CBool(InStr(WebbrowserURL, "?lang=")) Then
                                     Dim ClearUri As String() = WebbrowserURL.Split(New String() {"?lang="}, System.StringSplitOptions.RemoveEmptyEntries)

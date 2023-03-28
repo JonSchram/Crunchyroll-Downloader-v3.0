@@ -1,7 +1,7 @@
 ﻿Imports System.Collections.Specialized
 Imports System.Net.Http.Headers
 
-Namespace settings
+Namespace settings.funimation
     Public Class FunimationSettings
         Private Shared Instance As FunimationSettings
 
@@ -195,24 +195,5 @@ Namespace settings
                 My.Settings.Funimation_Bitrate = value
             End Set
         End Property
-
-
-        Public Enum FunimationLanguage As Integer
-            NONE = 0
-            ENGLISH = 1
-            JAPANESE = 2
-            PORTUGUESE = 3
-            SPANISH = 4
-        End Enum
-
-        Public Enum SubFormat
-            SRT
-            VTT
-        End Enum
-
-        Public Enum BitrateSetting
-            HIGH
-            LOW
-        End Enum
     End Class
 End Namespace

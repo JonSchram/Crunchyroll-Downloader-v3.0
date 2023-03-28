@@ -15,6 +15,10 @@ Imports System.ComponentModel
 Imports System.Reflection
 Imports Microsoft.VisualBasic.Logging
 Imports System.Collections.Specialized
+Imports Crunchyroll_Downloader.settings.crunchyroll
+Imports Crunchyroll_Downloader.settings.funimation
+Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
+Imports Crunchyroll_Downloader.settings.ffmpeg
 
 Public Class Einstellungen
     Inherits MetroForm
@@ -31,35 +35,44 @@ Public Class Einstellungen
     Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
     Private ReadOnly VideoFormatTextList As New EnumTextList(Of Format.MediaFormat)()
     Private ReadOnly SubtitleFormatTextList As New EnumTextList(Of Format.SubtitleMerge)()
-    Private ReadOnly ValidSubtitleFormatList As EnumTextList(Of Format.SubtitleMerge).SubTextList
-    Private ReadOnly SpeedPresetTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Speed)()
-    Private ReadOnly CodecTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.Codec)()
-    Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of FfmpegSettings.VideoEncoder.EncoderImplementation)()
+    Private ReadOnly ValidSubtitleFormatList As EnumTextList(Of Format.SubtitleMerge).SubTextList = SubtitleFormatTextList.CreateSubList()
+    Private ReadOnly SpeedPresetTextList As New EnumTextList(Of Speed)()
+    Private ReadOnly CodecTextList As New EnumTextList(Of Codec)()
+    Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of EncoderImplementation)()
     Private ReadOnly SeasonNumberBehaviorTextlist As New EnumTextList(Of SeasonNumberBehavior)()
     Private ReadOnly SubtitleNamingTextList As New EnumTextList(Of LanguageNameMethod)()
 
-    Private ReadOnly CrunchyrollLanguageTextList As New EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage)
-    Private ReadOnly CrunchyrollSoftSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
-    Private ReadOnly CrunchyrollDefaultLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
-    Private ReadOnly CrunchyrollHardSubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
-    Private ReadOnly CrunchyrollDubLanguageSubList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList
+    Private ReadOnly CrunchyrollLanguageTextList As New EnumTextList(Of CrunchyrollLanguage)
+    Private ReadOnly CrunchyrollSoftSubLanguageSubList As EnumTextList(Of CrunchyrollLanguage).SubTextList = CrunchyrollLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
+    Private ReadOnly CrunchyrollDefaultLanguageSubList As EnumTextList(Of CrunchyrollLanguage).SubTextList = CrunchyrollLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
+    Private ReadOnly CrunchyrollHardSubLanguageSubList As EnumTextList(Of CrunchyrollLanguage).SubTextList = CrunchyrollLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
+    Private ReadOnly CrunchyrollDubLanguageSubList As EnumTextList(Of CrunchyrollLanguage).SubTextList = CrunchyrollLanguageTextList.CreateSubList(OrderType.ALPHABETICAL)
 
-    Private ReadOnly FunimationLanguageTextList As New EnumTextList(Of FunimationSettings.FunimationLanguage)()
-    Private ReadOnly FunimationDefaultSubOptionsList As EnumTextList(Of FunimationSettings.FunimationLanguage).SubTextList
-    Private ReadOnly FunimationHardSubLanguagesList As EnumTextList(Of FunimationSettings.FunimationLanguage).SubTextList
-    Private ReadOnly FunimationBitrateTextList As New EnumTextList(Of FunimationSettings.BitrateSetting)()
+    Private ReadOnly FunimationLanguageTextList As New EnumTextList(Of FunimationLanguage)()
+    Private ReadOnly FunimationDefaultSubOptionsList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
+    Private ReadOnly FunimationHardSubLanguagesList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
+    Private ReadOnly FunimationBitrateTextList As New EnumTextList(Of BitrateSetting)()
 
     Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
 
     Private nameFormatter As FilenameFormatter
-    Private nameInitializing As Boolean = False
-    Private videoFormatsInitializing As Boolean = False
-    Private hardsubsInitializing As Boolean = False
+    Private uiInitializing As Boolean = False
+
+    Private ReadOnly settings As ProgramSettings
 
     Public Sub New()
         InitializeComponent()
 
+        InitializeTextLists()
+        InitializeUi()
+
+        nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
+
+        settings = ProgramSettings.GetInstance()
+    End Sub
+
+    Private Sub InitializeTextLists()
         With ServerPortTextList
             .Add(ServerPortOptions.DISABLED, "add-on support disabled")
             .Add(ServerPortOptions.PORT_80, "80")
@@ -89,27 +102,27 @@ Public Class Einstellungen
         End With
 
         With SpeedPresetTextList
-            .Add(FfmpegSettings.VideoEncoder.Speed.NO_PRESET, "(No preset)")
-            .Add(FfmpegSettings.VideoEncoder.Speed.VERY_SLOW, "Very slow")
-            .Add(FfmpegSettings.VideoEncoder.Speed.SLOWER, "Slower")
-            .Add(FfmpegSettings.VideoEncoder.Speed.SLOW, "Slow")
-            .Add(FfmpegSettings.VideoEncoder.Speed.MEDIUM, "Medium")
-            .Add(FfmpegSettings.VideoEncoder.Speed.FAST, "Fast")
-            .Add(FfmpegSettings.VideoEncoder.Speed.FASTER, "Faster")
-            .Add(FfmpegSettings.VideoEncoder.Speed.VERY_FAST, "Very fast")
+            .Add(Speed.NO_PRESET, "(No preset)")
+            .Add(Speed.VERY_SLOW, "Very slow")
+            .Add(Speed.SLOWER, "Slower")
+            .Add(Speed.SLOW, "Slow")
+            .Add(Speed.MEDIUM, "Medium")
+            .Add(Speed.FAST, "Fast")
+            .Add(Speed.FASTER, "Faster")
+            .Add(Speed.VERY_FAST, "Very fast")
         End With
 
         With CodecTextList
-            .Add(FfmpegSettings.VideoEncoder.Codec.H_264, "h.264")
-            .Add(FfmpegSettings.VideoEncoder.Codec.H_265, "h.265")
-            .Add(FfmpegSettings.VideoEncoder.Codec.AV1, "AV1")
+            .Add(Codec.H_264, "h.264")
+            .Add(Codec.H_265, "h.265")
+            .Add(Codec.AV1, "AV1")
         End With
 
         With EncoderHardwareTextList
-            .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE, "Software")
-            .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA, "Nvidia")
-            .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.AMD, "AMD")
-            .Add(FfmpegSettings.VideoEncoder.EncoderImplementation.INTEL, "Intel")
+            .Add(EncoderImplementation.SOFTWARE, "Software")
+            .Add(EncoderImplementation.NVIDIA, "Nvidia")
+            .Add(EncoderImplementation.AMD, "AMD")
+            .Add(EncoderImplementation.INTEL, "Intel")
         End With
 
         With SeasonNumberBehaviorTextlist
@@ -125,22 +138,18 @@ Public Class Einstellungen
         End With
 
         With CrunchyrollLanguageTextList
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.NONE, "[None]")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.GERMAN_GERMANY, "Deutsch (Germany)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.ENGLISH_US, "English (US)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.PORTUGUESE_BRAZIL, "Português (Brazil)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_LATIN_AMERICA, "Español (LA)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.FRENCH_FRANCE, "Français (France)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.ARABIC, "العربية (Arabic)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.RUSSIAN, "Русский (Russian)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.ITALIAN, "Italiano (Italian)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_SPAIN, "Español (Spain)")
-            .Add(CrunchyrollSettings.CrunchyrollLanguage.JAPANESE, "日本語 (Japanese)")
+            .Add(CrunchyrollLanguage.NONE, "[None]")
+            .Add(CrunchyrollLanguage.GERMAN_GERMANY, "Deutsch (Germany)")
+            .Add(CrunchyrollLanguage.ENGLISH_US, "English (US)")
+            .Add(CrunchyrollLanguage.PORTUGUESE_BRAZIL, "Português (Brazil)")
+            .Add(CrunchyrollLanguage.SPANISH_LATIN_AMERICA, "Español (LA)")
+            .Add(CrunchyrollLanguage.FRENCH_FRANCE, "Français (France)")
+            .Add(CrunchyrollLanguage.ARABIC, "العربية (Arabic)")
+            .Add(CrunchyrollLanguage.RUSSIAN, "Русский (Russian)")
+            .Add(CrunchyrollLanguage.ITALIAN, "Italiano (Italian)")
+            .Add(CrunchyrollLanguage.SPANISH_SPAIN, "Español (Spain)")
+            .Add(CrunchyrollLanguage.JAPANESE, "日本語 (Japanese)")
         End With
-        CrunchyrollSoftSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
-        CrunchyrollDefaultLanguageSubList = CrunchyrollLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
-        CrunchyrollHardSubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
-        CrunchyrollDubLanguageSubList = CrunchyrollLanguageTextList.CreateSubList()
 
         With SubtitleFormatTextList
             .Add(Format.SubtitleMerge.DISABLED, "[merge disabled]")
@@ -148,24 +157,40 @@ Public Class Einstellungen
             .Add(Format.SubtitleMerge.COPY, "copy")
             .Add(Format.SubtitleMerge.SRT, "srt")
         End With
-        ValidSubtitleFormatList = SubtitleFormatTextList.CreateSubList()
 
         With FunimationLanguageTextList
-            .Add(FunimationSettings.FunimationLanguage.NONE, "[None]")
-            .Add(FunimationSettings.FunimationLanguage.ENGLISH, "English")
-            .Add(FunimationSettings.FunimationLanguage.JAPANESE, "Japanese")
-            .Add(FunimationSettings.FunimationLanguage.PORTUGUESE, "Português (Brazil)")
-            .Add(FunimationSettings.FunimationLanguage.SPANISH, "Spanish (Mexico)")
+            .Add(FunimationLanguage.NONE, "[None]")
+            .Add(FunimationLanguage.ENGLISH, "English")
+            .Add(FunimationLanguage.JAPANESE, "Japanese")
+            .Add(FunimationLanguage.PORTUGUESE, "Português (Brazil)")
+            .Add(FunimationLanguage.SPANISH, "Spanish (Mexico)")
         End With
-        FunimationDefaultSubOptionsList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
-        FunimationHardSubLanguagesList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
 
         With FunimationBitrateTextList
-            .Add(FunimationSettings.BitrateSetting.HIGH, "Prefer high bitrate")
-            .Add(FunimationSettings.BitrateSetting.LOW, "Prefer low bitrate")
+            .Add(BitrateSetting.HIGH, "Prefer high bitrate")
+            .Add(BitrateSetting.LOW, "Prefer low bitrate")
         End With
+    End Sub
 
-        nameFormatter = New FilenameFormatter(My.Settings.NameTemplate)
+    ''' <summary>
+    ''' Populates combo boxes with elements and does everything except load settings.
+    ''' </summary>
+    Private Sub InitializeUi()
+        uiInitializing = True
+        InitializeMainTab()
+
+        uiInitializing = False
+    End Sub
+
+    Private Sub InitializeMainTab()
+        ServerPortInput.DataSource = ServerPortTextList.GetDisplayItems()
+        CB_HideSF.DataSource = SubfolderTextList.GetDisplayItems()
+        DownloadModeDropdown.DataSource = DownloadModeTextList.GetDisplayItems()
+        CB_Format.DataSource = VideoFormatTextList.GetDisplayItems()
+
+        VideoCodecComboBox.DataSource = CodecTextList.GetDisplayItems()
+        VideoEncoderComboBox.DataSource = EncoderHardwareTextList.GetDisplayItems()
+        FfmpegPresetComboBox.DataSource = SpeedPresetTextList.GetDisplayItems()
     End Sub
 
     Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)
@@ -182,7 +207,7 @@ Public Class Einstellungen
     End Sub
 
     Private Sub UpdateMergeFormatInput(VideoFormat As Format.MediaFormat)
-        If videoFormatsInitializing Then
+        If uiInitializing Then
             Return
         End If
         PopulateSubFormats(VideoFormat)
@@ -216,17 +241,9 @@ Public Class Einstellungen
 
         End Try
 
-        Try
-            GB_SubLanguage.Text = Main.GB_SubLanguage_Text
-            DL_Count_simultaneous.Text = Main.DL_Count_simultaneousText
-        Catch ex As Exception
-
-        End Try
-
     End Sub
 
     Private Sub LoadSettings()
-        Dim settings = ProgramSettings.GetInstance()
         Dim crSettings = settings.Crunchyroll
 
         ' Main settings
@@ -243,19 +260,19 @@ Public Class Einstellungen
             GroupBoxColor(Color.FromArgb(0, 0, 0))
         End If
 
-        InitializeAddOnPortInput()
+        LoadAddOnPort()
         Chb_Ign_tls.Checked = settings.InsecureCurl
         ErrorLimitInput.Value = settings.ErrorLimit
-        InitializeSubfolderDisplayInput()
+        LoadSubfolderDisplayOptions()
 
         ' Output settings
-        InitializeDownloadModeInput()
+        LoadDownloadMode()
         TemporaryFolderTextBox.Text = settings.TemporaryFolder
         UseQueueCheckbox.Checked = settings.UseDownloadQueue
-        InitializeResolutionInput()
+        LoadResolution()
 
-        InitializeOutputFormat()
-        InitializeFfmepgInputs()
+        LoadOutputFormat()
+        LoadFfmpegSettings()
 
         ' Naming settings
         InitializeNamingInputs()
@@ -284,19 +301,17 @@ Public Class Einstellungen
     End Sub
 
     Private Sub InitializeFunimationHardsub()
-        hardsubsInitializing = True
         With FunimationHardSubLanguagesList
-            .AddFromParent(FunimationSettings.FunimationLanguage.NONE)
-            .AddFromParent(FunimationSettings.FunimationLanguage.ENGLISH)
-            .AddFromParent(FunimationSettings.FunimationLanguage.SPANISH)
-            .AddFromParent(FunimationSettings.FunimationLanguage.PORTUGUESE)
+            .AddFromParent(FunimationLanguage.NONE)
+            .AddFromParent(FunimationLanguage.ENGLISH)
+            .AddFromParent(FunimationLanguage.SPANISH)
+            .AddFromParent(FunimationLanguage.PORTUGUESE)
         End With
         FunimationHardSubComboBox.DataSource = FunimationHardSubLanguagesList.GetDisplayItems()
 
         Dim funSettings = ProgramSettings.GetInstance().Funimation
         Dim hardsub = funSettings.HardSubtitleLanguage
         FunimationHardSubComboBox.SelectedItem = FunimationLanguageTextList.Item(hardsub)
-        hardsubsInitializing = False
     End Sub
 
     Private Sub InitializeFunimationBitrate()
@@ -311,8 +326,8 @@ Public Class Einstellungen
         Dim funSettings = ProgramSettings.GetInstance().Funimation
         Dim formats = funSettings.SubtitleFormats
 
-        FunimationSubSrtCheckBox.Checked = formats.Contains(FunimationSettings.SubFormat.SRT)
-        FunimationSubVttCheckBox.Checked = formats.Contains(FunimationSettings.SubFormat.VTT)
+        FunimationSubSrtCheckBox.Checked = formats.Contains(SubFormat.SRT)
+        FunimationSubVttCheckBox.Checked = formats.Contains(SubFormat.VTT)
 
         Dim languages = funSettings.SoftSubtitleLanguages
         If languages.Count > 0 And formats.Count = 0 Then
@@ -321,7 +336,7 @@ Public Class Einstellungen
     End Sub
 
     Private Sub InitializeFunimationDefaultSub()
-        FunimationDefaultSubOptionsList.AddFromParent(FunimationSettings.FunimationLanguage.NONE)
+        FunimationDefaultSubOptionsList.AddFromParent(FunimationLanguage.NONE)
         FunimationDefaultSubComboBox.DataSource = FunimationDefaultSubOptionsList.GetDisplayItems()
 
         ' Requires that the selected languages have already been set in the sub list.
@@ -335,9 +350,9 @@ Public Class Einstellungen
         Dim funSettings = settings.Funimation
         Dim softSubs = funSettings.SoftSubtitleLanguages
 
-        FunimationEnglishCheckBox.Checked = softSubs.Contains(FunimationSettings.FunimationLanguage.ENGLISH)
-        FunimationSpanishCheckBox.Checked = softSubs.Contains(FunimationSettings.FunimationLanguage.SPANISH)
-        FunimationPortugueseCheckBox.Checked = softSubs.Contains(FunimationSettings.FunimationLanguage.PORTUGUESE)
+        FunimationEnglishCheckBox.Checked = softSubs.Contains(FunimationLanguage.ENGLISH)
+        FunimationSpanishCheckBox.Checked = softSubs.Contains(FunimationLanguage.SPANISH)
+        FunimationPortugueseCheckBox.Checked = softSubs.Contains(FunimationLanguage.PORTUGUESE)
     End Sub
 
     Private Sub InitializeFunimationDub()
@@ -358,7 +373,7 @@ Public Class Einstellungen
     End Sub
 
     Private Sub InitializeCrunchyrollHardSubs()
-        CrunchyrollHardSubLanguageSubList.AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.NONE)
+        CrunchyrollHardSubLanguageSubList.AddFromParent(CrunchyrollLanguage.NONE)
         InitializeCrunchyrollLanguageList(CrunchyrollHardSubLanguageSubList)
         CrunchyrollHardsubComboBox.Items.Clear()
         CrunchyrollHardsubComboBox.DataSource = CrunchyrollHardSubLanguageSubList.GetDisplayItems()
@@ -381,7 +396,7 @@ Public Class Einstellungen
         CrunchyrollSoftSubsCheckedListBox.DisplayMember = "EnumText"
         CrunchyrollSoftSubsCheckedListBox.DataSource = CrunchyrollSoftSubLanguageSubList.GetDisplayItems()
 
-        CrunchyrollDefaultLanguageSubList.AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.NONE)
+        CrunchyrollDefaultLanguageSubList.AddFromParent(CrunchyrollLanguage.NONE)
         CR_SoftSubDefault.DataSource = CrunchyrollDefaultLanguageSubList.GetDisplayItems()
 
         ' Load enum values from settings into check boxes
@@ -390,7 +405,7 @@ Public Class Einstellungen
         For itemNumber As Integer = 0 To CrunchyrollSoftSubsCheckedListBox.Items.Count - 1
             Dim item = CrunchyrollSoftSubsCheckedListBox.Items.Item(itemNumber)
             Dim itemEnum = CrunchyrollLanguageTextList.GetEnumForItem(item)
-            If selectedSoftSubs.Contains(itemEnum) And itemEnum <> CrunchyrollSettings.CrunchyrollLanguage.NONE Then
+            If selectedSoftSubs.Contains(itemEnum) And itemEnum <> CrunchyrollLanguage.NONE Then
                 CrunchyrollSoftSubsCheckedListBox.SetItemChecked(itemNumber, True)
             End If
         Next
@@ -400,18 +415,18 @@ Public Class Einstellungen
         CR_SoftSubDefault.SelectedItem = CrunchyrollLanguageTextList.Item(defaultSub)
     End Sub
 
-    Private Sub InitializeCrunchyrollLanguageList(subList As EnumTextList(Of CrunchyrollSettings.CrunchyrollLanguage).SubTextList)
+    Private Sub InitializeCrunchyrollLanguageList(subList As EnumTextList(Of CrunchyrollLanguage).SubTextList)
         With subList
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.JAPANESE)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_SPAIN)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.ITALIAN)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.RUSSIAN)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.ARABIC)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.FRENCH_FRANCE)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.SPANISH_LATIN_AMERICA)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.PORTUGUESE_BRAZIL)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.ENGLISH_US)
-            .AddFromParent(CrunchyrollSettings.CrunchyrollLanguage.GERMAN_GERMANY)
+            .AddFromParent(CrunchyrollLanguage.JAPANESE)
+            .AddFromParent(CrunchyrollLanguage.SPANISH_SPAIN)
+            .AddFromParent(CrunchyrollLanguage.ITALIAN)
+            .AddFromParent(CrunchyrollLanguage.RUSSIAN)
+            .AddFromParent(CrunchyrollLanguage.ARABIC)
+            .AddFromParent(CrunchyrollLanguage.FRENCH_FRANCE)
+            .AddFromParent(CrunchyrollLanguage.SPANISH_LATIN_AMERICA)
+            .AddFromParent(CrunchyrollLanguage.PORTUGUESE_BRAZIL)
+            .AddFromParent(CrunchyrollLanguage.ENGLISH_US)
+            .AddFromParent(CrunchyrollLanguage.GERMAN_GERMANY)
         End With
     End Sub
 
@@ -463,8 +478,6 @@ Public Class Einstellungen
     End Sub
 
     Private Sub InitializeNamingInputs()
-        ' Prevent changing the filename template as the checkboxes are set up.
-        nameInitializing = True
         Dim placeholders = nameFormatter.GetCurrentPlaceholders()
 
         SeriesNameCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.SERIES_NAME)
@@ -472,20 +485,13 @@ Public Class Einstellungen
         EpisodeNumberCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.EPISODE_NUMBER)
         EpisodeTitleCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.EPISODE_TITLE)
         AudioLanguageCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.AUDIO_LANGUAGE)
-        nameInitializing = False
 
         FilenameTemplatePreview.Text = nameFormatter.GetTemplate()
     End Sub
 
-    Private Sub InitializeFfmepgInputs()
-        Dim settings = ProgramSettings.GetInstance()
-
+    Private Sub LoadFfmpegSettings()
         Dim ffmpegCommand = settings.Ffmpeg
         Dim savedEncoder = ffmpegCommand.GetSavedEncoder()
-
-        VideoCodecComboBox.DataSource = CodecTextList.GetDisplayItems()
-        VideoEncoderComboBox.DataSource = EncoderHardwareTextList.GetDisplayItems()
-        FfmpegPresetComboBox.DataSource = SpeedPresetTextList.GetDisplayItems()
 
         FfmpegCopyCheckBox.Checked = ffmpegCommand.VideoCopy
         VideoCodecComboBox.SelectedItem = CodecTextList.Item(savedEncoder.VideoCodec)
@@ -514,8 +520,8 @@ Public Class Einstellungen
         End If
     End Sub
 
-    Private Function CreateFfmpegSettingFromInputs() As FfmpegSettings
-        Dim builder = New FfmpegSettings.Builder()
+    Private Function CreateFfmpegSettingFromInputs() As FfmpegOptions
+        Dim builder = New FfmpegOptions.Builder()
         builder.SetIncludeUnusedVideoSettings(True)
 
         builder.SetCopyMode(FfmpegCopyCheckBox.Checked)
@@ -539,17 +545,13 @@ Public Class Einstellungen
         FfmpegCommandPreviewTextBox.Text = CreateFfmpegSettingFromInputs().GetFfmpegArguments()
     End Sub
 
-    Public Sub InitializeOutputFormat()
-        videoFormatsInitializing = True
-        Dim settings = ProgramSettings.GetInstance()
-        ' TODO: Maybe put in a try-catch block in case the object parses incorrectly?
-        Dim currentFormat = settings.OutputFormat
-
-        ' Setting a data source and selected item both trigger a selected item change, so a manual call to set merge formats
-        ' isn't necessary. It would be nice to disable the first update though so it isn't populated with irrelevant data.
-        CB_Format.Items.Clear()
-        CB_Format.DataSource = VideoFormatTextList.GetDisplayItems()
-        videoFormatsInitializing = False
+    Public Sub LoadOutputFormat()
+        Dim currentFormat As Format
+        Try
+            currentFormat = settings.OutputFormat
+        Catch ex As Exception
+            currentFormat = New Format(Format.MediaFormat.MP4, Format.SubtitleMerge.COPY)
+        End Try
 
         CB_Format.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
         ' Even though setting the selected item will update the merge format combo box, we need to explicitly set it in case the value didn't change.
@@ -557,8 +559,7 @@ Public Class Einstellungen
         CB_Merge.SelectedItem = SubtitleFormatTextList.Item(currentFormat.GetSubtitleFormat())
     End Sub
 
-    Private Sub InitializeResolutionInput()
-        Dim settings = ProgramSettings.GetInstance()
+    Private Sub LoadResolution()
         Select Case settings.DownloadResolution
             Case Resolution.RESOLUTION_1080P
                 A1080p.Checked = True
@@ -573,11 +574,8 @@ Public Class Einstellungen
         End Select
     End Sub
 
-    Private Sub InitializeAddOnPortInput()
-        ServerPortInput.Items.Clear()
-        ServerPortInput.DataSource = ServerPortTextList.GetDisplayItems()
-
-        Dim addOnPort = ProgramSettings.GetInstance().ServerPort
+    Private Sub LoadAddOnPort()
+        Dim addOnPort = settings.ServerPort
         Dim newOption As ServerPortOptions
         If addOnPort = 0 Then
             newOption = ServerPortOptions.DISABLED
@@ -625,25 +623,16 @@ Public Class Einstellungen
         CustomServerPortInput.Enabled = selectedEnum = ServerPortOptions.CUSTOM
     End Sub
 
-    Private Sub InitializeSubfolderDisplayInput()
-        Dim settings = ProgramSettings.GetInstance()
-        CB_HideSF.Items.Clear()
-        CB_HideSF.DataSource = SubfolderTextList.GetDisplayItems()
-
+    Private Sub LoadSubfolderDisplayOptions()
         Dim currentSetting = settings.SubfolderDisplayBehavior
         CB_HideSF.SelectedItem = SubfolderTextList.Item(currentSetting)
     End Sub
 
     Private Sub SaveSubfolderDisplaySetting()
-        Dim settings = ProgramSettings.GetInstance()
         settings.SubfolderDisplayBehavior = SubfolderTextList.GetEnumForItem(CB_HideSF.SelectedItem)
     End Sub
 
-    Private Sub InitializeDownloadModeInput()
-        Dim settings = ProgramSettings.GetInstance()
-        DownloadModeDropdown.Items.Clear()
-        DownloadModeDropdown.DataSource = DownloadModeTextList.GetDisplayItems()
-
+    Private Sub LoadDownloadMode()
         Dim currentSetting = settings.DownloadMode
         DownloadModeDropdown.SelectedItem = DownloadModeTextList.Item(currentSetting)
     End Sub
@@ -742,7 +731,7 @@ Public Class Einstellungen
     Private Sub SaveCrunchyrollSoftSubs()
         Dim selectedItems = CrunchyrollSoftSubsCheckedListBox.CheckedItems
 
-        Dim selectedEnumList = New List(Of CrunchyrollSettings.CrunchyrollLanguage)
+        Dim selectedEnumList = New List(Of CrunchyrollLanguage)
         For Each item In selectedItems
             Dim enumValue = CrunchyrollLanguageTextList.GetEnumForItem(item)
             selectedEnumList.Add(enumValue)
@@ -762,16 +751,16 @@ Public Class Einstellungen
     End Sub
 
     Private Sub SaveFunimationSoftSubs()
-        Dim subList = New HashSet(Of FunimationSettings.FunimationLanguage)
+        Dim subList = New HashSet(Of FunimationLanguage)
 
         If FunimationEnglishCheckBox.Checked Then
-            subList.Add(FunimationSettings.FunimationLanguage.ENGLISH)
+            subList.Add(FunimationLanguage.ENGLISH)
         End If
         If FunimationSpanishCheckBox.Checked Then
-            subList.Add(FunimationSettings.FunimationLanguage.SPANISH)
+            subList.Add(FunimationLanguage.SPANISH)
         End If
         If FunimationPortugueseCheckBox.Checked Then
-            subList.Add(FunimationSettings.FunimationLanguage.PORTUGUESE)
+            subList.Add(FunimationLanguage.PORTUGUESE)
         End If
 
         Dim funSettings = ProgramSettings.GetInstance().Funimation
@@ -786,18 +775,18 @@ Public Class Einstellungen
     End Sub
 
     Private Sub SaveFunimationSubFormats()
-        Dim subSet = New HashSet(Of FunimationSettings.SubFormat)
+        Dim subSet = New HashSet(Of SubFormat)
 
         If FunimationSubSrtCheckBox.Checked Then
-            subSet.Add(FunimationSettings.SubFormat.SRT)
+            subSet.Add(SubFormat.SRT)
         End If
         If FunimationSubVttCheckBox.Checked Then
-            subSet.Add(FunimationSettings.SubFormat.VTT)
+            subSet.Add(SubFormat.VTT)
         End If
 
         Dim funSettings = ProgramSettings.GetInstance().Funimation
         If funSettings.SoftSubtitleLanguages.Count > 0 And subSet.Count = 0 Then
-            subSet.Add(FunimationSettings.SubFormat.VTT)
+            subSet.Add(SubFormat.VTT)
         End If
 
         funSettings.SubtitleFormats = subSet
@@ -909,12 +898,12 @@ Public Class Einstellungen
         Dim ffmpegCommand = settings.Ffmpeg
         Dim encoder = ffmpegCommand.GetSavedEncoder()
         If Not isAudioOnly And encoder IsNot Nothing Then
-            If encoder.Hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.NVIDIA Then
+            If encoder.Hardware = EncoderImplementation.NVIDIA Then
                 If SimultaneousDownloadsInput.Value > 2 Then
                     SimultaneousDownloadsInput.Value = 2
                 End If
 
-            ElseIf encoder.Hardware = FfmpegSettings.VideoEncoder.EncoderImplementation.SOFTWARE Then
+            ElseIf encoder.Hardware = EncoderImplementation.SOFTWARE Then
                 If SimultaneousDownloadsInput.Value > 1 Then
                     SimultaneousDownloadsInput.Value = 1
                 End If
@@ -1000,14 +989,9 @@ Public Class Einstellungen
         End If
     End Sub
 
-    Private Sub FfmpegCopyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FfmpegCopyCheckBox.CheckedChanged
-        UpdateFfmpegInputStates()
-        UpdateFfmpegDisplay()
-    End Sub
-
     Private Sub VideoCodecComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles VideoCodecComboBox.SelectedIndexChanged
         Dim selectedItem = CodecTextList.GetEnumForItem(VideoCodecComboBox.SelectedItem)
-        If selectedItem = FfmpegSettings.VideoEncoder.Codec.AV1 Then
+        If selectedItem = Codec.AV1 Then
             ' TODO: Disable AMD hardware option
             Dim messageBoxResult =
                 MessageBox.Show("The inculded ffmpeg version does not support any AV1 encoders." + vbNewLine +
@@ -1019,27 +1003,19 @@ Public Class Einstellungen
                                0,
                                "https://ffmpeg.org/download.html")
             If messageBoxResult = DialogResult.Cancel Then
-                VideoCodecComboBox.SelectedItem = CodecTextList.Item(FfmpegSettings.VideoEncoder.Codec.H_264)
+                VideoCodecComboBox.SelectedItem = CodecTextList.Item(Codec.H_264)
             End If
         End If
 
         UpdateFfmpegDisplay()
     End Sub
 
-    Private Sub VideoEncoderComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles VideoEncoderComboBox.SelectedIndexChanged
+    Private Sub Ffmpeg_parameters_changed(sender As Object, e As EventArgs) Handles VideoEncoderComboBox.SelectedIndexChanged, FfmpegPresetComboBox.SelectedIndexChanged, BitrateNumericInput.ValueChanged
         UpdateFfmpegDisplay()
     End Sub
 
-    Private Sub FfmpegPresetComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FfmpegPresetComboBox.SelectedIndexChanged
-        UpdateFfmpegDisplay()
-    End Sub
-
-    Private Sub TargetBitrateCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TargetBitrateCheckBox.CheckedChanged
+    Private Sub Ffmpeg_copy_and_bitrate_CheckedChanged(sender As Object, e As EventArgs) Handles FfmpegCopyCheckBox.CheckedChanged, TargetBitrateCheckBox.CheckedChanged
         UpdateFfmpegInputStates()
-        UpdateFfmpegDisplay()
-    End Sub
-
-    Private Sub BitrateNumericInput_ValueChanged(sender As Object, e As EventArgs) Handles BitrateNumericInput.ValueChanged
         UpdateFfmpegDisplay()
     End Sub
 
@@ -1150,7 +1126,7 @@ Public Class Einstellungen
     Private Sub CB_Fun_HardSubs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FunimationHardSubComboBox.SelectedIndexChanged
         Dim selectedSetting = FunimationLanguageTextList.GetEnumForItem(FunimationHardSubComboBox.SelectedItem)
 
-        If Not hardsubsInitializing And selectedSetting <> FunimationSettings.FunimationLanguage.NONE Then
+        If Not uiInitializing And selectedSetting <> FunimationLanguage.NONE Then
             If FfmpegCopyCheckBox.Checked Then
                 Dim messageBoxResult =
                     MessageBox.Show("Funimation hard subtitles are post-processed and require re-encoding the video stream." + vbNewLine +
@@ -1159,25 +1135,25 @@ Public Class Einstellungen
                     "Heavy system usage warning",
                     MessageBoxButtons.YesNo)
                 If messageBoxResult = DialogResult.No Then
-                    FunimationHardSubComboBox.SelectedItem = FunimationLanguageTextList.Item(FunimationSettings.FunimationLanguage.NONE)
+                    FunimationHardSubComboBox.SelectedItem = FunimationLanguageTextList.Item(FunimationLanguage.NONE)
                 End If
             End If
         End If
     End Sub
 
     Private Sub FunimationEnglishCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationEnglishCheckBox.CheckedChanged
-        UpdateFunimationDefaultSubList(FunimationSettings.FunimationLanguage.ENGLISH, FunimationEnglishCheckBox.Checked)
+        UpdateFunimationDefaultSubList(FunimationLanguage.ENGLISH, FunimationEnglishCheckBox.Checked)
     End Sub
 
     Private Sub FunimationSpanishCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationSpanishCheckBox.CheckedChanged
-        UpdateFunimationDefaultSubList(FunimationSettings.FunimationLanguage.SPANISH, FunimationSpanishCheckBox.Checked)
+        UpdateFunimationDefaultSubList(FunimationLanguage.SPANISH, FunimationSpanishCheckBox.Checked)
     End Sub
 
     Private Sub FunimationPortugueseCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationPortugueseCheckBox.CheckedChanged
-        UpdateFunimationDefaultSubList(FunimationSettings.FunimationLanguage.PORTUGUESE, FunimationPortugueseCheckBox.Checked)
+        UpdateFunimationDefaultSubList(FunimationLanguage.PORTUGUESE, FunimationPortugueseCheckBox.Checked)
     End Sub
 
-    Private Sub UpdateFunimationDefaultSubList(language As FunimationSettings.FunimationLanguage, enabled As Boolean)
+    Private Sub UpdateFunimationDefaultSubList(language As FunimationLanguage, enabled As Boolean)
         If enabled Then
             FunimationDefaultSubOptionsList.AddFromParent(language)
         Else
@@ -1274,7 +1250,7 @@ Public Class Einstellungen
     End Sub
 
     Private Sub UpdateFilenameTemplate(item As FilenameFormatter.TemplateItem, add As Boolean)
-        If nameInitializing Then
+        If uiInitializing Then
             ' Checkbox initial values are being set, don't modify the template.
             Exit Sub
         End If

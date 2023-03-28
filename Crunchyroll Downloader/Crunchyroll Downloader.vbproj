@@ -238,12 +238,20 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.vb" />
-    <Compile Include="Settings\CrunchyrollSettings.vb" />
+    <Compile Include="Settings\Crunchyroll\CrunchyrollSettings.vb" />
+    <Compile Include="Settings\Crunchyroll\CrunchyrollLanguage.vb" />
     <Compile Include="Settings\EnumTextList.vb" />
-    <Compile Include="Settings\FfmpegSettings.vb" />
+    <Compile Include="Settings\ffmpeg\encoding\Codec.vb" />
+    <Compile Include="Settings\ffmpeg\encoding\EncoderImplementation.vb" />
+    <Compile Include="Settings\ffmpeg\FfmpegOptions.vb" />
+    <Compile Include="Settings\ffmpeg\encoding\Speed.vb" />
+    <Compile Include="Settings\ffmpeg\encoding\VideoEncoder.vb" />
     <Compile Include="Settings\FilenameFormatter.vb" />
     <Compile Include="Settings\Format.vb" />
-    <Compile Include="Settings\FunimationSettings.vb" />
+    <Compile Include="Settings\Funimation\BitrateSetting.vb" />
+    <Compile Include="Settings\Funimation\FunimationLanguage.vb" />
+    <Compile Include="Settings\Funimation\FunimationSettings.vb" />
+    <Compile Include="Settings\Funimation\SubFormat.vb" />
     <Compile Include="Settings\ProgramSettings.vb" />
     <Compile Include="Trackbar.Designer.vb">
       <DependentUpon>Trackbar.vb</DependentUpon>

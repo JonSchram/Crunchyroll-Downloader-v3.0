@@ -1,17 +1,18 @@
 ﻿Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.funimation
 
 Namespace api
     Public Class LocaleConverter
 
-        Public Shared Function ConvertFunimationLanguageToLocale(locale As FunimationSettings.FunimationLanguage) As String
+        Public Shared Function ConvertFunimationLanguageToLocale(locale As FunimationLanguage) As String
             Select Case locale
-                Case FunimationSettings.FunimationLanguage.JAPANESE
+                Case FunimationLanguage.JAPANESE
                     Return "japanese"
-                Case FunimationSettings.FunimationLanguage.ENGLISH
+                Case FunimationLanguage.ENGLISH
                     Return "english"
-                Case FunimationSettings.FunimationLanguage.PORTUGUESE
+                Case FunimationLanguage.PORTUGUESE
                     Return "portuguese(Brazil)"
-                Case FunimationSettings.FunimationLanguage.SPANISH
+                Case FunimationLanguage.SPANISH
                     Return "spanish(Mexico)"
                 Case Else
                     Return "N/A"
