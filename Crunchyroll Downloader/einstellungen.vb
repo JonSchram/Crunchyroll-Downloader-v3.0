@@ -1152,10 +1152,10 @@ Public Class Einstellungen
         If Not hardsubsInitializing And selectedSetting <> FunimationSettings.FunimationLanguage.NONE Then
             If FfmpegCopyCheckBox.Checked Then
                 Dim messageBoxResult =
-                    MessageBox.Show("Funimation hard subtitles are post-processed." + vbNewLine +
-                    "This will take a lot of resources and it should not do more than one download at a time!" + vbNewLine +
+                    MessageBox.Show("Funimation hard subtitles are post-processed and require re-encoding the video stream." + vbNewLine +
+                    "This will take a lot of resources. You may not want to do more than one download at a time." + vbNewLine +
                     "Continue with this setting?",
-                    "Prepare for unforeseen consequences.",
+                    "Heavy system usage warning",
                     MessageBoxButtons.YesNo)
                 If messageBoxResult = DialogResult.No Then
                     FunimationHardSubComboBox.SelectedItem = FunimationLanguageTextList.Item(FunimationSettings.FunimationLanguage.NONE)
