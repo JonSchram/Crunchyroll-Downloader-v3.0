@@ -13,6 +13,7 @@ Namespace settings
             UpgradeDubs()
             UpgradeSubs()
             UpgradeDefaultSub()
+            UpgradeHardsubs()
         End Sub
 
         Private Sub UpgradeDubs()
@@ -62,6 +63,21 @@ Namespace settings
                 DefaultSubtitle = FunimationLanguage.SPANISH
             End If
             My.Settings.DefaultSubFunimation = ""
+        End Sub
+
+        Private Sub UpgradeHardsubs()
+            Dim oldSub = My.Settings.FunimationHardsub
+            Select Case oldSub
+                Case "en"
+                    HardSubtitleLanguage = FunimationLanguage.ENGLISH
+                Case "pt"
+                    HardSubtitleLanguage = FunimationLanguage.PORTUGUESE
+                Case "es"
+                    HardSubtitleLanguage = FunimationLanguage.SPANISH
+                Case "Disabled"
+                    HardSubtitleLanguage = FunimationLanguage.NONE
+            End Select
+            My.Settings.FunimationHardsub = ""
         End Sub
 
         Public Shared Function GetInstance() As FunimationSettings
@@ -149,6 +165,13 @@ Namespace settings
         End Property
 
         Public Property HardSubtitleLanguage As FunimationLanguage
+            Get
+                Return CType(My.Settings.FunimationHardsubLanguage, FunimationLanguage)
+            End Get
+            Set(value As FunimationLanguage)
+                My.Settings.FunimationHardsubLanguage = value
+            End Set
+        End Property
 
         Public Property PreferredBitrate As BitrateSetting
             Get

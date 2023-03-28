@@ -111,7 +111,7 @@ Partial Class Einstellungen
         Me.GroupBox10 = New System.Windows.Forms.GroupBox()
         Me.FunimationDubComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
-        Me.FunimationHardSubCheckBox = New MetroFramework.Controls.MetroComboBox()
+        Me.FunimationHardSubComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
         Me.GroupBox13 = New System.Windows.Forms.GroupBox()
         Me.FunimationDefaultSubComboBox = New MetroFramework.Controls.MetroComboBox()
@@ -1408,7 +1408,7 @@ Partial Class Einstellungen
         'GroupBox7
         '
         Me.GroupBox7.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox7.Controls.Add(Me.FunimationHardSubCheckBox)
+        Me.GroupBox7.Controls.Add(Me.FunimationHardSubComboBox)
         Me.GroupBox7.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox7.ForeColor = System.Drawing.Color.Black
         Me.GroupBox7.Location = New System.Drawing.Point(0, 440)
@@ -1418,21 +1418,19 @@ Partial Class Einstellungen
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Hard Subtitle (post-processed)"
         '
-        'FunimationHardSubCheckBox
+        'FunimationHardSubComboBox
         '
-        Me.FunimationHardSubCheckBox.DropDownHeight = 250
-        Me.FunimationHardSubCheckBox.Enabled = False
-        Me.FunimationHardSubCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FunimationHardSubCheckBox.FormattingEnabled = True
-        Me.FunimationHardSubCheckBox.IntegralHeight = False
-        Me.FunimationHardSubCheckBox.ItemHeight = 23
-        Me.FunimationHardSubCheckBox.Items.AddRange(New Object() {"Disabled", "English", "Español (LA)", "Português (Brasil)"})
-        Me.FunimationHardSubCheckBox.Location = New System.Drawing.Point(79, 30)
-        Me.FunimationHardSubCheckBox.Name = "FunimationHardSubCheckBox"
-        Me.FunimationHardSubCheckBox.Size = New System.Drawing.Size(326, 29)
-        Me.FunimationHardSubCheckBox.Sorted = True
-        Me.FunimationHardSubCheckBox.TabIndex = 32
-        Me.FunimationHardSubCheckBox.UseSelectable = True
+        Me.FunimationHardSubComboBox.DropDownHeight = 250
+        Me.FunimationHardSubComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FunimationHardSubComboBox.FormattingEnabled = True
+        Me.FunimationHardSubComboBox.IntegralHeight = False
+        Me.FunimationHardSubComboBox.ItemHeight = 23
+        Me.FunimationHardSubComboBox.Items.AddRange(New Object() {"Disabled", "English", "Español (LA)", "Português (Brasil)"})
+        Me.FunimationHardSubComboBox.Location = New System.Drawing.Point(79, 30)
+        Me.FunimationHardSubComboBox.Name = "FunimationHardSubComboBox"
+        Me.FunimationHardSubComboBox.Size = New System.Drawing.Size(326, 29)
+        Me.FunimationHardSubComboBox.TabIndex = 32
+        Me.FunimationHardSubComboBox.UseSelectable = True
         '
         'GroupBox9
         '
@@ -1828,7 +1826,7 @@ Partial Class Einstellungen
     Friend WithEvents DarkMode As MetroFramework.Controls.MetroCheckBox
     Friend WithEvents DefaultWebsiteTextBox As MetroFramework.Controls.MetroTextBox
     Friend WithEvents CrunchyrollHardsubComboBox As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents FunimationHardSubCheckBox As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents FunimationHardSubComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents FunimationDubComboBox As MetroFramework.Controls.MetroComboBox
     Public WithEvents LastVersion As MetroFramework.Controls.MetroLabel
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker

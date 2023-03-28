@@ -46,6 +46,7 @@ Public Class Einstellungen
 
     Private ReadOnly FunimationLanguageTextList As New EnumTextList(Of FunimationSettings.FunimationLanguage)()
     Private ReadOnly FunimationDefaultSubOptionsList As EnumTextList(Of FunimationSettings.FunimationLanguage).SubTextList
+    Private ReadOnly FunimationHardSubLanguagesList As EnumTextList(Of FunimationSettings.FunimationLanguage).SubTextList
     Private ReadOnly FunimationBitrateTextList As New EnumTextList(Of FunimationSettings.BitrateSetting)()
 
     Dim Manager As MetroStyleManager = Main.Manager
@@ -54,6 +55,7 @@ Public Class Einstellungen
     Private nameFormatter As FilenameFormatter
     Private nameInitializing As Boolean = False
     Private videoFormatsInitializing As Boolean = False
+    Private hardsubsInitializing As Boolean = False
 
     Public Sub New()
         InitializeComponent()
@@ -156,6 +158,7 @@ Public Class Einstellungen
             .Add(FunimationSettings.FunimationLanguage.SPANISH, "Spanish (Mexico)")
         End With
         FunimationDefaultSubOptionsList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
+        FunimationHardSubLanguagesList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
 
         With FunimationBitrateTextList
             .Add(FunimationSettings.BitrateSetting.HIGH, "Prefer high bitrate")
@@ -212,21 +215,6 @@ Public Class Einstellungen
         Catch ex As Exception
 
         End Try
-
-
-        If Main.HardSubFunimation = "en" Then
-            FunimationHardSubCheckBox.SelectedItem = "English"
-
-        ElseIf Main.HardSubFunimation = "pt" Then
-            FunimationHardSubCheckBox.SelectedItem = "Português (Brasil)"
-
-        ElseIf Main.HardSubFunimation = "es" Then
-            FunimationHardSubCheckBox.SelectedItem = "Español (LA)"
-
-        Else
-            FunimationHardSubCheckBox.SelectedItem = "Disabled"
-            'FunimationHardsub.Checked = True
-        End If
 
         Try
             GB_SubLanguage.Text = Main.GB_SubLanguage_Text
@@ -292,6 +280,23 @@ Public Class Einstellungen
         InitializeFunimationDefaultSub()
         InitializeFunimationSubFormats()
         InitializeFunimationBitrate()
+        InitializeFunimationHardsub()
+    End Sub
+
+    Private Sub InitializeFunimationHardsub()
+        hardsubsInitializing = True
+        With FunimationHardSubLanguagesList
+            .AddFromParent(FunimationSettings.FunimationLanguage.NONE)
+            .AddFromParent(FunimationSettings.FunimationLanguage.ENGLISH)
+            .AddFromParent(FunimationSettings.FunimationLanguage.SPANISH)
+            .AddFromParent(FunimationSettings.FunimationLanguage.PORTUGUESE)
+        End With
+        FunimationHardSubComboBox.DataSource = FunimationHardSubLanguagesList.GetDisplayItems()
+
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        Dim hardsub = funSettings.HardSubtitleLanguage
+        FunimationHardSubComboBox.SelectedItem = FunimationLanguageTextList.Item(hardsub)
+        hardsubsInitializing = False
     End Sub
 
     Private Sub InitializeFunimationBitrate()
@@ -804,6 +809,12 @@ Public Class Einstellungen
         funSettings.PreferredBitrate = selectedEnum
     End Sub
 
+    Private Sub SaveFunimationHardsub()
+        Dim selectedEnum = FunimationLanguageTextList.GetEnumForItem(FunimationHardSubComboBox.SelectedItem)
+        Dim funSettings = ProgramSettings.GetInstance().Funimation
+        funSettings.HardSubtitleLanguage = selectedEnum
+    End Sub
+
     Private Sub SaveCurrentSettings()
         Dim settings As ProgramSettings = ProgramSettings.GetInstance()
         Dim crSettings = settings.Crunchyroll
@@ -855,6 +866,7 @@ Public Class Einstellungen
         SaveFunimationDefaultSub()
         SaveFunimationSubFormats()
         SaveFunimationBitrate()
+        SaveFunimationHardsub()
     End Sub
 
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
@@ -943,7 +955,7 @@ Public Class Einstellungen
     End Sub
 
 
-    Private Sub ComboBox1_DrawItem(sender As Object, e As DrawItemEventArgs) Handles CrunchyrollHardsubComboBox.DrawItem, FunimationHardSubCheckBox.DrawItem, FunimationDubComboBox.DrawItem
+    Private Sub ComboBox1_DrawItem(sender As Object, e As DrawItemEventArgs) Handles CrunchyrollHardsubComboBox.DrawItem, FunimationHardSubComboBox.DrawItem, FunimationDubComboBox.DrawItem
         Dim CB As ComboBox = CType(sender, ComboBox)
         CB.BackColor = Color.White
         If e.Index >= 0 Then
@@ -1134,28 +1146,22 @@ Public Class Einstellungen
 
 
 
-    Private Sub CB_Fun_HardSubs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FunimationHardSubCheckBox.SelectedIndexChanged
-        If FunimationHardSubCheckBox.SelectedIndex = 0 Then
-        Else
-            If Main.HardSubFunimation = "Disabled" Then
-                If FfmpegCopyCheckBox.Checked Then
-                    Dim messageBoxResult =
-                        MessageBox.Show("Funimation hard subtitles are post-processed." + vbNewLine +
-                        "This will take a lot of resources and it should not do more than one download at a time!" + vbNewLine +
-                        "Continue with this setting?",
-                        "Prepare for unforeseen consequences.",
-                        MessageBoxButtons.YesNo)
-                    If messageBoxResult = DialogResult.No Then
-                        FunimationHardSubCheckBox.SelectedIndex = 0
-                    End If
+    Private Sub CB_Fun_HardSubs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FunimationHardSubComboBox.SelectedIndexChanged
+        Dim selectedSetting = FunimationLanguageTextList.GetEnumForItem(FunimationHardSubComboBox.SelectedItem)
+
+        If Not hardsubsInitializing And selectedSetting <> FunimationSettings.FunimationLanguage.NONE Then
+            If FfmpegCopyCheckBox.Checked Then
+                Dim messageBoxResult =
+                    MessageBox.Show("Funimation hard subtitles are post-processed." + vbNewLine +
+                    "This will take a lot of resources and it should not do more than one download at a time!" + vbNewLine +
+                    "Continue with this setting?",
+                    "Prepare for unforeseen consequences.",
+                    MessageBoxButtons.YesNo)
+                If messageBoxResult = DialogResult.No Then
+                    FunimationHardSubComboBox.SelectedItem = FunimationLanguageTextList.Item(FunimationSettings.FunimationLanguage.NONE)
                 End If
             End If
-
         End If
-
-        'MetroMessageBox.Show(Me, "Test", "Test Box", MessageBoxButtons.YesNo, MessageBoxIcon.None, 150)
-        'MetroMessageBox.Show(Me, "Test", "Test Box", MessageBoxButtons.YesNo, MessageBoxIcon.None, MessageBoxDefaultButton.Button2, 150, MetroThemeStyle.Dark)
-
     End Sub
 
     Private Sub FunimationEnglishCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FunimationEnglishCheckBox.CheckedChanged

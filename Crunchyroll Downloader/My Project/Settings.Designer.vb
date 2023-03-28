@@ -783,6 +783,18 @@ Namespace My
                 Me("FunimationSubFormats") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property FunimationHardsubLanguage() As Integer
+            Get
+                Return CType(Me("FunimationHardsubLanguage"),Integer)
+            End Get
+            Set
+                Me("FunimationHardsubLanguage") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

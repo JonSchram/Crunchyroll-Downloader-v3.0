@@ -102,7 +102,6 @@ Public Class Main
     Public WebbrowserTitle As String = Nothing
     Public WebbrowserCookie As String = Nothing
     Public UserBowser As Boolean = False
-    Public HardSubFunimation As String = "Disabled"
     Public SubFunimationString As String = "en"
 #Region "Sprachen Vairablen"
     Public URL_Invaild As String = "something is wrong here..."
@@ -444,9 +443,6 @@ Public Class Main
 
 
         HybridThread = My.Settings.HybridThread
-
-
-        HardSubFunimation = "Disabled"
 
 
 
