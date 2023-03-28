@@ -103,7 +103,6 @@ Public Class Main
     Public WebbrowserCookie As String = Nothing
     Public UserBowser As Boolean = False
     Public HardSubFunimation As String = "Disabled"
-    Public Funimation_Bitrate As Integer = 0
     Public SubFunimationString As String = "en"
 #Region "Sprachen Vairablen"
     Public URL_Invaild As String = "something is wrong here..."
@@ -440,8 +439,6 @@ Public Class Main
         If settings.TemporaryFolder = Nothing Then
             settings.TemporaryFolder = Pfad
         End If
-
-        Funimation_Bitrate = My.Settings.Funimation_Bitrate
 
         SubFolder_Value = My.Settings.SubFolder_Value
 
