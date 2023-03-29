@@ -53,8 +53,6 @@ Public Class SettingsDialog
     Private ReadOnly FunimationHardSubLanguagesList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
     Private ReadOnly FunimationBitrateTextList As New EnumTextList(Of BitrateSetting)()
 
-    Dim LastVersionString As String = "v3.8-Beta"
-
     Private nameFormatter As FilenameFormatter
     Private uiInitializing As Boolean = False
     Private settingsLoading As Boolean = False
@@ -330,6 +328,7 @@ Public Class SettingsDialog
 
         CurrentVersionLabel.Text = "You have: v" + Application.ProductVersion.ToString '+ " WebView2_Test"
 
+        UpdateLastVersion("checking...")
         BackgroundWorker1.RunWorkerAsync()
 
         TabControl1.SelectedIndex = 0
@@ -878,13 +877,6 @@ Public Class SettingsDialog
         settings.DarkMode = DarkModeCheckBox.Checked
     End Sub
 
-
-    Private Sub Server_Click(sender As Object, e As EventArgs)
-        'If Server.Checked = True Then
-        '    MsgBox("This feature requires a restart of the downloader", MsgBoxStyle.Information)
-        'End If
-    End Sub
-
     Private Sub BackgroundWorker1_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
         Try
             Dim client0 As New WebClient With {
@@ -909,16 +901,22 @@ Public Class SettingsDialog
             Dim GitHubLastTag() As String = str0.Split(New String() {"""" + "tag_name" + """" + ": " + """"}, System.StringSplitOptions.RemoveEmptyEntries)
             Dim GitHubLastTag1() As String = GitHubLastTag(LastNonPreRelase).Split(New String() {"""" + ","}, System.StringSplitOptions.RemoveEmptyEntries)
 
-            LastVersionString = GitHubLastTag1(0)
-
-            'Debug.WriteLine(GitHubLastTag1(0))
+            UpdateLastVersion(GitHubLastTag1(0))
 
         Catch ex As Exception
             Debug.WriteLine(ex.ToString)
         End Try
     End Sub
 
-
+    Private Sub UpdateLastVersion(version As String)
+        If InvokeRequired Then
+            Invoke(Sub()
+                       UpdateLastVersion(version)
+                   End Sub)
+        Else
+            LastVersion.Text = "last release: " + version
+        End If
+    End Sub
 
 
     Private Sub CB_Fun_HardSubs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FunimationHardSubComboBox.SelectedIndexChanged
@@ -965,10 +963,6 @@ Public Class SettingsDialog
     End Sub
 
 
-    Private Sub TabPage7_Enter(sender As Object, e As EventArgs) Handles TabPage7.Enter
-        LastVersion.Text = "last release: " + LastVersionString
-    End Sub
-
     Private Sub CB_Format_SelectedIndexChanged(sender As Object, e As EventArgs) Handles VideoFormatComboBox.SelectedIndexChanged
         UpdateMergeFormatInput()
     End Sub
@@ -991,10 +985,6 @@ Public Class SettingsDialog
         If changedEnum <> currentDefaultSub Then
             CR_SoftSubDefault.SelectedItem = currentSelectedItem
         End If
-
-    End Sub
-
-    Private Sub RepopulateMergeComboBox()
 
     End Sub
 
@@ -1074,8 +1064,6 @@ Public Class SettingsDialog
             EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER
         End If
     End Sub
-
-
 
 #End Region
 
