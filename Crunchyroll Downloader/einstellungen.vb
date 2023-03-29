@@ -521,27 +521,22 @@ Public Class Einstellungen
     Private Sub Btn_Save_Click(sender As Object, e As EventArgs) Handles Btn_Save.Click
         SaveCurrentSettings()
 
-        ' TODO: Replace with values from currently applying settings to ensure the correct value is used.
-        Dim settings = ProgramSettings.GetInstance()
+        ' Adjust simultaneous downloads limit for incompatible settings.
+        ' Must do this after saving other settings so that the download limit is set using the latest settings.
         Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
         Dim ffmpegCommand = settings.Ffmpeg
         Dim encoder = ffmpegCommand.GetSavedEncoder()
         If Not isAudioOnly And encoder IsNot Nothing Then
-            If encoder.Hardware = EncoderImplementation.NVIDIA Then
-                If SimultaneousDownloadsInput.Value > 2 Then
-                    SimultaneousDownloadsInput.Value = 2
-                End If
+            If encoder.Hardware = EncoderImplementation.NVIDIA And settings.SimultaneousDownloads > 2 Then
+                settings.SimultaneousDownloads = 2
 
-            ElseIf encoder.Hardware = EncoderImplementation.SOFTWARE Then
-                If SimultaneousDownloadsInput.Value > 1 Then
-                    SimultaneousDownloadsInput.Value = 1
-                End If
+            ElseIf encoder.Hardware = EncoderImplementation.SOFTWARE And settings.SimultaneousDownloads > 1 Then
+                settings.SimultaneousDownloads = 1
             End If
         End If
 
         My.Settings.Save()
-
-        Me.Close()
+        Close()
     End Sub
 
 
