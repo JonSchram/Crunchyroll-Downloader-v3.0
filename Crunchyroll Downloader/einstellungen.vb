@@ -488,12 +488,12 @@ Public Class Einstellungen
     End Sub
 
     Private Sub LoadFunimationSettings()
+        LoadFunimationSoftSubs()
+        LoadFunimationSubFormats()
         FunimationDubComboBox.SelectedItem = FunimationLanguageTextList.Item(funSettings.DubLanguage)
         FunimationDefaultSubComboBox.SelectedItem = FunimationLanguageTextList.Item(funSettings.DefaultSubtitle)
         FunimationBitrateComboBox.SelectedItem = FunimationBitrateTextList.Item(funSettings.PreferredBitrate)
         FunimationHardSubComboBox.SelectedItem = FunimationLanguageTextList.Item(funSettings.HardSubtitleLanguage)
-        LoadFunimationSoftSubs()
-        LoadFunimationSubFormats()
     End Sub
     Private Sub LoadFunimationSoftSubs()
         Dim softSubs = funSettings.SoftSubtitleLanguages
