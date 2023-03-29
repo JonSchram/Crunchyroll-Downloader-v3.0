@@ -138,8 +138,6 @@ Public Class Main
 
     Public CloseImg As Bitmap = My.Resources.main_del
     Public MinImg As Bitmap = My.Resources.main_mini
-    Public BackColorValue As Color = Color.FromArgb(243, 243, 243)
-    Public ForeColorValue As Color = SystemColors.WindowText
 
     Private Sub HandleDarkModeChanged(isDarkMode As Boolean)
         If isDarkMode Then
@@ -150,20 +148,14 @@ Public Class Main
     End Sub
     Public Sub DarkMode()
         Manager.Theme = MetroThemeStyle.Dark
-        Panel1.BackColor = Color.FromArgb(50, 50, 50)
         CloseImg = My.Resources.main_close_dark
         MinImg = My.Resources.main_mini_dark
         Btn_min.Image = MinImg
         Btn_Close.Image = CloseImg
-        BackColorValue = Color.FromArgb(50, 50, 50)
-        ForeColorValue = Color.FromArgb(243, 243, 243)
     End Sub
 
     Public Sub LightMode()
         Manager.Theme = MetroThemeStyle.Light
-        BackColorValue = Color.FromArgb(243, 243, 243)
-        ForeColorValue = SystemColors.WindowText
-        Panel1.BackColor = SystemColors.Control
         CloseImg = My.Resources.main_close
         MinImg = My.Resources.main_mini
         Btn_min.Image = MinImg
@@ -374,16 +366,16 @@ Public Class Main
         Thread.CurrentThread.Name = "Main"
         Debug.WriteLine("Thread Name: " + Thread.CurrentThread.Name)
 
+        StyleManager = MainStyleManager
+        Manager = StyleManager
 
+        MetroStyleExtender1.SetApplyMetroTheme(Panel1, True)
 
-        Manager.Style = MetroColorStyle.Orange
         If settings.DarkMode Then
             DarkMode()
         Else
             LightMode()
         End If
-        Me.StyleManager = Manager
-        Manager.Owner = Me
 
         If ProgramSettings.GetInstance().ServerPort > 0 Then
             Timer3.Enabled = True

@@ -246,7 +246,7 @@ Public Class Browser
         If CBool(InStr(e.Request.Uri, "crunchyroll.com")) = True And Main.CrBetaBasic = Nothing Then
             Dim Headers As New List(Of KeyValuePair(Of String, String))
             Headers.AddRange(e.Request.Headers.ToList)
-            For i As Integer = 0 To Headers.Count
+            For i As Integer = 0 To Headers.Count - 1
                 If CBool(InStr(Headers.Item(i).Value, "Basic")) Then
                     Main.CrBetaBasic = Headers.Item(i).Value
                     Debug.WriteLine("Auth-Basic: " + Main.CrBetaBasic)

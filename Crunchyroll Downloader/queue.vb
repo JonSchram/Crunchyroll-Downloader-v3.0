@@ -5,21 +5,38 @@ Imports MetroFramework.Components
 
 Public Class Queue
 
+    Private ReadOnly DARK_MODE_FOREGROUND_COLOR As Color = Color.FromArgb(243, 243, 243)
+    Private ReadOnly DARK_MODE_BACKGROUND_COLOR As Color = Color.FromArgb(50, 50, 50)
+
+    Private ReadOnly LIGHT_MODE_FOREGROUND_COLOR As Color = SystemColors.WindowText
+    Private ReadOnly LIGHT_MODE_BACKGROUND_COLOR As Color = Color.FromArgb(243, 243, 243)
+
     Dim Manager As MetroStyleManager = Main.Manager
 
     Private episodeQueue As DownloadQueue = DownloadQueue.getInstance()
 
     Private Sub Reso_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
+        HandleDarkModeChanged(ProgramSettings.GetInstance().DarkMode)
+
         Manager.Owner = Me
         Me.StyleManager = Manager
 
-        ListBox1.BackColor = Main.BackColorValue
-        ListBox1.ForeColor = Main.ForeColorValue
         ListBox1.DataSource = episodeQueue
 
         Btn_min.Image = Main.MinImg
         Btn_Close.Image = Main.CloseImg
 
+    End Sub
+
+    Private Sub HandleDarkModeChanged(isDarkMode As Boolean)
+        If isDarkMode Then
+            ListBox1.BackColor = DARK_MODE_BACKGROUND_COLOR
+            ListBox1.ForeColor = DARK_MODE_FOREGROUND_COLOR
+        Else
+            ListBox1.BackColor = LIGHT_MODE_BACKGROUND_COLOR
+            ListBox1.ForeColor = LIGHT_MODE_FOREGROUND_COLOR
+        End If
     End Sub
 
 

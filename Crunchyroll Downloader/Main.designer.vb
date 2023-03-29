@@ -31,7 +31,7 @@ Partial Class Main
         Me.TheTextBox = New System.Windows.Forms.RichTextBox()
         Me.ConsoleBar = New System.Windows.Forms.PictureBox()
         Me.MetroStyleExtender1 = New MetroFramework.Components.MetroStyleExtender(Me.components)
-        Me.MetroStyleManager1 = New MetroFramework.Components.MetroStyleManager(Me.components)
+        Me.MainStyleManager = New MetroFramework.Components.MetroStyleManager(Me.components)
         Me.Timer4 = New System.Windows.Forms.Timer(Me.components)
         Me.Btn_add = New System.Windows.Forms.Button()
         Me.Btn_Browser = New System.Windows.Forms.Button()
@@ -56,7 +56,7 @@ Partial Class Main
         Me.DebugButton = New MetroFramework.Controls.MetroButton()
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ConsoleBar, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MainStyleManager, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -95,8 +95,8 @@ Partial Class Main
         '
         'MetroStyleManager1
         '
-        Me.MetroStyleManager1.Owner = Me
-        Me.MetroStyleManager1.Style = MetroFramework.MetroColorStyle.Orange
+        Me.MainStyleManager.Owner = Me
+        Me.MainStyleManager.Style = MetroFramework.MetroColorStyle.Orange
         '
         'Timer4
         '
@@ -272,7 +272,7 @@ Partial Class Main
         Me.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ConsoleBar, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MainStyleManager, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
@@ -284,7 +284,7 @@ Partial Class Main
     Friend WithEvents TheTextBox As RichTextBox
     Friend WithEvents ConsoleBar As PictureBox
     Friend WithEvents MetroStyleExtender1 As MetroFramework.Components.MetroStyleExtender
-    Friend WithEvents MetroStyleManager1 As MetroFramework.Components.MetroStyleManager
+    Friend WithEvents MainStyleManager As MetroFramework.Components.MetroStyleManager
     Friend WithEvents Timer4 As Timer
     Friend WithEvents Btn_add As Button
     Friend WithEvents Btn_Browser As Button
