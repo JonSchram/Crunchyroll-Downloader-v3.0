@@ -1,6 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports System.Runtime.Serialization
-Imports Crunchyroll_Downloader.settings.ProgramSettings
 
 Namespace settings
 

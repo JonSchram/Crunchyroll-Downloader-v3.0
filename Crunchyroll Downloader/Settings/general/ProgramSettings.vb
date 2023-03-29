@@ -1,13 +1,10 @@
-﻿Imports System.Data.SqlClient
-Imports System.Text.RegularExpressions
-Imports Crunchyroll_Downloader.My
-Imports Crunchyroll_Downloader.settings
+﻿Imports System.Text.RegularExpressions
 Imports Crunchyroll_Downloader.settings.crunchyroll
 Imports Crunchyroll_Downloader.settings.ffmpeg
 Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
 Imports Crunchyroll_Downloader.settings.funimation
 
-Namespace settings
+Namespace settings.general
 
     Public Class ProgramSettings
         Public Shared Event DarkModeChanged(darkModeEnabled As Boolean)
@@ -40,6 +37,7 @@ Namespace settings
             UpgradeNameTemplate()
             UpgradeSeasonPrefix()
             UpgradeEpisodePrefix()
+            UpgradeResolution()
 
             Crunchyroll.UpgradeSettings()
             Funimation.UpgradeSettings()
@@ -193,6 +191,12 @@ Namespace settings
             End If
         End Sub
 
+        Private Sub UpgradeResolution()
+            If My.Settings.Reso = 42 Then
+                DownloadResolution = Resolution.AUTO
+            End If
+        End Sub
+
 
         ' ----- Main settings
 
@@ -317,19 +321,18 @@ Namespace settings
 
         Public Property DownloadResolution As Resolution
             Get
-                Dim resolution As Integer = My.Settings.Reso
-                Select Case resolution
+                Dim resolutionSetting As Integer = My.Settings.Reso
+                Select Case resolutionSetting
                     Case 360
-                        Return ProgramSettings.Resolution.RESOLUTION_360P
+                        Return Resolution.RESOLUTION_360P
                     Case 480
-                        Return ProgramSettings.Resolution.RESOLUTION_480P
+                        Return Resolution.RESOLUTION_480P
                     Case 720
-                        Return ProgramSettings.Resolution.RESOLUTION_720P
+                        Return Resolution.RESOLUTION_720P
                     Case 1080
-                        Return ProgramSettings.Resolution.RESOLUTION_1080P
+                        Return Resolution.RESOLUTION_1080P
                     Case Else
-                        ' 0 is value from enum, but the value "42" is also used as a flag for "auto"
-                        Return ProgramSettings.Resolution.AUTO
+                        Return Resolution.AUTO
                 End Select
             End Get
             Set(value As Resolution)
@@ -464,40 +467,6 @@ Namespace settings
 
         Public ReadOnly Property Funimation As FunimationSettings = FunimationSettings.GetInstance()
 
-        Public Enum SubfolderDisplay As Integer
-            SHOW_ALL = 0
-            HIDE_ALL = 1
-            HIDE_OLDER_THAN_1_WEEK = 2
-            HIDE_OLDER_THAN_1_MONTH = 3
-            HIDE_OLDER_THAN_3_MONTHS = 4
-            HIDE_OLDER_THAN_6_MONTHS = 5
-        End Enum
-
-        Public Enum DownloadModeOptions
-            FFMPEG
-            HYBRID_MODE
-            HYBRID_MODE_KEEP_CACHE
-        End Enum
-
-        Public Enum Resolution As Integer
-            AUTO = 0
-            RESOLUTION_360P = 360
-            RESOLUTION_480P = 480
-            RESOLUTION_720P = 720
-            RESOLUTION_1080P = 1080
-        End Enum
-
-        Public Enum SeasonNumberBehavior As Integer
-            USE_SEASON_NUMBERS = 0
-            IGNORE_SEASON_1 = 1
-            IGNORE_ALL_SEASON_NUMBERS = 2
-        End Enum
-
-        Public Enum LanguageNameMethod As Integer
-            CRUNCHYROLL = 0
-            ISO639_2_CODES = 1
-            CRUNCHYROLL_AND_ISO639_2_CODES = 2
-        End Enum
     End Class
 
 End Namespace

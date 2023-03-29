@@ -1,9 +1,8 @@
 ﻿Imports System.IO
-Imports System.Net
 Imports System.Threading
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Status
 Imports Crunchyroll_Downloader.CRD_Classes
 Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.general
 Imports Newtonsoft.Json.Linq
 
 Public Class CrunchyrollDownloader
@@ -541,11 +540,11 @@ Public Class CrunchyrollDownloader
 
                 CR_FolderSeason = CR_season_number
 
-                If settings.SeasonNumberNaming = ProgramSettings.SeasonNumberBehavior.IGNORE_SEASON_1 Then
+                If settings.SeasonNumberNaming = SeasonNumberBehavior.IGNORE_SEASON_1 Then
                     If CR_season_number = "1" Or CR_season_number = "0" Then
                         CR_season_number = Nothing
                     End If
-                ElseIf settings.SeasonNumberNaming = ProgramSettings.SeasonNumberBehavior.IGNORE_ALL_SEASON_NUMBERS Then
+                ElseIf settings.SeasonNumberNaming = SeasonNumberBehavior.IGNORE_ALL_SEASON_NUMBERS Then
                     CR_season_number = Nothing
                 End If
 
@@ -792,7 +791,7 @@ Public Class CrunchyrollDownloader
 
             Dim downloadMode = settings.DownloadMode
             Dim resolution = settings.DownloadResolution
-            If resolution = ProgramSettings.Resolution.AUTO And downloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
+            If resolution = Resolution.AUTO And downloadMode = DownloadModeOptions.FFMPEG Then
 
                 ffmpegInput = "-i " + """" + CR_URI_Master(0) + """"
 
@@ -1046,7 +1045,7 @@ Public Class CrunchyrollDownloader
             Dim L2Name As String = String.Join(" ", CR_FilenName.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c) 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName_Backup, "[^\w\\-]", " ")
 
             ' TODO: After this class has been refactored, clean up the multiple accesses to ffmpeg mode
-            If settings.DownloadResolution = ProgramSettings.Resolution.AUTO And settings.DownloadMode = ProgramSettings.DownloadModeOptions.FFMPEG Then
+            If settings.DownloadResolution = Resolution.AUTO And settings.DownloadMode = DownloadModeOptions.FFMPEG Then
                 ResoHTMLDisplay = "[Auto]"
             End If
 #End Region

@@ -1,9 +1,8 @@
 ﻿Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.funimation
+Imports Crunchyroll_Downloader.settings.general
 Imports Microsoft.Web.WebView2.Core
 Imports Newtonsoft.Json.Linq
-Imports System.Collections.Specialized
-Imports System.Configuration
 Imports System.IO
 Imports System.Net
 Imports System.Net.Http

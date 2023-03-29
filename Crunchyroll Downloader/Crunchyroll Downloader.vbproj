@@ -252,7 +252,12 @@
     <Compile Include="Settings\Funimation\FunimationLanguage.vb" />
     <Compile Include="Settings\Funimation\FunimationSettings.vb" />
     <Compile Include="Settings\Funimation\SubFormat.vb" />
-    <Compile Include="Settings\ProgramSettings.vb" />
+    <Compile Include="Settings\general\DownloadModeOptions.vb" />
+    <Compile Include="Settings\general\LanguageNameMethod.vb" />
+    <Compile Include="Settings\general\ProgramSettings.vb" />
+    <Compile Include="Settings\general\Resolution.vb" />
+    <Compile Include="Settings\general\SeasonNumberBehavior.vb" />
+    <Compile Include="Settings\general\SubfolderDisplay.vb" />
     <Compile Include="Trackbar.Designer.vb">
       <DependentUpon>Trackbar.vb</DependentUpon>
     </Compile>
@@ -510,6 +515,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\Microsoft.Web.WebView2.1.0.1587.40\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.1587.40\build\Microsoft.Web.WebView2.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

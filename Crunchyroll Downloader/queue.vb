@@ -1,9 +1,5 @@
 ﻿Option Strict On
-
-Imports System.Collections.ObjectModel
-Imports System.ComponentModel
-Imports System.Net
-Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.general
 Imports MetroFramework
 Imports MetroFramework.Components
 

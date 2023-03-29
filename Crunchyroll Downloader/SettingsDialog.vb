@@ -1,24 +1,15 @@
 ﻿Option Strict On
 
-Imports Microsoft.Win32
 Imports System.Net
-Imports System.IO
 Imports System.Text
-Imports System.Threading
 Imports MetroFramework.Forms
 Imports MetroFramework
-Imports MetroFramework.Components
-Imports System.Text.RegularExpressions
 Imports Crunchyroll_Downloader.settings
-Imports Crunchyroll_Downloader.settings.ProgramSettings
-Imports System.ComponentModel
-Imports System.Reflection
-Imports Microsoft.VisualBasic.Logging
-Imports System.Collections.Specialized
 Imports Crunchyroll_Downloader.settings.crunchyroll
 Imports Crunchyroll_Downloader.settings.funimation
 Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
 Imports Crunchyroll_Downloader.settings.ffmpeg
+Imports Crunchyroll_Downloader.settings.general
 
 Public Class SettingsDialog
     Inherits MetroForm

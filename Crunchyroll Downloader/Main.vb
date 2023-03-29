@@ -2,25 +2,17 @@
 Imports System.Net
 Imports System.Text
 Imports System.IO
-Imports Microsoft.Win32
 Imports System.Threading
 Imports System.Net.WebUtility
 Imports System.Net.Sockets
 Imports MetroFramework.Forms
 Imports MetroFramework
 Imports MetroFramework.Components
-Imports System.Globalization
-Imports System.ComponentModel
-Imports Newtonsoft.Json.Linq
 Imports System.Runtime.InteropServices
-Imports System.Security.Policy
-Imports System.Windows
 Imports Microsoft.Web.WebView2.Core
-Imports System.Net.Http
-Imports Crunchyroll_Downloader.CRD_Classes
-Imports System.Drawing.Text
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.funimation
+Imports Crunchyroll_Downloader.settings.general
 
 Public Class Main
     Inherits MetroForm
@@ -454,7 +446,7 @@ Public Class Main
 
         ' TODO: Move item initialization into the constructor or a builder
         Dim settings = ProgramSettings.GetInstance()
-        Dim keepCache = settings.DownloadMode = ProgramSettings.DownloadModeOptions.HYBRID_MODE_KEEP_CACHE
+        Dim keepCache = settings.DownloadMode = DownloadModeOptions.HYBRID_MODE_KEEP_CACHE
         Dim mergeSubs = settings.OutputFormat.GetSubtitleFormat <> Format.SubtitleMerge.DISABLED
 #Region "Set Variables"
         Item.SetService(Service)
@@ -489,7 +481,7 @@ Public Class Main
 
         Item.Visible = True
         ' TODO: Support dash MPD files
-        Dim TempHybridMode As Boolean = Not ProgramSettings.GetInstance().DownloadMode = ProgramSettings.DownloadModeOptions.FFMPEG
+        Dim TempHybridMode As Boolean = Not ProgramSettings.GetInstance().DownloadMode = DownloadModeOptions.FFMPEG
         If CBool(InStr(URL_DL, ".mpd")) Then
             TempHybridMode = False
         End If
@@ -512,9 +504,9 @@ Public Class Main
         HardSub = HardSub.Replace("""", "")
 
         Dim subLanguageNaming = ProgramSettings.GetInstance().SubLanguageNaming
-        If subLanguageNaming = ProgramSettings.LanguageNameMethod.ISO639_2_CODES Then
+        If subLanguageNaming = LanguageNameMethod.ISO639_2_CODES Then
             Return CCtoMP4CC(HardSub)
-        ElseIf subLanguageNaming = ProgramSettings.LanguageNameMethod.CRUNCHYROLL_AND_ISO639_2_CODES Then
+        ElseIf subLanguageNaming = LanguageNameMethod.CRUNCHYROLL_AND_ISO639_2_CODES Then
             Dim RS As String = HardSubValuesToDisplay(HardSub) + "." + CCtoMP4CC(HardSub)
             Return RS
         Else
@@ -813,7 +805,7 @@ Public Class Main
         Catch ex As Exception
         End Try
         Dim settings = ProgramSettings.GetInstance()
-        If settings.DownloadMode <> ProgramSettings.DownloadModeOptions.HYBRID_MODE_KEEP_CACHE Then
+        If settings.DownloadMode <> DownloadModeOptions.HYBRID_MODE_KEEP_CACHE Then
             Try
                 Dim di As New System.IO.DirectoryInfo(Pfad)
                 For Each fi As System.IO.DirectoryInfo In di.EnumerateDirectories("*.*", System.IO.SearchOption.TopDirectoryOnly)

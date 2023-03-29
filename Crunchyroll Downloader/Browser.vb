@@ -1,17 +1,8 @@
 ﻿Option Strict On
 
 Imports System.IO
-Imports System.ComponentModel
-Imports System.Threading
-Imports System.Net
-Imports System.Net.WebUtility
-Imports System.IO.Compression
-Imports System.Text
-Imports System.Security.Policy
 Imports Microsoft.Web.WebView2.Core
-Imports MetroFramework.Drawing
-Imports Newtonsoft.Json.Linq
-Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.general
 
 Public Class Browser
 

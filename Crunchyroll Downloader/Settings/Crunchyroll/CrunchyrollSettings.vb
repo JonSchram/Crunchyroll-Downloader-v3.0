@@ -1,5 +1,4 @@
 ﻿Imports System.Collections.Specialized
-Imports Crunchyroll_Downloader.settings.ProgramSettings
 
 Namespace settings.crunchyroll
     Public Class CrunchyrollSettings
