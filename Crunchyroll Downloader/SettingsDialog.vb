@@ -57,6 +57,7 @@ Public Class SettingsDialog
 
     Private nameFormatter As FilenameFormatter
     Private uiInitializing As Boolean = False
+    Private settingsLoading As Boolean = False
     Private nameTemplateLoading As Boolean = False
 
     Private ReadOnly settings As ProgramSettings
@@ -255,7 +256,7 @@ Public Class SettingsDialog
 
     Private Sub InitializeOutputTab()
         DownloadModeDropdown.DataSource = DownloadModeTextList.GetDisplayItems()
-        CB_Format.DataSource = VideoFormatTextList.GetDisplayItems()
+        VideoFormatComboBox.DataSource = VideoFormatTextList.GetDisplayItems()
 
         VideoCodecComboBox.DataSource = CodecTextList.GetDisplayItems()
         VideoEncoderComboBox.DataSource = EncoderHardwareTextList.GetDisplayItems()
@@ -289,7 +290,7 @@ Public Class SettingsDialog
     End Sub
 
     Private Sub UpdateMergeFormatInput()
-        UpdateMergeFormatInput(VideoFormatTextList.GetEnumForItem(CB_Format.SelectedItem))
+        UpdateMergeFormatInput(VideoFormatTextList.GetEnumForItem(VideoFormatComboBox.SelectedItem))
     End Sub
 
     Private Sub UpdateMergeFormatInput(VideoFormat As Format.MediaFormat)
@@ -297,10 +298,10 @@ Public Class SettingsDialog
             Return
         End If
         PopulateSubFormats(VideoFormat)
-        CB_Merge.Items.Clear()
-        CB_Merge.Items.AddRange(ValidSubtitleFormatList.GetDisplayItems().ToArray())
-        CB_Merge.SelectedIndex = 0
-        CB_Merge.Enabled = VideoFormat <> Format.MediaFormat.AAC_AUDIO_ONLY
+        SubtitleFormatComboBox.Items.Clear()
+        SubtitleFormatComboBox.Items.AddRange(ValidSubtitleFormatList.GetDisplayItems().ToArray())
+        SubtitleFormatComboBox.SelectedIndex = 0
+        SubtitleFormatComboBox.Enabled = VideoFormat <> Format.MediaFormat.AAC_AUDIO_ONLY
     End Sub
     Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)
         Dim supportedSubtitleFormats = Format.GetValidSubtitleFormats(VideoFormat)
@@ -323,7 +324,9 @@ Public Class SettingsDialog
     Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
 
+        settingsLoading = True
         LoadSettings()
+        settingsLoading = False
 
         CurrentVersionLabel.Text = "You have: v" + Application.ProductVersion.ToString '+ " WebView2_Test"
 
@@ -416,10 +419,10 @@ Public Class SettingsDialog
             currentFormat = New Format(Format.MediaFormat.MP4, Format.SubtitleMerge.COPY)
         End Try
 
-        CB_Format.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
+        VideoFormatComboBox.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
         ' Even though setting the selected item will update the merge format combo box, we need to explicitly set it in case the value didn't change.
         UpdateMergeFormatInput(currentFormat.GetVideoFormat())
-        CB_Merge.SelectedItem = SubtitleFormatTextList.Item(currentFormat.GetSubtitleFormat())
+        SubtitleFormatComboBox.SelectedItem = SubtitleFormatTextList.Item(currentFormat.GetSubtitleFormat())
     End Sub
 
     Private Sub LoadFfmpegSettings()
@@ -631,8 +634,8 @@ Public Class SettingsDialog
         End If
     End Sub
     Private Sub SaveOutputFormat()
-        Dim videoFormat = VideoFormatTextList.GetEnumForItem(CB_Format.SelectedItem)
-        Dim subFormat = SubtitleFormatTextList.GetEnumForItem(CB_Merge.SelectedItem)
+        Dim videoFormat = VideoFormatTextList.GetEnumForItem(VideoFormatComboBox.SelectedItem)
+        Dim subFormat = SubtitleFormatTextList.GetEnumForItem(SubtitleFormatComboBox.SelectedItem)
         settings.OutputFormat = New Format(videoFormat, subFormat)
     End Sub
 
@@ -723,13 +726,12 @@ Public Class SettingsDialog
 
 #End Region
 
+#Region "UI"
+
     Private Sub ServerPortInput_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ServerPortInput.SelectedIndexChanged
         Dim selectedEnum = ServerPortTextList.GetEnumForItem(ServerPortInput.SelectedItem)
         CustomServerPortInput.Enabled = selectedEnum = ServerPortOptions.CUSTOM
     End Sub
-
-
-#Region "UI"
 
     Private Sub Btn_Save_MouseEnter(sender As Object, e As EventArgs) Handles Btn_Save.MouseEnter, Btn_Save.GotFocus
         Btn_Save.Image = My.Resources.crdSettings_Button_SafeExit_hover
@@ -741,6 +743,7 @@ Public Class SettingsDialog
 
 
     Private Sub ComboBox1_DrawItem(sender As Object, e As DrawItemEventArgs) Handles CrunchyrollHardsubComboBox.DrawItem, FunimationHardSubComboBox.DrawItem, FunimationDubComboBox.DrawItem
+        ' TODO: This event handler is never called, so the custom painting is never applied.
         Dim CB As ComboBox = CType(sender, ComboBox)
         CB.BackColor = Color.White
         If e.Index >= 0 Then
@@ -749,18 +752,19 @@ Public Class SettingsDialog
                 ' e.DrawFocusRectangle()
                 e.Graphics.FillRectangle(SystemBrushes.ControlLightLight, e.Bounds)
                 e.Graphics.DrawString(CB.Items(e.Index).ToString, e.Font, Brushes.Black, e.Bounds, st)
-
             End Using
         End If
     End Sub
 
 
     Private Sub AAuto_Click(sender As Object, e As EventArgs) Handles AAuto.Click
-        If CB_Merge.SelectedIndex > 0 Then
+        If SubtitleFormatComboBox.SelectedIndex > 0 Then
             If AAuto.Checked = True Then
-                If MessageBox.Show("Resolution '[Auto]' and merge the subtitle with the video file will download all resolutions!" + vbNewLine + "Press 'Yes' to enable it anyway", "Prepare for unforeseen consequences.", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-
-                Else
+                Dim result = MessageBox.Show("Resolution '[Auto]' and merge the subtitle with the video file will download all resolutions!" + vbNewLine _
+                                             + "Press 'Yes' to enable it anyway",
+                                             "Prepare for unforeseen consequences.",
+                                             MessageBoxButtons.YesNo)
+                If result = DialogResult.No Then
                     AAuto.Checked = False
                     A360p.Checked = True
                 End If
@@ -768,13 +772,15 @@ Public Class SettingsDialog
         End If
     End Sub
 
-    Private Sub MergeMP4_Click(sender As Object, e As EventArgs)
-        If CB_Merge.SelectedIndex > 0 Then
+    Private Sub SubtitleFormatChange(sender As Object, e As EventArgs) Handles SubtitleFormatComboBox.SelectedValueChanged
+        If Not settingsLoading And SubtitleFormatComboBox.SelectedIndex > 0 Then
             If AAuto.Checked = True Then
-                If MessageBox.Show("Resolution '[Auto]' and merge the subtitle with the video file will download all resolutions!" + vbNewLine + "Press 'Yes' to enable it anyway", "Prepare for unforeseen consequences.", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-
-                Else
-                    CB_Merge.SelectedIndex = 0
+                Dim result = MessageBox.Show("Resolution '[Auto]' and merge the subtitle with the video file will download all resolutions!" + vbNewLine _
+                                             + "Press 'Yes' to enable it anyway",
+                                             "Prepare for unforeseen consequences.",
+                                             MessageBoxButtons.YesNo)
+                If result = DialogResult.No Then
+                    SubtitleFormatComboBox.SelectedIndex = 0
                 End If
             End If
         End If
@@ -963,7 +969,7 @@ Public Class SettingsDialog
         LastVersion.Text = "last release: " + LastVersionString
     End Sub
 
-    Private Sub CB_Format_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Format.SelectedIndexChanged
+    Private Sub CB_Format_SelectedIndexChanged(sender As Object, e As EventArgs) Handles VideoFormatComboBox.SelectedIndexChanged
         UpdateMergeFormatInput()
     End Sub
 
@@ -990,16 +996,6 @@ Public Class SettingsDialog
 
     Private Sub RepopulateMergeComboBox()
 
-    End Sub
-
-    Private Sub MergeMP4_CheckedChanged(sender As Object, e As EventArgs)
-        ' I don't think this is ever used - this isn't a valid handler. Probably an old design
-        If CB_Format.Text = "AAC (Audio only)" Then
-            If CB_Merge.SelectedIndex > 0 Then
-                MsgBox("Merged subs are not avalible with audio only!", MsgBoxStyle.Information)
-            End If
-            CB_Merge.SelectedIndex = 0
-        End If
     End Sub
 
     Private Sub DD_DLMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DownloadModeDropdown.SelectedIndexChanged

@@ -40,8 +40,8 @@ Partial Class SettingsDialog
         Me.TemporaryFolderTextBox = New MetroFramework.Controls.MetroTextBox()
         Me.DownloadModeDropdown = New MetroFramework.Controls.MetroComboBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.CB_Merge = New MetroFramework.Controls.MetroComboBox()
-        Me.CB_Format = New MetroFramework.Controls.MetroComboBox()
+        Me.SubtitleFormatComboBox = New MetroFramework.Controls.MetroComboBox()
+        Me.VideoFormatComboBox = New MetroFramework.Controls.MetroComboBox()
         Me.FfmpegCommandGroupBox = New System.Windows.Forms.GroupBox()
         Me.FfmpegCopyCheckBox = New MetroFramework.Controls.MetroCheckBox()
         Me.TargetBitrateCheckBox = New MetroFramework.Controls.MetroCheckBox()
@@ -278,10 +278,10 @@ Partial Class SettingsDialog
         Me.TabPage2.HorizontalScrollbarBarColor = True
         Me.TabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage2.HorizontalScrollbarSize = 10
-        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 44)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(501, 528)
+        Me.TabPage2.Size = New System.Drawing.Size(501, 519)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Output"
         Me.TabPage2.VerticalScrollbarBarColor = True
@@ -388,8 +388,8 @@ Partial Class SettingsDialog
         'GroupBox4
         '
         Me.GroupBox4.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox4.Controls.Add(Me.CB_Merge)
-        Me.GroupBox4.Controls.Add(Me.CB_Format)
+        Me.GroupBox4.Controls.Add(Me.SubtitleFormatComboBox)
+        Me.GroupBox4.Controls.Add(Me.VideoFormatComboBox)
         Me.GroupBox4.Font = New System.Drawing.Font("Arial", 9.75!)
         Me.GroupBox4.ForeColor = System.Drawing.Color.Black
         Me.GroupBox4.Location = New System.Drawing.Point(5, 270)
@@ -399,32 +399,32 @@ Partial Class SettingsDialog
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Format"
         '
-        'CB_Merge
+        'SubtitleFormatComboBox
         '
-        Me.CB_Merge.DropDownHeight = 250
-        Me.CB_Merge.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CB_Merge.FormattingEnabled = True
-        Me.CB_Merge.IntegralHeight = False
-        Me.CB_Merge.ItemHeight = 23
-        Me.CB_Merge.Items.AddRange(New Object() {"[merge disabled]"})
-        Me.CB_Merge.Location = New System.Drawing.Point(265, 25)
-        Me.CB_Merge.Name = "CB_Merge"
-        Me.CB_Merge.Size = New System.Drawing.Size(175, 29)
-        Me.CB_Merge.TabIndex = 19
-        Me.CB_Merge.UseSelectable = True
+        Me.SubtitleFormatComboBox.DropDownHeight = 250
+        Me.SubtitleFormatComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SubtitleFormatComboBox.FormattingEnabled = True
+        Me.SubtitleFormatComboBox.IntegralHeight = False
+        Me.SubtitleFormatComboBox.ItemHeight = 23
+        Me.SubtitleFormatComboBox.Items.AddRange(New Object() {"[merge disabled]"})
+        Me.SubtitleFormatComboBox.Location = New System.Drawing.Point(265, 25)
+        Me.SubtitleFormatComboBox.Name = "SubtitleFormatComboBox"
+        Me.SubtitleFormatComboBox.Size = New System.Drawing.Size(175, 29)
+        Me.SubtitleFormatComboBox.TabIndex = 19
+        Me.SubtitleFormatComboBox.UseSelectable = True
         '
-        'CB_Format
+        'VideoFormatComboBox
         '
-        Me.CB_Format.DropDownHeight = 250
-        Me.CB_Format.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CB_Format.FormattingEnabled = True
-        Me.CB_Format.IntegralHeight = False
-        Me.CB_Format.ItemHeight = 23
-        Me.CB_Format.Location = New System.Drawing.Point(50, 25)
-        Me.CB_Format.Name = "CB_Format"
-        Me.CB_Format.Size = New System.Drawing.Size(175, 29)
-        Me.CB_Format.TabIndex = 17
-        Me.CB_Format.UseSelectable = True
+        Me.VideoFormatComboBox.DropDownHeight = 250
+        Me.VideoFormatComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.VideoFormatComboBox.FormattingEnabled = True
+        Me.VideoFormatComboBox.IntegralHeight = False
+        Me.VideoFormatComboBox.ItemHeight = 23
+        Me.VideoFormatComboBox.Location = New System.Drawing.Point(50, 25)
+        Me.VideoFormatComboBox.Name = "VideoFormatComboBox"
+        Me.VideoFormatComboBox.Size = New System.Drawing.Size(175, 29)
+        Me.VideoFormatComboBox.TabIndex = 17
+        Me.VideoFormatComboBox.UseSelectable = True
         '
         'FfmpegCommandGroupBox
         '
@@ -677,10 +677,10 @@ Partial Class SettingsDialog
         Me.TabPage1.HorizontalScrollbarBarColor = True
         Me.TabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage1.HorizontalScrollbarSize = 10
-        Me.TabPage1.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 35)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage1.Size = New System.Drawing.Size(501, 528)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "  Main"
         Me.TabPage1.VerticalScrollbar = True
@@ -935,7 +935,7 @@ Partial Class SettingsDialog
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.SelectedIndex = 1
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -1826,7 +1826,7 @@ Partial Class SettingsDialog
     Friend WithEvents ServerPortInput As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox13 As GroupBox
     Friend WithEvents FunimationDefaultSubComboBox As MetroFramework.Controls.MetroComboBox
-    Friend WithEvents CB_Format As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents VideoFormatComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents MetroTabPage1 As MetroFramework.Controls.MetroTabPage
     Friend WithEvents Btn_Save As Button
     Friend WithEvents GroupBox8 As GroupBox
@@ -1848,7 +1848,7 @@ Partial Class SettingsDialog
     Friend WithEvents SeasonNumberBehaviorComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents GroupBox19 As GroupBox
     Friend WithEvents CrunchyrollAcceptHardsubsCheckBox As MetroFramework.Controls.MetroCheckBox
-    Friend WithEvents CB_Merge As MetroFramework.Controls.MetroComboBox
+    Friend WithEvents SubtitleFormatComboBox As MetroFramework.Controls.MetroComboBox
     Friend WithEvents IgnoreTlsCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents EpisodeTitleCheckBox As MetroFramework.Controls.MetroCheckBox
     Public WithEvents AudioLanguageCheckBox As MetroFramework.Controls.MetroCheckBox
