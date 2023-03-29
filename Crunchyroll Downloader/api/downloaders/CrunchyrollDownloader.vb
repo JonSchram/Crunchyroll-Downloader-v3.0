@@ -624,7 +624,7 @@ Public Class CrunchyrollDownloader
             CR_FilenName = String.Join(" ", CR_FilenName.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c).Replace("""", "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName, "[^\w\\-]", " ")
             CR_FilenName = Main.RemoveExtraSpaces(CR_FilenName)
             'My.Computer.FileSystem.WriteAllText("log.log", WebbrowserText, False)
-            Pfad2 = UseSubfolder(CR_series_title, CR_FolderSeason, Main.Pfad)
+            Pfad2 = UseSubfolder(CR_series_title, CR_FolderSeason, settings.OutputPath)
             Dim extension = settings.OutputFormat.GetFileExtension()
             If Not Directory.Exists(Path.GetDirectoryName(Pfad2)) Then
                 ' Nein! Jetzt erstellen...
@@ -633,7 +633,7 @@ Public Class CrunchyrollDownloader
                     Pfad2 = """" + Pfad2 + CR_FilenName + "." + extension + """"
                 Catch ex As Exception
                     ' Ordner wurde nich erstellt
-                    Pfad2 = """" + Main.Pfad + "\" + CR_FilenName + "." + extension + """"
+                    Pfad2 = """" + settings.OutputPath + "\" + CR_FilenName + "." + extension + """"
                     Pfad2 = Pfad2.Replace("\\", "\")
                 End Try
             Else

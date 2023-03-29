@@ -1,5 +1,6 @@
 ﻿Option Strict On
 Imports System.Diagnostics.Eventing.Reader
+Imports Crunchyroll_Downloader.settings.general
 
 Public Class AddVideo
     Public Property OutputPath As String = ""
@@ -68,9 +69,9 @@ Public Class AddVideo
         If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
             updateDirectoryComboBox(GetSubDirectories(OutputPath))
             subfolderComboBox.SelectedItem = SubFolder_Nothing
-            Main.Pfad = FolderBrowserDialog1.SelectedPath
-            outputTextBox.Text = FolderBrowserDialog1.SelectedPath
-            My.Settings.Pfad = Main.Pfad
+            Dim selectedPath = FolderBrowserDialog1.SelectedPath
+            outputTextBox.Text = selectedPath
+            ProgramSettings.GetInstance().OutputPath = selectedPath
             My.Settings.Save()
         End If
     End Sub

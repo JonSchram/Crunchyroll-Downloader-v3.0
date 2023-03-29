@@ -68,18 +68,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property Pfad() As String
-            Get
-                Return CType(Me("Pfad"),String)
-            End Get
-            Set
-                Me("Pfad") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("[ ignore subfolder ]")>  _
         Public Property SubFolder_Value() As String
             Get
@@ -649,6 +637,18 @@ Namespace My
             End Get
             Set
                 Me("NeedsUpgrade") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property VideoOutputPath() As String
+            Get
+                Return CType(Me("VideoOutputPath"),String)
+            End Get
+            Set
+                Me("VideoOutputPath") = value
             End Set
         End Property
     End Class

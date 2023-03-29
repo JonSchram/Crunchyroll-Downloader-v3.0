@@ -5,9 +5,6 @@
     <Setting Name="DarkModeValue" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="Pfad" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="SubFolder_Value" Type="System.String" Scope="User">
       <Value Profile="(Default)">[ ignore subfolder ]</Value>
     </Setting>
@@ -151,6 +148,9 @@
     </Setting>
     <Setting Name="NeedsUpgrade" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="VideoOutputPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

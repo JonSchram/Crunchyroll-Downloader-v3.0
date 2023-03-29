@@ -67,7 +67,6 @@ Public Class Main
     ' I think this indicates the user is just browsing in the browser
     Public b As Boolean
     Public LoginOnly As String = "False"
-    Public Pfad As String = My.Computer.FileSystem.CurrentDirectory
     Public ProfileFolder As String = Path.Combine(Application.StartupPath, "CRD-Profile") 'Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "CRD-Profile")
 
     Public ResoSave As String = "6666x6666"
@@ -396,14 +395,12 @@ Public Class Main
         Catch ex As Exception
         End Try
 
-        If My.Settings.Pfad = Nothing Then
-            Pfad = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-        Else
-            Pfad = My.Settings.Pfad
+        If settings.OutputPath Is Nothing Or settings.OutputPath = "" Then
+            settings.OutputPath = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         End If
 
         If settings.TemporaryFolder = Nothing Then
-            settings.TemporaryFolder = Pfad
+            settings.TemporaryFolder = My.Computer.FileSystem.SpecialDirectories.Temp
         End If
 
         SubFolder_Value = My.Settings.SubFolder_Value
@@ -799,7 +796,7 @@ Public Class Main
         Dim settings = ProgramSettings.GetInstance()
         If settings.DownloadMode <> DownloadModeOptions.HYBRID_MODE_KEEP_CACHE Then
             Try
-                Dim di As New System.IO.DirectoryInfo(Pfad)
+                Dim di As New System.IO.DirectoryInfo(settings.OutputPath)
                 For Each fi As System.IO.DirectoryInfo In di.EnumerateDirectories("*.*", System.IO.SearchOption.TopDirectoryOnly)
                     If fi.Attributes.HasFlag(System.IO.FileAttributes.Hidden) Then
                     Else
@@ -815,7 +812,7 @@ Public Class Main
 
     Private Sub RetryWithCachedFiles()
         Try
-            Dim di As New System.IO.DirectoryInfo(Pfad)
+            Dim di As New System.IO.DirectoryInfo(ProgramSettings.GetInstance().OutputPath)
             For Each fi As System.IO.DirectoryInfo In di.EnumerateDirectories("*.*", System.IO.SearchOption.TopDirectoryOnly)
                 If fi.Attributes.HasFlag(System.IO.FileAttributes.Hidden) Then
                 Else
@@ -882,7 +879,7 @@ Public Class Main
         If AddVideo.WindowState = System.Windows.Forms.FormWindowState.Minimized Then
             AddVideo.WindowState = System.Windows.Forms.FormWindowState.Normal
         Else
-            AddVideo.OutputPath = Pfad
+            AddVideo.OutputPath = ProgramSettings.GetInstance().OutputPath
             AddVideo.OutputSubFolder = My.Settings.SubFolder_Value
             AddVideo.Show()
         End If
@@ -1049,7 +1046,7 @@ Public Class Main
                         client.Headers.Add(My.Resources.ffmpeg_user_agend)
                         Dim SaveName As String = System.Text.RegularExpressions.Regex.Replace(DocumentTitle.Replace(" - Schaue legal auf Wakanim.TV", ""), "[^\w\\-]", " ").Replace(":", "")
                         SaveName = RemoveExtraSpaces(SaveName)
-                        client.DownloadFile(WakanimSub2(0), Pfad + "\" + SaveName + ".vtt")
+                        client.DownloadFile(WakanimSub2(0), ProgramSettings.GetInstance().OutputPath + "\" + SaveName + ".vtt")
                     End Using
                 Catch ex As Exception
                     'Debug.WriteLine("error- getting funimation SeasonJson data")

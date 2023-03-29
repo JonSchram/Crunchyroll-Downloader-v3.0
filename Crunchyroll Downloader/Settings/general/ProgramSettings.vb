@@ -38,6 +38,7 @@ Namespace settings.general
             UpgradeSeasonPrefix()
             UpgradeEpisodePrefix()
             UpgradeResolution()
+            UpgradePath()
 
             Crunchyroll.UpgradeSettings()
             Funimation.UpgradeSettings()
@@ -195,6 +196,14 @@ Namespace settings.general
             If My.Settings.Reso = 42 Then
                 DownloadResolution = Resolution.AUTO
             End If
+        End Sub
+        Private Sub UpgradePath()
+            Try
+                Dim oldPath As String = CStr(My.Settings.GetPreviousVersion("Pfad"))
+                OutputPath = oldPath
+            Catch ex As Exception
+                OutputPath = My.Computer.FileSystem.SpecialDirectories.MyDocuments
+            End Try
         End Sub
 
 
@@ -458,6 +467,15 @@ Namespace settings.general
             End Get
             Set(value As LanguageNameMethod)
                 My.Settings.LangNameType = value
+            End Set
+        End Property
+
+        Public Property OutputPath As String
+            Get
+                Return My.Settings.VideoOutputPath
+            End Get
+            Set(value As String)
+                My.Settings.VideoOutputPath = value
             End Set
         End Property
 

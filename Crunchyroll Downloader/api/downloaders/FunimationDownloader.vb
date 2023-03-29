@@ -544,7 +544,7 @@ Public Class FunimationDownloader
                             End Sub)
             End If
             DefaultName = DefaultName.Replace(":", "")
-            DownloadPfad = Main.RemoveExtraSpaces(UseSubfolder(FunimationTitle, FunimationSeason, Main.Pfad))
+            DownloadPfad = Main.RemoveExtraSpaces(UseSubfolder(FunimationTitle, FunimationSeason, settings.OutputPath))
             Dim extension = ProgramSettings.GetInstance().OutputFormat.GetFileExtension()
             If Not Directory.Exists(Path.GetDirectoryName(DownloadPfad)) Then
                 ' Nein! Jetzt erstellen...
@@ -553,7 +553,7 @@ Public Class FunimationDownloader
                     DownloadPfad = Main.RemoveExtraSpaces("""" + DownloadPfad + DefaultName + "." + extension + """")
                 Catch ex As Exception
                     ' Ordner wurde nich erstellt
-                    DownloadPfad = Main.RemoveExtraSpaces("""" + Main.Pfad + DefaultName + "." + extension + """")
+                    DownloadPfad = Main.RemoveExtraSpaces("""" + settings.OutputPath + DefaultName + "." + extension + """")
                 End Try
             Else
                 DownloadPfad = Main.RemoveExtraSpaces("""" + DownloadPfad + DefaultName + "." + extension + """")
