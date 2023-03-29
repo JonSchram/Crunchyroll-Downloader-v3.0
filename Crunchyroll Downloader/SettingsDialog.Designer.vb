@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Einstellungen
+Partial Class SettingsDialog
     Inherits MetroFramework.Forms.MetroForm
 
     'Das Formular überschreibt den Löschvorgang, um die Komponentenliste zu bereinigen.
@@ -24,7 +24,6 @@ Partial Class Einstellungen
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.pictureBox1 = New System.Windows.Forms.PictureBox()
         Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
         Me.CR_SoftSubDefault = New MetroFramework.Controls.MetroComboBox()
         Me.CrunchyrollSoftSubsGroupBox = New System.Windows.Forms.GroupBox()
@@ -136,7 +135,6 @@ Partial Class Einstellungen
         Me.Btn_Save = New System.Windows.Forms.Button()
         Me.MetroStyleManager1 = New MetroFramework.Components.MetroStyleManager(Me.components)
         Me.StyleExtender = New MetroFramework.Components.MetroStyleExtender(Me.components)
-        CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.CrunchyrollSoftSubsGroupBox.SuspendLayout()
         Me.CrunchyrollHardsubGroupBox.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -183,18 +181,6 @@ Partial Class Einstellungen
         Me.ToolTip1.InitialDelay = 500
         Me.ToolTip1.IsBalloon = True
         Me.ToolTip1.ReshowDelay = 100
-        '
-        'pictureBox1
-        '
-        Me.pictureBox1.BackColor = System.Drawing.Color.Transparent
-        Me.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.pictureBox1.Image = Global.Crunchyroll_Downloader.My.Resources.Resources.main_close
-        Me.pictureBox1.Location = New System.Drawing.Point(494, 1)
-        Me.pictureBox1.Name = "pictureBox1"
-        Me.pictureBox1.Size = New System.Drawing.Size(50, 40)
-        Me.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.pictureBox1.TabIndex = 7
-        Me.pictureBox1.TabStop = False
         '
         'CR_SoftSubDefault
         '
@@ -292,10 +278,10 @@ Partial Class Einstellungen
         Me.TabPage2.HorizontalScrollbarBarColor = True
         Me.TabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage2.HorizontalScrollbarSize = 10
-        Me.TabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 35)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage2.Size = New System.Drawing.Size(501, 528)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Output"
         Me.TabPage2.VerticalScrollbarBarColor = True
@@ -963,9 +949,9 @@ Partial Class Einstellungen
         Me.MetroTabPage2.HorizontalScrollbarBarColor = True
         Me.MetroTabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage2.HorizontalScrollbarSize = 10
-        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage2.Name = "MetroTabPage2"
-        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage2.TabIndex = 8
         Me.MetroTabPage2.Text = "Naming"
         Me.MetroTabPage2.VerticalScrollbarBarColor = True
@@ -1263,9 +1249,9 @@ Partial Class Einstellungen
         Me.MetroTabPage1.HorizontalScrollbarBarColor = True
         Me.MetroTabPage1.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage1.HorizontalScrollbarSize = 10
-        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 44)
+        Me.MetroTabPage1.Location = New System.Drawing.Point(4, 35)
         Me.MetroTabPage1.Name = "MetroTabPage1"
-        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 519)
+        Me.MetroTabPage1.Size = New System.Drawing.Size(501, 528)
         Me.MetroTabPage1.TabIndex = 7
         Me.MetroTabPage1.Text = "Crunchyroll"
         Me.MetroTabPage1.VerticalScrollbarBarColor = True
@@ -1346,10 +1332,10 @@ Partial Class Einstellungen
         Me.TabPage6.HorizontalScrollbarBarColor = True
         Me.TabPage6.HorizontalScrollbarHighlightOnWheel = False
         Me.TabPage6.HorizontalScrollbarSize = 10
-        Me.TabPage6.Location = New System.Drawing.Point(4, 44)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 35)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(501, 519)
+        Me.TabPage6.Size = New System.Drawing.Size(501, 528)
         Me.TabPage6.TabIndex = 4
         Me.TabPage6.Text = " Funimation"
         Me.TabPage6.VerticalScrollbarBarColor = True
@@ -1715,7 +1701,7 @@ Partial Class Einstellungen
         Me.MetroStyleManager1.Owner = Me
         Me.MetroStyleManager1.Style = MetroFramework.MetroColorStyle.Orange
         '
-        'Einstellungen
+        'SettingsDialog
         '
         Me.ApplyImageInvert = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -1723,17 +1709,16 @@ Partial Class Einstellungen
         Me.ClientSize = New System.Drawing.Size(554, 698)
         Me.Controls.Add(Me.Btn_Save)
         Me.Controls.Add(Me.TabControl1)
-        Me.Controls.Add(Me.pictureBox1)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ForeColor = System.Drawing.Color.Black
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "Einstellungen"
+        Me.Name = "SettingsDialog"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Style = MetroFramework.MetroColorStyle.Orange
         Me.Text = " Settings"
         Me.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center
-        CType(Me.pictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.CrunchyrollSoftSubsGroupBox.ResumeLayout(False)
         Me.CrunchyrollSoftSubsGroupBox.PerformLayout()
         Me.CrunchyrollHardsubGroupBox.ResumeLayout(False)
@@ -1784,11 +1769,9 @@ Partial Class Einstellungen
         CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents ToolTip1 As ToolTip
-    Private WithEvents pictureBox1 As PictureBox
     Friend WithEvents ToolTip2 As ToolTip
     Friend WithEvents FfmpegCommandGroupBox As GroupBox
     Friend WithEvents ResolutionGroupBox As GroupBox

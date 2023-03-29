@@ -20,7 +20,7 @@ Imports Crunchyroll_Downloader.settings.funimation
 Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
 Imports Crunchyroll_Downloader.settings.ffmpeg
 
-Public Class Einstellungen
+Public Class SettingsDialog
     Inherits MetroForm
 
     Private Const SEASON_PREFIX_PLACEHOLDER = "[default season prefix]"
@@ -63,7 +63,9 @@ Public Class Einstellungen
     Private ReadOnly crSettings As CrunchyrollSettings
     Private ReadOnly funSettings As FunimationSettings
 
-    Public Sub New()
+    Private Shared Instance As SettingsDialog
+
+    Private Sub New()
         InitializeComponent()
 
         InitializeTextLists()
@@ -73,6 +75,13 @@ Public Class Einstellungen
         crSettings = settings.Crunchyroll
         funSettings = settings.Funimation
     End Sub
+
+    Public Shared Function GetInstance() As SettingsDialog
+        If Instance Is Nothing Then
+            Instance = New SettingsDialog()
+        End If
+        Return Instance
+    End Function
 
     Private Sub InitializeTextLists()
         With ServerPortTextList
@@ -305,8 +314,6 @@ Public Class Einstellungen
     Private Sub ApplyDarkTheme(darkMode As Boolean)
         If darkMode Then
             MetroStyleManager1.Theme = MetroThemeStyle.Dark
-            ' TODO: Set image box for dark mode directly instead of from Main
-            pictureBox1.Image = Main.CloseImg
         Else
             MetroStyleManager1.Theme = MetroThemeStyle.Light
         End If
@@ -324,7 +331,6 @@ Public Class Einstellungen
 
         TabControl1.SelectedIndex = 0
 
-        Me.Location = New Point(CInt(Main.Location.X + Main.Width / 2 - Me.Width / 2), CInt(Main.Location.Y + Main.Height / 2 - Me.Height / 2))
         Try
             Me.Icon = My.Resources.icon
         Catch ex As Exception
@@ -723,20 +729,7 @@ Public Class Einstellungen
     End Sub
 
 
-    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles pictureBox1.Click
-        Me.Close()
-    End Sub
 #Region "UI"
-
-    Private Sub Btn_Close_MouseEnter(sender As Object, e As EventArgs) Handles pictureBox1.MouseEnter
-
-        pictureBox1.Image = My.Resources.main_del
-    End Sub
-
-    Private Sub Btn_Close_MouseLeave(sender As Object, e As EventArgs) Handles pictureBox1.MouseLeave
-
-        pictureBox1.Image = Main.CloseImg
-    End Sub
 
     Private Sub Btn_Save_MouseEnter(sender As Object, e As EventArgs) Handles Btn_Save.MouseEnter, Btn_Save.GotFocus
         Btn_Save.Image = My.Resources.crdSettings_Button_SafeExit_hover
@@ -873,8 +866,6 @@ Public Class Einstellungen
 
     Private Sub HandleDarkModeChanged(NewValue As Boolean)
         ApplyDarkTheme(NewValue)
-        ' TODO: Get correct close image for theme
-        pictureBox1.Image = Main.CloseImg
     End Sub
 
     Private Sub DarkMode_CheckedChanged(sender As Object, e As EventArgs) Handles DarkModeCheckBox.CheckedChanged
@@ -1093,6 +1084,9 @@ Public Class Einstellungen
 #End Region
 
 #End Region
+    Private Sub SettingsDialog_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+        Instance = Nothing
+    End Sub
 
     ' TODO: This probably shouldn't use the HTTP port but the Chrome extension would probably have to be changed too.
     Public Enum ServerPortOptions
@@ -1101,4 +1095,5 @@ Public Class Einstellungen
         PORT_8080
         CUSTOM
     End Enum
+
 End Class

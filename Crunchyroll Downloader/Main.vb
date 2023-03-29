@@ -330,12 +330,6 @@ Public Class Main
     <DllImport("Kernel32.DLL", CharSet:=CharSet.Auto, SetLastError:=True)>
     Public Shared Function SetThreadExecutionState(ByVal state As EXECUTION_STATE) As EXECUTION_STATE
     End Function
-    Public Sub SetSettingsTheme()
-        Einstellungen.Theme = Manager.Theme
-    End Sub
-
-
-
 
 
     Function AddLeadingZeros(ByVal txt As String) As String
@@ -911,7 +905,10 @@ Public Class Main
     End Sub
 
     Private Sub Btn_Settings_Click(sender As Object, ByVal e As EventArgs) Handles Btn_Settings.Click
-        Einstellungen.Show()
+        Dim dialog = SettingsDialog.GetInstance()
+        If Not dialog.Visible Then
+            dialog.Show(Me)
+        End If
     End Sub
 
     Private Sub ToggleDebugModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ToggleDebugModeToolStripMenuItem.Click
@@ -924,15 +921,13 @@ Public Class Main
         End If
     End Sub
 
-    Private Sub OpenSettingsToolStripMenuItem_Click(sender As Object, e As EventArgs)
-        Einstellungen.Show()
-    End Sub
-
     Private Sub Btn_Settings_DoubleClick(sender As Object, e As EventArgs) Handles Btn_Settings.DoubleClick
-        Einstellungen.Close()
+        Dim dialog = SettingsDialog.GetInstance()
+        If dialog.Visible Then
+            dialog.Close()
+        End If
         If Debug1 = True Then
             If Debug2 = True Then
-                Einstellungen.Close()
                 Try
                     My.Computer.Clipboard.SetText(WebbrowserText)
                     MsgBox("webbrowser text copyed to the clipboard")
@@ -940,12 +935,10 @@ Public Class Main
                 End Try
             Else
                 Debug2 = True
-                Einstellungen.Close()
                 MsgBox("Debug activated")
             End If
         Else
             Debug1 = True
-            Einstellungen.Close()
             'MsgBox("Debug activated")
         End If
     End Sub
