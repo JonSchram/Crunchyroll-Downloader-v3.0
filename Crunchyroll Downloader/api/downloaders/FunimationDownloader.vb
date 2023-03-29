@@ -89,7 +89,7 @@ Public Class FunimationDownloader
         Try
             Using client As New WebClient()
                 client.Encoding = System.Text.Encoding.UTF8
-                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+                client.Headers.Add(My.Resources.ffmpeg_user_agend)
                 Return client.DownloadString(JsonUrl)
             End Using
         Catch ex As Exception
@@ -114,7 +114,7 @@ Public Class FunimationDownloader
                 .CookieContainer = cookies
             }
             Dim myHttpClient As New HttpClient(messageHandler)
-            myHttpClient.DefaultRequestHeaders.Add("User-Agent", My.Resources.ffmpeg_user_agend.Replace("""", ""))
+            myHttpClient.DefaultRequestHeaders.Add("User-Agent", My.Resources.ffmpeg_user_agend)
 
             Dim message = New HttpRequestMessage(HttpMethod.Options, JsonUrl)
             Dim response = Await myHttpClient.SendAsync(message)
@@ -124,7 +124,7 @@ Public Class FunimationDownloader
 
             'Using client As New WebClient()
             '    client.Encoding = System.Text.Encoding.UTF8
-            '    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+            '    client.Headers.Add(My.Resources.ffmpeg_user_agend)
             '    Dim optionsValues As New NameValueCollection From {
             '        {"deviceType", "web"}
             '    }
@@ -209,7 +209,7 @@ Public Class FunimationDownloader
             Try
                 Using client As New WebClient()
                     client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+                    client.Headers.Add(My.Resources.ffmpeg_user_agend)
                     v1Json = client.DownloadString(v1JsonUrl)
                 End Using
                 Main.WebbrowserURL = currentEpisode
@@ -240,7 +240,7 @@ Public Class FunimationDownloader
             Try
                 Using client As New WebClient()
                     client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+                    client.Headers.Add(My.Resources.ffmpeg_user_agend)
                     SeasonJson = client.DownloadString(JsonUrl)
                 End Using
             Catch ex As Exception
@@ -371,7 +371,7 @@ Public Class FunimationDownloader
                 'Throw New Exception("TEst")
                 Using client As New WebClient()
                     client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+                    client.Headers.Add(My.Resources.ffmpeg_user_agend)
                     v1Json = client.DownloadString(v1JsonUrl)
                 End Using
             Catch ex As Exception
@@ -597,7 +597,7 @@ Public Class FunimationDownloader
             Dim EpisodeJsonString As String = Nothing
             Dim PlayerClient As New WebClient()
             PlayerClient.Encoding = Encoding.UTF8
-            PlayerClient.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+            PlayerClient.Headers.Add(My.Resources.ffmpeg_user_agend)
             PlayerClient.Headers.Add(HttpRequestHeader.Accept, "application/json, text/plain, */*")
             PlayerClient.Headers.Add("origin: https://www.funimation.com/")
             PlayerClient.Headers.Add(HttpRequestHeader.Referer, "https://www.funimation.com/")
@@ -771,7 +771,7 @@ Public Class FunimationDownloader
                     Dim FunimationAudio() As String = str1.Split(New String() {"# AUDIO groups"}, System.StringSplitOptions.RemoveEmptyEntries)
                     Dim FunimationAudio2() As String = FunimationAudio(1).Split(New String() {"URI=" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
                     Dim FunimationAudio3() As String = FunimationAudio2(1).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
-                    FunimationAudioMap = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + """" + FunimationAudio3(0) + """"
+                    FunimationAudioMap = " -headers """ + My.Resources.ffmpeg_user_agend + """ -i " + """" + FunimationAudio3(0) + """"
                 End If
 
                 Dim str2() As String = str1.Split(New String() {"# keyframes"}, System.StringSplitOptions.RemoveEmptyEntries)
@@ -970,9 +970,9 @@ Public Class FunimationDownloader
                         '    DispositionIndex = MapCount
                         'End If
                         If SoftSubMergeURLs = Nothing Then
-                            SoftSubMergeURLs = " -headers " + My.Resources.ffmpeg_user_agend + " -i " + """" + SoftSub(0) + """"
+                            SoftSubMergeURLs = " -headers """ + My.Resources.ffmpeg_user_agend + """ -i " + """" + SoftSub(0) + """"
                         Else
-                            SoftSubMergeURLs = SoftSubMergeURLs + " -headers " + My.Resources.ffmpeg_user_agend + " -i " + """" + SoftSub(0) + """"
+                            SoftSubMergeURLs = SoftSubMergeURLs + " -headers """ + My.Resources.ffmpeg_user_agend + """ -i " + """" + SoftSub(0) + """"
                         End If
                         If FunimationAudioMap = Nothing Then
                             SoftSubMergeMaps = SoftSubMergeMaps + " -map " + (MapCount + 1).ToString
@@ -1056,7 +1056,7 @@ Public Class FunimationDownloader
                 If FunimationAudioMap = Nothing Then
                     Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + DubMetatata + " " + ffmpeg_command_temp
                 Else
-                    Funimation_m3u8_final = FunimationAudioMap.Replace(" -headers " + My.Resources.ffmpeg_user_agend + " ", "") + DubMetatata + " " + ffmpeg_command_temp
+                    Funimation_m3u8_final = FunimationAudioMap.Replace(" -headers """ + My.Resources.ffmpeg_user_agend + """ ", "") + DubMetatata + " " + ffmpeg_command_temp
                 End If
             Else
                 Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + DubMetatata + " " + ffmpegArguments

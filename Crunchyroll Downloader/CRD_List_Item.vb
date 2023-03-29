@@ -744,7 +744,7 @@ Public Class CRD_List_Item
 
                 Dim Request As HttpWebRequest = CType(WebRequest.Create(DL_URL), HttpWebRequest)
                 Dim Bytes(NewBytes) As Byte
-                Request.UserAgent = My.Resources.ffmpeg_user_agend.Replace("""", "").Replace("User-Agent: ", "")
+                Request.UserAgent = My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "")
                 Request.Timeout = 30000
                 Request.Method = "GET"
                 Request.AddRange(CurrentSize, CurrentSize + NewBytes)
@@ -1464,7 +1464,7 @@ Public Class CRD_List_Item
             'MsgBox(BaseURL + SiteList(i) + vbNewLine + Pfad_DL + "\" + SiteList(i))
             Dim iWert As Integer = i
             Using client As New WebClient()
-                client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+                client.Headers.Add(My.Resources.ffmpeg_user_agend)
                 client.Headers.Add(HttpRequestHeader.AcceptEncoding, "*")
                 client.DownloadFile(BaseURL + SiteList(i), Pfad_DL + "\" + SiteList(i))
                 Pause(1)

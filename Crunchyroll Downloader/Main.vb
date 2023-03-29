@@ -587,7 +587,7 @@ Public Class Main
         If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
-        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + " " + """" + Url + """"
+        cmd = cmd + "--no-alpn -fsSLm 15 -A """ + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + """ """ + Url + """"
         Dim Proc As New Process
         'MsgBox(cmd)
         Dim CurlOutput As String = Nothing
@@ -656,7 +656,7 @@ Public Class Main
         If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
-        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + Cookies + Auth + Post + " " + """" + Url + """"
+        cmd = cmd + "--no-alpn -fsSLm 15 -A """ + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + """" + Cookies + Auth + Post + " " + """" + Url + """"
         Dim Proc As New Process
         'Debug.WriteLine("CurlPost: " + cmd)
         Dim CurlOutput As String = Nothing
@@ -726,7 +726,7 @@ Public Class Main
         If settings.InsecureCurl Then
             cmd = "--insecure "
         End If
-        cmd = cmd + "--no-alpn -fsSLm 15 -A " + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + Cookies + Auth + " " + """" + Url + """"
+        cmd = cmd + "--no-alpn -fsSLm 15 -A """ + My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "") + """" + Cookies + Auth + " " + """" + Url + """"
         Dim Proc As New Process
         'MsgBox(cmd)
         Dim CurlOutput As String = Nothing
@@ -1069,7 +1069,7 @@ Public Class Main
                 Try
                     Using client As New WebClient()
                         client.Encoding = System.Text.Encoding.UTF8
-                        client.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+                        client.Headers.Add(My.Resources.ffmpeg_user_agend)
                         Dim SaveName As String = System.Text.RegularExpressions.Regex.Replace(DocumentTitle.Replace(" - Schaue legal auf Wakanim.TV", ""), "[^\w\\-]", " ").Replace(":", "")
                         SaveName = RemoveExtraSpaces(SaveName)
                         client.DownloadFile(WakanimSub2(0), Pfad + "\" + SaveName + ".vtt")

@@ -910,9 +910,10 @@ Public Class Einstellungen
 
     Private Sub BackgroundWorker1_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
         Try
-            Dim client0 As New WebClient
-            client0.Encoding = Encoding.UTF8
-            client0.Headers.Add(My.Resources.ffmpeg_user_agend.Replace("""", ""))
+            Dim client0 As New WebClient With {
+                .Encoding = Encoding.UTF8
+            }
+            client0.Headers.Add(My.Resources.ffmpeg_user_agend)
 
             Dim str0 As String = client0.DownloadString("https://api.github.com/repos/hama3254/Crunchyroll-Downloader-v3.0/releases")
 
