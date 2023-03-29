@@ -53,7 +53,6 @@ Public Class Einstellungen
     Private ReadOnly FunimationHardSubLanguagesList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
     Private ReadOnly FunimationBitrateTextList As New EnumTextList(Of BitrateSetting)()
 
-    Dim Manager As MetroStyleManager = Main.Manager
     Dim LastVersionString As String = "v3.8-Beta"
 
     Private nameFormatter As FilenameFormatter
@@ -211,6 +210,7 @@ Public Class Einstellungen
     ''' </summary>
     Private Sub InitializeUi()
         uiInitializing = True
+        InitializeStyles()
         InitializeMainTab()
         InitializeOutputTab()
         InitializeNamingTab()
@@ -218,6 +218,25 @@ Public Class Einstellungen
         InitializeFunimationTab()
 
         uiInitializing = False
+    End Sub
+
+    Private Sub InitializeStyles()
+        StyleManager = MetroStyleManager1
+        SetApplyMetroThemeRecursive(Controls.GetEnumerator())
+    End Sub
+
+    Private Sub SetApplyMetroThemeRecursive(items As IEnumerator)
+        If items Is Nothing Then
+            Exit Sub
+        End If
+        While items.MoveNext()
+            Dim controlComponent = CType(items.Current, Control)
+            SetApplyMetroThemeRecursive(controlComponent.Controls.GetEnumerator())
+            If TypeOf controlComponent Is GroupBox Or TypeOf controlComponent Is TextBox Or TypeOf controlComponent Is CheckedListBox Then
+                StyleExtender.SetApplyMetroTheme(controlComponent, True)
+            End If
+        End While
+
     End Sub
 
     Private Sub InitializeMainTab()
@@ -283,6 +302,16 @@ Public Class Einstellungen
         Next
     End Sub
 
+    Private Sub ApplyDarkTheme(darkMode As Boolean)
+        If darkMode Then
+            MetroStyleManager1.Theme = MetroThemeStyle.Dark
+            ' TODO: Set image box for dark mode directly instead of from Main
+            pictureBox1.Image = Main.CloseImg
+        Else
+            MetroStyleManager1.Theme = MetroThemeStyle.Light
+        End If
+    End Sub
+
 #Region "Loading"
     Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
@@ -292,10 +321,6 @@ Public Class Einstellungen
         CurrentVersionLabel.Text = "You have: v" + Application.ProductVersion.ToString '+ " WebView2_Test"
 
         BackgroundWorker1.RunWorkerAsync()
-
-
-        Manager.Owner = Me
-        Me.StyleManager = Manager
 
         TabControl1.SelectedIndex = 0
 
@@ -323,15 +348,8 @@ Public Class Einstellungen
         SimultaneousDownloadsInput.Value = settings.SimultaneousDownloads
         DefaultWebsiteTextBox.Text = settings.DefaultWebsite
 
-        If settings.DarkMode Then
-            DarkModeCheckBox.Checked = True
-            GroupBoxColor(Color.FromArgb(150, 150, 150))
-            ' TODO: Set image box for dark mode directly instead of from Main
-            pictureBox1.Image = Main.CloseImg
-        Else
-            DarkModeCheckBox.Checked = False
-            GroupBoxColor(Color.FromArgb(0, 0, 0))
-        End If
+        DarkModeCheckBox.Checked = settings.DarkMode
+        ApplyDarkTheme(settings.DarkMode)
 
         LoadAddOnPort()
         IgnoreTlsCheckBox.Checked = settings.InsecureCurl
@@ -853,52 +871,14 @@ Public Class Einstellungen
     End Sub
 
 
-
-    Sub GroupBoxColor(ByVal color As Color)
-        SimultaneousDownloadsInput.ForeColor = color
-        ErrorLimitInput.ForeColor = color
-        SoftSubs.ForeColor = color
-        GB_SubLanguage.ForeColor = color
-        DL_Count_simultaneous.ForeColor = color
-        GB_Resolution.ForeColor = color
-        GB_Filename_Pre.ForeColor = color
-        GroupBox1.ForeColor = color
-        FfmpegCommandGroupBox.ForeColor = color
-        GroupBox3.ForeColor = color
-        GroupBox4.ForeColor = color
-        GroupBox5.ForeColor = color
-        GroupBox6.ForeColor = color
-        GroupBox7.ForeColor = color
-        GroupBox8.ForeColor = color
-        GroupBox9.ForeColor = color
-        GroupBox10.ForeColor = color
-        GroupBox11.ForeColor = color
-        GroupBox12.ForeColor = color
-        GroupBox13.ForeColor = color
-        GroupBox15.ForeColor = color
-        GroupBox16.ForeColor = color
-        GroupBox17.ForeColor = color
-        GroupBox18.ForeColor = color
-        GroupBox19.ForeColor = color
-        GroupBox20.ForeColor = color
-    End Sub
-
     Private Sub HandleDarkModeChanged(NewValue As Boolean)
-        If NewValue Then
-            GroupBoxColor(Color.FromArgb(150, 150, 150))
-            SimultaneousDownloadsInput.BackColor = Color.FromArgb(17, 17, 17)
-            ErrorLimitInput.BackColor = Color.FromArgb(17, 17, 17)
-        Else
-            GroupBoxColor(Color.FromArgb(0, 0, 0))
-            SimultaneousDownloadsInput.BackColor = Color.FromArgb(243, 243, 243)
-            ErrorLimitInput.BackColor = Color.FromArgb(243, 243, 243)
-        End If
+        ApplyDarkTheme(NewValue)
         ' TODO: Get correct close image for theme
         pictureBox1.Image = Main.CloseImg
     End Sub
 
     Private Sub DarkMode_CheckedChanged(sender As Object, e As EventArgs) Handles DarkModeCheckBox.CheckedChanged
-        ProgramSettings.GetInstance().DarkMode = DarkModeCheckBox.Checked
+        settings.DarkMode = DarkModeCheckBox.Checked
     End Sub
 
 
