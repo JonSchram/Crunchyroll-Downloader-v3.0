@@ -1,4 +1,5 @@
 ﻿Option Strict On
+Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings.general
 Imports MetroFramework
 Imports MetroFramework.Components

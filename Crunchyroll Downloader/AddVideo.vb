@@ -1,5 +1,5 @@
 ﻿Option Strict On
-Imports System.Diagnostics.Eventing.Reader
+Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings.general
 
 Public Class AddVideo
@@ -39,7 +39,7 @@ Public Class AddVideo
                 For episodeNum = startEpisode To endEpisode
                     Dim Episode = episodes.Item(episodeNum)
                     Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode.ApiUrlSlug)
-                    downloadQueue.enqueue(EpisodeInfo)
+                    downloadQueue.enqueue(EpisodeInfo, OutputPath)
                 Next
                 ' StartEpisode and endEpisode are indices into episodeList
             End If
@@ -47,7 +47,7 @@ Public Class AddVideo
         Else
             ' Individual video
             Dim episodeInfo = MetadataApi.getEpisodeInfo()
-            downloadQueue.enqueue(episodeInfo)
+            downloadQueue.enqueue(episodeInfo, OutputPath)
 
         End If
 

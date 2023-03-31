@@ -160,7 +160,6 @@
     </Compile>
     <Compile Include="api\conversion\LocaleConverter.vb" />
     <Compile Include="api\DownloaderApi.vb" />
-    <Compile Include="api\downloaders\DownloadTask.vb" />
     <Compile Include="api\downloaders\IEpisodeDownloader.vb" />
     <Compile Include="api\metadata\Episode.vb" />
     <Compile Include="api\Extractors\IMetadataDownloader.vb" />
@@ -187,6 +186,7 @@
     <Compile Include="api\downloaders\FunimationDownloader.vb" />
     <Compile Include="api\Extractors\CrunchyrollExtractor.vb" />
     <Compile Include="api\Extractors\FunimationExtractor.vb" />
+    <Compile Include="download\DownloadTask.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>
     </Compile>
@@ -230,7 +230,7 @@
     <Compile Include="queue.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DownloadQueue.vb" />
+    <Compile Include="download\DownloadQueue.vb" />
     <Compile Include="SeasonSelector.Designer.vb">
       <DependentUpon>SeasonSelector.vb</DependentUpon>
     </Compile>
