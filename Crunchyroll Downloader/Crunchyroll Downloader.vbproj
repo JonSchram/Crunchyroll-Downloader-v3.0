@@ -158,6 +158,8 @@
     <Compile Include="AddVideo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="api\authentication\ICookieBasedAuth.vb" />
+    <Compile Include="api\authentication\FunimationAuthenticator.vb" />
     <Compile Include="api\conversion\LocaleConverter.vb" />
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\downloaders\IEpisodeDownloader.vb" />
