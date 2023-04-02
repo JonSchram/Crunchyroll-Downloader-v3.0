@@ -1,4 +1,5 @@
 ﻿Imports Crunchyroll_Downloader.hls
+Imports Microsoft.Web.WebView2.Core
 
 Public Class DebugForm
     Private Sub ParseJsonButton_Click(sender As Object, e As EventArgs) Handles ParseJsonButton.Click
@@ -38,4 +39,30 @@ Public Class DebugForm
         End If
 
     End Sub
+
+    Private Async Sub GetBrowserCookiesButton_Click(sender As Object, e As EventArgs) Handles GetBrowserCookiesButton.Click
+        Dim cookies As List(Of CoreWebView2Cookie) = Await Browser.GetCookies(CookieDomainTextBox.Text)
+        Dim mainCookies = Main.CookieList
+        CookiesOutputTextBox.Text = ConvertCookiesToText(cookies)
+    End Sub
+
+    Private Function ConvertCookiesToText(cookies As List(Of CoreWebView2Cookie)) As String
+        Dim result As String = ""
+        For Each cookie In cookies
+            result += CookieToText(cookie) + vbCrLf
+        Next
+
+        Return result
+    End Function
+
+    Private Function CookieToText(cookie As CoreWebView2Cookie) As String
+        Dim result As String = ""
+
+        result += "Cookie: " + cookie.Name + vbCrLf
+        result += vbTab + "Domain: " + cookie.Domain + vbCrLf
+        result += vbTab + "Secure: " + CStr(cookie.IsSecure) + vbCrLf
+        result += vbTab + "Value: " + cookie.Value
+
+        Return result
+    End Function
 End Class

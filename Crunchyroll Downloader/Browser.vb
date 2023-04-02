@@ -13,11 +13,10 @@ Public Class Browser
         WebView2.CoreWebView2.AddWebResourceRequestedFilter("https://www.crunchyroll.com/*", CoreWebView2WebResourceContext.All)
         WebView2.CoreWebView2.AddWebResourceRequestedFilter("https://www.funimation.com/*", CoreWebView2WebResourceContext.All)
         'WebView2.CoreWebView2.AddWebResourceRequestedFilter("https://www.crunchyroll.com/*", CoreWebView2WebResourceContext.All)
-
         'WebView2.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All)
-        AddHandler WebView2.CoreWebView2.WebResourceResponseReceived, AddressOf ObserveResponse
 
-        AddHandler WebView2.CoreWebView2.WebResourceRequested, AddressOf ObserveHttp
+        'AddHandler WebView2.CoreWebView2.WebResourceResponseReceived, AddressOf ObserveResponse
+        'AddHandler WebView2.CoreWebView2.WebResourceRequested, AddressOf ObserveHttp
         WebView2.CoreWebView2.Settings.UserAgent = My.Resources.ffmpeg_user_agend.Replace("User-Agent: ", "")
         If WebView2.CoreWebView2.Source = "about:blank" Or WebView2.CoreWebView2.Source = Nothing Then
             'TextBox1.Text = Main.Startseite
@@ -57,12 +56,15 @@ Public Class Browser
         End If
     End Sub
 
-    Public Async Sub GetCookies(ByVal Uri As String)
+    Public Async Function GetCookies(ByVal Uri As String) As Task(Of List(Of CoreWebView2Cookie))
         Try
-            Main.CookieList = Await WebView2.CoreWebView2.CookieManager.GetCookiesAsync(Uri)
+            Dim cookies = Await WebView2.CoreWebView2.CookieManager.GetCookiesAsync(Uri)
+            Main.CookieList = cookies
+            Return cookies
         Catch ex As Exception
+            Return New List(Of CoreWebView2Cookie)
         End Try
-    End Sub
+    End Function
 
 
     Private Sub Browser_Load(sender As Object, e As EventArgs) Handles Me.Load

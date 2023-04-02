@@ -28,6 +28,7 @@ Partial Class DebugForm
         Me.OutputTextBox = New System.Windows.Forms.TextBox()
         Me.ParseJsonButton = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.EpisodePlaybackRadioButton = New System.Windows.Forms.RadioButton()
         Me.EpisodeInfoRadioButton = New System.Windows.Forms.RadioButton()
         Me.SeasonInfoRadioButton = New System.Windows.Forms.RadioButton()
         Me.SeriesInfoRadioButton = New System.Windows.Forms.RadioButton()
@@ -45,13 +46,18 @@ Partial Class DebugForm
         Me.ParsePlaylistButton = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PlaylistTextBox = New System.Windows.Forms.TextBox()
-        Me.EpisodePlaybackRadioButton = New System.Windows.Forms.RadioButton()
+        Me.TabPageBrowser = New System.Windows.Forms.TabPage()
+        Me.GetBrowserCookiesButton = New System.Windows.Forms.Button()
+        Me.CookieDomainTextBox = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.CookiesOutputTextBox = New System.Windows.Forms.TextBox()
         Me.TabControlOperations.SuspendLayout()
         Me.TabPageEpisode.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.TabPagePlaylist.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.TabPageBrowser.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControlOperations
@@ -61,6 +67,7 @@ Partial Class DebugForm
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControlOperations.Controls.Add(Me.TabPageEpisode)
         Me.TabControlOperations.Controls.Add(Me.TabPagePlaylist)
+        Me.TabControlOperations.Controls.Add(Me.TabPageBrowser)
         Me.TabControlOperations.Location = New System.Drawing.Point(12, 12)
         Me.TabControlOperations.Name = "TabControlOperations"
         Me.TabControlOperations.SelectedIndex = 0
@@ -129,6 +136,17 @@ Partial Class DebugForm
         Me.GroupBox2.TabIndex = 3
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "API method"
+        '
+        'EpisodePlaybackRadioButton
+        '
+        Me.EpisodePlaybackRadioButton.AutoSize = True
+        Me.EpisodePlaybackRadioButton.Location = New System.Drawing.Point(7, 89)
+        Me.EpisodePlaybackRadioButton.Name = "EpisodePlaybackRadioButton"
+        Me.EpisodePlaybackRadioButton.Size = New System.Drawing.Size(109, 17)
+        Me.EpisodePlaybackRadioButton.TabIndex = 3
+        Me.EpisodePlaybackRadioButton.TabStop = True
+        Me.EpisodePlaybackRadioButton.Text = "Episode playback"
+        Me.EpisodePlaybackRadioButton.UseVisualStyleBackColor = True
         '
         'EpisodeInfoRadioButton
         '
@@ -324,16 +342,57 @@ Partial Class DebugForm
         Me.PlaylistTextBox.Size = New System.Drawing.Size(753, 215)
         Me.PlaylistTextBox.TabIndex = 2
         '
-        'EpisodePlaybackRadioButton
+        'TabPageBrowser
         '
-        Me.EpisodePlaybackRadioButton.AutoSize = True
-        Me.EpisodePlaybackRadioButton.Location = New System.Drawing.Point(7, 89)
-        Me.EpisodePlaybackRadioButton.Name = "EpisodePlaybackRadioButton"
-        Me.EpisodePlaybackRadioButton.Size = New System.Drawing.Size(109, 17)
-        Me.EpisodePlaybackRadioButton.TabIndex = 3
-        Me.EpisodePlaybackRadioButton.TabStop = True
-        Me.EpisodePlaybackRadioButton.Text = "Episode playback"
-        Me.EpisodePlaybackRadioButton.UseVisualStyleBackColor = True
+        Me.TabPageBrowser.Controls.Add(Me.CookiesOutputTextBox)
+        Me.TabPageBrowser.Controls.Add(Me.Label3)
+        Me.TabPageBrowser.Controls.Add(Me.CookieDomainTextBox)
+        Me.TabPageBrowser.Controls.Add(Me.GetBrowserCookiesButton)
+        Me.TabPageBrowser.Location = New System.Drawing.Point(4, 22)
+        Me.TabPageBrowser.Name = "TabPageBrowser"
+        Me.TabPageBrowser.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPageBrowser.Size = New System.Drawing.Size(768, 400)
+        Me.TabPageBrowser.TabIndex = 2
+        Me.TabPageBrowser.Text = "Browser"
+        Me.TabPageBrowser.UseVisualStyleBackColor = True
+        '
+        'GetBrowserCookiesButton
+        '
+        Me.GetBrowserCookiesButton.Location = New System.Drawing.Point(373, 3)
+        Me.GetBrowserCookiesButton.Name = "GetBrowserCookiesButton"
+        Me.GetBrowserCookiesButton.Size = New System.Drawing.Size(75, 23)
+        Me.GetBrowserCookiesButton.TabIndex = 0
+        Me.GetBrowserCookiesButton.Text = "Get Cookies"
+        Me.GetBrowserCookiesButton.UseVisualStyleBackColor = True
+        '
+        'CookieDomainTextBox
+        '
+        Me.CookieDomainTextBox.Location = New System.Drawing.Point(54, 5)
+        Me.CookieDomainTextBox.Name = "CookieDomainTextBox"
+        Me.CookieDomainTextBox.Size = New System.Drawing.Size(313, 20)
+        Me.CookieDomainTextBox.TabIndex = 1
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(6, 8)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(43, 13)
+        Me.Label3.TabIndex = 2
+        Me.Label3.Text = "Domain"
+        '
+        'CookiesOutputTextBox
+        '
+        Me.CookiesOutputTextBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CookiesOutputTextBox.Location = New System.Drawing.Point(9, 31)
+        Me.CookiesOutputTextBox.Multiline = True
+        Me.CookiesOutputTextBox.Name = "CookiesOutputTextBox"
+        Me.CookiesOutputTextBox.ReadOnly = True
+        Me.CookiesOutputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.CookiesOutputTextBox.Size = New System.Drawing.Size(753, 363)
+        Me.CookiesOutputTextBox.TabIndex = 3
         '
         'DebugForm
         '
@@ -354,6 +413,8 @@ Partial Class DebugForm
         Me.TabPagePlaylist.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.TabPageBrowser.ResumeLayout(False)
+        Me.TabPageBrowser.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -382,4 +443,9 @@ Partial Class DebugForm
     Friend WithEvents MediaPlaylistRadioButton As RadioButton
     Friend WithEvents MasterPlaylistRadioButton As RadioButton
     Friend WithEvents EpisodePlaybackRadioButton As RadioButton
+    Friend WithEvents TabPageBrowser As TabPage
+    Friend WithEvents CookiesOutputTextBox As TextBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents CookieDomainTextBox As TextBox
+    Friend WithEvents GetBrowserCookiesButton As Button
 End Class
