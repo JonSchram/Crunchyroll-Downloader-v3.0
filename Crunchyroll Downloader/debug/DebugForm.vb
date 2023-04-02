@@ -74,6 +74,8 @@ Public Class DebugForm
             Dim authenticator = New FunimationAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
             Dim cookie = Await authenticator.GetLoginCookie()
 
+            AuthenticationOutputTextBox.Text = cookie.Name + ":" + vbTab + cookie.Value
+
             Dim handler = New HttpClientHandler()
             Dim cookieContainer = New CookieContainer()
             If cookie IsNot Nothing Then
@@ -86,6 +88,14 @@ Public Class DebugForm
             'hClient.DefaultRequestHeaders.
         ElseIf CrunchyrollAuthRadioButton.Checked Then
 
+        End If
+    End Sub
+
+    Private Async Sub IsPaidAccountButton_Click(sender As Object, e As EventArgs) Handles IsPaidAccountButton.Click
+        If FunimationAuthRadioButton.Checked Then
+            Dim authenticator = New FunimationAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
+            Dim isPaid = Await authenticator.IsPaidAccount()
+            AuthenticationOutputTextBox.Text = "Is paid account: " + CStr(isPaid)
         End If
     End Sub
 End Class

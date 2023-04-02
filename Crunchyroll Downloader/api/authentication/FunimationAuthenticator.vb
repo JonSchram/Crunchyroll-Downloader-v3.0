@@ -13,7 +13,7 @@ Namespace api.authentication
         End Sub
 
         Public Async Function GetLoginCookie() As Task(Of Cookie) Implements ICookieBasedAuth.GetLoginCookie
-            Dim cookies = Await CookieManager.GetCookiesAsync("https://www.funimation.com")
+            Dim cookies = Await GetFunimationCookies()
 
             For Each cookie In cookies
                 If cookie.Name = "src_token" Then
@@ -22,6 +22,23 @@ Namespace api.authentication
             Next
 
             Return Nothing
+        End Function
+
+        Public Async Function IsPaidAccount() As Task(Of Boolean)
+            Dim cookies = Await GetFunimationCookies()
+
+            For Each cookie In cookies
+                If cookie.Name = "userState" Then
+                    Return cookie.Value <> "Free"
+                End If
+            Next
+
+            ' Didn't find the subscription type so can't determine.
+            Return False
+        End Function
+
+        Private Async Function GetFunimationCookies() As Task(Of List(Of CoreWebView2Cookie))
+            Return Await CookieManager.GetCookiesAsync("https://www.funimation.com")
         End Function
     End Class
 
