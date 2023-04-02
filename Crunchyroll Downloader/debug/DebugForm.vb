@@ -70,25 +70,17 @@ Public Class DebugForm
     End Function
 
     Private Async Sub AuthenticateButton_Click(sender As Object, e As EventArgs) Handles AuthenticateButton.Click
+        Dim authenticator As ICookieBasedAuth = Nothing
         If FunimationAuthRadioButton.Checked Then
-            Dim authenticator = New FunimationAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
-            Dim cookie = Await authenticator.GetLoginCookie()
-
-            AuthenticationOutputTextBox.Text = cookie.Name + ":" + vbTab + cookie.Value
-
-            Dim handler = New HttpClientHandler()
-            Dim cookieContainer = New CookieContainer()
-            If cookie IsNot Nothing Then
-                cookieContainer.Add(cookie)
-            End If
-            handler.CookieContainer = cookieContainer
-
-            ' Microsoft recommends not using WebClient for new development (so use HttpClient)
-            Dim hClient = New HttpClient()
-            'hClient.DefaultRequestHeaders.
+            authenticator = New FunimationAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
         ElseIf CrunchyrollAuthRadioButton.Checked Then
-
+            authenticator = New CrunchyrollAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
         End If
+        If authenticator IsNot Nothing Then
+            Dim cookie = Await authenticator.GetLoginCookie()
+            AuthenticationOutputTextBox.Text = cookie.Name + ":" + vbTab + cookie.Value
+        End If
+
     End Sub
 
     Private Async Sub IsPaidAccountButton_Click(sender As Object, e As EventArgs) Handles IsPaidAccountButton.Click
@@ -97,5 +89,18 @@ Public Class DebugForm
             Dim isPaid = Await authenticator.IsPaidAccount()
             AuthenticationOutputTextBox.Text = "Is paid account: " + CStr(isPaid)
         End If
+    End Sub
+
+    Private Sub DoHttpRequest()
+        Dim handler = New HttpClientHandler()
+        Dim cookieContainer = New CookieContainer()
+        'If Cookie IsNot Nothing Then
+        '    cookieContainer.Add(Cookie)
+        'End If
+        handler.CookieContainer = cookieContainer
+
+        ' Microsoft recommends not using WebClient for new development (so use HttpClient)
+        Dim hClient = New HttpClient()
+        'hClient.DefaultRequestHeaders.
     End Sub
 End Class
