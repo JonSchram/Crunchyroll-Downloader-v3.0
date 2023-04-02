@@ -1,4 +1,7 @@
-﻿Imports Crunchyroll_Downloader.hls
+﻿Imports System.Net
+Imports System.Net.Http
+Imports Crunchyroll_Downloader.api.authentication
+Imports Crunchyroll_Downloader.hls
 Imports Microsoft.Web.WebView2.Core
 
 Public Class DebugForm
@@ -65,4 +68,24 @@ Public Class DebugForm
 
         Return result
     End Function
+
+    Private Async Sub AuthenticateButton_Click(sender As Object, e As EventArgs) Handles AuthenticateButton.Click
+        If FunimationAuthRadioButton.Checked Then
+            Dim authenticator = New FunimationAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
+            Dim cookie = Await authenticator.GetLoginCookie()
+
+            Dim handler = New HttpClientHandler()
+            Dim cookieContainer = New CookieContainer()
+            If cookie IsNot Nothing Then
+                cookieContainer.Add(cookie)
+            End If
+            handler.CookieContainer = cookieContainer
+
+            ' Microsoft recommends not using WebClient for new development (so use HttpClient)
+            Dim hClient = New HttpClient()
+            'hClient.DefaultRequestHeaders.
+        ElseIf CrunchyrollAuthRadioButton.Checked Then
+
+        End If
+    End Sub
 End Class

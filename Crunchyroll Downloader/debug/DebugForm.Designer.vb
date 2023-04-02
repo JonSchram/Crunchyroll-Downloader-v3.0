@@ -51,6 +51,11 @@ Partial Class DebugForm
         Me.CookieDomainTextBox = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.CookiesOutputTextBox = New System.Windows.Forms.TextBox()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.CrunchyrollAuthRadioButton = New System.Windows.Forms.RadioButton()
+        Me.FunimationAuthRadioButton = New System.Windows.Forms.RadioButton()
+        Me.AuthenticateButton = New System.Windows.Forms.Button()
         Me.TabControlOperations.SuspendLayout()
         Me.TabPageEpisode.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -58,6 +63,8 @@ Partial Class DebugForm
         Me.TabPagePlaylist.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.TabPageBrowser.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControlOperations
@@ -68,6 +75,7 @@ Partial Class DebugForm
         Me.TabControlOperations.Controls.Add(Me.TabPageEpisode)
         Me.TabControlOperations.Controls.Add(Me.TabPagePlaylist)
         Me.TabControlOperations.Controls.Add(Me.TabPageBrowser)
+        Me.TabControlOperations.Controls.Add(Me.TabPage1)
         Me.TabControlOperations.Location = New System.Drawing.Point(12, 12)
         Me.TabControlOperations.Name = "TabControlOperations"
         Me.TabControlOperations.SelectedIndex = 0
@@ -394,6 +402,60 @@ Partial Class DebugForm
         Me.CookiesOutputTextBox.Size = New System.Drawing.Size(753, 363)
         Me.CookiesOutputTextBox.TabIndex = 3
         '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.AuthenticateButton)
+        Me.TabPage1.Controls.Add(Me.GroupBox4)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(768, 400)
+        Me.TabPage1.TabIndex = 3
+        Me.TabPage1.Text = "Authentication"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.FunimationAuthRadioButton)
+        Me.GroupBox4.Controls.Add(Me.CrunchyrollAuthRadioButton)
+        Me.GroupBox4.Location = New System.Drawing.Point(7, 294)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(107, 100)
+        Me.GroupBox4.TabIndex = 0
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Site"
+        '
+        'CrunchyrollAuthRadioButton
+        '
+        Me.CrunchyrollAuthRadioButton.AutoSize = True
+        Me.CrunchyrollAuthRadioButton.Location = New System.Drawing.Point(7, 20)
+        Me.CrunchyrollAuthRadioButton.Name = "CrunchyrollAuthRadioButton"
+        Me.CrunchyrollAuthRadioButton.Size = New System.Drawing.Size(77, 17)
+        Me.CrunchyrollAuthRadioButton.TabIndex = 0
+        Me.CrunchyrollAuthRadioButton.TabStop = True
+        Me.CrunchyrollAuthRadioButton.Text = "Crunchyroll"
+        Me.CrunchyrollAuthRadioButton.UseVisualStyleBackColor = True
+        '
+        'FunimationAuthRadioButton
+        '
+        Me.FunimationAuthRadioButton.AutoSize = True
+        Me.FunimationAuthRadioButton.Location = New System.Drawing.Point(7, 44)
+        Me.FunimationAuthRadioButton.Name = "FunimationAuthRadioButton"
+        Me.FunimationAuthRadioButton.Size = New System.Drawing.Size(76, 17)
+        Me.FunimationAuthRadioButton.TabIndex = 1
+        Me.FunimationAuthRadioButton.TabStop = True
+        Me.FunimationAuthRadioButton.Text = "Funimation"
+        Me.FunimationAuthRadioButton.UseVisualStyleBackColor = True
+        '
+        'AuthenticateButton
+        '
+        Me.AuthenticateButton.Location = New System.Drawing.Point(120, 294)
+        Me.AuthenticateButton.Name = "AuthenticateButton"
+        Me.AuthenticateButton.Size = New System.Drawing.Size(90, 23)
+        Me.AuthenticateButton.TabIndex = 1
+        Me.AuthenticateButton.Text = "Get login token"
+        Me.AuthenticateButton.UseVisualStyleBackColor = True
+        '
         'DebugForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -415,6 +477,9 @@ Partial Class DebugForm
         Me.GroupBox3.PerformLayout()
         Me.TabPageBrowser.ResumeLayout(False)
         Me.TabPageBrowser.PerformLayout()
+        Me.TabPage1.ResumeLayout(False)
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -448,4 +513,9 @@ Partial Class DebugForm
     Friend WithEvents Label3 As Label
     Friend WithEvents CookieDomainTextBox As TextBox
     Friend WithEvents GetBrowserCookiesButton As Button
+    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents AuthenticateButton As Button
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents FunimationAuthRadioButton As RadioButton
+    Friend WithEvents CrunchyrollAuthRadioButton As RadioButton
 End Class

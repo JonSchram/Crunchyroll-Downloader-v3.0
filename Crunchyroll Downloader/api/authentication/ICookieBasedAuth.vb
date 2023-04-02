@@ -1,5 +1,7 @@
-﻿Namespace api.authentication
+﻿Imports System.Net
+
+Namespace api.authentication
     Public Interface ICookieBasedAuth
-        Function GetLoginCookies() As String
+        Function GetLoginCookie() As Task(Of Cookie)
     End Interface
 End Namespace
