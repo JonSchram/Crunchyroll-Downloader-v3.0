@@ -6,6 +6,14 @@ Imports Crunchyroll_Downloader.settings.general
 Imports Newtonsoft.Json.Linq
 
 Public Class CrunchyrollDownloader
+
+    ' TODO:
+    ' - set preferred_audio_language URL parameter in a URL like "https://www.crunchyroll.com/content/v2/cms/objects/"
+    '   - also needs "locale" URL parameter
+    ' - Convert Crunchyroll audio language to language string (like ja-jp) and use here
+    ' https://www.crunchyroll.com/content/v2/cms/series/<something...>/seasons?preferred_audio_language=<language>&locale=<locale>&Signature=<something>&Policy=<something>&Key-Pair-Id=<something>
+
+
     Public Async Sub DownloadBetaSeasons(episodeJson As String, startEpisode As Integer, endEpisode As Integer)
         Try
             Dim ListOfEpisodes As New List(Of String)

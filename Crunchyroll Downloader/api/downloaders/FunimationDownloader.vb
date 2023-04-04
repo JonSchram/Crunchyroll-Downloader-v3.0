@@ -211,7 +211,7 @@ Public Class FunimationDownloader
                     client.Headers.Add(My.Resources.ffmpeg_user_agend)
                     v1Json = client.DownloadString(v1JsonUrl)
                 End Using
-                Main.WebbrowserURL = currentEpisode
+                'Main.WebbrowserURL = currentEpisode
                 GetFunimationNewJS_VideoProxy(Nothing, v1Json)
             Catch ex As Exception
                 Debug.WriteLine("error- getting v1Json data for the bypasss")
@@ -283,7 +283,7 @@ Public Class FunimationDownloader
         Next
         'Debug.WriteLine("SeasonJson: ")
         ' Todo: Reset "add video" dialog
-        Main.WebbrowserURL = "https://funimation.com/js"
+        'Main.WebbrowserURL = "https://funimation.com/js"
         Debug.WriteLine("Count: " + FunimationSeasonList.Count.ToString)
         Return SeasonList
     End Function
@@ -333,7 +333,8 @@ Public Class FunimationDownloader
     End Function
     Public Async Sub GetFunimationNewJS_VideoProxy(Optional ByVal v1JsonURL As String = Nothing, Optional ByVal v1JsonData As String = Nothing)
         Try
-            Dim list As List(Of CoreWebView2Cookie) = Await Browser.WebView2.CoreWebView2.CookieManager.GetCookiesAsync("https://www.funimation.com/")
+            Dim browserDialog = Browser.GetInstance()
+            Dim list As List(Of CoreWebView2Cookie) = Await browserDialog.GetCookies("https://www.funimation.com/")
             Dim Cookie As String = ""
             For i As Integer = 0 To list.Count - 1
                 If CBool(InStr(list.Item(i).Domain, "funimation.com")) Then 'list.Item(i).Domain = "funimation.com" Then
@@ -1065,11 +1066,11 @@ Public Class FunimationDownloader
             If Main.DownloadScope = 1 Then
                 Funimation_m3u8_final = "-i [Subtitles only]"
             End If
-            Dim L1Name_Split As String() = Main.WebbrowserURL.Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim L1Name As String = L1Name_Split(1).Replace("www.", "") + " | Dub : " + api.LocaleConverter.ConvertFunimationLanguageToLocale(funSettings.DubLanguage)
-            Main.Invoke(Sub()
-                            Main.ListItemAdd(DownloadPfad, L1Name, DefaultName, ResoHTMLDisplay, Funimation_m3u8_MainVersion, thumbnail4, Funimation_m3u8_final, DownloadPfad, "FM")
-                        End Sub)
+            'Dim L1Name_Split As String() = Main.WebbrowserURL.Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
+            'Dim L1Name As String = L1Name_Split(1).Replace("www.", "") + " | Dub : " + api.LocaleConverter.ConvertFunimationLanguageToLocale(funSettings.DubLanguage)
+            'Main.Invoke(Sub()
+            '                Main.ListItemAdd(DownloadPfad, L1Name, DefaultName, ResoHTMLDisplay, Funimation_m3u8_MainVersion, thumbnail4, Funimation_m3u8_final, DownloadPfad, "FM")
+            '            End Sub)
             'liList.Add(My.Resources.htmlvorThumbnail + thumbnail4 + My.Resources.htmlnachTumbnail + FunimationTitle + " <br> " + FunimationSeason + " " + FunimationEpisode + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + "null" + My.Resources.htmlnachHardSubs + "<!-- " + DefaultName + "-->")
 #End Region
             ' TODO: Maybe want to have a setIdle() method in main for this?

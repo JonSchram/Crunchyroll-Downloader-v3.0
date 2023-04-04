@@ -1,18 +1,16 @@
 ﻿Option Strict On
-Imports System.Net
-Imports System.Text
 Imports System.IO
-Imports System.Threading
-Imports System.Net.WebUtility
+Imports System.Net
 Imports System.Net.Sockets
-Imports MetroFramework.Forms
+Imports System.Runtime.InteropServices
+Imports System.Text
+Imports System.Threading
+Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.general
 Imports MetroFramework
 Imports MetroFramework.Components
-Imports System.Runtime.InteropServices
+Imports MetroFramework.Forms
 Imports Microsoft.Web.WebView2.Core
-Imports Crunchyroll_Downloader.settings
-Imports Crunchyroll_Downloader.settings.funimation
-Imports Crunchyroll_Downloader.settings.general
 
 Public Class Main
     Inherits MetroForm
@@ -41,11 +39,9 @@ Public Class Main
     Public Url_locale As String = Nothing
     Dim ProcessCounting As Integer = 30
     Public LoadingUrl As String = ""
-    Public LoadedUrls As New List(Of CoreWebView2WebResourceRequest)
     Public Manager As New MetroStyleManager
     Public invalids As Char() = System.IO.Path.GetInvalidFileNameChars()
     Dim ServerThread As Thread
-    Public CookieList As New List(Of CoreWebView2Cookie)
     'Public liList As New List(Of String)
     Public HTMLString As String = My.Resources.Startuphtml
     Public ListBoxList As New List(Of String)
@@ -85,14 +81,9 @@ Public Class Main
     Public Grapp_Abord As Boolean = False
     Public ResoNotFoundString As String
     Public ResoBackString As String
-    Public WebbrowserHeadText As String = Nothing
-    Public WebbrowserSoftSubURL As String = Nothing
-    Public WebbrowserURL As String = Nothing
     Public SystemWebBrowserCookie As String = Nothing
     Public WebbrowserText As String = Nothing
-    Public WebbrowserTitle As String = Nothing
     Public WebbrowserCookie As String = Nothing
-    Public UserBowser As Boolean = False
     Public SubFunimationString As String = "en"
 #Region "Sprachen Vairablen"
     Public URL_Invaild As String = "something is wrong here..."
@@ -868,11 +859,10 @@ Public Class Main
 
     Private Sub Btn_add_Click(sender As Object, e As EventArgs) Handles Btn_add.Click
 
-        If File.Exists("cookies.txt") = False Then
-            If Application.OpenForms().OfType(Of Browser).Any = True Then
-            Else
-                UserBowser = False
-                Browser.Show()
+        If Not File.Exists("cookies.txt") Then
+            Dim browserDialog = Browser.GetInstance()
+            If Not browserDialog.Visible Then
+                browserDialog.Show()
             End If
         End If
 
@@ -926,16 +916,11 @@ Public Class Main
 
     Private Sub Btn_Browser_Click(sender As Object, e As EventArgs) Handles Btn_Browser.Click
         Debug.WriteLine(Date.Now.ToString + "." + Date.Now.Millisecond.ToString)
-        UserBowser = True
 
-        If Application.OpenForms().OfType(Of Browser).Any = True Then
-            Browser.Location = Me.Location
-        Else
-            Browser.Location = Me.Location
-            Browser.Show()
+        Dim browserDialog = Browser.GetInstance()
+        If Not browserDialog.Visible Then
+            browserDialog.Show()
         End If
-
-
     End Sub
 
     Public Function RemoveExtraSpaces(input_text As String) As String
@@ -1002,398 +987,12 @@ Public Class Main
 
     End Sub
 
-
-
-
-#Region "process html"
-    Public Sub ProcessHTML(ByVal document As String, ByVal Address As String, ByVal DocumentTitle As String)
-        Dim localHTML As String = document
-        Debug.WriteLine(Date.Now.ToString + "." + Date.Now.Millisecond.ToString)
-        Debug.WriteLine(Address)
-
-        If CBool(InStr(Address, "title-api.prd.funimationsvc.com")) Then
-            ' TODO: Move this into the downloader or extractor
-            'If FunimationJsonBrowser = "EpisodeJson" Then
-            '    ' Anime_Add.FillFunimationEpisodes(localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + """" + "word-wrap: break-word; white-space: pre-wrap;" + """" + ">", "")) '
-            '    FunimationJsonBrowser = Nothing
-            '    WebbrowserURL = "https://funimation.com/js"
-            'ElseIf FunimationJsonBrowser = "v1Json" Then
-            '    GetFunimationNewJS_VideoProxy(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + """" + "word-wrap: break-word; white-space: pre-wrap;" + """" + ">", "")) '
-            '    FunimationJsonBrowser = Nothing
-            '    WebbrowserURL = "https://funimation.com/js"
-            'End If
-            Exit Sub
-        ElseIf CBool(InStr(Address, "/data/v2/shows/")) Then
-            ' TODO: Move into extractor or downloader
-            'If FunimationJsonBrowser = "SeasonJson" Then
-            '    Me.Invoke(New Action(Function() As Object
-            '                             'My.Computer.Clipboard.SetText(localHTML)
-            '                             FunimationSeasonAPIUrl = Address
-            '                             GetFunimationJS_Seasons(Nothing, localHTML.Replace("<body>", "").Replace("</body>", "").Replace("<pre>", "").Replace("</pre>", "").Replace("</html>", "").Replace("<html><head></head><pre style=" + """" + "word-wrap: break-word; white-space: pre-wrap;" + """" + ">", "")) '
-            '                             FunimationJsonBrowser = Nothing
-            '                             WebbrowserURL = "https://funimation.com/js"
-            '                             Return Nothing
-            '                         End Function))
-            'End If
-            Exit Sub
-        ElseIf CBool(InStr(Address, "wakanim.tv")) Then
-            If CBool(InStr(document, "var tracks = [{" + """" + "file" + """" + ":" + """")) Then
-                Dim WakanimSub() As String = document.Split(New String() {"var tracks = [{" + """" + "file" + """" + ":" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim WakanimSub2() As String = WakanimSub(1).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
-                Try
-                    Using client As New WebClient()
-                        client.Encoding = System.Text.Encoding.UTF8
-                        client.Headers.Add(My.Resources.ffmpeg_user_agend)
-                        Dim SaveName As String = System.Text.RegularExpressions.Regex.Replace(DocumentTitle.Replace(" - Schaue legal auf Wakanim.TV", ""), "[^\w\\-]", " ").Replace(":", "")
-                        SaveName = RemoveExtraSpaces(SaveName)
-                        client.DownloadFile(WakanimSub2(0), ProgramSettings.GetInstance().OutputPath + "\" + SaveName + ".vtt")
-                    End Using
-                Catch ex As Exception
-                    'Debug.WriteLine("error- getting funimation SeasonJson data")
-                    'FunimationJsonBrowser = "SeasonJson"
-                    'Navigate(JsonUrl)
-                    ''Navigate(JsonUrl)
-                    Exit Sub
-                End Try
-            End If
-        End If
-        If b = True Then
-            LoadedUrls.Clear()
-            Grapp_RDY = True
-            Debug.WriteLine("Just Browsing, exiting...")
-            'Debug.WriteLine("Just Browsing, exiting... for real...")
-            Exit Sub
-        End If
-        'MsgBox("loaded!")
-        If CBool(InStr(Address, "crunchyroll.com")) Or CBool(InStr(Address, "funimation.com")) Then
-            WebbrowserURL = Address
-
-            ScanTimeout.Start()
-
-
-            'ElseIf CBool(InStr(Address, "funimation.com")) Then
-
-            '    Dim list As List(Of CoreWebView2Cookie) = Await Browser.WebView2.CoreWebView2.CookieManager.GetCookiesAsync("https://www.funimation.com")
-            '    Dim Cookie As String = ""
-            '    For i As Integer = 0 To list.Count - 1
-            '        If CBool(InStr(list.Item(i).Domain, "funimation.com")) Then 'list.Item(i).Domain = "funimation.com" Then
-            '            'MsgBox(list.Item(i).Name + vbNewLine + list.Item(i).Value)
-            '            Cookie = Cookie + list.Item(i).Name + "=" + list.Item(i).Value + ";"
-            '        End If
-            '        If CBool(InStr(list.Item(i).Domain, "funimation.com")) And CBool(InStr(list.Item(i).Name, "src_token")) Then 'list.Item(i).Domain = "funimation.com" Then
-            '            'MsgBox(list.Item(i).Name + vbNewLine + list.Item(i).Value)
-            '            FunimationToken = "Token " + list.Item(i).Value
-            '        End If
-            '    Next
-            '    If b = False Then
-            '        WebbrowserCookie = Cookie
-            '        WebbrowserURL = Address
-            '        Text = "Crunchyroll Downloader"
-            '        For i As Integer = 10 To 0 Step -1
-            '            Anime_Add.StatusLabel.Text = "Status: checking traffic - " + i.ToString
-            '            Pause(1)
-            '        Next
-            '        Dim Evaluator = New Thread(Sub() Me.ProcessUrls())
-            '        Evaluator.Start()
-            '        Exit Sub
-            '    End If
-            'Else
-            '    WebbrowserURL = Address
-            '    Text = "Crunchyroll Downloader"
-            '    For i As Integer = 10 To 0 Step -1
-            '        Anime_Add.StatusLabel.Text = "Status: checking traffic - " + i.ToString
-            '        Pause(1)
-            '    Next
-            '    ProcessUrls()
-            '    'Pause(10)
-            '    'ProcessUrls()
-        End If
-        'End If
-    End Sub
-
-
-
-
-#End Region
-
-    Private Sub Process(sender As Object, e As EventArgs) Handles ScanTimeout.Tick
-        If b = True Then
-            ' TODO
-            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-            ' Anime_Add.StatusLabel.Text = "Status: idle"
-            'End If
-            Me.Text = "Crunchyroll Downloader"
-            Grapp_RDY = True
-            LoadedUrls.Clear()
-            Debug.WriteLine("canceled....")
-            ProcessCounting = 30
-            ScanTimeout.Enabled = False
-            Exit Sub
-        End If
-
-        If LoadedUrls.Count = 0 And ProcessCounting > 0 Then
-            ' TODO
-            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-            '    Anime_Add.StatusLabel.Text = "Status: Processing Url " + ProcessCounting.ToString
-            'End If
-            Me.Text = "Status: Processing Url " + ProcessCounting.ToString
-
-            ProcessCounting = ProcessCounting - 1
-            Exit Sub
-        ElseIf LoadedUrls.Count = 1 And ProcessCounting > 0 Then
-
-            If CBool(InStr(LoadedUrls.Item(0).Uri, "/objects/")) Then
-                ' TODO
-                'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                '    Anime_Add.StatusLabel.Text = "Status: Processing Url " + ProcessCounting.ToString
-                'End If
-                Me.Text = "Status: Processing Url " + ProcessCounting.ToString
-
-                ProcessCounting = ProcessCounting - 1
-                Exit Sub
-            End If
-
-        ElseIf LoadedUrls.Count = 0 And ProcessCounting = 0 Then
-            ' TODO
-            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-            '    Anime_Add.StatusLabel.Text = "Status: nothing found"
-            'End If
-            Me.Text = "Status: nothing found"
-            'ProcessUrls()
-            b = True
-            Debug.WriteLine("3508: nothing found")
-            Grapp_RDY = True
-            ProcessCounting = 30
-            ScanTimeout.Enabled = False
-            Exit Sub
-        End If
-
-
-        Debug.WriteLine("LoadedUrls: " + LoadedUrls.Count.ToString)
-        ' TODO
-        'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-        '    Anime_Add.StatusLabel.Text = "Status: Processing... "
-        'End If
-        Me.Text = "Status: Processing... "
-        Debug.WriteLine("ProcessUrls")
-        ProcessCounting = 30
-        ScanTimeout.Enabled = False
-        ProcessUrls()
-
-        Exit Sub
-
-
-
-    End Sub
-    Public Sub ProcessUrls()
-        Debug.WriteLine(LoadedUrls.Count.ToString)
-        Debug.WriteLine(Date.Now.ToString + " Thread Name: " + Thread.CurrentThread.Name)
-        Dim SavedObjectsUrl = ""
-        For i As Integer = 0 To LoadedUrls.Count - 1
-
-            Dim Request As CoreWebView2WebResourceRequest = LoadedUrls.Item(i)
-
-
-            If CBool(InStr(Request.Uri, "crunchyroll.com/")) And CBool(InStr(Request.Uri, "streams?")) Then
-
-                If b = False Then
-
-                    ' TODO
-                    'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                    '    Anime_Add.StatusLabel.Text = "Status: Crunchyroll episode found."
-                    'End If
-                    Me.Text = "Status: Crunchyroll episode found."
-                    Debug.WriteLine("Crunchyroll episode found")
-                    ' TODO
-                    'GetBetaVideoProxy(Request.Uri, CR_AuthToken, WebbrowserURL)
-                    b = True
-                    LoadedUrls.Clear()
-                    Me.Text = "Crunchyroll Downloader"
-                    Exit Sub
-                End If
-
-            ElseIf CBool(InStr(Request.Uri, "crunchyroll.com/")) And CBool(InStr(Request.Uri, "seasons?preferred_audio_language=")) And CBool(InStr(WebbrowserURL, "series")) Then
-
-                If b = False Then
-                    ' TODO
-                    'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                    '    Anime_Add.StatusLabel.Text = "Status: Crunchyroll season found."
-                    'End If
-                    Me.Text = "Status: Crunchyroll season found."
-                    Debug.WriteLine("Crunchyroll season found")
-
-                    Dim Auth As String = " -H " + """" + "Authorization: " + Request.Headers.GetHeader("Authorization") + """"
-                    Debug.WriteLine(Auth)
-
-                    CR_Cookies = "Cookie: " + Request.Headers.GetHeader("Cookie")
-
-                    ' TODO
-                    'GetBetaSeasons(WebbrowserURL, Request.Uri, Auth)
-
-                    b = True
-                    LoadedUrls.Clear()
-                    Me.Text = "Crunchyroll Downloader"
-                    Exit Sub
-                End If
-            ElseIf CBool(InStr(Request.Uri, "crunchyroll.com/")) And CBool(InStr(Request.Uri, "seasons?series_id=")) Then
-
-                If b = False Then
-                    ' TODO
-                    'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                    '    Anime_Add.StatusLabel.Text = "Status: Error found invalid data."
-                    'End If
-                    b = True
-                    LoadedUrls.Clear()
-                    Me.Text = "Crunchyroll Downloader"
-                    Exit Sub
-                End If
-            ElseIf CBool(InStr(Request.Uri, "crunchyroll.com/")) And CBool(InStr(Request.Uri, "/objects/")) Then
-                If i = LoadedUrls.Count - 1 And SavedObjectsUrl IsNot "" Then
-
-                    If b = False Then
-                        Dim ObjectJson As String
-                        Dim ObjectsUrl As String = Request.Uri
-                        Dim StreamsUrl As String
-                        ObjectJson = Curl(ObjectsUrl)
-
-                        If CBool(InStr(ObjectJson, "curl:")) = True Then
-                            ObjectJson = Curl(ObjectsUrl)
-                        End If
-
-                        If CBool(InStr(ObjectJson, "curl:")) = True Then
-                            Continue For
-                        ElseIf CBool(InStr(ObjectJson, "videos/")) = False Then
-
-                            ' TODO
-                            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                            '    Anime_Add.StatusLabel.Text = "Status: Failed, check CR login"
-                            'End If
-                            Me.Text = "Status: Failed, check CR login"
-                            Debug.WriteLine("Status: Failed, check CR login")
-
-                            Continue For
-                        End If
-
-
-
-
-                        Dim StreamsUrlBuilder() As String = ObjectJson.Split(New String() {"videos/"}, System.StringSplitOptions.RemoveEmptyEntries)
-                        Dim StreamsUrlBuilder2() As String = StreamsUrlBuilder(1).Split(New String() {"/streams"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                        Dim StreamsUrlBuilder3() As String = ObjectsUrl.Split(New String() {"objects/"}, System.StringSplitOptions.RemoveEmptyEntries)
-                        Dim StreamsUrlBuilder4() As String = StreamsUrlBuilder3(1).Split(New String() {"?"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                        StreamsUrl = StreamsUrlBuilder3(0) + "videos/" + StreamsUrlBuilder2(0) + "/streams?" + StreamsUrlBuilder4(1)
-
-                        ' TODO
-                        'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                        '    Anime_Add.StatusLabel.Text = "Status: Crunchyroll episode found."
-                        'End If
-                        Me.Text = "Status: Crunchyroll episode found."
-                        Debug.WriteLine("Crunchyroll episode found")
-                        Dim Headers As New List(Of KeyValuePair(Of String, String))
-                        Headers.AddRange(Request.Headers.ToList)
-                        Dim AuthToken As String = ""
-                        For ii As Integer = 0 To Headers.Count
-                            If CBool(InStr(Headers.Item(i).Value, "Bearer")) Then
-                                AuthToken = Headers.Item(i).Value
-                            End If
-                        Next
-                        ' TODO
-                        ' GetBetaVideoProxy(StreamsUrl, AuthToken, WebbrowserURL)
-                        b = True
-                        LoadedUrls.Clear()
-                        Me.Text = "Crunchyroll Downloader"
-                        Exit Sub
-                    End If
-                Else
-                    SavedObjectsUrl = Request.Uri
-                End If
-
-            End If
-
-            If CBool(InStr(Request.Uri, "/data/v2/shows/")) Then
-                b = True
-                ' TODO
-                Me.Invoke(New Action(Function() As Object
-                                         'GetFunimationJS_Seasons(Request.Uri)
-                                         WebbrowserURL = "https://funimation.com/js"
-                                         Return Nothing
-                                     End Function))
-                LoadedUrls.Clear()
-                Me.Text = "Crunchyroll Downloader"
-                Exit Sub
-            End If
-            If CBool(InStr(Request.Uri, "data/v1/episodes/")) Then
-                b = True
-                ' TODO
-                Me.Invoke(New Action(Function() As Object
-                                         'GetFunimationNewJS_VideoProxy(Request.Uri)
-                                         WebbrowserURL = "https://funimation.com/js"
-                                         Return Nothing
-                                     End Function))
-                LoadedUrls.Clear()
-                Me.Text = "Crunchyroll Downloader"
-                Exit Sub
-            End If
-            If CBool(InStr(Request.Uri, "https://title-api.prd.funimationsvc.com")) And CBool(InStr(Request.Uri, "?region=")) Then
-                ' TODO: Move into downloader
-                'If FunimationAPIRegion = Nothing Then
-                '    Me.Invoke(New Action(Function() As Object
-                '                             Dim parms As String() = Request.Uri.Split(New String() {"?region="}, System.StringSplitOptions.RemoveEmptyEntries)
-                '                             FunimationAPIRegion = "?region=" + parms(1)
-                '                             Return Nothing
-                '                         End Function))
-                'End If
-                If b = False Then
-
-                    If CBool(InStr(Request.Uri, "https://title-api.prd.funimationsvc.com/v1/show")) And CBool(InStr(Request.Uri, "/episodes/")) Then
-                        b = True
-                        ' TODO
-                        ' GetFunimationNewJS_VideoProxy(Request.Uri)
-                        Debug.WriteLine("processing :" + Request.Uri)
-                        LoadedUrls.Clear()
-                        Me.Text = "Crunchyroll Downloader"
-                        Exit Sub
-                    End If
-                End If
-            End If
-        Next
-
-        LoadedUrls.Clear()
-
-        If b = True Then
-            LoadedUrls.Clear()
-            Debug.WriteLine("Just Browsing after all, exiting...")
-            Grapp_RDY = True
-            Me.Text = "Crunchyroll Downloader"
-            Exit Sub
-        End If
-
-    End Sub
-
     Public Sub Navigate(ByVal Url As String)
-        If Application.OpenForms().OfType(Of Browser).Any = True Then
-            If InvokeRequired = True Then
-                Me.Invoke(New Action(Function() As Object
-                                         Browser.WebView2.CoreWebView2.Navigate(Url)
-                                         Return Nothing
-                                     End Function))
-            Else
-                Browser.WebView2.CoreWebView2.Navigate(Url)
-            End If
-        Else
-            If InvokeRequired = True Then
-                Me.Invoke(New Action(Function() As Object
-                                         Browser.Show()
-                                         Browser.WebView2.CoreWebView2.Navigate(Url)
-                                         Return Nothing
-                                     End Function))
-            Else
-                Browser.Show()
-                Browser.WebView2.CoreWebView2.Navigate(Url)
-            End If
+        Dim browserDialog = Browser.GetInstance()
+        If Not browserDialog.Visible Then
+            browserDialog.Show()
         End If
+        browserDialog.Navigate(Url)
     End Sub
 
 #Region "server"
@@ -1442,269 +1041,6 @@ Public Class Main
     End Sub
 
     Sub ProcessRequest(ByVal stream As NetworkStream, ByVal htmlReq As String)
-        Debug.WriteLine(htmlReq)
-        ' Dim recvBytes(1048576) As Byte
-        Try
-            Dim rootPath As String = Directory.GetCurrentDirectory() & "\WebInterface\"
-            ' Set default page
-            Dim defaultPage As String = "index.html"
-            Dim PostPage As String = "post.html"
-            Dim strArray() As String
-            Dim strRequest As String
-            strArray = htmlReq.Trim.Split(New String() {" "}, System.StringSplitOptions.RemoveEmptyEntries)
-            'MsgBox(htmlReq)
-            If strArray(0).Trim().ToUpper.Equals("POST") Then
-                'Debug.WriteLine("receiving data from the add-on")
-                'Debug.WriteLine(htmlReq)
-                'UrlDecode
-                Me.Invoke(New Action(Function() As Object
-                                         Me.Text = "Status: receiving data from the add-on"
-                                         Me.Invalidate()
-                                         Return Nothing
-                                     End Function))
-
-#Region "mass-dl"
-
-
-                If CBool(InStr(htmlReq, "HTMLMass=")) Then
-                    Debug.WriteLine("multi episode mode")
-                    Try
-                        Dim html() As String = htmlReq.Split(New String() {"HTMLMass="}, System.StringSplitOptions.RemoveEmptyEntries)
-                        Dim DecodedHTML As String = UrlDecode(html(1))
-                        Dim URLSplit() As String = DecodedHTML.Split(New String() {"javascript:"}, System.StringSplitOptions.RemoveEmptyEntries)
-                        'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                        '    For i As Integer = 0 To URLSplit.Count - 1
-                        '        Dim ii As Integer = i
-                        '        Me.Invoke(New Action(Function() As Object
-                        '                                 If Anime_Add.ListBox1.Items.Contains(URLSplit(ii)) = False Then
-                        '                                     Anime_Add.ListBox1.Items.Add(URLSplit(ii))
-                        '                                 End If
-                        '                                 'Anime_Add.ListBox1.Items.Add(URLSplit(ii))
-                        '                                 Return Nothing
-                        '                             End Function))
-                        '    Next
-                        'Else
-                        For i As Integer = 0 To URLSplit.Count - 1
-                            If ListBoxList.Contains(URLSplit(i)) = False Then
-                                ListBoxList.Add(URLSplit(i))
-                            End If
-                        Next
-                        Me.Invoke(New Action(Function() As Object
-                                                 Me.Text = "Status: " + ListBoxList.Count.ToString + " downloads in queue" + vbNewLine + "open the add window to continue"
-                                                 Me.Invalidate()
-                                                 Return Nothing
-                                             End Function))
-                        'End If
-                        strRequest = rootPath & "Post_Mass_Sucess.html" 'PostPage
-                        SendHTMLResponse(stream, strRequest)
-                    Catch abort As ThreadAbortException
-                        Exit Sub
-                    Catch ex As Exception
-                        Dim ErrorPage As String = My.Resources.Post_error_Top + ex.ToString + My.Resources.Post_error_Bottom
-                        'My.Computer.FileSystem.WriteAllText(Application.StartupPath + "\WebInterface\error_Page.html", ErrorPage, False)
-                        'strRequest = rootPath & "error_Page.html" 'PostPage
-                        'SendHTMLResponse(stream, strRequest)
-                        SendHTMLResponse(stream, Nothing, New ServerResponse(ErrorPage, "html"))
-
-                    End Try
-#End Region
-#Region "Funimation-mass"
-                ElseIf CBool(InStr(htmlReq, "FunimationMass=")) Then
-                    Debug.WriteLine("Funimation multi episode mode")
-                    Try
-                        Dim DecodedHTML As String = UrlDecode(htmlReq)
-                        If CBool(InStr(DecodedHTML, "&FunimationCookie=")) Then
-                            Dim CookieSplit() As String = DecodedHTML.Split(New String() {"&FunimationCookie="}, System.StringSplitOptions.RemoveEmptyEntries)
-                            SystemWebBrowserCookie = CookieSplit(1)
-                            Dim URLSplit() As String = CookieSplit(0).Split(New String() {"FunimationMass="}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Dim URLSplit2() As String = URLSplit(1).Split(New String() {"javascript:"}, System.StringSplitOptions.RemoveEmptyEntries)
-                            'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                            '    For i As Integer = 0 To URLSplit2.Count - 1
-                            '        Dim ii As Integer = i
-                            '        Me.Invoke(New Action(Function() As Object
-                            '                                 If Anime_Add.ListBox1.Items.Contains(URLSplit2(ii)) = False Then
-                            '                                     Anime_Add.ListBox1.Items.Add(URLSplit2(ii))
-                            '                                 End If
-                            '                                 'Anime_Add.ListBox1.Items.Add(URLSplit(ii))
-                            '                                 Return Nothing
-                            '                             End Function))
-                            '    Next
-                            'Else
-                            For i As Integer = 0 To URLSplit2.Count - 1
-                                If ListBoxList.Contains(URLSplit2(i)) = False Then
-                                    ListBoxList.Add(URLSplit2(i))
-                                End If
-                            Next
-                            Me.Invoke(New Action(Function() As Object
-                                                     Me.Text = "Status: " + ListBoxList.Count.ToString + " downloads in queue" + vbNewLine + "open the add window to continue"
-                                                     Me.Invalidate()
-                                                     Return Nothing
-                                                 End Function))
-                            'End If
-                            strRequest = rootPath & "Post_Mass_Sucess.html" 'PostPage
-                            SendHTMLResponse(stream, strRequest)
-                        End If
-                    Catch abort As ThreadAbortException
-                        Exit Sub
-                    Catch ex As Exception
-                        Dim ErrorPage As String = My.Resources.Post_error_Top + ex.ToString + My.Resources.Post_error_Bottom
-                        'My.Computer.FileSystem.WriteAllText(Application.StartupPath + "\WebInterface\error_Page.html", ErrorPage, False)
-                        'strRequest = rootPath & "error_Page.html" 'PostPage
-                        'SendHTMLResponse(stream, strRequest)
-                        SendHTMLResponse(stream, Nothing, New ServerResponse(ErrorPage, "html"))
-
-                    End Try
-#End Region
-#Region "funimation Einzeln"
-                ElseIf CBool(InStr(htmlReq, "FunimationURL=")) Then
-                    Debug.WriteLine("single episode mode - Funimation")
-                    'MsgBox(htmlReq)
-                    Me.Invoke(New Action(Function() As Object
-                                             Me.Text = "Status: Download added from add-on"
-                                             Me.Invalidate()
-                                             Return Nothing
-                                         End Function))
-                    Try
-                        Dim URLSplit() As String = htmlReq.Split(New String() {"FunimationURL="}, System.StringSplitOptions.RemoveEmptyEntries)
-                        Dim URLSplit2() As String = URLSplit(1).Split(New String() {"&FunimationCookie="}, System.StringSplitOptions.RemoveEmptyEntries)
-                        SystemWebBrowserCookie = URLSplit2(1)
-                        WebbrowserURL = UrlDecode(URLSplit2(0))
-
-                        If CBool(InStr(WebbrowserURL, "funimation.com")) Then
-                            Dim settings = ProgramSettings.GetInstance()
-                            Dim funSettings = settings.Funimation
-                            Dim DubFunimation = ""
-                            Select Case funSettings.DubLanguage
-                                Case FunimationLanguage.JAPANESE
-                                    DubFunimation = "japanese"
-                                Case FunimationLanguage.ENGLISH
-                                    DubFunimation = "english"
-                                Case FunimationLanguage.PORTUGUESE
-                                    DubFunimation = "portuguese(Brazil)"
-                                Case FunimationLanguage.SPANISH
-                                    DubFunimation = "spanish(Mexico)"
-                            End Select
-                            If funSettings.DubLanguage = FunimationLanguage.NONE Then
-                            Else
-                                If CBool(InStr(WebbrowserURL, "?lang=")) Then
-                                    Dim ClearUri As String() = WebbrowserURL.Split(New String() {"?lang="}, System.StringSplitOptions.RemoveEmptyEntries)
-                                    If ClearUri.Count > 1 Then
-                                        If CBool(InStr(ClearUri(1), "&")) Then
-                                            Dim ClearUri2 As String() = ClearUri(1).Split(New String() {"&"}, System.StringSplitOptions.RemoveEmptyEntries)
-                                            Dim Parms As String = Nothing
-                                            For i As Integer = 1 To ClearUri2.Count - 1
-                                                Parms = Parms + "&" + ClearUri2(i)
-                                            Next
-                                            WebbrowserURL = ClearUri(0) + "?lang=" + DubFunimation + Parms
-                                        Else
-                                            WebbrowserURL = ClearUri(0) + "?lang=" + DubFunimation
-                                        End If
-                                    Else
-                                        WebbrowserURL = ClearUri(0) + "?lang=" + DubFunimation
-                                    End If
-                                ElseIf CBool(InStr(WebbrowserURL, "&lang=")) Then
-                                    Dim ClearUri As String() = WebbrowserURL.Split(New String() {"&lang="}, System.StringSplitOptions.RemoveEmptyEntries)
-                                    If ClearUri.Count > 1 Then
-                                        If CBool(InStr(ClearUri(1), "&")) Then
-                                            Dim ClearUri2 As String() = ClearUri(1).Split(New String() {"&"}, System.StringSplitOptions.RemoveEmptyEntries)
-                                            Dim Parms As String = Nothing
-                                            For i As Integer = 1 To ClearUri2.Count - 1
-                                                Parms = Parms + "&" + ClearUri2(i)
-                                            Next
-                                            WebbrowserURL = ClearUri(0) + "&lang=" + DubFunimation + Parms
-                                        Else
-                                            WebbrowserURL = ClearUri(0) + "&lang=" + DubFunimation
-                                        End If
-                                    Else
-                                        WebbrowserURL = ClearUri(0) + "&lang=" + DubFunimation
-                                    End If
-                                ElseIf CBool(InStr(WebbrowserURL, "?")) Then
-                                    WebbrowserURL = WebbrowserURL + "&lang=" + DubFunimation
-                                Else
-                                    WebbrowserURL = WebbrowserURL + "?lang=" + DubFunimation
-                                End If
-                            End If
-                        End If
-                        ' TODO
-                        'If Funimation_Grapp_RDY = True Then
-                        '    If RunningDownloads >= MaxDL Then
-                        '        If ListBoxList.Contains(WebbrowserURL) = False Then
-                        '            ListBoxList.Add(WebbrowserURL)
-                        '        End If
-                        '        'ListBoxList.Add(WebbrowserURL)
-                        '    Else
-                        '        Me.Invoke(New Action(Function() As Object
-                        '                                 Navigate(WebbrowserURL)
-                        '                                 Return Nothing
-                        '                             End Function))
-                        '        b = False
-                        '    End If
-                        'Else
-                        '    'If Application.OpenForms().OfType(Of Anime_Add).Any = True Then
-                        '    '    Me.Invoke(New Action(Function() As Object
-                        '    '                             If Anime_Add.ListBox1.Items.Contains(WebbrowserURL) = False Then
-                        '    '                                 Anime_Add.ListBox1.Items.Add(WebbrowserURL)
-                        '    '                             End If
-                        '    '                             Return Nothing
-                        '    '                         End Function))
-                        '    'Else
-                        '    If ListBoxList.Contains(WebbrowserURL) = False Then
-                        '        ListBoxList.Add(WebbrowserURL)
-                        '    End If
-                        '    Me.Invoke(New Action(Function() As Object
-                        '                             Me.Text = "Status: " + ListBoxList.Count.ToString + " downloads in queue"
-                        '                             Me.Invalidate()
-                        '                             Return Nothing
-                        '                         End Function))
-                        '    'End If
-                        'End If
-                        strRequest = rootPath & "Post_Single_Sucess.html" 'PostPage
-                        SendHTMLResponse(stream, strRequest)
-                    Catch abort As ThreadAbortException
-                        Exit Sub
-                    Catch ex As Exception
-                        Dim ErrorPage As String = My.Resources.Post_error_Top + ex.ToString + My.Resources.Post_error_Bottom
-                        'My.Computer.FileSystem.WriteAllText(Application.StartupPath + "\WebInterface\error_Page.html", ErrorPage, False)
-                        'strRequest = rootPath & "error_Page.html" 'PostPage
-                        'SendHTMLResponse(stream, strRequest)
-                        SendHTMLResponse(stream, Nothing, New ServerResponse(ErrorPage, "html"))
-
-                    End Try
-#End Region
-                Else
-                    strRequest = rootPath & "error_Page_default.html" 'PostPage
-                    SendHTMLResponse(stream, strRequest)
-                End If
-            ElseIf strArray(0).Trim().ToUpper.Equals("GET") Then
-                strRequest = strArray(1).Trim
-
-                If CBool(InStr(strRequest, "403")) Then
-                    strRequest = strRequest & defaultPage '"HTMLString" 'strRequest & defaultPage
-                    SendHTMLResponse(stream, "index.html", Nothing, "HTTP/1.0 403 Forbidden")
-                End If
-
-                If strRequest.StartsWith("/") Then
-                    strRequest = strRequest.Substring(1)
-                End If
-                If strRequest.EndsWith("/") Or strRequest.Equals("") Then
-                    'Debug.WriteLine(Date.Now + " " + "it's index.html")
-                    strRequest = strRequest & defaultPage '"HTMLString" 'strRequest & defaultPage
-                End If
-
-                strRequest = rootPath & strRequest
-                SendHTMLResponse(stream, strRequest)
-            Else ' Not HTTP GET method
-
-                strRequest = rootPath & defaultPage
-                SendHTMLResponse(stream, strRequest)
-            End If
-        Catch ex As Exception
-            Debug.WriteLine(ex.ToString())
-            Dim ErrorPage As String = My.Resources.Post_error_Top + ex.ToString + My.Resources.Post_error_Bottom
-            ' My.Computer.FileSystem.WriteAllText(Application.StartupPath + "\WebInterface\error_Page.html", ErrorPage, False)
-            SendHTMLResponse(stream, Nothing, New ServerResponse(ErrorPage, "html"))
-
-        End Try
     End Sub
 
     ' Send HTTP Response
@@ -1881,9 +1217,9 @@ Public Class Main
         Try
             Dim DeviceRegion As String = Nothing
 
-            'Browser.GetCookies()
+            Dim browserDialog = Browser.GetInstance()
 
-            Dim list As List(Of CoreWebView2Cookie) = Await Browser.WebView2.CoreWebView2.CookieManager.GetCookiesAsync("https://www.funimation.com/")
+            Dim list As List(Of CoreWebView2Cookie) = Await browserDialog.GetCookies("https://www.funimation.com/")
             Dim Cookie As String = ""
             For i As Integer = 0 To list.Count - 1
                 If CBool(InStr(list.Item(i).Domain, "funimation.com")) Then 'list.Item(i).Domain = "funimation.com" Then
@@ -1939,22 +1275,10 @@ Public Class Main
         Trackbar.ShowDialog()
     End Sub
 
-    Private Sub MsgBoxToolStripMenuItem_Click(sender As Object, e As EventArgs)
-        MsgBox(LoadedUrls.Count.ToString)
-        For i As Integer = 0 To LoadedUrls.Count - 1
-            MsgBox(LoadedUrls(i))
-        Next
-    End Sub
-
-    Private Sub CRCookieToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CRCookieToolStripMenuItem.Click
-
-        'MsgBox(Curl(InputBox("test", "test")))
-        'For i As Integer = 0 To CookieList.Count - 1
-
-
-        'Next
-        MsgBox(CookieList.Count.ToString)
-        'MsgBox(CR_Cookies)
+    Private Async Sub CRCookieToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CRCookieToolStripMenuItem.Click
+        Dim browserDialog = Browser.GetInstance()
+        Dim cookieList = Await browserDialog.GetCookies("https://www.crunchyroll.com")
+        MsgBox(cookieList.Count.ToString())
     End Sub
 
     Private Sub ClearAllSettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UrlJsonsToolStripMenuItem.Click
@@ -2038,23 +1362,12 @@ Public Class Main
     End Sub
 
     Private Sub Btn_Queue_Click(sender As Object, e As EventArgs) Handles Btn_Queue.Click
-        If File.Exists("cookies.txt") = False Then
-            If Application.OpenForms().OfType(Of Browser).Any = True Then
-            Else
-                UserBowser = False
-                Browser.Show()
-            End If
-        End If
-
         If Queue.WindowState = System.Windows.Forms.FormWindowState.Minimized Then
             Queue.WindowState = System.Windows.Forms.FormWindowState.Normal
         Else
             Queue.Show()
         End If
-
     End Sub
-
-
 
 #End Region
 
@@ -2062,228 +1375,6 @@ Public Class Main
 
 
     Public Sub LoadBrowser(ByVal Url As String)
-
-
-        LoadingUrl = Url
-        LoadedUrls.Clear()
-        Dim NoBrowser As Boolean = False
-
-        If My.Settings.SaveMode = True Then
-            Browser.WebView2.CoreWebView2.Navigate(Url)
-            Exit Sub
-        End If
-
-        'CR_v1Token = "Get"
-        'Browser.WebView2.Source = New Uri(Url)
-        'Exit Sub
-        'MsgBox(Url)
-
-        If CBool(InStr(Url, "crunchyroll.com")) = True And CBool(InStr(Url, "series")) = True Or CBool(InStr(Url, "crunchyroll.com")) = True And CBool(InStr(Url, "watch")) = True Then
-
-
-
-#Region "Get Cookies"
-
-            CR_Cookies = "Cookie: "
-            'MsgBox("Cookies")
-            If File.Exists("cookies.txt") = True Then
-                CR_Cookies = GetCookiesFromFile("crunchyroll.com")
-                NoBrowser = True
-                CrBetaBasic = "Basic bm9haWhkZXZtXzZpeWcwYThsMHE6"
-                'MsgBox(True.ToString)
-            Else
-                Browser.GetCookies(Url)
-
-                Debug.WriteLine(CookieList.Count.ToString)
-                If CookieList.Count = 0 Then
-                    Browser.WebView2.CoreWebView2.Navigate(Url)
-                    SetStatusLabel("Status: loading in browser...")
-                    Me.Text = "Status: loading in browser..."
-                    Exit Sub
-                End If
-
-
-
-                For i As Integer = 0 To CookieList.Count - 1
-
-                    If CBool(InStr(CookieList.Item(i).Domain, ".crunchyroll.com")) And CBool(InStr(CookieList.Item(i).Name, "_evidon_suppress")) = False Then
-                        CR_Cookies = CR_Cookies + CookieList.Item(i).Name + "=" + CookieList.Item(i).Value + ";"
-                    End If
-
-                Next
-
-            End If
-
-            'MsgBox(Main.CR_Cookies)
-
-            Dim DeviceRegion As String = Nothing
-
-            If CBool(InStr(Url, "/series")) Then
-                Dim locale1() As String = Url.Split(New String() {"crunchyroll.com/"}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim locale2() As String = locale1(1).Split(New String() {"/series"}, System.StringSplitOptions.RemoveEmptyEntries)
-                ' TODO: This is in Crunchyroll Downloader
-                'locale = Convert_locale(locale2(0))
-                If locale = "en-US" Then
-                    Url_locale = ""
-                Else
-                    Url_locale = locale2(0)
-                End If
-            ElseIf CBool(InStr(Url, "/watch")) Then
-                Dim locale1() As String = Url.Split(New String() {"crunchyroll.com/"}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim locale2() As String = locale1(1).Split(New String() {"/watch"}, System.StringSplitOptions.RemoveEmptyEntries)
-                'MsgBox(locale2(0))
-
-                ' TODO: This is in Crunchyroll Downloader
-                ' locale = Convert_locale(locale2(0))
-                'End If
-                If locale = "en-US" Then
-                    Url_locale = ""
-                Else
-                    Url_locale = locale2(0)
-                End If
-            End If
-
-            Debug.WriteLine("###" + CR_Cookies + "###")
-
-            Dim Loc_CR_Cookies = " -H " + """" + CR_Cookies + """"
-
-
-            'CR_v1Token = "Get"
-            'Browser.WebView2.Source = New Uri(Url)
-            'Exit Sub
-
-#End Region
-            Dim Auth As String = " -H " + """" + "Authorization: " + CrBetaBasic + """"
-            Dim Post As String = " -d " + """" + "grant_type=etp_rt_cookie" + """" + " -X POST"
-
-            Dim CRBetaBearer As String = "Bearer "
-
-            Dim v1Token As String = CurlPost("https://www.crunchyroll.com/auth/v1/token", Loc_CR_Cookies, Auth, Post)
-
-
-            If CBool(InStr(v1Token, "curl:")) = True And CBool(InStr(v1Token, "400")) = True Then
-
-                v1Token = CurlPost("https://www.crunchyroll.com/auth/v1/token", Loc_CR_Cookies, Auth, Post.Replace("etp_rt_cookie", "client_id"))
-
-            End If
-
-            'MsgBox(v1Token)
-
-            If CBool(InStr(v1Token, "curl:")) = True And CBool(InStr(v1Token, "400")) = True Then
-                SetStatusLabel("Status: Failed - bad request, check CR login")
-                Me.Text = "Status: Failed - bad request, check CR login"
-                Debug.WriteLine("Status: Failed - bad request, check CR login")
-
-                b = True
-                Exit Sub
-
-            ElseIf CBool(InStr(v1Token, "curl:")) = True Then
-                v1Token = CurlPost("https://www.crunchyroll.com/auth/v1/token", Loc_CR_Cookies, Auth, Post)
-            End If
-
-            'MsgBox(v1Token)
-            If CBool(InStr(v1Token, "curl: (60)")) = True Then
-                SetStatusLabel("Status: Critical error. #4478")
-                MsgBox("Please try the '--insecure' option found on the 'Main' page of the settings.")
-                Exit Sub
-                'ElseIf CBool(InStr(v1Token, "curl:")) Then
-
-            ElseIf CBool(InStr(v1Token, "curl:")) = True Then
-                Browser.WebView2.CoreWebView2.Navigate(Url)
-                Exit Sub
-
-            End If
-
-            Dim Token() As String = v1Token.Split(New String() {"""" + "access_token" + """" + ":" + """"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim Token2() As String = Token(1).Split(New String() {"""" + "," + """"}, System.StringSplitOptions.RemoveEmptyEntries)
-            CRBetaBearer = CRBetaBearer + Token2(0)
-
-            Dim Auth2 As String = " -H " + """" + "Authorization: " + CRBetaBearer + """"
-
-            ProcessLoading(Url, Auth2, Loc_CR_Cookies)
-
-        Else
-            'to do
-        End If
-    End Sub
-
-    Public Sub ProcessLoading(ByVal url As String, Auth2 As String, ByVal Loc_CR_Cookies As String)
-
-        If CBool(InStr(url, "crunchyroll.com")) = True And CBool(InStr(url, "series/")) = True Then
-
-            Dim SeriesUrlBuilder() As String = url.Split(New String() {"series/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim SeriesUrlBuilder2() As String = SeriesUrlBuilder(1).Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-            ' TODO: Convert Crunchyroll audio language to language string (like ja-jp) and use here
-            'Dim SeriesUrl As String = "https://www.crunchyroll.com/content/v2/cms/series/" + SeriesUrlBuilder2(0) + "/seasons?preferred_audio_language=" + DubSprache.CR_Value + "&locale=" + locale '+ "&Signature=" + signature2(0) + "&Policy=" + policy2(0) + "&Key-Pair-Id=" + key_pair_id2(0)
-            'Debug.WriteLine(SeriesUrl)
-            ' TODO
-            'GetBetaSeasons(url, SeriesUrl, Auth2)
-
-
-        ElseIf CBool(InStr(url, "crunchyroll.com")) = True And CBool(InStr(url, "watch/")) = True And CBool(CrBetaBasic = Nothing) = False Then
-
-            Dim ObjectsUrl As String = Nothing
-
-
-            'MsgBox(Url)
-            Dim ObjectsURLBuilder3() As String = url.Split(New String() {"watch/"}, System.StringSplitOptions.RemoveEmptyEntries)
-            Dim ObjectsURLBuilder4() As String = ObjectsURLBuilder3(1).Split(New String() {"/"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-
-            ' TODO: Get audio language as string here as well from settings
-            Dim audioLanguage = "ja-jp"
-            ObjectsUrl = "https://www.crunchyroll.com/content/v2/cms/objects/" + ObjectsURLBuilder4(0) + "?preferred_audio_language=" + audioLanguage + "&locale=" + locale
-            'End Using
-            'MsgBox(ObjectsUrl)
-
-            Debug.WriteLine("ObjectsUrl: " + ObjectsUrl)
-
-
-            Dim StreamsUrl As String = Nothing
-            Dim ObjectJson As String
-            ObjectJson = CurlAuth(ObjectsUrl, Loc_CR_Cookies, Auth2)
-
-
-            If CBool(InStr(ObjectJson, "curl:")) = True Then
-                Browser.WebView2.CoreWebView2.Navigate(url)
-
-                Exit Sub
-            ElseIf CBool(InStr(ObjectJson, "videos/")) = False Then
-
-                SetStatusLabel("Status: Failed - no video, check CR login")
-                Me.Text = "Status: Failed - no video, check CR login"
-                Debug.WriteLine("Status: Failed - no video, check CR login")
-
-                Exit Sub
-            End If
-
-            Try
-                Dim StreamsUrlBuilder() As String = ObjectJson.Split(New String() {"videos/"}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim StreamsUrlBuilder2() As String = StreamsUrlBuilder(1).Split(New String() {"/streams"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                Dim StreamsUrlBuilder3() As String = ObjectsUrl.Split(New String() {"objects/"}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim StreamsUrlBuilder4() As String = StreamsUrlBuilder3(1).Split(New String() {"?"}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                StreamsUrl = StreamsUrlBuilder3(0) + "videos/" + StreamsUrlBuilder2(0) + "/streams?" + StreamsUrlBuilder4(1)
-
-                'MsgBox(StreamsUrl)
-
-                ' Debug.WriteLine(StreamsUrl)
-            Catch ex As Exception
-                Browser.WebView2.CoreWebView2.Navigate(url)
-                Exit Sub
-            End Try
-
-            ' TODO
-            'GetBetaVideoProxy(StreamsUrl, Auth2, url)
-
-
-        Else
-            Browser.WebView2.CoreWebView2.Navigate(url)
-        End If
-
-
     End Sub
 
 
@@ -2353,6 +1444,8 @@ Public Class Main
     End Sub
 
     Private Sub SaveModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveModeToolStripMenuItem.Click
+        ' TODO: SaveMode doesn't seem to do much (only controlled whether the browser redirected)
+        ' It can be removed.
         If My.Settings.SaveMode = False Then
             My.Settings.SaveMode = True
             MsgBox("SaveMode enabled")

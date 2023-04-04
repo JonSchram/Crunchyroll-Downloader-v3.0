@@ -76,8 +76,7 @@ Public Class FunimationExtractor
     Async Sub getCookies()
         Dim Region = GetRegion()
 
-        Dim List = Await Browser.WebView2.CoreWebView2.CookieManager.GetCookiesAsync("https://www.funimation.com")
-
+        Dim List = Await Browser.GetInstance().GetCookies("https://www.funimation.com")
 
         Dim FunimationToken As String = Nothing
         Dim FunimationDeviceRegion As String = Nothing
@@ -223,7 +222,7 @@ Public Class FunimationExtractor
             Dim EpisodeSplit2() As String = EpisodeSplit(i).Split(New String() {""""}, System.StringSplitOptions.RemoveEmptyEntries)
             ReturnValue.Add(EpisodeSplit2(0))
         Next
-        Main.WebbrowserURL = "https://funimation.com/js"
+        'Main.WebbrowserURL = "https://funimation.com/js"
         Return ReturnValue
     End Function
 

@@ -44,8 +44,7 @@ Public Class DebugForm
     End Sub
 
     Private Async Sub GetBrowserCookiesButton_Click(sender As Object, e As EventArgs) Handles GetBrowserCookiesButton.Click
-        Dim cookies As List(Of CoreWebView2Cookie) = Await Browser.GetCookies(CookieDomainTextBox.Text)
-        Dim mainCookies = Main.CookieList
+        Dim cookies As List(Of CoreWebView2Cookie) = Await Browser.GetInstance().GetCookies(CookieDomainTextBox.Text)
         CookiesOutputTextBox.Text = ConvertCookiesToText(cookies)
     End Sub
 
@@ -71,10 +70,11 @@ Public Class DebugForm
 
     Private Async Sub AuthenticateButton_Click(sender As Object, e As EventArgs) Handles AuthenticateButton.Click
         Dim authenticator As ICookieBasedAuth = Nothing
+        Dim cookieManager = Browser.GetInstance().GetCookieManager()
         If FunimationAuthRadioButton.Checked Then
-            authenticator = New FunimationAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
+            authenticator = New FunimationAuthenticator(cookieManager)
         ElseIf CrunchyrollAuthRadioButton.Checked Then
-            authenticator = New CrunchyrollAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
+            authenticator = New CrunchyrollAuthenticator(cookieManager)
         End If
         If authenticator IsNot Nothing Then
             Dim cookie = Await authenticator.GetLoginCookie()
@@ -85,7 +85,7 @@ Public Class DebugForm
 
     Private Async Sub IsPaidAccountButton_Click(sender As Object, e As EventArgs) Handles IsPaidAccountButton.Click
         If FunimationAuthRadioButton.Checked Then
-            Dim authenticator = New FunimationAuthenticator(Browser.WebView2.CoreWebView2.CookieManager)
+            Dim authenticator = New FunimationAuthenticator(Browser.GetInstance().GetCookieManager())
             Dim isPaid = Await authenticator.IsPaidAccount()
             AuthenticationOutputTextBox.Text = "Is paid account: " + CStr(isPaid)
         End If

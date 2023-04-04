@@ -22,36 +22,33 @@ Partial Class Browser
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.UrlTextBox = New System.Windows.Forms.TextBox()
+        Me.CopyUrlButton = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.WebView2 = New Microsoft.Web.WebView2.WinForms.WebView2()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1.SuspendLayout()
         CType(Me.WebView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'TextBox1
+        'UrlTextBox
         '
-        Me.TextBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.UrlTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(114, 1)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(1153, 26)
-        Me.TextBox1.TabIndex = 1
+        Me.UrlTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.UrlTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UrlTextBox.Location = New System.Drawing.Point(114, 1)
+        Me.UrlTextBox.Name = "UrlTextBox"
+        Me.UrlTextBox.Size = New System.Drawing.Size(1153, 26)
+        Me.UrlTextBox.TabIndex = 1
         '
-        'Button1
+        'CopyUrlButton
         '
-        Me.Button1.Location = New System.Drawing.Point(12, 1)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(96, 26)
-        Me.Button1.TabIndex = 2
-        Me.Button1.Text = "Copy URL"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.CopyUrlButton.Location = New System.Drawing.Point(12, 1)
+        Me.CopyUrlButton.Name = "CopyUrlButton"
+        Me.CopyUrlButton.Size = New System.Drawing.Size(96, 26)
+        Me.CopyUrlButton.TabIndex = 2
+        Me.CopyUrlButton.Text = "Copy URL"
+        Me.CopyUrlButton.UseVisualStyleBackColor = True
         '
         'Panel1
         '
@@ -76,25 +73,18 @@ Partial Class Browser
         Me.WebView2.TabIndex = 0
         Me.WebView2.ZoomFactor = 1.0R
         '
-        'Timer1
-        '
-        Me.Timer1.Interval = 60000
-        '
-        'Timer2
-        '
-        Me.Timer2.Interval = 15000
-        '
         'Browser
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1279, 750)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.CopyUrlButton)
+        Me.Controls.Add(Me.UrlTextBox)
         Me.MinimumSize = New System.Drawing.Size(480, 480)
         Me.Name = "Browser"
         Me.ShowIcon = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Browser"
         Me.Panel1.ResumeLayout(False)
         CType(Me.WebView2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -103,10 +93,8 @@ Partial Class Browser
 
     End Sub
 
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents UrlTextBox As TextBox
+    Friend WithEvents CopyUrlButton As Button
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents Timer1 As Timer
-    Friend WithEvents Timer2 As Timer
     Public WithEvents WebView2 As Microsoft.Web.WebView2.WinForms.WebView2
 End Class
