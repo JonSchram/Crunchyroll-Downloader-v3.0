@@ -189,6 +189,7 @@
     <Compile Include="api\downloaders\FunimationDownloader.vb" />
     <Compile Include="api\Extractors\CrunchyrollExtractor.vb" />
     <Compile Include="api\Extractors\FunimationExtractor.vb" />
+    <Compile Include="download\DownloadExecutor.vb" />
     <Compile Include="download\DownloadTask.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>

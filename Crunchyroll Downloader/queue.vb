@@ -1,7 +1,6 @@
 ﻿Option Strict On
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings.general
-Imports MetroFramework
 Imports MetroFramework.Components
 
 Public Class Queue
@@ -14,7 +13,18 @@ Public Class Queue
 
     Dim Manager As MetroStyleManager = Main.Manager
 
-    Private episodeQueue As DownloadQueue = DownloadQueue.getInstance()
+    Private ReadOnly episodeQueue As DownloadQueue = DownloadQueue.GetInstance()
+    Private ReadOnly downloader As DownloadExecutor = DownloadExecutor.GetInstance()
+
+    Public Sub New()
+        InitializeComponent()
+
+        ' Set data source update mode to OnPropertyChanged so the control doesn't have to lose focus to update the property.
+        Dim dataBinding = New Binding("Checked", downloader, "IsProcessingQueue") With {
+            .DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged
+        }
+        RunQueueToggle.DataBindings.Add(dataBinding)
+    End Sub
 
     Private Sub Reso_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
@@ -25,12 +35,11 @@ Public Class Queue
 
         ListBox1.DataSource = episodeQueue
 
-        Btn_min.Image = Main.MinImg
-        Btn_Close.Image = Main.CloseImg
 
     End Sub
 
     Private Sub HandleDarkModeChanged(isDarkMode As Boolean)
+        ' TODO: Check that the colors are the same as the ones set by a Metro style extender.
         If isDarkMode Then
             ListBox1.BackColor = DARK_MODE_BACKGROUND_COLOR
             ListBox1.ForeColor = DARK_MODE_FOREGROUND_COLOR
@@ -40,35 +49,8 @@ Public Class Queue
         End If
     End Sub
 
-
-    Private Sub Btn_Close_Click(sender As Object, e As EventArgs) Handles Btn_Close.Click
-        Me.Close()
-    End Sub
-
-
-    Private Sub Btn_Close_MouseEnter(sender As Object, e As EventArgs) Handles Btn_Close.MouseEnter, Btn_Close.GotFocus
-        If Manager.Theme = MetroThemeStyle.Dark Then
-            Btn_Close.Image = My.Resources.main_close_dark_hover
-        Else
-            Btn_Close.Image = My.Resources.main_close_hover
-        End If
-    End Sub
-
-    Private Sub Btn_Close_MouseLeave(sender As Object, e As EventArgs) Handles Btn_Close.MouseLeave, Btn_Close.LostFocus
-        Btn_Close.Image = Main.CloseImg
-    End Sub
-
-    Private Sub Queue_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        Btn_Close.Location = New Point(Me.Width - 36, 1)
-        Btn_min.Location = New Point(Me.Width - 67, 1)
-    End Sub
-
-    Private Sub Btn_min_Click(sender As Object, e As EventArgs) Handles Btn_min.Click
-        Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
-    End Sub
-
-    Private Sub RunQueue_CheckedChanged(sender As Object, e As EventArgs) Handles RunQueue.CheckedChanged
-        RunQueueTimer.Enabled = RunQueue.Checked
+    Private Sub RunQueue_CheckedChanged(sender As Object, e As EventArgs) Handles RunQueueToggle.CheckedChanged
+        RunQueueTimer.Enabled = RunQueueToggle.Checked
     End Sub
 
     Private Sub RunQueueTimer_Tick(sender As Object, e As EventArgs) Handles RunQueueTimer.Tick
