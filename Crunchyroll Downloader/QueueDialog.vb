@@ -3,7 +3,7 @@ Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings.general
 Imports MetroFramework.Components
 
-Public Class Queue
+Public Class QueueDialog
 
     Private ReadOnly DARK_MODE_FOREGROUND_COLOR As Color = Color.FromArgb(243, 243, 243)
     Private ReadOnly DARK_MODE_BACKGROUND_COLOR As Color = Color.FromArgb(50, 50, 50)

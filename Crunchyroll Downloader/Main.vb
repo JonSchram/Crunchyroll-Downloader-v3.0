@@ -1362,10 +1362,10 @@ Public Class Main
     End Sub
 
     Private Sub Btn_Queue_Click(sender As Object, e As EventArgs) Handles Btn_Queue.Click
-        If Queue.WindowState = System.Windows.Forms.FormWindowState.Minimized Then
-            Queue.WindowState = System.Windows.Forms.FormWindowState.Normal
+        If QueueDialog.WindowState = System.Windows.Forms.FormWindowState.Minimized Then
+            QueueDialog.WindowState = System.Windows.Forms.FormWindowState.Normal
         Else
-            Queue.Show()
+            QueueDialog.Show()
         End If
     End Sub
 
