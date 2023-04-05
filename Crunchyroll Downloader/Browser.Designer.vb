@@ -96,5 +96,5 @@ Partial Class Browser
     Friend WithEvents UrlTextBox As TextBox
     Friend WithEvents CopyUrlButton As Button
     Friend WithEvents Panel1 As Panel
-    Public WithEvents WebView2 As Microsoft.Web.WebView2.WinForms.WebView2
+    Private WithEvents WebView2 As Microsoft.Web.WebView2.WinForms.WebView2
 End Class
