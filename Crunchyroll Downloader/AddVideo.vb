@@ -39,7 +39,7 @@ Public Class AddVideo
                 For episodeNum = startEpisode To endEpisode
                     Dim Episode = episodes.Item(episodeNum)
                     Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode.ApiUrlSlug)
-                    downloadQueue.enqueue(EpisodeInfo, OutputPath)
+                    downloadQueue.Enqueue(EpisodeInfo, OutputPath)
                 Next
                 ' StartEpisode and endEpisode are indices into episodeList
             End If
@@ -47,7 +47,7 @@ Public Class AddVideo
         Else
             ' Individual video
             Dim episodeInfo = MetadataApi.getEpisodeInfo()
-            downloadQueue.enqueue(episodeInfo, OutputPath)
+            downloadQueue.Enqueue(episodeInfo, OutputPath)
 
         End If
 
