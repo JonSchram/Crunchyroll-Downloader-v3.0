@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Concurrent
 Imports System.ComponentModel
+Imports System.Threading
 
 Namespace download
     ''' <summary>
@@ -14,6 +15,7 @@ Namespace download
 
         Private EpisodeList As ConcurrentQueue(Of DownloadTask) = New ConcurrentQueue(Of DownloadTask)
         Private SyncObject As Object = New Object()
+        Private context As SynchronizationContext = SynchronizationContext.Current
 
         Private Shared Instance As DownloadQueue = Nothing
         Public Event ListChanged As ListChangedEventHandler Implements IBindingList.ListChanged
@@ -83,7 +85,9 @@ Namespace download
 
         Public Sub Enqueue(episode As Episode, path As String)
             EpisodeList.Enqueue(New DownloadTask(episode, path))
-            RaiseEvent ListChanged(Me, New ListChangedEventArgs(ListChangedType.ItemAdded, EpisodeList.Count - 1))
+            context.Post(Sub()
+                             RaiseEvent ListChanged(Me, New ListChangedEventArgs(ListChangedType.ItemAdded, EpisodeList.Count - 1))
+                         End Sub, Nothing)
         End Sub
 
         Public Sub EnqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer, path As String)
@@ -103,7 +107,11 @@ Namespace download
             ' Maybe make subclasses of Episode so that when passing to the API, it chooses the right subclass
             Dim episode As DownloadTask = Nothing
             If EpisodeList.TryDequeue(episode) Then
-                RaiseEvent ListChanged(Me, New ListChangedEventArgs(ListChangedType.ItemDeleted, 0))
+                ' TODO: Throws a System.InvalidOperationException when accessing from another thread.
+                ' Seems that a data-bound list cannot be updated from another thread (sad)
+                context.Post(Sub()
+                                 RaiseEvent ListChanged(Me, New ListChangedEventArgs(ListChangedType.ItemDeleted, 0))
+                             End Sub, Nothing)
                 Return episode
             End If
             Return Nothing
