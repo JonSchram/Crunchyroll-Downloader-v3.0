@@ -27,7 +27,7 @@ Public Class FunimationEpisode
             .VideoId = Id.Value(Of String),
             .ApiId = apiId.Value(Of Integer),
             .UrlSlug = slug.Value(Of String),
-            .EpisodeNumber = episodeNumber.Value(Of Integer),
+            .EpisodeNumber = episodeNumber.Value(Of Double),
             .SeasonNumber = seasonNumber.Value(Of Integer),
             .ShowName = showName,
             .ImageUrl = imageUrl,
