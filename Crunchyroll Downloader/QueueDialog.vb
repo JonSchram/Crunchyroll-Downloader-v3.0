@@ -4,17 +4,10 @@ Imports Crunchyroll_Downloader.settings.general
 Imports MetroFramework.Components
 
 Public Class QueueDialog
-
-    Private ReadOnly DARK_MODE_FOREGROUND_COLOR As Color = Color.FromArgb(243, 243, 243)
-    Private ReadOnly DARK_MODE_BACKGROUND_COLOR As Color = Color.FromArgb(50, 50, 50)
-
-    Private ReadOnly LIGHT_MODE_FOREGROUND_COLOR As Color = SystemColors.WindowText
-    Private ReadOnly LIGHT_MODE_BACKGROUND_COLOR As Color = Color.FromArgb(243, 243, 243)
-
-    Dim Manager As MetroStyleManager = Main.Manager
-
     Private ReadOnly episodeQueue As DownloadQueue = DownloadQueue.GetInstance()
     Private ReadOnly downloader As DownloadExecutor = DownloadExecutor.GetInstance()
+
+    Private ReadOnly settings As ProgramSettings = ProgramSettings.GetInstance()
 
     Public Sub New()
         InitializeComponent()
@@ -26,26 +19,20 @@ Public Class QueueDialog
         RunQueueToggle.DataBindings.Add(dataBinding)
     End Sub
 
-    Private Sub Reso_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
-        HandleDarkModeChanged(ProgramSettings.GetInstance().DarkMode)
+        StyleManager = MetroStyleManager1
+        MetroStyleExtender1.SetApplyMetroTheme(QueueDisplayListBox, True)
+        HandleDarkModeChanged(settings.DarkMode)
 
-        Manager.Owner = Me
-        Me.StyleManager = Manager
-
-        ListBox1.DataSource = episodeQueue
-
-
+        QueueDisplayListBox.DataSource = episodeQueue
     End Sub
 
     Private Sub HandleDarkModeChanged(isDarkMode As Boolean)
-        ' TODO: Check that the colors are the same as the ones set by a Metro style extender.
         If isDarkMode Then
-            ListBox1.BackColor = DARK_MODE_BACKGROUND_COLOR
-            ListBox1.ForeColor = DARK_MODE_FOREGROUND_COLOR
+            MetroStyleManager1.Theme = MetroFramework.MetroThemeStyle.Dark
         Else
-            ListBox1.BackColor = LIGHT_MODE_BACKGROUND_COLOR
-            ListBox1.ForeColor = LIGHT_MODE_FOREGROUND_COLOR
+            MetroStyleManager1.Theme = MetroFramework.MetroThemeStyle.Light
         End If
     End Sub
 
@@ -75,7 +62,7 @@ Public Class QueueDialog
 
         If Main.RunningDownloads < ProgramSettings.GetInstance().SimultaneousDownloads Then
             If Main.ListBoxList.Count > 0 Then
-                If CBool(InStr(ListBox1.GetItemText(Main.ListBoxList(0)), "funimation.com")) Then
+                If CBool(InStr(QueueDisplayListBox.GetItemText(Main.ListBoxList(0)), "funimation.com")) Then
                     ' TODO
                     'If Main.Funimation_Grapp_RDY = True Then
                     '    Dim UriUsed As String = ListBox1.GetItemText(Main.ListBoxList(0))
@@ -117,7 +104,7 @@ Public Class QueueDialog
                     'End If
 
                 Else
-                    Dim UriUsed As String = ListBox1.GetItemText(Main.ListBoxList(0))
+                    Dim UriUsed As String = QueueDisplayListBox.GetItemText(Main.ListBoxList(0))
 
                     If Main.Grapp_RDY = True Then
                         Main.Grapp_RDY = False

@@ -23,26 +23,29 @@ Partial Class QueueDialog
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.QueueDisplayListBox = New System.Windows.Forms.ListBox()
         Me.RunQueueToggle = New MetroFramework.Controls.MetroToggle()
         Me.Label1 = New MetroFramework.Controls.MetroLabel()
         Me.RunQueueTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.MetroStyleExtender1 = New MetroFramework.Components.MetroStyleExtender(Me.components)
+        Me.MetroStyleManager1 = New MetroFramework.Components.MetroStyleManager(Me.components)
+        CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'ListBox1
+        'QueueDisplayListBox
         '
-        Me.ListBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.QueueDisplayListBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ListBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(243, Byte), Integer), CType(CType(243, Byte), Integer))
-        Me.ListBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.ItemHeight = 20
-        Me.ListBox1.Location = New System.Drawing.Point(25, 65)
-        Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.SelectionMode = System.Windows.Forms.SelectionMode.None
-        Me.ListBox1.Size = New System.Drawing.Size(700, 304)
-        Me.ListBox1.TabIndex = 0
+        Me.QueueDisplayListBox.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(243, Byte), Integer), CType(CType(243, Byte), Integer))
+        Me.QueueDisplayListBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.QueueDisplayListBox.FormattingEnabled = True
+        Me.QueueDisplayListBox.ItemHeight = 20
+        Me.QueueDisplayListBox.Location = New System.Drawing.Point(25, 65)
+        Me.QueueDisplayListBox.Name = "QueueDisplayListBox"
+        Me.QueueDisplayListBox.SelectionMode = System.Windows.Forms.SelectionMode.None
+        Me.QueueDisplayListBox.Size = New System.Drawing.Size(700, 304)
+        Me.QueueDisplayListBox.TabIndex = 0
         '
         'RunQueueToggle
         '
@@ -70,6 +73,11 @@ Partial Class QueueDialog
         '
         Me.RunQueueTimer.Interval = 2500
         '
+        'MetroStyleManager1
+        '
+        Me.MetroStyleManager1.Owner = Me
+        Me.MetroStyleManager1.Style = MetroFramework.MetroColorStyle.Orange
+        '
         'QueueDialog
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -77,16 +85,19 @@ Partial Class QueueDialog
         Me.ClientSize = New System.Drawing.Size(750, 450)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.RunQueueToggle)
-        Me.Controls.Add(Me.ListBox1)
+        Me.Controls.Add(Me.QueueDisplayListBox)
         Me.MaximizeBox = False
         Me.Name = "QueueDialog"
         Me.Text = "Queue"
         Me.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center
+        CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Public WithEvents ListBox1 As ListBox
+    Public WithEvents QueueDisplayListBox As ListBox
     Friend WithEvents RunQueueToggle As MetroFramework.Controls.MetroToggle
     Friend WithEvents Label1 As MetroFramework.Controls.MetroLabel
     Friend WithEvents RunQueueTimer As Timer
+    Friend WithEvents MetroStyleExtender1 As MetroFramework.Components.MetroStyleExtender
+    Friend WithEvents MetroStyleManager1 As MetroFramework.Components.MetroStyleManager
 End Class
