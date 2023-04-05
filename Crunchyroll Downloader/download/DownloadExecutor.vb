@@ -16,6 +16,7 @@ Namespace download
 
         Private Sub New()
             AddHandler queue.ListChanged, AddressOf QueueModified
+            AddHandler ProgramSettings.SimultaneousDownloadsChanged, AddressOf HandleSimultaneousDownloadChange
         End Sub
 
         Public Shared Function GetInstance() As DownloadExecutor
@@ -49,6 +50,10 @@ Namespace download
             If processing Then
                 CheckAndStartTask()
             End If
+        End Sub
+
+        Private Sub HandleSimultaneousDownloadChange(newValue As Integer)
+            CheckAndStartTask()
         End Sub
 
         Private Sub CheckAndStartTask()

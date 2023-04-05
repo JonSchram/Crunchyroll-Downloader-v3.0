@@ -8,6 +8,7 @@ Namespace settings.general
 
     Public Class ProgramSettings
         Public Shared Event DarkModeChanged(darkModeEnabled As Boolean)
+        Public Shared Event SimultaneousDownloadsChanged(simultaneousDownloads As Integer)
         Private Shared Instance As New ProgramSettings()
 
         Private Sub New()
@@ -215,6 +216,7 @@ Namespace settings.general
             End Get
             Set(value As Integer)
                 My.Settings.SL_DL = value
+                RaiseEvent SimultaneousDownloadsChanged(value)
             End Set
         End Property
 
