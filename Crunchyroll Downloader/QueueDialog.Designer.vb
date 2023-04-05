@@ -40,6 +40,7 @@ Partial Class QueueDialog
         Me.ListBox1.ItemHeight = 20
         Me.ListBox1.Location = New System.Drawing.Point(25, 65)
         Me.ListBox1.Name = "ListBox1"
+        Me.ListBox1.SelectionMode = System.Windows.Forms.SelectionMode.None
         Me.ListBox1.Size = New System.Drawing.Size(700, 304)
         Me.ListBox1.TabIndex = 0
         '
@@ -69,7 +70,7 @@ Partial Class QueueDialog
         '
         Me.RunQueueTimer.Interval = 2500
         '
-        'Queue
+        'QueueDialog
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle
@@ -78,7 +79,7 @@ Partial Class QueueDialog
         Me.Controls.Add(Me.RunQueueToggle)
         Me.Controls.Add(Me.ListBox1)
         Me.MaximizeBox = False
-        Me.Name = "Queue"
+        Me.Name = "QueueDialog"
         Me.Text = "Queue"
         Me.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center
         Me.ResumeLayout(False)

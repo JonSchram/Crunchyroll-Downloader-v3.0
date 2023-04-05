@@ -40,7 +40,7 @@ Namespace download
         End Property
 
         Private Sub QueueModified(sender As Object, e As ListChangedEventArgs)
-            If e.ListChangedType = ListChangedType.ItemAdded And IsProcessingQueue Then
+            If e.ListChangedType = ListChangedType.ItemAdded Then
                 CheckAndStartTask()
             End If
         End Sub
@@ -52,12 +52,14 @@ Namespace download
         End Sub
 
         Private Sub CheckAndStartTask()
-            Dim simultaneousDownloads = settings.SimultaneousDownloads
-            SyncLock TaskListLock
-                While queue.Size() > 0 And ExecutingTasks.Count < simultaneousDownloads
-                    StartNewTask(queue.Dequeue())
-                End While
-            End SyncLock
+            If IsProcessingQueue Then
+                Dim simultaneousDownloads = settings.SimultaneousDownloads
+                SyncLock TaskListLock
+                    While queue.Size() > 0 And ExecutingTasks.Count < simultaneousDownloads
+                        StartNewTask(queue.Dequeue())
+                    End While
+                End SyncLock
+            End If
         End Sub
 
         Private Sub StartNewTask(task As DownloadTask)
