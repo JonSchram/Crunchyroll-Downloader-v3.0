@@ -8,6 +8,12 @@ Public Class AddVideo
 
     Public Property downloadUrl As String
 
+    Private Queue As DownloadQueue = DownloadQueue.GetInstance()
+
+    Public Sub New()
+        InitializeComponent()
+    End Sub
+
     Private Sub AddVideo_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         updateDirectoryComboBox(GetSubDirectories(OutputPath))
         subfolderComboBox.SelectedItem = OutputSubFolder
@@ -18,7 +24,6 @@ Public Class AddVideo
 
         Dim Api As New DownloaderApi(downloadUrl)
         Dim MetadataApi As IMetadataDownloader = Api.GetMetadataDownloader()
-        Dim downloadQueue As DownloadQueue = DownloadQueue.getInstance()
 
         If Not MetadataApi.IsVideoUrl() Then
             'MsgBox("Downloading season information")
@@ -28,29 +33,43 @@ Public Class AddVideo
             '    ' TODO: make a method in season select class
             '    seasonSelectorForm.seasonSelectComboBox.Items.Add(Season.Name)
             'Next
-            If seasonSelectorForm.ShowDialog() = Windows.Forms.DialogResult.OK Then
-                Dim episodeList = seasonSelectorForm.episodeList
-                Dim startEpisode = seasonSelectorForm.startEpisode
-                Dim endEpisode = seasonSelectorForm.endEpisode
 
-                Dim minEpisode = Math.Min(startEpisode, endEpisode)
-                Dim maxEpisode = Math.Max(startEpisode, endEpisode)
-                Dim episodes = episodeList.ToList
-                For episodeNum = startEpisode To endEpisode
-                    Dim Episode = episodes.Item(episodeNum)
-                    Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode.ApiUrlSlug)
-                    downloadQueue.Enqueue(EpisodeInfo, OutputPath)
-                Next
-                ' StartEpisode and endEpisode are indices into episodeList
-            End If
-            seasonSelectorForm.Dispose()
+            ' Disable the add video form to simulate a modal dialog. 
+            Enabled = False
+            AddHandler seasonSelectorForm.FormClosed, AddressOf SeasonSelectFormClosed
+            ' Can't use ShowDialog because it would block all forms in the app.
+            seasonSelectorForm.Show(Me)
         Else
             ' Individual video
             Dim episodeInfo = MetadataApi.getEpisodeInfo()
-            downloadQueue.Enqueue(episodeInfo, OutputPath)
-
+            Queue.Enqueue(episodeInfo, OutputPath)
         End If
+    End Sub
 
+    Private Sub SeasonSelectFormClosed(sender As Object, args As FormClosedEventArgs)
+        Enabled = True
+
+        Dim selectForm = CType(sender, SeasonSelector)
+
+        Dim Api As New DownloaderApi(downloadUrl)
+        Dim MetadataApi As IMetadataDownloader = Api.GetMetadataDownloader()
+
+        If selectForm.DialogResult = DialogResult.OK Then
+            Dim episodeList = selectForm.episodeList
+            Dim startEpisode = selectForm.startEpisode
+            Dim endEpisode = selectForm.endEpisode
+
+            Dim minEpisode = Math.Min(startEpisode, endEpisode)
+            Dim maxEpisode = Math.Max(startEpisode, endEpisode)
+            Dim episodes = episodeList.ToList
+            For episodeNum = startEpisode To endEpisode
+                Dim Episode = episodes.Item(episodeNum)
+                Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode.ApiUrlSlug)
+                Queue.Enqueue(EpisodeInfo, OutputPath)
+            Next
+            ' StartEpisode and endEpisode are indices into episodeList
+        End If
+        selectForm.Dispose()
     End Sub
 
     'Private Function isFunimationUrl(url As String) As Boolean

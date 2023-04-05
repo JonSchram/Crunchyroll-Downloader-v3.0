@@ -43,20 +43,13 @@
         ' Might want to confirm that the list is set?
         startEpisode = startEpisodeComboBox.SelectedIndex
         endEpisode = endEpisodeComboBox.SelectedIndex
-        Me.DialogResult = Windows.Forms.DialogResult.OK
+        DialogResult = Windows.Forms.DialogResult.OK
+        Close()
     End Sub
 
     Private Sub resetComboBox(comboBox As ComboBox)
         comboBox.Items.Clear()
         comboBox.Text = Nothing
-    End Sub
-
-    Private Sub CloseButton_Click(sender As Object, e As EventArgs)
-        Close()
-    End Sub
-
-    Private Sub MinimizeButton_Click(sender As Object, e As EventArgs)
-        WindowState = FormWindowState.Minimized
     End Sub
 
     Private Sub seasonSelectComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles seasonSelectComboBox.SelectedIndexChanged
@@ -93,6 +86,7 @@
     End Sub
 
     Private Sub CancelDialogButton_Click(sender As Object, e As EventArgs) Handles CancelDialogButton.Click
-        Me.DialogResult = DialogResult.Cancel
+        DialogResult = DialogResult.Cancel
+        Close()
     End Sub
 End Class
