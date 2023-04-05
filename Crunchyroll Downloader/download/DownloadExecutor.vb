@@ -1,4 +1,5 @@
-﻿Imports System.ComponentModel
+﻿Imports System.Collections.Concurrent
+Imports System.ComponentModel
 Imports System.Threading
 Imports Crunchyroll_Downloader.settings.general
 
@@ -11,6 +12,7 @@ Namespace download
         Private queue As DownloadQueue = DownloadQueue.GetInstance()
         Private settings As ProgramSettings = ProgramSettings.GetInstance()
         Private ExecutingTasks As List(Of DownloadTask) = New List(Of DownloadTask)()
+        Private TaskListLock As Object = New Object()
 
         Private Sub New()
             AddHandler queue.ListChanged, AddressOf QueueModified
@@ -51,21 +53,26 @@ Namespace download
 
         Private Sub CheckAndStartTask()
             Dim simultaneousDownloads = settings.SimultaneousDownloads
-            While queue.Size() > 0 And ExecutingTasks.Count < simultaneousDownloads
-                StartNewTask(queue.Dequeue())
-            End While
+            SyncLock TaskListLock
+                While queue.Size() > 0 And ExecutingTasks.Count < simultaneousDownloads
+                    StartNewTask(queue.Dequeue())
+                End While
+            End SyncLock
         End Sub
 
         Private Sub StartNewTask(task As DownloadTask)
             Dim threadState = New DownloadThread(task, AddressOf TaskCompleted)
             Dim taskThread = New Thread(New ThreadStart(AddressOf threadState.Download))
-            ExecutingTasks.Add(task)
-
+            SyncLock TaskListLock
+                ExecutingTasks.Add(task)
+            End SyncLock
             taskThread.Start()
         End Sub
 
         Private Sub TaskCompleted(task As DownloadTask)
-            ExecutingTasks.Remove(task)
+            SyncLock TaskListLock
+                ExecutingTasks.Remove(task)
+            End SyncLock
             CheckAndStartTask()
         End Sub
 
