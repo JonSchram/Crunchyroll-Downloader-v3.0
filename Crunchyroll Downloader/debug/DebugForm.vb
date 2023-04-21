@@ -68,7 +68,7 @@ Public Class DebugForm
         Return result
     End Function
 
-    Private Async Sub AuthenticateButton_Click(sender As Object, e As EventArgs) Handles AuthenticateButton.Click
+    Private Async Sub GetLoginTokenButton_Click(sender As Object, e As EventArgs) Handles GetLoginTokenButton.Click
         Dim authenticator As ICookieBasedAuth = Nothing
         Dim cookieManager = Browser.GetInstance().GetCookieManager()
         If FunimationAuthRadioButton.Checked Then
@@ -102,5 +102,18 @@ Public Class DebugForm
         ' Microsoft recommends not using WebClient for new development (so use HttpClient)
         Dim hClient = New HttpClient()
         'hClient.DefaultRequestHeaders.
+    End Sub
+
+    Private Async Sub AuthenticateButton_Click(sender As Object, e As EventArgs) Handles AuthenticateButton.Click
+        If FunimationAuthRadioButton.Checked Then
+            Dim url = AuthenticateUrlTextBox.Text
+            Dim token = LoginTokenTextBox.Text
+            Dim authenticator = New FunimationAuthenticator(token)
+
+            Dim result = Await authenticator.Authenticate(url)
+            AuthenticationOutputTextBox.Text = result
+        ElseIf CrunchyrollAuthRadioButton.Checked Then
+
+        End If
     End Sub
 End Class

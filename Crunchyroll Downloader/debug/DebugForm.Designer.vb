@@ -53,11 +53,16 @@ Partial Class DebugForm
         Me.GetBrowserCookiesButton = New System.Windows.Forms.Button()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.AuthenticateButton = New System.Windows.Forms.Button()
+        Me.AuthenticationOutputTextBox = New System.Windows.Forms.TextBox()
+        Me.IsPaidAccountButton = New System.Windows.Forms.Button()
+        Me.GetLoginTokenButton = New System.Windows.Forms.Button()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.FunimationAuthRadioButton = New System.Windows.Forms.RadioButton()
         Me.CrunchyrollAuthRadioButton = New System.Windows.Forms.RadioButton()
-        Me.IsPaidAccountButton = New System.Windows.Forms.Button()
-        Me.AuthenticationOutputTextBox = New System.Windows.Forms.TextBox()
+        Me.AuthenticateUrlTextBox = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.LoginTokenTextBox = New System.Windows.Forms.TextBox()
         Me.TabControlOperations.SuspendLayout()
         Me.TabPageEpisode.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -406,9 +411,14 @@ Partial Class DebugForm
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.LoginTokenTextBox)
+        Me.TabPage1.Controls.Add(Me.Label5)
+        Me.TabPage1.Controls.Add(Me.Label4)
+        Me.TabPage1.Controls.Add(Me.AuthenticateUrlTextBox)
+        Me.TabPage1.Controls.Add(Me.AuthenticateButton)
         Me.TabPage1.Controls.Add(Me.AuthenticationOutputTextBox)
         Me.TabPage1.Controls.Add(Me.IsPaidAccountButton)
-        Me.TabPage1.Controls.Add(Me.AuthenticateButton)
+        Me.TabPage1.Controls.Add(Me.GetLoginTokenButton)
         Me.TabPage1.Controls.Add(Me.GroupBox4)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
@@ -420,15 +430,50 @@ Partial Class DebugForm
         '
         'AuthenticateButton
         '
-        Me.AuthenticateButton.Location = New System.Drawing.Point(120, 294)
+        Me.AuthenticateButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.AuthenticateButton.Location = New System.Drawing.Point(121, 353)
         Me.AuthenticateButton.Name = "AuthenticateButton"
-        Me.AuthenticateButton.Size = New System.Drawing.Size(90, 23)
-        Me.AuthenticateButton.TabIndex = 1
-        Me.AuthenticateButton.Text = "Get login token"
+        Me.AuthenticateButton.Size = New System.Drawing.Size(75, 23)
+        Me.AuthenticateButton.TabIndex = 5
+        Me.AuthenticateButton.Text = "Authenticate"
         Me.AuthenticateButton.UseVisualStyleBackColor = True
+        '
+        'AuthenticationOutputTextBox
+        '
+        Me.AuthenticationOutputTextBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.AuthenticationOutputTextBox.Location = New System.Drawing.Point(6, 6)
+        Me.AuthenticationOutputTextBox.Multiline = True
+        Me.AuthenticationOutputTextBox.Name = "AuthenticationOutputTextBox"
+        Me.AuthenticationOutputTextBox.ReadOnly = True
+        Me.AuthenticationOutputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.AuthenticationOutputTextBox.Size = New System.Drawing.Size(753, 168)
+        Me.AuthenticationOutputTextBox.TabIndex = 4
+        '
+        'IsPaidAccountButton
+        '
+        Me.IsPaidAccountButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.IsPaidAccountButton.Location = New System.Drawing.Point(121, 324)
+        Me.IsPaidAccountButton.Name = "IsPaidAccountButton"
+        Me.IsPaidAccountButton.Size = New System.Drawing.Size(75, 23)
+        Me.IsPaidAccountButton.TabIndex = 2
+        Me.IsPaidAccountButton.Text = "Get is paid"
+        Me.IsPaidAccountButton.UseVisualStyleBackColor = True
+        '
+        'GetLoginTokenButton
+        '
+        Me.GetLoginTokenButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.GetLoginTokenButton.Location = New System.Drawing.Point(120, 294)
+        Me.GetLoginTokenButton.Name = "GetLoginTokenButton"
+        Me.GetLoginTokenButton.Size = New System.Drawing.Size(90, 23)
+        Me.GetLoginTokenButton.TabIndex = 1
+        Me.GetLoginTokenButton.Text = "Get login token"
+        Me.GetLoginTokenButton.UseVisualStyleBackColor = True
         '
         'GroupBox4
         '
+        Me.GroupBox4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.GroupBox4.Controls.Add(Me.FunimationAuthRadioButton)
         Me.GroupBox4.Controls.Add(Me.CrunchyrollAuthRadioButton)
         Me.GroupBox4.Location = New System.Drawing.Point(7, 294)
@@ -460,27 +505,43 @@ Partial Class DebugForm
         Me.CrunchyrollAuthRadioButton.Text = "Crunchyroll"
         Me.CrunchyrollAuthRadioButton.UseVisualStyleBackColor = True
         '
-        'IsPaidAccountButton
+        'AuthenticateUrlTextBox
         '
-        Me.IsPaidAccountButton.Location = New System.Drawing.Point(121, 324)
-        Me.IsPaidAccountButton.Name = "IsPaidAccountButton"
-        Me.IsPaidAccountButton.Size = New System.Drawing.Size(75, 23)
-        Me.IsPaidAccountButton.TabIndex = 2
-        Me.IsPaidAccountButton.Text = "Get is paid"
-        Me.IsPaidAccountButton.UseVisualStyleBackColor = True
-        '
-        'AuthenticationOutputTextBox
-        '
-        Me.AuthenticationOutputTextBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.AuthenticateUrlTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.AuthenticationOutputTextBox.Location = New System.Drawing.Point(6, 6)
-        Me.AuthenticationOutputTextBox.Multiline = True
-        Me.AuthenticationOutputTextBox.Name = "AuthenticationOutputTextBox"
-        Me.AuthenticationOutputTextBox.ReadOnly = True
-        Me.AuthenticationOutputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.AuthenticationOutputTextBox.Size = New System.Drawing.Size(753, 168)
-        Me.AuthenticationOutputTextBox.TabIndex = 4
+        Me.AuthenticateUrlTextBox.Location = New System.Drawing.Point(120, 178)
+        Me.AuthenticateUrlTextBox.Name = "AuthenticateUrlTextBox"
+        Me.AuthenticateUrlTextBox.Size = New System.Drawing.Size(639, 20)
+        Me.AuthenticateUrlTextBox.TabIndex = 6
+        '
+        'Label4
+        '
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(7, 181)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(100, 13)
+        Me.Label4.TabIndex = 7
+        Me.Label4.Text = "Authentication URL"
+        '
+        'Label5
+        '
+        Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(44, 208)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(63, 13)
+        Me.Label5.TabIndex = 8
+        Me.Label5.Text = "Login token"
+        '
+        'LoginTokenTextBox
+        '
+        Me.LoginTokenTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.LoginTokenTextBox.Location = New System.Drawing.Point(121, 205)
+        Me.LoginTokenTextBox.Name = "LoginTokenTextBox"
+        Me.LoginTokenTextBox.Size = New System.Drawing.Size(638, 20)
+        Me.LoginTokenTextBox.TabIndex = 9
         '
         'DebugForm
         '
@@ -541,10 +602,15 @@ Partial Class DebugForm
     Friend WithEvents CookieDomainTextBox As TextBox
     Friend WithEvents GetBrowserCookiesButton As Button
     Friend WithEvents TabPage1 As TabPage
-    Friend WithEvents AuthenticateButton As Button
+    Friend WithEvents GetLoginTokenButton As Button
     Friend WithEvents GroupBox4 As GroupBox
     Friend WithEvents FunimationAuthRadioButton As RadioButton
     Friend WithEvents CrunchyrollAuthRadioButton As RadioButton
     Friend WithEvents IsPaidAccountButton As Button
     Friend WithEvents AuthenticationOutputTextBox As TextBox
+    Friend WithEvents AuthenticateButton As Button
+    Friend WithEvents Label4 As Label
+    Friend WithEvents AuthenticateUrlTextBox As TextBox
+    Friend WithEvents LoginTokenTextBox As TextBox
+    Friend WithEvents Label5 As Label
 End Class
