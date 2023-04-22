@@ -7,6 +7,10 @@ Public Class Playback
     ' The URL that must be used to download the playlist for this video
     Public Property PlaylistPath As String
 
+    Public Property AudioLanguage As String
+
+    Public Property AccessType As String
+
     Public Property Subtitles As List(Of Subtitle)
 
 End Class

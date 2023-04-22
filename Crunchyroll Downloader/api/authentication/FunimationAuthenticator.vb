@@ -85,6 +85,9 @@ Namespace api.authentication
                 ' If the episode requires a subscription, throws an HTTP 403 with:
                 ' errorName: InsufficientSubscriptionError
                 ' statusCode: 600
+                ' The best design here might involve not catching the error so it can be
+                ' handled elsewhere. Not sure how often this method will be used and
+                ' what other errors might exist.
                 Console.WriteLine("HTTP request exception: ", e.Message)
             End Try
 

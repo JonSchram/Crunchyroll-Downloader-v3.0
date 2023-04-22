@@ -38,12 +38,16 @@ Public Class EpisodePlaybackInfo
         Dim videoId = playbackToken.Item("venueVideoId")
         Dim playlistPath = playbackToken.Item("manifestPath")
         Dim subtitlesToken = playbackToken.Item("subtitles")
+        Dim accessTypeToken = playbackToken.Item("accessType")
+        Dim audioLanguageToken = playbackToken.Item("audioLanguage")
         Dim subtitlesList = BuildSubtitles(subtitlesToken.AsEnumerable())
 
         Dim PlaybackObject = New Playback() With {
                .VideoId = videoId.Value(Of String),
                .PlaylistPath = playlistPath.Value(Of String),
-               .Subtitles = subtitlesList
+               .Subtitles = subtitlesList,
+               .AudioLanguage = audioLanguageToken.Value(Of String),
+               .AccessType = audioLanguageToken.Value(Of String)
         }
 
         Return PlaybackObject
