@@ -13,6 +13,17 @@
         Return UrlUtilities.IsCrunchyrollUrl(downloadUrl)
     End Function
 
+    ' TODO:
+    ' Split API into:
+    '  - Series metadata
+    '  - Season metadata
+    '  - Episode metadata
+    '  - Episode playback
+    '
+    ' This makes it clearer what an API class exists for,
+    ' solves the problem of creating a metadata extractor with a URL that might be for a season or an episode,
+    ' and should hopefully make the API a little cleaner by reducing the temptation to tightly couple code.
+
     Public Function GetMetadataDownloader() As IMetadataDownloader
         ' TODO: Choose CR or Funi metadata downloader
         If (Me.IsFunimationUrl()) Then

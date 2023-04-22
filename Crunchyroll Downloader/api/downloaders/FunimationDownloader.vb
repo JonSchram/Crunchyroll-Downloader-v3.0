@@ -62,10 +62,9 @@ Public Class FunimationDownloader
     End Sub
 
     Public Function GetPlaybacks(Episode As Episode) As EpisodePlaybackInfo
-        ' A playback file contains a primary and fallbacks. Not sure what they do but maybe it's in case the primary doesn't respond?
-        ' File contents seem to be exactly the same format but with different bandwidth metadata / video download URLs (there is a slug that seems to be a GUID)
-        ' API paths are the same
-        ' So if we get a list of fallbacks, might as well parse them in case they're needed
+        ' Primary playback seems to be the one the user would want to watch based on current settings.
+        ' Fallbacks contain all other options - depending on your preferences, the primary entry may later appear as a fallback.
+        ' Need to search all of them to make sure you get the one with the correct audio language.
         Dim playbackUrl = buildPlaybackUrl(Episode.VideoId)
         Dim playbackJson = DownloadJson(playbackUrl)
         Dim playbackList = EpisodePlaybackInfo.CreateFromJson(playbackJson)
