@@ -82,6 +82,9 @@ Namespace api.authentication
                 Return Await response.Content.ReadAsStringAsync()
 
             Catch e As HttpRequestException
+                ' If the episode requires a subscription, throws an HTTP 403 with:
+                ' errorName: InsufficientSubscriptionError
+                ' statusCode: 600
                 Console.WriteLine("HTTP request exception: ", e.Message)
             End Try
 
