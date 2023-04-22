@@ -78,7 +78,11 @@ Public Class DebugForm
         End If
         If authenticator IsNot Nothing Then
             Dim cookie = Await authenticator.GetLoginCookie()
-            AuthenticationOutputTextBox.Text = cookie.Name + ":" + vbTab + cookie.Value
+            If cookie Is Nothing Then
+                AuthenticationOutputTextBox.Text = "Cookie not found"
+            Else
+                AuthenticationOutputTextBox.Text = cookie.Name + ":" + vbTab + cookie.Value
+            End If
         End If
 
     End Sub
@@ -108,9 +112,15 @@ Public Class DebugForm
         If FunimationAuthRadioButton.Checked Then
             Dim url = AuthenticateUrlTextBox.Text
             Dim token = LoginTokenTextBox.Text
-            Dim authenticator = New FunimationAuthenticator(token)
 
-            Dim result = Await authenticator.Authenticate(url)
+            Dim authenticator As FunimationAuthenticator
+            If token = "" Then
+                authenticator = New FunimationAuthenticator(Browser.GetInstance().GetCookieManager())
+            Else
+                authenticator = New FunimationAuthenticator(token)
+            End If
+
+            Dim result = Await authenticator.SendAuthenticatedRequest(url)
             AuthenticationOutputTextBox.Text = result
         ElseIf CrunchyrollAuthRadioButton.Checked Then
 

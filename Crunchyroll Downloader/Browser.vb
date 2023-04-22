@@ -54,7 +54,11 @@ Public Class Browser
     End Function
 
     Public Function GetCookieManager() As CoreWebView2CookieManager
-        Return WebView2.CoreWebView2.CookieManager
+        If WebView2.CoreWebView2 IsNot Nothing Then
+            Return WebView2.CoreWebView2.CookieManager
+        Else
+            Return Nothing
+        End If
     End Function
 
     Private Sub Browser_Load(sender As Object, e As EventArgs) Handles Me.Load
