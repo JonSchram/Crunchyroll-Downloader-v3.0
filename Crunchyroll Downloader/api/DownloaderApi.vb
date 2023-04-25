@@ -14,20 +14,13 @@
     End Function
 
     ' TODO:
-    ' Split API into:
-    '  - Series metadata
-    '  - Season metadata
-    '  - Episode metadata
-    '  - Episode playback
-    '
-    ' This makes it clearer what an API class exists for,
-    ' solves the problem of creating a metadata extractor with a URL that might be for a season or an episode,
-    ' and should hopefully make the API a little cleaner by reducing the temptation to tightly couple code.
+    ' Unify API such that all calls to a website go through the same class.
+    ' There aren't many endpoints to call, and it would allow sharing the same API reference.
 
     Public Function GetMetadataDownloader() As IMetadataDownloader
         ' TODO: Choose CR or Funi metadata downloader
         If (Me.IsFunimationUrl()) Then
-            Return New FunimationExtractor(downloadUrl)
+            Return New FunimationExtractor()
         ElseIf Me.IsCrunchyrollUrl() Then
             ' TODO
             Return Nothing

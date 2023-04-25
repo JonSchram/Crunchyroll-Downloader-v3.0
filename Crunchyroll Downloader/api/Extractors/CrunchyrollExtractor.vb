@@ -37,23 +37,27 @@ Public Class CrunchyrollExtractor
 
     End Sub
 
-    Public Function ListSeasons() As IEnumerable(Of SeasonOverview) Implements IMetadataDownloader.ListSeasons
+    Public Function ListSeasons(Url As String) As IEnumerable(Of SeasonOverview) Implements IMetadataDownloader.ListSeasons
         Throw New NotImplementedException()
     End Function
 
-    Public Function ListEpisodes(SeasonName As String) As IEnumerable(Of EpisodeOverview) Implements IMetadataDownloader.ListEpisodes
+    Public Function ListEpisodes(Season As SeasonOverview) As IEnumerable(Of EpisodeOverview) Implements IMetadataDownloader.ListEpisodes
         Throw New NotImplementedException()
     End Function
 
-    Public Function IsVideoUrl() As Boolean Implements IMetadataDownloader.IsVideoUrl
+    Public Function IsVideoUrl(Url As String) As Boolean Implements IMetadataDownloader.IsVideoUrl
         Throw New NotImplementedException()
     End Function
 
-    Public Function getEpisodeInfo(EpisodeId As String) As Episode Implements IMetadataDownloader.getEpisodeInfo
+    Public Function GetEpisodeInfo(Overview As EpisodeOverview) As Episode Implements IMetadataDownloader.GetEpisodeInfo
         Throw New NotImplementedException()
     End Function
 
-    Public Function getEpisodeInfo() As Episode Implements IMetadataDownloader.getEpisodeInfo
+    Public Function GetEpisodeInfo(Url As String) As Episode Implements IMetadataDownloader.getEpisodeInfo
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function IsSeriesUrl(Url As String) As Boolean Implements IMetadataDownloader.IsSeriesUrl
         Throw New NotImplementedException()
     End Function
 End Class

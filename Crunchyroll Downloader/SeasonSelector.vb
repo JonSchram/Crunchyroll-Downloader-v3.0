@@ -60,8 +60,7 @@
         Dim selectedIndex As Integer = seasonSelectComboBox.SelectedIndex
         Dim selectedItem As SeasonOverview = CType(seasonSelectComboBox.SelectedItem, SeasonOverview)
 
-        Dim SeasonName As String = selectedItem.ApiID
-        episodeList = MetadataApi.ListEpisodes(SeasonName)
+        episodeList = MetadataApi.ListEpisodes(selectedItem)
         setComboBoxEpisodes(startEpisodeComboBox, episodeList)
         setComboBoxEpisodes(endEpisodeComboBox, episodeList)
     End Sub

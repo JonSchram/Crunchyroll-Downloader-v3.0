@@ -25,9 +25,9 @@ Public Class AddVideo
         Dim Api As New DownloaderApi(downloadUrl)
         Dim MetadataApi As IMetadataDownloader = Api.GetMetadataDownloader()
 
-        If Not MetadataApi.IsVideoUrl() Then
+        If Not MetadataApi.IsVideoUrl(downloadUrl) Then
             'MsgBox("Downloading season information")
-            Dim SeasonList = MetadataApi.ListSeasons()
+            Dim SeasonList = MetadataApi.ListSeasons(downloadUrl)
             Dim seasonSelectorForm = New SeasonSelector(MetadataApi, SeasonList)
             'For Each Season In SeasonList
             '    ' TODO: make a method in season select class
@@ -41,7 +41,7 @@ Public Class AddVideo
             seasonSelectorForm.Show(Me)
         Else
             ' Individual video
-            Dim episodeInfo = MetadataApi.getEpisodeInfo()
+            Dim episodeInfo = MetadataApi.GetEpisodeInfo(downloadUrl)
             Queue.Enqueue(episodeInfo, OutputPath)
         End If
     End Sub
@@ -64,7 +64,7 @@ Public Class AddVideo
             Dim episodes = episodeList.ToList
             For episodeNum = startEpisode To endEpisode
                 Dim Episode = episodes.Item(episodeNum)
-                Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode.ApiUrlSlug)
+                Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode)
                 Queue.Enqueue(EpisodeInfo, OutputPath)
             Next
             ' StartEpisode and endEpisode are indices into episodeList

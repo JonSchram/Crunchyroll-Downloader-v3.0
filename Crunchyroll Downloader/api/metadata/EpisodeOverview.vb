@@ -1,8 +1,4 @@
-﻿' TODO: Might want to add episode download details here too?
-' Could build out details as they are retrieved from the API. The downside is that it becomes more confusing what is available at any given time.
-' If this is done, might need a flag like "detailsAvailable"
-
-''' <summary>
+﻿''' <summary>
 ''' An "overview" of an episode. Contains metadata about the episode and how to get more information about it, but no further.
 ''' Necessary because season lists don't contain all the details we need when listing all episodes in a season.
 ''' </summary>

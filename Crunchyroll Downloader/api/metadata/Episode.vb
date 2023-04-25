@@ -8,6 +8,10 @@
     ' The slug added to the URL to get to the user-facing episode player
     Public Property UrlSlug As String
 
+    ''' <summary>
+    ''' Name of the show this episode belongs to. Makes it easier to name files after downloading.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property ShowName As String
 
     Public Property SeasonNumber As Integer
