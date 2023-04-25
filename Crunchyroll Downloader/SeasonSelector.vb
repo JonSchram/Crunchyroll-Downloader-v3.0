@@ -1,4 +1,6 @@
-﻿Public Class SeasonSelector
+﻿Imports Crunchyroll_Downloader.api.client
+
+Public Class SeasonSelector
     Private SeasonList As List(Of SeasonOverview)
 
     ' The list of episodes to download

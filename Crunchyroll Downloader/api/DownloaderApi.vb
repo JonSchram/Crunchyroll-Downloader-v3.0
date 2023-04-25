@@ -1,4 +1,6 @@
-﻿Public Class DownloaderApi
+﻿Imports Crunchyroll_Downloader.api.client
+
+Public Class DownloaderApi
     Private downloadUrl As String
 
     Public Sub New(url As String)
@@ -20,7 +22,7 @@
     Public Function GetMetadataDownloader() As IMetadataDownloader
         ' TODO: Choose CR or Funi metadata downloader
         If (Me.IsFunimationUrl()) Then
-            Return New FunimationExtractor()
+            Return New FunimationClient()
         ElseIf Me.IsCrunchyrollUrl() Then
             ' TODO
             Return Nothing

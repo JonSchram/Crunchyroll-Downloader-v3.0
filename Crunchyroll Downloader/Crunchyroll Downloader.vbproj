@@ -165,7 +165,7 @@
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\downloaders\IEpisodeDownloader.vb" />
     <Compile Include="api\metadata\Episode.vb" />
-    <Compile Include="api\Extractors\IMetadataDownloader.vb" />
+    <Compile Include="api\Client\IMetadataDownloader.vb" />
     <Compile Include="api\metadata\EpisodeOverview.vb" />
     <Compile Include="api\metadata\EpisodePlaybackInfo.vb" />
     <Compile Include="api\metadata\Funimation\FunimationEpisodeOverview.vb" />
@@ -187,8 +187,8 @@
     <Compile Include="DirectorySettings.vb" />
     <Compile Include="api\downloaders\CrunchyrollDownloader.vb" />
     <Compile Include="api\downloaders\FunimationDownloader.vb" />
-    <Compile Include="api\Extractors\CrunchyrollExtractor.vb" />
-    <Compile Include="api\Extractors\FunimationExtractor.vb" />
+    <Compile Include="api\Client\CrunchyrollClient.vb" />
+    <Compile Include="api\Client\FunimationClient.vb" />
     <Compile Include="download\DownloadExecutor.vb" />
     <Compile Include="download\DownloadTask.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
