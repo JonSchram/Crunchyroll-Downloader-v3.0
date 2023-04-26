@@ -19,8 +19,9 @@ Public Class DownloaderApi
 
     Public Shared Function GetMetadataDownloader(url As String) As IMetadataDownloader
         ' TODO: Choose CR or Funi metadata downloader
+        Dim cookieManager = Browser.GetInstance.GetCookieManager()
         If (IsFunimationUrl(url)) Then
-            Return New FunimationClient()
+            Return New FunimationClient(cookieManager)
         ElseIf IsCrunchyrollUrl(url) Then
             ' TODO
             Return Nothing

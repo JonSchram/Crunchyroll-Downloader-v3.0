@@ -6,7 +6,9 @@ Namespace api.authentication
     Public Class FunimationAuthenticator
         Implements ICookieBasedAuth
 
-        Private CookieManager As CoreWebView2CookieManager
+        Private ReadOnly CookieManager As CoreWebView2CookieManager
+
+        Private ReadOnly Client As HttpClient
         Private token As String
 
         Public Sub New(CookieManager As CoreWebView2CookieManager)
@@ -14,10 +16,22 @@ Namespace api.authentication
                 Throw New ArgumentException("Cookie manager must not be Nothing")
             End If
             Me.CookieManager = CookieManager
+
+            Dim handler = New HttpClientHandler With {
+                .PreAuthenticate = True
+            }
+            Client = New HttpClient(handler)
         End Sub
 
         Public Sub New(token As String)
             Me.token = token
+        End Sub
+
+        Public Async Sub RefreshCookies()
+            Dim tokenCookie = Await GetSessionTokenCookie()
+            If tokenCookie IsNot Nothing AndAlso tokenCookie.Value IsNot Nothing Then
+                token = tokenCookie.Value
+            End If
         End Sub
 
         Public Async Function GetLoginCookie() As Task(Of Cookie) Implements ICookieBasedAuth.GetLoginCookie
@@ -60,23 +74,13 @@ Namespace api.authentication
         End Function
 
         Public Async Function SendAuthenticatedRequest(url As String) As Task(Of String)
-            'TODO: The client should be created once and used for many connections, or else it may exhaust sockets.
-            Dim handler = New HttpClientHandler With {
-                .PreAuthenticate = True
-            }
-            Dim client = New HttpClient(handler)
-
             Try
-                If token Is Nothing Or token = "" Then
-                    Dim tokenCookie = Await GetSessionTokenCookie()
-                    If tokenCookie IsNot Nothing AndAlso tokenCookie.Value IsNot Nothing Then
-                        token = tokenCookie.Value
-                    End If
-                End If
                 Dim request As New HttpRequestMessage(HttpMethod.Get, url)
-                request.Headers.Authorization = New Headers.AuthenticationHeaderValue("Token", token)
+                If token IsNot Nothing Then
+                    request.Headers.Authorization = New Headers.AuthenticationHeaderValue("Token", token)
+                End If
 
-                Dim response As HttpResponseMessage = Await client.SendAsync(request)
+                Dim response As HttpResponseMessage = Await Client.SendAsync(request)
                 response.EnsureSuccessStatusCode()
 
                 Return Await response.Content.ReadAsStringAsync()

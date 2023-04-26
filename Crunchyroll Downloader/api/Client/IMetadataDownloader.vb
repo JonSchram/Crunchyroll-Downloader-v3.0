@@ -1,10 +1,12 @@
 ﻿Namespace api.client
     Public Interface IMetadataDownloader
+        Function Initialize() As Task
+
         ''' <summary>
         ''' Gets information about all seasons available in a series.
         ''' </summary>
         ''' <returns></returns>
-        Function ListSeasons(Url As String) As IEnumerable(Of SeasonOverview)
+        Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview))
 
         ''' <summary>
         ''' Gets the information about all episodes in a season and how to get more information about
@@ -12,7 +14,7 @@
         ''' </summary>
         ''' <param name="Season"></param>
         ''' <returns></returns>
-        Function ListEpisodes(Season As SeasonOverview) As IEnumerable(Of EpisodeOverview)
+        Function ListEpisodes(Season As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview))
 
         ''' <summary>
         ''' Gets the information required to locate the episode playback
@@ -20,13 +22,13 @@
         ''' </summary>
         ''' <param name="Overview"></param>
         ''' <returns></returns>
-        Function GetEpisodeInfo(Overview As EpisodeOverview) As Episode
+        Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode)
 
         ''' <summary>
         ''' Downloads the episode info from the download URL, assumed to be a link to an episode.
         ''' </summary>
         ''' <returns></returns>
-        Function GetEpisodeInfo(Url As String) As Episode
+        Function GetEpisodeInfo(Url As String) As Task(Of Episode)
 
         ''' <summary>
         ''' Gets whether the URL corresponds to a series (not an individual season or an episode).

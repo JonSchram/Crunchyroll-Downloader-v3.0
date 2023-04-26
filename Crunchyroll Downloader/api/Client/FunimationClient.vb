@@ -1,5 +1,10 @@
 ﻿Imports System.Net
+Imports System.Net.Http
+Imports System.Net.Http.Headers
+Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Crunchyroll_Downloader.api.authentication
+Imports Microsoft.Web.WebView2.Core
 
 Namespace api.client
     ''' <summary>
@@ -8,7 +13,12 @@ Namespace api.client
     Public Class FunimationClient
         Implements IMetadataDownloader
 
+        Private ReadOnly CookieManager As CoreWebView2CookieManager
+
         Private Region As String = Nothing
+        Private UnauthenticatedHttpClient As HttpClient
+        Private Authenticator As FunimationAuthenticator
+
 
         ' Ideal API:
         ' - Construct using a URL
@@ -16,15 +26,38 @@ Namespace api.client
         ' - It can list episodes for seasons
         ' - This class should be about metadata, so maybe needs renaming.
 
-        Public Sub New()
+        Public Sub New(CookieManager As CoreWebView2CookieManager)
+            Me.CookieManager = CookieManager
+            If CookieManager IsNot Nothing Then
+                Authenticator = New FunimationAuthenticator(CookieManager)
+            End If
+
+            UnauthenticatedHttpClient = New HttpClient()
+            UnauthenticatedHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(My.Resources.user_agent)
         End Sub
 
+        Private Async Function Initialize() As Task Implements IMetadataDownloader.Initialize
+            Await RefreshCookies()
+        End Function
 
-        Public Function ListSeasons(Url As String) As IEnumerable(Of SeasonOverview) Implements IMetadataDownloader.ListSeasons
+        Public Async Function RefreshCookies() As Task
+            If CookieManager IsNot Nothing Then
+                Dim cookieList = Await CookieManager.GetCookiesAsync("https://www.funimation.com")
+                For Each cookie In cookieList
+                    If cookie.Name = "region" Then
+                        Region = cookie.Value
+                    End If
+                Next
+                Authenticator.RefreshCookies()
+            End If
+        End Function
+
+
+        Public Async Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IMetadataDownloader.ListSeasons
             If (IsSeriesUrl(Url)) Then
                 'Dim ListSeasonUrl = BuildSeasonListUrl(ShowPath)
                 'Debug.WriteLine("URL to retrieve seasons: " + ListSeasonUrl)
-                Dim SeriesJson = GetSeriesJson(Url)
+                Dim SeriesJson = Await GetSeriesJson(Url)
                 Dim SeriesInfo = FunimationSeries.CreateFromJson(SeriesJson)
                 Return SeriesInfo.GetSeasons()
             Else
@@ -32,96 +65,53 @@ Namespace api.client
             End If
         End Function
 
-        Private Function DownloadJson(JsonUrl As String) As String
+        Private Async Function DownloadJson(JsonUrl As String) As Task(Of String)
             Try
-                Using client As New WebClient()
-                    client.Encoding = System.Text.Encoding.UTF8
-                    client.Headers.Add(My.Resources.ffmpeg_user_agend)
-                    Return client.DownloadString(JsonUrl)
+                Using response = Await UnauthenticatedHttpClient.GetAsync(JsonUrl)
+                    response.EnsureSuccessStatusCode()
+                    Return Await response.Content.ReadAsStringAsync()
                 End Using
             Catch ex As Exception
-                Debug.WriteLine("error- getting funimation SeasonJson data")
+                Debug.WriteLine($"Error getting funimation Json data - {JsonUrl}")
             End Try
             ' Return parseable but empty object
             Return "{}"
         End Function
 
-        Private Function GetSeriesJson(SeriesUrl As String) As String
+        Private Async Function GetSeriesJson(SeriesUrl As String) As Task(Of String)
             Dim ShowPath = ExtractShowSlug(SeriesUrl)
-            Dim Region = GetRegion()
             Dim JsonUrl = BuildTitleInfoUrl(ShowPath, Region)
 
-            Dim SeriesJson = DownloadJson(JsonUrl)
+            Dim SeriesJson = Await DownloadJson(JsonUrl)
 
             Debug.WriteLine("Series JSON: ")
             Debug.WriteLine(SeriesJson)
             Return SeriesJson
         End Function
 
-        Async Sub getCookies()
-            Dim Region = GetRegion()
-
-            Dim List = Await Browser.GetInstance().GetCookies("https://www.funimation.com")
-
-            Dim FunimationToken As String = Nothing
-            Dim FunimationDeviceRegion As String = Nothing
-            Debug.WriteLine(List)
-            Dim Cookie As String = ""
-            ' This copies all the cookies from the web view into a URL query string
-            For i As Integer = 0 To List.Count - 1
-                If CBool(InStr(List.Item(i).Domain, "funimation.com")) Then 'list.Item(i).Domain = "funimation.com" Then
-                    Cookie = Cookie + List.Item(i).Name + "=" + List.Item(i).Value + ";"
-                End If
-                If CBool(InStr(List.Item(i).Domain, "funimation.com")) And CBool(InStr(List.Item(i).Name, "src_token")) Then 'list.Item(i).Domain = "funimation.com" Then
-                    FunimationToken = "Token " + List.Item(i).Value
-                End If
-                If CBool(InStr(List.Item(i).Domain, "funimation.com")) And CBool(InStr(List.Item(i).Name, "region")) Then 'list.Item(i).Domain = "funimation.com" Then
-                    FunimationDeviceRegion = "?deviceType=web&" + List.Item(i).Name + "=" + List.Item(i).Value
-                End If
-            Next
-
-        End Sub
-
-        Private Function GetRegion() As String
-            If Region Is Nothing Then
-                Dim request = WebRequest.Create("http://www.funimation.com")
-                Dim response = request.GetResponse()
-                Dim cookieString = response.Headers.Get("Set-Cookie")
-                Dim cookies = Split(cookieString, ";")
-
-                Dim RegionCookie = cookies.Where(Function(item)
-                                                     Return item.Contains("region=")
-                                                 End Function)
-                ' The regex should match because the filtered list contains the regex value
-                Region = Regex.Match(RegionCookie.First, "region=(.*)").Groups(1).Value
-            End If
-            Return Region
-        End Function
-
-
-        Public Function ListEpisodes(Overview As SeasonOverview) As IEnumerable(Of EpisodeOverview) Implements IMetadataDownloader.ListEpisodes
+        Public Async Function ListEpisodes(Overview As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview)) Implements IMetadataDownloader.ListEpisodes
             Dim SeasonUrl = BuildSeasonInfoUrl(Overview.ApiID)
-            Dim SeasonJson = DownloadJson(SeasonUrl)
+            Dim SeasonJson = Await DownloadJson(SeasonUrl)
             Dim Season = FunimationSeason.CreateFromJson(SeasonJson)
             Dim EpisodeList = Season.GetEpisodes()
             Return EpisodeList
         End Function
 
-        Public Function GetEpisodeInfo(Overview As EpisodeOverview) As Episode Implements IMetadataDownloader.GetEpisodeInfo
-            Return GetEpisodeInfoFromId(Overview.EpisodeId)
+        Public Async Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IMetadataDownloader.GetEpisodeInfo
+            Return Await GetEpisodeInfoFromId(Overview.EpisodeId)
         End Function
 
-        Public Function GetEpisodeInfo(Url As String) As Episode Implements IMetadataDownloader.GetEpisodeInfo
+        Public Async Function GetEpisodeInfo(Url As String) As Task(Of Episode) Implements IMetadataDownloader.GetEpisodeInfo
             If Not IsVideoUrl(Url) Then
                 Throw New ArgumentException($"Must be video URL. Received ""{Url}""")
             End If
 
-            Return GetEpisodeInfoFromId(ExtractEpisodeSlug(Url))
+            Return Await GetEpisodeInfoFromId(ExtractEpisodeSlug(Url))
         End Function
 
-        Private Function GetEpisodeInfoFromId(Id As String) As Episode
+        Private Async Function GetEpisodeInfoFromId(Id As String) As Task(Of Episode)
             Dim episodeInfoUrl = BuildEpisodeInfoUrl(Id)
-            Dim EpisodeJson = DownloadJson(episodeInfoUrl)
+            Dim EpisodeJson = Await DownloadJson(episodeInfoUrl)
             Return FunimationEpisode.CreateFromJson(EpisodeJson)
         End Function
 
@@ -155,6 +145,7 @@ Namespace api.client
             ' projectorService that serves season & episode info.
             ' The only problem is that it is highly dependent on the implementation and it would have to be hardcoded just like
             ' a URL would be.
+            ' TODO: handle if the region isn't set.
             Return $"https://title-api.prd.funimationsvc.com/v2/shows/{showPath}?deviceType=web&region={Region}"
         End Function
 
@@ -165,6 +156,5 @@ Namespace api.client
         Private Function BuildEpisodeInfoUrl(EpisodeId As String) As String
             Return $"https://d33et77evd9bgg.cloudfront.net/data/v2/episodes/{EpisodeId}.json"
         End Function
-
     End Class
 End Namespace

@@ -20,14 +20,15 @@ Public Class AddVideo
         subfolderComboBox.SelectedItem = OutputSubFolder
     End Sub
 
-    Private Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
+    Private Async Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
         downloadUrl = downloadUrlTextBox.Text
 
         Dim MetadataApi As IMetadataDownloader = DownloaderApi.GetMetadataDownloader(downloadUrl)
+        Await MetadataApi.Initialize()
 
         If Not MetadataApi.IsVideoUrl(downloadUrl) Then
             'MsgBox("Downloading season information")
-            Dim SeasonList = MetadataApi.ListSeasons(downloadUrl)
+            Dim SeasonList = Await MetadataApi.ListSeasons(downloadUrl)
             Dim seasonSelectorForm = New SeasonSelector(MetadataApi, SeasonList)
             'For Each Season In SeasonList
             '    ' TODO: make a method in season select class
@@ -41,12 +42,12 @@ Public Class AddVideo
             seasonSelectorForm.Show(Me)
         Else
             ' Individual video
-            Dim episodeInfo = MetadataApi.GetEpisodeInfo(downloadUrl)
+            Dim episodeInfo = Await MetadataApi.GetEpisodeInfo(downloadUrl)
             Queue.Enqueue(episodeInfo, OutputPath)
         End If
     End Sub
 
-    Private Sub SeasonSelectFormClosed(sender As Object, args As FormClosedEventArgs)
+    Private Async Sub SeasonSelectFormClosed(sender As Object, args As FormClosedEventArgs)
         Enabled = True
 
         Dim selectForm = CType(sender, SeasonSelector)
@@ -63,7 +64,7 @@ Public Class AddVideo
             Dim episodes = episodeList.ToList
             For episodeNum = startEpisode To endEpisode
                 Dim Episode = episodes.Item(episodeNum)
-                Dim EpisodeInfo = MetadataApi.getEpisodeInfo(Episode)
+                Dim EpisodeInfo = Await MetadataApi.GetEpisodeInfo(Episode)
                 Queue.Enqueue(EpisodeInfo, OutputPath)
             Next
             ' StartEpisode and endEpisode are indices into episodeList

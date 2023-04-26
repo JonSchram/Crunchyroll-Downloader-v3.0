@@ -1058,5 +1058,14 @@ Namespace My.Resources
                 Return ResourceManager.GetString("US_ToolTip", resourceCulture)
             End Get
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0.
+        '''</summary>
+        Friend ReadOnly Property user_agent() As String
+            Get
+                Return ResourceManager.GetString("user_agent", resourceCulture)
+            End Get
+        End Property
     End Module
 End Namespace

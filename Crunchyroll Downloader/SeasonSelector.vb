@@ -54,7 +54,7 @@ Public Class SeasonSelector
         comboBox.Text = Nothing
     End Sub
 
-    Private Sub seasonSelectComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles seasonSelectComboBox.SelectedIndexChanged
+    Private Async Sub seasonSelectComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles seasonSelectComboBox.SelectedIndexChanged
         ' Get a list of episodes for the new season
         resetComboBox(startEpisodeComboBox)
         resetComboBox(endEpisodeComboBox)
@@ -62,7 +62,7 @@ Public Class SeasonSelector
         Dim selectedIndex As Integer = seasonSelectComboBox.SelectedIndex
         Dim selectedItem As SeasonOverview = CType(seasonSelectComboBox.SelectedItem, SeasonOverview)
 
-        episodeList = MetadataApi.ListEpisodes(selectedItem)
+        episodeList = Await MetadataApi.ListEpisodes(selectedItem)
         setComboBoxEpisodes(startEpisodeComboBox, episodeList)
         setComboBoxEpisodes(endEpisodeComboBox, episodeList)
     End Sub

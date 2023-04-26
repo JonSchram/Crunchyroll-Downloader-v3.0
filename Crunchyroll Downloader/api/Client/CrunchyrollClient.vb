@@ -38,27 +38,31 @@ Namespace api.client
 
         End Sub
 
-        Public Function ListSeasons(Url As String) As IEnumerable(Of SeasonOverview) Implements IMetadataDownloader.ListSeasons
+        Public Function Initialize() As Task Implements IMetadataDownloader.Initialize
             Throw New NotImplementedException()
         End Function
 
-        Public Function ListEpisodes(Season As SeasonOverview) As IEnumerable(Of EpisodeOverview) Implements IMetadataDownloader.ListEpisodes
+        Public Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IMetadataDownloader.ListSeasons
             Throw New NotImplementedException()
         End Function
 
-        Public Function IsVideoUrl(Url As String) As Boolean Implements IMetadataDownloader.IsVideoUrl
+        Public Function ListEpisodes(Season As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview)) Implements IMetadataDownloader.ListEpisodes
             Throw New NotImplementedException()
         End Function
 
-        Public Function GetEpisodeInfo(Overview As EpisodeOverview) As Episode Implements IMetadataDownloader.GetEpisodeInfo
+        Public Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IMetadataDownloader.GetEpisodeInfo
             Throw New NotImplementedException()
         End Function
 
-        Public Function GetEpisodeInfo(Url As String) As Episode Implements IMetadataDownloader.GetEpisodeInfo
+        Public Function GetEpisodeInfo(Url As String) As Task(Of Episode) Implements IMetadataDownloader.GetEpisodeInfo
             Throw New NotImplementedException()
         End Function
 
         Public Function IsSeriesUrl(Url As String) As Boolean Implements IMetadataDownloader.IsSeriesUrl
+            Throw New NotImplementedException()
+        End Function
+
+        Public Function IsVideoUrl(Url As String) As Boolean Implements IMetadataDownloader.IsVideoUrl
             Throw New NotImplementedException()
         End Function
     End Class
