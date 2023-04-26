@@ -23,8 +23,7 @@ Public Class AddVideo
     Private Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
         downloadUrl = downloadUrlTextBox.Text
 
-        Dim Api As New DownloaderApi(downloadUrl)
-        Dim MetadataApi As IMetadataDownloader = Api.GetMetadataDownloader()
+        Dim MetadataApi As IMetadataDownloader = DownloaderApi.GetMetadataDownloader(downloadUrl)
 
         If Not MetadataApi.IsVideoUrl(downloadUrl) Then
             'MsgBox("Downloading season information")
@@ -52,8 +51,7 @@ Public Class AddVideo
 
         Dim selectForm = CType(sender, SeasonSelector)
 
-        Dim Api As New DownloaderApi(downloadUrl)
-        Dim MetadataApi As IMetadataDownloader = Api.GetMetadataDownloader()
+        Dim MetadataApi As IMetadataDownloader = DownloaderApi.GetMetadataDownloader(downloadUrl)
 
         If selectForm.DialogResult = DialogResult.OK Then
             Dim episodeList = selectForm.episodeList

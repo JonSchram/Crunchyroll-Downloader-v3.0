@@ -1,17 +1,15 @@
 ﻿Imports Crunchyroll_Downloader.api.client
 
 Public Class DownloaderApi
-    Private downloadUrl As String
 
-    Public Sub New(url As String)
-        downloadUrl = url
+    Private Sub New()
     End Sub
 
-    Public Function IsFunimationUrl() As Boolean
+    Public Shared Function IsFunimationUrl(downloadUrl As String) As Boolean
         Return UrlUtilities.IsFunimationUrl(downloadUrl)
     End Function
 
-    Public Function IsCrunchyrollUrl() As Boolean
+    Public Shared Function IsCrunchyrollUrl(downloadUrl As String) As Boolean
         Return UrlUtilities.IsCrunchyrollUrl(downloadUrl)
     End Function
 
@@ -19,11 +17,11 @@ Public Class DownloaderApi
     ' Unify API such that all calls to a website go through the same class.
     ' There aren't many endpoints to call, and it would allow sharing the same API reference.
 
-    Public Function GetMetadataDownloader() As IMetadataDownloader
+    Public Shared Function GetMetadataDownloader(url As String) As IMetadataDownloader
         ' TODO: Choose CR or Funi metadata downloader
-        If (Me.IsFunimationUrl()) Then
+        If (IsFunimationUrl(url)) Then
             Return New FunimationClient()
-        ElseIf Me.IsCrunchyrollUrl() Then
+        ElseIf IsCrunchyrollUrl(url) Then
             ' TODO
             Return Nothing
         Else
@@ -31,7 +29,7 @@ Public Class DownloaderApi
         End If
     End Function
 
-    Public Function getEpisodeDownloader(Episode As Episode) As IEpisodeDownloader
+    Public Shared Function getEpisodeDownloader(Episode As Episode) As IEpisodeDownloader
         ' TODO: See if there's a better way to do this. Seems silly to pass in an episode to get the downloader and then
         ' another for actually downloading.
         ' Maybe add the episode as a constructor and pass it to the downloader.
