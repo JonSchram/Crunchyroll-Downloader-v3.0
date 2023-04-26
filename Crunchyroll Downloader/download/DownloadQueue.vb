@@ -1,6 +1,7 @@
 ﻿Imports System.Collections.Concurrent
 Imports System.ComponentModel
 Imports System.Threading
+Imports Crunchyroll_Downloader.api.client
 
 Namespace download
     ''' <summary>
@@ -83,20 +84,20 @@ Namespace download
             Return Instance
         End Function
 
-        Public Sub Enqueue(episode As Episode, path As String)
-            EpisodeList.Enqueue(New DownloadTask(episode, path))
+        Public Sub Enqueue(task As DownloadTask)
+            EpisodeList.Enqueue(task)
             context.Post(Sub()
                              RaiseEvent ListChanged(Me, New ListChangedEventArgs(ListChangedType.ItemAdded, EpisodeList.Count - 1))
                          End Sub, Nothing)
         End Sub
 
-        Public Sub EnqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer, path As String)
+        Public Sub EnqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer, path As String, client As IMetadataDownloader)
             Dim minEpisode = Math.Min(startNum, endNum)
             Dim maxEpisode = Math.Max(startNum, endNum)
             Dim episodeCount = maxEpisode - minEpisode + 1
 
             For episodeNumber As Integer = minEpisode To maxEpisode
-                Me.Enqueue(episodeList.Item(episodeNumber), path)
+                Enqueue(New DownloadTask(episodeList.Item(episodeNumber), path, client))
             Next
         End Sub
 

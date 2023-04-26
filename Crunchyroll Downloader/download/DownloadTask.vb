@@ -1,4 +1,7 @@
-﻿Namespace download
+﻿Imports System.Runtime.Remoting
+Imports Crunchyroll_Downloader.api.client
+
+Namespace download
 
     ''' <summary>
     ''' Class intended to represent a single download task.
@@ -7,10 +10,12 @@
     Public Class DownloadTask
         Private ReadOnly DownloadEpisode As Episode
         Private ReadOnly OutputPath As String
+        Private ReadOnly MetadataClient As IMetadataDownloader
 
-        Public Sub New(ep As Episode, path As String)
+        Public Sub New(ep As Episode, path As String, client As IMetadataDownloader)
             DownloadEpisode = ep
             OutputPath = path
+            MetadataClient = client
         End Sub
 
         Public Function GetEpisode() As Episode
@@ -18,6 +23,10 @@
         End Function
         Public Function GetSaveLocation() As String
             Return OutputPath
+        End Function
+
+        Public Function GetMetadataClient() As IMetadataDownloader
+            Return MetadataClient
         End Function
 
         Public Overrides Function ToString() As String
