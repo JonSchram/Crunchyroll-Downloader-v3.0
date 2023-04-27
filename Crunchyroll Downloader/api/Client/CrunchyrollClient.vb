@@ -65,5 +65,9 @@ Namespace api.client
         Public Function IsVideoUrl(Url As String) As Boolean Implements IMetadataDownloader.IsVideoUrl
             Throw New NotImplementedException()
         End Function
+
+        Public Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IMetadataDownloader.GetEpisodePlayback
+            Throw New NotImplementedException()
+        End Function
     End Class
 End Namespace

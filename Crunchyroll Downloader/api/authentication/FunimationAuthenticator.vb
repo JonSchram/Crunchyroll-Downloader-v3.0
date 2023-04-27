@@ -27,12 +27,12 @@ Namespace api.authentication
             Me.token = token
         End Sub
 
-        Public Async Sub RefreshCookies()
+        Public Async Function RefreshCookies() As Task
             Dim tokenCookie = Await GetSessionTokenCookie()
             If tokenCookie IsNot Nothing AndAlso tokenCookie.Value IsNot Nothing Then
                 token = tokenCookie.Value
             End If
-        End Sub
+        End Function
 
         Public Async Function GetLoginCookie() As Task(Of Cookie) Implements ICookieBasedAuth.GetLoginCookie
             Return Await GetSessionTokenCookie()
@@ -96,10 +96,6 @@ Namespace api.authentication
             End Try
 
             Return Nothing
-        End Function
-
-        Private Function GenerateGuid() As String
-            Return Guid.NewGuid().ToString()
         End Function
     End Class
 

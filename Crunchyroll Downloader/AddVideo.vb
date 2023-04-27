@@ -10,6 +10,7 @@ Public Class AddVideo
     Public Property downloadUrl As String
 
     Private Queue As DownloadQueue = DownloadQueue.GetInstance()
+    Private MetadataApi As IMetadataDownloader
 
     Public Sub New()
         InitializeComponent()
@@ -23,7 +24,7 @@ Public Class AddVideo
     Private Async Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
         downloadUrl = downloadUrlTextBox.Text
 
-        Dim MetadataApi As IMetadataDownloader = DownloaderApi.GetMetadataDownloader(downloadUrl)
+        MetadataApi = DownloaderApi.GetMetadataDownloader(downloadUrl)
         Await MetadataApi.Initialize()
 
         If Not MetadataApi.IsVideoUrl(downloadUrl) Then
@@ -46,8 +47,6 @@ Public Class AddVideo
         Enabled = True
 
         Dim selectForm = CType(sender, SeasonSelector)
-
-        Dim MetadataApi As IMetadataDownloader = DownloaderApi.GetMetadataDownloader(downloadUrl)
 
         If selectForm.DialogResult = DialogResult.OK Then
             Dim episodeList = selectForm.episodeList

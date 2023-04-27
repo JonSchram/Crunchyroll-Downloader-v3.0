@@ -31,6 +31,13 @@
         Function GetEpisodeInfo(Url As String) As Task(Of Episode)
 
         ''' <summary>
+        ''' Gets the playback options for an individual episode.
+        ''' </summary>
+        ''' <param name="ep"></param>
+        ''' <returns></returns>
+        Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo)
+
+        ''' <summary>
         ''' Gets whether the URL corresponds to a series (not an individual season or an episode).
         ''' </summary>
         ''' <returns></returns>

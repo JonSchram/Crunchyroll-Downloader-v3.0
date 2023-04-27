@@ -95,9 +95,17 @@ Namespace download
             End Sub
 
             Public Sub Download()
-                Console.WriteLine("Pretending to download " + task.ToString())
-                Thread.Sleep(10_000)
+                Console.WriteLine("Downloading " + task.ToString())
+                GetPlaybackFile()
                 callback(task)
+            End Sub
+
+            Private Async Sub GetPlaybackFile()
+                Dim client = task.GetMetadataClient()
+                Dim episode = task.GetEpisode()
+                Console.WriteLine($"Getting playback file for {episode}")
+                Dim playback = Await client.GetEpisodePlayback(episode)
+                Console.WriteLine(playback)
             End Sub
 
         End Class

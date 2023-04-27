@@ -18,6 +18,7 @@ Namespace api.client
         Private Region As String = Nothing
         Private UnauthenticatedHttpClient As HttpClient
         Private Authenticator As FunimationAuthenticator
+        Private PlaybackId As String
 
 
         ' Ideal API:
@@ -34,6 +35,8 @@ Namespace api.client
 
             UnauthenticatedHttpClient = New HttpClient()
             UnauthenticatedHttpClient.DefaultRequestHeaders.UserAgent.ParseAdd(My.Resources.user_agent)
+
+            PlaybackId = GenerateGuid()
         End Sub
 
         Private Async Function Initialize() As Task Implements IMetadataDownloader.Initialize
@@ -48,7 +51,7 @@ Namespace api.client
                         Region = cookie.Value
                     End If
                 Next
-                Authenticator.RefreshCookies()
+                Await Authenticator.RefreshCookies()
             End If
         End Function
 
@@ -115,6 +118,13 @@ Namespace api.client
             Return FunimationEpisode.CreateFromJson(EpisodeJson)
         End Function
 
+        Public Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IMetadataDownloader.GetEpisodePlayback
+            Dim url = BuildPlaybackUrl(ep)
+            Dim result = Await Authenticator.SendAuthenticatedRequest(url)
+
+            Return EpisodePlaybackInfo.CreateFromJson(result)
+        End Function
+
         Private Function ExtractShowSlug(url As String) As String
             Dim ShowPath As String = Regex.Match(url, "/shows/(.*)/?").Groups(1).Value
             Debug.WriteLine("Show path: " + ShowPath)
@@ -155,6 +165,14 @@ Namespace api.client
 
         Private Function BuildEpisodeInfoUrl(EpisodeId As String) As String
             Return $"https://d33et77evd9bgg.cloudfront.net/data/v2/episodes/{EpisodeId}.json"
+        End Function
+
+        Private Function BuildPlaybackUrl(ep As Episode) As String
+            Return $"https://playback.prd.funimationsvc.com/v1/play/{ep.VideoId}?deviceType=web&playbackStreamId={PlaybackId}"
+        End Function
+
+        Private Function GenerateGuid() As String
+            Return Guid.NewGuid().ToString()
         End Function
     End Class
 End Namespace
