@@ -1,5 +1,7 @@
 ﻿Imports Newtonsoft.Json.Linq
 
+' TODO: This is designed specifically for Funimation. It isn't clear that Crunchyroll would even have an equivalent
+' file, so this and the API need to go through some additional design.
 Public Class EpisodePlaybackInfo
 
     Private Property Primary As Playback
@@ -39,6 +41,7 @@ Public Class EpisodePlaybackInfo
         Dim playlistPath = playbackToken.Item("manifestPath")
         Dim subtitlesToken = playbackToken.Item("subtitles")
         Dim accessTypeToken = playbackToken.Item("accessType")
+        Dim version = playbackToken.Item("version")
         Dim audioLanguageToken = playbackToken.Item("audioLanguage")
         Dim subtitlesList = BuildSubtitles(subtitlesToken.AsEnumerable())
 
@@ -47,7 +50,8 @@ Public Class EpisodePlaybackInfo
                .PlaylistPath = playlistPath.Value(Of String),
                .Subtitles = subtitlesList,
                .AudioLanguage = audioLanguageToken.Value(Of String),
-               .AccessType = audioLanguageToken.Value(Of String)
+               .AccessType = audioLanguageToken.Value(Of String),
+               .Version = version.Value(Of String)
         }
 
         Return PlaybackObject

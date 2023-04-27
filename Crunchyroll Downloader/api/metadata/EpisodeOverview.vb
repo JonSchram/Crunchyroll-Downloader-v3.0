@@ -17,6 +17,8 @@ Public MustInherit Class EpisodeOverview
     ' Episode number is a string in the API so keep it that way
     Public Property EpisodeNumber As String
 
+    Public Property Versions As List(Of String)
+
     Public Overrides Function ToString() As String
         Return "Episode " + EpisodeNumber
     End Function

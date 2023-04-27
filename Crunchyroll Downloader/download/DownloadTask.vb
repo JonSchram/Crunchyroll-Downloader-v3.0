@@ -8,6 +8,8 @@ Namespace download
     ''' It is for a single video and contains all information needed to download it and name the file correctly.
     ''' </summary>
     Public Class DownloadTask
+        ' TODO: Choose which version of an episode to download
+        ' Episodes may have multiple versions and there isn't a way to choose which one.
         Private ReadOnly DownloadEpisode As Episode
         Private ReadOnly OutputPath As String
         Private ReadOnly MetadataClient As IMetadataDownloader

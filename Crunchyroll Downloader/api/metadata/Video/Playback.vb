@@ -11,6 +11,9 @@ Public Class Playback
 
     Public Property AccessType As String
 
+    Public Property Version As String
+
     Public Property Subtitles As List(Of Subtitle)
+
 
 End Class

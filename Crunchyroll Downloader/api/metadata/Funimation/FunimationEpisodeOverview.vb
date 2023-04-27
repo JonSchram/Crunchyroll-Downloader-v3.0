@@ -9,14 +9,15 @@ Public Class FunimationEpisodeOverview
         Dim ApiSlug = Episode.Item("venueId")
         Dim Number = Episode.Item("episodeNumber")
         Dim IsSubRequired = Episode.Item("isSubRequired")
+        Dim Versions = Episode.Item("versions").Values(Of String).ToList()
         Dim EpisodeObject = New FunimationEpisodeOverview With {
                 .EpisodeId = Id.Value(Of String),
                 .EpisodeUrlSlug = Slug.Value(Of String),
                 .ApiUrlSlug = ApiSlug.Value(Of String),
                 .IsFree = Not IsSubRequired.Value(Of Boolean),
-                .EpisodeNumber = Number.Value(Of String)
+                .EpisodeNumber = Number.Value(Of String),
+                .Versions = Versions
             }
         Return EpisodeObject
     End Function
-
 End Class

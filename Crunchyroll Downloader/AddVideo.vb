@@ -27,13 +27,8 @@ Public Class AddVideo
         Await MetadataApi.Initialize()
 
         If Not MetadataApi.IsVideoUrl(downloadUrl) Then
-            'MsgBox("Downloading season information")
             Dim SeasonList = Await MetadataApi.ListSeasons(downloadUrl)
             Dim seasonSelectorForm = New SeasonSelector(MetadataApi, SeasonList)
-            'For Each Season In SeasonList
-            '    ' TODO: make a method in season select class
-            '    seasonSelectorForm.seasonSelectComboBox.Items.Add(Season.Name)
-            'Next
 
             ' Disable the add video form to simulate a modal dialog. 
             Enabled = False
