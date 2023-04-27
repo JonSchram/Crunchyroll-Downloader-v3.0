@@ -29,9 +29,12 @@ Namespace api
                     Return FunimationLanguage.PORTUGUESE
                 Case "ja"
                     Return FunimationLanguage.JAPANESE
+                Case "zh-mn"
+                    Return FunimationLanguage.CHINESE_MANDARIN
+                Case "N/A"
+                    Return FunimationLanguage.NONE
                 Case Else
-                    ' Might not want to throw an exception because the user can choose "None"
-                    Return FunimationLanguage.JAPANESE
+                    Return FunimationLanguage.NONE
             End Select
         End Function
 
@@ -45,8 +48,12 @@ Namespace api
                     Return "ja"
                 Case FunimationLanguage.PORTUGUESE
                     Return "pt"
+                Case FunimationLanguage.CHINESE_MANDARIN
+                    Return "zh-mn"
+                Case FunimationLanguage.NONE
+                    Return "N/A"
                 Case Else
-                    Return "ja"
+                    Return "N/A"
             End Select
         End Function
     End Class

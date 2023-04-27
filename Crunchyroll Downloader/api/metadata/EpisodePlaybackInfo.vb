@@ -29,48 +29,9 @@ Public Class EpisodePlaybackInfo
 
         Dim fallbackList As New List(Of Playback)
         For Each fallback As JToken In fallbackPlaybacks
-            fallbackList.Add(BuildPlayback(fallback))
+            fallbackList.Add(Playback.CreateFromJToken(fallback))
         Next
 
-        Return New EpisodePlaybackInfo(BuildPlayback(primaryPlayback), fallbackList)
+        Return New EpisodePlaybackInfo(Playback.CreateFromJToken(primaryPlayback), fallbackList)
     End Function
-
-
-    Private Shared Function BuildPlayback(playbackToken As JToken) As Playback
-        Dim videoId = playbackToken.Item("venueVideoId")
-        Dim playlistPath = playbackToken.Item("manifestPath")
-        Dim subtitlesToken = playbackToken.Item("subtitles")
-        Dim accessTypeToken = playbackToken.Item("accessType")
-        Dim version = playbackToken.Item("version")
-        Dim audioLanguageToken = playbackToken.Item("audioLanguage")
-        Dim subtitlesList = BuildSubtitles(subtitlesToken.AsEnumerable())
-
-        Dim PlaybackObject = New Playback() With {
-               .VideoId = videoId.Value(Of String),
-               .PlaylistPath = playlistPath.Value(Of String),
-               .Subtitles = subtitlesList,
-               .AudioLanguage = audioLanguageToken.Value(Of String),
-               .AccessType = accessTypeToken.Value(Of String),
-               .Version = version.Value(Of String)
-        }
-
-        Return PlaybackObject
-    End Function
-
-    Private Shared Function BuildSubtitles(SubtitlesList As IEnumerable(Of JToken)) As List(Of Subtitle)
-        Dim result = New List(Of Subtitle)
-        For Each Subtitle In SubtitlesList
-            Dim path = Subtitle.Item("filePath")
-            Dim language = Subtitle.Item("languageCode")
-            Dim format = Subtitle.Item("fileExt")
-
-            result.Add(New Subtitle() With {
-            .Path = path.Value(Of String),
-            .Format = format.Value(Of String),
-            .Language = language.Value(Of String)
-            })
-        Next
-        Return result
-    End Function
-
 End Class

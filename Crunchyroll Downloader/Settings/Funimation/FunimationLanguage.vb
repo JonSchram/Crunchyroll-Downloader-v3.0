@@ -5,5 +5,6 @@
         JAPANESE = 2
         PORTUGUESE = 3
         SPANISH = 4
+        CHINESE_MANDARIN = 5
     End Enum
 End Namespace

@@ -96,8 +96,8 @@ Namespace download
 
             Public Async Sub Download()
                 Console.WriteLine("Downloading " + task.ToString())
-                Dim playbackTask = Await GetPlaybackFile()
-                Console.WriteLine($"Found best matching playback: {playbackTask}")
+                Dim playback = Await GetPlaybackFile()
+                Console.WriteLine($"Found best matching playback: {playback}")
                 callback(task)
             End Sub
 
