@@ -191,6 +191,7 @@
     <Compile Include="api\Client\FunimationClient.vb" />
     <Compile Include="download\DownloadExecutor.vb" />
     <Compile Include="download\DownloadTask.vb" />
+    <Compile Include="download\PlaybackSelector.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>
     </Compile>

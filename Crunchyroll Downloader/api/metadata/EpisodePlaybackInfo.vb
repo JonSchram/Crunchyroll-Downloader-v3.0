@@ -50,7 +50,7 @@ Public Class EpisodePlaybackInfo
                .PlaylistPath = playlistPath.Value(Of String),
                .Subtitles = subtitlesList,
                .AudioLanguage = audioLanguageToken.Value(Of String),
-               .AccessType = audioLanguageToken.Value(Of String),
+               .AccessType = accessTypeToken.Value(Of String),
                .Version = version.Value(Of String)
         }
 

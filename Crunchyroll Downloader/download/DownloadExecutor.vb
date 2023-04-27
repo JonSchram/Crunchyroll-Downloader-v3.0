@@ -94,19 +94,23 @@ Namespace download
                 Me.callback = callback
             End Sub
 
-            Public Sub Download()
+            Public Async Sub Download()
                 Console.WriteLine("Downloading " + task.ToString())
-                GetPlaybackFile()
+                Dim playbackTask = Await GetPlaybackFile()
+                Console.WriteLine($"Found best matching playback: {playbackTask}")
                 callback(task)
             End Sub
 
-            Private Async Sub GetPlaybackFile()
+            Private Async Function GetPlaybackFile() As Tasks.Task(Of Playback)
                 Dim client = task.GetMetadataClient()
                 Dim episode = task.GetEpisode()
                 Console.WriteLine($"Getting playback file for {episode}")
                 Dim playback = Await client.GetEpisodePlayback(episode)
-                Console.WriteLine(playback)
-            End Sub
+
+                Dim selector = New PlaybackSelector()
+                Dim bestPlayback = selector.ChooseFunimationPlayback(playback)
+                Return bestPlayback
+            End Function
 
         End Class
     End Class
