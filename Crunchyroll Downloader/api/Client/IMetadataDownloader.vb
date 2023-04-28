@@ -48,5 +48,12 @@
         ''' </summary>
         ''' <returns></returns>
         Function IsVideoUrl(Url As String) As Boolean
+
+        ''' <summary>
+        ''' Returns a human-readable name that this downloader is associated with.
+        ''' Mainly used to display the correct string in the UI.
+        ''' </summary>
+        ''' <returns></returns>
+        Function GetSiteName() As String
     End Interface
 End Namespace

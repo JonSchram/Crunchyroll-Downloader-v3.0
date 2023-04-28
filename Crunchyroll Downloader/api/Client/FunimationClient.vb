@@ -174,5 +174,9 @@ Namespace api.client
         Private Function GenerateGuid() As String
             Return Guid.NewGuid().ToString()
         End Function
+
+        Public Function GetSiteName() As String Implements IMetadataDownloader.GetSiteName
+            Return "Funimation"
+        End Function
     End Class
 End Namespace

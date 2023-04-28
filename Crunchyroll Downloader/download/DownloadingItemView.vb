@@ -39,14 +39,7 @@ Public Class DownloadingItemView
 
     Private Sub SetSiteName()
         Dim client = Task.GetMetadataClient()
-        Dim siteName = "Unknown"
-        If TypeOf client Is FunimationClient Then
-            siteName = "Funimation"
-        ElseIf TypeOf client Is CrunchyrollClient Then
-            siteName = "Crunchyroll"
-        End If
-
-        WebsiteLabel.Text = siteName
+        WebsiteLabel.Text = client.GetSiteName()
     End Sub
 
     Private Function FormatAnimeTitle() As String

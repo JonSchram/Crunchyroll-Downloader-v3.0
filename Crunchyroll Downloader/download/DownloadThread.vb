@@ -50,6 +50,15 @@ Namespace download
                 End Sub, Nothing)
         End Sub
 
+        Private Sub RaiseCompletionEvent()
+            ' TODO: Must raise event on the correct thread. The calling code creates new tasks on the thread this event is rasied from,
+            ' meaning that when the download completes, the context will disappear.
+            CreationSynchronizationContext.Post(
+                Sub()
+                    RaiseEvent DownloadComplete(DlTask)
+                End Sub, Nothing)
+        End Sub
+
         Private Async Sub Download()
             Console.WriteLine("Downloading " + DlTask.ToString())
             RaiseReportProgressEvent(Stage.FIND_VIDEO, 0)
@@ -57,7 +66,7 @@ Namespace download
 
             Console.WriteLine($"Found best matching playback: {playback}")
 
-            RaiseEvent DownloadComplete(DlTask)
+            RaiseCompletionEvent()
         End Sub
 
         Private Async Function GetPlaybackFile() As Tasks.Task(Of Playback)

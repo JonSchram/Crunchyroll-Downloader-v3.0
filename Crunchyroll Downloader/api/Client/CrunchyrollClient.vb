@@ -70,5 +70,9 @@ Namespace api.client
         Public Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IMetadataDownloader.GetEpisodePlayback
             Throw New NotImplementedException()
         End Function
+
+        Public Function GetSiteName() As String Implements IMetadataDownloader.GetSiteName
+            Return "Crunchyroll"
+        End Function
     End Class
 End Namespace
