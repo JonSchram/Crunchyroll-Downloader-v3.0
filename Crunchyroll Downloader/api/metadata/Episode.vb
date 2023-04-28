@@ -16,6 +16,8 @@
 
     Public Property SeasonNumber As Integer
 
+    Public Property EpisodeName As String
+
     ' Episode number in season. Needs to be a double because some episodes like filler / recap episodes are numbered as ".5"
     Public Property EpisodeNumber As Double
 

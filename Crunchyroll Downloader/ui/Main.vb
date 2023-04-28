@@ -310,19 +310,8 @@ Namespace ui
             AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
             Dim settings = ProgramSettings.GetInstance()
 
-            If settings.NeedsUpgrade() Then
-                settings.UpgradeSettings()
-            End If
-
-
-#Region "settings path"
-
-            Dim mySettings As New DirectorySettings()
-            mySettings.DirectoryName = Application.StartupPath
-            mySettings.FileName = "User.config.dat"
-            mySettings.Save() ' muss explizit gepeichert werden...
-
-#End Region
+            Dim presenter = New MainPresenter(Me)
+            presenter.initialize()
 
             Me.ContextMenuStrip = ContextMenuStrip1
             Dim tbtl As TextBoxTraceListener = New TextBoxTraceListener(TheTextBox)
@@ -361,33 +350,10 @@ Namespace ui
             Catch ex As Exception
             End Try
 
-            If settings.OutputPath Is Nothing Or settings.OutputPath = "" Then
-                settings.OutputPath = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-            End If
-
-            If settings.TemporaryFolder = Nothing Then
-                settings.TemporaryFolder = My.Computer.FileSystem.SpecialDirectories.Temp
-            End If
-
-            SubFolder_Value = My.Settings.SubFolder_Value
-
-
             HybridThread = My.Settings.HybridThread
 
-
-
             RetryWithCachedFiles()
-
-            ' TODO: Maybe notify the user that some settings may need to be re-applied because of code changes.
-
-            For i As Integer = 0 To 5
-                Dim taskView = New DownloadingItemView()
-                Dim taskPresenter = New DownloadingItemPresenter(taskView)
-                TaskFlowPanel.Controls.Add(taskView)
-            Next
-
         End Sub
-
 
 
         Public Sub ListItemAdd(ByVal NameKomplett As String, ByVal NameP1 As String, ByVal NameP2 As String, ByVal Reso As String, ByVal HardSub As String, ByVal ThumbnialURL As String, ByVal URL_DL As String, ByVal Pfad_DL As String, Optional Service As String = "CR") ', ByVal AudioLang As String)
@@ -1389,6 +1355,16 @@ Namespace ui
         End Sub
 
 #End Region
+
+        Public Function DisplayDownloadTask(item As DownloadTask) As DownloadingItemView
+            If InvokeRequired Then
+                Return CType(Invoke(Function() DisplayDownloadTask(item)), DownloadingItemView)
+            Else
+                Dim taskView = New DownloadingItemView()
+                TaskFlowPanel.Controls.Add(taskView)
+                Return taskView
+            End If
+        End Function
 
     End Class
 

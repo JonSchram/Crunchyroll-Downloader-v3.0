@@ -22,6 +22,8 @@ Public Class EpisodePlaybackInfo
     End Function
 
     Public Shared Function CreateFromJson(Json As String) As EpisodePlaybackInfo
+        ' TODO: Handle invalid responses because of failure to retrieve playback
+        ' (Most likely because of premium subscription requirement)
         Dim playbackObject = JObject.Parse(Json)
 
         Dim primaryPlayback = playbackObject.Item("primary")

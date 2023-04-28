@@ -14,6 +14,8 @@ Namespace download
         Private ExecutingTasks As List(Of DownloadTask) = New List(Of DownloadTask)()
         Private TaskListLock As Object = New Object()
 
+        Public Event ScheduleTask(newTask As DownloadTask)
+
         Private Sub New()
             AddHandler queue.ListChanged, AddressOf QueueModified
             AddHandler ProgramSettings.SimultaneousDownloadsChanged, AddressOf HandleSimultaneousDownloadChange
@@ -68,6 +70,7 @@ Namespace download
         End Sub
 
         Private Sub StartNewTask(task As DownloadTask)
+            RaiseEvent ScheduleTask(task)
             Dim threadState = New DownloadThread(task, AddressOf TaskCompleted)
             Dim taskThread = New Thread(New ThreadStart(AddressOf threadState.Download))
             SyncLock TaskListLock

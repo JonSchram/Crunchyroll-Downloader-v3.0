@@ -3,8 +3,13 @@
 
         Private WithEvents View As DownloadingItemView
 
-        Public Sub New(view As DownloadingItemView)
+        Private ReadOnly task As DownloadTask
+
+        Public Sub New(view As DownloadingItemView, task As DownloadTask)
             Me.View = view
+            Me.task = task
+
+            view.setTask(task)
         End Sub
 
         Private Sub HandleCancelDownload() Handles View.CancelDownload

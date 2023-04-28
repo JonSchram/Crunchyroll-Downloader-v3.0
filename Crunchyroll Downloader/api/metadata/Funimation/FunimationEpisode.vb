@@ -12,13 +12,14 @@ Public Class FunimationEpisode
         Dim episodeNumber = episodeInfo.Item("episodeNumber")
         Dim subRequired = episodeInfo.Item("isSubRequired")
         Dim type = episodeInfo.Item("type")
+        Dim EpisodeName = ExtractEpisodeName(episodeInfo.Item("name"))
 
         Dim SeasonInfo = episodeInfo.Item("season")
         Dim seasonNumber = SeasonInfo.Item("number")
 
         Dim ShowInfo = episodeInfo.Item("show")
-        Dim showNameList = ShowInfo.Item("name")
-        Dim showName = extractShowName(showNameList)
+        Dim showName = extractShowName(ShowInfo.Item("name"))
+
 
         Dim imagesList = episodeInfo.Item("images")
         Dim imageUrl = extractEpisodeImageUrl(imagesList.ToList)
@@ -27,6 +28,7 @@ Public Class FunimationEpisode
             .VideoId = Id.Value(Of String),
             .ApiId = apiId.Value(Of Integer),
             .UrlSlug = slug.Value(Of String),
+            .EpisodeName = EpisodeName,
             .EpisodeNumber = episodeNumber.Value(Of Double),
             .SeasonNumber = seasonNumber.Value(Of Integer),
             .ShowName = showName,
@@ -39,15 +41,23 @@ Public Class FunimationEpisode
     End Function
 
     Private Shared Function extractShowName(nameObject As JToken) As String
+        Return ExtractLanguage(nameObject, "Series title")
+    End Function
+
+    Private Shared Function ExtractEpisodeName(nameObject As JToken) As String
+        Return ExtractLanguage(nameObject, "Episode name")
+    End Function
+
+    Private Shared Function ExtractLanguage(apiObject As JToken, defaultText As String) As String
         ' Prefer English, then Spanish, then Portuguese
         Dim languageList = {"en", "es", "pt"}
         For Each language In languageList
-            Dim title = nameObject.Item(language).Value(Of String)
+            Dim title = apiObject.Item(language).Value(Of String)
             If title IsNot Nothing And title.Length > 0 Then
                 Return title
             End If
         Next
-        Return "UNDEFINED TITLE"
+        Return defaultText
     End Function
 
     Private Shared Function extractEpisodeImageUrl(imageList As IEnumerable(Of JToken)) As String

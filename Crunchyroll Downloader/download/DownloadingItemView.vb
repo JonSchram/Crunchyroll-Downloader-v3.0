@@ -1,10 +1,15 @@
-﻿Imports MetroFramework.Controls
+﻿Imports Crunchyroll_Downloader.api.authentication
+Imports Crunchyroll_Downloader.api.client
+Imports Crunchyroll_Downloader.download
+Imports MetroFramework.Controls
 
 Public Class DownloadingItemView
     Inherits MetroUserControl
 
     Public Event CancelDownload()
     Public Event PauseDownload()
+
+    Private Task As DownloadTask
 
     Public Sub New()
         InitializeComponent()
@@ -17,4 +22,43 @@ Public Class DownloadingItemView
     Private Sub DeleteButton_Click(sender As Object, e As EventArgs) Handles DeleteButton.Click
         RaiseEvent CancelDownload()
     End Sub
+
+    Public Sub SetTask(task As DownloadTask)
+        Me.Task = task
+        UpdateLabels()
+    End Sub
+
+    Private Sub UpdateLabels()
+        If InvokeRequired Then
+            Invoke(Sub() UpdateLabels())
+        Else
+            SetSiteName()
+            AnimeDetailsLabel.Text = FormatAnimeTitle()
+        End If
+    End Sub
+
+    Private Sub SetSiteName()
+        Dim client = Task.GetMetadataClient()
+        Dim siteName = "Unknown"
+        If TypeOf client Is FunimationClient Then
+            siteName = "Funimation"
+        ElseIf TypeOf client Is CrunchyrollClient Then
+            siteName = "Crunchyroll"
+        End If
+
+        WebsiteLabel.Text = siteName
+    End Sub
+
+    Private Function FormatAnimeTitle() As String
+        Dim episode = Task.GetEpisode()
+        Return $"{episode.ShowName}, Season {episode.SeasonNumber}, episode {episode.EpisodeNumber}"
+    End Function
+
+    Private Sub SetResolutionLabel()
+        ' TODO: Set resolution when it is found
+    End Sub
+    Private Sub SetHardsubLabel()
+        ' TODO: Set hardsub label
+    End Sub
+
 End Class

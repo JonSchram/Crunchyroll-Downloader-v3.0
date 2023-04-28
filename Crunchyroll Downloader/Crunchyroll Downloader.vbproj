@@ -325,6 +325,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Subfolder.vb" />
+    <Compile Include="ui\MainPresenter.vb" />
     <Compile Include="UrlUtilities.vb" />
   </ItemGroup>
   <ItemGroup>
