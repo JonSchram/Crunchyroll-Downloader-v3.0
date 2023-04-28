@@ -190,6 +190,13 @@
     <Compile Include="api\Client\CrunchyrollClient.vb" />
     <Compile Include="api\Client\FunimationClient.vb" />
     <Compile Include="download\DownloadExecutor.vb" />
+    <Compile Include="download\DownloadingItemPresenter.vb" />
+    <Compile Include="download\DownloadingItemView.Designer.vb">
+      <DependentUpon>DownloadingItemView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="download\DownloadingItemView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="download\DownloadTask.vb" />
     <Compile Include="download\PlaybackSelector.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
@@ -326,6 +333,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="debug\DebugForm.resx">
       <DependentUpon>DebugForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="download\DownloadingItemView.resx">
+      <DependentUpon>DownloadingItemView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ffmpeg_option.resx">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>
