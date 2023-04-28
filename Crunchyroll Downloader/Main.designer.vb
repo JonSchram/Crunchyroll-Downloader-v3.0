@@ -31,6 +31,7 @@ Partial Class Main
         Me.TheTextBox = New System.Windows.Forms.RichTextBox()
         Me.ConsoleBar = New System.Windows.Forms.PictureBox()
         Me.MetroStyleExtender1 = New MetroFramework.Components.MetroStyleExtender(Me.components)
+        Me.TaskFlowPanel = New System.Windows.Forms.FlowLayoutPanel()
         Me.MainStyleManager = New MetroFramework.Components.MetroStyleManager(Me.components)
         Me.Timer4 = New System.Windows.Forms.Timer(Me.components)
         Me.Btn_add = New System.Windows.Forms.Button()
@@ -50,7 +51,6 @@ Partial Class Main
         Me.CRCookieToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UrlJsonsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DummyItemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.ScanTimeout = New System.Windows.Forms.Timer(Me.components)
         Me.Btn_Queue = New System.Windows.Forms.Button()
         Me.DebugButton = New MetroFramework.Controls.MetroButton()
@@ -93,7 +93,13 @@ Partial Class Main
         Me.ConsoleBar.Name = "ConsoleBar"
         Me.ConsoleBar.TabStop = False
         '
-        'MetroStyleManager1
+        'TaskFlowPanel
+        '
+        resources.ApplyResources(Me.TaskFlowPanel, "TaskFlowPanel")
+        Me.MetroStyleExtender1.SetApplyMetroTheme(Me.TaskFlowPanel, True)
+        Me.TaskFlowPanel.Name = "TaskFlowPanel"
+        '
+        'MainStyleManager
         '
         Me.MainStyleManager.Owner = Me
         Me.MainStyleManager.Style = MetroFramework.MetroColorStyle.Orange
@@ -127,8 +133,8 @@ Partial Class Main
         '
         'Btn_Settings
         '
-        Me.Btn_Settings.BackColor = System.Drawing.Color.Transparent
         resources.ApplyResources(Me.Btn_Settings, "Btn_Settings")
+        Me.Btn_Settings.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Settings.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Settings.FlatAppearance.BorderSize = 0
         Me.Btn_Settings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
@@ -138,8 +144,8 @@ Partial Class Main
         '
         'Btn_min
         '
-        Me.Btn_min.BackColor = System.Drawing.Color.Transparent
         resources.ApplyResources(Me.Btn_min, "Btn_min")
+        Me.Btn_min.BackColor = System.Drawing.Color.Transparent
         Me.Btn_min.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_min.FlatAppearance.BorderSize = 0
         Me.Btn_min.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
@@ -150,8 +156,8 @@ Partial Class Main
         '
         'Btn_Close
         '
-        Me.Btn_Close.BackColor = System.Drawing.Color.Transparent
         resources.ApplyResources(Me.Btn_Close, "Btn_Close")
+        Me.Btn_Close.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Close.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Close.FlatAppearance.BorderSize = 0
         Me.Btn_Close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
@@ -221,19 +227,14 @@ Partial Class Main
         Me.DummyItemToolStripMenuItem.Name = "DummyItemToolStripMenuItem"
         resources.ApplyResources(Me.DummyItemToolStripMenuItem, "DummyItemToolStripMenuItem")
         '
-        'Panel1
-        '
-        resources.ApplyResources(Me.Panel1, "Panel1")
-        Me.Panel1.Name = "Panel1"
-        '
         'ScanTimeout
         '
         Me.ScanTimeout.Interval = 1000
         '
         'Btn_Queue
         '
-        Me.Btn_Queue.BackColor = System.Drawing.Color.Transparent
         resources.ApplyResources(Me.Btn_Queue, "Btn_Queue")
+        Me.Btn_Queue.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Queue.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_Queue.FlatAppearance.BorderSize = 0
         Me.Btn_Queue.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
@@ -253,16 +254,16 @@ Partial Class Main
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle
         resources.ApplyResources(Me, "$this")
+        Me.Controls.Add(Me.ConsoleBar)
+        Me.Controls.Add(Me.TheTextBox)
+        Me.Controls.Add(Me.TaskFlowPanel)
         Me.Controls.Add(Me.DebugButton)
         Me.Controls.Add(Me.Btn_Queue)
-        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Btn_Close)
         Me.Controls.Add(Me.Btn_min)
         Me.Controls.Add(Me.Btn_Settings)
         Me.Controls.Add(Me.Btn_Browser)
         Me.Controls.Add(Me.Btn_add)
-        Me.Controls.Add(Me.TheTextBox)
-        Me.Controls.Add(Me.ConsoleBar)
         Me.Controls.Add(Me.PictureBox5)
         Me.ForeColor = System.Drawing.Color.Black
         Me.MaximizeBox = False
@@ -300,11 +301,11 @@ Partial Class Main
     Friend WithEvents CRCookieToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UrlJsonsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DummyItemToolStripMenuItem As ToolStripMenuItem
-    Public WithEvents Panel1 As Panel
     Friend WithEvents ScanTimeout As Timer
     Friend WithEvents QueueToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Btn_Queue As Button
     Friend WithEvents SaveThumbnailAsImageToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SaveModeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DebugButton As MetroFramework.Controls.MetroButton
+    Friend WithEvents TaskFlowPanel As FlowLayoutPanel
 End Class

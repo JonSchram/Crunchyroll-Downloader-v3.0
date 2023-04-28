@@ -5,6 +5,7 @@ Imports System.Net.Sockets
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Threading
+Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
 Imports MetroFramework
@@ -256,41 +257,14 @@ Public Class Main
     End Sub
 
     Private Sub Main_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        Panel1.Width = Me.Width - 2
-        Panel1.Height = Me.Height - 71 - ListViewHeightOffset
+        ' TODO: Set correct anchor properties so the positioning logic can disappear
         PictureBox5.Width = Me.Width - 40
         ConsoleBar.Location = New Point(1, Me.Height - ListViewHeightOffset)
         ConsoleBar.Width = Me.Width - 40
         TheTextBox.Location = New Point(1, Me.Height - ListViewHeightOffset + 7)
         TheTextBox.Width = Me.Width - 2
-        Btn_Close.Location = New Point(Me.Width - 36, 1)
-        Btn_min.Location = New Point(Me.Width - 67, 1)
         Btn_Settings.Location = New Point(Me.Width - 165, 17)
         Btn_Queue.Location = New Point(Me.Width - 265, 17)
-        Try
-            Panel1.AutoScrollPosition = New Point(0, 0)
-
-            Dim W As Integer = Panel1.Width
-            If Panel1.Controls.Count * 142 > Panel1.Height Then
-                W = Panel1.Width - SystemInformation.VerticalScrollBarWidth
-            End If
-
-            Dim Item As New List(Of CRD_List_Item)
-            Item.AddRange(Panel1.Controls.OfType(Of CRD_List_Item))
-            Item.Reverse()
-
-            For s As Integer = 0 To Item.Count - 1
-                Item(s).SetBounds(0, 142 * s, W - 2, 142)
-                If Debug2 = True Then
-                    Debug.WriteLine("Bounds: " + Item(s).GetTextBound.ToString)
-
-                    Debug.WriteLine("Ist: " + Item(s).Location.Y.ToString)
-                    Debug.WriteLine("Soll: " + (142 * s).ToString)
-                End If
-            Next
-        Catch ex As Exception
-            Debug.WriteLine(ex.ToString)
-        End Try
     End Sub
 
 #End Region
@@ -359,7 +333,7 @@ Public Class Main
         StyleManager = MainStyleManager
         Manager = StyleManager
 
-        MetroStyleExtender1.SetApplyMetroTheme(Panel1, True)
+        MetroStyleExtender1.SetApplyMetroTheme(TaskFlowPanel, True)
 
         If settings.DarkMode Then
             DarkMode()
@@ -405,6 +379,11 @@ Public Class Main
 
         ' TODO: Maybe notify the user that some settings may need to be re-applied because of code changes.
 
+        For i As Integer = 0 To 5
+            Dim taskView = New DownloadingItemView()
+            Dim taskPresenter = New DownloadingItemPresenter(taskView)
+            TaskFlowPanel.Controls.Add(taskView)
+        Next
 
     End Sub
 
@@ -443,21 +422,8 @@ Public Class Main
         Item.SetDebug2(Debug2)
 #End Region
 
-
-
-
-        Dim W As Integer = Panel1.Width
-        If Panel1.Controls.Count * 142 > Panel1.Height Then
-            W = Panel1.Width - SystemInformation.VerticalScrollBarWidth
-        End If
-
-
-
-        Item.SetBounds(0, 142 * Panel1.Controls.Count, W - 2, 142)
-
-
-        Item.Parent = Panel1
-        Panel1.Controls.Add(Item)
+        Item.Parent = TaskFlowPanel
+        TaskFlowPanel.Controls.Add(Item)
 
         Item.Visible = True
         ' TODO: Support dash MPD files
@@ -757,7 +723,7 @@ Public Class Main
             If MessageBox.Show("Are you sure you want close the program and end all active downloads?", "confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
 
                 Dim Item As New List(Of CRD_List_Item)
-                Item.AddRange(Panel1.Controls.OfType(Of CRD_List_Item))
+                Item.AddRange(TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
                 Item.Reverse()
 
                 For i As Integer = 0 To Item.Count - 1
@@ -935,7 +901,7 @@ Public Class Main
         Try
             Dim ItemFinshedCount As Integer = 0
             Dim Item As New List(Of CRD_List_Item)
-            Item.AddRange(Panel1.Controls.OfType(Of CRD_List_Item))
+            Item.AddRange(TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
             Item.Reverse()
 
             For i As Integer = 0 To Item.Count - 1
@@ -955,7 +921,7 @@ Public Class Main
         Catch ex As Exception
             Debug.WriteLine("Failed? : " + ex.ToString)
 
-            RunningDownloads = Panel1.Controls.Count
+            RunningDownloads = TaskFlowPanel.Controls.Count
         End Try
         'Debug.WriteLine("Running: " + RunningDownloads.ToString)
 
@@ -966,7 +932,7 @@ Public Class Main
     Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
 
         Dim Item As New List(Of CRD_List_Item)
-        Item.AddRange(Panel1.Controls.OfType(Of CRD_List_Item))
+        Item.AddRange(TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
         Item.Reverse()
 
         Dim GeckoHTML As String = My.Resources.htmlTop + vbNewLine + My.Resources.htmlTitlel.Replace("Placeholder", Me.Text.Replace("open the add window to continue", ""))
@@ -1206,11 +1172,10 @@ Public Class Main
     End Sub
 
     Private Sub Main_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        ' TODO: Can just set the image in the designer? No need to put it here?
         Btn_add.Image = My.Resources.main_add
-        Panel1.Select()
-
-
-
+        ' TODO: Not sure why the download task panel was selected upon showing the form.
+        'TaskFlowPanel.Select()
     End Sub
     Private Async Sub Funimation_Token_Click(sender As Object, e As EventArgs) Handles Funimation_Token.Click
         Dim Token As String = Nothing
@@ -1287,56 +1252,6 @@ Public Class Main
         MsgBox("Object" + vbNewLine + CR_ObjectsJson.Content.Count.ToString)
         MsgBox("Streams" + vbNewLine + CR_VideoJson.Content.Count.ToString)
 
-    End Sub
-
-
-    Private Sub ItemBoundsToolStripMenuItem_Click(sender As Object, e As EventArgs)
-        Try
-
-            For s As Integer = 0 To Panel1.Controls.Count - 1
-                MsgBox(Panel1.Controls.Item(s).Bounds.ToString)
-            Next
-        Catch ex As Exception
-        End Try
-    End Sub
-
-
-
-
-    Private Sub PanelControlRemoved(sender As Object, e As ControlEventArgs) Handles Panel1.ControlAdded, Panel1.ControlRemoved
-
-        ItemBounds()
-    End Sub
-
-    Private Sub PanelScroll(sender As Object, e As ScrollEventArgs) Handles Panel1.Scroll
-        'MsgBox("Scroll")
-        ItemBounds()
-    End Sub
-
-    Sub ItemBounds()
-        Try
-            Panel1.AutoScrollPosition = New Point(0, 0)
-            Dim W As Integer = Panel1.Width
-            If Panel1.Controls.Count * 142 > Panel1.Height Then
-                W = Panel1.Width - SystemInformation.VerticalScrollBarWidth
-            End If
-
-            Dim Item As New List(Of CRD_List_Item)
-            Item.AddRange(Panel1.Controls.OfType(Of CRD_List_Item))
-            Item.Reverse()
-
-            For s As Integer = 0 To Item.Count - 1
-                Item(s).SetBounds(0, 142 * s, W - 2, 142)
-                If Debug2 = True Then
-                    Debug.WriteLine("Ist: " + Item(s).Location.Y.ToString)
-                    Debug.WriteLine("Soll: " + (142 * s).ToString)
-                End If
-            Next
-
-
-        Catch ex As Exception
-            Debug.WriteLine(ex.ToString)
-        End Try
     End Sub
 
     Private Sub DummyItemToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DummyItemToolStripMenuItem.Click
@@ -1462,6 +1377,14 @@ Public Class Main
     Private Sub debugButton_Click(sender As Object, e As EventArgs) Handles DebugButton.Click
         Dim debugWindow = New DebugForm()
         debugWindow.Show()
+    End Sub
+
+    Private Sub TaskFlowPanel_Layout(sender As Object, e As LayoutEventArgs) Handles TaskFlowPanel.Layout
+        Dim panelInternalWidth = TaskFlowPanel.ClientSize.Width
+        Dim controls = TaskFlowPanel.Controls
+        For Each item As Control In controls
+            item.Width = panelInternalWidth - item.Margin.Left - item.Margin.Right
+        Next
     End Sub
 
 #End Region

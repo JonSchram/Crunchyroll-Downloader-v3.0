@@ -42,7 +42,7 @@ Public Class CrunchyrollDownloader
                         Try
                             Dim ItemFinshedCount As Integer = 0 '
                             Dim Item As New List(Of CRD_List_Item)
-                            Item.AddRange(Main.Panel1.Controls.OfType(Of CRD_List_Item))
+                            Item.AddRange(Main.TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
                             Item.Reverse()
 
                             For i2 As Integer = 0 To Item.Count - 1
@@ -50,9 +50,9 @@ Public Class CrunchyrollDownloader
                                     ItemFinshedCount = ItemFinshedCount + 1
                                 End If
                             Next
-                            Main.RunningDownloads = Main.Panel1.Controls.Count - ItemFinshedCount
+                            Main.RunningDownloads = Main.TaskFlowPanel.Controls.Count - ItemFinshedCount
                         Catch ex As Exception
-                            Main.RunningDownloads = Main.Panel1.Controls.Count
+                            Main.RunningDownloads = Main.TaskFlowPanel.Controls.Count
                         End Try
                         If Main.RunningDownloads < settings.SimultaneousDownloads Then
                             Exit For

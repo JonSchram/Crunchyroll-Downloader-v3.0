@@ -124,6 +124,9 @@
   <data name="PictureBox5.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Stretch</value>
   </data>
+  <data name="PictureBox5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="PictureBox5.Location" type="System.Drawing.Point, System.Drawing">
     <value>1, 65</value>
@@ -151,13 +154,13 @@
     <value>11</value>
   </data>
   <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>383, 18</value>
+    <value>547, 17</value>
   </metadata>
   <metadata name="Timer2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>272, 14</value>
+    <value>458, 17</value>
   </metadata>
   <metadata name="Timer3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>184, 52</value>
+    <value>646, 17</value>
   </metadata>
   <data name="TheTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 652</value>
@@ -187,10 +190,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TheTextBox.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>2</value>
   </data>
   <data name="ConsoleBar.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Stretch</value>
+  </data>
+  <data name="ConsoleBar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="ConsoleBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 618</value>
@@ -214,13 +220,49 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ConsoleBar.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>1</value>
   </data>
   <metadata name="MetroStyleExtender1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>171, 17</value>
   </metadata>
-  <metadata name="MetroStyleManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>20, 48</value>
+  <data name="TaskFlowPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="TaskFlowPanel.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="TaskFlowPanel.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="TaskFlowPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 74</value>
+  </data>
+  <data name="TaskFlowPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 3, 0, 3</value>
+  </data>
+  <data name="TaskFlowPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>900, 541</value>
+  </data>
+  <data name="TaskFlowPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TaskFlowPanel.WrapContents" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;TaskFlowPanel.Name" xml:space="preserve">
+    <value>TaskFlowPanel</value>
+  </data>
+  <data name="&gt;&gt;TaskFlowPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TaskFlowPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TaskFlowPanel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="MainStyleManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -256,7 +298,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DebugButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
+  </data>
+  <data name="Btn_Queue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="Btn_Queue.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -268,7 +313,7 @@
     <value>NoControl</value>
   </data>
   <data name="Btn_Queue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>575, 18</value>
+    <value>636, 18</value>
   </data>
   <data name="Btn_Queue.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 35</value>
@@ -286,34 +331,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Btn_Queue.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
-  <data name="Panel1.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 71</value>
-  </data>
-  <data name="Panel1.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>898, 403</value>
-  </data>
-  <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>898, 546</value>
-  </data>
-  <data name="Panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Panel1.Name" xml:space="preserve">
-    <value>Panel1</value>
-  </data>
-  <data name="&gt;&gt;Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Panel1.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="Btn_Close.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="Btn_Close.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>None</value>
@@ -325,7 +346,7 @@
     <value>NoControl</value>
   </data>
   <data name="Btn_Close.Location" type="System.Drawing.Point, System.Drawing">
-    <value>800, 1</value>
+    <value>865, 3</value>
   </data>
   <data name="Btn_Close.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 35</value>
@@ -343,7 +364,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Btn_Close.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
+  </data>
+  <data name="Btn_min.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="Btn_min.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>None</value>
@@ -355,7 +379,7 @@
     <value>NoControl</value>
   </data>
   <data name="Btn_min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>757, 1</value>
+    <value>829, 5</value>
   </data>
   <data name="Btn_min.Size" type="System.Drawing.Size, System.Drawing">
     <value>30, 30</value>
@@ -373,7 +397,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Btn_min.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
+  </data>
+  <data name="Btn_Settings.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="Btn_Settings.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -385,7 +412,7 @@
     <value>NoControl</value>
   </data>
   <data name="Btn_Settings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>665, 18</value>
+    <value>726, 18</value>
   </data>
   <data name="Btn_Settings.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 35</value>
@@ -403,13 +430,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Btn_Settings.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="Btn_Browser.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
   </data>
   <data name="Btn_Browser.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
+  </data>
+  <data name="Btn_Browser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="Btn_Browser.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 18</value>
@@ -430,7 +460,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Btn_Browser.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="Btn_add.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -460,16 +490,22 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Btn_add.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>900, 630</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>WindowsDefaultLocation</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Crunchyroll Downloader</value>
@@ -498,10 +534,10 @@
   <data name="&gt;&gt;MetroStyleExtender1.Type" xml:space="preserve">
     <value>MetroFramework.Components.MetroStyleExtender, MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a</value>
   </data>
-  <data name="&gt;&gt;MetroStyleManager1.Name" xml:space="preserve">
-    <value>MetroStyleManager1</value>
+  <data name="&gt;&gt;MainStyleManager.Name" xml:space="preserve">
+    <value>MainStyleManager</value>
   </data>
-  <data name="&gt;&gt;MetroStyleManager1.Type" xml:space="preserve">
+  <data name="&gt;&gt;MainStyleManager.Type" xml:space="preserve">
     <value>MetroFramework.Components.MetroStyleManager, MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a</value>
   </data>
   <data name="&gt;&gt;Timer4.Name" xml:space="preserve">
@@ -589,11 +625,20 @@
     <value>MetroFramework.Forms.MetroForm, MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a</value>
   </data>
   <metadata name="Timer4.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>276, 52</value>
+    <value>735, 17</value>
   </metadata>
   <metadata name="ContextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>352, 49</value>
+    <value>17, 56</value>
   </metadata>
+  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>234, 246</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip1.Name" xml:space="preserve">
+    <value>ContextMenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="QueueToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>233, 22</value>
   </data>
@@ -660,16 +705,7 @@
   <data name="DummyItemToolStripMenuItem.Text" xml:space="preserve">
     <value>Dummy_Item</value>
   </data>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 246</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip1.Name" xml:space="preserve">
-    <value>ContextMenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <metadata name="ScanTimeout.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>167, 10</value>
+    <value>336, 17</value>
   </metadata>
 </root>

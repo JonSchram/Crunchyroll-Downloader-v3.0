@@ -45,7 +45,7 @@ Public Class QueueDialog
         Try
             Dim ItemFinshedCount As Integer = 0
             Dim Item As New List(Of CRD_List_Item)
-            Item.AddRange(Main.Panel1.Controls.OfType(Of CRD_List_Item))
+            Item.AddRange(Main.TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
 
             For i As Integer = 0 To Item.Count - 1
                 Debug.WriteLine(Item(i).GetIsStatusFinished().ToString)
@@ -57,7 +57,7 @@ Public Class QueueDialog
             Main.RunningDownloads = Item.Count - ItemFinshedCount
 
         Catch ex As Exception
-            Main.RunningDownloads = Main.Panel1.Controls.Count
+            Main.RunningDownloads = Main.TaskFlowPanel.Controls.Count
         End Try
 
         If Main.RunningDownloads < ProgramSettings.GetInstance().SimultaneousDownloads Then

@@ -37,13 +37,13 @@ Partial Class DownloadingItemView
         Me.ResolutionLabel = New MetroFramework.Controls.MetroLabel()
         Me.WebsiteLabel = New MetroFramework.Controls.MetroLabel()
         Me.AnimeDetailsLabel = New MetroFramework.Controls.MetroLabel()
-        Me.bt_del = New System.Windows.Forms.PictureBox()
-        Me.bt_pause = New System.Windows.Forms.PictureBox()
+        Me.DeleteButton = New System.Windows.Forms.PictureBox()
+        Me.PauseButton = New System.Windows.Forms.PictureBox()
         Me.ThumbnailPictureBox = New System.Windows.Forms.PictureBox()
         CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
-        CType(Me.bt_del, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.bt_pause, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DeleteButton, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PauseButton, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ThumbnailPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -54,9 +54,9 @@ Partial Class DownloadingItemView
         'DownloadProgress
         '
         Me.DownloadProgress.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DownloadProgress.Location = New System.Drawing.Point(202, 64)
+        Me.DownloadProgress.Location = New System.Drawing.Point(202, 63)
         Me.DownloadProgress.Name = "DownloadProgress"
-        Me.DownloadProgress.Size = New System.Drawing.Size(639, 20)
+        Me.DownloadProgress.Size = New System.Drawing.Size(637, 20)
         Me.DownloadProgress.TabIndex = 77
         '
         'SaveToFile
@@ -95,7 +95,7 @@ Partial Class DownloadingItemView
         Me.StatusLabel.BackColor = System.Drawing.Color.Transparent
         Me.StatusLabel.FontSize = MetroFramework.MetroLabelSize.Tall
         Me.StatusLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.StatusLabel.Location = New System.Drawing.Point(472, 88)
+        Me.StatusLabel.Location = New System.Drawing.Point(470, 86)
         Me.StatusLabel.Name = "StatusLabel"
         Me.StatusLabel.Size = New System.Drawing.Size(378, 27)
         Me.StatusLabel.TabIndex = 76
@@ -109,7 +109,7 @@ Partial Class DownloadingItemView
         Me.HardsubLabel.BackColor = System.Drawing.Color.Transparent
         Me.HardsubLabel.FontSize = MetroFramework.MetroLabelSize.Tall
         Me.HardsubLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.HardsubLabel.Location = New System.Drawing.Point(271, 90)
+        Me.HardsubLabel.Location = New System.Drawing.Point(271, 88)
         Me.HardsubLabel.Name = "HardsubLabel"
         Me.HardsubLabel.Size = New System.Drawing.Size(126, 25)
         Me.HardsubLabel.TabIndex = 75
@@ -122,7 +122,7 @@ Partial Class DownloadingItemView
         Me.ResolutionLabel.BackColor = System.Drawing.Color.Transparent
         Me.ResolutionLabel.FontSize = MetroFramework.MetroLabelSize.Tall
         Me.ResolutionLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular
-        Me.ResolutionLabel.Location = New System.Drawing.Point(202, 90)
+        Me.ResolutionLabel.Location = New System.Drawing.Point(202, 88)
         Me.ResolutionLabel.Name = "ResolutionLabel"
         Me.ResolutionLabel.Size = New System.Drawing.Size(63, 25)
         Me.ResolutionLabel.TabIndex = 74
@@ -152,31 +152,31 @@ Partial Class DownloadingItemView
         Me.AnimeDetailsLabel.TabIndex = 72
         Me.AnimeDetailsLabel.Text = "Anime Title, Season, Episode"
         '
-        'bt_del
+        'DeleteButton
         '
-        Me.bt_del.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.bt_del.BackColor = System.Drawing.Color.Transparent
-        Me.bt_del.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.bt_del.Image = Global.Crunchyroll_Downloader.My.Resources.Resources.main_del
-        Me.bt_del.Location = New System.Drawing.Point(815, 16)
-        Me.bt_del.Name = "bt_del"
-        Me.bt_del.Size = New System.Drawing.Size(35, 29)
-        Me.bt_del.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.bt_del.TabIndex = 71
-        Me.bt_del.TabStop = False
+        Me.DeleteButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DeleteButton.BackColor = System.Drawing.Color.Transparent
+        Me.DeleteButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.DeleteButton.Image = Global.Crunchyroll_Downloader.My.Resources.Resources.main_del
+        Me.DeleteButton.Location = New System.Drawing.Point(813, 16)
+        Me.DeleteButton.Name = "DeleteButton"
+        Me.DeleteButton.Size = New System.Drawing.Size(35, 29)
+        Me.DeleteButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.DeleteButton.TabIndex = 71
+        Me.DeleteButton.TabStop = False
         '
-        'bt_pause
+        'PauseButton
         '
-        Me.bt_pause.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.bt_pause.BackColor = System.Drawing.Color.Transparent
-        Me.bt_pause.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.bt_pause.Image = Global.Crunchyroll_Downloader.My.Resources.Resources.main_pause
-        Me.bt_pause.Location = New System.Drawing.Point(784, 18)
-        Me.bt_pause.Name = "bt_pause"
-        Me.bt_pause.Size = New System.Drawing.Size(25, 24)
-        Me.bt_pause.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.bt_pause.TabIndex = 70
-        Me.bt_pause.TabStop = False
+        Me.PauseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PauseButton.BackColor = System.Drawing.Color.Transparent
+        Me.PauseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.PauseButton.Image = Global.Crunchyroll_Downloader.My.Resources.Resources.main_pause
+        Me.PauseButton.Location = New System.Drawing.Point(782, 18)
+        Me.PauseButton.Name = "PauseButton"
+        Me.PauseButton.Size = New System.Drawing.Size(25, 24)
+        Me.PauseButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PauseButton.TabIndex = 70
+        Me.PauseButton.TabStop = False
         '
         'ThumbnailPictureBox
         '
@@ -193,21 +193,22 @@ Partial Class DownloadingItemView
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Controls.Add(Me.ThumbnailPictureBox)
         Me.Controls.Add(Me.DownloadProgress)
         Me.Controls.Add(Me.WebsiteLabel)
         Me.Controls.Add(Me.HardsubLabel)
-        Me.Controls.Add(Me.bt_del)
+        Me.Controls.Add(Me.DeleteButton)
         Me.Controls.Add(Me.ResolutionLabel)
         Me.Controls.Add(Me.AnimeDetailsLabel)
         Me.Controls.Add(Me.StatusLabel)
-        Me.Controls.Add(Me.bt_pause)
+        Me.Controls.Add(Me.PauseButton)
         Me.Name = "DownloadingItemView"
-        Me.Size = New System.Drawing.Size(863, 134)
+        Me.Size = New System.Drawing.Size(861, 132)
         CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip1.ResumeLayout(False)
-        CType(Me.bt_del, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.bt_pause, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DeleteButton, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PauseButton, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ThumbnailPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -226,7 +227,7 @@ Partial Class DownloadingItemView
     Friend WithEvents ResolutionLabel As MetroLabel
     Friend WithEvents WebsiteLabel As MetroLabel
     Friend WithEvents AnimeDetailsLabel As MetroLabel
-    Friend WithEvents bt_del As PictureBox
-    Friend WithEvents bt_pause As PictureBox
+    Friend WithEvents DeleteButton As PictureBox
+    Friend WithEvents PauseButton As PictureBox
     Friend WithEvents ThumbnailPictureBox As PictureBox
 End Class
