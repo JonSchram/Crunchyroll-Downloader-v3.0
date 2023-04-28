@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.Crunchyroll_Downloader.Main
+            Me.MainForm = Global.Crunchyroll_Downloader.ui.Main
         End Sub
     End Class
 End Namespace

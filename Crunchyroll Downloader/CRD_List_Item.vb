@@ -11,6 +11,7 @@ Imports MetroFramework.Components
 Imports MetroFramework.Forms
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
+Imports Crunchyroll_Downloader.ui
 
 Public Class CRD_List_Item
     Inherits Controls.MetroUserControl

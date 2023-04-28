@@ -3,6 +3,7 @@
 Imports System.IO
 Imports Microsoft.Web.WebView2.Core
 Imports Crunchyroll_Downloader.settings.general
+Imports Crunchyroll_Downloader.ui
 
 Public Class Browser
 

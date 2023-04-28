@@ -1,4 +1,5 @@
-﻿Imports Newtonsoft.Json.Linq
+﻿Imports Crunchyroll_Downloader.ui
+Imports Newtonsoft.Json.Linq
 
 Namespace api.client
     Public Class CrunchyrollClient

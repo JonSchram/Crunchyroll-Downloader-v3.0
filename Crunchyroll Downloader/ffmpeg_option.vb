@@ -1,4 +1,5 @@
 ﻿Option Strict On
+Imports Crunchyroll_Downloader.ui
 Imports MetroFramework
 Imports MetroFramework.Components
 

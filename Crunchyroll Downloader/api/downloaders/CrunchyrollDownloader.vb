@@ -3,6 +3,7 @@ Imports System.Threading
 Imports Crunchyroll_Downloader.CRD_Classes
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
+Imports Crunchyroll_Downloader.ui
 Imports Newtonsoft.Json.Linq
 
 Public Class CrunchyrollDownloader

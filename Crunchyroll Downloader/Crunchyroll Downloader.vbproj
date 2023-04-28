@@ -301,10 +301,10 @@
     <Compile Include="ErrorDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.designer.vb">
+    <Compile Include="ui\Main.designer.vb">
       <DependentUpon>Main.vb</DependentUpon>
     </Compile>
-    <Compile Include="Main.vb">
+    <Compile Include="ui\Main.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -358,7 +358,7 @@
     <EmbeddedResource Include="CRD_List_Item.resx">
       <DependentUpon>CRD_List_Item.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
+    <EmbeddedResource Include="ui\Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
