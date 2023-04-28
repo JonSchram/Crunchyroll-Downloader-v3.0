@@ -7,7 +7,7 @@ Namespace ui
         Private ReadOnly MainView As Main
 
         Private DisplayedTasks As List(Of DownloadTask)
-        Private Downloader As DownloadExecutor
+        Private Downloader As DownloadScheduler
 
         Public Sub New(mainView As Main)
             Me.MainView = mainView
@@ -35,7 +35,7 @@ Namespace ui
                 settings.TemporaryFolder = My.Computer.FileSystem.SpecialDirectories.Temp
             End If
 
-            Downloader = DownloadExecutor.GetInstance()
+            Downloader = DownloadScheduler.GetInstance()
             AddHandler Downloader.ScheduleTask, AddressOf AddDownloadTask
         End Sub
 

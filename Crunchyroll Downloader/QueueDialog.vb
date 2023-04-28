@@ -6,7 +6,7 @@ Imports MetroFramework.Components
 
 Public Class QueueDialog
     Private ReadOnly episodeQueue As DownloadQueue = DownloadQueue.GetInstance()
-    Private ReadOnly downloader As DownloadExecutor = DownloadExecutor.GetInstance()
+    Private ReadOnly downloader As DownloadScheduler = DownloadScheduler.GetInstance()
 
     Private ReadOnly settings As ProgramSettings = ProgramSettings.GetInstance()
 

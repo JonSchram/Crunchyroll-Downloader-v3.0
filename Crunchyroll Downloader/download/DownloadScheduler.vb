@@ -1,13 +1,12 @@
-﻿Imports System.Collections.Concurrent
-Imports System.ComponentModel
+﻿Imports System.ComponentModel
 Imports System.Threading
 Imports Crunchyroll_Downloader.settings.general
 
 Namespace download
-    Public Class DownloadExecutor
+    Public Class DownloadScheduler
         Implements INotifyPropertyChanged
 
-        Private Shared Instance As DownloadExecutor
+        Private Shared Instance As DownloadScheduler
 
         Private queue As DownloadQueue = DownloadQueue.GetInstance()
         Private settings As ProgramSettings = ProgramSettings.GetInstance()
@@ -21,9 +20,9 @@ Namespace download
             AddHandler ProgramSettings.SimultaneousDownloadsChanged, AddressOf HandleSimultaneousDownloadChange
         End Sub
 
-        Public Shared Function GetInstance() As DownloadExecutor
+        Public Shared Function GetInstance() As DownloadScheduler
             If Instance Is Nothing Then
-                Instance = New DownloadExecutor()
+                Instance = New DownloadScheduler()
             End If
             Return Instance
         End Function
@@ -71,12 +70,18 @@ Namespace download
 
         Private Sub StartNewTask(task As DownloadTask)
             RaiseEvent ScheduleTask(task)
-            Dim threadState = New DownloadThread(task, AddressOf TaskCompleted)
-            Dim taskThread = New Thread(New ThreadStart(AddressOf threadState.Download))
             SyncLock TaskListLock
                 ExecutingTasks.Add(task)
             End SyncLock
-            taskThread.Start()
+
+            Dim download = New DownloadThread(task)
+            AddHandler download.ReportProgress, AddressOf TaskProgress
+            AddHandler download.DownloadComplete, AddressOf TaskCompleted
+            download.Start()
+        End Sub
+
+        Private Sub TaskProgress(s As DownloadThread.Stage, stagePercent As Double, totalPercent As Double)
+            Console.WriteLine($"Thread reported progress. {s}, stage percent: {stagePercent}, total percent: {totalPercent}")
         End Sub
 
         Private Sub TaskCompleted(task As DownloadTask)
@@ -85,37 +90,6 @@ Namespace download
             End SyncLock
             CheckAndStartTask()
         End Sub
-
-        Public Delegate Sub ThreadCallback(task As DownloadTask)
-
-        Private Class DownloadThread
-            Private ReadOnly task As DownloadTask
-            Private ReadOnly callback As ThreadCallback
-
-            Public Sub New(task As DownloadTask, callback As ThreadCallback)
-                Me.task = task
-                Me.callback = callback
-            End Sub
-
-            Public Async Sub Download()
-                Console.WriteLine("Downloading " + task.ToString())
-                Dim playback = Await GetPlaybackFile()
-                Console.WriteLine($"Found best matching playback: {playback}")
-                callback(task)
-            End Sub
-
-            Private Async Function GetPlaybackFile() As Tasks.Task(Of Playback)
-                Dim client = task.GetMetadataClient()
-                Dim episode = task.GetEpisode()
-                Console.WriteLine($"Getting playback file for {episode}")
-                Dim playback = Await client.GetEpisodePlayback(episode)
-
-                Dim selector = New PlaybackSelector()
-                Dim bestPlayback = selector.ChooseFunimationPlayback(playback)
-                Return bestPlayback
-            End Function
-
-        End Class
     End Class
 
 End Namespace
