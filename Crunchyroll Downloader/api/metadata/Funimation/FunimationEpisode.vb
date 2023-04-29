@@ -1,4 +1,5 @@
-﻿Imports Newtonsoft.Json.Linq
+﻿Imports Crunchyroll_Downloader.api
+Imports Newtonsoft.Json.Linq
 
 Public Class FunimationEpisode
     Inherits Episode

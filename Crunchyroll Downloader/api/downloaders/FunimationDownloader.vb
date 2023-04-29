@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.settings
+﻿Imports Crunchyroll_Downloader.api
+Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.funimation
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.ui

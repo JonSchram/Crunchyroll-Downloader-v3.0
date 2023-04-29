@@ -5,6 +5,7 @@ Imports System.Net.Sockets
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Threading
+Imports Crunchyroll_Downloader.debugging
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general

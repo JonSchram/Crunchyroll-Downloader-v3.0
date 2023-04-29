@@ -44,14 +44,5 @@ Namespace ui
             Dim itemView = MainView.DisplayDownloadTask(task)
             Dim itemPresenter = New DownloadingItemPresenter(itemView, task)
         End Sub
-
-        Public Sub PopulateWithFakeData()
-            For i As Integer = 0 To 5
-                Dim taskView = New DownloadingItemView()
-                Dim taskPresenter = New DownloadingItemPresenter(taskView, New DownloadTask(New FunimationEpisode(), "/", Nothing))
-                MainView.TaskFlowPanel.Controls.Add(taskView)
-            Next
-        End Sub
-
     End Class
 End Namespace

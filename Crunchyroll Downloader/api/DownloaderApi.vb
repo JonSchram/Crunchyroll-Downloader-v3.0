@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.api.client
+﻿Imports Crunchyroll_Downloader.api
+Imports Crunchyroll_Downloader.api.client
 
 Public Class DownloaderApi
 

@@ -1,4 +1,4 @@
-﻿Imports System.Runtime.Remoting
+﻿Imports Crunchyroll_Downloader.api
 Imports Crunchyroll_Downloader.api.client
 
 Namespace download

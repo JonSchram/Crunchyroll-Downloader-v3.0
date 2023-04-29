@@ -1,35 +1,37 @@
-﻿Public MustInherit Class Episode
-    ' The ID of the corresponding video playback info
-    Public Property VideoId As String
+﻿Namespace api
+    Public MustInherit Class Episode
+        ' The ID of the corresponding video playback info
+        Public Property VideoId As String
 
-    ' The ID that the API uses to refer to this episode
-    Public Property ApiId As Integer
+        ' The ID that the API uses to refer to this episode
+        Public Property ApiId As Integer
 
-    ' The slug added to the URL to get to the user-facing episode player
-    Public Property UrlSlug As String
+        ' The slug added to the URL to get to the user-facing episode player
+        Public Property UrlSlug As String
 
-    ''' <summary>
-    ''' Name of the show this episode belongs to. Makes it easier to name files after downloading.
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property ShowName As String
+        ''' <summary>
+        ''' Name of the show this episode belongs to. Makes it easier to name files after downloading.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ShowName As String
 
-    Public Property SeasonNumber As Integer
+        Public Property SeasonNumber As Integer
 
-    Public Property EpisodeName As String
+        Public Property EpisodeName As String
 
-    ' Episode number in season. Needs to be a double because some episodes like filler / recap episodes are numbered as ".5"
-    Public Property EpisodeNumber As Double
+        ' Episode number in season. Needs to be a double because some episodes like filler / recap episodes are numbered as ".5"
+        Public Property EpisodeNumber As Double
 
-    Public Property ImageUrl As String
+        Public Property ImageUrl As String
 
-    ' Episode type. Usually "episode" but could be any descriptive string
-    Public Property Type As String
+        ' Episode type. Usually "episode" but could be any descriptive string
+        Public Property Type As String
 
-    Public Property IsFree As Boolean
+        Public Property IsFree As Boolean
 
-    Public Overrides Function ToString() As String
-        Return $"{ShowName} - Season {SeasonNumber} Episode {EpisodeNumber}"
-    End Function
+        Public Overrides Function ToString() As String
+            Return $"{ShowName} - Season {SeasonNumber} Episode {EpisodeNumber}"
+        End Function
 
-End Class
+    End Class
+End Namespace

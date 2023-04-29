@@ -1,6 +1,7 @@
 ﻿Imports System.Collections.Concurrent
 Imports System.ComponentModel
 Imports System.Threading
+Imports Crunchyroll_Downloader.api
 Imports Crunchyroll_Downloader.api.client
 
 Namespace download

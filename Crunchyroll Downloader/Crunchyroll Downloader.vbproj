@@ -178,12 +178,14 @@
     <Compile Include="api\metadata\SeasonOverview.vb" />
     <Compile Include="api\metadata\Video\Subtitle.vb" />
     <Compile Include="CRD-Classes.vb" />
-    <Compile Include="debug\DebugForm.Designer.vb">
+    <Compile Include="debugging\DebugForm.Designer.vb">
       <DependentUpon>DebugForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="debug\DebugForm.vb">
+    <Compile Include="debugging\DebugForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="debugging\FakeDownloadClient.vb" />
+    <Compile Include="debugging\FakeEpisode.vb" />
     <Compile Include="DirectorySettings.vb" />
     <Compile Include="api\downloaders\CrunchyrollDownloader.vb" />
     <Compile Include="api\downloaders\FunimationDownloader.vb" />
@@ -333,7 +335,7 @@
     <EmbeddedResource Include="AddVideo.resx">
       <DependentUpon>AddVideo.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="debug\DebugForm.resx">
+    <EmbeddedResource Include="debugging\DebugForm.resx">
       <DependentUpon>DebugForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="download\DownloadingItemView.resx">

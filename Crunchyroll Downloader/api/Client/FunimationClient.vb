@@ -87,7 +87,7 @@ Namespace api.client
 
             Dim SeriesJson = Await DownloadJson(JsonUrl)
 
-            Debug.WriteLine("Series JSON: ")
+            debug.WriteLine("Series JSON: ")
             Debug.WriteLine(SeriesJson)
             Return SeriesJson
         End Function
