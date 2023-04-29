@@ -235,13 +235,13 @@
     <value>TopDown</value>
   </data>
   <data name="TaskFlowPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 74</value>
+    <value>7, 74</value>
   </data>
   <data name="TaskFlowPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 3, 0, 3</value>
   </data>
   <data name="TaskFlowPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>900, 541</value>
+    <value>887, 541</value>
   </data>
   <data name="TaskFlowPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -494,9 +494,6 @@
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
