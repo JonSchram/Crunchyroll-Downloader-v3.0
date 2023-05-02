@@ -31,5 +31,13 @@
             End If
             Return Nothing
         End Function
+
+        Public Function GetRemainingAttributes(excludeAttributes As String()) As IEnumerable(Of KeyValuePair(Of String, String))
+            Return AttributeDictionary.Where(
+                Function(value As KeyValuePair(Of String, String))
+                    Return Not excludeAttributes.Contains(value.Key)
+                End Function
+            )
+        End Function
     End Class
 End Namespace

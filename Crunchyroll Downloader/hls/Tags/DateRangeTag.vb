@@ -18,6 +18,8 @@
 
         Public ReadOnly Property EndOnNext As String
 
+        Public ReadOnly UnparsedAttributes As List(Of KeyValuePair(Of String, String))
+
         Public Sub New(SourceTag As Tag)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for a date range, expected {TagName}")
@@ -31,7 +33,12 @@
             PlannedDuration = SourceTag.GetAttribute("PLANNED-DURATION")
             EndOnNext = SourceTag.GetAttribute("END-ON-NEXT")
 
-            ' This doesn't bother parsing the x- prefix for custom attributes or the SCTE-35 data.
+            Dim definedTags As String() = {"ID", "CLASS", "START-DATE", "END-DATE", "DURATION",
+                "PLANNED-DURATION", "END-ON-NEXT"}
+
+            ' There may be x-client-attributes or SCTE-35 data that would be nice to preserve if this
+            ' tag were written to a file again.
+            UnparsedAttributes = SourceTag.GetRemainingAttributes(definedTags).ToList()
         End Sub
 
         Public Sub New(other As DateRangeTag)
