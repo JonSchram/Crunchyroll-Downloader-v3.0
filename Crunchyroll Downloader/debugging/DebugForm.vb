@@ -3,6 +3,8 @@ Imports System.Net.Http
 Imports Crunchyroll_Downloader.api.authentication
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.hls
+Imports Crunchyroll_Downloader.hls.playlist
+Imports Crunchyroll_Downloader.hls.rewriter
 Imports Microsoft.Web.WebView2.Core
 
 Namespace debugging
@@ -37,13 +39,24 @@ Namespace debugging
 
             If MasterPlaylistRadioButton.Checked() Then
                 Dim playlist = parser.parseMasterPlaylist(playlistText)
-                PlaylistOutputTextBox.Text = playlist.ToString()
 
             ElseIf MediaPlaylistRadioButton.Checked() Then
                 Dim playlist = parser.ParseMediaPlaylist(playlistText)
                 PlaylistOutputTextBox.Text = playlist.ToString()
-            End If
 
+                If RewriteUrlsCheckBox.Checked() Then
+                    Dim rewriteDictionary = New Dictionary(Of Integer, String)
+                    Dim urlCount = RewriteUrlsCountNumericInput.Value
+                    Dim replacementUrl = RewriteUrlTextBox.Text
+                    For i As Integer = 0 To CInt(urlCount)
+                        rewriteDictionary.Item(i) = replacementUrl
+                    Next
+                    Dim rewriter = New FileSegmentRewriter(rewriteDictionary)
+
+                    playlist = New MediaPlaylist(playlist, rewriter)
+                    PlaylistOutputTextBox.Text = playlist.ToString()
+                End If
+            End If
         End Sub
 
         Private Async Sub GetBrowserCookiesButton_Click(sender As Object, e As EventArgs) Handles GetBrowserCookiesButton.Click

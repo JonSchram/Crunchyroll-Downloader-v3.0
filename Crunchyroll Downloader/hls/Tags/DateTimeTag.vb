@@ -14,6 +14,10 @@
             End If
         End Sub
 
+        Public Sub New(other As DateTimeTag)
+            ProgramDateTime = other.ProgramDateTime
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"{{
 ProgramDateTime: {ProgramDateTime}

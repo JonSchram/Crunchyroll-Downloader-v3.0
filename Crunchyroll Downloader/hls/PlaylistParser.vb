@@ -75,6 +75,8 @@ Namespace hls
                 End If
             Next
 
+            Result.FinishMediaSegments()
+
             Return Result
         End Function
 

@@ -39,6 +39,10 @@
             Me.InputLabel = New System.Windows.Forms.Label()
             Me.inputTextBox = New System.Windows.Forms.TextBox()
             Me.TabPagePlaylist = New System.Windows.Forms.TabPage()
+            Me.RewriteUrlsCountNumericInput = New System.Windows.Forms.NumericUpDown()
+            Me.RewriteUrlsCheckBox = New System.Windows.Forms.CheckBox()
+            Me.Label10 = New System.Windows.Forms.Label()
+            Me.RewriteUrlTextBox = New System.Windows.Forms.TextBox()
             Me.GroupBox3 = New System.Windows.Forms.GroupBox()
             Me.MediaPlaylistRadioButton = New System.Windows.Forms.RadioButton()
             Me.MasterPlaylistRadioButton = New System.Windows.Forms.RadioButton()
@@ -79,6 +83,7 @@
             Me.GroupBox2.SuspendLayout()
             Me.GroupBox1.SuspendLayout()
             Me.TabPagePlaylist.SuspendLayout()
+            CType(Me.RewriteUrlsCountNumericInput, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.GroupBox3.SuspendLayout()
             Me.TabPageBrowser.SuspendLayout()
             Me.TabPageAuthentication.SuspendLayout()
@@ -269,6 +274,10 @@
             '
             'TabPagePlaylist
             '
+            Me.TabPagePlaylist.Controls.Add(Me.RewriteUrlsCountNumericInput)
+            Me.TabPagePlaylist.Controls.Add(Me.RewriteUrlsCheckBox)
+            Me.TabPagePlaylist.Controls.Add(Me.Label10)
+            Me.TabPagePlaylist.Controls.Add(Me.RewriteUrlTextBox)
             Me.TabPagePlaylist.Controls.Add(Me.GroupBox3)
             Me.TabPagePlaylist.Controls.Add(Me.Label2)
             Me.TabPagePlaylist.Controls.Add(Me.PlaylistOutputTextBox)
@@ -283,14 +292,55 @@
             Me.TabPagePlaylist.Text = "M3u8 playlist"
             Me.TabPagePlaylist.UseVisualStyleBackColor = True
             '
+            'RewriteUrlsCountNumericInput
+            '
+            Me.RewriteUrlsCountNumericInput.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.RewriteUrlsCountNumericInput.Location = New System.Drawing.Point(649, 315)
+            Me.RewriteUrlsCountNumericInput.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+            Me.RewriteUrlsCountNumericInput.Name = "RewriteUrlsCountNumericInput"
+            Me.RewriteUrlsCountNumericInput.Size = New System.Drawing.Size(113, 20)
+            Me.RewriteUrlsCountNumericInput.TabIndex = 14
+            '
+            'RewriteUrlsCheckBox
+            '
+            Me.RewriteUrlsCheckBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.RewriteUrlsCheckBox.AutoSize = True
+            Me.RewriteUrlsCheckBox.Location = New System.Drawing.Point(656, 292)
+            Me.RewriteUrlsCheckBox.Name = "RewriteUrlsCheckBox"
+            Me.RewriteUrlsCheckBox.Size = New System.Drawing.Size(103, 17)
+            Me.RewriteUrlsCheckBox.TabIndex = 13
+            Me.RewriteUrlsCheckBox.Text = "Rewrite N URLs"
+            Me.RewriteUrlsCheckBox.UseVisualStyleBackColor = True
+            '
+            'Label10
+            '
+            Me.Label10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.Label10.AutoSize = True
+            Me.Label10.Location = New System.Drawing.Point(6, 358)
+            Me.Label10.Name = "Label10"
+            Me.Label10.Size = New System.Drawing.Size(102, 13)
+            Me.Label10.TabIndex = 12
+            Me.Label10.Text = "Replace URLs with:"
+            '
+            'RewriteUrlTextBox
+            '
+            Me.RewriteUrlTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.RewriteUrlTextBox.Location = New System.Drawing.Point(9, 374)
+            Me.RewriteUrlTextBox.MaxLength = 999999
+            Me.RewriteUrlTextBox.Name = "RewriteUrlTextBox"
+            Me.RewriteUrlTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
+            Me.RewriteUrlTextBox.Size = New System.Drawing.Size(634, 20)
+            Me.RewriteUrlTextBox.TabIndex = 10
+            '
             'GroupBox3
             '
             Me.GroupBox3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.GroupBox3.Controls.Add(Me.MediaPlaylistRadioButton)
             Me.GroupBox3.Controls.Add(Me.MasterPlaylistRadioButton)
-            Me.GroupBox3.Location = New System.Drawing.Point(649, 253)
+            Me.GroupBox3.Location = New System.Drawing.Point(649, 216)
             Me.GroupBox3.Name = "GroupBox3"
-            Me.GroupBox3.Size = New System.Drawing.Size(113, 90)
+            Me.GroupBox3.Size = New System.Drawing.Size(113, 70)
             Me.GroupBox3.TabIndex = 9
             Me.GroupBox3.TabStop = False
             Me.GroupBox3.Text = "Parse as"
@@ -322,7 +372,7 @@
             Me.Label2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.Label2.AutoSize = True
-            Me.Label2.Location = New System.Drawing.Point(6, 237)
+            Me.Label2.Location = New System.Drawing.Point(6, 200)
             Me.Label2.Name = "Label2"
             Me.Label2.Size = New System.Drawing.Size(62, 13)
             Me.Label2.TabIndex = 8
@@ -332,12 +382,12 @@
             '
             Me.PlaylistOutputTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.PlaylistOutputTextBox.Location = New System.Drawing.Point(9, 253)
+            Me.PlaylistOutputTextBox.Location = New System.Drawing.Point(9, 216)
             Me.PlaylistOutputTextBox.Multiline = True
             Me.PlaylistOutputTextBox.Name = "PlaylistOutputTextBox"
             Me.PlaylistOutputTextBox.ReadOnly = True
             Me.PlaylistOutputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-            Me.PlaylistOutputTextBox.Size = New System.Drawing.Size(634, 141)
+            Me.PlaylistOutputTextBox.Size = New System.Drawing.Size(634, 139)
             Me.PlaylistOutputTextBox.TabIndex = 7
             '
             'ParsePlaylistButton
@@ -369,7 +419,7 @@
             Me.PlaylistTextBox.Multiline = True
             Me.PlaylistTextBox.Name = "PlaylistTextBox"
             Me.PlaylistTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
-            Me.PlaylistTextBox.Size = New System.Drawing.Size(753, 215)
+            Me.PlaylistTextBox.Size = New System.Drawing.Size(753, 174)
             Me.PlaylistTextBox.TabIndex = 2
             '
             'TabPageBrowser
@@ -667,6 +717,7 @@
             Me.GroupBox1.PerformLayout()
             Me.TabPagePlaylist.ResumeLayout(False)
             Me.TabPagePlaylist.PerformLayout()
+            CType(Me.RewriteUrlsCountNumericInput, System.ComponentModel.ISupportInitialize).EndInit()
             Me.GroupBox3.ResumeLayout(False)
             Me.GroupBox3.PerformLayout()
             Me.TabPageBrowser.ResumeLayout(False)
@@ -734,5 +785,9 @@
         Friend WithEvents Label7 As Label
         Friend WithEvents AddQueueItemButton As Button
         Friend WithEvents Label6 As Label
+        Friend WithEvents RewriteUrlsCheckBox As CheckBox
+        Friend WithEvents Label10 As Label
+        Friend WithEvents RewriteUrlTextBox As TextBox
+        Friend WithEvents RewriteUrlsCountNumericInput As NumericUpDown
     End Class
 End Namespace

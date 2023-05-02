@@ -29,6 +29,34 @@ Namespace hls.segment
         Public Overrides Function ToString() As String
             Return $"Segment, Duration: {Duration}, URI: {Uri}"
         End Function
+
+        Public Sub New()
+        End Sub
+
+        Public Sub New(other As MediaSegment)
+            Duration = other.Duration
+            Title = other.Title
+            Uri = other.Uri
+            HasDiscontinuity = other.HasDiscontinuity
+            SequenceNumber = other.SequenceNumber
+            DiscontinuitySequenceNumber = other.DiscontinuitySequenceNumber
+
+            If other.Bytes IsNot Nothing Then
+                Bytes = New ByteRange(other.Bytes)
+            End If
+
+            If other.EncryptionKey IsNot Nothing Then
+                EncryptionKey = New KeyTag(other.EncryptionKey)
+            End If
+
+            If other.Initialization IsNot Nothing Then
+                Initialization = New MediaInitializationTag(other.Initialization)
+            End If
+
+            If other.SegmentDateTime IsNot Nothing Then
+                SegmentDateTime = New DateTimeTag(other.SegmentDateTime)
+            End If
+        End Sub
     End Class
 
 End Namespace

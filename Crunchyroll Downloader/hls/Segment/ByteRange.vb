@@ -24,6 +24,15 @@
             End If
         End Sub
 
+        Public Sub New(length As Integer, offset As Long)
+            Me.Length = length
+            Me.Offset = offset
+        End Sub
+
+        Public Sub New(other As ByteRange)
+            Me.New(other.Length, other.Offset)
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"{{
 Length: {Length},

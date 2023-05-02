@@ -25,6 +25,11 @@
             End If
         End Sub
 
+        Public Sub New(other As StartTag)
+            TimeOffset = other.TimeOffset
+            Precise = other.Precise
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"{{
 TimeOffset: {TimeOffset},

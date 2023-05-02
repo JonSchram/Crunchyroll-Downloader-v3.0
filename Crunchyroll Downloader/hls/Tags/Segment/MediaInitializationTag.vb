@@ -23,6 +23,13 @@ Namespace hls.tags.segment
             Bytes = New ByteRange(ByteRangeString)
         End Sub
 
+        Public Sub New(other As MediaInitializationTag)
+            Uri = other.Uri
+            If other.Bytes IsNot Nothing Then
+                Bytes = New ByteRange(other.Bytes)
+            End If
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"{{
 Uri: {Uri},

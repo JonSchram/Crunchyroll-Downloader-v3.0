@@ -208,6 +208,8 @@
     <Compile Include="ffmpeg_option.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="hls\Rewriter\FileSegmentRewriter.vb" />
+    <Compile Include="hls\Rewriter\ISegmentRewriter.vb" />
     <Compile Include="hls\Segment\MediaSegmentsCollection.vb" />
     <Compile Include="hls\Tags\DateRangeTag.vb" />
     <Compile Include="hls\Tags\DiscontinuitySequenceNumberTag.vb" />

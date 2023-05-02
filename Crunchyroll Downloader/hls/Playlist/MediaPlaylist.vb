@@ -1,4 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Security.Cryptography.X509Certificates
+Imports Crunchyroll_Downloader.hls.rewriter
 Imports Crunchyroll_Downloader.hls.segment
 Imports Crunchyroll_Downloader.hls.tags
 Imports Crunchyroll_Downloader.hls.tags.encryption
@@ -26,14 +28,48 @@ Namespace hls.playlist
         Public Property IFramesOnly As Boolean = False
 
         ' Unused, seems to be for a server to give extra date range information to the player.
-        Public Property DateRangeList As List(Of DateRangeTag)
+        Public Property DateRangeList As New List(Of DateRangeTag)
 
         Public Property AllSegments As MediaSegmentsCollection
 
         Private MediaStarted As Boolean = False
 
-        Public Sub New()
+        Private SegmentsBuilder As MediaSegmentsCollection.Builder
 
+        Public Sub New()
+        End Sub
+
+        Public Sub New(other As MediaPlaylist)
+            Me.New(other, Nothing)
+        End Sub
+
+        Public Sub New(other As MediaPlaylist, rewriter As ISegmentRewriter)
+            MyBase.New(other)
+
+            TargetDuration = other.TargetDuration
+            MediaSequenceNumber = other.MediaSequenceNumber
+            DiscontinuitySequenceNumber = other.DiscontinuitySequenceNumber
+            PlaylistEnds = other.PlaylistEnds
+            Type = other.Type
+            IFramesOnly = other.IFramesOnly
+
+            DateRangeList = New List(Of DateRangeTag)
+            For Each DateRange In other.DateRangeList
+                DateRangeList.Add(New DateRangeTag(DateRange))
+            Next
+
+            If other.AllSegments IsNot Nothing Then
+                AllSegments = New MediaSegmentsCollection()
+                For Each OtherSegment In other.AllSegments
+                    If rewriter IsNot Nothing Then
+                        AllSegments.AppendSegment(rewriter.RewriteSegment(OtherSegment))
+                    Else
+                        AllSegments.AppendSegment(OtherSegment)
+                    End If
+                Next
+            End If
+
+            MediaStarted = other.MediaStarted
         End Sub
 
         ' Playlist tags
@@ -71,7 +107,7 @@ Namespace hls.playlist
 
         Private Sub StartMediaSequences()
             If Not MediaStarted Then
-                AllSegments = New MediaSegmentsCollection(MediaSequenceNumber, DiscontinuitySequenceNumber)
+                SegmentsBuilder = New MediaSegmentsCollection.Builder(MediaSequenceNumber, DiscontinuitySequenceNumber)
             End If
             MediaStarted = True
         End Sub
@@ -80,29 +116,35 @@ Namespace hls.playlist
             Return MediaStarted
         End Function
 
+        Public Sub FinishMediaSegments()
+            If SegmentsBuilder IsNot Nothing Then
+                AllSegments = SegmentsBuilder.Build()
+            End If
+        End Sub
+
         Public Sub AddSegmentInfo(info As InfTag)
             StartMediaSequences()
-            AllSegments.AddSegmentInfo(info)
+            SegmentsBuilder.AddSegmentInfo(info)
         End Sub
 
         Public Sub AddSegmentByteRange(range As ByteRangeTag)
             StartMediaSequences()
-            AllSegments.AddSegmentByteRange(range.Bytes)
+            SegmentsBuilder.AddSegmentByteRange(range.Bytes)
         End Sub
 
         Public Sub AddKey(key As KeyTag)
             StartMediaSequences()
-            AllSegments.AddEncryptionKey(key)
+            SegmentsBuilder.AddEncryptionKey(key)
         End Sub
 
         Public Sub AddInitialization(map As MediaInitializationTag)
             StartMediaSequences()
-            AllSegments.AddInitialization(map)
+            SegmentsBuilder.AddInitialization(map)
         End Sub
 
         Public Sub AddDateTime(dateTime As DateTimeTag)
             StartMediaSequences()
-            AllSegments.AddDateTime(dateTime)
+            SegmentsBuilder.AddDateTime(dateTime)
         End Sub
 
         Public Sub AddDateRange(dateRange As DateRangeTag)
@@ -112,12 +154,12 @@ Namespace hls.playlist
 
         Public Sub AddDiscontinuity()
             StartMediaSequences()
-            AllSegments.AddDiscontinuity()
+            SegmentsBuilder.AddDiscontinuity()
         End Sub
 
         Public Sub AddSegmentUri(uri As String)
             StartMediaSequences()
-            AllSegments.SetCurrentSegmentUri(uri)
+            SegmentsBuilder.SetCurrentSegmentUri(uri)
         End Sub
 
 

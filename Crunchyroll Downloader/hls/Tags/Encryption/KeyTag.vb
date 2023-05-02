@@ -41,7 +41,14 @@
             If formatVersions IsNot Nothing Then
                 KeyFormatVersions = formatVersions
             End If
+        End Sub
 
+        Public Sub New(other As KeyTag)
+            Method = other.Method
+            Uri = other.Uri
+            InitializationVector = other.InitializationVector
+            KeyFormat = other.KeyFormat
+            KeyFormatVersions = other.KeyFormatVersions
         End Sub
 
         Public Overrides Function ToString() As String

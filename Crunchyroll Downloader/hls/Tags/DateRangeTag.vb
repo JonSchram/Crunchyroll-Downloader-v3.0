@@ -29,7 +29,15 @@
             EndOnNext = SourceTag.GetAttribute("END-ON-NEXT")
 
             ' This doesn't bother parsing the x- prefix for custom attributes or the SCTE-35 data.
+        End Sub
 
+        Public Sub New(other As DateRangeTag)
+            Id = other.Id
+            ClassAttribute = other.ClassAttribute
+            StartDate = other.StartDate
+            EndDate = other.EndDate
+            Duration = other.Duration
+            EndOnNext = other.EndOnNext
         End Sub
 
         Public Overrides Function ToString() As String
