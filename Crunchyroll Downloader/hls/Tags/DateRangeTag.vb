@@ -14,6 +14,8 @@
 
         Public ReadOnly Property Duration As String
 
+        Public ReadOnly Property PlannedDuration As String
+
         Public ReadOnly Property EndOnNext As String
 
         Public Sub New(SourceTag As Tag)
@@ -26,6 +28,7 @@
             StartDate = SourceTag.GetAttribute("START-DATE")
             EndDate = SourceTag.GetAttribute("END-DATE")
             Duration = SourceTag.GetAttribute("DURATION")
+            PlannedDuration = SourceTag.GetAttribute("PLANNED-DURATION")
             EndOnNext = SourceTag.GetAttribute("END-ON-NEXT")
 
             ' This doesn't bother parsing the x- prefix for custom attributes or the SCTE-35 data.
