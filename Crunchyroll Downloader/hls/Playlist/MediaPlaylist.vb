@@ -1,6 +1,4 @@
-﻿Imports System.Runtime.CompilerServices
-Imports System.Security.Cryptography.X509Certificates
-Imports Crunchyroll_Downloader.hls.rewriter
+﻿Imports Crunchyroll_Downloader.hls.rewriter
 Imports Crunchyroll_Downloader.hls.segment
 Imports Crunchyroll_Downloader.hls.tags
 Imports Crunchyroll_Downloader.hls.tags.encryption
@@ -168,6 +166,9 @@ Namespace hls.playlist
 
         Public Overrides Function ToString() As String
             Return $"{{
+Version: {Version},
+IndependentSegments: {IndependentSegments},
+Start: {StartPlayTime},
 TargetDuration: {TargetDuration},
 MediaSequenceNumber: {MediaSequenceNumber},
 DiscontinuitySequenceNumber: {DiscontinuitySequenceNumber},
@@ -175,8 +176,6 @@ PlaylistEnds: {PlaylistEnds},
 Type: {Type},
 IFramesOnly: {IFramesOnly},
 DateRangeList: {DateRangeList},
-IndependentSegments: {IndependentSegments},
-StartPlayTime: {StartPlayTime},
 Media segments: {AllSegments}
 }}"
         End Function

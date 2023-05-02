@@ -241,6 +241,8 @@
     <Compile Include="hls\Tags\TagParser.vb" />
     <Compile Include="hls\Playlist\MasterPlaylist.vb" />
     <Compile Include="hls\PlaylistParser.vb" />
+    <Compile Include="hls\Tags\VersionTag.vb" />
+    <Compile Include="hls\Writer\PlaylistWriter.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>
     </Compile>

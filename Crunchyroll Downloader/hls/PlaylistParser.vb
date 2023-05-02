@@ -42,6 +42,12 @@ Namespace hls
                     Dim tag = tagParser.ParseTagString(Line)
 
                     Select Case tag.getTagName()
+                        Case "EXT-X-VERSION"
+                            Result.SetVersion(New VersionTag(tag))
+                        Case "EXT-X-INDEPENDENT-SEGMENTS"
+                            Result.SetIndependentSegments()
+                        Case "EXT-X-START"
+                            Result.SetStart(New StartTag(tag))
                         Case "EXT-X-TARGETDURATION"
                             Result.SetTargetDuration(New TargetDurationTag(tag))
                         Case "EXT-X-MEDIA-SEQUENCE"
@@ -99,6 +105,12 @@ Namespace hls
                     ' Comments also start with "#" but the tag name won't match any of these cases
                     ' TODO: Lots of magic strings here. Might want to get these from the class for each parsed type.
                     Select Case parsedTag.getTagName()
+                        Case "EXT-X-VERSION"
+                            episodePlaylist.SetVersion(New VersionTag(parsedTag))
+                        Case "EXT-X-START"
+                            episodePlaylist.SetStart(New StartTag(parsedTag))
+                        Case "EXT-X-INDEPENDENT-SEGMENTS"
+                            episodePlaylist.SetIndependentSegments()
                         Case "EXT-X-MEDIA"
                             episodePlaylist.PlaylistMedia.Add(New MediaTag(parsedTag))
                         Case "EXT-X-STREAM-INF"
@@ -112,8 +124,6 @@ Namespace hls
                         Case "EXT-X-I-FRAME-STREAM-INF"
                             Dim IFrameStream As New IFrameStream(parsedTag)
                             episodePlaylist.IframeStreams.Add(IFrameStream)
-                        Case "EXT-X-INDEPENDENT-SEGMENTS"
-                            episodePlaylist.IndependentSegments = True
                         Case "EXT-X-SESSION-KEY"
                             episodePlaylist.Key = New SessionKeyTag(parsedTag)
                     End Select
