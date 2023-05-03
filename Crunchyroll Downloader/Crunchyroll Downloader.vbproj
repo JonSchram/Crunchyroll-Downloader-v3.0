@@ -214,6 +214,7 @@
     <Compile Include="hls\Tags\DateRangeTag.vb" />
     <Compile Include="hls\Tags\DiscontinuitySequenceNumberTag.vb" />
     <Compile Include="hls\Tags\MediaSequenceNumberTag.vb" />
+    <Compile Include="hls\Tags\PlaylistType.vb" />
     <Compile Include="hls\Tags\PlaylistTypeTag.vb" />
     <Compile Include="hls\Tags\Segment\ByteRangeTag.vb" />
     <Compile Include="hls\Tags\DateTimeTag.vb" />

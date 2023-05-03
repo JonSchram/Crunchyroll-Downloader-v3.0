@@ -78,6 +78,7 @@
             Me.Label7 = New System.Windows.Forms.Label()
             Me.AddQueueItemButton = New System.Windows.Forms.Button()
             Me.Label6 = New System.Windows.Forms.Label()
+            Me.RewritePlaylistCheckBox = New System.Windows.Forms.CheckBox()
             Me.TabControlOperations.SuspendLayout()
             Me.TabPageEpisode.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -274,6 +275,7 @@
             '
             'TabPagePlaylist
             '
+            Me.TabPagePlaylist.Controls.Add(Me.RewritePlaylistCheckBox)
             Me.TabPagePlaylist.Controls.Add(Me.RewriteUrlsCountNumericInput)
             Me.TabPagePlaylist.Controls.Add(Me.RewriteUrlsCheckBox)
             Me.TabPagePlaylist.Controls.Add(Me.Label10)
@@ -295,7 +297,7 @@
             'RewriteUrlsCountNumericInput
             '
             Me.RewriteUrlsCountNumericInput.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.RewriteUrlsCountNumericInput.Location = New System.Drawing.Point(649, 315)
+            Me.RewriteUrlsCountNumericInput.Location = New System.Drawing.Point(649, 299)
             Me.RewriteUrlsCountNumericInput.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
             Me.RewriteUrlsCountNumericInput.Name = "RewriteUrlsCountNumericInput"
             Me.RewriteUrlsCountNumericInput.Size = New System.Drawing.Size(113, 20)
@@ -305,7 +307,7 @@
             '
             Me.RewriteUrlsCheckBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.RewriteUrlsCheckBox.AutoSize = True
-            Me.RewriteUrlsCheckBox.Location = New System.Drawing.Point(656, 292)
+            Me.RewriteUrlsCheckBox.Location = New System.Drawing.Point(656, 276)
             Me.RewriteUrlsCheckBox.Name = "RewriteUrlsCheckBox"
             Me.RewriteUrlsCheckBox.Size = New System.Drawing.Size(103, 17)
             Me.RewriteUrlsCheckBox.TabIndex = 13
@@ -338,7 +340,7 @@
             Me.GroupBox3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.GroupBox3.Controls.Add(Me.MediaPlaylistRadioButton)
             Me.GroupBox3.Controls.Add(Me.MasterPlaylistRadioButton)
-            Me.GroupBox3.Location = New System.Drawing.Point(649, 216)
+            Me.GroupBox3.Location = New System.Drawing.Point(649, 200)
             Me.GroupBox3.Name = "GroupBox3"
             Me.GroupBox3.Size = New System.Drawing.Size(113, 70)
             Me.GroupBox3.TabIndex = 9
@@ -383,6 +385,7 @@
             Me.PlaylistOutputTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.PlaylistOutputTextBox.Location = New System.Drawing.Point(9, 216)
+            Me.PlaylistOutputTextBox.MaxLength = 999999
             Me.PlaylistOutputTextBox.Multiline = True
             Me.PlaylistOutputTextBox.Name = "PlaylistOutputTextBox"
             Me.PlaylistOutputTextBox.ReadOnly = True
@@ -700,6 +703,17 @@
             Me.Label6.TabIndex = 0
             Me.Label6.Text = "Show Name"
             '
+            'RewritePlaylistCheckBox
+            '
+            Me.RewritePlaylistCheckBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.RewritePlaylistCheckBox.AutoSize = True
+            Me.RewritePlaylistCheckBox.Location = New System.Drawing.Point(649, 325)
+            Me.RewritePlaylistCheckBox.Name = "RewritePlaylistCheckBox"
+            Me.RewritePlaylistCheckBox.Size = New System.Drawing.Size(110, 17)
+            Me.RewritePlaylistCheckBox.TabIndex = 15
+            Me.RewritePlaylistCheckBox.Text = "Rewrite as playlist"
+            Me.RewritePlaylistCheckBox.UseVisualStyleBackColor = True
+            '
             'DebugForm
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -789,5 +803,6 @@
         Friend WithEvents Label10 As Label
         Friend WithEvents RewriteUrlTextBox As TextBox
         Friend WithEvents RewriteUrlsCountNumericInput As NumericUpDown
+        Friend WithEvents RewritePlaylistCheckBox As CheckBox
     End Class
 End Namespace

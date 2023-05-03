@@ -18,6 +18,12 @@
 
         Public ReadOnly Property EndOnNext As String
 
+        Public ReadOnly Property Scte35Cmd As String
+
+        Public ReadOnly Property Scte35Out As String
+
+        Public ReadOnly Property Scte35In As String
+
         Public ReadOnly UnparsedAttributes As List(Of KeyValuePair(Of String, String))
 
         Public Sub New(SourceTag As Tag)
@@ -32,9 +38,12 @@
             Duration = SourceTag.GetAttribute("DURATION")
             PlannedDuration = SourceTag.GetAttribute("PLANNED-DURATION")
             EndOnNext = SourceTag.GetAttribute("END-ON-NEXT")
+            Scte35Cmd = SourceTag.GetAttribute("SCTE35-CMD")
+            Scte35In = SourceTag.GetAttribute("SCTE35-IN")
+            Scte35Out = SourceTag.GetAttribute("SCTE35-OUT")
 
             Dim definedTags As String() = {"ID", "CLASS", "START-DATE", "END-DATE", "DURATION",
-                "PLANNED-DURATION", "END-ON-NEXT"}
+                "PLANNED-DURATION", "END-ON-NEXT", "SCTE35-CMD", "SCTE35-OUT", "SCTE35-IN"}
 
             ' There may be x-client-attributes or SCTE-35 data that would be nice to preserve if this
             ' tag were written to a file again.

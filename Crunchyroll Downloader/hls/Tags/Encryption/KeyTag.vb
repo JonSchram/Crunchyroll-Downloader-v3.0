@@ -10,11 +10,12 @@
         ' Required unless the encryption method is NONE
         Public ReadOnly Property Uri As String
 
-        ' Technically a 128-bit number but there is no Int128 type
+        ' Technically a 128-bit number but there is no Int128 type. Written in hexadecimal.
         Public ReadOnly Property InitializationVector As String
 
-        ' Optional
+        ' Optional. Unknown what other key formats may exist but it seems it could be any string.
         Public ReadOnly Property KeyFormat As String = "identity"
+        ' Optional, requires compatibility version 5 or greater.
         Public ReadOnly Property KeyFormatVersions As String = "1"
 
 

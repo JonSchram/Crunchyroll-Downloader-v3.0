@@ -21,11 +21,5 @@
 Type: {Type}
 }}"
         End Function
-
-        Public Enum PlaylistType
-            [EVENT]
-            VOD
-        End Enum
-
     End Class
 End Namespace

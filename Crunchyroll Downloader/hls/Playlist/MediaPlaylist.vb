@@ -21,7 +21,7 @@ Namespace hls.playlist
 
         Public Property PlaylistEnds As Boolean
 
-        Public Property Type As PlaylistTypeTag.PlaylistType
+        Public Property Type As PlaylistType = PlaylistType.NONE_SPECIFIED
 
         Public Property IFramesOnly As Boolean = False
 

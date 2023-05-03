@@ -1,10 +1,12 @@
-﻿Imports System.Net
+﻿Imports System.IO
+Imports System.Net
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.api.authentication
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.hls
 Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.rewriter
+Imports Crunchyroll_Downloader.hls.writer
 Imports Microsoft.Web.WebView2.Core
 
 Namespace debugging
@@ -54,8 +56,25 @@ Namespace debugging
                     Dim rewriter = New FileSegmentRewriter(rewriteDictionary)
 
                     playlist = New MediaPlaylist(playlist, rewriter)
-                    PlaylistOutputTextBox.Text = playlist.ToString()
                 End If
+
+                Dim outputText As String
+                If RewritePlaylistCheckBox.Checked Then
+                    Dim writer = New PlaylistWriter()
+                    Dim playlistOutput = New MemoryStream(playlistText.Length)
+                    writer.WriteToStream(playlist, playlistOutput)
+                    playlistOutput.Flush()
+                    playlistOutput.Position = 0
+
+                    Dim reader = New StreamReader(playlistOutput)
+                    outputText = reader.ReadToEnd()
+                    reader.Close()
+                    playlistOutput.Close()
+                Else
+                    outputText = playlist.ToString()
+                End If
+
+                PlaylistOutputTextBox.Text = outputText
             End If
         End Sub
 

@@ -6,6 +6,7 @@ Namespace hls.tags.segment
 
         Public Property Uri As String
 
+        ' Optional.
         Public Property Bytes As ByteRange
 
 

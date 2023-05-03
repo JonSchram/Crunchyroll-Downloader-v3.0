@@ -4,7 +4,7 @@
         Public Property Length As Integer
 
         ' Use a long int becasue offsets on long media streams can easily exceed a 32-bit int
-        Public Property Offset As Long
+        Public Property Offset As Long?
 
         Public Sub New(RangeString As String)
             If RangeString Is Nothing Then
@@ -30,14 +30,21 @@
         End Sub
 
         Public Sub New(other As ByteRange)
-            Me.New(other.Length, other.Offset)
+            Length = other.Length
+            Offset = other.Offset
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"{{
+            If Offset.HasValue Then
+                Return $"{{
 Length: {Length},
 Offset: {Offset}
 }}"
+            Else
+                Return $"{{
+Length: {Length}
+}}"
+            End If
         End Function
     End Class
 
