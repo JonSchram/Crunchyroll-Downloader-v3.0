@@ -161,9 +161,15 @@
     <Compile Include="api\authentication\CrunchyrollAuthenticator.vb" />
     <Compile Include="api\authentication\ICookieBasedAuth.vb" />
     <Compile Include="api\authentication\FunimationAuthenticator.vb" />
-    <Compile Include="processing\FileTarget.vb" />
-    <Compile Include="processing\HlsProcessor.vb" />
-    <Compile Include="processing\IPlaylistProcessor.vb" />
+    <Compile Include="api\client\stream\ByteRange.vb" />
+    <Compile Include="api\client\stream\FileMedia.vb" />
+    <Compile Include="api\client\stream\HlsPlaylist.vb" />
+    <Compile Include="api\client\stream\IStreamSelector.vb" />
+    <Compile Include="api\client\stream\MediaSegment.vb" />
+    <Compile Include="api\client\stream\MediaStream.vb" />
+    <Compile Include="api\client\stream\StreamFormat.vb" />
+    <Compile Include="api\client\stream\SegmentedMedia.vb" />
+    <Compile Include="api\client\stream\MediaType.vb" />
     <Compile Include="api\conversion\LocaleConverter.vb" />
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\downloaders\IEpisodeDownloader.vb" />
@@ -247,8 +253,9 @@
     <Compile Include="hls\PlaylistParser.vb" />
     <Compile Include="hls\Tags\VersionTag.vb" />
     <Compile Include="hls\Writer\PlaylistWriter.vb" />
-    <Compile Include="processing\ITarget.vb" />
-    <Compile Include="processing\PlaylistTarget.vb" />
+    <Compile Include="processing\DownloadPreferences.vb" />
+    <Compile Include="processing\FfmpegDownloader.vb" />
+    <Compile Include="processing\Language.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>
     </Compile>

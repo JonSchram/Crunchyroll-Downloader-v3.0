@@ -4,6 +4,7 @@ Imports System.Net.Http.Headers
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Crunchyroll_Downloader.api.authentication
+Imports Crunchyroll_Downloader.api.client.stream
 Imports Microsoft.Web.WebView2.Core
 
 Namespace api.client
@@ -177,6 +178,10 @@ Namespace api.client
 
         Public Function GetSiteName() As String Implements IDownloadClient.GetSiteName
             Return "Funimation"
+        End Function
+
+        Public Function GetStreamSelector() As IStreamSelector Implements IDownloadClient.GetStreamSelector
+            Throw New NotImplementedException()
         End Function
     End Class
 End Namespace
