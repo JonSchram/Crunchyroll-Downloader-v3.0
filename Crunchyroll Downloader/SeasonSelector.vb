@@ -16,9 +16,9 @@ Public Class SeasonSelector
     Public Property endEpisode As Integer
 
 
-    Private MetadataApi As IMetadataDownloader
+    Private MetadataApi As IDownloadClient
 
-    Public Sub New(MetadataApi As IMetadataDownloader, SeasonList As IEnumerable(Of SeasonOverview))
+    Public Sub New(MetadataApi As IDownloadClient, SeasonList As IEnumerable(Of SeasonOverview))
         InitializeComponent()
 
         Me.MetadataApi = MetadataApi

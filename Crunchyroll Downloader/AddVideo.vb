@@ -10,7 +10,7 @@ Public Class AddVideo
     Public Property downloadUrl As String
 
     Private Queue As DownloadQueue = DownloadQueue.GetInstance()
-    Private MetadataApi As IMetadataDownloader
+    Private MetadataApi As IDownloadClient
 
     Public Sub New()
         InitializeComponent()

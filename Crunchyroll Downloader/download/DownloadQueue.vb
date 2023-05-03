@@ -92,7 +92,7 @@ Namespace download
                          End Sub, Nothing)
         End Sub
 
-        Public Sub EnqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer, path As String, client As IMetadataDownloader)
+        Public Sub EnqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer, path As String, client As IDownloadClient)
             Dim minEpisode = Math.Min(startNum, endNum)
             Dim maxEpisode = Math.Max(startNum, endNum)
             Dim episodeCount = maxEpisode - minEpisode + 1

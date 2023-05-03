@@ -1,5 +1,5 @@
 ﻿Namespace api.client
-    Public Interface IMetadataDownloader
+    Public Interface IDownloadClient
         Function Initialize() As Task
 
         ''' <summary>

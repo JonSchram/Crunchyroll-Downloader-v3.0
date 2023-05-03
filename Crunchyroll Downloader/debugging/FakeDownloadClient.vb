@@ -3,7 +3,7 @@ Imports Crunchyroll_Downloader.api.client
 
 Namespace debugging
     Public Class FakeDownloadClient
-        Implements IMetadataDownloader
+        Implements IDownloadClient
 
         Private IsVideo As Boolean
         Private ep As Episode
@@ -13,27 +13,27 @@ Namespace debugging
             Me.ep = ep
         End Sub
 
-        Public Function Initialize() As Task Implements IMetadataDownloader.Initialize
+        Public Function Initialize() As Task Implements IDownloadClient.Initialize
             Throw New NotImplementedException()
         End Function
 
-        Public Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IMetadataDownloader.ListSeasons
+        Public Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IDownloadClient.ListSeasons
             Throw New NotImplementedException()
         End Function
 
-        Public Function ListEpisodes(Season As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview)) Implements IMetadataDownloader.ListEpisodes
+        Public Function ListEpisodes(Season As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview)) Implements IDownloadClient.ListEpisodes
             Throw New NotImplementedException()
         End Function
 
-        Public Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IMetadataDownloader.GetEpisodeInfo
+        Public Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
             Return New Task(Of Episode)(Function() ep)
         End Function
 
-        Public Function GetEpisodeInfo(Url As String) As Task(Of Episode) Implements IMetadataDownloader.GetEpisodeInfo
+        Public Function GetEpisodeInfo(Url As String) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
             Return New Task(Of Episode)(Function() ep)
         End Function
 
-        Public Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IMetadataDownloader.GetEpisodePlayback
+        Public Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IDownloadClient.GetEpisodePlayback
             Return Task.FromResult(New EpisodePlaybackInfo(CreateFakePlayback(ep), New List(Of Playback)))
         End Function
 
@@ -49,15 +49,15 @@ Namespace debugging
             }
         End Function
 
-        Public Function IsSeriesUrl(Url As String) As Boolean Implements IMetadataDownloader.IsSeriesUrl
+        Public Function IsSeriesUrl(Url As String) As Boolean Implements IDownloadClient.IsSeriesUrl
             Return Not IsVideo
         End Function
 
-        Public Function IsVideoUrl(Url As String) As Boolean Implements IMetadataDownloader.IsVideoUrl
+        Public Function IsVideoUrl(Url As String) As Boolean Implements IDownloadClient.IsVideoUrl
             Return IsVideo
         End Function
 
-        Public Function GetSiteName() As String Implements IMetadataDownloader.GetSiteName
+        Public Function GetSiteName() As String Implements IDownloadClient.GetSiteName
             Return "Dummy site"
         End Function
     End Class

@@ -18,7 +18,7 @@ Public Class DownloaderApi
     ' Unify API such that all calls to a website go through the same class.
     ' There aren't many endpoints to call, and it would allow sharing the same API reference.
 
-    Public Shared Function GetMetadataDownloader(url As String) As IMetadataDownloader
+    Public Shared Function GetMetadataDownloader(url As String) As IDownloadClient
         ' TODO: Choose CR or Funi metadata downloader
         Dim cookieManager = Browser.GetInstance.GetCookieManager()
         If (IsFunimationUrl(url)) Then

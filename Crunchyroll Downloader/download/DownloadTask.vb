@@ -12,9 +12,9 @@ Namespace download
         ' Episodes may have multiple versions and there isn't a way to choose which one.
         Private ReadOnly DownloadEpisode As Episode
         Private ReadOnly OutputPath As String
-        Private ReadOnly MetadataClient As IMetadataDownloader
+        Private ReadOnly MetadataClient As IDownloadClient
 
-        Public Sub New(ep As Episode, path As String, client As IMetadataDownloader)
+        Public Sub New(ep As Episode, path As String, client As IDownloadClient)
             DownloadEpisode = ep
             OutputPath = path
             MetadataClient = client
@@ -27,7 +27,7 @@ Namespace download
             Return OutputPath
         End Function
 
-        Public Function GetMetadataClient() As IMetadataDownloader
+        Public Function GetMetadataClient() As IDownloadClient
             Return MetadataClient
         End Function
 

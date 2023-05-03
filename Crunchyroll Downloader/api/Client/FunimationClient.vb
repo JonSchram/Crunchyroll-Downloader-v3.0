@@ -11,7 +11,7 @@ Namespace api.client
     ''' Gets information about episodes from Funimation
     ''' </summary>
     Public Class FunimationClient
-        Implements IMetadataDownloader
+        Implements IDownloadClient
 
         Private ReadOnly CookieManager As CoreWebView2CookieManager
 
@@ -39,7 +39,7 @@ Namespace api.client
             PlaybackId = GenerateGuid()
         End Sub
 
-        Private Async Function Initialize() As Task Implements IMetadataDownloader.Initialize
+        Private Async Function Initialize() As Task Implements IDownloadClient.Initialize
             Await RefreshCookies()
         End Function
 
@@ -56,7 +56,7 @@ Namespace api.client
         End Function
 
 
-        Public Async Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IMetadataDownloader.ListSeasons
+        Public Async Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IDownloadClient.ListSeasons
             If (IsSeriesUrl(Url)) Then
                 'Dim ListSeasonUrl = BuildSeasonListUrl(ShowPath)
                 'Debug.WriteLine("URL to retrieve seasons: " + ListSeasonUrl)
@@ -87,12 +87,12 @@ Namespace api.client
 
             Dim SeriesJson = Await DownloadJson(JsonUrl)
 
-            debug.WriteLine("Series JSON: ")
+            Debug.WriteLine("Series JSON: ")
             Debug.WriteLine(SeriesJson)
             Return SeriesJson
         End Function
 
-        Public Async Function ListEpisodes(Overview As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview)) Implements IMetadataDownloader.ListEpisodes
+        Public Async Function ListEpisodes(Overview As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview)) Implements IDownloadClient.ListEpisodes
             Dim SeasonUrl = BuildSeasonInfoUrl(Overview.ApiID)
             Dim SeasonJson = Await DownloadJson(SeasonUrl)
             Dim Season = FunimationSeason.CreateFromJson(SeasonJson)
@@ -100,11 +100,11 @@ Namespace api.client
             Return EpisodeList
         End Function
 
-        Public Async Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IMetadataDownloader.GetEpisodeInfo
+        Public Async Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
             Return Await GetEpisodeInfoFromId(Overview.EpisodeId)
         End Function
 
-        Public Async Function GetEpisodeInfo(Url As String) As Task(Of Episode) Implements IMetadataDownloader.GetEpisodeInfo
+        Public Async Function GetEpisodeInfo(Url As String) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
             If Not IsVideoUrl(Url) Then
                 Throw New ArgumentException($"Must be video URL. Received ""{Url}""")
             End If
@@ -118,7 +118,7 @@ Namespace api.client
             Return FunimationEpisode.CreateFromJson(EpisodeJson)
         End Function
 
-        Public Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IMetadataDownloader.GetEpisodePlayback
+        Public Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IDownloadClient.GetEpisodePlayback
             Dim url = BuildPlaybackUrl(ep)
             Dim result = Await Authenticator.SendAuthenticatedRequest(url)
 
@@ -136,11 +136,11 @@ Namespace api.client
             Return episodeName
         End Function
 
-        Public Function IsVideoUrl(Url As String) As Boolean Implements IMetadataDownloader.IsVideoUrl
+        Public Function IsVideoUrl(Url As String) As Boolean Implements IDownloadClient.IsVideoUrl
             Return SafeContains(Url, "funimation.com/v/")
         End Function
 
-        Public Function IsSeriesUrl(Url As String) As Boolean Implements IMetadataDownloader.IsSeriesUrl
+        Public Function IsSeriesUrl(Url As String) As Boolean Implements IDownloadClient.IsSeriesUrl
             Return SafeContains(Url, "funimation.com/shows")
         End Function
 
@@ -175,7 +175,7 @@ Namespace api.client
             Return Guid.NewGuid().ToString()
         End Function
 
-        Public Function GetSiteName() As String Implements IMetadataDownloader.GetSiteName
+        Public Function GetSiteName() As String Implements IDownloadClient.GetSiteName
             Return "Funimation"
         End Function
     End Class
