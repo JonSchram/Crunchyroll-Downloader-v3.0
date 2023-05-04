@@ -33,7 +33,7 @@ Namespace hls
             If Not ValidatePlaylistFile(Lines) Then
                 Return Nothing
             End If
-            Dim ResultBuilder As MediaPlaylist.Builder = New MediaPlaylist.Builder()
+            Dim ResultBuilder As New MediaPlaylist.Builder()
 
             For LineNumber = 1 To Lines.Length - 1
                 Dim Line = Lines(LineNumber)

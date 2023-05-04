@@ -1,5 +1,4 @@
 ﻿Imports System.Collections.Immutable
-Imports System.Collections.ObjectModel
 Imports Crunchyroll_Downloader.hls.tags
 Imports Crunchyroll_Downloader.hls.tags.encryption
 Imports Crunchyroll_Downloader.hls.tags.segment

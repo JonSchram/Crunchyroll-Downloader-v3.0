@@ -1,4 +1,6 @@
-﻿Namespace hls.tags
+﻿Imports System.Text
+
+Namespace hls.tags
     Public Class TagParser
 
         Public Function ParseTagString(Input As String) As Tag
@@ -20,8 +22,7 @@
 
             Dim quotedMode = False
             Dim key As String = ""
-            ' TODO: replace this with StringBuilder. This is already resonably fast.
-            Dim currentString = ""
+            Dim currentStringBuilder = New StringBuilder()
             Dim startPosition = tagEndIndex + 1
             For Index As Integer = startPosition To Input.Length - 1
                 Dim character As Char = Input(Index)
@@ -29,7 +30,7 @@
                     If character = """" Then
                         quotedMode = False
                     Else
-                        currentString += character
+                        currentStringBuilder.Append(character)
                     End If
                 Else
                     Select Case character
@@ -37,27 +38,27 @@
                             quotedMode = True
                         Case ","c
                             If key = "" Then
-                                Result.AddValue(currentString)
+                                Result.AddValue(currentStringBuilder.ToString())
                             Else
-                                Result.SetAttribute(key, currentString)
+                                Result.SetAttribute(key, currentStringBuilder.ToString())
                             End If
                             key = ""
-                            currentString = ""
+                            currentStringBuilder.Clear()
                         Case "="c
-                            key = currentString
-                            currentString = ""
+                            key = currentStringBuilder.ToString()
+                            currentStringBuilder.Clear()
                         Case Else
-                            currentString += character
+                            currentStringBuilder.Append(character)
                     End Select
                 End If
             Next
             ' Either set the current key to the remainder of the string or if there is no key,
             ' set the value of the tag
-            If currentString <> "" Then
+            If currentStringBuilder.Length > 0 Then
                 If (key <> "") Then
-                    Result.SetAttribute(key, currentString)
+                    Result.SetAttribute(key, currentStringBuilder.ToString())
                 Else
-                    Result.AddValue(currentString)
+                    Result.AddValue(currentStringBuilder.ToString())
                 End If
             End If
             Return Result

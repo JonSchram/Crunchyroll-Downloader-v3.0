@@ -44,8 +44,14 @@ Namespace debugging
                 PlaylistOutputTextBox.Text = playlist.ToString()
 
             ElseIf MediaPlaylistRadioButton.Checked() Then
+                Dim startTime As Date
+                Dim endTime As Date
+                startTime = Now
                 Dim playlist = parser.ParseMediaPlaylist(playlistText)
-                PlaylistOutputTextBox.Text = playlist.ToString()
+                endTime = Now
+
+                Dim elapsedTime = endTime - startTime
+                PlaylistOutputTextBox.Text = $"Parse time: {elapsedTime.TotalMilliseconds} ms" + vbCrLf
 
                 If RewriteUrlsCheckBox.Checked() Then
                     Dim rewriteDictionary = New Dictionary(Of Integer, String)
@@ -75,7 +81,7 @@ Namespace debugging
                     outputText = playlist.ToString()
                 End If
 
-                PlaylistOutputTextBox.Text = outputText
+                PlaylistOutputTextBox.Text += outputText
             End If
         End Sub
 
