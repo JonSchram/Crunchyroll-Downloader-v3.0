@@ -18,12 +18,23 @@ Namespace hls.segment
         Public Function GetEnumerator() As IEnumerator(Of MediaSegment)
             Return Segments.GetEnumerator()
         End Function
+        Friend Function GetSegment(segmentNumber As Integer) As MediaSegment
+            ' This technically doesn't get the segment number according to the segment
+            ' (it won't match if the start sequence number has been set)
+            ' It works more like getting an index in an array, which is more convenient for processing.
+            Return Segments.Item(segmentNumber)
+        End Function
+
+        Friend Function GetCount() As Integer
+            Return Segments.Count
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"{{
 Segments: {FormatFieldList(Segments)}
 }}"
         End Function
+
 
         Private Function FormatFieldList(StreamList As IEnumerable(Of Object)) As String
             Dim output As String = "["

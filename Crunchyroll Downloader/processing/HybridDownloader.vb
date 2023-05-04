@@ -1,12 +1,9 @@
-﻿Imports System.IO
+﻿Imports Crunchyroll_Downloader.api.client.stream
+Imports System.IO
 Imports System.Net.Http
-Imports Crunchyroll_Downloader.api.client.stream
 
 Namespace processing
-    ''' <summary>
-    ''' A downloader that gets the playlist contents verbatim and relies on FFmpeg to download the segments.
-    ''' </summary>
-    Public Class FfmpegDownloader
+    Public Class HybridDownloader
         Private StreamSelector As IStreamSelector
         Private Preferences As DownloadPreferences
 
@@ -40,17 +37,26 @@ Namespace processing
                 End If
             Next
 
-            ' TODO: combine streams into a single file.
-
         End Sub
 
-        Private Sub HandleSegmentStream(stream As SegmentedMedia)
-            ' TODO: Get correct name of playlist from the stream.
-            Dim fileName = "playlist.m3u8"
-            Dim filePath = IO.Path.Combine(StreamTempFolder.FullName, fileName)
-            Dim fileStream = New FileStream(filePath, FileMode.CreateNew)
-            stream.WritePlaylistTo(fileStream)
-            fileStream.Close()
+        Private Async Sub HandleSegmentStream(stream As SegmentedMedia)
+            Dim folderName As String = $"stream-{StreamNumber}"
+            StreamNumber += 1
+            Dim streamFolder = StreamTempFolder.CreateSubdirectory(folderName)
+
+            For i As Integer = 0 To stream.GetSegmentCount()
+                Dim segment = stream.GetSegment(i)
+                Dim responseTask = client.GetStreamAsync(segment.Uri)
+
+                Dim parsedUri = New Uri(folderName)
+                Dim fileName = parsedUri.LocalPath
+                Dim filePath = IO.Path.Combine(streamFolder.FullName, fileName)
+                Dim fileStream = New FileStream(filePath, FileMode.CreateNew)
+
+                Dim response = Await responseTask
+                Await response.CopyToAsync(fileStream)
+                fileStream.Close()
+            Next
         End Sub
 
         Private Async Sub HandleFile(file As FileMedia)
@@ -62,21 +68,11 @@ Namespace processing
             Dim response = Await client.GetStreamAsync(file.Uri)
 
             Await response.CopyToAsync(fileStream)
-            fileStream.Close()
         End Sub
 
         Private Function MakeTempDirectory() As DirectoryInfo
             Dim tempFolder = Preferences.TempFolder
             Return GetNewTempDirectory(tempFolder)
         End Function
-
-        Private Sub MakeTempFile()
-            'File.Create(StreamTempFolder)
-
-
-
-            'File.Create(Preferences.TempFolder)
-        End Sub
-
     End Class
 End Namespace

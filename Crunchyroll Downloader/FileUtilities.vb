@@ -1,4 +1,6 @@
 ﻿
+Imports System.IO
+
 Module FileUtilities
     Public Function GetSubDirectories(parentDirectory As String) As List(Of String)
         Dim subDirectories As List(Of String) = New List(Of String)
@@ -15,5 +17,24 @@ Module FileUtilities
         End Try
 
         Return subDirectories
+    End Function
+
+    Public Function GetNewTempDirectory(parentDirectory As String) As DirectoryInfo
+        Dim folderName = Guid.NewGuid().ToString()
+
+        Dim parent = New DirectoryInfo(parentDirectory)
+
+        Dim attemptLimit = 5
+        Dim attemptCount = 0
+        Do While attemptCount < attemptLimit
+            Try
+                Dim tempFolder = parent.CreateSubdirectory(folderName)
+                Return tempFolder
+            Catch ex As IOException
+                attemptCount += 1
+                folderName = Guid.NewGuid().ToString()
+            End Try
+        Loop
+        Throw New Exception("Could not create temp directory")
     End Function
 End Module

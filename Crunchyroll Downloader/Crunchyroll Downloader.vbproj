@@ -181,7 +181,7 @@
     <Compile Include="api\client\stream\FileMedia.vb" />
     <Compile Include="api\client\stream\HlsPlaylist.vb" />
     <Compile Include="api\client\stream\IStreamSelector.vb" />
-    <Compile Include="api\client\stream\MediaSegment.vb" />
+    <Compile Include="api\client\stream\StreamSegment.vb" />
     <Compile Include="api\client\stream\MediaStream.vb" />
     <Compile Include="api\client\stream\StreamFormat.vb" />
     <Compile Include="api\client\stream\SegmentedMedia.vb" />
@@ -271,6 +271,7 @@
     <Compile Include="hls\Writer\PlaylistWriter.vb" />
     <Compile Include="processing\DownloadPreferences.vb" />
     <Compile Include="processing\FfmpegDownloader.vb" />
+    <Compile Include="processing\HybridDownloader.vb" />
     <Compile Include="processing\Language.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>

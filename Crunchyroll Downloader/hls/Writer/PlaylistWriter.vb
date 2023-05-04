@@ -13,6 +13,7 @@ Namespace hls.writer
     Public Class PlaylistWriter
 
         Public Sub WriteToStream(playlist As MediaPlaylist, output As Stream)
+            ' TODO: Make async
             Dim printStream = New StreamWriter(output)
             WriteCommonHeader(playlist, printStream)
             WriteMediaPlaylistHeader(playlist, printStream)

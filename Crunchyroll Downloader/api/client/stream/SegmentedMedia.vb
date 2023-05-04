@@ -4,19 +4,13 @@ Namespace api.client.stream
     Public MustInherit Class SegmentedMedia
         Inherits MediaStream
 
-        Private ReadOnly SegmentList As List(Of MediaSegment)
-
         Public Sub New(type As MediaType)
             MyBase.New(type)
         End Sub
 
-        Public Function GetSegment(segmentNumber As Integer) As MediaSegment
-            Return SegmentList.Item(segmentNumber)
-        End Function
+        Public MustOverride Function GetSegment(segmentNumber As Integer) As StreamSegment
 
-        Public Function GetSegmentCount() As Integer
-            Return SegmentList.Count
-        End Function
+        Public MustOverride Function GetSegmentCount() As Integer
 
         MustOverride Sub WritePlaylistTo(s As IO.Stream)
 
