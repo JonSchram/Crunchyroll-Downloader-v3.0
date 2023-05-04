@@ -33,7 +33,7 @@ Namespace hls
             If Not ValidatePlaylistFile(Lines) Then
                 Return Nothing
             End If
-            Dim Result As MediaPlaylist = New MediaPlaylist()
+            Dim ResultBuilder As MediaPlaylist.Builder = New MediaPlaylist.Builder()
 
             For LineNumber = 1 To Lines.Length - 1
                 Dim Line = Lines(LineNumber)
@@ -43,47 +43,45 @@ Namespace hls
 
                     Select Case tag.getTagName()
                         Case "EXT-X-VERSION"
-                            Result.SetVersion(New VersionTag(tag))
+                            ResultBuilder.SetVersion(New VersionTag(tag))
                         Case "EXT-X-INDEPENDENT-SEGMENTS"
-                            Result.SetIndependentSegments()
+                            ResultBuilder.SetIndependentSegments()
                         Case "EXT-X-START"
-                            Result.SetStart(New StartTag(tag))
+                            ResultBuilder.SetStart(New StartTag(tag))
                         Case "EXT-X-TARGETDURATION"
-                            Result.SetTargetDuration(New TargetDurationTag(tag))
+                            ResultBuilder.SetTargetDuration(New TargetDurationTag(tag))
                         Case "EXT-X-MEDIA-SEQUENCE"
-                            Result.SetStartSequenceNumber(New MediaSequenceNumberTag(tag))
+                            ResultBuilder.SetStartSequenceNumber(New MediaSequenceNumberTag(tag))
                         Case "EXT-X-DISCONTINUITY-SEQUENCE"
-                            Result.SetDiscontinuitySequenceNumber(New DiscontinuitySequenceNumberTag(tag))
+                            ResultBuilder.SetDiscontinuitySequenceNumber(New DiscontinuitySequenceNumberTag(tag))
                         Case "EXT-X-ENDLIST"
-                            Result.SetEndlist()
+                            ResultBuilder.SetEndlist()
                         Case "EXT-X-PLAYLIST-TYPE"
-                            Result.SetPlaylistType(New PlaylistTypeTag(tag))
+                            ResultBuilder.SetPlaylistType(New PlaylistTypeTag(tag))
                         Case "EXT-X-I-FRAMES-ONLY"
-                            Result.SetIFramesOnly()
+                            ResultBuilder.SetIFramesOnly()
                         Case "EXTINF"
-                            Result.AddSegmentInfo(New InfTag(tag))
+                            ResultBuilder.AddSegmentInfo(New InfTag(tag))
                         Case "EXT-X-BYTERANGE"
-                            Result.AddSegmentByteRange(New ByteRangeTag(tag))
+                            ResultBuilder.AddSegmentByteRange(New ByteRangeTag(tag))
                         Case "EXT-X-DISCONTINUITY"
-                            Result.AddDiscontinuity()
+                            ResultBuilder.AddDiscontinuity()
                         Case "EXT-X-KEY"
-                            Result.AddKey(New KeyTag(tag))
+                            ResultBuilder.AddKey(New KeyTag(tag))
                         Case "EXT-X-MAP"
-                            Result.AddInitialization(New MediaInitializationTag(tag))
+                            ResultBuilder.AddInitialization(New MediaInitializationTag(tag))
                         Case "EXT-X-PROGRAM-DATE-TIME"
-                            Result.AddDateTime(New DateTimeTag(tag))
+                            ResultBuilder.AddDateTime(New DateTimeTag(tag))
                         Case "EXT-X-DATERANGE"
-                            Result.AddDateRange(New DateRangeTag(tag))
+                            ResultBuilder.AddDateRange(New DateRangeTag(tag))
                     End Select
                 ElseIf Line(0) <> "#" Then
                     ' Anything other than a # is a URI
-                    Result.AddSegmentUri(Line)
+                    ResultBuilder.AddSegmentUri(Line)
                 End If
             Next
 
-            Result.FinishMediaSegments()
-
-            Return Result
+            Return ResultBuilder.Build()
         End Function
 
         Public Function parseMasterPlaylist(playlist As String) As MasterPlaylist
@@ -96,7 +94,7 @@ Namespace hls
                 Return Nothing
             End If
 
-            Dim episodePlaylist As MasterPlaylist = New MasterPlaylist()
+            Dim playlistBuilder = New MasterPlaylist.Builder()
             For lineNumber = 1 To Lines.Length - 1
                 Dim Line = Lines(lineNumber)
                 Dim parsedTag = tagParser.ParseTagString(Line)
@@ -106,31 +104,31 @@ Namespace hls
                     ' TODO: Lots of magic strings here. Might want to get these from the class for each parsed type.
                     Select Case parsedTag.getTagName()
                         Case "EXT-X-VERSION"
-                            episodePlaylist.SetVersion(New VersionTag(parsedTag))
+                            playlistBuilder.SetVersion(New VersionTag(parsedTag))
                         Case "EXT-X-START"
-                            episodePlaylist.SetStart(New StartTag(parsedTag))
+                            playlistBuilder.SetStart(New StartTag(parsedTag))
                         Case "EXT-X-INDEPENDENT-SEGMENTS"
-                            episodePlaylist.SetIndependentSegments()
+                            playlistBuilder.SetIndependentSegments()
                         Case "EXT-X-MEDIA"
-                            episodePlaylist.PlaylistMedia.Add(New MediaTag(parsedTag))
+                            playlistBuilder.AddPlaylistMedia(New MediaTag(parsedTag))
                         Case "EXT-X-STREAM-INF"
                             lineNumber += 1
                             If lineNumber < Lines.Length Then
                                 Dim Stream = New VariantStream(parsedTag, Lines(lineNumber))
-                                episodePlaylist.StreamVariants.Add(Stream)
+                                playlistBuilder.AddStreamVariant(Stream)
                             Else
                                 Throw New HlsFormatException("EXT-X-STREAM-INF requires a URI on the following line")
                             End If
                         Case "EXT-X-I-FRAME-STREAM-INF"
                             Dim IFrameStream As New IFrameStream(parsedTag)
-                            episodePlaylist.IframeStreams.Add(IFrameStream)
+                            playlistBuilder.AddIframeStream(IFrameStream)
                         Case "EXT-X-SESSION-KEY"
-                            episodePlaylist.Key = New SessionKeyTag(parsedTag)
+                            playlistBuilder.SetKey(New SessionKeyTag(parsedTag))
                     End Select
                 End If
             Next
 
-            Return episodePlaylist
+            Return playlistBuilder.build()
         End Function
 
         Private Function ValidatePlaylistFile(Lines() As String) As Boolean

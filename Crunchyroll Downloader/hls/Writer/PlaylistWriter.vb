@@ -53,7 +53,7 @@ Namespace hls.writer
         Private Sub WriteSegments(playlist As MediaPlaylist, output As StreamWriter)
             Dim previousKey As KeyTag = Nothing
             Dim previousInitialization As MediaInitializationTag = Nothing
-            For Each segment As MediaSegment In playlist.AllSegments
+            For Each segment As MediaSegment In playlist.Segments
                 Dim keyHasChanged = False
                 Dim initChanged = False
 

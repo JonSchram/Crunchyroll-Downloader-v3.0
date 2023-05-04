@@ -1,4 +1,5 @@
 ﻿
+Imports System.Collections.Immutable
 Imports Crunchyroll_Downloader.hls.tags
 Imports Crunchyroll_Downloader.hls.tags.encryption
 Imports Crunchyroll_Downloader.hls.tags.stream
@@ -10,13 +11,23 @@ Namespace hls.playlist
     Public Class MasterPlaylist
         Inherits AbstractPlaylist
 
-        Public Property Key As SessionKeyTag
+        Public ReadOnly Property Key As SessionKeyTag
 
-        Public Property PlaylistMedia As List(Of MediaTag) = New List(Of MediaTag)
+        Public ReadOnly Property PlaylistMedia As ImmutableList(Of MediaTag)
 
-        Public Property StreamVariants As List(Of VariantStream) = New List(Of VariantStream)
+        Public ReadOnly Property StreamVariants As ImmutableList(Of VariantStream)
 
-        Public Property IframeStreams As List(Of IFrameStream) = New List(Of IFrameStream)
+        Public ReadOnly Property IframeStreams As ImmutableList(Of IFrameStream)
+
+        Public Sub New(version As Integer, independentSegments As Boolean, startPlayTime As StartTag,
+                       key As SessionKeyTag, playlistMedia As List(Of MediaTag),
+                       streamVariants As List(Of VariantStream), iframeStreams As List(Of IFrameStream))
+            MyBase.New(version, independentSegments, startPlayTime)
+            Me.Key = key
+            Me.PlaylistMedia = ImmutableList.CreateRange(playlistMedia)
+            Me.StreamVariants = ImmutableList.CreateRange(streamVariants)
+            Me.IframeStreams = ImmutableList.CreateRange(iframeStreams)
+        End Sub
 
         ' Not planning to support session data, don't see any use case for this at all
 
@@ -41,6 +52,37 @@ Namespace hls.playlist
             output += "]"
             Return output
         End Function
-    End Class
 
+        Public Class Builder
+            Inherits AbstractPlaylist.AbstractBuilder
+            Private Key As SessionKeyTag
+
+            Private PlaylistMedia As List(Of MediaTag) = New List(Of MediaTag)
+
+            Private StreamVariants As List(Of VariantStream) = New List(Of VariantStream)
+
+            Private IframeStreams As List(Of IFrameStream) = New List(Of IFrameStream)
+
+            Public Sub SetKey(key As SessionKeyTag)
+                Me.Key = key
+            End Sub
+
+            Public Sub AddPlaylistMedia(media As MediaTag)
+                PlaylistMedia.Add(media)
+            End Sub
+
+            Public Sub AddStreamVariant(streamVariant As VariantStream)
+                StreamVariants.Add(streamVariant)
+            End Sub
+
+            Public Sub AddIframeStream(stream As IFrameStream)
+                IframeStreams.Add(stream)
+            End Sub
+
+            Public Function Build() As MasterPlaylist
+                Return New MasterPlaylist(Version, IndependentSegments, StartPlayTime, Key, PlaylistMedia,
+                                          StreamVariants, IframeStreams)
+            End Function
+        End Class
+    End Class
 End Namespace

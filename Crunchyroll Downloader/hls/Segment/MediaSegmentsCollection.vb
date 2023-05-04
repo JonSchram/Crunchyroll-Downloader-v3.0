@@ -1,4 +1,6 @@
-﻿Imports Crunchyroll_Downloader.hls.tags
+﻿Imports System.Collections.Immutable
+Imports System.Collections.ObjectModel
+Imports Crunchyroll_Downloader.hls.tags
 Imports Crunchyroll_Downloader.hls.tags.encryption
 Imports Crunchyroll_Downloader.hls.tags.segment
 
@@ -8,30 +10,14 @@ Namespace hls.segment
     ''' as segments are added.
     ''' </summary>
     Public Class MediaSegmentsCollection
-        Implements IEnumerable(Of MediaSegment)
-
-        Private ReadOnly Segments As New List(Of MediaSegment)
-
-        Public Sub New()
-            Segments = New List(Of MediaSegment)
-        End Sub
+        Private ReadOnly Segments As ImmutableList(Of MediaSegment)
 
         Public Sub New(segments As List(Of MediaSegment))
-            Me.Segments = segments
+            Me.Segments = ImmutableList.CreateRange(segments)
         End Sub
 
-        Friend Sub AppendSegment(Segment As MediaSegment)
-            Segments.Add(Segment)
-        End Sub
-
-
-        Public Function GetEnumerator() As IEnumerator(Of MediaSegment) Implements IEnumerable(Of MediaSegment).GetEnumerator
+        Public Function GetEnumerator() As IEnumerator(Of MediaSegment)
             Return Segments.GetEnumerator()
-        End Function
-
-
-        Private Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
-            Return Segments.GetEnumerator
         End Function
 
         Public Overrides Function ToString() As String

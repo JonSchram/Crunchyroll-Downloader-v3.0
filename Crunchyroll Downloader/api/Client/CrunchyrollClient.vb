@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.ui
+﻿Imports Crunchyroll_Downloader.api.client.stream
+Imports Crunchyroll_Downloader.ui
 Imports Newtonsoft.Json.Linq
 
 Namespace api.client
@@ -73,6 +74,10 @@ Namespace api.client
 
         Public Function GetSiteName() As String Implements IDownloadClient.GetSiteName
             Return "Crunchyroll"
+        End Function
+
+        Public Function GetStreamSelector() As IStreamSelector Implements IDownloadClient.GetStreamSelector
+            Throw New NotImplementedException()
         End Function
     End Class
 End Namespace

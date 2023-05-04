@@ -41,6 +41,7 @@ Namespace debugging
 
             If MasterPlaylistRadioButton.Checked() Then
                 Dim playlist = parser.parseMasterPlaylist(playlistText)
+                PlaylistOutputTextBox.Text = playlist.ToString()
 
             ElseIf MediaPlaylistRadioButton.Checked() Then
                 Dim playlist = parser.ParseMediaPlaylist(playlistText)
