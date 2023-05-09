@@ -127,7 +127,9 @@ Namespace api.client
         End Function
 
         Private Function ExtractShowSlug(url As String) As String
-            Dim ShowPath As String = Regex.Match(url, "/shows/(.*)/?").Groups(1).Value
+            ' Parse the URL first in case there are query parameters.
+            Dim parsedUrl = New Uri(url)
+            Dim ShowPath As String = Regex.Match(parsedUrl.AbsolutePath, "/shows/([^/]*)/?").Groups(1).Value
             Debug.WriteLine("Show path: " + ShowPath)
             Return ShowPath
         End Function
