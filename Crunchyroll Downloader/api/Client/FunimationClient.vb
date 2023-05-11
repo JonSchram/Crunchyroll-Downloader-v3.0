@@ -182,8 +182,9 @@ Namespace api.client
             Return "Funimation"
         End Function
 
-        Public Function GetStreamSelector() As IStreamSelector Implements IDownloadClient.GetStreamSelector
-            Throw New NotImplementedException()
+        Public Async Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector) Implements IDownloadClient.GetStreamSelector
+            Dim playback = Await GetEpisodePlayback(ep)
+            Return New FunimationStreamSelector(playback)
         End Function
     End Class
 End Namespace

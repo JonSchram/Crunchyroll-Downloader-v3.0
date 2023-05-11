@@ -76,7 +76,7 @@ Namespace api.client
             Return "Crunchyroll"
         End Function
 
-        Public Function GetStreamSelector() As IStreamSelector Implements IDownloadClient.GetStreamSelector
+        Public Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector) Implements IDownloadClient.GetStreamSelector
             Throw New NotImplementedException()
         End Function
     End Class

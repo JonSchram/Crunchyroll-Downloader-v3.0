@@ -7,6 +7,6 @@
     Public Enum MediaType As Integer
         Video = 1
         Audio = 2
-        subtitles = 4
+        Subtitles = 4
     End Enum
 End Namespace

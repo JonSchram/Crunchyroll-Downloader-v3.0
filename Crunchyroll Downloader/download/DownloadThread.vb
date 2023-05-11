@@ -1,4 +1,6 @@
 ﻿Imports System.Threading
+Imports Crunchyroll_Downloader.api.client.stream
+Imports Crunchyroll_Downloader.api.metadata.video
 
 Namespace download
     Public Class DownloadThread
@@ -83,11 +85,12 @@ Namespace download
             ' I think the solution here would be in the UI
 
             RaiseReportProgressEvent(Stage.FIND_VERSION, 0)
-            Dim selector = New PlaybackSelector()
-            Dim bestPlayback = selector.ChooseFunimationPlayback(playback)
-            RaiseReportProgressEvent(Stage.FIND_VERSION, 1)
+            'Dim selector = New PlaybackSelector()
+            'Dim bestPlayback = selector.ChooseFunimationPlayback(playback)
+            'RaiseReportProgressEvent(Stage.FIND_VERSION, 1)
 
-            Return bestPlayback
+            'Return bestPlayback
+            Return Nothing
         End Function
 
         Public Enum Stage As Integer

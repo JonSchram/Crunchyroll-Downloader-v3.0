@@ -1,6 +1,7 @@
 ﻿Imports Crunchyroll_Downloader.api
 Imports Crunchyroll_Downloader.api.client
 Imports Crunchyroll_Downloader.api.client.stream
+Imports Crunchyroll_Downloader.api.metadata.video
 
 Namespace debugging
     Public Class FakeDownloadClient
@@ -62,7 +63,7 @@ Namespace debugging
             Return "Dummy site"
         End Function
 
-        Public Function GetStreamSelector() As IStreamSelector Implements IDownloadClient.GetStreamSelector
+        Public Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector) Implements IDownloadClient.GetStreamSelector
             Throw New NotImplementedException()
         End Function
     End Class

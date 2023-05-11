@@ -5,6 +5,7 @@
     ''' of the site-specific settings.
     ''' </summary>
     Public Enum Language
+        NONE
         ARABIC
         CHINESE
         ENGLISH

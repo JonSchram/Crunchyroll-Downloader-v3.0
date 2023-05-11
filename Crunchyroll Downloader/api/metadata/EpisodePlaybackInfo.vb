@@ -1,10 +1,12 @@
-﻿Imports Newtonsoft.Json.Linq
+﻿Imports Crunchyroll_Downloader.api.metadata.video
+Imports Newtonsoft.Json.Linq
 
 ' TODO: This is designed specifically for Funimation. It isn't clear that Crunchyroll would even have an equivalent
 ' file, so this and the API need to go through some additional design.
 Public Class EpisodePlaybackInfo
 
     Private Property Primary As Playback
+
 
     Private Property Fallbacks As List(Of Playback)
 

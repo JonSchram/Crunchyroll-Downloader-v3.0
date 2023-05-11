@@ -39,7 +39,7 @@ Namespace api.client
         ''' <returns></returns>
         Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo)
 
-        Function GetStreamSelector() As IStreamSelector
+        Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector)
 
         ''' <summary>
         ''' Gets whether the URL corresponds to a series (not an individual season or an episode).
