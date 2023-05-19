@@ -1,8 +1,8 @@
 ﻿
 Imports System.Collections.Immutable
-Imports Crunchyroll_Downloader.hls.tags
-Imports Crunchyroll_Downloader.hls.tags.encryption
-Imports Crunchyroll_Downloader.hls.tags.stream
+Imports Crunchyroll_Downloader.hls.parsing.tags
+Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
+Imports Crunchyroll_Downloader.hls.parsing.tags.stream
 
 Namespace hls.playlist
     ''' <summary>

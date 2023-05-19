@@ -1,6 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.hls.segment
 
-Namespace hls.tags.segment
+Namespace hls.parsing.tags.segment
     Public Class MediaInitializationTag
         Const TagName = "EXT-X-MAP"
 
@@ -10,7 +10,7 @@ Namespace hls.tags.segment
         Public Property Bytes As ByteRange
 
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for media, expected {TagName}")
             End If

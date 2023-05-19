@@ -1,10 +1,10 @@
-﻿Namespace hls.tags
+﻿Namespace hls.parsing.tags
     Public Class PlaylistTypeTag
         Const TagName = "EXT-X-PLAYLIST-TYPE"
 
         Public ReadOnly Property Type As PlaylistType
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for byte range, expected {TagName}")
             End If

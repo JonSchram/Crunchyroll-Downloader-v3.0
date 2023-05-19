@@ -1,4 +1,4 @@
-﻿Namespace hls
+﻿Namespace hls.parsing
     Public Class PlaylistParseException
         Inherits Exception
 

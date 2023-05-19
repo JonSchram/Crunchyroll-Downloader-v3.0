@@ -1,4 +1,4 @@
-﻿Imports Crunchyroll_Downloader.hls.tags.encryption
+﻿Imports Crunchyroll_Downloader.hls.parsing
 
 Namespace hls.playlist
     Public Class SegmentRangeData(Of T)

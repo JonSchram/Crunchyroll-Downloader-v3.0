@@ -1,9 +1,9 @@
-﻿Namespace hls.tags.encryption
+﻿Namespace hls.parsing.tags.encryption
     Public Class SessionKeyTag
         Inherits KeyTag
         Const TagName = "EXT-X-SESSION-KEY"
 
-        Public Sub New(ByRef attributes As Tag)
+        Public Sub New(ByRef attributes As TagAttributes)
             MyBase.New(attributes)
 
             If Method = EncryptionMethod.NONE Then

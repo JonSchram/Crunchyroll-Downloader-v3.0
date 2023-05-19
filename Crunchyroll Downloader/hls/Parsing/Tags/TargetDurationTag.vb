@@ -1,9 +1,9 @@
-﻿Namespace hls.tags
+﻿Namespace hls.parsing.tags
     Public Class TargetDurationTag
         Const TagName = "EXT-X-TARGETDURATION"
         Public Property Duration As Integer
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for target duration, expected {TagName}")
             End If

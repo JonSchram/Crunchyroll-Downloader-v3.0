@@ -1,12 +1,12 @@
 ﻿Imports Crunchyroll_Downloader.hls.segment
 
-Namespace hls.tags.segment
+Namespace hls.parsing.tags.segment
     Public Class ByteRangeTag
         Const TagName = "EXT-X-BYTERANGE"
 
         Public ReadOnly Property Bytes As ByteRange
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for byte range, expected {TagName}")
             End If

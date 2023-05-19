@@ -1,4 +1,4 @@
-﻿Namespace hls.tags
+﻿Namespace hls.parsing.tags
 
     Public Class MediaTag
         Const TagName As String = "EXT-X-MEDIA"
@@ -41,7 +41,7 @@
         ' but a different number of channels. Otherwise optional.
         Public ReadOnly Property Channels As String
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for media, expected {TagName}")
             End If

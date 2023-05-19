@@ -1,10 +1,10 @@
-﻿Namespace hls.tags.segment
+﻿Namespace hls.parsing.tags.segment
     Public Class InfTag
         Const TagName = "EXTINF"
         Public ReadOnly Property Duration As Double
         Public ReadOnly Property Title As String
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for media segment info, expected {TagName}")
             End If

@@ -1,6 +1,6 @@
-﻿Imports Crunchyroll_Downloader.hls.tags.encryption
+﻿Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
 
-Namespace hls.tags
+Namespace hls.parsing.tags
     Class HlsHelpers
 
         Public Shared Function ParseYesNoValue(Value As String, AttributeName As String) As Boolean

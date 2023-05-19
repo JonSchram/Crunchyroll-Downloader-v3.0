@@ -1,13 +1,13 @@
 ﻿Imports Microsoft.VisualBasic.Devices
 
-Namespace hls.tags.stream
+Namespace hls.parsing.tags.stream
     ''' <summary>
     ''' Represents an I-frame only video stream.
     ''' </summary>
     Public Class IFrameStream
         Inherits AbstractStream
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             MyBase.New(SourceTag)
 
             If GetTagName() <> SourceTag.getTagName() Then

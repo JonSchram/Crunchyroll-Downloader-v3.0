@@ -1,4 +1,4 @@
-﻿Namespace hls.tags
+﻿Namespace hls.parsing.tags
     Public Class DateRangeTag
         Const TagName = "EXT-X-DATERANGE"
 
@@ -26,7 +26,7 @@
 
         Public ReadOnly UnparsedAttributes As List(Of KeyValuePair(Of String, String))
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for a date range, expected {TagName}")
             End If

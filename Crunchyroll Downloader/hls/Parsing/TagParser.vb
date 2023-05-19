@@ -1,9 +1,9 @@
 ﻿Imports System.Text
 
-Namespace hls.tags
+Namespace hls.parsing
     Public Class TagParser
 
-        Public Function ParseTagString(Input As String) As Tag
+        Public Function ParseTagString(Input As String) As TagAttributes
             If Input Is Nothing Or Input.Length = 0 Then
                 Return Nothing
             End If
@@ -65,7 +65,7 @@ Namespace hls.tags
         End Function
 
         Private Class SettableTag
-            Inherits Tag
+            Inherits TagAttributes
 
             Public Sub New(name As String)
                 MyBase.New(name)

@@ -1,10 +1,10 @@
-﻿Namespace hls.tags
+﻿Namespace hls.parsing.tags
     Public Class DateTimeTag
         Const TagName = "EXT-X-PROGRAM-DATE-TIME"
         ' Not used but parsing this to keep the playlist well-formatted
         Public Property ProgramDateTime As String
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If SourceTag.getTagName() <> TagName Then
                 Throw New HlsFormatException($"Provided tag {SourceTag.getTagName()} does not match required tag name {TagName}.")
             End If

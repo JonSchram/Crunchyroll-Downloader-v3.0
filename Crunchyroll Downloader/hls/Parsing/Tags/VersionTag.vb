@@ -1,9 +1,9 @@
-﻿Namespace hls.tags
+﻿Namespace hls.parsing.tags
     Public Class VersionTag
         Const TagName = "EXT-X-VERSION"
 
         Public ReadOnly Property Number As Integer
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then
                 Throw New ArgumentException($"Tag {SourceTag.getTagName()} is incorrect for a date range, expected {TagName}")
             End If

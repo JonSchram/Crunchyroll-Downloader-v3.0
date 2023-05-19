@@ -1,4 +1,4 @@
-﻿Namespace hls.tags.encryption
+﻿Namespace hls.parsing.tags.encryption
     Public Enum EncryptionMethod
         NONE
         AES_128

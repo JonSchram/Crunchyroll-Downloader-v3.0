@@ -1,4 +1,4 @@
-﻿Namespace hls.tags.stream
+﻿Namespace hls.parsing.tags.stream
     ''' <summary>
     ''' Represents a variant stream that can be combined with other streams for a single playback.
     ''' </summary>
@@ -27,7 +27,7 @@
         Public ReadOnly Property FrameRate As Double
 
 
-        Public Sub New(SourceTag As Tag, Uri As String)
+        Public Sub New(SourceTag As TagAttributes, Uri As String)
             MyBase.New(SourceTag)
 
             If GetTagName() <> SourceTag.getTagName() Then

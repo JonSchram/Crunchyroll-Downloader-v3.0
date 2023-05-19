@@ -1,4 +1,4 @@
-﻿Imports Crunchyroll_Downloader.hls.tags
+﻿Imports Crunchyroll_Downloader.hls.parsing.tags
 
 Namespace hls.playlist
     Public MustInherit Class AbstractPlaylist

@@ -1,6 +1,6 @@
-﻿Imports Crunchyroll_Downloader.hls.tags
-Imports Crunchyroll_Downloader.hls.tags.encryption
-Imports Crunchyroll_Downloader.hls.tags.segment
+﻿Imports Crunchyroll_Downloader.hls.parsing.tags
+Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
+Imports Crunchyroll_Downloader.hls.parsing.tags.segment
 
 Namespace hls.segment
     Public Class MediaSegment

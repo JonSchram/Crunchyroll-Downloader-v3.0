@@ -1,9 +1,9 @@
 ﻿Imports System.IO
 Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.segment
-Imports Crunchyroll_Downloader.hls.tags
-Imports Crunchyroll_Downloader.hls.tags.encryption
-Imports Crunchyroll_Downloader.hls.tags.segment
+Imports Crunchyroll_Downloader.hls.parsing.tags
+Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
+Imports Crunchyroll_Downloader.hls.parsing.tags.segment
 
 Namespace hls.writer
     ''' <summary>

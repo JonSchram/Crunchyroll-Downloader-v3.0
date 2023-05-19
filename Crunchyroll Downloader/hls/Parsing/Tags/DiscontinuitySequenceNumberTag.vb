@@ -1,13 +1,12 @@
 ﻿Imports Crunchyroll_Downloader.hls
-Imports Crunchyroll_Downloader.hls.tags
 
-Namespace hls.tags
+Namespace hls.parsing.tags
     Public Class DiscontinuitySequenceNumberTag
         Const TagName = "EXT-X-DISCONTINUITY-SEQUENCE"
 
         Public ReadOnly Property StartNumber As Integer
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If SourceTag.getTagName() <> TagName Then
                 Throw New HlsFormatException($"Provided tag {SourceTag.getTagName()} does not match required tag name {TagName}.")
             End If

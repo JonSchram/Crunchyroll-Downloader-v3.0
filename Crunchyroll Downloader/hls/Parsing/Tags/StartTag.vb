@@ -1,4 +1,4 @@
-﻿Namespace hls.tags
+﻿Namespace hls.parsing.tags
     Public Class StartTag
         Const TagName = "EXT-X-START"
 
@@ -8,7 +8,7 @@
         ' Optional
         Public ReadOnly Property Precise As Boolean = False
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
             If SourceTag.getTagName() <> TagName Then
                 Throw New HlsFormatException($"Provided tag {SourceTag.getTagName()} does not match required tag name {TagName}.")
             End If

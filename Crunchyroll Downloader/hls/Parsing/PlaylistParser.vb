@@ -1,10 +1,10 @@
-﻿Imports Crunchyroll_Downloader.hls.playlist
-Imports Crunchyroll_Downloader.hls.tags
-Imports Crunchyroll_Downloader.hls.tags.encryption
-Imports Crunchyroll_Downloader.hls.tags.segment
-Imports Crunchyroll_Downloader.hls.tags.stream
+﻿Imports Crunchyroll_Downloader.hls.parsing.tags
+Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
+Imports Crunchyroll_Downloader.hls.parsing.tags.segment
+Imports Crunchyroll_Downloader.hls.parsing.tags.stream
+Imports Crunchyroll_Downloader.hls.playlist
 
-Namespace hls
+Namespace hls.parsing
     Public Class PlaylistParser
         ' See https://www.rfc-editor.org/rfc/rfc8216#section-4.3.3
 
@@ -128,7 +128,7 @@ Namespace hls
                 End If
             Next
 
-            Return playlistBuilder.build()
+            Return playlistBuilder.Build()
         End Function
 
         Private Function ValidatePlaylistFile(Lines() As String) As Boolean

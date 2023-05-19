@@ -3,7 +3,7 @@ Imports System.Net
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.api.authentication
 Imports Crunchyroll_Downloader.download
-Imports Crunchyroll_Downloader.hls
+Imports Crunchyroll_Downloader.hls.parsing
 Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.rewriter
 Imports Crunchyroll_Downloader.hls.writer

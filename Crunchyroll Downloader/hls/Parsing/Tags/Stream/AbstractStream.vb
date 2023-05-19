@@ -1,4 +1,4 @@
-﻿Namespace hls.tags.stream
+﻿Namespace hls.parsing.tags.stream
 
     ''' <summary>
     ''' Common attributes of video streams in master playlists.
@@ -33,7 +33,7 @@
 
         Protected MustOverride Function GetTagName() As String
 
-        Public Sub New(SourceTag As Tag)
+        Public Sub New(SourceTag As TagAttributes)
 
             Dim BandwidthString = SourceTag.GetAttribute("BANDWIDTH")
             If BandwidthString Is Nothing Then

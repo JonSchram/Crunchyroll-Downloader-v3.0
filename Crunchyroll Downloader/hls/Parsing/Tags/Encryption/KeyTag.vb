@@ -1,4 +1,4 @@
-﻿Namespace hls.tags.encryption
+﻿Namespace hls.parsing.tags.encryption
     Public Class KeyTag
         Const TagName = "EXT-X-KEY"
 
@@ -19,7 +19,7 @@
         Public ReadOnly Property KeyFormatVersions As String = "1"
 
 
-        Public Sub New(ByRef attributes As Tag)
+        Public Sub New(ByRef attributes As TagAttributes)
             Dim methodString = attributes.GetAttribute("METHOD")
             If methodString IsNot Nothing Then
                 Method = convertEncryptionToEnum(methodString)

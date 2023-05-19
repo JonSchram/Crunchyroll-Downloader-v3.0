@@ -1,5 +1,5 @@
-﻿Namespace hls.tags
-    Public MustInherit Class Tag
+﻿Namespace hls.parsing
+    Public MustInherit Class TagAttributes
         Protected TagName As String
         Protected Values As List(Of String) = New List(Of String)
         Protected HasAttributes As Boolean
