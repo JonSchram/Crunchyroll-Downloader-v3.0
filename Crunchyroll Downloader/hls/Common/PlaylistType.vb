@@ -1,4 +1,4 @@
-﻿Namespace hls.parsing.tags
+﻿Namespace hls.common
     Public Enum PlaylistType
         NONE_SPECIFIED
         [EVENT]

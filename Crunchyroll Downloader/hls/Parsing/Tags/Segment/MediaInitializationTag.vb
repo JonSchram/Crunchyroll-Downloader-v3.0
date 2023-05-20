@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.hls.segment
+﻿Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.segment
 
 Namespace hls.parsing.tags.segment
     Public Class MediaInitializationTag
@@ -30,6 +31,10 @@ Namespace hls.parsing.tags.segment
                 Bytes = New ByteRange(other.Bytes)
             End If
         End Sub
+
+        Public Function GetMediaInitialization() As MediaInitialization
+            Return New MediaInitialization(Uri, Bytes)
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"{{

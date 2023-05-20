@@ -1,4 +1,6 @@
-﻿Namespace hls.parsing.tags.encryption
+﻿Imports Crunchyroll_Downloader.hls.segment.encryption
+
+Namespace hls.parsing.tags.encryption
     Public Class SessionKeyTag
         Inherits KeyTag
         Const TagName = "EXT-X-SESSION-KEY"

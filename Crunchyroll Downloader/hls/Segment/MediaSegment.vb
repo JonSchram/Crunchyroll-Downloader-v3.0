@@ -1,30 +1,29 @@
-﻿Imports Crunchyroll_Downloader.hls.parsing.tags
-Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
-Imports Crunchyroll_Downloader.hls.parsing.tags.segment
+﻿Imports System.Collections.Immutable
+Imports Crunchyroll_Downloader.hls.common
 
 Namespace hls.segment
     Public Class MediaSegment
 
-        Public Property Duration As Double
-        Public Property Title As String
-        Public Property Bytes As ByteRange
+        Public ReadOnly Property Duration As Double
+        Public ReadOnly Property Title As String
+        Public ReadOnly Property Bytes As ByteRange
 
-        Public Property Uri As String
+        Public ReadOnly Property Uri As String
 
-        Public Property EncryptionKey As KeyTag
+        Public ReadOnly Property Keys As ImmutableList(Of EncryptionKey)
 
-        Public Property Initialization As MediaInitializationTag
+        Public ReadOnly Property Initialization As MediaInitialization
 
-        Public Property SegmentDateTime As DateTimeTag
+        Public ReadOnly Property SegmentDateTime As SegmentDateTime
 
         ' Whether this is the first media segment after a discontinuity
-        Public HasDiscontinuity As Boolean = False
+        Public ReadOnly HasDiscontinuity As Boolean = False
 
 
         ' This isn't explicitly listed in a playlist file, but is calculated as they are added to a parsed object
-        Public Property SequenceNumber As Integer
+        Public ReadOnly Property SequenceNumber As Integer
 
-        Public Property DiscontinuitySequenceNumber As Integer
+        Public ReadOnly Property DiscontinuitySequenceNumber As Integer
 
         Public Overrides Function ToString() As String
             Return $"{{
@@ -34,32 +33,19 @@ Byte Range: {Bytes}
 }}"
         End Function
 
-        Public Sub New()
-        End Sub
-
-        Public Sub New(other As MediaSegment)
-            Duration = other.Duration
-            Title = other.Title
-            Uri = other.Uri
-            HasDiscontinuity = other.HasDiscontinuity
-            SequenceNumber = other.SequenceNumber
-            DiscontinuitySequenceNumber = other.DiscontinuitySequenceNumber
-
-            If other.Bytes IsNot Nothing Then
-                Bytes = New ByteRange(other.Bytes)
-            End If
-
-            If other.EncryptionKey IsNot Nothing Then
-                EncryptionKey = New KeyTag(other.EncryptionKey)
-            End If
-
-            If other.Initialization IsNot Nothing Then
-                Initialization = New MediaInitializationTag(other.Initialization)
-            End If
-
-            If other.SegmentDateTime IsNot Nothing Then
-                SegmentDateTime = New DateTimeTag(other.SegmentDateTime)
-            End If
+        Public Sub New(duration As Double, title As String, bytes As ByteRange, uri As String, keys As IList(Of EncryptionKey),
+                       initialization As MediaInitialization, segmentDateTime As SegmentDateTime, hasDiscontinuity As Boolean,
+                       sequenceNumber As Integer, discontinuitySequenceNumber As Integer)
+            Me.Duration = duration
+            Me.Title = title
+            Me.Bytes = bytes
+            Me.Uri = uri
+            Me.Keys = ImmutableList.CreateRange(keys)
+            Me.Initialization = initialization
+            Me.SegmentDateTime = segmentDateTime
+            Me.HasDiscontinuity = hasDiscontinuity
+            Me.SequenceNumber = sequenceNumber
+            Me.DiscontinuitySequenceNumber = discontinuitySequenceNumber
         End Sub
     End Class
 

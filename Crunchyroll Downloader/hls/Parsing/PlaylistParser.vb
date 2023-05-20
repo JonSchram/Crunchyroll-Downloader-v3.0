@@ -1,5 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.hls.parsing.tags
 Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
+Imports Crunchyroll_Downloader.hls.parsing.tags.rendition
 Imports Crunchyroll_Downloader.hls.parsing.tags.segment
 Imports Crunchyroll_Downloader.hls.parsing.tags.stream
 Imports Crunchyroll_Downloader.hls.playlist
@@ -33,7 +34,7 @@ Namespace hls.parsing
             If Not ValidatePlaylistFile(Lines) Then
                 Return Nothing
             End If
-            Dim ResultBuilder As New MediaPlaylist.Builder()
+            Dim ResultBuilder As New HlsMediaPlaylistBuilder()
 
             For LineNumber = 1 To Lines.Length - 1
                 Dim Line = Lines(LineNumber)
@@ -47,33 +48,33 @@ Namespace hls.parsing
                         Case "EXT-X-INDEPENDENT-SEGMENTS"
                             ResultBuilder.SetIndependentSegments()
                         Case "EXT-X-START"
-                            ResultBuilder.SetStart(New StartTag(tag))
+                            ResultBuilder.SetStart(New StartTag(tag).GetPlaylistStartTime())
                         Case "EXT-X-TARGETDURATION"
-                            ResultBuilder.SetTargetDuration(New TargetDurationTag(tag))
+                            ResultBuilder.SetTargetDuration(New TargetDurationTag(tag).Duration)
                         Case "EXT-X-MEDIA-SEQUENCE"
-                            ResultBuilder.SetStartSequenceNumber(New MediaSequenceNumberTag(tag))
+                            ResultBuilder.SetStartSequenceNumber(New MediaSequenceNumberTag(tag).StartSequenceNumber)
                         Case "EXT-X-DISCONTINUITY-SEQUENCE"
-                            ResultBuilder.SetDiscontinuitySequenceNumber(New DiscontinuitySequenceNumberTag(tag))
+                            ResultBuilder.SetDiscontinuitySequenceNumber(New DiscontinuitySequenceNumberTag(tag).StartNumber)
                         Case "EXT-X-ENDLIST"
                             ResultBuilder.SetEndlist()
                         Case "EXT-X-PLAYLIST-TYPE"
-                            ResultBuilder.SetPlaylistType(New PlaylistTypeTag(tag))
+                            ResultBuilder.SetPlaylistType(New PlaylistTypeTag(tag).Type)
                         Case "EXT-X-I-FRAMES-ONLY"
                             ResultBuilder.SetIFramesOnly()
                         Case "EXTINF"
                             ResultBuilder.AddSegmentInfo(New InfTag(tag))
                         Case "EXT-X-BYTERANGE"
-                            ResultBuilder.AddSegmentByteRange(New ByteRangeTag(tag))
+                            ResultBuilder.AddSegmentByteRange(New ByteRangeTag(tag).Bytes)
                         Case "EXT-X-DISCONTINUITY"
                             ResultBuilder.AddDiscontinuity()
                         Case "EXT-X-KEY"
-                            ResultBuilder.AddKey(New KeyTag(tag))
+                            ResultBuilder.AddKey(New KeyTag(tag).GetEncryptionKey())
                         Case "EXT-X-MAP"
-                            ResultBuilder.AddInitialization(New MediaInitializationTag(tag))
+                            ResultBuilder.AddInitialization(New MediaInitializationTag(tag).GetMediaInitialization())
                         Case "EXT-X-PROGRAM-DATE-TIME"
-                            ResultBuilder.AddDateTime(New DateTimeTag(tag))
+                            ResultBuilder.AddDateTime(New DateTimeTag(tag).GetDateTime())
                         Case "EXT-X-DATERANGE"
-                            ResultBuilder.AddDateRange(New DateRangeTag(tag))
+                            ResultBuilder.AddDateRange(New DateRangeTag(tag).GetDateRange())
                     End Select
                 ElseIf Line(0) <> "#" Then
                     ' Anything other than a # is a URI
@@ -106,24 +107,24 @@ Namespace hls.parsing
                         Case "EXT-X-VERSION"
                             playlistBuilder.SetVersion(New VersionTag(parsedTag))
                         Case "EXT-X-START"
-                            playlistBuilder.SetStart(New StartTag(parsedTag))
+                            playlistBuilder.SetStart(New StartTag(parsedTag).GetPlaylistStartTime())
                         Case "EXT-X-INDEPENDENT-SEGMENTS"
                             playlistBuilder.SetIndependentSegments()
                         Case "EXT-X-MEDIA"
-                            playlistBuilder.AddPlaylistMedia(New MediaTag(parsedTag))
+                            playlistBuilder.AddMedia(New MediaTag(parsedTag).GetRendition())
                         Case "EXT-X-STREAM-INF"
                             lineNumber += 1
                             If lineNumber < Lines.Length Then
-                                Dim Stream = New VariantStream(parsedTag, Lines(lineNumber))
-                                playlistBuilder.AddStreamVariant(Stream)
+                                Dim Stream = New StreamInfTag(parsedTag, Lines(lineNumber))
+                                playlistBuilder.AddStreamVariant(Stream.GetRendition())
                             Else
                                 Throw New HlsFormatException("EXT-X-STREAM-INF requires a URI on the following line")
                             End If
                         Case "EXT-X-I-FRAME-STREAM-INF"
-                            Dim IFrameStream As New IFrameStream(parsedTag)
-                            playlistBuilder.AddIframeStream(IFrameStream)
+                            Dim IFrameStream As New IframeStreamInfTag(parsedTag)
+                            playlistBuilder.AddIframeStream(IFrameStream.GetRendition())
                         Case "EXT-X-SESSION-KEY"
-                            playlistBuilder.SetKey(New SessionKeyTag(parsedTag))
+                            playlistBuilder.AddKey(New SessionKeyTag(parsedTag).GetEncryptionKey())
                     End Select
                 End If
             Next

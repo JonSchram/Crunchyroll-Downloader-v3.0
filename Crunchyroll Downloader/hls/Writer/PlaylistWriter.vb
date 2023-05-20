@@ -2,8 +2,10 @@
 Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.segment
 Imports Crunchyroll_Downloader.hls.parsing.tags
-Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
-Imports Crunchyroll_Downloader.hls.parsing.tags.segment
+Imports Crunchyroll_Downloader.hls.parsing
+Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.playlist.stream
+Imports System.Collections.Immutable
 
 Namespace hls.writer
     ''' <summary>
@@ -46,28 +48,29 @@ Namespace hls.writer
                 printStream.WriteLine("#EXT-X-I-FRAMES-ONLY")
             End If
 
+            Dim firstSegment = playlist.Segments.Item(0)
+
             printStream.WriteLine($"#EXT-X-TARGETDURATION:{playlist.TargetDuration}")
-            printStream.WriteLine($"#EXT-X-MEDIA-SEQUENCE:{playlist.MediaSequenceNumber}")
-            printStream.WriteLine($"#EXT-X-DISCONTINUITY-SEQUENCE:{playlist.DiscontinuitySequenceNumber}")
+            printStream.WriteLine($"#EXT-X-MEDIA-SEQUENCE:{firstSegment.SequenceNumber}")
+            printStream.WriteLine($"#EXT-X-DISCONTINUITY-SEQUENCE:{firstSegment.DiscontinuitySequenceNumber}")
         End Sub
 
         Private Sub WriteSegments(playlist As MediaPlaylist, output As StreamWriter)
-            Dim previousKey As KeyTag = Nothing
-            Dim previousInitialization As MediaInitializationTag = Nothing
+            Dim previousKeys As ImmutableList(Of EncryptionKey) = Nothing
+            Dim previousInitialization As MediaInitialization = Nothing
             For Each segment As MediaSegment In playlist.Segments
-                Dim keyHasChanged = False
                 Dim initChanged = False
 
-                If PersistentPropertyChanged(previousKey, segment.EncryptionKey) Then
-                    previousKey = segment.EncryptionKey
-                    keyHasChanged = True
+                Dim changedKeys = FindChangedKeys(previousKeys, segment.Keys)
+                If changedKeys.Count > 0 Then
+                    previousKeys = segment.Keys
                 End If
                 If PersistentPropertyChanged(previousInitialization, segment.Initialization) Then
                     previousInitialization = segment.Initialization
                     initChanged = True
                 End If
 
-                WriteSegment(segment, output, keyHasChanged, initChanged)
+                WriteSegment(segment, output, changedKeys, initChanged)
             Next
         End Sub
 
@@ -83,24 +86,36 @@ Namespace hls.writer
             Return current IsNot Nothing AndAlso Not current.Equals(previous)
         End Function
 
-        Private Sub WriteSegment(segment As MediaSegment, output As StreamWriter, writeKey As Boolean, writeInitialization As Boolean)
+        Private Function FindChangedKeys(previousKeys As IList(Of EncryptionKey), currentKeys As IList(Of EncryptionKey)) As ISet(Of EncryptionKey)
+            Dim changedKeys As New HashSet(Of EncryptionKey)
+            For Each key As EncryptionKey In currentKeys
+                If Not previousKeys.Contains(key) Then
+                    changedKeys.Add(key)
+                End If
+            Next
+            Return changedKeys
+        End Function
+
+        Private Sub WriteSegment(segment As MediaSegment, output As StreamWriter, changedKeys As ISet(Of EncryptionKey),
+                                 writeInitialization As Boolean)
             ' Write key / initialization first so the EXTINF / BYTERANGE tags are consistently close together.
-            If writeKey Then
-                Dim key = segment.EncryptionKey
-                output.Write($"#EXT-X-KEY:METHOD={HlsHelpers.ConvertToString(key.Method)}")
-                If key.Uri IsNot Nothing Then
-                    output.Write($",URI=""{key.Uri}""")
-                End If
-                If key.InitializationVector IsNot Nothing Then
-                    output.Write($",IV={key.InitializationVector}")
-                End If
-                If key.KeyFormat <> "identity" Then
-                    output.Write($",KEYFORMAT={key.KeyFormat}")
-                End If
-                If key.KeyFormatVersions <> "1" Then
-                    output.Write($",KEYFORMATVERSIONS={key.KeyFormatVersions}")
-                End If
-                output.WriteLine()
+            If changedKeys.Count > 0 Then
+                For Each key As EncryptionKey In changedKeys
+                    output.Write($"#EXT-X-KEY:METHOD={HlsHelpers.ConvertToString(key.Method)}")
+                    If key.Uri IsNot Nothing Then
+                        output.Write($",URI=""{key.Uri}""")
+                    End If
+                    If key.InitializationVector IsNot Nothing Then
+                        output.Write($",IV={key.InitializationVector}")
+                    End If
+                    If key.Format <> "identity" Then
+                        output.Write($",KEYFORMAT={key.Format}")
+                    End If
+                    If key.FormatVersions <> "1" Then
+                        output.Write($",KEYFORMATVERSIONS={key.FormatVersions}")
+                    End If
+                    output.WriteLine()
+                Next
             End If
 
             If writeInitialization Then
@@ -138,12 +153,12 @@ Namespace hls.writer
             output.WriteLine(segment.Uri)
         End Sub
 
-        Private Sub WriteDateRanges(dateRanges As List(Of DateRangeTag), output As StreamWriter)
-            For Each dateRange As DateRangeTag In dateRanges
+        Private Sub WriteDateRanges(dateRanges As List(Of DateRange), output As StreamWriter)
+            For Each dateRange In dateRanges
                 output.Write($"#EXT-X-DATERANGE:ID=""{dateRange.Id}""")
 
-                If dateRange.ClassAttribute IsNot Nothing Then
-                    output.Write($",CLASS=""{dateRange.ClassAttribute}""")
+                If dateRange.ClassAttributes IsNot Nothing Then
+                    output.Write($",CLASS=""{dateRange.ClassAttributes}""")
                 End If
 
                 output.Write($",START-DATE=""{dateRange.StartDate}""")
@@ -160,8 +175,8 @@ Namespace hls.writer
                     output.Write($",PLANNED-DURATION={dateRange.PlannedDuration}")
                 End If
 
-                If dateRange.EndOnNext IsNot Nothing Then
-                    output.Write($",END-ON-NEXT={dateRange.EndOnNext}")
+                If dateRange.EndOnNext Then
+                    output.Write(",END-ON-NEXT=YES")
                 End If
 
                 If dateRange.Scte35Cmd IsNot Nothing Then
@@ -176,7 +191,7 @@ Namespace hls.writer
                     output.Write($",SCTE35-OUT={dateRange.Scte35Out}")
                 End If
 
-                Dim customAttributes = dateRange.UnparsedAttributes
+                Dim customAttributes = dateRange.CustomAttributes
                 For Each valuePair As KeyValuePair(Of String, String) In customAttributes
                     ' The custom attribute can be a quoted string, a hex value, or a decimal.
                     ' The parser doesn't remember whether it was quoted in the input so assume it is quoted.

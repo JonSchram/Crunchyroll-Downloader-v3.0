@@ -1,4 +1,6 @@
-﻿Namespace hls.parsing.tags
+﻿Imports Crunchyroll_Downloader.hls.playlist.stream
+
+Namespace hls.parsing.tags
     Public Class DateRangeTag
         Const TagName = "EXT-X-DATERANGE"
 
@@ -58,6 +60,11 @@
             Duration = other.Duration
             EndOnNext = other.EndOnNext
         End Sub
+
+        Public Function GetDateRange() As DateRange
+            ' TODO
+            Return Nothing
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"{{

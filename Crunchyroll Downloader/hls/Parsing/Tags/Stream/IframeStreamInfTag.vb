@@ -1,11 +1,12 @@
-﻿Imports Microsoft.VisualBasic.Devices
+﻿Imports Crunchyroll_Downloader.hls.playlist.stream
+Imports Microsoft.VisualBasic.Devices
 
 Namespace hls.parsing.tags.stream
     ''' <summary>
     ''' Represents an I-frame only video stream.
     ''' </summary>
-    Public Class IFrameStream
-        Inherits AbstractStream
+    Public Class IframeStreamInfTag
+        Inherits AbstractStreamTag
 
         Public Sub New(SourceTag As TagAttributes)
             MyBase.New(SourceTag)
@@ -26,6 +27,9 @@ Namespace hls.parsing.tags.stream
             Return "EXT-X-I-FRAME-STREAM-INF"
         End Function
 
+        Public Function GetRendition() As IframeRendition
+            Return Nothing
+        End Function
 
 
         Public Overrides Function ToString() As String

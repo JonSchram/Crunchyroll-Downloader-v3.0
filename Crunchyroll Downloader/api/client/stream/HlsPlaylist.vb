@@ -17,13 +17,13 @@ Namespace api.client.stream
             writer.WriteToStream(Playlist, output)
         End Sub
         Public Overrides Function GetSegment(segmentNumber As Integer) As StreamSegment
-            Dim segment = Playlist.Segments.GetSegment(segmentNumber)
+            Dim segment = Playlist.Segments.Item(segmentNumber)
             Dim bytes = segment.Bytes
             Return New StreamSegment(segment.Uri, New ByteRange(bytes.Length, bytes.Offset), segmentNumber)
         End Function
 
         Public Overrides Function GetSegmentCount() As Integer
-            Return Playlist.Segments.GetCount()
+            Return Playlist.Segments.Count()
         End Function
     End Class
 End Namespace

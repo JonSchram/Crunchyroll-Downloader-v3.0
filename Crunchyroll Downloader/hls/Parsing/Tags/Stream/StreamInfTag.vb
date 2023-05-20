@@ -1,9 +1,11 @@
-﻿Namespace hls.parsing.tags.stream
+﻿Imports Crunchyroll_Downloader.hls.playlist.stream
+
+Namespace hls.parsing.tags.stream
     ''' <summary>
     ''' Represents a variant stream that can be combined with other streams for a single playback.
     ''' </summary>
-    Public Class VariantStream
-        Inherits AbstractStream
+    Public Class StreamInfTag
+        Inherits AbstractStreamTag
 
         ' TODO: Seems that the current version does care about the bandwidth / average bandwidth.
         ' Seems to choose the highest bandwidth stream
@@ -46,6 +48,8 @@
 
             Audio = SourceTag.GetAttribute("AUDIO")
             Subtitles = SourceTag.GetAttribute("SUBTITLES")
+            ' TODO: The unquoted value NONE is technically different from a quoted value (which would have to reference an EXT-X-MEDIA tag)
+            ' I don't think this is likely to happen but it might be worth enforcing.
             ClosedCaptions = SourceTag.GetAttribute("CLOSED-CAPTIONS")
 
             Dim FrameRateString = SourceTag.GetAttribute("FRAME-RATE")
@@ -54,6 +58,11 @@
             End If
 
         End Sub
+
+        Public Function GetRendition() As MainRendition
+            ' TODO
+            Return Nothing
+        End Function
 
 
 

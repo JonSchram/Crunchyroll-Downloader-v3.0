@@ -1,4 +1,4 @@
-﻿Namespace hls.segment
+﻿Namespace hls.common
     Public Class ByteRange
 
         Public Property Length As Integer

@@ -1,20 +1,21 @@
-﻿Imports Crunchyroll_Downloader.hls.parsing.tags
+﻿Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.parsing.tags
 
 Namespace hls.playlist
     Public MustInherit Class AbstractPlaylist
         Public ReadOnly Property Version As Integer
         Public ReadOnly Property IndependentSegments As Boolean
-        Public ReadOnly Property StartPlayTime As StartTag
+        Public ReadOnly Property StartPlayTime As PlaylistStartTime
 
         Public Sub New(other As AbstractPlaylist)
             Version = other.Version
             IndependentSegments = other.IndependentSegments
             If other.StartPlayTime IsNot Nothing Then
-                StartPlayTime = New StartTag(other.StartPlayTime)
+                StartPlayTime = New PlaylistStartTime(other.StartPlayTime)
             End If
         End Sub
 
-        Protected Sub New(version As Integer, independentSegments As Boolean, startPlayTime As StartTag)
+        Protected Sub New(version As Integer, independentSegments As Boolean, startPlayTime As PlaylistStartTime)
             Me.Version = version
             Me.IndependentSegments = independentSegments
             Me.StartPlayTime = startPlayTime
@@ -23,7 +24,7 @@ Namespace hls.playlist
         Public MustInherit Class AbstractBuilder
             Protected Property Version As Integer
             Protected Property IndependentSegments As Boolean
-            Protected Property StartPlayTime As StartTag
+            Protected Property StartPlayTime As PlaylistStartTime
 
             Public Sub SetVersion(version As Integer)
                 Me.Version = version
@@ -38,7 +39,7 @@ Namespace hls.playlist
                 IndependentSegments = True
             End Sub
 
-            Public Sub SetStart(start As StartTag)
+            Public Sub SetStart(start As PlaylistStartTime)
                 StartPlayTime = start
             End Sub
         End Class

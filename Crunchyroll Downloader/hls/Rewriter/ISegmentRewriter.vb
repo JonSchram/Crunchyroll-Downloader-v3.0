@@ -3,7 +3,7 @@
 Namespace hls.rewriter
     Public Interface ISegmentRewriter
 
-        Function RewriteSegment(CurrentSegment As MediaSegment) As MediaSegment
+        Function RewriteSegment(Segment As MediaSegment) As MediaSegment
 
     End Interface
 End Namespace

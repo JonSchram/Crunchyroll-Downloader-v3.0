@@ -1,4 +1,6 @@
-﻿Namespace hls.parsing.tags
+﻿Imports Crunchyroll_Downloader.hls.common
+
+Namespace hls.parsing.tags
     Public Class DateTimeTag
         Const TagName = "EXT-X-PROGRAM-DATE-TIME"
         ' Not used but parsing this to keep the playlist well-formatted
@@ -17,6 +19,10 @@
         Public Sub New(other As DateTimeTag)
             ProgramDateTime = other.ProgramDateTime
         End Sub
+
+        Public Function GetDateTime() As SegmentDateTime
+            Return New SegmentDateTime(ProgramDateTime)
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"{{

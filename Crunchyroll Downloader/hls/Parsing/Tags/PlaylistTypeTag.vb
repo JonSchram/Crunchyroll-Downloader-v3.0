@@ -1,4 +1,6 @@
-﻿Namespace hls.parsing.tags
+﻿Imports Crunchyroll_Downloader.hls.common
+
+Namespace hls.parsing.tags
     Public Class PlaylistTypeTag
         Const TagName = "EXT-X-PLAYLIST-TYPE"
 

@@ -1,10 +1,11 @@
-﻿Imports Crunchyroll_Downloader.hls.segment
+﻿Imports Crunchyroll_Downloader.hls.common
 
 Namespace hls.parsing.tags.segment
     Public Class ByteRangeTag
         Const TagName = "EXT-X-BYTERANGE"
 
         Public ReadOnly Property Bytes As ByteRange
+
 
         Public Sub New(SourceTag As TagAttributes)
             If TagName <> SourceTag.getTagName() Then

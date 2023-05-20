@@ -1,4 +1,8 @@
-﻿Namespace hls.parsing.tags.encryption
+﻿Imports System.Text.RegularExpressions
+Imports Crunchyroll_Downloader.hls.segment
+Imports Crunchyroll_Downloader.hls.segment.encryption
+
+Namespace hls.parsing.tags.encryption
     Public Class KeyTag
         Const TagName = "EXT-X-KEY"
 
@@ -10,8 +14,8 @@
         ' Required unless the encryption method is NONE
         Public ReadOnly Property Uri As String
 
-        ' Technically a 128-bit number but there is no Int128 type. Written in hexadecimal.
-        Public ReadOnly Property InitializationVector As String
+        ' A 128-bit number. Requires more bits than a long int. Only needed in some circumstances.
+        Public ReadOnly Property InitializationVector As Decimal?
 
         ' Optional. Unknown what other key formats may exist but it seems it could be any string.
         Public ReadOnly Property KeyFormat As String = "identity"
@@ -22,7 +26,7 @@
         Public Sub New(ByRef attributes As TagAttributes)
             Dim methodString = attributes.GetAttribute("METHOD")
             If methodString IsNot Nothing Then
-                Method = convertEncryptionToEnum(methodString)
+                Method = HlsHelpers.convertEncryptionToEnum(methodString)
             End If
 
             Uri = attributes.GetAttribute("URI")
@@ -30,7 +34,11 @@
                 Throw New HlsFormatException($"{TagName} uri must be specified if the encryption method is not NONE")
             End If
 
-            InitializationVector = attributes.GetAttribute("IV")
+            Dim IvString = attributes.GetAttribute("IV")
+            If IvString IsNot Nothing And IvString.StartsWith("0x", StringComparison.OrdinalIgnoreCase) Then
+                ' HexNumber does not allow a leading '0x'
+                Decimal.Parse(IvString.Remove(0, 2), Globalization.NumberStyles.HexNumber)
+            End If
 
             ' Don't want to overwrite the implied default value
             Dim formatString = attributes.GetAttribute("KEYFORMAT")
@@ -52,6 +60,10 @@
             KeyFormatVersions = other.KeyFormatVersions
         End Sub
 
+        Public Function GetEncryptionKey() As EncryptionKey
+            Return New EncryptionKey(Method, Uri, InitializationVector, KeyFormat, KeyFormatVersions)
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"{{
   Method: {Method},
@@ -60,19 +72,6 @@
   KeyFormat: {KeyFormat},
   KeyFormatVersions: {KeyFormatVersions}
 }}"
-        End Function
-
-        Private Function convertEncryptionToEnum(Method As String) As EncryptionMethod
-            Select Case Method
-                Case "AES-128"
-                    Return EncryptionMethod.AES_128
-                Case "SAMPLE-AES"
-                    Return EncryptionMethod.SAMPLE_AES
-                Case "NONE"
-                    Return EncryptionMethod.NONE
-                Case Else
-                    Throw New HlsFormatException($"{TagName} METHOD must be NONE, AES-128, or SAMPLE-AES but got {Method}")
-            End Select
         End Function
     End Class
 End Namespace

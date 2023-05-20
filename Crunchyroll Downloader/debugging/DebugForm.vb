@@ -61,8 +61,9 @@ Namespace debugging
                         rewriteDictionary.Item(i) = replacementUrl
                     Next
                     Dim rewriter = New FileSegmentRewriter(rewriteDictionary)
+                    Dim playlistRewriter = New MediaPlaylistRewriter(rewriter)
 
-                    playlist = New MediaPlaylist(playlist, rewriter)
+                    playlist = playlistRewriter.RewritePlaylist(playlist)
                 End If
 
                 Dim outputText As String

@@ -1,4 +1,7 @@
-﻿Namespace hls.parsing.tags
+﻿Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.playlist.stream
+
+Namespace hls.parsing.tags.rendition
 
     Public Class MediaTag
         Const TagName As String = "EXT-X-MEDIA"
@@ -105,6 +108,11 @@
             Channels = SourceTag.GetAttribute("CHANNELS")
         End Sub
 
+        Public Function GetRendition() As AlternativeRendition
+            ' TODO
+            Return Nothing
+        End Function
+
 
         Private Shared Function getTypeEnum(typeString As String) As MediaType
             Select Case typeString
@@ -114,7 +122,7 @@
                     Return MediaType.VIDEO
                 Case "SUBTITLES"
                     Return MediaType.SUBTITLES
-                Case "CLOSED - CAPTIONS"
+                Case "CLOSED-CAPTIONS"
                     Return MediaType.CLOSED_CAPTIONS
                 Case Else
                     Throw New HlsFormatException($"{TagName} type incorrect: {typeString}")
@@ -138,12 +146,4 @@
 }}"
         End Function
     End Class
-
-    Public Enum MediaType
-        AUDIO
-        VIDEO
-        SUBTITLES
-        CLOSED_CAPTIONS
-    End Enum
-
 End Namespace

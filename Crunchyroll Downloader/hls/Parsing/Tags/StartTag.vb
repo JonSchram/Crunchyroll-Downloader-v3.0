@@ -1,4 +1,6 @@
-﻿Namespace hls.parsing.tags
+﻿Imports Crunchyroll_Downloader.hls.common
+
+Namespace hls.parsing.tags
     Public Class StartTag
         Const TagName = "EXT-X-START"
 
@@ -29,6 +31,10 @@
             TimeOffset = other.TimeOffset
             Precise = other.Precise
         End Sub
+
+        Public Function GetPlaylistStartTime() As PlaylistStartTime
+            Return New PlaylistStartTime(TimeOffset, Precise)
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"{{

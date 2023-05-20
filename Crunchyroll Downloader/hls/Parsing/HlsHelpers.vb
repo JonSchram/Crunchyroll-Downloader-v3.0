@@ -1,6 +1,7 @@
-﻿Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
+﻿Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.segment.encryption
 
-Namespace hls.parsing.tags
+Namespace hls.parsing
     Class HlsHelpers
 
         Public Shared Function ParseYesNoValue(Value As String, AttributeName As String) As Boolean
@@ -42,6 +43,38 @@ Namespace hls.parsing.tags
                     ' No other valid value exists.
                     Return "NONE"
             End Select
+        End Function
+
+        Public Shared Function convertEncryptionToEnum(Method As String) As EncryptionMethod
+            Select Case Method
+                Case "AES-128"
+                    Return EncryptionMethod.AES_128
+                Case "SAMPLE-AES"
+                    Return EncryptionMethod.SAMPLE_AES
+                Case "NONE"
+                    Return EncryptionMethod.NONE
+                Case Else
+                    Throw New HlsFormatException($"Encryption METHOD must be NONE, AES-128, or SAMPLE-AES but got {Method}")
+            End Select
+        End Function
+
+        Public Shared Function ParseHdcp(HdcpString As String) As Hdcp
+            Select Case HdcpString
+                Case "TYPE-0"
+                    Return Hdcp.TYPE_0
+                Case "NONE"
+                    Return Hdcp.NONE
+                Case Else
+                    Throw New HlsFormatException($"HDCP level format error, expected NONE or TYPE-0")
+            End Select
+        End Function
+
+        Public Shared Function ParseResolution(resolutionString As String) As Resolution
+            Dim dimensions() = Split(resolutionString, "x")
+            If dimensions.Length = 0 Then
+                Throw New HlsFormatException($"Resolution format error, expected format <horizontal>x<vertical>")
+            End If
+            Return New Resolution(CInt(dimensions(0)), CInt(dimensions(1)))
         End Function
     End Class
 

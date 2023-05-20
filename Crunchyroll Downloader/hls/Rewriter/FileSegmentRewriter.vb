@@ -13,17 +13,20 @@ Namespace hls.rewriter
             Me.SegmentMap = SegmentMap
         End Sub
 
-        Public Function RewriteSegment(CurrentSegment As MediaSegment) As MediaSegment Implements ISegmentRewriter.RewriteSegment
-            Dim result = New MediaSegment(CurrentSegment)
+        Public Function RewriteSegment(Segment As MediaSegment) As MediaSegment Implements ISegmentRewriter.RewriteSegment
 
-            Dim sequenceNumber = result.SequenceNumber
+            Dim sequenceNumber = Segment.SequenceNumber
+            Dim newUri = Segment.Uri
+            Dim newBytes = Segment.Bytes
             If SegmentMap.ContainsKey(sequenceNumber) Then
                 Dim fileUri = SegmentMap.Item(sequenceNumber)
-                result.Uri = fileUri
-                result.Bytes = Nothing
+                newUri = fileUri
+                newBytes = Nothing
             End If
 
-            Return result
+            Return New MediaSegment(Segment.Duration, Segment.Title, newBytes, newUri, Segment.Keys,
+                                    Segment.Initialization, Segment.SegmentDateTime, Segment.HasDiscontinuity,
+                                    Segment.SequenceNumber, Segment.DiscontinuitySequenceNumber)
         End Function
     End Class
 End Namespace
