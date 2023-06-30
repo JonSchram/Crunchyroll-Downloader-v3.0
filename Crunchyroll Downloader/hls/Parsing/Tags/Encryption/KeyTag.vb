@@ -35,7 +35,7 @@ Namespace hls.parsing.tags.encryption
             End If
 
             Dim IvString = attributes.GetAttribute("IV")
-            If IvString IsNot Nothing And IvString.StartsWith("0x", StringComparison.OrdinalIgnoreCase) Then
+            If IvString IsNot Nothing AndAlso IvString.StartsWith("0x", StringComparison.OrdinalIgnoreCase) Then
                 ' HexNumber does not allow a leading '0x'
                 Decimal.Parse(IvString.Remove(0, 2), Globalization.NumberStyles.HexNumber)
             End If
