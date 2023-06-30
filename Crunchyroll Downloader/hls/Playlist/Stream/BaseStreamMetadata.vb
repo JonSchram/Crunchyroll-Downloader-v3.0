@@ -5,7 +5,7 @@ Namespace hls.playlist.stream
     ''' <summary>
     ''' Abstract type for any main rendition (I-frame or variant stream) in a master playlist.
     ''' </summary>
-    Public MustInherit Class Rendition
+    Public MustInherit Class BaseStreamMetadata
         Protected ReadOnly Property Uri As String
 
         Public ReadOnly Property Bandwidth As Integer

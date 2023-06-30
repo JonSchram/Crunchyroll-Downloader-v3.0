@@ -7,17 +7,17 @@ Namespace hls.playlist.stream
     ''' </summary>
     Public Class IFrameStream
 
-        Public ReadOnly Property IFrameInfo As IframeRendition
+        Public ReadOnly Property IFrameInfo As IFrameStreamMetadata
 
         Public ReadOnly Property VideoRenditions As ImmutableList(Of LinkedRendition)
 
 
-        Public Sub New(iframeRendition As IframeRendition, videoRenditions As List(Of LinkedRendition))
+        Public Sub New(iframeRendition As IFrameStreamMetadata, videoRenditions As List(Of LinkedRendition))
             Me.IFrameInfo = iframeRendition
             Me.VideoRenditions = ImmutableList.CreateRange(videoRenditions)
         End Sub
 
-        Public Function CreateFromRenditionPool(iFrameInfo As IframeRendition,
+        Public Function CreateFromRenditionPool(iFrameInfo As IFrameStreamMetadata,
                                             pool As List(Of AlternativeRendition)) As IFrameStream
 
             Return New IFrameStream(iFrameInfo, FindVideoRenditions(iFrameInfo.VideoGroup, pool))

@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.hls.playlist
+﻿Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.playlist.stream
 Imports Crunchyroll_Downloader.hls.segment
 

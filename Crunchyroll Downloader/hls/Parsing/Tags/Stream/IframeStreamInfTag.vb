@@ -27,7 +27,7 @@ Namespace hls.parsing.tags.stream
             Return "EXT-X-I-FRAME-STREAM-INF"
         End Function
 
-        Public Function GetRendition() As IframeRendition
+        Public Function GetRendition() As IFrameStreamMetadata
             Return Nothing
         End Function
 

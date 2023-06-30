@@ -4,8 +4,8 @@ Namespace hls.playlist.stream
     ''' <summary>
     ''' Raw information about an I-frame rendition that can be used to create a playlist.
     ''' </summary>
-    Public Class IframeRendition
-        Inherits Rendition
+    Public Class IFrameStreamMetadata
+        Inherits BaseStreamMetadata
 
         Public Sub New(uri As String, bandwidth As Integer, averageBandwidth As Integer,
                        videoResolution As Resolution, videoGroup As String, hdcpLevel As Hdcp,

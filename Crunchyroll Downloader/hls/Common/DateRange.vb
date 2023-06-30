@@ -1,4 +1,4 @@
-﻿Namespace hls.playlist.stream
+﻿Namespace hls.common
     Public Class DateRange
         Public Sub New(id As String, classAttributes As String, startDate As Date, endDate As Date?,
                        duration As Decimal?, plannedDuration As Decimal?, endOnNext As Boolean,

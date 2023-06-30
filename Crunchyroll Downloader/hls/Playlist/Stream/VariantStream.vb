@@ -6,9 +6,11 @@ Namespace hls.playlist.stream
     ''' <summary>
     ''' A variant stream built from a main rendition and alternative renditions, filtered for the group
     ''' IDs specified in the main rendition.
+    ''' 
+    ''' This represents everything that could be used to create a playback at a single quality setting.
     ''' </summary>
     Public Class VariantStream
-        Public ReadOnly Property MainRendition As MainRendition
+        Public ReadOnly Property MainRendition As VariantStreamMetadata
 
         Public ReadOnly Property VideoRenditions As IImmutableList(Of LinkedRendition)
         Public ReadOnly Property AudioRenditions As IImmutableList(Of LinkedRendition)
@@ -25,7 +27,7 @@ Namespace hls.playlist.stream
         Public ReadOnly Property PresentMedia As ISet(Of MediaType)
 
 
-        Public Sub New(mainRendition As MainRendition, videoRenditions As List(Of LinkedRendition),
+        Public Sub New(mainRendition As VariantStreamMetadata, videoRenditions As List(Of LinkedRendition),
                        audioRenditions As List(Of LinkedRendition), subtitleRenditions As List(Of LinkedRendition),
                        closedCaptionRenditions As List(Of ClosedCaptionRendition))
             Me.MainRendition = mainRendition
@@ -59,7 +61,7 @@ Namespace hls.playlist.stream
             Return result
         End Function
 
-        Public Function CreateFromRenditionPool(mainStream As MainRendition,
+        Public Function CreateFromRenditionPool(mainStream As VariantStreamMetadata,
                                                 renditionPool As List(Of AlternativeRendition)) As VariantStream
             Dim videos = FindLinkedRenditions(mainStream.VideoGroup, MediaType.VIDEO, renditionPool)
             Dim audio = FindLinkedRenditions(mainStream.AudioGroup, MediaType.AUDIO, renditionPool)

@@ -2,11 +2,13 @@
 
 Namespace hls.playlist.stream
     ''' <summary>
-    ''' Raw information about a variant stream. References alternative renditions by group ID in order to
-    ''' lazily filter them and build a complete variant stream when requested.
+    ''' Raw information about a variant stream.
+    ''' 
+    ''' References alternative renditions by group ID in order to lazily filter them and build a complete variant
+    ''' stream when requested. Therefore does not contain any alternate renditions at this stage.
     ''' </summary>
-    Public Class MainRendition
-        Inherits Rendition
+    Public Class VariantStreamMetadata
+        Inherits BaseStreamMetadata
 
         Public ReadOnly Property AudioGroup As String
         Public ReadOnly Property SubtitleGroup As String

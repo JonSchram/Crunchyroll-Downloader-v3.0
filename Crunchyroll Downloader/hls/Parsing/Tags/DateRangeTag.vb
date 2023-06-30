@@ -1,4 +1,4 @@
-﻿Imports Crunchyroll_Downloader.hls.playlist.stream
+﻿Imports Crunchyroll_Downloader.hls.common
 
 Namespace hls.parsing.tags
     Public Class DateRangeTag

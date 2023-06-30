@@ -23,19 +23,28 @@ Namespace hls.playlist
         ''' <returns></returns>
         Public ReadOnly Property AlternateRenditions As IReadOnlyList(Of AlternativeRendition)
 
-        Public ReadOnly Property MainStreams As ImmutableList(Of MainRendition)
+        ''' <summary>
+        ''' All streams in the master playlist representing variant streams.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property VariantStreams As ImmutableList(Of VariantStreamMetadata)
 
-        Public ReadOnly Property IframeStreams As ImmutableList(Of IframeRendition)
+        ''' <summary>
+        ''' All video streams in the playlist containing I-frames only.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IframeStreams As ImmutableList(Of IFrameStreamMetadata)
 
         ' TODO: If any closed caption streams contain the enumerated string NONE, set a flag in playlist
         ' indicating there are no closed caption streams in any variant.
 
         Public Sub New(version As Integer, independentSegments As Boolean, startPlayTime As PlaylistStartTime,
                        SessionKeys As List(Of EncryptionKey), playlistMedia As List(Of AlternativeRendition),
-                       streamVariants As List(Of MainRendition), iframeStreams As List(Of IframeRendition))
+                       streamVariants As List(Of VariantStreamMetadata), iframeStreams As List(Of IFrameStreamMetadata))
             MyBase.New(version, independentSegments, startPlayTime)
             Me.SessionKeys = SessionKeys
-            Me.MainStreams = ImmutableList.CreateRange(streamVariants)
+            Me.AlternateRenditions = ImmutableList.CreateRange(playlistMedia)
+            Me.VariantStreams = ImmutableList.CreateRange(streamVariants)
             Me.IframeStreams = ImmutableList.CreateRange(iframeStreams)
         End Sub
 
@@ -69,7 +78,7 @@ Namespace hls.playlist
   isIndependentSegments: {IndependentSegments},
   StartPlayTime: {StartPlayTime},
   Key: {FormatFieldList(SessionKeys)},
-  MainStreams: {FormatFieldList(MainStreams)},
+  MainStreams: {FormatFieldList(VariantStreams)},
   IframeStreams: {FormatFieldList(IframeStreams)}
 }}"
         End Function
@@ -108,9 +117,9 @@ Namespace hls.playlist
 
             Private PlaylistMedia As New List(Of AlternativeRendition)
 
-            Private StreamVariants As New List(Of MainRendition)
+            Private StreamVariants As New List(Of VariantStreamMetadata)
 
-            Private IframeStreams As New List(Of IframeRendition)
+            Private IframeStreams As New List(Of IFrameStreamMetadata)
 
             Public Sub AddKey(key As EncryptionKey)
                 Keys.Add(key)
@@ -120,11 +129,11 @@ Namespace hls.playlist
                 PlaylistMedia.Add(media)
             End Sub
 
-            Public Sub AddStreamVariant(streamVariant As MainRendition)
+            Public Sub AddStreamVariant(streamVariant As VariantStreamMetadata)
                 StreamVariants.Add(streamVariant)
             End Sub
 
-            Public Sub AddIframeStream(stream As IframeRendition)
+            Public Sub AddIframeStream(stream As IFrameStreamMetadata)
                 IframeStreams.Add(stream)
             End Sub
 

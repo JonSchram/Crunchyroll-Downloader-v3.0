@@ -239,18 +239,18 @@
     <Compile Include="hls\Parsing\HlsSegmentsBuilder.vb" />
     <Compile Include="hls\Playlist\CodecClassifier.vb" />
     <Compile Include="hls\Common\PlaylistStartTime.vb" />
-    <Compile Include="hls\Playlist\Stream\DateRange.vb" />
+    <Compile Include="hls\Common\DateRange.vb" />
     <Compile Include="hls\Playlist\Stream\IFrameStream.vb" />
-    <Compile Include="hls\Playlist\Stream\Rendition.vb" />
+    <Compile Include="hls\Playlist\Stream\BaseStreamMetadata.vb" />
     <Compile Include="hls\Playlist\Rendition\ClosedCaptionRendition.vb" />
     <Compile Include="hls\Common\Hdcp.vb" />
-    <Compile Include="hls\Playlist\Stream\IframeRendition.vb" />
+    <Compile Include="hls\Playlist\Stream\IFrameStreamMetadata.vb" />
     <Compile Include="hls\Playlist\Rendition\LinkedRendition.vb" />
     <Compile Include="hls\Playlist\Stream\RenditionGroup.vb" />
     <Compile Include="hls\Playlist\Rendition\AlternativeRendition.vb" />
     <Compile Include="hls\Common\MediaType.vb" />
     <Compile Include="hls\Common\Resolution.vb" />
-    <Compile Include="hls\Playlist\Stream\MainRendition.vb" />
+    <Compile Include="hls\Playlist\Stream\VariantStreamMetadata.vb" />
     <Compile Include="hls\Playlist\Stream\VariantStream.vb" />
     <Compile Include="hls\Rewriter\FileSegmentRewriter.vb" />
     <Compile Include="hls\Rewriter\ISegmentRewriter.vb" />
@@ -270,7 +270,6 @@
     <Compile Include="hls\Segment\MediaSegment.vb" />
     <Compile Include="hls\Playlist\AbstractPlaylist.vb" />
     <Compile Include="hls\Playlist\MediaPlaylist.vb" />
-    <Compile Include="hls\Playlist\SegmentRangeData.vb" />
     <Compile Include="hls\Parsing\HlsHelpers.vb" />
     <Compile Include="hls\Parsing\Tags\Segment\InfTag.vb" />
     <Compile Include="hls\Parsing\Tags\StartTag.vb" />
@@ -589,7 +588,9 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="api\client\playback\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\Microsoft.Web.WebView2.1.0.1587.40\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.1587.40\build\Microsoft.Web.WebView2.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

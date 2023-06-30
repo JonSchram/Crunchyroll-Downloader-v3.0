@@ -59,7 +59,7 @@ Namespace hls.parsing.tags.stream
 
         End Sub
 
-        Public Function GetRendition() As MainRendition
+        Public Function GetRendition() As VariantStreamMetadata
             ' TODO
             Return Nothing
         End Function
