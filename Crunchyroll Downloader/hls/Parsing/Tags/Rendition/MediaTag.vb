@@ -109,8 +109,11 @@ Namespace hls.parsing.tags.rendition
         End Sub
 
         Public Function GetRendition() As AlternativeRendition
-            ' TODO
-            Return Nothing
+            If Type = MediaType.CLOSED_CAPTIONS Then
+                Return New ClosedCaptionRendition(GroupId, Name, Language, AssociatedLanguage, Characteristics, IsDefault, Autoselect, Forced, Channels, InstreamId)
+            Else
+                Return New LinkedRendition(Type, GroupId, Name, Language, AssociatedLanguage, Characteristics, IsDefault, Autoselect, Forced, Channels, Uri)
+            End If
         End Function
 
 

@@ -60,8 +60,8 @@ Namespace hls.parsing.tags.stream
         End Sub
 
         Public Function GetRendition() As VariantStreamMetadata
-            ' TODO
-            Return Nothing
+            Return New VariantStreamMetadata(Uri, Bandwidth, AverageBandwidth, StreamResolution, Video, HdcpLevel,
+                                             Codecs, Audio, Subtitles, ClosedCaptions, FrameRate)
         End Function
 
 

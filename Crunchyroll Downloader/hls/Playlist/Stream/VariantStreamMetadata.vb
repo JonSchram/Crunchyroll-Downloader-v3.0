@@ -18,7 +18,7 @@ Namespace hls.playlist.stream
 
         Public Sub New(uri As String, bandwidth As Integer, averageBandwidth As Integer,
                    videoResolution As Resolution, videoGroup As String, hdcpLevel As Hdcp,
-                   codecs As List(Of String), audioGroup As String, subtitleGroup As String,
+                   codecs As IEnumerable(Of String), audioGroup As String, subtitleGroup As String,
                    closedCaptionsGroup As String, frameRate As Double)
             MyBase.New(uri, bandwidth, averageBandwidth, videoResolution, videoGroup, hdcpLevel, codecs)
             Me.AudioGroup = audioGroup

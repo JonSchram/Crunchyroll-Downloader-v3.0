@@ -28,7 +28,7 @@ Namespace hls.parsing.tags.stream
         End Function
 
         Public Function GetRendition() As IFrameStreamMetadata
-            Return Nothing
+            Return New IFrameStreamMetadata(Uri, Bandwidth, AverageBandwidth, StreamResolution, Video, HdcpLevel, Codecs)
         End Function
 
 
