@@ -2,6 +2,9 @@
 Imports Crunchyroll_Downloader.hls.common
 
 Namespace hls.playlist.stream
+    ''' <summary>
+    ''' A representation of an I-frame stream and all associated alternative video renditions.
+    ''' </summary>
     Public Class IFrameStream
 
         Public ReadOnly Property IFrameInfo As IframeRendition

@@ -1,6 +1,9 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
 
 Namespace hls.playlist.stream
+    ''' <summary>
+    ''' Superclass for any alternative rendition of a specific media type in a master playlist.
+    ''' </summary>
     Public MustInherit Class AlternativeRendition
         Public ReadOnly Property Type As MediaType
         Public ReadOnly Property GroupId As String
