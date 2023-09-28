@@ -1,10 +1,11 @@
 ﻿Imports System.IO
+Imports Crunchyroll_Downloader.hls.playlist
 
-Namespace hls.parsing.tags
+Namespace hls.parsing.tags.media
     Public Class TargetDurationTagParser
-        Inherits TagParser(Of HlsMediaPlaylistBuilder)
+        Inherits TagParser(Of MediaPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As HlsMediaPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
             Dim values = attributes.GetValues()
             If values.Count = 0 Then
                 Throw New HlsFormatException($"Target duration must be set for {GetTagName()}")

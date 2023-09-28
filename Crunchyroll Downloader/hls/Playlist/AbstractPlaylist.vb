@@ -2,7 +2,6 @@
 
 Namespace hls.playlist
     Public MustInherit Class AbstractPlaylist
-        Implements IPlaylist
 
         Public ReadOnly Property Version As Integer
         Public ReadOnly Property IndependentSegments As Boolean
@@ -23,7 +22,6 @@ Namespace hls.playlist
         End Sub
 
         Public MustInherit Class AbstractPlaylistBuilder
-            Implements IPlaylistBuilder
             Protected Property Version As Integer
             Protected Property IndependentSegments As Boolean
             Protected Property StartPlayTime As PlaylistStartTime

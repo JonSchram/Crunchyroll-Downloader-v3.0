@@ -1,12 +1,13 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.playlist
 
-Namespace hls.parsing.tags
+Namespace hls.parsing.tags.media
     Public Class DateRangeTagParser
-        Inherits TagParser(Of HlsMediaPlaylistBuilder)
+        Inherits TagParser(Of MediaPlaylistBuilder)
 
         ' No plans to do anything with this tag, but including it to make sure the entire playlist is parsed
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As HlsMediaPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
 
             Dim Id As String = attributes.GetAttribute("ID")
             Dim ClassAttribute As String = attributes.GetAttribute("CLASS")
@@ -57,7 +58,7 @@ Namespace hls.parsing.tags
             Dim UnparsedAttributes = attributes.GetRemainingAttributes(definedTags).ToList()
 
             playlist.AddDateRange(New DateRange(Id, ClassAttribute, StartDate, endDate, duration, plannedDuration,
-                                                EndOnNext, Scte35Cmd, Scte35Out, Scte35In, UnparsedAttributes))
+                                                endOnNext, Scte35Cmd, Scte35Out, Scte35In, UnparsedAttributes))
         End Sub
 
         Public Overrides Function GetTagName() As String

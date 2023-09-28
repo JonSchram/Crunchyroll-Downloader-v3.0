@@ -1,7 +1,7 @@
 ﻿Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.segment.encryption
 
-Namespace hls.parsing.tags.encryption
+Namespace hls.parsing.tags.master
     Public Class SessionKeyTagParser
         Inherits TagParser(Of MasterPlaylist.Builder)
 

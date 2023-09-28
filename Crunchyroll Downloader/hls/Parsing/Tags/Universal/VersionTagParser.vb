@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports Crunchyroll_Downloader.hls.playlist.AbstractPlaylist
 
-Namespace hls.parsing.tags
+Namespace hls.parsing.tags.universal
     Public Class VersionTagParser
         Inherits TagParser(Of AbstractPlaylistBuilder)
 

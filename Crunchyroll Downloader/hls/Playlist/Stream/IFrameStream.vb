@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Immutable
 Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.playlist.rendition
 
 Namespace hls.playlist.stream
     ''' <summary>

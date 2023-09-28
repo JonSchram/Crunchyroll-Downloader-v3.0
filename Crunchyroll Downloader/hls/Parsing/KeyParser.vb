@@ -1,7 +1,7 @@
 ﻿Imports Crunchyroll_Downloader.hls.segment
 Imports Crunchyroll_Downloader.hls.segment.encryption
 
-Namespace hls.parsing.tags.encryption
+Namespace hls.parsing
     Public Class KeyParser
 
         Public Shared Function ParseEncryptionKey(attributes As TagAttributes, tagName As String) As EncryptionKey

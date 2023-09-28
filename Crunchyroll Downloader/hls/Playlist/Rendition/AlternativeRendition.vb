@@ -1,6 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
 
-Namespace hls.playlist.stream
+Namespace hls.playlist.rendition
     ''' <summary>
     ''' Superclass for any alternative rendition of a specific media type in a master playlist.
     ''' </summary>

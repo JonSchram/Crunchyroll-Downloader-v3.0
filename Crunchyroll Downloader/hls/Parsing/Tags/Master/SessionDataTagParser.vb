@@ -1,6 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.hls.playlist
 
-Namespace hls.parsing.tags
+Namespace hls.parsing.tags.master
 
     ''' <summary>
     ''' Not used for anything, but included for completeness.

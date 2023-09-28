@@ -1,8 +1,9 @@
 ﻿Imports System.IO
+Imports Crunchyroll_Downloader.hls.parsing.tags.stream
 Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.playlist.stream
 
-Namespace hls.parsing.tags.stream
+Namespace hls.parsing.tags.master.stream
     ''' <summary>
     ''' Represents an I-frame only video stream.
     ''' </summary>

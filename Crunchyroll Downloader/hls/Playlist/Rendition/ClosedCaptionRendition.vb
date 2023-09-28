@@ -1,6 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
 
-Namespace hls.playlist.stream
+Namespace hls.playlist.rendition
     ''' <summary>
     ''' Alternative rendition of a closed caption stream.
     ''' </summary>

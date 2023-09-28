@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports System.Text
 Imports Crunchyroll_Downloader.hls.playlist
 
 Namespace hls.parsing
@@ -14,11 +13,9 @@ Namespace hls.parsing
             If TypeOf playlist Is T Then
                 ParseInner(reader, attributes, CType(playlist, T))
             Else
-                Console.WriteLine("TagParser type mismatch.")
+                Console.WriteLine($"TagParser type mismatch: {attributes.getTagName()} cannot be parsed into {GetType(T).Name}")
             End If
         End Sub
 
     End Class
-
-
 End Namespace

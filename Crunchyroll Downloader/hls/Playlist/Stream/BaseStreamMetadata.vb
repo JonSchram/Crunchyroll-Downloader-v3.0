@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Immutable
 Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.playlist.rendition
 
 Namespace hls.playlist.stream
     ''' <summary>
@@ -36,8 +37,8 @@ Namespace hls.playlist.stream
         Protected Function BuildRenditionDict(renditions As List(Of AlternativeRendition)) As IDictionary(Of String, AlternativeRendition)
             Dim result = New Dictionary(Of String, AlternativeRendition)
 
-            For Each rendition In renditions
-                result.Add(rendition.GroupId, rendition)
+            For Each rend In renditions
+                result.Add(rend.GroupId, rend)
             Next
 
             Return result

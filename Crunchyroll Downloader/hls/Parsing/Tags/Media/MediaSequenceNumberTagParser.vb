@@ -1,8 +1,10 @@
-﻿Namespace hls.parsing.tags
-    Public Class MediaSequenceNumberTagParser
-        Inherits TagParser(Of HlsMediaPlaylistBuilder)
+﻿Imports Crunchyroll_Downloader.hls.playlist
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As HlsMediaPlaylistBuilder)
+Namespace hls.parsing.tags.media
+    Public Class MediaSequenceNumberTagParser
+        Inherits TagParser(Of MediaPlaylistBuilder)
+
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
             Dim values = attributes.GetValues()
             If values.Count = 0 Then
                 Throw New HlsFormatException($"Start sequence number must be set for {GetTagName()}")

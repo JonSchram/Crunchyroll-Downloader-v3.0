@@ -1,12 +1,11 @@
 ﻿Imports System.IO
 Imports System.Text
-Imports Crunchyroll_Downloader.hls.parsing.tags
 Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
-Imports Crunchyroll_Downloader.hls.parsing.tags.rendition
-Imports Crunchyroll_Downloader.hls.parsing.tags.segment
-Imports Crunchyroll_Downloader.hls.parsing.tags.stream
+Imports Crunchyroll_Downloader.hls.parsing.tags.master
+Imports Crunchyroll_Downloader.hls.parsing.tags.master.stream
+Imports Crunchyroll_Downloader.hls.parsing.tags.media
+Imports Crunchyroll_Downloader.hls.parsing.tags.universal
 Imports Crunchyroll_Downloader.hls.playlist
-Imports Crunchyroll_Downloader.hls.playlist.AbstractPlaylist
 
 Namespace hls.parsing
     Public Class PlaylistParser
@@ -76,7 +75,7 @@ Namespace hls.parsing
             If Not ValidatePlaylistFile(playlistReader) Then
                 Throw New HlsFormatException("Input not an Extended M3U playlist!")
             End If
-            Dim ResultBuilder As New HlsMediaPlaylistBuilder()
+            Dim ResultBuilder As New MediaPlaylistBuilder()
 
             While playlistReader.Peek() <> -1
                 Dim line As String = playlistReader.ReadLine()

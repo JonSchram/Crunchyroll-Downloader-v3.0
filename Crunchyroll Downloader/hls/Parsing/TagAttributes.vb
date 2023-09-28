@@ -2,9 +2,9 @@
     Public MustInherit Class TagAttributes
         ' TODO: remember whether an attribute is quoted or not, could be helpful when parsing and rewriting a file.
         Protected TagName As String
-        Protected Values As List(Of String) = New List(Of String)
+        Protected Values As New List(Of String)
         Protected HasAttributes As Boolean
-        Protected AttributeDictionary As Dictionary(Of String, String) = New Dictionary(Of String, String)
+        Protected AttributeDictionary As New Dictionary(Of String, String)
 
         Public Sub New(name As String)
             TagName = name

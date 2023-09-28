@@ -1,10 +1,9 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
-Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.playlist.AbstractPlaylist
 Imports Crunchyroll_Downloader.hls.segment
 
-Namespace hls.parsing
-    Public Class HlsMediaPlaylistBuilder
+Namespace hls.playlist
+    Public Class MediaPlaylistBuilder
         Inherits AbstractPlaylistBuilder
 
         Private TargetDuration As Integer

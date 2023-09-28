@@ -1,8 +1,10 @@
-﻿Namespace hls.parsing.tags.segment
-    Public Class InfTagParser
-        Inherits TagParser(Of HlsMediaPlaylistBuilder)
+﻿Imports Crunchyroll_Downloader.hls.playlist
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As HlsMediaPlaylistBuilder)
+Namespace hls.parsing.tags.media
+    Public Class InfTagParser
+        Inherits TagParser(Of MediaPlaylistBuilder)
+
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
             ' TODO: This looks really ugly, not sure how to improve it. Maybe add a getter to the Tag class?
             ' Like getValue(int)  & hasValue(int)
 

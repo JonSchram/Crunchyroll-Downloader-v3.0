@@ -1,7 +1,7 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
 Imports Crunchyroll_Downloader.hls.segment
 
-Namespace hls.parsing
+Namespace hls.playlist
     Public Class HlsSegmentsBuilder
         ' Applies to all segments until the next tag
         Private CurrentInitialization As MediaInitialization

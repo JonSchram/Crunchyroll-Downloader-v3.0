@@ -5,6 +5,8 @@ Namespace hls.parsing
     Public Interface ITagParser
         Function GetTagName() As String
 
-        Sub ParseInto(reader As TextReader, attributes As TagAttributes, playlist As AbstractPlaylist.AbstractPlaylistBuilder)
+        Sub ParseInto(reader As TextReader,
+                      attributes As TagAttributes,
+                      playlist As AbstractPlaylist.AbstractPlaylistBuilder)
     End Interface
 End Namespace

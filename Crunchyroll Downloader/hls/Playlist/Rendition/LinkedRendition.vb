@@ -1,6 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
 
-Namespace hls.playlist.stream
+Namespace hls.playlist.rendition
     ''' <summary>
     ''' An alternative rendition that supports referencing a playlist URL.
     ''' 

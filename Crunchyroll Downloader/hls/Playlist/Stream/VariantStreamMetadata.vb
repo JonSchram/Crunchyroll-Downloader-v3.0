@@ -1,6 +1,4 @@
-﻿Imports Crunchyroll_Downloader.api.metadata
-Imports Crunchyroll_Downloader.hls.common
-Imports Microsoft.VisualBasic.Devices
+﻿Imports Crunchyroll_Downloader.hls.common
 
 Namespace hls.playlist.stream
     ''' <summary>
