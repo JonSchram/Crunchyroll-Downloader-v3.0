@@ -2,14 +2,14 @@
 
 Imports System.Net
 Imports System.Text
-Imports MetroFramework.Forms
-Imports MetroFramework
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.crunchyroll
-Imports Crunchyroll_Downloader.settings.funimation
-Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
 Imports Crunchyroll_Downloader.settings.ffmpeg
+Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
+Imports Crunchyroll_Downloader.settings.funimation
 Imports Crunchyroll_Downloader.settings.general
+Imports MetroFramework
+Imports MetroFramework.Forms
 
 Public Class SettingsDialog
     Inherits MetroForm

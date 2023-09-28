@@ -1,11 +1,10 @@
-﻿Imports System.IO
+﻿Imports System.Collections.Immutable
+Imports System.IO
+Imports Crunchyroll_Downloader.hls.common
+Imports Crunchyroll_Downloader.hls.parsing
+Imports Crunchyroll_Downloader.hls.parsing.tags
 Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.segment
-Imports Crunchyroll_Downloader.hls.parsing.tags
-Imports Crunchyroll_Downloader.hls.parsing
-Imports Crunchyroll_Downloader.hls.common
-Imports Crunchyroll_Downloader.hls.playlist.stream
-Imports System.Collections.Immutable
 
 Namespace hls.writer
     ''' <summary>

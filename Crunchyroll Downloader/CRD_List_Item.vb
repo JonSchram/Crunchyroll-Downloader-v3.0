@@ -1,17 +1,12 @@
 ﻿Option Strict On
 
+Imports System.IO
 Imports System.Net
 Imports System.Text
-Imports System.IO
 Imports System.Threading
-Imports Microsoft.Win32
-Imports System.ComponentModel
-Imports MetroFramework
-Imports MetroFramework.Components
-Imports MetroFramework.Forms
-Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.ui
+Imports MetroFramework
 
 Public Class CRD_List_Item
     Inherits Controls.MetroUserControl

@@ -1,6 +1,4 @@
-﻿Imports Crunchyroll_Downloader.api.authentication
-Imports Crunchyroll_Downloader.api.client
-Imports Crunchyroll_Downloader.download
+﻿Imports Crunchyroll_Downloader.download
 Imports MetroFramework.Controls
 
 Public Class DownloadingItemView

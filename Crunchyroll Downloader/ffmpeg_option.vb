@@ -1,6 +1,5 @@
 ﻿Option Strict On
 Imports Crunchyroll_Downloader.ui
-Imports MetroFramework
 Imports MetroFramework.Components
 
 Public Class ffmpeg_options

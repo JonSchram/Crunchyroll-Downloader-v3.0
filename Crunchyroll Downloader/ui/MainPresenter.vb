@@ -1,5 +1,4 @@
-﻿Imports System.Dynamic
-Imports Crunchyroll_Downloader.download
+﻿Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings.general
 
 Namespace ui

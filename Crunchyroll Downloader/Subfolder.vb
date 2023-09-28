@@ -1,7 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Text
-Imports System.Windows.Forms.VisualStyles
 
 Module Subfolder
     Public SubFolder_automatic As String = "[automatic by Series and Season]"

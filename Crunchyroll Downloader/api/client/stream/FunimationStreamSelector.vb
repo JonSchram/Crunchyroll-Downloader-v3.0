@@ -1,5 +1,4 @@
 ﻿Imports Crunchyroll_Downloader.api.metadata.video
-Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.processing
 Imports Crunchyroll_Downloader.settings.funimation
 

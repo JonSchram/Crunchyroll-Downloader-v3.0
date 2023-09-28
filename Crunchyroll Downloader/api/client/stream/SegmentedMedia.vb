@@ -1,6 +1,4 @@
-﻿Imports Crunchyroll_Downloader.hls.playlist
-
-Namespace api.client.stream
+﻿Namespace api.client.stream
     Public MustInherit Class SegmentedMedia
         Inherits MediaStream
 

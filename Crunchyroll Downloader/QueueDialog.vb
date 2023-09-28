@@ -2,7 +2,6 @@
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.ui
-Imports MetroFramework.Components
 
 Public Class QueueDialog
     Private ReadOnly episodeQueue As DownloadQueue = DownloadQueue.GetInstance()

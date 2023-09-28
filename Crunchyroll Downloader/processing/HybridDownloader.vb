@@ -1,6 +1,6 @@
-﻿Imports Crunchyroll_Downloader.api.client.stream
-Imports System.IO
+﻿Imports System.IO
 Imports System.Net.Http
+Imports Crunchyroll_Downloader.api.client.stream
 
 Namespace processing
     Public Class HybridDownloader

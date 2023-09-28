@@ -1,7 +1,5 @@
 ﻿Imports Crunchyroll_Downloader.processing
-Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.funimation
-Imports Newtonsoft.Json.Serialization
 
 Namespace api
     Public Class LocaleConverter

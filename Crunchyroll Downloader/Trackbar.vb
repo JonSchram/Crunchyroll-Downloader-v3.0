@@ -1,5 +1,4 @@
 ﻿Imports Crunchyroll_Downloader.ui
-Imports Microsoft.Win32
 
 Public Class Trackbar
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load

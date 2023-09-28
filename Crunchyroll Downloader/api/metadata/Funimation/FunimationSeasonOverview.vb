@@ -1,6 +1,4 @@
-﻿Imports Newtonsoft.Json.Linq
-
-Public Class FunimationSeasonOverview
+﻿Public Class FunimationSeasonOverview
     Inherits SeasonOverview
 
     ''' <summary>

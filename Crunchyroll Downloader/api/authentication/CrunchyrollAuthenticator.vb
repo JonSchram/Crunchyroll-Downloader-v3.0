@@ -1,5 +1,4 @@
 ﻿Imports System.Net
-Imports Crunchyroll_Downloader.api.authentication
 Imports Microsoft.Web.WebView2.Core
 
 Namespace api.authentication

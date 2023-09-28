@@ -1,7 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.api.metadata.video
 Imports Crunchyroll_Downloader.processing
 Imports Crunchyroll_Downloader.settings.funimation
-Imports Crunchyroll_Downloader.settings.general
 
 Namespace api.client.stream
     Public Class PlaybackSelector

@@ -1,5 +1,4 @@
 ﻿Imports System.Collections.Specialized
-Imports System.Net.Http.Headers
 
 Namespace settings.funimation
     Public Class FunimationSettings

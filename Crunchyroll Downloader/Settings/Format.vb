@@ -1,5 +1,4 @@
 ﻿Imports System.Configuration
-Imports System.Runtime.Serialization
 
 Namespace settings
     <Serializable>

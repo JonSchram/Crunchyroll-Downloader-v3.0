@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports System.Threading
 Imports Crunchyroll_Downloader.settings.general
 
 Namespace download

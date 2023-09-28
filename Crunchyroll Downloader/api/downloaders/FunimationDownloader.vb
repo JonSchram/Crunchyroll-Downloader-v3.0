@@ -1,15 +1,15 @@
-﻿Imports Crunchyroll_Downloader.api
+﻿Imports System.IO
+Imports System.Net
+Imports System.Net.Http
+Imports System.Text
+Imports System.Threading
+Imports Crunchyroll_Downloader.api
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.funimation
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.ui
 Imports Microsoft.Web.WebView2.Core
 Imports Newtonsoft.Json.Linq
-Imports System.IO
-Imports System.Net
-Imports System.Net.Http
-Imports System.Text
-Imports System.Threading
 
 ' TODO: The code uses a lot of global state for things
 ' For example, checking whether the download code is busy
