@@ -1,13 +1,11 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
-Imports Crunchyroll_Downloader.hls.parsing.tags.segment
 Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.playlist.AbstractPlaylist
-Imports Crunchyroll_Downloader.hls.playlist.stream
 Imports Crunchyroll_Downloader.hls.segment
 
 Namespace hls.parsing
     Public Class HlsMediaPlaylistBuilder
-        Inherits AbstractBuilder
+        Inherits AbstractPlaylistBuilder
 
         Private TargetDuration As Integer
 
@@ -73,9 +71,9 @@ Namespace hls.parsing
             Return MediaStarted
         End Function
 
-        Public Sub AddSegmentInfo(info As InfTag)
+        Public Sub AddSegmentInfo(duration As Double, title As String)
             StartMediaSequences()
-            SegmentsBuilder.AddSegmentInfo(info)
+            SegmentsBuilder.AddSegmentInfo(duration, title)
         End Sub
 
         Public Sub AddSegmentByteRange(range As ByteRange)

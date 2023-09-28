@@ -1,9 +1,12 @@
-﻿Imports Crunchyroll_Downloader.hls.parsing.tags
+﻿Imports System.IO
+Imports System.Text
+Imports Crunchyroll_Downloader.hls.parsing.tags
 Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
 Imports Crunchyroll_Downloader.hls.parsing.tags.rendition
 Imports Crunchyroll_Downloader.hls.parsing.tags.segment
 Imports Crunchyroll_Downloader.hls.parsing.tags.stream
 Imports Crunchyroll_Downloader.hls.playlist
+Imports Crunchyroll_Downloader.hls.playlist.AbstractPlaylist
 
 Namespace hls.parsing
     Public Class PlaylistParser
@@ -22,125 +25,158 @@ Namespace hls.parsing
         ' But the return type of the method couldn't be determined. Need some super type or interface
         ' Alternatively, could have a parse method for each type of playlist and ensure that it is only used for the correct kind.
 
-        Public Sub New()
+        Private ReadOnly Parsers As New Dictionary(Of String, ITagParser)
 
+        Public Sub New()
+            RegisterUniversalParsers()
+            RegisterMediaPlaylistParsers()
+            RegisterMasterParsers()
+        End Sub
+
+
+        Private Sub RegisterUniversalParsers()
+            RegisterParser(New VersionTagParser())
+            RegisterParser(New IndependentSegmentsTagParser())
+            RegisterParser(New StartTagParser())
+        End Sub
+
+        Private Sub RegisterMediaPlaylistParsers()
+            RegisterParser(New InfTagParser())
+            RegisterParser(New ByteRangeTagParser())
+            RegisterParser(New DiscontinuityTagParser())
+            RegisterParser(New KeyTagParser())
+            RegisterParser(New MediaInitializationTagParser())
+            RegisterParser(New DateTimeTagParser())
+            RegisterParser(New DateRangeTagParser())
+
+            RegisterParser(New TargetDurationTagParser())
+            RegisterParser(New MediaSequenceNumberTagParser())
+            RegisterParser(New DiscontinuitySequenceNumberTagParser())
+            RegisterParser(New EndlistTagParser())
+            RegisterParser(New PlaylistTypeTagParser())
+            RegisterParser(New IframesOnlyTagParser())
+        End Sub
+
+        Private Sub RegisterMasterParsers()
+            RegisterParser(New MediaTagParser())
+            RegisterParser(New StreamInfTagParser())
+            RegisterParser(New IframeStreamInfTagParser())
+            RegisterParser(New SessionDataTagParser())
+            RegisterParser(New SessionKeyTagParser())
+        End Sub
+
+        Private Sub RegisterParser(parser As ITagParser)
+            Parsers.Add(parser.GetTagName(), parser)
         End Sub
 
         Public Function ParseMediaPlaylist(playlist As String) As MediaPlaylist
 
-            Dim tagParser = New TagParser()
-            Dim Lines() = SplitIntoLines(playlist)
+            Dim playlistReader As New StringReader(playlist)
 
-            If Not ValidatePlaylistFile(Lines) Then
-                Return Nothing
+            If Not ValidatePlaylistFile(playlistReader) Then
+                Throw New HlsFormatException("Input not an Extended M3U playlist!")
             End If
             Dim ResultBuilder As New HlsMediaPlaylistBuilder()
 
-            For LineNumber = 1 To Lines.Length - 1
-                Dim Line = Lines(LineNumber)
-                If Line.StartsWith("#EXT") Then
-                    ' Tags can only begin with #EXT
-                    Dim tag = tagParser.ParseTagString(Line)
+            While playlistReader.Peek() <> -1
+                Dim line As String = playlistReader.ReadLine()
 
-                    Select Case tag.getTagName()
-                        Case "EXT-X-VERSION"
-                            ResultBuilder.SetVersion(New VersionTag(tag))
-                        Case "EXT-X-INDEPENDENT-SEGMENTS"
-                            ResultBuilder.SetIndependentSegments()
-                        Case "EXT-X-START"
-                            ResultBuilder.SetStart(New StartTag(tag).GetPlaylistStartTime())
-                        Case "EXT-X-TARGETDURATION"
-                            ResultBuilder.SetTargetDuration(New TargetDurationTag(tag).Duration)
-                        Case "EXT-X-MEDIA-SEQUENCE"
-                            ResultBuilder.SetStartSequenceNumber(New MediaSequenceNumberTag(tag).StartSequenceNumber)
-                        Case "EXT-X-DISCONTINUITY-SEQUENCE"
-                            ResultBuilder.SetDiscontinuitySequenceNumber(New DiscontinuitySequenceNumberTag(tag).StartNumber)
-                        Case "EXT-X-ENDLIST"
-                            ResultBuilder.SetEndlist()
-                        Case "EXT-X-PLAYLIST-TYPE"
-                            ResultBuilder.SetPlaylistType(New PlaylistTypeTag(tag).Type)
-                        Case "EXT-X-I-FRAMES-ONLY"
-                            ResultBuilder.SetIFramesOnly()
-                        Case "EXTINF"
-                            ResultBuilder.AddSegmentInfo(New InfTag(tag))
-                        Case "EXT-X-BYTERANGE"
-                            ResultBuilder.AddSegmentByteRange(New ByteRangeTag(tag).Bytes)
-                        Case "EXT-X-DISCONTINUITY"
-                            ResultBuilder.AddDiscontinuity()
-                        Case "EXT-X-KEY"
-                            ResultBuilder.AddKey(New KeyTag(tag).GetEncryptionKey())
-                        Case "EXT-X-MAP"
-                            ResultBuilder.AddInitialization(New MediaInitializationTag(tag).GetMediaInitialization())
-                        Case "EXT-X-PROGRAM-DATE-TIME"
-                            ResultBuilder.AddDateTime(New DateTimeTag(tag).GetDateTime())
-                        Case "EXT-X-DATERANGE"
-                            ResultBuilder.AddDateRange(New DateRangeTag(tag).GetDateRange())
-                    End Select
-                ElseIf Line(0) <> "#" Then
+                If line.StartsWith("#EXT") Then
+                    Dim tag As TagAttributes = TagParserHelper.ParseTagString(line)
+
+                    Dim tagName = tag.getTagName()
+                    ' Tags can only begin with #EXT
+                    If tagName.StartsWith("EXT") Then
+                        Dim parser As ITagParser = Nothing
+                        If Parsers.TryGetValue(tagName, parser) Then
+                            parser.ParseInto(playlistReader, tag, ResultBuilder)
+                        Else
+                            Console.WriteLine($"Cannot parse tag: {tagName}")
+                        End If
+                    Else
+                        ' A line starting with "#" but without the EXT following it can only be a comment.
+                    End If
+                ElseIf line.StartsWith("#") Then
+                    ' This is a non-standard tag or a comment. Safe to ignore.
+
+                ElseIf line.Length = 0 Then
+                    ' Skip blank lines
+
+                Else
                     ' Anything other than a # is a URI
-                    ResultBuilder.AddSegmentUri(Line)
+                    ResultBuilder.AddSegmentUri(line)
                 End If
-            Next
+            End While
 
             Return ResultBuilder.Build()
         End Function
 
         Public Function parseMasterPlaylist(playlist As String) As MasterPlaylist
 
-            Dim tagParser = New TagParser()
+            Dim playlistReader As New StringReader(playlist)
 
-            Dim Lines() = SplitIntoLines(playlist)
-
-            If Not ValidatePlaylistFile(Lines) Then
-                Return Nothing
+            If Not ValidatePlaylistFile(playlistReader) Then
+                Throw New HlsFormatException("Input not an Extended M3U playlist!")
             End If
 
             Dim playlistBuilder = New MasterPlaylist.Builder()
-            For lineNumber = 1 To Lines.Length - 1
-                Dim Line = Lines(lineNumber)
-                Dim parsedTag = tagParser.ParseTagString(Line)
+            While playlistReader.Peek() <> -1
+                Dim line As String = playlistReader.ReadLine()
 
-                If parsedTag IsNot Nothing Then
-                    ' Comments also start with "#" but the tag name won't match any of these cases
-                    ' TODO: Lots of magic strings here. Might want to get these from the class for each parsed type.
-                    Select Case parsedTag.getTagName()
-                        Case "EXT-X-VERSION"
-                            playlistBuilder.SetVersion(New VersionTag(parsedTag))
-                        Case "EXT-X-START"
-                            playlistBuilder.SetStart(New StartTag(parsedTag).GetPlaylistStartTime())
-                        Case "EXT-X-INDEPENDENT-SEGMENTS"
-                            playlistBuilder.SetIndependentSegments()
-                        Case "EXT-X-MEDIA"
-                            playlistBuilder.AddMedia(New MediaTag(parsedTag).GetRendition())
-                        Case "EXT-X-STREAM-INF"
-                            lineNumber += 1
-                            If lineNumber < Lines.Length Then
-                                Dim Stream = New StreamInfTag(parsedTag, Lines(lineNumber))
-                                playlistBuilder.AddStreamVariant(Stream.GetRendition())
-                            Else
-                                Throw New HlsFormatException("EXT-X-STREAM-INF requires a URI on the following line")
-                            End If
-                        Case "EXT-X-I-FRAME-STREAM-INF"
-                            Dim IFrameStream As New IframeStreamInfTag(parsedTag)
-                            playlistBuilder.AddIframeStream(IFrameStream.GetRendition())
-                        Case "EXT-X-SESSION-KEY"
-                            playlistBuilder.AddKey(New SessionKeyTag(parsedTag).GetEncryptionKey())
-                    End Select
+                If line.StartsWith("#EXT") Then
+                    Dim tag As TagAttributes = TagParserHelper.ParseTagString(line)
+                    Dim tagName = tag.getTagName()
+                    ' Tags can only begin with #EXT
+                    If tagName.StartsWith("EXT") Then
+                        Dim parser As ITagParser = Nothing
+                        If Parsers.TryGetValue(tagName, parser) Then
+                            parser.ParseInto(playlistReader, tag, playlistBuilder)
+                        Else
+                            ' The tag can't be parsed. There is a possibility that this was a comment
+                            ' that happened to start with EXT, so don't throw an error.
+                            Console.WriteLine($"Unparsed HLS tag: {tagName}")
+                        End If
+                    Else
+                        ' A line starting with "#" but without the EXT following it can only be a comment.
+                    End If
+
+                ElseIf line.StartsWith("#") Then
+                    ' This is a non-standard tag or a comment. Safe to ignore.
+
+                ElseIf line.Length = 0 Then
+                    ' Skip blank lines
+
+                Else
+                    ' Anything other than a # is a URI
+                    ' As this should be handled by the StreamInfTagParser, this is an error
+                    Throw New HlsFormatException("Error in playlist - unexpected URL.")
                 End If
-            Next
+            End While
 
             Return playlistBuilder.Build()
         End Function
 
-        Private Function ValidatePlaylistFile(Lines() As String) As Boolean
-            If Lines(0) <> "#EXTM3U" Then
-                Throw New HlsFormatException("Input not an Extended M3U playlist!")
-            End If
-            Return True
+        Private Function ReadTagName(reader As TextReader) As String
+            Dim sb = New StringBuilder()
+
+            While reader.Peek() <> -1
+                Dim currentCharacter = Convert.ToChar(reader.Read())
+
+                If currentCharacter = vbCr Or currentCharacter = vbLf Then
+                    Return sb.ToString()
+                ElseIf currentCharacter <> ":"c Then
+                    sb.Append(currentCharacter)
+                Else
+                    Return sb.ToString()
+                End If
+            End While
+
+            Return sb.ToString()
         End Function
 
-        Private Function SplitIntoLines(playlist As String) As String()
-            Return playlist.Split(New String() {vbCr, vbLf, vbCrLf}, StringSplitOptions.RemoveEmptyEntries)
+        Private Function ValidatePlaylistFile(reader As TextReader) As Boolean
+            Dim firstLine As String = reader.ReadLine()
+            Return "#EXTM3U".Equals(firstLine)
         End Function
 
     End Class

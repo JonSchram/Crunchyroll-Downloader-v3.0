@@ -1,15 +1,10 @@
 ﻿Imports System.Collections.Immutable
 Imports Crunchyroll_Downloader.hls.common
-Imports Crunchyroll_Downloader.hls.playlist.stream
 Imports Crunchyroll_Downloader.hls.segment
 
 Namespace hls.playlist
     Public Class MediaPlaylist
         Inherits AbstractPlaylist
-
-        ' TODO: Maybe make a builder for a media playlist. Would make it easier to enforce that required tags are set.
-        ' But this already assumes that the input is well-formed so it isn't a big issue
-
         ' Required
         Public ReadOnly Property TargetDuration As Integer
 
@@ -50,10 +45,22 @@ TargetDuration: {TargetDuration},
 PlaylistEnds: {PlaylistEnds},
 Type: {Type},
 IFramesOnly: {IFramesOnly},
-DateRangeList: {DateRangeList},
-Media segments: {Segments}
+DateRangeList: {FormatList(DateRangeList)},
+Media segments: {FormatList(Segments)}
 }}"
         End Function
+
+        Private Function FormatList(PropertyList As IEnumerable(Of Object)) As String
+            Dim output As String = "["
+
+            For Each streamItem In PropertyList
+                output += streamItem.ToString() + ","
+            Next
+
+            output += "]"
+            Return output
+        End Function
+
     End Class
 
 End Namespace

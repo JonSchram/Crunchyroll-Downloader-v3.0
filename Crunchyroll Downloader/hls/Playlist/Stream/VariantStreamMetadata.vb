@@ -1,4 +1,6 @@
-﻿Imports Crunchyroll_Downloader.hls.common
+﻿Imports Crunchyroll_Downloader.api.metadata
+Imports Crunchyroll_Downloader.hls.common
+Imports Microsoft.VisualBasic.Devices
 
 Namespace hls.playlist.stream
     ''' <summary>
@@ -26,5 +28,58 @@ Namespace hls.playlist.stream
             Me.ClosedCaptionsGroup = closedCaptionsGroup
             Me.FrameRate = frameRate
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[VariantStreamMetadata: " +
+                $"Video resolution: {VideoResolution}, Framerate: {FrameRate}, " +
+                $"Maximum bandwidth: {Bandwidth}, Average bandwidth: {AverageBandwidth}, " +
+                $"URI: {Uri}, " +
+                $"Codecs: {FormatList(Codecs)}, " +
+                $"Video group: ""{VideoGroup}"", Audio group: ""{AudioGroup}"", Subtitle Group: ""{SubtitleGroup}"", " +
+                $"Closed Captions Group: ""{ClosedCaptionsGroup}"", " +
+                $"HDCP level: {HdcpLevel}]"
+        End Function
+
+        Private Function FormatList(PropertyList As IEnumerable(Of Object)) As String
+            Dim output As String = "["
+
+            For Each streamItem In PropertyList
+                output += streamItem.ToString() + ","
+            Next
+
+            output += "]"
+            Return output
+        End Function
+
+        Public Class Builder
+            Inherits Builder(Of VariantStreamMetadata)
+
+            Private AudioGroup As String
+
+            Private SubtitleGroup As String
+            Public Property ClosedCaptionsGroup As String
+
+            Public Property FrameRate As Double
+
+            Public Sub SetAudioGroup(groupId As String)
+                AudioGroup = groupId
+            End Sub
+
+            Public Sub SetSubtitleGroup(groupId As String)
+                SubtitleGroup = groupId
+            End Sub
+
+            Public Sub SetClosedCaptionGroup(groupId As String)
+                ClosedCaptionsGroup = groupId
+            End Sub
+            Public Sub SetFrameRate(frameRate As Double)
+                Me.FrameRate = frameRate
+            End Sub
+
+            Public Overrides Function Build() As VariantStreamMetadata
+                Return New VariantStreamMetadata(Uri, Bandwidth, AverageBandwidth, VideoResolution, VideoGroupId,
+                                                 HdcpLevel, Codecs, AudioGroup, SubtitleGroup, ClosedCaptionsGroup, FrameRate)
+            End Function
+        End Class
     End Class
 End Namespace

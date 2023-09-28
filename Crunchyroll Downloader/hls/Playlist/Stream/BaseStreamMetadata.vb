@@ -43,41 +43,68 @@ Namespace hls.playlist.stream
             Return result
         End Function
 
-        Public MustInherit Class Builder(Of T)
+        Public Interface IBaseStreamBuilder(Of Out T As BaseStreamMetadata)
+            Function Build() As T
+            Sub SetUri(uri As String)
+            Sub SetBandwidth(bandwidth As Integer)
+
+            Sub SetAverageBandwidth(averageBandwidth As Integer)
+
+            Sub SetMediaRenditions(mediaRenditions As List(Of AlternativeRendition))
+
+            Sub SetHdcpLevel(hdcpLevel As Hdcp)
+
+            Sub SetCodecs(codecs As String())
+
+            Sub SetVideoResolution(resolution As Resolution)
+            Sub SetVideoGroup(video As String)
+        End Interface
+
+        Public MustInherit Class Builder(Of T As BaseStreamMetadata)
+            Implements IBaseStreamBuilder(Of T)
 
             Protected Uri As String
             Protected Bandwidth As Integer
             Protected AverageBandwidth As Integer
             Protected VideoResolution As Resolution
+            Protected VideoGroupId As String
             Protected MediaRenditions As List(Of AlternativeRendition)
             Protected HdcpLevel As Hdcp = Hdcp.NONE
-            Protected Codecs As String
+            Protected Codecs As String()
 
-            Public Sub SetUri(uri As String)
+            Public Sub SetUri(uri As String) Implements IBaseStreamBuilder(Of T).SetUri
                 Me.Uri = uri
             End Sub
 
-            Public Sub SetBandwidth(bandwidth As Integer)
+            Public Sub SetBandwidth(bandwidth As Integer) Implements IBaseStreamBuilder(Of T).SetBandwidth
                 Me.Bandwidth = bandwidth
             End Sub
 
-            Public Sub SetAverageBandwidth(averageBandwidth As Integer)
+            Public Sub SetAverageBandwidth(averageBandwidth As Integer) Implements IBaseStreamBuilder(Of T).SetAverageBandwidth
                 Me.AverageBandwidth = averageBandwidth
             End Sub
 
-            Public Sub SetMediaRenditions(mediaRenditions As List(Of AlternativeRendition))
+            Public Sub SetMediaRenditions(mediaRenditions As List(Of AlternativeRendition)) Implements IBaseStreamBuilder(Of T).SetMediaRenditions
                 Me.MediaRenditions = mediaRenditions
             End Sub
 
-            Public Sub SetHdcpLevel(hdcpLevel As Hdcp)
+            Public Sub SetHdcpLevel(hdcpLevel As Hdcp) Implements IBaseStreamBuilder(Of T).SetHdcpLevel
                 Me.HdcpLevel = hdcpLevel
             End Sub
 
-            Public Sub SetCodecs(codecs As String)
+            Public Sub SetCodecs(codecs As String()) Implements IBaseStreamBuilder(Of T).SetCodecs
                 Me.Codecs = codecs
             End Sub
 
-            Public MustOverride Function Build() As T
+            Public Sub SetVideoResolution(resolution As Resolution) Implements IBaseStreamBuilder(Of T).SetVideoResolution
+                VideoResolution = resolution
+            End Sub
+
+            Public Sub SetVideoGroup(video As String) Implements IBaseStreamBuilder(Of T).SetVideoGroup
+                VideoGroupId = video
+            End Sub
+
+            Public MustOverride Function Build() As T Implements IBaseStreamBuilder(Of T).Build
         End Class
     End Class
 End Namespace

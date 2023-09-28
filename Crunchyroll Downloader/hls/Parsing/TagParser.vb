@@ -1,85 +1,23 @@
-﻿Imports System.Text
+﻿Imports System.IO
+Imports System.Text
+Imports Crunchyroll_Downloader.hls.playlist
 
 Namespace hls.parsing
-    Public Class TagParser
+    Public MustInherit Class TagParser(Of T As AbstractPlaylist.AbstractPlaylistBuilder)
+        Implements ITagParser
 
-        Public Function ParseTagString(Input As String) As TagAttributes
-            If Input Is Nothing Or Input.Length = 0 Then
-                Return Nothing
+        Public MustOverride Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As T)
+
+        Public MustOverride Function GetTagName() As String Implements ITagParser.GetTagName
+
+        Public Sub ParseInto(reader As TextReader, attributes As TagAttributes, playlist As AbstractPlaylist.AbstractPlaylistBuilder) Implements ITagParser.ParseInto
+            If TypeOf playlist Is T Then
+                ParseInner(reader, attributes, CType(playlist, T))
+            Else
+                Console.WriteLine("TagParser type mismatch.")
             End If
+        End Sub
 
-            If Input(0) <> "#" Then
-                Return Nothing
-            End If
-
-            Dim tagEndIndex = Input.IndexOf(":")
-            If tagEndIndex < 0 Then
-                Return New SettableTag(Input.Substring(1))
-            End If
-
-            Dim TagName = Input.Substring(1, tagEndIndex - 1)
-            Dim Result = New SettableTag(TagName)
-
-            Dim quotedMode = False
-            Dim key As String = ""
-            Dim currentStringBuilder = New StringBuilder()
-            Dim startPosition = tagEndIndex + 1
-            For Index As Integer = startPosition To Input.Length - 1
-                Dim character As Char = Input(Index)
-                If quotedMode Then
-                    If character = """" Then
-                        quotedMode = False
-                    Else
-                        currentStringBuilder.Append(character)
-                    End If
-                Else
-                    Select Case character
-                        Case """"c
-                            quotedMode = True
-                        Case ","c
-                            If key = "" Then
-                                Result.AddValue(currentStringBuilder.ToString())
-                            Else
-                                Result.SetAttribute(key, currentStringBuilder.ToString())
-                            End If
-                            key = ""
-                            currentStringBuilder.Clear()
-                        Case "="c
-                            key = currentStringBuilder.ToString()
-                            currentStringBuilder.Clear()
-                        Case Else
-                            currentStringBuilder.Append(character)
-                    End Select
-                End If
-            Next
-            ' Either set the current key to the remainder of the string or if there is no key,
-            ' set the value of the tag
-            If currentStringBuilder.Length > 0 Then
-                If (key <> "") Then
-                    Result.SetAttribute(key, currentStringBuilder.ToString())
-                Else
-                    Result.AddValue(currentStringBuilder.ToString())
-                End If
-            End If
-            Return Result
-        End Function
-
-        Private Class SettableTag
-            Inherits TagAttributes
-
-            Public Sub New(name As String)
-                MyBase.New(name)
-            End Sub
-
-            Public Sub AddValue(Value As String)
-                Values.Add(Value)
-            End Sub
-
-            Public Sub SetAttribute(Key As String, Value As String)
-                HasAttributes = True
-                AttributeDictionary.Add(Key, Value)
-            End Sub
-        End Class
     End Class
 
 

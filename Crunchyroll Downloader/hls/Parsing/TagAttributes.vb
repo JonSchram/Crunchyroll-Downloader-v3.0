@@ -1,5 +1,6 @@
 ﻿Namespace hls.parsing
     Public MustInherit Class TagAttributes
+        ' TODO: remember whether an attribute is quoted or not, could be helpful when parsing and rewriting a file.
         Protected TagName As String
         Protected Values As List(Of String) = New List(Of String)
         Protected HasAttributes As Boolean
@@ -26,7 +27,7 @@
         End Function
 
         Public Function GetAttribute(Key As String) As String
-            If (AttributeDictionary.ContainsKey(Key)) Then
+            If AttributeDictionary.ContainsKey(Key) Then
                 Return AttributeDictionary(Key)
             End If
             Return Nothing

@@ -35,17 +35,28 @@ Namespace hls.playlist
         ''' <returns></returns>
         Public ReadOnly Property IframeStreams As ImmutableList(Of IFrameStreamMetadata)
 
+        ''' <summary>
+        ''' All session data in the master playlist.
+        ''' <para>
+        ''' The value is a list because the data-id may be duplicated if the language is different.
+        ''' </para>
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property SessionData As ImmutableDictionary(Of String, List(Of SessionData))
+
         ' TODO: If any closed caption streams contain the enumerated string NONE, set a flag in playlist
         ' indicating there are no closed caption streams in any variant.
 
         Public Sub New(version As Integer, independentSegments As Boolean, startPlayTime As PlaylistStartTime,
-                       SessionKeys As List(Of EncryptionKey), playlistMedia As List(Of AlternativeRendition),
-                       streamVariants As List(Of VariantStreamMetadata), iframeStreams As List(Of IFrameStreamMetadata))
+            SessionKeys As List(Of EncryptionKey), playlistMedia As List(Of AlternativeRendition),
+            streamVariants As List(Of VariantStreamMetadata), iframeStreams As List(Of IFrameStreamMetadata),
+            sessionData As Dictionary(Of String, List(Of SessionData)))
             MyBase.New(version, independentSegments, startPlayTime)
             Me.SessionKeys = SessionKeys
             Me.AlternateRenditions = ImmutableList.CreateRange(playlistMedia)
             Me.VariantStreams = ImmutableList.CreateRange(streamVariants)
             Me.IframeStreams = ImmutableList.CreateRange(iframeStreams)
+            Me.SessionData = ImmutableDictionary.CreateRange(sessionData)
         End Sub
 
         Public Function GetStream() As VariantStream
@@ -112,14 +123,16 @@ Namespace hls.playlist
         End Function
 
         Public Class Builder
-            Inherits AbstractBuilder
-            Private Keys As New List(Of EncryptionKey)
+            Inherits AbstractPlaylistBuilder
+            Private ReadOnly Keys As New List(Of EncryptionKey)
 
-            Private PlaylistMedia As New List(Of AlternativeRendition)
+            Private ReadOnly PlaylistMedia As New List(Of AlternativeRendition)
 
-            Private StreamVariants As New List(Of VariantStreamMetadata)
+            Private ReadOnly StreamVariants As New List(Of VariantStreamMetadata)
 
-            Private IframeStreams As New List(Of IFrameStreamMetadata)
+            Private ReadOnly IframeStreams As New List(Of IFrameStreamMetadata)
+
+            Private ReadOnly SessionData As New Dictionary(Of String, List(Of SessionData))
 
             Public Sub AddKey(key As EncryptionKey)
                 Keys.Add(key)
@@ -137,9 +150,21 @@ Namespace hls.playlist
                 IframeStreams.Add(stream)
             End Sub
 
+            Public Sub AddSessionData(data As SessionData)
+                If data Is Nothing Then
+                    Return
+                End If
+
+                Dim dataList As List(Of SessionData) = Nothing
+                If Not SessionData.TryGetValue(data.GetDataId(), dataList) Then
+                    dataList = New List(Of SessionData)
+                End If
+                dataList.Add(data)
+            End Sub
+
             Public Function Build() As MasterPlaylist
                 Return New MasterPlaylist(Version, IndependentSegments, StartPlayTime, Keys, PlaylistMedia,
-                                          StreamVariants, IframeStreams)
+                    StreamVariants, IframeStreams, SessionData)
             End Function
         End Class
     End Class

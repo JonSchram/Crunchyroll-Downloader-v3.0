@@ -1,5 +1,4 @@
 ﻿Imports Crunchyroll_Downloader.hls.common
-Imports Crunchyroll_Downloader.hls.parsing.tags.segment
 Imports Crunchyroll_Downloader.hls.segment
 
 Namespace hls.parsing
@@ -10,7 +9,8 @@ Namespace hls.parsing
         Private CurrentEncryptionKeys As Dictionary(Of String, EncryptionKey)
 
         ' Apply to the next segment only
-        Private NextSegmentInfo As InfTag
+        Private NextSegmentDuration As Double?
+        Private NextSegmentTitle As String
         Private NextByteRange As ByteRange
         ' Whether the next media segment group should have a discontinuity
         Private NextSegmentDiscontinuity As Boolean = False
@@ -33,13 +33,13 @@ Namespace hls.parsing
         End Function
 
         Public Sub SetCurrentSegmentUri(uri As String)
-            If NextSegmentInfo Is Nothing Then
+            If Not NextSegmentDuration.HasValue Then
                 Throw New HlsFormatException($"Media segment must have segment info. Failed adding URI {uri}.")
             End If
 
-            Dim currentKeyList = CurrentEncryptionKeys.Values.ToList
+            Dim currentKeyList = CurrentEncryptionKeys.Values.ToList()
 
-            Dim currentMediaSegment = New MediaSegment(NextSegmentInfo.Duration, NextSegmentInfo.Title, NextByteRange,
+            Dim currentMediaSegment = New MediaSegment(NextSegmentDuration.Value, NextSegmentTitle, NextByteRange,
                                                     uri, currentKeyList, CurrentInitialization, NextDateTime,
                                                     NextSegmentDiscontinuity, NextSequenceNumber, NextDiscontinuityNumber)
 
@@ -52,14 +52,16 @@ Namespace hls.parsing
         Private Sub ResetForNextSegment()
             NextSequenceNumber += 1
 
-            NextSegmentInfo = Nothing
+            NextSegmentTitle = Nothing
+            NextSegmentDuration = Nothing
             NextByteRange = Nothing
             NextSegmentDiscontinuity = False
             NextDateTime = Nothing
         End Sub
 
-        Public Sub AddSegmentInfo(info As InfTag)
-            NextSegmentInfo = info
+        Public Sub AddSegmentInfo(duration As Double, title As String)
+            NextSegmentDuration = duration
+            NextSegmentTitle = title
         End Sub
 
         Public Sub AddSegmentByteRange(bytes As ByteRange)
