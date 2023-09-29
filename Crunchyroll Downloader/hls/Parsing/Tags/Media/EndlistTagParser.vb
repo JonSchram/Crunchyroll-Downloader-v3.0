@@ -4,7 +4,7 @@ Namespace hls.parsing.tags.media
     Public Class EndlistTagParser
         Inherits TagParser(Of MediaPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As ParsedTag, playlist As MediaPlaylistBuilder)
             playlist.SetEndlist()
         End Sub
 

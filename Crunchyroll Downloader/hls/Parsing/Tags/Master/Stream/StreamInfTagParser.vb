@@ -17,25 +17,11 @@ Namespace hls.parsing.tags.master.stream
         ' TODO: Make convenience method for getting a playback rendition.
         ' Would probably be at a layer up (in whatever object contains the variant stream list)
 
-
-        ' Parameter comments adapted from IETF RFC 8216: https://www.rfc-editor.org/rfc/rfc8216.html
-
-        ' Optional
-        ' Must match a group ID of an EXT-X-MEDIA tag with type AUDIO in the master playlist
-        Public ReadOnly Property Audio As String
-        ' Must match a group ID of an EXT-X-MEDIA tag with type SUBTITLES in the master playlist
-        Public ReadOnly Property Subtitles As String
-        ' Must match a group ID of an EXT-X-MEDIA tag with type CLOSED-CAPTIONS in the master playlist
-        Public ReadOnly Property ClosedCaptions As String
-
-        ' Optional but recommended
-        Public ReadOnly Property FrameRate As Double
-
         Public Overrides Function GetTagName() As String
             Return "EXT-X-STREAM-INF"
         End Function
 
-        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As MasterPlaylist.Builder)
+        Public Overrides Sub ParseInner(reader As TextReader, attributes As ParsedTag, playlist As MasterPlaylist.Builder)
             ' Error messages and comments adapted from IETF RFC 8216: https://www.rfc-editor.org/rfc/rfc8216.html
 
             Dim renditionBuilder = New VariantStreamMetadata.Builder()
@@ -54,15 +40,25 @@ Namespace hls.parsing.tags.master.stream
             End If
             renditionBuilder.SetUri(uri)
 
-            renditionBuilder.SetAudioGroup(attributes.GetAttribute("AUDIO"))
-            renditionBuilder.SetSubtitleGroup(attributes.GetAttribute("SUBTITLES"))
+            ' Must match a group ID of an EXT-X-MEDIA tag with type AUDIO in the master playlist
+            renditionBuilder.SetAudioGroup(attributes.GetAttribute("AUDIO")?.Value)
+            renditionBuilder.SetSubtitleGroup(attributes.GetAttribute("SUBTITLES")?.Value)
 
-            ' TODO: The unquoted value NONE is technically different from a quoted value (which would be to reference an EXT-X-MEDIA tag)
-            ' I don't think this is likely to happen but it might be worth enforcing.
             ' Only closed captions may have an enumerated value of NONE
-            renditionBuilder.SetClosedCaptionGroup(attributes.GetAttribute("CLOSED-CAPTIONS"))
+            Dim closedCaptions As PlaylistData = attributes.GetAttribute("CLOSED-CAPTIONS")
+            If closedCaptions IsNot Nothing Then
+                If closedCaptions.Quoted Then
+                    renditionBuilder.SetClosedCaptionGroup(closedCaptions.Value)
+                    renditionBuilder.SetHasClosedCaptions(True)
+                ElseIf "NONE".Equals(closedCaptions.Value) Then
+                    renditionBuilder.SetHasClosedCaptions(False)
+                Else
+                    Throw New HlsFormatException($"In {GetTagName()}, the value of CLOSED-CAPTIONS must either be the enumerated value NONE or a quoted string.")
+                End If
+            End If
 
-            Dim FrameRateString = attributes.GetAttribute("FRAME-RATE")
+            ' Optional but recommended
+            Dim FrameRateString = attributes.GetAttribute("FRAME-RATE")?.Value
             If FrameRateString IsNot Nothing Then
                 renditionBuilder.SetFrameRate(CDbl(FrameRateString))
             End If

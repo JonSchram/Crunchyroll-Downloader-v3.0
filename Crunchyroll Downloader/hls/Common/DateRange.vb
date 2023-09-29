@@ -1,9 +1,11 @@
-﻿Namespace hls.common
+﻿Imports Crunchyroll_Downloader.hls.parsing
+
+Namespace hls.common
     Public Class DateRange
         Public Sub New(id As String, classAttributes As String, startDate As Date, endDate As Date?,
                        duration As Decimal?, plannedDuration As Decimal?, endOnNext As Boolean,
                        scte35Cmd As String, scte35Out As String, scte35In As String,
-                       customAttributes As List(Of KeyValuePair(Of String, String)))
+                       customAttributes As List(Of KeyValuePair(Of String, PlaylistData)))
             Me.Id = id
             Me.ClassAttributes = classAttributes
             Me.StartDate = startDate
@@ -37,7 +39,7 @@
 
         Public ReadOnly Property Scte35In As String
 
-        Public ReadOnly Property CustomAttributes As List(Of KeyValuePair(Of String, String))
+        Public ReadOnly Property CustomAttributes As List(Of KeyValuePair(Of String, PlaylistData))
 
     End Class
 End Namespace

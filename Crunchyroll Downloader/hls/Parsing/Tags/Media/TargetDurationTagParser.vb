@@ -5,7 +5,7 @@ Namespace hls.parsing.tags.media
     Public Class TargetDurationTagParser
         Inherits TagParser(Of MediaPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As TextReader, attributes As ParsedTag, playlist As MediaPlaylistBuilder)
             Dim values = attributes.GetValues()
             If values.Count = 0 Then
                 Throw New HlsFormatException($"Target duration must be set for {GetTagName()}")

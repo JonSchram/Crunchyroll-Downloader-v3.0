@@ -235,6 +235,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="hls\Common\SegmentDateTime.vb" />
+    <Compile Include="hls\Common\PlaylistData.vb" />
     <Compile Include="hls\Playlist\MediaPlaylistBuilder.vb" />
     <Compile Include="hls\Playlist\HlsSegmentsBuilder.vb" />
     <Compile Include="hls\Parsing\ITagParser.vb" />
@@ -289,7 +290,7 @@
     <Compile Include="hls\Parsing\Tags\Media\KeyTagParser.vb" />
     <Compile Include="hls\Parsing\Tags\Master\SessionKeyTagParser.vb" />
     <Compile Include="hls\Parsing\Tags\Master\Stream\StreamInfTagParser.vb" />
-    <Compile Include="hls\Parsing\TagAttributes.vb" />
+    <Compile Include="hls\Parsing\ParsedTag.vb" />
     <Compile Include="hls\Parsing\Tags\Master\MediaTagParser.vb" />
     <Compile Include="hls\Parsing\Tags\Media\TargetDurationTagParser.vb" />
     <Compile Include="FileUtilities.vb" />

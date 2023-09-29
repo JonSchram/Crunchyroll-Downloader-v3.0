@@ -4,7 +4,7 @@ Namespace hls.parsing.tags.media
     Public Class IframesOnlyTagParser
         Inherits TagParser(Of MediaPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As ParsedTag, playlist As MediaPlaylistBuilder)
             playlist.SetIFramesOnly()
         End Sub
 

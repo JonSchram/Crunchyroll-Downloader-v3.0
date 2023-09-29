@@ -15,6 +15,14 @@ Namespace hls.parsing
             End Select
         End Function
 
+
+        Public Shared Function ParseYesValue(value As String, tagName As String, attributeName As String) As Boolean
+            If "YES".Equals(value, StringComparison.OrdinalIgnoreCase) Then
+                Return True
+            End If
+            Throw New HlsFormatException($"In {tagName}, {attributeName} must be YES if present.")
+        End Function
+
         Public Shared Function ToYesNoValue(Value As Boolean) As String
             Return If(Value, "YES", "NO")
         End Function

@@ -10,17 +10,11 @@ Namespace hls.parsing.tags.master.stream
     Public Class IframeStreamInfTagParser
         Inherits AbstractStreamTagParser
 
-        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As MasterPlaylist.Builder)
-            ' The problem is that this and the stream tag parser both need the same block of code
-            ' to parse the same attributes. The rendition produced needs to be a specific type,
-            ' so there can't be a superclass doing the build operation, and the storage object
-            ' (that has a superclass) is immutable, so we can't pass an empty one in.
-            ' But it could be a factory....makes a lot more code though.
-
+        Public Overrides Sub ParseInner(reader As TextReader, attributes As ParsedTag, playlist As MasterPlaylist.Builder)
             Dim iframeRenditionBuilder = New IFrameStreamMetadata.Builder()
             ParseToRendition(attributes, iframeRenditionBuilder)
 
-            Dim uri = attributes.GetAttribute("URI")
+            Dim uri As String = attributes.GetAttribute("URI")?.Value
             If uri Is Nothing Then
                 Throw New HlsFormatException($"{GetTagName()} requires a URI.")
             End If

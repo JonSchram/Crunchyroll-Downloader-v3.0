@@ -6,13 +6,13 @@ Namespace hls.parsing.tags.media
     Public Class MediaInitializationTagParser
         Inherits TagParser(Of MediaPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
-            Dim Uri = attributes.GetAttribute("URI")
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As ParsedTag, playlist As MediaPlaylistBuilder)
+            Dim Uri As String = attributes.GetAttribute("URI")?.Value
             If Uri Is Nothing Then
                 Throw New HlsFormatException($"{GetTagName()} requires URI to be set.")
             End If
 
-            Dim ByteRangeString = attributes.GetAttribute("BYTERANGE")
+            Dim ByteRangeString As String = attributes.GetAttribute("BYTERANGE")?.Value
             Dim bytes As ByteRange = Nothing
             If ByteRangeString IsNot Nothing Then
                 bytes = New ByteRange(ByteRangeString)

@@ -8,11 +8,11 @@ Namespace hls.parsing.tags.master
     Public Class SessionDataTagParser
         Inherits TagParser(Of MasterPlaylist.Builder)
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MasterPlaylist.Builder)
-            Dim dataId As String = attributes.GetAttribute("DATA-ID")
-            Dim value As String = attributes.GetAttribute("VALUE")
-            Dim uri As String = attributes.GetAttribute("URI")
-            Dim language As String = attributes.GetAttribute("LANGUAGE")
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As ParsedTag, playlist As MasterPlaylist.Builder)
+            Dim dataId As String = attributes.GetAttribute("DATA-ID")?.Value
+            Dim value As String = attributes.GetAttribute("VALUE")?.Value
+            Dim uri As String = attributes.GetAttribute("URI")?.Value
+            Dim language As String = attributes.GetAttribute("LANGUAGE")?.Value
 
             If value Is Nothing Xor uri Is Nothing Then
                 Throw New HlsFormatException($"{GetTagName()} must contain either a VALUE attribute or a URI attribute but not both.")

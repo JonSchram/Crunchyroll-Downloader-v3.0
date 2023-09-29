@@ -1,10 +1,9 @@
 ﻿Namespace hls.parsing
-    Public MustInherit Class TagAttributes
-        ' TODO: remember whether an attribute is quoted or not, could be helpful when parsing and rewriting a file.
+    Public MustInherit Class ParsedTag
         Protected TagName As String
         Protected Values As New List(Of String)
         Protected HasAttributes As Boolean
-        Protected AttributeDictionary As New Dictionary(Of String, String)
+        Protected AttributeDictionary As New Dictionary(Of String, PlaylistData)
 
         Public Sub New(name As String)
             TagName = name
@@ -26,19 +25,20 @@
             Return HasAttributes
         End Function
 
-        Public Function GetAttribute(Key As String) As String
+        Public Function GetAttribute(Key As String) As PlaylistData
             If AttributeDictionary.ContainsKey(Key) Then
                 Return AttributeDictionary(Key)
             End If
             Return Nothing
         End Function
 
-        Public Function GetRemainingAttributes(excludeAttributes As String()) As IEnumerable(Of KeyValuePair(Of String, String))
+        Public Function GetRemainingAttributes(excludeAttributes As String()) As IEnumerable(Of KeyValuePair(Of String, PlaylistData))
             Return AttributeDictionary.Where(
-                Function(value As KeyValuePair(Of String, String))
+                Function(value As KeyValuePair(Of String, PlaylistData))
                     Return Not excludeAttributes.Contains(value.Key)
                 End Function
             )
         End Function
+
     End Class
 End Namespace

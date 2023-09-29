@@ -5,7 +5,7 @@ Namespace hls.parsing.tags.media
     Public Class ByteRangeTagParser
         Inherits TagParser(Of MediaPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As ParsedTag, playlist As MediaPlaylistBuilder)
             Dim values = attributes.GetValues()
             If values.Count = 0 Then
                 Throw New HlsFormatException($"{GetTagName()} requires a value indicating the length and/or offset")

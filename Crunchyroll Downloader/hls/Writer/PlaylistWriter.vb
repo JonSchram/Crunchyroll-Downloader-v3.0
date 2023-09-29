@@ -191,10 +191,15 @@ Namespace hls.writer
                 End If
 
                 Dim customAttributes = dateRange.CustomAttributes
-                For Each valuePair As KeyValuePair(Of String, String) In customAttributes
+                For Each valuePair As KeyValuePair(Of String, PlaylistData) In customAttributes
+                    Dim data As PlaylistData = valuePair.Value
                     ' The custom attribute can be a quoted string, a hex value, or a decimal.
-                    ' The parser doesn't remember whether it was quoted in the input so assume it is quoted.
-                    output.Write($",{valuePair.Key}=""{valuePair.Value}""")
+                    If data.Quoted Then
+                        output.Write($",{valuePair.Key}=""{data.Value}""")
+                    Else
+                        ' The value isn't parsed into a number yet, so just output with no quotes.
+                        output.Write($",{valuePair.Key}={data.Value}")
+                    End If
                 Next
 
                 output.WriteLine()

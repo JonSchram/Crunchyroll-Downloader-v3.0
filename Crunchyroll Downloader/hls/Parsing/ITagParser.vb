@@ -6,7 +6,7 @@ Namespace hls.parsing
         Function GetTagName() As String
 
         Sub ParseInto(reader As TextReader,
-                      attributes As TagAttributes,
+                      attributes As ParsedTag,
                       playlist As AbstractPlaylist.AbstractPlaylistBuilder)
     End Interface
 End Namespace

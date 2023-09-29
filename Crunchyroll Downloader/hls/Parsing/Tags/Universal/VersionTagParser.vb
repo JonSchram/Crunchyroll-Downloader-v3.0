@@ -5,7 +5,7 @@ Namespace hls.parsing.tags.universal
     Public Class VersionTagParser
         Inherits TagParser(Of AbstractPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As AbstractPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As TextReader, attributes As ParsedTag, playlist As AbstractPlaylistBuilder)
             Dim values = attributes.GetValues()
             If values.Count() = 0 Then
                 Throw New HlsFormatException("Version tag must specify a version number")

@@ -13,17 +13,20 @@ Namespace hls.playlist.stream
         Public ReadOnly Property AudioGroup As String
         Public ReadOnly Property SubtitleGroup As String
         Public ReadOnly Property ClosedCaptionsGroup As String
+        Public ReadOnly Property HasClosedCaptions As Boolean
 
         Public ReadOnly Property FrameRate As Double
 
+
         Public Sub New(uri As String, bandwidth As Integer, averageBandwidth As Integer,
-                   videoResolution As Resolution, videoGroup As String, hdcpLevel As Hdcp,
-                   codecs As IEnumerable(Of String), audioGroup As String, subtitleGroup As String,
-                   closedCaptionsGroup As String, frameRate As Double)
+            videoResolution As Resolution, videoGroup As String, hdcpLevel As Hdcp,
+            codecs As IEnumerable(Of String), audioGroup As String, subtitleGroup As String,
+            closedCaptionsGroup As String, HasClosedCaptions As Boolean, frameRate As Double)
             MyBase.New(uri, bandwidth, averageBandwidth, videoResolution, videoGroup, hdcpLevel, codecs)
             Me.AudioGroup = audioGroup
             Me.SubtitleGroup = subtitleGroup
             Me.ClosedCaptionsGroup = closedCaptionsGroup
+            Me.HasClosedCaptions = HasClosedCaptions
             Me.FrameRate = frameRate
         End Sub
 
@@ -56,6 +59,7 @@ Namespace hls.playlist.stream
 
             Private SubtitleGroup As String
             Public Property ClosedCaptionsGroup As String
+            Public Property HasClosedCaptions As Boolean
 
             Public Property FrameRate As Double
 
@@ -70,13 +74,18 @@ Namespace hls.playlist.stream
             Public Sub SetClosedCaptionGroup(groupId As String)
                 ClosedCaptionsGroup = groupId
             End Sub
+
+            Public Sub SetHasClosedCaptions(hasClosedCaptions As Boolean)
+                Me.HasClosedCaptions = hasClosedCaptions
+            End Sub
+
             Public Sub SetFrameRate(frameRate As Double)
                 Me.FrameRate = frameRate
             End Sub
 
             Public Overrides Function Build() As VariantStreamMetadata
                 Return New VariantStreamMetadata(Uri, Bandwidth, AverageBandwidth, VideoResolution, VideoGroupId,
-                                                 HdcpLevel, Codecs, AudioGroup, SubtitleGroup, ClosedCaptionsGroup, FrameRate)
+                    HdcpLevel, Codecs, AudioGroup, SubtitleGroup, ClosedCaptionsGroup, HasClosedCaptions, FrameRate)
             End Function
         End Class
     End Class

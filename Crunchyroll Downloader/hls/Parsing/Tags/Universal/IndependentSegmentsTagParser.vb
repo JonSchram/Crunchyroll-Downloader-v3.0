@@ -5,7 +5,7 @@ Namespace hls.parsing.tags.universal
     Public Class IndependentSegmentsTagParser
         Inherits TagParser(Of AbstractPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As AbstractPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As TextReader, attributes As ParsedTag, playlist As AbstractPlaylistBuilder)
             playlist.SetIndependentSegments()
         End Sub
 

@@ -6,18 +6,18 @@ Namespace hls.parsing.tags.universal
     Public Class StartTagParser
         Inherits TagParser(Of AbstractPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As AbstractPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As TextReader, attributes As ParsedTag, playlist As AbstractPlaylistBuilder)
             ' Required
-            Dim offsetString = attributes.GetAttribute("TIME-OFFSET")
+            Dim offsetString As String = attributes.GetAttribute("TIME-OFFSET")?.Value
             If offsetString Is Nothing Then
                 Throw New HlsFormatException($"{GetTagName()} requires TIME-OFFSET to be set")
             End If
             Dim TimeOffset = CDbl(offsetString)
 
             ' Optional
-            Dim PreciseString = attributes.GetAttribute("PRECISE")
+            Dim PreciseString As String = attributes.GetAttribute("PRECISE")?.Value
             Dim precise As Boolean = False
-            If offsetString IsNot Nothing Then
+            If PreciseString IsNot Nothing Then
                 precise = HlsHelpers.ParseYesNoValue(PreciseString, "PRECISE")
             End If
 

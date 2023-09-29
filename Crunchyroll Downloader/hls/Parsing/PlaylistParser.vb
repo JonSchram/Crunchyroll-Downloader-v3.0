@@ -81,7 +81,7 @@ Namespace hls.parsing
                 Dim line As String = playlistReader.ReadLine()
 
                 If line.StartsWith("#EXT") Then
-                    Dim tag As TagAttributes = TagParserHelper.ParseTagString(line)
+                    Dim tag As ParsedTag = TagParserHelper.ParseTagString(line)
 
                     Dim tagName = tag.getTagName()
                     ' Tags can only begin with #EXT
@@ -123,7 +123,7 @@ Namespace hls.parsing
                 Dim line As String = playlistReader.ReadLine()
 
                 If line.StartsWith("#EXT") Then
-                    Dim tag As TagAttributes = TagParserHelper.ParseTagString(line)
+                    Dim tag As ParsedTag = TagParserHelper.ParseTagString(line)
                     Dim tagName = tag.getTagName()
                     ' Tags can only begin with #EXT
                     If tagName.StartsWith("EXT") Then

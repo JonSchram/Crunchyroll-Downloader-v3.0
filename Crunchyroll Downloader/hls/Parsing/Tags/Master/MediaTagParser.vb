@@ -23,41 +23,41 @@ Namespace hls.parsing.tags.master
             End Select
         End Function
 
-        Public Overrides Sub ParseInner(reader As TextReader, attributes As TagAttributes, playlist As MasterPlaylist.Builder)
+        Public Overrides Sub ParseInner(reader As TextReader, attributes As ParsedTag, playlist As MasterPlaylist.Builder)
             'Attribute comments and error messages adapted from IETF RFC 8216: https://www.rfc-editor.org/rfc/rfc8216.html
 
             ' Required attributes
-            Dim Type As MediaType = GetTypeEnum(attributes.GetAttribute("TYPE"))
+            Dim Type As MediaType = GetTypeEnum(attributes.GetAttribute("TYPE")?.Value)
 
-            Dim GroupId As String = attributes.GetAttribute("GROUP-ID")
+            Dim GroupId As String = attributes.GetAttribute("GROUP-ID")?.Value
             If GroupId Is Nothing Then
                 Throw New HlsFormatException($"{GetTagName()} requires a group ID.")
             End If
 
-            Dim Name As String = attributes.GetAttribute("NAME")
+            Dim Name As String = attributes.GetAttribute("NAME")?.Value
             If Name Is Nothing Then
                 Throw New HlsFormatException($"{GetTagName()} requires a name.")
             End If
 
             ' Optional attributes
-            Dim Language As String = attributes.GetAttribute("LANGUAGE")
-            Dim AssociatedLanguage As String = attributes.GetAttribute("ASSOC-LANGUAGE")
-            Dim Characteristics As String = attributes.GetAttribute("CHARACTERISTICS")
+            Dim Language As String = attributes.GetAttribute("LANGUAGE")?.Value
+            Dim AssociatedLanguage As String = attributes.GetAttribute("ASSOC-LANGUAGE")?.Value
+            Dim Characteristics As String = attributes.GetAttribute("CHARACTERISTICS")?.Value
 
             ' More complicated rules
-            Dim uri = attributes.GetAttribute("URI")
+            Dim uri = attributes.GetAttribute("URI")?.Value
             If uri IsNot Nothing And Type = MediaType.CLOSED_CAPTIONS Then
                 Throw New HlsFormatException($"{GetTagName()} cannot set URI for closed captions.")
             End If
 
             ' Boolean values.
-            Dim DefaultString = attributes.GetAttribute("DEFAULT")
+            Dim DefaultString = attributes.GetAttribute("DEFAULT")?.Value
             Dim IsDefault As Boolean = False
             If DefaultString IsNot Nothing Then
                 IsDefault = HlsHelpers.ParseYesNoValue(DefaultString, "DEFAULT")
             End If
 
-            Dim AutoselectString = attributes.GetAttribute("AUTOSELECT")
+            Dim AutoselectString = attributes.GetAttribute("AUTOSELECT")?.Value
             Dim Autoselect As Boolean = False
             If AutoselectString IsNot Nothing Then
                 Autoselect = HlsHelpers.ParseYesNoValue(AutoselectString, "AUTOSELECT")
@@ -67,7 +67,7 @@ Namespace hls.parsing.tags.master
                 End If
             End If
 
-            Dim ForcedString = attributes.GetAttribute("FORCED")
+            Dim ForcedString = attributes.GetAttribute("FORCED")?.Value
             Dim Forced As Boolean = False
             If ForcedString IsNot Nothing Then
                 If Type <> MediaType.SUBTITLES Then
@@ -77,7 +77,7 @@ Namespace hls.parsing.tags.master
             End If
 
             ' Strings
-            Dim InstreamId As String = attributes.GetAttribute("INSTREAM-ID")
+            Dim InstreamId As String = attributes.GetAttribute("INSTREAM-ID")?.Value
             If InstreamId Is Nothing And Type = MediaType.CLOSED_CAPTIONS Then
                 Throw New HlsFormatException($"{GetTagName()} must have INSTREAM-ID attribute for closed captions type.")
             ElseIf InstreamId IsNot Nothing And Type <> MediaType.CLOSED_CAPTIONS Then
@@ -86,7 +86,7 @@ Namespace hls.parsing.tags.master
 
             ' This should ideally validate that this exists if a master playlist has two renditions with the same codec,
             ' but that can't be done at this stage
-            Dim Channels As String = attributes.GetAttribute("CHANNELS")
+            Dim Channels As String = attributes.GetAttribute("CHANNELS")?.Value
 
             Dim media As AlternativeRendition
             If Type = MediaType.CLOSED_CAPTIONS Then

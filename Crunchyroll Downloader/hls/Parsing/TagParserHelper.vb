@@ -2,7 +2,7 @@
 
 Namespace hls.parsing
     Public Class TagParserHelper
-        Public Shared Function ParseTagString(line As String) As TagAttributes
+        Public Shared Function ParseTagString(line As String) As ParsedTag
             If line Is Nothing Or line.Length = 0 Then
                 Return Nothing
             End If
@@ -20,6 +20,7 @@ Namespace hls.parsing
             Dim Result = New SettableTag(TagName)
 
             Dim quotedMode = False
+            Dim quotedAttribute = False
             Dim key As String = ""
             Dim currentStringBuilder = New StringBuilder()
             Dim startPosition = tagEndIndex + 1
@@ -35,12 +36,14 @@ Namespace hls.parsing
                     Select Case character
                         Case """"c
                             quotedMode = True
+                            quotedAttribute = True
                         Case ","c
                             If key = "" Then
                                 Result.AddValue(currentStringBuilder.ToString())
                             Else
-                                Result.SetAttribute(key, currentStringBuilder.ToString())
+                                Result.SetAttribute(key, New PlaylistData(currentStringBuilder.ToString(), quotedAttribute))
                             End If
+                            quotedAttribute = False
                             key = ""
                             currentStringBuilder.Clear()
                         Case "="c
@@ -54,8 +57,8 @@ Namespace hls.parsing
             ' Either set the current key to the remainder of the string or if there is no key,
             ' set the value of the tag
             If currentStringBuilder.Length > 0 Then
-                If (key <> "") Then
-                    Result.SetAttribute(key, currentStringBuilder.ToString())
+                If key <> "" Then
+                    Result.SetAttribute(key, New PlaylistData(currentStringBuilder.ToString(), quotedAttribute))
                 Else
                     Result.AddValue(currentStringBuilder.ToString())
                 End If
@@ -63,10 +66,8 @@ Namespace hls.parsing
             Return Result
         End Function
 
-
-
         Private Class SettableTag
-            Inherits TagAttributes
+            Inherits ParsedTag
 
             Public Sub New(name As String)
                 MyBase.New(name)
@@ -79,7 +80,7 @@ Namespace hls.parsing
                 Values.Add(Value)
             End Sub
 
-            Public Sub SetAttribute(Key As String, Value As String)
+            Public Sub SetAttribute(Key As String, Value As PlaylistData)
                 HasAttributes = True
                 AttributeDictionary.Add(Key, Value)
             End Sub

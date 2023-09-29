@@ -4,7 +4,7 @@ Namespace hls.parsing.tags.media
     Public Class DiscontinuityTagParser
         Inherits TagParser(Of MediaPlaylistBuilder)
 
-        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As TagAttributes, playlist As MediaPlaylistBuilder)
+        Public Overrides Sub ParseInner(reader As IO.TextReader, attributes As ParsedTag, playlist As MediaPlaylistBuilder)
             playlist.AddDiscontinuity()
         End Sub
 
