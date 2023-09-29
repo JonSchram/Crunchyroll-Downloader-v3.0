@@ -10,13 +10,6 @@ Namespace hls.parsing.tags.master.stream
     Public Class StreamInfTagParser
         Inherits AbstractStreamTagParser
 
-        ' TODO: Seems that the current version does care about the bandwidth / average bandwidth.
-        ' Seems to choose the highest bandwidth stream
-        ' Need to check whether the stream at the playist URI contains audio or if it needs to load the audio
-
-        ' TODO: Make convenience method for getting a playback rendition.
-        ' Would probably be at a layer up (in whatever object contains the variant stream list)
-
         Public Overrides Function GetTagName() As String
             Return "EXT-X-STREAM-INF"
         End Function
@@ -27,17 +20,15 @@ Namespace hls.parsing.tags.master.stream
             Dim renditionBuilder = New VariantStreamMetadata.Builder()
             ParseToRendition(attributes, renditionBuilder)
 
-            ' TODO: For some of these optional attributes, consider replacing the exception with a log statement.
-            ' For development, helps catch errors in programming, but when using the program, don't necessarily
-            ' want the whole program to fail from external input
-            ' Wonder if the same could be said for "Required" properties that wouldn't block downloading a stream.
-
-            ' TODO: This could fail if there is a blank line between the EXT-X-STREAM-INF and the URL
-            ' RFC 8216 says the URI line is required, but also says blank lines are ignored in section 4.1.
-            Dim uri As String = reader.ReadLine()
-            If uri Is Nothing Then
-                Throw New HlsFormatException($"{GetTagName()} requires a URI on the following line.")
-            End If
+            ' URI should be on the following line, but the RFC says blank lines should be ignored, so it's not clear
+            ' whether the requirement this line could be blank or if it must be the URL. Gracefully handle it just in case.
+            Dim uri As String = ""
+            While "".Equals(uri)
+                uri = reader.ReadLine()
+                If uri Is Nothing Then
+                    Throw New HlsFormatException($"{GetTagName()} requires a URI on the following line.")
+                End If
+            End While
             renditionBuilder.SetUri(uri)
 
             ' Must match a group ID of an EXT-X-MEDIA tag with type AUDIO in the master playlist
