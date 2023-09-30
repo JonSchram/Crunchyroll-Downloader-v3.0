@@ -9,7 +9,7 @@ Namespace hls.playlist.rendition
     Public Class LinkedRendition
         Inherits AlternativeRendition
 
-        Public Property Uri As String
+        Public ReadOnly Property Uri As String
 
         Public Sub New(type As MediaType, groupId As String, name As String, language As String,
                        associatedLanguage As String, characteristics As String, isDefault As Boolean,
