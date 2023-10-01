@@ -75,9 +75,9 @@ Namespace hls.playlist.comparer
 
         Private Function CompareBandwidth(x As VariantStreamMetadata, y As VariantStreamMetadata) As Integer
             If HighBandwidth Then
-                Return x.Bandwidth - y.Bandwidth
+                Return Math.Sign(x.Bandwidth - y.Bandwidth)
             Else
-                Return y.Bandwidth - x.Bandwidth
+                Return Math.Sign(y.Bandwidth - x.Bandwidth)
             End If
         End Function
     End Class
