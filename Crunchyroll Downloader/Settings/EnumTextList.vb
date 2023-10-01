@@ -82,7 +82,6 @@ Namespace settings
         ''' <summary>
         ''' A list populated from the same pool of display items but containing a different subset of these items.
         ''' </summary>
-        ''' <typeparam name="T"></typeparam>
         Public Class SubTextList
             Private ReadOnly Ordering As OrderType
             Private ReadOnly reverseOrder As Boolean

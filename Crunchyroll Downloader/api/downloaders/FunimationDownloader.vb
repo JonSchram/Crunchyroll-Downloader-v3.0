@@ -147,9 +147,8 @@ Public Class FunimationDownloader
     ' Only preserved for reference
     '------------------------------------------------------------------------
 
-    ''' Need to call GetFunimationJS_Seasons with "https://title-api.prd.funimationsvc.com/v2/shows/" + ShowPath + Main.FunimationAPIRegion
-    ''' 
-    ''' 
+    ' Need to call GetFunimationJS_Seasons with "https://title-api.prd.funimationsvc.com/v2/shows/" + ShowPath + Main.FunimationAPIRegion
+
 
     '''
     ''' Gets the...what?
