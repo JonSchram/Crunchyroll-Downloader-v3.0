@@ -60,30 +60,42 @@ Namespace hls.playlist
             Me.SessionData = ImmutableDictionary.CreateRange(sessionData)
         End Sub
 
-        Public Function GetStream() As VariantStream
-            ' TODO: Add parameters to filter renditions by language / type / resolution.
-            Return Nothing
-        End Function
+        Public Function GetClosestMatch(comparer As IComparer(Of VariantStreamMetadata)) As VariantStream
+            If VariantStreams.Count = 0 Then
+                Return Nothing
+            End If
 
-        Private Function CreateRenditionGroups(media As List(Of AlternativeRendition)) As Dictionary(Of RenditionGroup, List(Of AlternativeRendition))
-            Dim result As New Dictionary(Of RenditionGroup, List(Of AlternativeRendition))
+            Dim bestVariant As VariantStreamMetadata = VariantStreams.Item(0)
 
-            For Each entry In media
-                Dim groupKey = New RenditionGroup(entry.GroupId, entry.Type)
-                Dim groupMedia As List(Of AlternativeRendition)
-                If result.ContainsKey(groupKey) Then
-                    groupMedia = result.Item(groupKey)
-                Else
-                    groupMedia = New List(Of AlternativeRendition)
-                    result.Add(groupKey, groupMedia)
+            For i As Integer = 1 To VariantStreams.Count - 1
+                If comparer.Compare(bestVariant, VariantStreams.Item(i)) < 0 Then
+                    ' Current best is less (worse match) than the new item.
+                    bestVariant = VariantStreams.Item(i)
                 End If
-                groupMedia.Add(entry)
             Next
 
-            Return result
+            Return BuildVariantStream(bestVariant)
         End Function
 
-        ' Not planning to support session data, don't see any use case for this at all
+        Private Function BuildVariantStream(metadata As VariantStreamMetadata) As VariantStream
+            Dim videoGroup As RenditionGroup(Of LinkedRendition) = FindRenditionGroup(Of LinkedRendition)(metadata.VideoGroup, MediaType.VIDEO)
+            Dim audioGroup As RenditionGroup(Of LinkedRendition) = FindRenditionGroup(Of LinkedRendition)(metadata.AudioGroup, MediaType.AUDIO)
+            Dim subtitleGroup As RenditionGroup(Of LinkedRendition) = FindRenditionGroup(Of LinkedRendition)(metadata.SubtitleGroup, MediaType.SUBTITLES)
+            Dim closedCaptionsGroup As RenditionGroup(Of ClosedCaptionRendition) = FindRenditionGroup(Of ClosedCaptionRendition)(metadata.ClosedCaptionsGroup, MediaType.CLOSED_CAPTIONS)
+
+            Return New VariantStream(metadata, videoGroup, audioGroup, subtitleGroup, closedCaptionsGroup)
+        End Function
+
+        Private Function FindRenditionGroup(Of T As AlternativeRendition)(groupId As String, type As MediaType) As RenditionGroup(Of T)
+            Dim builder = New RenditionGroup(Of T).Builder()
+            For Each entry In AlternateRenditions
+                If entry.Type = type AndAlso entry.GroupId = groupId AndAlso TypeOf entry Is T Then
+                    builder.AddRendition(CType(entry, T))
+                End If
+            Next
+
+            Return builder.Build()
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"{{
@@ -103,23 +115,6 @@ Namespace hls.playlist
             Next
 
             output += "]"
-            Return output
-        End Function
-
-        Private Function FormatRenditionGroups(Dict As IReadOnlyDictionary(Of RenditionGroup, List(Of AlternativeRendition))) As String
-            Dim output As String = "{"
-
-            For Each item In Dict
-                output += item.Key.ToString()
-                output += ":"
-                output += "["
-                For Each listItem In item.Value
-                    output += listItem.ToString() + ","
-                Next
-                output += "]"
-            Next
-
-            output += "}"
             Return output
         End Function
 

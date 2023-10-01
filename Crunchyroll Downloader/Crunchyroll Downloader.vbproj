@@ -236,6 +236,9 @@
     </Compile>
     <Compile Include="hls\Common\SegmentDateTime.vb" />
     <Compile Include="hls\Common\PlaylistData.vb" />
+    <Compile Include="hls\Playlist\Comparer\ClosestResolutionComparer.vb" />
+    <Compile Include="hls\Playlist\Comparer\HighestResolutionComparer.vb" />
+    <Compile Include="hls\Playlist\Comparer\LowestResolutionComparer.vb" />
     <Compile Include="hls\Playlist\MediaPlaylistBuilder.vb" />
     <Compile Include="hls\Playlist\HlsSegmentsBuilder.vb" />
     <Compile Include="hls\Parsing\ITagParser.vb" />

@@ -4,6 +4,8 @@ Imports System.Net.Http
 Imports Crunchyroll_Downloader.api.authentication
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.hls.parsing
+Imports Crunchyroll_Downloader.hls.playlist.comparer
+Imports Crunchyroll_Downloader.hls.playlist.stream
 Imports Crunchyroll_Downloader.hls.rewriter
 Imports Crunchyroll_Downloader.hls.writer
 Imports Microsoft.Web.WebView2.Core
@@ -191,6 +193,39 @@ Namespace debugging
             Dim task = New DownloadTask(fakeEpisode, "/", fakeClient)
 
             queue.Enqueue(task)
+        End Sub
+
+        Private Sub SelectVariantButton_Click(sender As Object, e As EventArgs) Handles SelectVariantButton.Click
+            Dim parser = New PlaylistParser()
+            Dim playlistText = MasterPlaylistTextBox.Text
+
+            Dim playlist = parser.parseMasterPlaylist(playlistText)
+            PlaylistOutputTextBox.Text = playlist.ToString()
+
+            Dim preferHighBandwidth = HighBandwidthCheckBox.Checked
+            Dim preferHigherResolution = HigherResolutionCheckBox.Checked
+
+            Dim playlistMatcher As IComparer(Of VariantStreamMetadata) = Nothing
+            If LowResolutionRadioButton.Checked Then
+                playlistMatcher = New LowestResolutionComparer()
+            ElseIf HighResolutionRadioButton.Checked Then
+                playlistMatcher = New HighestResolutionComparer()
+            ElseIf TargetResolutionRadioButton.Checked Then
+                Dim targetResolution = TargetResolutionInput.Value
+                playlistMatcher = New ClosestResolutionComparer(CInt(targetResolution), preferHigherResolution, preferHighBandwidth)
+            End If
+
+            If playlistMatcher Is Nothing Then
+                SelectedVariantStreamOutput.Text = "Must select a resolution option"
+            Else
+                Dim stream = playlist.GetClosestMatch(playlistMatcher)
+                If stream Is Nothing Then
+                    SelectedVariantStreamOutput.Text = "Error: No stream could be selected"
+                Else
+                    SelectedVariantStreamOutput.Text = stream.ToString()
+                End If
+            End If
+
         End Sub
     End Class
 End Namespace

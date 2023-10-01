@@ -39,6 +39,7 @@
             Me.InputLabel = New System.Windows.Forms.Label()
             Me.inputTextBox = New System.Windows.Forms.TextBox()
             Me.TabPagePlaylist = New System.Windows.Forms.TabPage()
+            Me.RewritePlaylistCheckBox = New System.Windows.Forms.CheckBox()
             Me.RewriteUrlsCountNumericInput = New System.Windows.Forms.NumericUpDown()
             Me.RewriteUrlsCheckBox = New System.Windows.Forms.CheckBox()
             Me.Label10 = New System.Windows.Forms.Label()
@@ -78,7 +79,19 @@
             Me.Label7 = New System.Windows.Forms.Label()
             Me.AddQueueItemButton = New System.Windows.Forms.Button()
             Me.Label6 = New System.Windows.Forms.Label()
-            Me.RewritePlaylistCheckBox = New System.Windows.Forms.CheckBox()
+            Me.TabPagePlaylistSelection = New System.Windows.Forms.TabPage()
+            Me.Label11 = New System.Windows.Forms.Label()
+            Me.MasterPlaylistTextBox = New System.Windows.Forms.TextBox()
+            Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+            Me.SelectVariantButton = New System.Windows.Forms.Button()
+            Me.LowResolutionRadioButton = New System.Windows.Forms.RadioButton()
+            Me.HighResolutionRadioButton = New System.Windows.Forms.RadioButton()
+            Me.TargetResolutionRadioButton = New System.Windows.Forms.RadioButton()
+            Me.TargetResolutionInput = New System.Windows.Forms.NumericUpDown()
+            Me.HighBandwidthCheckBox = New System.Windows.Forms.CheckBox()
+            Me.HigherResolutionCheckBox = New System.Windows.Forms.CheckBox()
+            Me.SelectedVariantStreamOutput = New System.Windows.Forms.TextBox()
+            Me.Label12 = New System.Windows.Forms.Label()
             Me.TabControlOperations.SuspendLayout()
             Me.TabPageEpisode.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -92,6 +105,9 @@
             Me.TabPageQueue.SuspendLayout()
             CType(Me.EpisodeNumberInput, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.SeasonNumberInput, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.TabPagePlaylistSelection.SuspendLayout()
+            Me.GroupBox5.SuspendLayout()
+            CType(Me.TargetResolutionInput, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'TabControlOperations
@@ -101,6 +117,7 @@
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.TabControlOperations.Controls.Add(Me.TabPageEpisode)
             Me.TabControlOperations.Controls.Add(Me.TabPagePlaylist)
+            Me.TabControlOperations.Controls.Add(Me.TabPagePlaylistSelection)
             Me.TabControlOperations.Controls.Add(Me.TabPageBrowser)
             Me.TabControlOperations.Controls.Add(Me.TabPageAuthentication)
             Me.TabControlOperations.Controls.Add(Me.TabPageQueue)
@@ -293,6 +310,17 @@
             Me.TabPagePlaylist.TabIndex = 1
             Me.TabPagePlaylist.Text = "M3u8 playlist"
             Me.TabPagePlaylist.UseVisualStyleBackColor = True
+            '
+            'RewritePlaylistCheckBox
+            '
+            Me.RewritePlaylistCheckBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.RewritePlaylistCheckBox.AutoSize = True
+            Me.RewritePlaylistCheckBox.Location = New System.Drawing.Point(649, 325)
+            Me.RewritePlaylistCheckBox.Name = "RewritePlaylistCheckBox"
+            Me.RewritePlaylistCheckBox.Size = New System.Drawing.Size(110, 17)
+            Me.RewritePlaylistCheckBox.TabIndex = 15
+            Me.RewritePlaylistCheckBox.Text = "Rewrite as playlist"
+            Me.RewritePlaylistCheckBox.UseVisualStyleBackColor = True
             '
             'RewriteUrlsCountNumericInput
             '
@@ -703,16 +731,157 @@
             Me.Label6.TabIndex = 0
             Me.Label6.Text = "Show Name"
             '
-            'RewritePlaylistCheckBox
+            'TabPagePlaylistSelection
             '
-            Me.RewritePlaylistCheckBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.RewritePlaylistCheckBox.AutoSize = True
-            Me.RewritePlaylistCheckBox.Location = New System.Drawing.Point(649, 325)
-            Me.RewritePlaylistCheckBox.Name = "RewritePlaylistCheckBox"
-            Me.RewritePlaylistCheckBox.Size = New System.Drawing.Size(110, 17)
-            Me.RewritePlaylistCheckBox.TabIndex = 15
-            Me.RewritePlaylistCheckBox.Text = "Rewrite as playlist"
-            Me.RewritePlaylistCheckBox.UseVisualStyleBackColor = True
+            Me.TabPagePlaylistSelection.Controls.Add(Me.Label12)
+            Me.TabPagePlaylistSelection.Controls.Add(Me.SelectedVariantStreamOutput)
+            Me.TabPagePlaylistSelection.Controls.Add(Me.HigherResolutionCheckBox)
+            Me.TabPagePlaylistSelection.Controls.Add(Me.HighBandwidthCheckBox)
+            Me.TabPagePlaylistSelection.Controls.Add(Me.TargetResolutionInput)
+            Me.TabPagePlaylistSelection.Controls.Add(Me.SelectVariantButton)
+            Me.TabPagePlaylistSelection.Controls.Add(Me.GroupBox5)
+            Me.TabPagePlaylistSelection.Controls.Add(Me.Label11)
+            Me.TabPagePlaylistSelection.Controls.Add(Me.MasterPlaylistTextBox)
+            Me.TabPagePlaylistSelection.Location = New System.Drawing.Point(4, 22)
+            Me.TabPagePlaylistSelection.Name = "TabPagePlaylistSelection"
+            Me.TabPagePlaylistSelection.Padding = New System.Windows.Forms.Padding(3)
+            Me.TabPagePlaylistSelection.Size = New System.Drawing.Size(768, 400)
+            Me.TabPagePlaylistSelection.TabIndex = 5
+            Me.TabPagePlaylistSelection.Text = "m3u8 playlist selection"
+            Me.TabPagePlaylistSelection.UseVisualStyleBackColor = True
+            '
+            'Label11
+            '
+            Me.Label11.AutoSize = True
+            Me.Label11.Location = New System.Drawing.Point(6, 3)
+            Me.Label11.Name = "Label11"
+            Me.Label11.Size = New System.Drawing.Size(73, 13)
+            Me.Label11.TabIndex = 5
+            Me.Label11.Text = "Master playlist"
+            '
+            'MasterPlaylistTextBox
+            '
+            Me.MasterPlaylistTextBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.MasterPlaylistTextBox.Location = New System.Drawing.Point(9, 19)
+            Me.MasterPlaylistTextBox.MaxLength = 999999
+            Me.MasterPlaylistTextBox.Multiline = True
+            Me.MasterPlaylistTextBox.Name = "MasterPlaylistTextBox"
+            Me.MasterPlaylistTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
+            Me.MasterPlaylistTextBox.Size = New System.Drawing.Size(753, 174)
+            Me.MasterPlaylistTextBox.TabIndex = 4
+            '
+            'GroupBox5
+            '
+            Me.GroupBox5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.GroupBox5.Controls.Add(Me.TargetResolutionRadioButton)
+            Me.GroupBox5.Controls.Add(Me.HighResolutionRadioButton)
+            Me.GroupBox5.Controls.Add(Me.LowResolutionRadioButton)
+            Me.GroupBox5.Location = New System.Drawing.Point(620, 199)
+            Me.GroupBox5.Name = "GroupBox5"
+            Me.GroupBox5.Size = New System.Drawing.Size(142, 96)
+            Me.GroupBox5.TabIndex = 6
+            Me.GroupBox5.TabStop = False
+            Me.GroupBox5.Text = "Resolution"
+            '
+            'SelectVariantButton
+            '
+            Me.SelectVariantButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.SelectVariantButton.Location = New System.Drawing.Point(620, 374)
+            Me.SelectVariantButton.Name = "SelectVariantButton"
+            Me.SelectVariantButton.Size = New System.Drawing.Size(142, 23)
+            Me.SelectVariantButton.TabIndex = 7
+            Me.SelectVariantButton.Text = "Parse && Select"
+            Me.SelectVariantButton.UseVisualStyleBackColor = True
+            '
+            'LowResolutionRadioButton
+            '
+            Me.LowResolutionRadioButton.AutoSize = True
+            Me.LowResolutionRadioButton.Location = New System.Drawing.Point(7, 20)
+            Me.LowResolutionRadioButton.Name = "LowResolutionRadioButton"
+            Me.LowResolutionRadioButton.Size = New System.Drawing.Size(132, 17)
+            Me.LowResolutionRadioButton.TabIndex = 0
+            Me.LowResolutionRadioButton.TabStop = True
+            Me.LowResolutionRadioButton.Text = "Get Lowest Resolution"
+            Me.LowResolutionRadioButton.UseVisualStyleBackColor = True
+            '
+            'HighResolutionRadioButton
+            '
+            Me.HighResolutionRadioButton.AutoSize = True
+            Me.HighResolutionRadioButton.Location = New System.Drawing.Point(7, 43)
+            Me.HighResolutionRadioButton.Name = "HighResolutionRadioButton"
+            Me.HighResolutionRadioButton.Size = New System.Drawing.Size(120, 17)
+            Me.HighResolutionRadioButton.TabIndex = 1
+            Me.HighResolutionRadioButton.TabStop = True
+            Me.HighResolutionRadioButton.Text = "Get High Resolution"
+            Me.HighResolutionRadioButton.UseVisualStyleBackColor = True
+            '
+            'TargetResolutionRadioButton
+            '
+            Me.TargetResolutionRadioButton.AutoSize = True
+            Me.TargetResolutionRadioButton.Location = New System.Drawing.Point(7, 66)
+            Me.TargetResolutionRadioButton.Name = "TargetResolutionRadioButton"
+            Me.TargetResolutionRadioButton.Size = New System.Drawing.Size(109, 17)
+            Me.TargetResolutionRadioButton.TabIndex = 2
+            Me.TargetResolutionRadioButton.TabStop = True
+            Me.TargetResolutionRadioButton.Text = "Target Resolution"
+            Me.TargetResolutionRadioButton.UseVisualStyleBackColor = True
+            '
+            'TargetResolutionInput
+            '
+            Me.TargetResolutionInput.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.TargetResolutionInput.Location = New System.Drawing.Point(694, 347)
+            Me.TargetResolutionInput.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
+            Me.TargetResolutionInput.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+            Me.TargetResolutionInput.Name = "TargetResolutionInput"
+            Me.TargetResolutionInput.Size = New System.Drawing.Size(68, 20)
+            Me.TargetResolutionInput.TabIndex = 8
+            Me.TargetResolutionInput.Value = New Decimal(New Integer() {1, 0, 0, 0})
+            '
+            'HighBandwidthCheckBox
+            '
+            Me.HighBandwidthCheckBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.HighBandwidthCheckBox.AutoSize = True
+            Me.HighBandwidthCheckBox.Location = New System.Drawing.Point(620, 301)
+            Me.HighBandwidthCheckBox.Name = "HighBandwidthCheckBox"
+            Me.HighBandwidthCheckBox.Size = New System.Drawing.Size(132, 17)
+            Me.HighBandwidthCheckBox.TabIndex = 9
+            Me.HighBandwidthCheckBox.Text = "Prefer High Bandwidth"
+            Me.HighBandwidthCheckBox.UseVisualStyleBackColor = True
+            '
+            'HigherResolutionCheckBox
+            '
+            Me.HigherResolutionCheckBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.HigherResolutionCheckBox.AutoSize = True
+            Me.HigherResolutionCheckBox.Location = New System.Drawing.Point(620, 324)
+            Me.HigherResolutionCheckBox.Name = "HigherResolutionCheckBox"
+            Me.HigherResolutionCheckBox.Size = New System.Drawing.Size(133, 17)
+            Me.HigherResolutionCheckBox.TabIndex = 10
+            Me.HigherResolutionCheckBox.Text = "Next highest resolution"
+            Me.HigherResolutionCheckBox.UseVisualStyleBackColor = True
+            '
+            'SelectedVariantStreamOutput
+            '
+            Me.SelectedVariantStreamOutput.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.SelectedVariantStreamOutput.Location = New System.Drawing.Point(9, 219)
+            Me.SelectedVariantStreamOutput.MaxLength = 999999
+            Me.SelectedVariantStreamOutput.Multiline = True
+            Me.SelectedVariantStreamOutput.Name = "SelectedVariantStreamOutput"
+            Me.SelectedVariantStreamOutput.ReadOnly = True
+            Me.SelectedVariantStreamOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+            Me.SelectedVariantStreamOutput.Size = New System.Drawing.Size(605, 175)
+            Me.SelectedVariantStreamOutput.TabIndex = 11
+            '
+            'Label12
+            '
+            Me.Label12.AutoSize = True
+            Me.Label12.Location = New System.Drawing.Point(9, 200)
+            Me.Label12.Name = "Label12"
+            Me.Label12.Size = New System.Drawing.Size(121, 13)
+            Me.Label12.TabIndex = 12
+            Me.Label12.Text = "Selected Variant Stream"
             '
             'DebugForm
             '
@@ -744,6 +913,11 @@
             Me.TabPageQueue.PerformLayout()
             CType(Me.EpisodeNumberInput, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.SeasonNumberInput, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.TabPagePlaylistSelection.ResumeLayout(False)
+            Me.TabPagePlaylistSelection.PerformLayout()
+            Me.GroupBox5.ResumeLayout(False)
+            Me.GroupBox5.PerformLayout()
+            CType(Me.TargetResolutionInput, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
         End Sub
@@ -804,5 +978,18 @@
         Friend WithEvents RewriteUrlTextBox As TextBox
         Friend WithEvents RewriteUrlsCountNumericInput As NumericUpDown
         Friend WithEvents RewritePlaylistCheckBox As CheckBox
+        Friend WithEvents TabPagePlaylistSelection As TabPage
+        Friend WithEvents SelectVariantButton As Button
+        Friend WithEvents GroupBox5 As GroupBox
+        Friend WithEvents TargetResolutionRadioButton As RadioButton
+        Friend WithEvents HighResolutionRadioButton As RadioButton
+        Friend WithEvents LowResolutionRadioButton As RadioButton
+        Friend WithEvents Label11 As Label
+        Friend WithEvents MasterPlaylistTextBox As TextBox
+        Friend WithEvents TargetResolutionInput As NumericUpDown
+        Friend WithEvents HigherResolutionCheckBox As CheckBox
+        Friend WithEvents HighBandwidthCheckBox As CheckBox
+        Friend WithEvents Label12 As Label
+        Friend WithEvents SelectedVariantStreamOutput As TextBox
     End Class
 End Namespace
