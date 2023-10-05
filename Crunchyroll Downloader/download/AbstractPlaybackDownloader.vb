@@ -16,7 +16,7 @@ Namespace download
         ''' This should not contain fragments of a media stream, but it should contain the result of concatenating
         ''' these streams into a video or audio track.
         ''' </summary>
-        Protected DownloadedTracks As List(Of FileRecord)
+        Protected DownloadedTracks As New List(Of FileRecord)
 
         Public Sub New(tempDir As String, finalDir As String)
             TemporaryDirectory = tempDir
@@ -25,7 +25,7 @@ Namespace download
             Client = New HttpClient()
         End Sub
 
-        Protected Async Sub DownloadSingleFile(media As CompleteMedia)
+        Protected Async Function DownloadSingleFile(media As CompleteMedia) As Task
             Dim response = Await Client.SendAsync(New HttpRequestMessage(HttpMethod.Get, media.Url))
             If response.StatusCode = Net.HttpStatusCode.OK Then
                 Dim dataStream As Stream = Await response.Content.ReadAsStreamAsync()
@@ -40,9 +40,9 @@ Namespace download
 
                 DownloadedTracks.Append(New FileRecord(media.Type, temporaryPath))
             End If
-        End Sub
+        End Function
 
-        Public MustOverride Sub DownloadPlaybacks(playbacks As List(Of Playback)) Implements IPlaybackDownloader.DownloadPlaybacks
+        Public MustOverride Async Sub DownloadPlaybacks(playbacks As List(Of Playback)) Implements IPlaybackDownloader.DownloadPlaybacks
 
         Protected Class FileRecord
             Public ReadOnly Type As MediaType

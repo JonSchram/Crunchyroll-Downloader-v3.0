@@ -11,8 +11,21 @@
             MyBase.New(tempDir, finalDir)
         End Sub
 
-        Public Overrides Sub DownloadPlaybacks(playbacks As List(Of Playback))
-            Throw New NotImplementedException()
+        Public Overrides Async Sub DownloadPlaybacks(playbacks As List(Of Playback))
+
+            For Each playback In playbacks
+                Dim media As IEnumerable(Of Media) = playback.Media
+
+                For Each item In media
+                    Await DownloadMediaItem(item)
+                Next
+            Next
         End Sub
+
+        Private Async Function DownloadMediaItem(item As Media) As Task
+            If TypeOf item Is CompleteMedia Then
+                Await DownloadSingleFile(CType(item, CompleteMedia))
+            End If
+        End Function
     End Class
 End Namespace

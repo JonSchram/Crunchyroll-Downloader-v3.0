@@ -11,5 +11,10 @@ Namespace download
     Public MustInherit Class Media
         Public ReadOnly Property Type As MediaType
         Public ReadOnly Property LanguageCode As String
+
+        Protected Sub New(type As MediaType, languageCode As String)
+            Me.Type = type
+            Me.LanguageCode = languageCode
+        End Sub
     End Class
 End Namespace

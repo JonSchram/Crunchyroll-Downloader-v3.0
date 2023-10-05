@@ -2,6 +2,7 @@
 Imports System.Net
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.api.authentication
+Imports Crunchyroll_Downloader.api.client.stream
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.hls.parsing
 Imports Crunchyroll_Downloader.hls.playlist.comparer
@@ -226,6 +227,39 @@ Namespace debugging
                 End If
             End If
 
+        End Sub
+
+        Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+            Dim temporaryDirectory = TemporaryFolderTextBox.Text
+            Dim outputDirectory = OutputFolderTextBox.Text
+
+            Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
+
+
+            Dim playbacks As New List(Of Playback)
+            Dim mediaList As New List(Of Media)
+            Dim media = New CompleteMedia(MediaType.Subtitles, "ja", MediaUrlTextBox.Text)
+            mediaList.Add(media)
+            playbacks.Add(New Playback(mediaList))
+
+            downloader.DownloadPlaybacks(playbacks)
+
+        End Sub
+
+        Private Sub SelectTemporaryFolderButton_Click(sender As Object, e As EventArgs) Handles SelectTemporaryFolderButton.Click
+            Dim result As DialogResult = PlaybackFolderDialog.ShowDialog()
+
+            If result = DialogResult.OK Then
+                TemporaryFolderTextBox.Text = PlaybackFolderDialog.SelectedPath
+            End If
+        End Sub
+
+        Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+            Dim result As DialogResult = PlaybackFolderDialog.ShowDialog()
+
+            If result = DialogResult.OK Then
+                OutputFolderTextBox.Text = PlaybackFolderDialog.SelectedPath
+            End If
         End Sub
     End Class
 End Namespace
