@@ -217,6 +217,9 @@
     <Compile Include="api\downloaders\FunimationDownloader.vb" />
     <Compile Include="api\client\CrunchyrollClient.vb" />
     <Compile Include="api\client\FunimationClient.vb" />
+    <Compile Include="download\AbstractPlaybackDownloader.vb" />
+    <Compile Include="download\IPlaybackDownloader.vb" />
+    <Compile Include="download\CompleteMedia.vb" />
     <Compile Include="download\DownloadScheduler.vb" />
     <Compile Include="download\DownloadingItemPresenter.vb" />
     <Compile Include="download\DownloadingItemView.Designer.vb">
@@ -228,6 +231,11 @@
     <Compile Include="download\DownloadTask.vb" />
     <Compile Include="download\DownloadThread.vb" />
     <Compile Include="api\client\stream\PlaybackSelector.vb" />
+    <Compile Include="download\FfmpegDownloader.vb" />
+    <Compile Include="download\FragmentDownloader.vb" />
+    <Compile Include="download\Media.vb" />
+    <Compile Include="download\Playback.vb" />
+    <Compile Include="download\PlaylistMedia.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>
     </Compile>
