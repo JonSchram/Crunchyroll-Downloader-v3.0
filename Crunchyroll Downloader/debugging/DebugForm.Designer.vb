@@ -93,14 +93,15 @@
             Me.AddQueueItemButton = New System.Windows.Forms.Button()
             Me.Label6 = New System.Windows.Forms.Label()
             Me.TabPagePlayback = New System.Windows.Forms.TabPage()
-            Me.Button1 = New System.Windows.Forms.Button()
+            Me.SelectOutputFolderButton = New System.Windows.Forms.Button()
             Me.OutputFolderTextBox = New System.Windows.Forms.TextBox()
             Me.SelectTemporaryFolderButton = New System.Windows.Forms.Button()
             Me.TemporaryFolderTextBox = New System.Windows.Forms.TextBox()
             Me.PlaybackFolderDialog = New System.Windows.Forms.FolderBrowserDialog()
             Me.MediaUrlTextBox = New System.Windows.Forms.TextBox()
             Me.Label13 = New System.Windows.Forms.Label()
-            Me.Button2 = New System.Windows.Forms.Button()
+            Me.DownloadCompleteMediaButton = New System.Windows.Forms.Button()
+            Me.DownloadHlsMediaButton = New System.Windows.Forms.Button()
             Me.TabControlOperations.SuspendLayout()
             Me.TabPageEpisode.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -896,10 +897,11 @@
             '
             'TabPagePlayback
             '
-            Me.TabPagePlayback.Controls.Add(Me.Button2)
+            Me.TabPagePlayback.Controls.Add(Me.DownloadHlsMediaButton)
+            Me.TabPagePlayback.Controls.Add(Me.DownloadCompleteMediaButton)
             Me.TabPagePlayback.Controls.Add(Me.Label13)
             Me.TabPagePlayback.Controls.Add(Me.MediaUrlTextBox)
-            Me.TabPagePlayback.Controls.Add(Me.Button1)
+            Me.TabPagePlayback.Controls.Add(Me.SelectOutputFolderButton)
             Me.TabPagePlayback.Controls.Add(Me.OutputFolderTextBox)
             Me.TabPagePlayback.Controls.Add(Me.SelectTemporaryFolderButton)
             Me.TabPagePlayback.Controls.Add(Me.TemporaryFolderTextBox)
@@ -911,14 +913,14 @@
             Me.TabPagePlayback.Text = "Playback Download"
             Me.TabPagePlayback.UseVisualStyleBackColor = True
             '
-            'Button1
+            'SelectOutputFolderButton
             '
-            Me.Button1.Location = New System.Drawing.Point(6, 88)
-            Me.Button1.Name = "Button1"
-            Me.Button1.Size = New System.Drawing.Size(182, 23)
-            Me.Button1.TabIndex = 3
-            Me.Button1.Text = "Select Output Folder"
-            Me.Button1.UseVisualStyleBackColor = True
+            Me.SelectOutputFolderButton.Location = New System.Drawing.Point(6, 88)
+            Me.SelectOutputFolderButton.Name = "SelectOutputFolderButton"
+            Me.SelectOutputFolderButton.Size = New System.Drawing.Size(182, 23)
+            Me.SelectOutputFolderButton.TabIndex = 3
+            Me.SelectOutputFolderButton.Text = "Select Output Folder"
+            Me.SelectOutputFolderButton.UseVisualStyleBackColor = True
             '
             'OutputFolderTextBox
             '
@@ -961,14 +963,23 @@
             Me.Label13.TabIndex = 5
             Me.Label13.Text = "Media URL"
             '
-            'Button2
+            'DownloadCompleteMediaButton
             '
-            Me.Button2.Location = New System.Drawing.Point(6, 176)
-            Me.Button2.Name = "Button2"
-            Me.Button2.Size = New System.Drawing.Size(75, 23)
-            Me.Button2.TabIndex = 6
-            Me.Button2.Text = "Download"
-            Me.Button2.UseVisualStyleBackColor = True
+            Me.DownloadCompleteMediaButton.Location = New System.Drawing.Point(6, 176)
+            Me.DownloadCompleteMediaButton.Name = "DownloadCompleteMediaButton"
+            Me.DownloadCompleteMediaButton.Size = New System.Drawing.Size(155, 23)
+            Me.DownloadCompleteMediaButton.TabIndex = 6
+            Me.DownloadCompleteMediaButton.Text = "Download Complete Media"
+            Me.DownloadCompleteMediaButton.UseVisualStyleBackColor = True
+            '
+            'DownloadHlsMediaButton
+            '
+            Me.DownloadHlsMediaButton.Location = New System.Drawing.Point(167, 176)
+            Me.DownloadHlsMediaButton.Name = "DownloadHlsMediaButton"
+            Me.DownloadHlsMediaButton.Size = New System.Drawing.Size(165, 23)
+            Me.DownloadHlsMediaButton.TabIndex = 7
+            Me.DownloadHlsMediaButton.Text = "Download HLS Media Playlist"
+            Me.DownloadHlsMediaButton.UseVisualStyleBackColor = True
             '
             'DebugForm
             '
@@ -1081,13 +1092,14 @@
         Friend WithEvents Label12 As Label
         Friend WithEvents SelectedVariantStreamOutput As TextBox
         Friend WithEvents TabPagePlayback As TabPage
-        Friend WithEvents Button1 As Button
+        Friend WithEvents SelectOutputFolderButton As Button
         Friend WithEvents OutputFolderTextBox As TextBox
         Friend WithEvents SelectTemporaryFolderButton As Button
         Friend WithEvents TemporaryFolderTextBox As TextBox
         Friend WithEvents PlaybackFolderDialog As FolderBrowserDialog
-        Friend WithEvents Button2 As Button
+        Friend WithEvents DownloadCompleteMediaButton As Button
         Friend WithEvents Label13 As Label
         Friend WithEvents MediaUrlTextBox As TextBox
+        Friend WithEvents DownloadHlsMediaButton As Button
     End Class
 End Namespace

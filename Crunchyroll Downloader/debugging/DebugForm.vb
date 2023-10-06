@@ -5,6 +5,7 @@ Imports Crunchyroll_Downloader.api.authentication
 Imports Crunchyroll_Downloader.api.client.stream
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.hls.parsing
+Imports Crunchyroll_Downloader.hls.playlist
 Imports Crunchyroll_Downloader.hls.playlist.comparer
 Imports Crunchyroll_Downloader.hls.playlist.stream
 Imports Crunchyroll_Downloader.hls.rewriter
@@ -229,7 +230,7 @@ Namespace debugging
 
         End Sub
 
-        Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Private Sub Button2_Click(sender As Object, e As EventArgs) Handles DownloadCompleteMediaButton.Click
             Dim temporaryDirectory = TemporaryFolderTextBox.Text
             Dim outputDirectory = OutputFolderTextBox.Text
 
@@ -254,12 +255,28 @@ Namespace debugging
             End If
         End Sub
 
-        Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Private Sub SelectOutputFolderButton_Click(sender As Object, e As EventArgs) Handles SelectOutputFolderButton.Click
             Dim result As DialogResult = PlaybackFolderDialog.ShowDialog()
 
             If result = DialogResult.OK Then
                 OutputFolderTextBox.Text = PlaybackFolderDialog.SelectedPath
             End If
+        End Sub
+
+        Private Async Sub DownloadHlsMediaButton_Click(sender As Object, e As EventArgs) Handles DownloadHlsMediaButton.Click
+            Dim temporaryDirectory = TemporaryFolderTextBox.Text
+            Dim outputDirectory = OutputFolderTextBox.Text
+            Dim mediaUrl As String = MediaUrlTextBox.Text
+            Dim client As HttpClient = New HttpClient()
+
+            Dim response As HttpResponseMessage = Await client.GetAsync(mediaUrl)
+            Dim contents As HttpContent = response.Content
+            Dim playlistStream = Await contents.ReadAsStreamAsync()
+
+            Dim parser As PlaylistParser = New PlaylistParser()
+            Dim playlist As MediaPlaylist = parser.ParseMediaPlaylist(playlistStream)
+
+            Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
         End Sub
     End Class
 End Namespace

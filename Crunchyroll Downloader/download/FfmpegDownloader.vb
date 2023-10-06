@@ -25,7 +25,13 @@
         Private Async Function DownloadMediaItem(item As Media) As Task
             If TypeOf item Is CompleteMedia Then
                 Await DownloadSingleFile(CType(item, CompleteMedia))
+            ElseIf TypeOf item Is PlaylistMedia Then
+                Await DownloadPlaylist(CType(item, PlaylistMedia))
             End If
+        End Function
+
+        Private Async Function DownloadPlaylist(item As PlaylistMedia) As Task
+
         End Function
     End Class
 End Namespace

@@ -68,10 +68,18 @@ Namespace hls.parsing
             Parsers.Add(parser.GetTagName(), parser)
         End Sub
 
+        Public Function ParseMediaPlaylist(playlist As Stream) As MediaPlaylist
+            Dim reader As New StreamReader(playlist)
+
+            Return ParseMediaPlaylist(reader)
+        End Function
+
         Public Function ParseMediaPlaylist(playlist As String) As MediaPlaylist
-
             Dim playlistReader As New StringReader(playlist)
+            Return ParseMediaPlaylist(playlistReader)
+        End Function
 
+        Public Function ParseMediaPlaylist(playlistReader As TextReader) As MediaPlaylist
             If Not ValidatePlaylistFile(playlistReader) Then
                 Throw New HlsFormatException("Input not an Extended M3U playlist!")
             End If

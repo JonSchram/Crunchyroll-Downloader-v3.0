@@ -6,6 +6,7 @@ Namespace download
     ''' </summary>
     Public Class PlaylistMedia
         Inherits Media
+        ' TODO: Needs access to the original URL of the playlist so that the ffmpeg downloader can use it.
 
         Public Sub New(type As MediaType, languageCode As String)
             MyBase.New(type, languageCode)
