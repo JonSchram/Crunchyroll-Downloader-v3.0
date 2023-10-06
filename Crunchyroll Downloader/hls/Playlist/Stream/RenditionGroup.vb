@@ -22,15 +22,44 @@ Namespace hls.playlist.stream
             Return Nothing
         End Function
 
-        Public Overrides Function ToString() As String
-            Return $"[RenditionGroup: type: {Type}, renditions: {Renditions}]"
-            Return MyBase.ToString()
-        End Function
 
         Public Function GetAutoselectRenditions() As IEnumerable(Of T)
             Return Renditions.Where(Function(rendition As T)
                                         Return rendition.Autoselect
                                     End Function)
+        End Function
+
+        ''' <summary>
+        ''' Gets a single rendition from the group.
+        ''' The rendition returned is the highest non-null rendition with the following priority:
+        ''' <list type="number">
+        ''' <item>The default in the group</item>
+        ''' <item>The first rendition with autoselect set</item>
+        ''' <item>If neither of the above, any arbitrary rendition.</item>
+        ''' </list>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetSingleRendition() As T
+            Dim defaultRendition = GetDefaultRendition()
+            If defaultRendition IsNot Nothing Then
+                Return defaultRendition
+            End If
+
+            Dim autoselectRenditions As IEnumerable(Of T) = GetAutoselectRenditions()
+            If autoselectRenditions.Count() > 0 Then
+                Return autoselectRenditions.First()
+            End If
+
+            If Renditions.Count > 0 Then
+                Return Renditions.First()
+            End If
+
+            Return Nothing
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"[RenditionGroup: type: {Type}, renditions: {Renditions}]"
+            Return MyBase.ToString()
         End Function
 
         Public Class Builder
