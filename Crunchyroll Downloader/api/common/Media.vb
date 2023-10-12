@@ -1,6 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.api.common
 
-Namespace download
+Namespace api.common
     ''' <summary>
     ''' Superclass for media contained in a Selection.
     ''' <para>
@@ -10,11 +10,13 @@ Namespace download
     ''' </summary>
     Public MustInherit Class Media
         Public ReadOnly Property Type As MediaType
-        Public ReadOnly Property LanguageCode As String
+        Public ReadOnly Property MediaLanguage As Language
+        Public ReadOnly Property OriginalLocation As String
 
-        Protected Sub New(type As MediaType, languageCode As String)
+        Protected Sub New(type As MediaType, lang As Language, location As String)
             Me.Type = type
-            Me.LanguageCode = languageCode
+            MediaLanguage = lang
+            OriginalLocation = location
         End Sub
     End Class
 End Namespace

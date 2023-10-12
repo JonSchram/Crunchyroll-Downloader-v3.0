@@ -1,9 +1,9 @@
 ﻿Imports System.Net
 Imports System.Net.Http
 Imports System.Text.RegularExpressions
+Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.api.funimation.metadata
 Imports Crunchyroll_Downloader.api.metadata
-Imports Crunchyroll_Downloader.download
 Imports Microsoft.Web.WebView2.Core
 
 Namespace api.funimation
@@ -186,7 +186,19 @@ Namespace api.funimation
             Return New FunimationStreamSelector(playback)
         End Function
 
-        Public Async Function GetAvailableMedia() As Task(Of List(Of Media))
+        Public Async Function GetAvailableMedia() As Task(Of List(Of MediaLink))
+            ' TODO: Add some filtering criteria so it gets the correct media links.
+            ' For Funimation, this is selecting the right playback.
+            Return Nothing
+        End Function
+
+        Public Async Function ResolveMediaLink(link As MediaLink) As Task(Of Object)
+            ' Is it possible to make a more specific return type?
+            If TypeOf link Is HlsMasterPlaylistLink Then
+                ' retrieve a playlist and parse.
+            ElseIf TypeOf link Is FileMediaLink Then
+                ' retrieve a file
+            End If
             Return Nothing
         End Function
     End Class

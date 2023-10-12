@@ -59,8 +59,10 @@ Namespace api.funimation
             For Each subtitleInfo In playback.Subtitles
                 Dim parsedLanguage As FunimationLanguage =
                     LocaleConverter.ConvertFunimationLanguageCodeToLanguage(subtitleInfo.Language)
+                ' TODO: Quick workaround to get the project to compile. This code is probably getting replaced anyway.
+                Dim universalLanguage As Language = LocaleConverter.ConvertFunimationLanguageToLanguage(parsedLanguage)
                 If LocaleConverter.ListContainsFunimationLanguage(parsedLanguage, subLanguages) Then
-                    Dim subtitleStream = New FileMedia(MediaType.Subtitles, subtitleInfo.Path)
+                    Dim subtitleStream = New FileMediaLink(MediaType.Subtitles, universalLanguage, subtitleInfo.Path)
                     subtitleList.Add(subtitleStream)
                 End If
             Next

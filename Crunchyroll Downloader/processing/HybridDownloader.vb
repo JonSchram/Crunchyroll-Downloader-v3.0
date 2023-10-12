@@ -31,8 +31,8 @@ Namespace processing
                                                     Preferences.DownloadTypes)
 
             For Each stream In streams
-                If TypeOf stream Is FileMedia Then
-                    HandleFile(CType(stream, FileMedia))
+                If TypeOf stream Is FileMediaLink Then
+                    HandleFile(CType(stream, FileMediaLink))
                     'ElseIf TypeOf stream Is SegmentedMedia Then
                     '    HandleSegmentStream(CType(stream, SegmentedMedia))
                 End If
@@ -60,13 +60,13 @@ Namespace processing
         '    Next
         'End Sub
 
-        Private Async Sub HandleFile(file As FileMedia)
+        Private Async Sub HandleFile(file As FileMediaLink)
             ' TODO: Handle file system and HTTP errors
-            Dim parsedUri = New Uri(file.Uri)
+            Dim parsedUri = New Uri(file.Location)
             Dim fileName = parsedUri.LocalPath
             Dim filePath = IO.Path.Combine(StreamTempFolder.FullName, fileName)
             Dim fileStream = New FileStream(filePath, FileMode.CreateNew)
-            Dim response = Await client.GetStreamAsync(file.Uri)
+            Dim response = Await client.GetStreamAsync(file.Location)
 
             Await response.CopyToAsync(fileStream)
         End Sub

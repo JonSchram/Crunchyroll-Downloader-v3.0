@@ -1,0 +1,7 @@
+﻿Imports Crunchyroll_Downloader.api.common
+
+Public Interface IMediaLinkResolver(Of TIn As MediaLink, TOut As Media)
+
+    Function ResolveMedia(link As TIn) As TOut
+
+End Interface

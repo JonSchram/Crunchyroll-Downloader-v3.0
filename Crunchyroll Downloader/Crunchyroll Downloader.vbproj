@@ -174,12 +174,15 @@
     <Compile Include="AddVideo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="api\common\HlsMasterPlaylistLink.vb" />
     <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
+    <Compile Include="api\FileMediaResolver.vb" />
     <Compile Include="api\ICookieBasedAuth.vb" />
     <Compile Include="api\funimation\FunimationAuthenticator.vb" />
     <Compile Include="api\common\ByteRange.vb" />
-    <Compile Include="api\common\FileMedia.vb" />
+    <Compile Include="api\common\FileMediaLink.vb" />
     <Compile Include="api\funimation\FunimationStreamSelector.vb" />
+    <Compile Include="api\IMediaLinkResolver.vb" />
     <Compile Include="api\IStreamSelector.vb" />
     <Compile Include="api\common\MediaLink.vb" />
     <Compile Include="api\common\MediaType.vb" />
@@ -215,7 +218,7 @@
     <Compile Include="api\funimation\FunimationClient.vb" />
     <Compile Include="download\AbstractPlaybackDownloader.vb" />
     <Compile Include="download\IPlaybackDownloader.vb" />
-    <Compile Include="download\CompleteMedia.vb" />
+    <Compile Include="api\common\FileMedia.vb" />
     <Compile Include="download\DownloadScheduler.vb" />
     <Compile Include="download\DownloadingItemPresenter.vb" />
     <Compile Include="download\DownloadingItemView.Designer.vb">
@@ -229,9 +232,9 @@
     <Compile Include="api\funimation\PlaybackSelector.vb" />
     <Compile Include="download\FfmpegDownloader.vb" />
     <Compile Include="download\FragmentDownloader.vb" />
-    <Compile Include="download\Media.vb" />
+    <Compile Include="api\common\Media.vb" />
     <Compile Include="download\Selection.vb" />
-    <Compile Include="download\PlaylistMedia.vb" />
+    <Compile Include="api\common\PlaylistMedia.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>
     </Compile>

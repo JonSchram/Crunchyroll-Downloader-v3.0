@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.Immutable
+Imports Crunchyroll_Downloader.api.common
 
 Namespace download
     ''' <summary>

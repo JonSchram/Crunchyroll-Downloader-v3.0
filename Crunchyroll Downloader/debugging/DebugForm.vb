@@ -243,7 +243,7 @@ Namespace debugging
 
             Dim playbacks As New List(Of Selection)
             Dim mediaList As New List(Of Media)
-            Dim media = New CompleteMedia(MediaType.Subtitles, "ja", MediaUrlTextBox.Text)
+            Dim media = New FileMedia(MediaType.Subtitles, Language.JAPANESE, MediaUrlTextBox.Text)
             mediaList.Add(media)
             playbacks.Add(New Selection(mediaList))
 

@@ -1,11 +1,14 @@
-﻿Namespace api.common
-    Public Class FileMedia
-        Inherits MediaLink
-        Public ReadOnly Property Uri As String
+﻿Imports Crunchyroll_Downloader.api.common
 
-        Public Sub New(type As MediaType, uri As String)
-            MyBase.New(type)
-            Me.Uri = uri
+Namespace api.common
+    ''' <summary>
+    ''' Represents media that can be downloaded as a single file, no processing needed.
+    ''' </summary>
+    Public Class FileMedia
+        Inherits Media
+
+        Public Sub New(type As MediaType, lang As Language, url As String)
+            MyBase.New(type, lang, url)
         End Sub
     End Class
 End Namespace

@@ -25,12 +25,12 @@ Namespace download
             Client = New HttpClient()
         End Sub
 
-        Protected Async Function DownloadSingleFile(media As CompleteMedia) As Task
-            Dim response = Await Client.SendAsync(New HttpRequestMessage(HttpMethod.Get, media.Url))
+        Protected Async Function DownloadSingleFile(media As FileMedia) As Task
+            Dim response = Await Client.SendAsync(New HttpRequestMessage(HttpMethod.Get, media.OriginalLocation))
             If response.StatusCode = Net.HttpStatusCode.OK Then
                 Dim dataStream As Stream = Await response.Content.ReadAsStreamAsync()
 
-                Dim downloadUri As New Uri(media.Url)
+                Dim downloadUri As New Uri(media.OriginalLocation)
                 Dim filename = downloadUri.Segments(downloadUri.Segments.Count - 1)
                 Dim temporaryPath = Path.Combine(TemporaryDirectory, filename)
 

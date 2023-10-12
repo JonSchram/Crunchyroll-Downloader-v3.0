@@ -1,4 +1,6 @@
-﻿Namespace download
+﻿Imports Crunchyroll_Downloader.api.common
+
+Namespace download
 
     ''' <summary>
     ''' A downloader that is backed by ffmpeg.
@@ -23,8 +25,8 @@
         End Sub
 
         Private Async Function DownloadMediaItem(item As Media) As Task
-            If TypeOf item Is CompleteMedia Then
-                Await DownloadSingleFile(CType(item, CompleteMedia))
+            If TypeOf item Is FileMedia Then
+                Await DownloadSingleFile(CType(item, FileMedia))
             ElseIf TypeOf item Is PlaylistMedia Then
                 Await DownloadPlaylist(CType(item, PlaylistMedia))
             End If
