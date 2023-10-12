@@ -47,7 +47,7 @@ Namespace debugging
             Dim playlistText = PlaylistTextBox.Text
 
             If MasterPlaylistRadioButton.Checked() Then
-                Dim playlist = parser.parseMasterPlaylist(playlistText)
+                Dim playlist = parser.ParseMasterPlaylist(playlistText)
                 PlaylistOutputTextBox.Text = playlist.ToString()
 
             ElseIf MediaPlaylistRadioButton.Checked() Then
@@ -205,7 +205,7 @@ Namespace debugging
             Dim parser = New PlaylistParser()
             Dim playlistText = MasterPlaylistTextBox.Text
 
-            Dim playlist = parser.parseMasterPlaylist(playlistText)
+            Dim playlist = parser.ParseMasterPlaylist(playlistText)
             PlaylistOutputTextBox.Text = playlist.ToString()
 
             Dim preferHighBandwidth = HighBandwidthCheckBox.Checked

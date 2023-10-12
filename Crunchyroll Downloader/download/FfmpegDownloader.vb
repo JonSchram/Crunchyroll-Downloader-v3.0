@@ -27,12 +27,12 @@ Namespace download
         Private Async Function DownloadMediaItem(item As Media) As Task
             If TypeOf item Is FileMedia Then
                 Await DownloadSingleFile(CType(item, FileMedia))
-            ElseIf TypeOf item Is PlaylistMedia Then
-                Await DownloadPlaylist(CType(item, PlaylistMedia))
+            ElseIf TypeOf item Is MasterPlaylistMedia Then
+                Await DownloadPlaylist(CType(item, MasterPlaylistMedia))
             End If
         End Function
 
-        Private Async Function DownloadPlaylist(item As PlaylistMedia) As Task
+        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task
 
         End Function
     End Class

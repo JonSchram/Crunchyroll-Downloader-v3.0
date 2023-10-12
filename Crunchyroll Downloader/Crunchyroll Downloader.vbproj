@@ -189,6 +189,7 @@
     <Compile Include="api\conversion\LocaleConverter.vb" />
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\IEpisodeDownloader.vb" />
+    <Compile Include="api\MasterPlaylistResolver.vb" />
     <Compile Include="api\metadata\Episode.vb" />
     <Compile Include="api\IDownloadClient.vb" />
     <Compile Include="api\metadata\EpisodeOverview.vb" />
@@ -234,7 +235,7 @@
     <Compile Include="download\FragmentDownloader.vb" />
     <Compile Include="api\common\Media.vb" />
     <Compile Include="download\Selection.vb" />
-    <Compile Include="api\common\PlaylistMedia.vb" />
+    <Compile Include="api\common\MasterPlaylistMedia.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>
     </Compile>

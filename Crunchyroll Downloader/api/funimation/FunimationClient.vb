@@ -192,14 +192,15 @@ Namespace api.funimation
             Return Nothing
         End Function
 
-        Public Async Function ResolveMediaLink(link As MediaLink) As Task(Of Object)
-            ' Is it possible to make a more specific return type?
+        Public Async Function ResolveMediaLink(link As MediaLink) As Task(Of Media)
             If TypeOf link Is HlsMasterPlaylistLink Then
-                ' retrieve a playlist and parse.
+                Dim resolver = New MasterPlaylistResolver()
+                Return Await resolver.ResolveMedia(CType(link, HlsMasterPlaylistLink))
             ElseIf TypeOf link Is FileMediaLink Then
-                ' retrieve a file
+                Dim resolver = New FileMediaResolver()
+                Return Await resolver.ResolveMedia(CType(link, FileMediaLink))
             End If
-            Return Nothing
+            Throw New Exception("Could not resolve media. Unknown media type.")
         End Function
     End Class
 End Namespace

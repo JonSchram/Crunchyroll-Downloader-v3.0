@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Security.Cryptography.X509Certificates
 Imports System.Text
 Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
 Imports Crunchyroll_Downloader.hls.parsing.tags.master
@@ -118,10 +119,17 @@ Namespace hls.parsing
             Return ResultBuilder.Build()
         End Function
 
-        Public Function parseMasterPlaylist(playlist As String) As MasterPlaylist
-
+        Public Function ParseMasterPlaylist(playlist As String) As MasterPlaylist
             Dim playlistReader As New StringReader(playlist)
+            Return ParseMasterPlaylist(playlistReader)
+        End Function
 
+        Public Function ParseMasterPlaylist(playlist As Stream) As MasterPlaylist
+            Dim reader As New StreamReader(playlist)
+            Return ParseMasterPlaylist(reader)
+        End Function
+
+        Public Function ParseMasterPlaylist(playlistReader As TextReader) As MasterPlaylist
             If Not ValidatePlaylistFile(playlistReader) Then
                 Throw New HlsFormatException("Input not an Extended M3U playlist!")
             End If
