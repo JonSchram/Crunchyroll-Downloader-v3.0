@@ -38,6 +38,25 @@ Namespace api.conversion
             End Select
         End Function
 
+        Public Shared Function ConvertFunimationLanguageCodeToUniversalLanguage(languageCode As String) As Language
+            Select Case languageCode
+                Case "en"
+                    Return Language.ENGLISH
+                Case "es"
+                    Return Language.SPANISH_LATIN_AMERICA
+                Case "pt"
+                    Return Language.PORTUGUESE
+                Case "ja"
+                    Return Language.JAPANESE
+                Case "zh-mn"
+                    Return Language.CHINESE
+                Case "N/A"
+                    Return Language.NONE
+                Case Else
+                    Return Language.NONE
+            End Select
+        End Function
+
         Public Shared Function ConvertFunimationLangaugeToLanguageCode(language As FunimationLanguage) As String
             Select Case language
                 Case FunimationLanguage.ENGLISH

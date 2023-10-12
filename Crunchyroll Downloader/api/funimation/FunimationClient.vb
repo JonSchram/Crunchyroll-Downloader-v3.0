@@ -190,14 +190,9 @@ Namespace api.funimation
 
         Public Async Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
             Dim episodePlaybacks As EpisodePlaybackInfo = Await GetEpisodePlayback(ep)
-            Dim bestPlayback As Playback = New PlaybackFilter(preferences).GetBestPlayback(episodePlaybacks.GetAllPlaybacks())
-
-
-
-
-            ' TODO: Add some filtering criteria so it gets the correct media links.
-            ' For Funimation, this is selecting the right playback.
-            Return Nothing
+            Dim filter = New PlaybackFilter(preferences)
+            Dim bestPlayback As Playback = filter.GetBestPlayback(episodePlaybacks.GetAllPlaybacks())
+            Return filter.GetMatchingMedia(bestPlayback)
         End Function
 
         Public Async Function ResolveMediaLink(link As MediaLink) As Task(Of Media) Implements IDownloadClient.ResolveMediaLink

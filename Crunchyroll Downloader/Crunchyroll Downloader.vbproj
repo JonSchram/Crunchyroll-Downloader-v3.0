@@ -175,8 +175,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="api\common\HlsMasterPlaylistLink.vb" />
+    <Compile Include="api\conversion\FormatConverter.vb" />
     <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
     <Compile Include="api\FileMediaResolver.vb" />
+    <Compile Include="api\funimation\FunimationDownloadPreferences.vb" />
     <Compile Include="api\funimation\PlaybackFilter.vb" />
     <Compile Include="api\ICookieBasedAuth.vb" />
     <Compile Include="api\funimation\FunimationAuthenticator.vb" />
