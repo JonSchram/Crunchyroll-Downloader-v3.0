@@ -176,11 +176,6 @@ Namespace api.funimation
             Return "Funimation"
         End Function
 
-        Private Async Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector)
-            Dim playback = Await GetEpisodePlayback(ep)
-            Return New FunimationStreamSelector(playback)
-        End Function
-
         Private Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo)
             Dim url = BuildPlaybackUrl(ep)
             Dim result = Await Authenticator.SendAuthenticatedRequest(url)

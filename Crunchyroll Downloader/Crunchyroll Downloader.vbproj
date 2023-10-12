@@ -184,7 +184,6 @@
     <Compile Include="api\funimation\FunimationAuthenticator.vb" />
     <Compile Include="api\common\ByteRange.vb" />
     <Compile Include="api\common\FileMediaLink.vb" />
-    <Compile Include="api\funimation\FunimationStreamSelector.vb" />
     <Compile Include="api\IMediaLinkResolver.vb" />
     <Compile Include="api\IStreamSelector.vb" />
     <Compile Include="api\common\MediaLink.vb" />
