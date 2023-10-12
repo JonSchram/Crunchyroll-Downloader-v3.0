@@ -1,4 +1,4 @@
-﻿Namespace api
+﻿Namespace api.metadata
     Public MustInherit Class Episode
         ' The ID of the corresponding video playback info
         Public Property VideoId As String

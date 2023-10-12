@@ -1,4 +1,4 @@
-﻿Namespace api.client.stream
+﻿Namespace api.common
     Public Class ByteRange
         Public ReadOnly Property Length As Integer
         ' Use a Long integer because the offset may get large with long streams

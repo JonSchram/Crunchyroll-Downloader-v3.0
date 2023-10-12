@@ -1,4 +1,4 @@
-﻿Imports Crunchyroll_Downloader.api.client.stream
+﻿Imports Crunchyroll_Downloader.api.common
 
 Namespace processing
     ' TODO: Put this in a more appropriate location.

@@ -1,8 +1,12 @@
 ﻿Imports System.IO
 Imports System.Net
 Imports System.Net.Http
-Imports Crunchyroll_Downloader.api.authentication
-Imports Crunchyroll_Downloader.api.client.stream
+Imports Crunchyroll_Downloader.api
+Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.api.crunchyroll
+Imports Crunchyroll_Downloader.api.funimation
+Imports Crunchyroll_Downloader.api.funimation.metadata
+Imports Crunchyroll_Downloader.api.metadata
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.hls.parsing
 Imports Crunchyroll_Downloader.hls.playlist

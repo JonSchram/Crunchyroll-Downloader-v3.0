@@ -1,6 +1,6 @@
-﻿Imports Crunchyroll_Downloader.api.client.stream
+﻿Imports Crunchyroll_Downloader.api.metadata
 
-Namespace api.client
+Namespace api
     Public Interface IDownloadClient
         Function Initialize() As Task
 
@@ -24,22 +24,22 @@ Namespace api.client
         ''' </summary>
         ''' <param name="Overview"></param>
         ''' <returns></returns>
-        Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode)
+        Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of episode)
 
         ''' <summary>
         ''' Downloads the episode info from the download URL, assumed to be a link to an episode.
         ''' </summary>
         ''' <returns></returns>
-        Function GetEpisodeInfo(Url As String) As Task(Of Episode)
+        Function GetEpisodeInfo(Url As String) As Task(Of episode)
 
         ''' <summary>
         ''' Gets the playback options for an individual episode.
         ''' </summary>
         ''' <param name="ep"></param>
         ''' <returns></returns>
-        Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo)
+        Function GetEpisodePlayback(ep As episode) As Task(Of EpisodePlaybackInfo)
 
-        Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector)
+        Function GetStreamSelector(ep As episode) As Task(Of IStreamSelector)
 
         ''' <summary>
         ''' Gets whether the URL corresponds to a series (not an individual season or an episode).

@@ -1,4 +1,4 @@
-﻿Imports Crunchyroll_Downloader.api
+﻿Imports Crunchyroll_Downloader.api.metadata
 
 Namespace debugging
     Public Class FakeEpisode

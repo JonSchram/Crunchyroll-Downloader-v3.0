@@ -1,4 +1,4 @@
-﻿Namespace api.client.stream
+﻿Namespace api.common
     ''' <summary>
     ''' Specifies what kind of content is contained in a stream. Acts as bitwise flags because a stream may
     ''' contain multiple types of content.

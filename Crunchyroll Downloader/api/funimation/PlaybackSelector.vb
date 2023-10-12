@@ -1,8 +1,10 @@
-﻿Imports Crunchyroll_Downloader.api.metadata.video
-Imports Crunchyroll_Downloader.processing
+﻿Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.api.conversion
+Imports Crunchyroll_Downloader.api.metadata
+Imports Crunchyroll_Downloader.api.metadata.video
 Imports Crunchyroll_Downloader.settings.funimation
 
-Namespace api.client.stream
+Namespace api.funimation
     Public Class PlaybackSelector
         Private playback As EpisodePlaybackInfo
 

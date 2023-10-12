@@ -1,6 +1,6 @@
-﻿Namespace api.client.stream
+﻿Namespace api.common
     Public Class FileMedia
-        Inherits MediaStream
+        Inherits MediaLink
         Public ReadOnly Property Uri As String
 
         Public Sub New(type As MediaType, uri As String)

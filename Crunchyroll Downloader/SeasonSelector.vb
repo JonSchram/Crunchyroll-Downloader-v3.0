@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.api.client
+﻿Imports Crunchyroll_Downloader.api
+Imports Crunchyroll_Downloader.api.metadata
 
 Public Class SeasonSelector
     Private SeasonList As List(Of SeasonOverview)

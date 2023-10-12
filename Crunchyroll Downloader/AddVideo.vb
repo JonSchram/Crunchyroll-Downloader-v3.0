@@ -1,5 +1,5 @@
 ﻿Option Strict On
-Imports Crunchyroll_Downloader.api.client
+Imports Crunchyroll_Downloader.api
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings.general
 

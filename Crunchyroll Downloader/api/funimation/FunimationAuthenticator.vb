@@ -2,7 +2,7 @@
 Imports System.Net.Http
 Imports Microsoft.Web.WebView2.Core
 
-Namespace api.authentication
+Namespace api.funimation
     Public Class FunimationAuthenticator
         Implements ICookieBasedAuth
 

@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.api.client.stream
+Imports Crunchyroll_Downloader.api.common
 
 Namespace processing
     Public Class HybridDownloader
@@ -32,32 +33,32 @@ Namespace processing
             For Each stream In streams
                 If TypeOf stream Is FileMedia Then
                     HandleFile(CType(stream, FileMedia))
-                ElseIf TypeOf stream Is SegmentedMedia Then
-                    HandleSegmentStream(CType(stream, SegmentedMedia))
+                    'ElseIf TypeOf stream Is SegmentedMedia Then
+                    '    HandleSegmentStream(CType(stream, SegmentedMedia))
                 End If
             Next
 
         End Sub
 
-        Private Async Sub HandleSegmentStream(stream As SegmentedMedia)
-            Dim folderName As String = $"stream-{StreamNumber}"
-            StreamNumber += 1
-            Dim streamFolder = StreamTempFolder.CreateSubdirectory(folderName)
+        'Private Async Sub HandleSegmentStream(stream As SegmentedMedia)
+        '    Dim folderName As String = $"stream-{StreamNumber}"
+        '    StreamNumber += 1
+        '    Dim streamFolder = StreamTempFolder.CreateSubdirectory(folderName)
 
-            For i As Integer = 0 To stream.GetSegmentCount()
-                Dim segment = stream.GetSegment(i)
-                Dim responseTask = client.GetStreamAsync(segment.Uri)
+        '    For i As Integer = 0 To stream.GetSegmentCount()
+        '        Dim segment = stream.GetSegment(i)
+        '        Dim responseTask = client.GetStreamAsync(segment.Uri)
 
-                Dim parsedUri = New Uri(folderName)
-                Dim fileName = parsedUri.LocalPath
-                Dim filePath = IO.Path.Combine(streamFolder.FullName, fileName)
-                Dim fileStream = New FileStream(filePath, FileMode.CreateNew)
+        '        Dim parsedUri = New Uri(folderName)
+        '        Dim fileName = parsedUri.LocalPath
+        '        Dim filePath = IO.Path.Combine(streamFolder.FullName, fileName)
+        '        Dim fileStream = New FileStream(filePath, FileMode.CreateNew)
 
-                Dim response = Await responseTask
-                Await response.CopyToAsync(fileStream)
-                fileStream.Close()
-            Next
-        End Sub
+        '        Dim response = Await responseTask
+        '        Await response.CopyToAsync(fileStream)
+        '        fileStream.Close()
+        '    Next
+        'End Sub
 
         Private Async Sub HandleFile(file As FileMedia)
             ' TODO: Handle file system and HTTP errors

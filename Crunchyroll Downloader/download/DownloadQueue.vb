@@ -2,7 +2,7 @@
 Imports System.ComponentModel
 Imports System.Threading
 Imports Crunchyroll_Downloader.api
-Imports Crunchyroll_Downloader.api.client
+Imports Crunchyroll_Downloader.api.metadata
 
 Namespace download
     ''' <summary>

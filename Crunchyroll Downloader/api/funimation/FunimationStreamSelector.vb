@@ -1,8 +1,10 @@
-﻿Imports Crunchyroll_Downloader.api.metadata.video
-Imports Crunchyroll_Downloader.processing
+﻿Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.api.conversion
+Imports Crunchyroll_Downloader.api.metadata
+Imports Crunchyroll_Downloader.api.metadata.video
 Imports Crunchyroll_Downloader.settings.funimation
 
-Namespace api.client.stream
+Namespace api.funimation
     Public Class FunimationStreamSelector
         Implements IStreamSelector
 
@@ -15,15 +17,15 @@ Namespace api.client.stream
         End Sub
 
 
-        Public Function GetStreams(type As MediaType, langauges As List(Of Language)) As List(Of MediaStream) Implements IStreamSelector.GetStreams
+        Public Function GetStreams(type As MediaType, langauges As List(Of Language)) As List(Of MediaLink) Implements IStreamSelector.GetStreams
             Throw New NotImplementedException()
         End Function
 
-        Public Function GetStreams(audioLanguage As Language, subtitleLanguages As List(Of Language), streamTypeFlags As MediaType) As List(Of MediaStream) Implements IStreamSelector.GetStreams
+        Public Function GetStreams(audioLanguage As Language, subtitleLanguages As List(Of Language), streamTypeFlags As MediaType) As List(Of MediaLink) Implements IStreamSelector.GetStreams
             Dim bestPlayback = selector.ChooseFunimationPlayback(audioLanguage)
 
             Dim obtainedPlaybacks As MediaType = Nothing
-            Dim streams As New List(Of MediaStream)
+            Dim streams As New List(Of MediaLink)
 
             If streamTypeFlags.HasFlag(MediaType.subtitles) Then
                 Dim subResult = GetSubtitles(bestPlayback, subtitleLanguages)
@@ -53,7 +55,7 @@ Namespace api.client.stream
         End Function
 
         Private Function GetSubtitles(playback As Playback, subLanguages As List(Of Language)) As MediaResult
-            Dim subtitleList As New List(Of MediaStream)
+            Dim subtitleList As New List(Of MediaLink)
             For Each subtitleInfo In playback.Subtitles
                 Dim parsedLanguage As FunimationLanguage =
                     LocaleConverter.ConvertFunimationLanguageCodeToLanguage(subtitleInfo.Language)
@@ -79,7 +81,7 @@ Namespace api.client.stream
 
         Private Class MediaResult
             Public Property MediaTypes As MediaType
-            Public Property FoundMedia As List(Of MediaStream)
+            Public Property FoundMedia As List(Of MediaLink)
         End Class
     End Class
 End Namespace

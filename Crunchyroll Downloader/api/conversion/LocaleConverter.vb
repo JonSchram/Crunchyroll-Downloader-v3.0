@@ -1,7 +1,7 @@
-﻿Imports Crunchyroll_Downloader.processing
+﻿Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.settings.funimation
 
-Namespace api
+Namespace api.conversion
     Public Class LocaleConverter
 
         Public Shared Function ConvertFunimationLanguageToLocale(locale As FunimationLanguage) As String

@@ -1,7 +1,7 @@
 ﻿Imports System.Net
 Imports Microsoft.Web.WebView2.Core
 
-Namespace api.authentication
+Namespace api.crunchyroll
     Public Class CrunchyrollAuthenticator
         Implements ICookieBasedAuth
 

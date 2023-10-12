@@ -174,31 +174,27 @@
     <Compile Include="AddVideo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="api\authentication\CrunchyrollAuthenticator.vb" />
-    <Compile Include="api\authentication\ICookieBasedAuth.vb" />
-    <Compile Include="api\authentication\FunimationAuthenticator.vb" />
-    <Compile Include="api\client\stream\ByteRange.vb" />
-    <Compile Include="api\client\stream\FileMedia.vb" />
-    <Compile Include="api\client\stream\FunimationStreamSelector.vb" />
-    <Compile Include="api\client\stream\HlsPlaylist.vb" />
-    <Compile Include="api\client\stream\IStreamSelector.vb" />
-    <Compile Include="api\client\stream\StreamSegment.vb" />
-    <Compile Include="api\client\stream\MediaStream.vb" />
-    <Compile Include="api\client\stream\StreamFormat.vb" />
-    <Compile Include="api\client\stream\SegmentedMedia.vb" />
-    <Compile Include="api\client\stream\MediaType.vb" />
+    <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
+    <Compile Include="api\ICookieBasedAuth.vb" />
+    <Compile Include="api\funimation\FunimationAuthenticator.vb" />
+    <Compile Include="api\common\ByteRange.vb" />
+    <Compile Include="api\common\FileMedia.vb" />
+    <Compile Include="api\funimation\FunimationStreamSelector.vb" />
+    <Compile Include="api\IStreamSelector.vb" />
+    <Compile Include="api\common\MediaLink.vb" />
+    <Compile Include="api\common\MediaType.vb" />
     <Compile Include="api\conversion\LocaleConverter.vb" />
     <Compile Include="api\DownloaderApi.vb" />
-    <Compile Include="api\downloaders\IEpisodeDownloader.vb" />
+    <Compile Include="api\IEpisodeDownloader.vb" />
     <Compile Include="api\metadata\Episode.vb" />
-    <Compile Include="api\client\IDownloadClient.vb" />
+    <Compile Include="api\IDownloadClient.vb" />
     <Compile Include="api\metadata\EpisodeOverview.vb" />
     <Compile Include="api\metadata\EpisodePlaybackInfo.vb" />
-    <Compile Include="api\metadata\Funimation\FunimationEpisodeOverview.vb" />
-    <Compile Include="api\metadata\Funimation\FunimationEpisode.vb" />
-    <Compile Include="api\metadata\Funimation\FunimationSeason.vb" />
-    <Compile Include="api\metadata\Funimation\FunimationSeasonOverview.vb" />
-    <Compile Include="api\metadata\Funimation\FunimationSeries.vb" />
+    <Compile Include="api\funimation\metadata\FunimationEpisodeOverview.vb" />
+    <Compile Include="api\funimation\metadata\FunimationEpisode.vb" />
+    <Compile Include="api\funimation\metadata\FunimationSeason.vb" />
+    <Compile Include="api\funimation\metadata\FunimationSeasonOverview.vb" />
+    <Compile Include="api\funimation\metadata\FunimationSeries.vb" />
     <Compile Include="api\metadata\Season.vb" />
     <Compile Include="api\metadata\Video\Playback.vb" />
     <Compile Include="api\metadata\SeasonOverview.vb" />
@@ -213,10 +209,10 @@
     <Compile Include="debugging\FakeDownloadClient.vb" />
     <Compile Include="debugging\FakeEpisode.vb" />
     <Compile Include="DirectorySettings.vb" />
-    <Compile Include="api\downloaders\CrunchyrollDownloader.vb" />
-    <Compile Include="api\downloaders\FunimationDownloader.vb" />
-    <Compile Include="api\client\CrunchyrollClient.vb" />
-    <Compile Include="api\client\FunimationClient.vb" />
+    <Compile Include="api\crunchyroll\CrunchyrollDownloader.vb" />
+    <Compile Include="api\funimation\FunimationDownloader.vb" />
+    <Compile Include="api\crunchyroll\CrunchyrollClient.vb" />
+    <Compile Include="api\funimation\FunimationClient.vb" />
     <Compile Include="download\AbstractPlaybackDownloader.vb" />
     <Compile Include="download\IPlaybackDownloader.vb" />
     <Compile Include="download\CompleteMedia.vb" />
@@ -230,7 +226,7 @@
     </Compile>
     <Compile Include="download\DownloadTask.vb" />
     <Compile Include="download\DownloadThread.vb" />
-    <Compile Include="api\client\stream\PlaybackSelector.vb" />
+    <Compile Include="api\funimation\PlaybackSelector.vb" />
     <Compile Include="download\FfmpegDownloader.vb" />
     <Compile Include="download\FragmentDownloader.vb" />
     <Compile Include="download\Media.vb" />
@@ -311,9 +307,8 @@
     <Compile Include="hls\Parsing\Tags\Universal\VersionTagParser.vb" />
     <Compile Include="hls\Writer\PlaylistWriter.vb" />
     <Compile Include="processing\DownloadPreferences.vb" />
-    <Compile Include="processing\FfmpegDownloader.vb" />
     <Compile Include="processing\HybridDownloader.vb" />
-    <Compile Include="processing\Language.vb" />
+    <Compile Include="api\common\Language.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>
     </Compile>
@@ -609,9 +604,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="api\client\playback\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\Microsoft.Web.WebView2.1.0.1587.40\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.1587.40\build\Microsoft.Web.WebView2.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

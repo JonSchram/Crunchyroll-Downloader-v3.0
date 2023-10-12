@@ -1,11 +1,13 @@
 ﻿Imports System.Net
 Imports System.Net.Http
 Imports System.Text.RegularExpressions
-Imports Crunchyroll_Downloader.api.authentication
 Imports Crunchyroll_Downloader.api.client.stream
+Imports Crunchyroll_Downloader.api.funimation.metadata
+Imports Crunchyroll_Downloader.api.metadata
+Imports Crunchyroll_Downloader.download
 Imports Microsoft.Web.WebView2.Core
 
-Namespace api.client
+Namespace api.funimation
     ''' <summary>
     ''' Gets information about episodes from Funimation
     ''' </summary>
@@ -183,6 +185,10 @@ Namespace api.client
         Public Async Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector) Implements IDownloadClient.GetStreamSelector
             Dim playback = Await GetEpisodePlayback(ep)
             Return New FunimationStreamSelector(playback)
+        End Function
+
+        Public Async Function GetAvailableMedia() As Task(Of List(Of Media))
+            Return Nothing
         End Function
     End Class
 End Namespace

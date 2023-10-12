@@ -1,5 +1,4 @@
 ﻿Imports System.Threading
-Imports Crunchyroll_Downloader.api.metadata.video
 
 Namespace download
     Public Class DownloadThread

@@ -1,8 +1,8 @@
-﻿Imports Crunchyroll_Downloader.api.client.stream
+﻿Imports Crunchyroll_Downloader.api.metadata
 Imports Crunchyroll_Downloader.ui
 Imports Newtonsoft.Json.Linq
 
-Namespace api.client
+Namespace api.crunchyroll
     Public Class CrunchyrollClient
         Implements IDownloadClient
         Public Sub FillCREpisodes(ByVal EpisodeJson As String)
