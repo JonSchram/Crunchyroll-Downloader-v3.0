@@ -1,5 +1,4 @@
-﻿Imports Crunchyroll_Downloader.api.common
-Imports Crunchyroll_Downloader.hls.playlist
+﻿Imports Crunchyroll_Downloader.hls.playlist
 
 Namespace api.common
     ''' <summary>

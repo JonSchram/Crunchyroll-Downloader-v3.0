@@ -1,4 +1,6 @@
-﻿Imports Crunchyroll_Downloader.api.metadata
+﻿Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.api.metadata
+Imports Crunchyroll_Downloader.processing
 Imports Crunchyroll_Downloader.ui
 Imports Newtonsoft.Json.Linq
 
@@ -68,15 +70,17 @@ Namespace api.crunchyroll
             Throw New NotImplementedException()
         End Function
 
-        Public Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IDownloadClient.GetEpisodePlayback
-            Throw New NotImplementedException()
-        End Function
 
         Public Function GetSiteName() As String Implements IDownloadClient.GetSiteName
             Return "Crunchyroll"
         End Function
 
-        Public Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector) Implements IDownloadClient.GetStreamSelector
+
+        Public Function ResolveMediaLink(link As MediaLink) As Task(Of Media) Implements IDownloadClient.ResolveMediaLink
+            Throw New NotImplementedException()
+        End Function
+
+        Public Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
             Throw New NotImplementedException()
         End Function
     End Class

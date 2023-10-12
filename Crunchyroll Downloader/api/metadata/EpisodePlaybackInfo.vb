@@ -24,6 +24,14 @@ Namespace api.metadata
             Return Fallbacks
         End Function
 
+        Public Function GetAllPlaybacks() As List(Of Playback)
+            Dim allPlaybacks As New List(Of Playback) From {
+                Primary
+            }
+            allPlaybacks.AddRange(Fallbacks)
+            Return allPlaybacks
+        End Function
+
         Public Shared Function CreateFromJson(Json As String) As EpisodePlaybackInfo
             ' TODO: Handle invalid responses because of failure to retrieve playback
             ' (Most likely because of premium subscription requirement)

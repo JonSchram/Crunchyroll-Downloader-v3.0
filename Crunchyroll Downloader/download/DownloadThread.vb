@@ -73,7 +73,7 @@ Namespace download
             Dim client = DlTask.GetMetadataClient()
             Dim episode = DlTask.GetEpisode()
             Console.WriteLine($"Getting playback file for {episode}")
-            Dim playback = Await client.GetEpisodePlayback(episode)
+            'Dim playback = Await client.GetEpisodePlayback(episode)
             RaiseReportProgressEvent(Stage.FIND_VIDEO, 1)
 
             ' TODO: This pattern of reporting a complete stage and immediately reporting the next stage as incomplete

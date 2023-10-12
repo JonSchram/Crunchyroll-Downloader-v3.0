@@ -1,6 +1,4 @@
-﻿Imports Crunchyroll_Downloader.api.common
-
-Namespace api.common
+﻿Namespace api.common
     ''' <summary>
     ''' Superclass for media contained in a Selection.
     ''' <para>

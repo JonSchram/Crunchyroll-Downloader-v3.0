@@ -9,11 +9,10 @@ Namespace api.funimation
         Implements IStreamSelector
 
         Private EpisodePlayback As EpisodePlaybackInfo
-        Private selector As PlaybackSelector
 
         Public Sub New(episodePlayback As EpisodePlaybackInfo)
             Me.EpisodePlayback = episodePlayback
-            selector = New PlaybackSelector(episodePlayback)
+            ' TODO: Use new playback filter instead of passing in a playback info.
         End Sub
 
 
@@ -22,7 +21,7 @@ Namespace api.funimation
         End Function
 
         Public Function GetStreams(audioLanguage As Language, subtitleLanguages As List(Of Language), streamTypeFlags As MediaType) As List(Of MediaLink) Implements IStreamSelector.GetStreams
-            Dim bestPlayback = selector.ChooseFunimationPlayback(audioLanguage)
+            Dim bestPlayback As Playback = Nothing ' selector.ChooseFunimationPlayback(audioLanguage)
 
             Dim obtainedPlaybacks As MediaType = Nothing
             Dim streams As New List(Of MediaLink)

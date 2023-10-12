@@ -1,6 +1,7 @@
 ﻿Imports Crunchyroll_Downloader.api
+Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.api.metadata
-Imports Crunchyroll_Downloader.api.metadata.video
+Imports Crunchyroll_Downloader.processing
 
 Namespace debugging
     Public Class FakeDownloadClient
@@ -34,22 +35,6 @@ Namespace debugging
             Return New Task(Of Episode)(Function() ep)
         End Function
 
-        Public Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IDownloadClient.GetEpisodePlayback
-            Return Task.FromResult(New EpisodePlaybackInfo(CreateFakePlayback(ep), New List(Of Playback)))
-        End Function
-
-        Private Function CreateFakePlayback(ep As Episode) As Playback
-            Return New Playback() With {
-                .VideoId = ep.VideoId,
-                .AudioLanguage = "Fake language",
-                .FileExtension = "m3u8",
-                .PlaylistPath = "https://www.example.com",
-                .AccessType = "",
-                .Version = "fake",
-                .Subtitles = New List(Of Subtitle)
-            }
-        End Function
-
         Public Function IsSeriesUrl(Url As String) As Boolean Implements IDownloadClient.IsSeriesUrl
             Return Not IsVideo
         End Function
@@ -62,7 +47,11 @@ Namespace debugging
             Return "Dummy site"
         End Function
 
-        Public Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector) Implements IDownloadClient.GetStreamSelector
+        Public Function ResolveMediaLink(link As MediaLink) As Task(Of Media) Implements IDownloadClient.ResolveMediaLink
+            Throw New NotImplementedException()
+        End Function
+
+        Public Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
             Throw New NotImplementedException()
         End Function
     End Class

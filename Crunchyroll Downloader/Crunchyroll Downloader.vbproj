@@ -177,6 +177,7 @@
     <Compile Include="api\common\HlsMasterPlaylistLink.vb" />
     <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
     <Compile Include="api\FileMediaResolver.vb" />
+    <Compile Include="api\funimation\PlaybackFilter.vb" />
     <Compile Include="api\ICookieBasedAuth.vb" />
     <Compile Include="api\funimation\FunimationAuthenticator.vb" />
     <Compile Include="api\common\ByteRange.vb" />
@@ -230,7 +231,6 @@
     </Compile>
     <Compile Include="download\DownloadTask.vb" />
     <Compile Include="download\DownloadThread.vb" />
-    <Compile Include="api\funimation\PlaybackSelector.vb" />
     <Compile Include="download\FfmpegDownloader.vb" />
     <Compile Include="download\FragmentDownloader.vb" />
     <Compile Include="api\common\Media.vb" />
@@ -310,7 +310,7 @@
     <Compile Include="hls\Parsing\PlaylistParser.vb" />
     <Compile Include="hls\Parsing\Tags\Universal\VersionTagParser.vb" />
     <Compile Include="hls\Writer\PlaylistWriter.vb" />
-    <Compile Include="processing\DownloadPreferences.vb" />
+    <Compile Include="api\common\DownloadPreferences.vb" />
     <Compile Include="processing\HybridDownloader.vb" />
     <Compile Include="api\common\Language.vb" />
     <Compile Include="QueueDialog.Designer.vb">

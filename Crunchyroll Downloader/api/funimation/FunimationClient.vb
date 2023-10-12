@@ -4,6 +4,8 @@ Imports System.Text.RegularExpressions
 Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.api.funimation.metadata
 Imports Crunchyroll_Downloader.api.metadata
+Imports Crunchyroll_Downloader.api.metadata.video
+Imports Crunchyroll_Downloader.processing
 Imports Microsoft.Web.WebView2.Core
 
 Namespace api.funimation
@@ -118,13 +120,6 @@ Namespace api.funimation
             Return FunimationEpisode.CreateFromJson(EpisodeJson)
         End Function
 
-        Public Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo) Implements IDownloadClient.GetEpisodePlayback
-            Dim url = BuildPlaybackUrl(ep)
-            Dim result = Await Authenticator.SendAuthenticatedRequest(url)
-
-            Return EpisodePlaybackInfo.CreateFromJson(result)
-        End Function
-
         Private Function ExtractShowSlug(url As String) As String
             ' Parse the URL first in case there are query parameters.
             Dim parsedUrl = New Uri(url)
@@ -181,18 +176,31 @@ Namespace api.funimation
             Return "Funimation"
         End Function
 
-        Public Async Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector) Implements IDownloadClient.GetStreamSelector
+        Private Async Function GetStreamSelector(ep As Episode) As Task(Of IStreamSelector)
             Dim playback = Await GetEpisodePlayback(ep)
             Return New FunimationStreamSelector(playback)
         End Function
 
-        Public Async Function GetAvailableMedia() As Task(Of List(Of MediaLink))
+        Private Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo)
+            Dim url = BuildPlaybackUrl(ep)
+            Dim result = Await Authenticator.SendAuthenticatedRequest(url)
+
+            Return EpisodePlaybackInfo.CreateFromJson(result)
+        End Function
+
+        Public Async Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
+            Dim episodePlaybacks As EpisodePlaybackInfo = Await GetEpisodePlayback(ep)
+            Dim bestPlayback As Playback = New PlaybackFilter(preferences).GetBestPlayback(episodePlaybacks.GetAllPlaybacks())
+
+
+
+
             ' TODO: Add some filtering criteria so it gets the correct media links.
             ' For Funimation, this is selecting the right playback.
             Return Nothing
         End Function
 
-        Public Async Function ResolveMediaLink(link As MediaLink) As Task(Of Media)
+        Public Async Function ResolveMediaLink(link As MediaLink) As Task(Of Media) Implements IDownloadClient.ResolveMediaLink
             If TypeOf link Is HlsMasterPlaylistLink Then
                 Dim resolver = New MasterPlaylistResolver(UnauthenticatedHttpClient)
                 Return Await resolver.ResolveMedia(CType(link, HlsMasterPlaylistLink))

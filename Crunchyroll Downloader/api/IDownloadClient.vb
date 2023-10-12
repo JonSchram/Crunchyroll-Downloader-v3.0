@@ -1,4 +1,6 @@
-﻿Imports Crunchyroll_Downloader.api.metadata
+﻿Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.api.metadata
+Imports Crunchyroll_Downloader.processing
 
 Namespace api
     Public Interface IDownloadClient
@@ -24,22 +26,13 @@ Namespace api
         ''' </summary>
         ''' <param name="Overview"></param>
         ''' <returns></returns>
-        Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of episode)
+        Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode)
 
         ''' <summary>
         ''' Downloads the episode info from the download URL, assumed to be a link to an episode.
         ''' </summary>
         ''' <returns></returns>
-        Function GetEpisodeInfo(Url As String) As Task(Of episode)
-
-        ''' <summary>
-        ''' Gets the playback options for an individual episode.
-        ''' </summary>
-        ''' <param name="ep"></param>
-        ''' <returns></returns>
-        Function GetEpisodePlayback(ep As episode) As Task(Of EpisodePlaybackInfo)
-
-        Function GetStreamSelector(ep As episode) As Task(Of IStreamSelector)
+        Function GetEpisodeInfo(Url As String) As Task(Of Episode)
 
         ''' <summary>
         ''' Gets whether the URL corresponds to a series (not an individual season or an episode).
@@ -59,5 +52,10 @@ Namespace api
         ''' </summary>
         ''' <returns></returns>
         Function GetSiteName() As String
+
+        Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink))
+
+        Function ResolveMediaLink(link As MediaLink) As Task(Of Media)
+
     End Interface
 End Namespace

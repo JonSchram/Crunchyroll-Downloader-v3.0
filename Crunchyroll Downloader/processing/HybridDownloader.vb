@@ -72,8 +72,9 @@ Namespace processing
         End Sub
 
         Private Function MakeTempDirectory() As DirectoryInfo
-            Dim tempFolder = Preferences.TempFolder
-            Return GetNewTempDirectory(tempFolder)
+            Return Nothing
+            'Dim tempFolder = Preferences.TempFolder
+            'Return GetNewTempDirectory(tempFolder)
         End Function
     End Class
 End Namespace

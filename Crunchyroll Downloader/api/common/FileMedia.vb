@@ -1,6 +1,4 @@
-﻿Imports Crunchyroll_Downloader.api.common
-
-Namespace api.common
+﻿Namespace api.common
     ''' <summary>
     ''' Represents media that can be downloaded as a single file, no processing needed.
     ''' </summary>
