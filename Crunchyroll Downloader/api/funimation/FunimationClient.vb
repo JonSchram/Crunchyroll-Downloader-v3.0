@@ -194,7 +194,7 @@ Namespace api.funimation
 
         Public Async Function ResolveMediaLink(link As MediaLink) As Task(Of Media)
             If TypeOf link Is HlsMasterPlaylistLink Then
-                Dim resolver = New MasterPlaylistResolver()
+                Dim resolver = New MasterPlaylistResolver(UnauthenticatedHttpClient)
                 Return Await resolver.ResolveMedia(CType(link, HlsMasterPlaylistLink))
             ElseIf TypeOf link Is FileMediaLink Then
                 Dim resolver = New FileMediaResolver()

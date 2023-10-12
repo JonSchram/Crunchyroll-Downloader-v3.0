@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports System.Security.Cryptography.X509Certificates
 Imports System.Text
 Imports Crunchyroll_Downloader.hls.parsing.tags.encryption
 Imports Crunchyroll_Downloader.hls.parsing.tags.master
