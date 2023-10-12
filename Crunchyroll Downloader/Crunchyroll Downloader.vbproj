@@ -230,7 +230,7 @@
     <Compile Include="download\FfmpegDownloader.vb" />
     <Compile Include="download\FragmentDownloader.vb" />
     <Compile Include="download\Media.vb" />
-    <Compile Include="download\Playback.vb" />
+    <Compile Include="download\Selection.vb" />
     <Compile Include="download\PlaylistMedia.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>

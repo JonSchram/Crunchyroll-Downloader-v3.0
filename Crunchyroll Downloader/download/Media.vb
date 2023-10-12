@@ -2,7 +2,7 @@
 
 Namespace download
     ''' <summary>
-    ''' Superclass for media contained in a playback.
+    ''' Superclass for media contained in a Selection.
     ''' <para>
     ''' This is agnostic towards the way to access the media, and only indicates what kind of media it is after downloading
     ''' (how to download is left up to any subclass).

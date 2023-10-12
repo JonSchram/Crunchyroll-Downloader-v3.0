@@ -11,7 +11,7 @@
             MyBase.New(tempDir, finalDir)
         End Sub
 
-        Public Overrides Async Sub DownloadPlaybacks(playbacks As List(Of Playback))
+        Public Overrides Async Sub DownloadPlaybacks(playbacks As List(Of Selection))
 
             For Each playback In playbacks
                 Dim media As IEnumerable(Of Media) = playback.Media

@@ -1,7 +1,6 @@
 ﻿Imports System.Net
 Imports System.Net.Http
 Imports System.Text.RegularExpressions
-Imports Crunchyroll_Downloader.api.client.stream
 Imports Crunchyroll_Downloader.api.funimation.metadata
 Imports Crunchyroll_Downloader.api.metadata
 Imports Crunchyroll_Downloader.download

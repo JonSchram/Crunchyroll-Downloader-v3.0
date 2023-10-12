@@ -241,11 +241,11 @@ Namespace debugging
             Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
 
 
-            Dim playbacks As New List(Of Playback)
+            Dim playbacks As New List(Of Selection)
             Dim mediaList As New List(Of Media)
             Dim media = New CompleteMedia(MediaType.Subtitles, "ja", MediaUrlTextBox.Text)
             mediaList.Add(media)
-            playbacks.Add(New Playback(mediaList))
+            playbacks.Add(New Selection(mediaList))
 
             downloader.DownloadPlaybacks(playbacks)
 

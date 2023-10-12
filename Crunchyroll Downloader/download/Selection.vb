@@ -2,9 +2,9 @@
 
 Namespace download
     ''' <summary>
-    ''' Class representing a single video playback. This is everything that should be played together, such as the audio and subtitle language.
+    ''' Class representing a single video selected for download. This is everything that should be played together, such as the audio and subtitle language.
     ''' </summary>
-    Public Class Playback
+    Public Class Selection
         Public ReadOnly Property Media As IReadOnlyList(Of Media)
 
         Public Sub New(sources As List(Of Media))

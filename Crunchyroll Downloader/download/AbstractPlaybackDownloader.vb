@@ -42,7 +42,7 @@ Namespace download
             End If
         End Function
 
-        Public MustOverride Async Sub DownloadPlaybacks(playbacks As List(Of Playback)) Implements IPlaybackDownloader.DownloadPlaybacks
+        Public MustOverride Async Sub DownloadPlaybacks(playbacks As List(Of Selection)) Implements IPlaybackDownloader.DownloadPlaybacks
 
         Protected Class FileRecord
             Public ReadOnly Type As MediaType

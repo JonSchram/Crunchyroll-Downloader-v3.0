@@ -1,5 +1,4 @@
 ﻿Imports Crunchyroll_Downloader.api
-Imports Crunchyroll_Downloader.api.client.stream
 Imports Crunchyroll_Downloader.api.metadata
 Imports Crunchyroll_Downloader.api.metadata.video
 

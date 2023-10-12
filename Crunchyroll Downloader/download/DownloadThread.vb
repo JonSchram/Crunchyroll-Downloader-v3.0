@@ -69,7 +69,7 @@ Namespace download
             RaiseCompletionEvent()
         End Sub
 
-        Private Async Function GetPlaybackFile() As Tasks.Task(Of Playback)
+        Private Async Function GetPlaybackFile() As Tasks.Task(Of Selection)
             Dim client = DlTask.GetMetadataClient()
             Dim episode = DlTask.GetEpisode()
             Console.WriteLine($"Getting playback file for {episode}")
