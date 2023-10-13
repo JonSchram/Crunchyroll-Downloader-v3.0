@@ -179,11 +179,13 @@
     <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
     <Compile Include="api\FileMediaResolver.vb" />
     <Compile Include="api\funimation\FunimationDownloadPreferences.vb" />
+    <Compile Include="api\funimation\FunimationPreferenceFactory.vb" />
     <Compile Include="api\funimation\PlaybackFilter.vb" />
     <Compile Include="api\ICookieBasedAuth.vb" />
     <Compile Include="api\funimation\FunimationAuthenticator.vb" />
     <Compile Include="api\common\ByteRange.vb" />
     <Compile Include="api\common\FileMediaLink.vb" />
+    <Compile Include="api\IDownloadPreferenceFactory.vb" />
     <Compile Include="api\IMediaLinkResolver.vb" />
     <Compile Include="api\IStreamSelector.vb" />
     <Compile Include="api\common\MediaLink.vb" />

@@ -6,8 +6,8 @@ Namespace api.funimation
         Inherits DownloadPreferences
 
         Public ReadOnly Property SubtitleFormats As HashSet(Of SubFormat)
-        Public Sub New(audioLanguage As Language, subtitleLanguages As List(Of Language), media As MediaType,
-                       formats As List(Of SubFormat))
+        Public Sub New(audioLanguage As Language, subtitleLanguages As ISet(Of Language), media As MediaType,
+                       formats As ISet(Of SubFormat))
             MyBase.New(audioLanguage, subtitleLanguages, media)
             SubtitleFormats = New HashSet(Of SubFormat)(formats)
         End Sub

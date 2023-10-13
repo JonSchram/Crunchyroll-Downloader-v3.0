@@ -1,6 +1,5 @@
 ﻿Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.api.metadata
-Imports Crunchyroll_Downloader.processing
 
 Namespace api
     Public Interface IDownloadClient
@@ -52,6 +51,8 @@ Namespace api
         ''' </summary>
         ''' <returns></returns>
         Function GetSiteName() As String
+
+        Function GetPreferenceFactory() As IDownloadPreferenceFactory
 
         Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink))
 

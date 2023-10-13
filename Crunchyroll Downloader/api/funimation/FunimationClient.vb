@@ -5,7 +5,6 @@ Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.api.funimation.metadata
 Imports Crunchyroll_Downloader.api.metadata
 Imports Crunchyroll_Downloader.api.metadata.video
-Imports Crunchyroll_Downloader.processing
 Imports Microsoft.Web.WebView2.Core
 
 Namespace api.funimation
@@ -199,6 +198,10 @@ Namespace api.funimation
                 Return Await resolver.ResolveMedia(CType(link, FileMediaLink))
             End If
             Throw New Exception("Could not resolve media. Unknown media type.")
+        End Function
+
+        Public Function GetPreferenceFactory() As IDownloadPreferenceFactory Implements IDownloadClient.GetPreferenceFactory
+            Return New FunimationPreferenceFactory()
         End Function
     End Class
 End Namespace
