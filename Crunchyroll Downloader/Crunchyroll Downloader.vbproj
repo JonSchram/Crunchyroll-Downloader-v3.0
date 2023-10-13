@@ -187,7 +187,6 @@
     <Compile Include="api\common\FileMediaLink.vb" />
     <Compile Include="api\IDownloadPreferenceFactory.vb" />
     <Compile Include="api\IMediaLinkResolver.vb" />
-    <Compile Include="api\IStreamSelector.vb" />
     <Compile Include="api\common\MediaLink.vb" />
     <Compile Include="api\common\MediaType.vb" />
     <Compile Include="api\conversion\LocaleConverter.vb" />
@@ -314,7 +313,6 @@
     <Compile Include="hls\Parsing\Tags\Universal\VersionTagParser.vb" />
     <Compile Include="hls\Writer\PlaylistWriter.vb" />
     <Compile Include="api\common\DownloadPreferences.vb" />
-    <Compile Include="processing\HybridDownloader.vb" />
     <Compile Include="api\common\Language.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>

@@ -1,6 +1,4 @@
-﻿Imports Crunchyroll_Downloader.settings.funimation
-
-Namespace api.common
+﻿Namespace api.common
     ''' <summary>
     ''' The items that should be downloaded from the stream selector.
     ''' </summary>

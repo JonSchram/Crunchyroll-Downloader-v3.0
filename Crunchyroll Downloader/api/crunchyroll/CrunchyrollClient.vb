@@ -1,6 +1,5 @@
 ﻿Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.api.metadata
-Imports Crunchyroll_Downloader.processing
 Imports Crunchyroll_Downloader.ui
 Imports Newtonsoft.Json.Linq
 
