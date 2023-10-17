@@ -405,6 +405,9 @@
     <Compile Include="Subfolder.vb" />
     <Compile Include="ui\MainPresenter.vb" />
     <Compile Include="UrlUtilities.vb" />
+    <Compile Include="utilities\FfmpegAdapter.vb" />
+    <Compile Include="utilities\FfmpegArguments.vb" />
+    <Compile Include="utilities\FfmpegCommandBuilder.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddVideo.resx">
