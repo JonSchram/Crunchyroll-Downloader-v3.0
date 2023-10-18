@@ -1,4 +1,7 @@
-﻿Imports Crunchyroll_Downloader.api.common
+﻿Imports System.IO
+Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.hls.playlist.comparer
+Imports Crunchyroll_Downloader.utilities
 
 Namespace download
 
@@ -33,7 +36,19 @@ Namespace download
         End Function
 
         Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task
+            ' TODO: Use proper playlist comparer.
+            Dim programNumber = item.MasterPlaylist.GetClosestMatchProgramNumber(New HighestResolutionComparer())
 
+            ' TODO: Make a proper file name and file format.
+            Dim outputName = Path.Combine(OutputDirectory, "playlist.mp4")
+            Dim ffmpegArguments As New FfmpegArguments(outputName) With {
+                .PlaylistLocation = item.OriginalLocation,
+                .ProgramNumber = programNumber
+            }
+            ' TODO: Allow configuring ffmpeg exe location.
+            Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
+
+            ffmpegAdapter.Run(ffmpegArguments)
         End Function
     End Class
 End Namespace

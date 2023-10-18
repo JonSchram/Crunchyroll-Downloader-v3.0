@@ -282,5 +282,33 @@ Namespace debugging
 
             Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
         End Sub
+
+        Private Async Sub DownloadHlsMasterPlaylistButton_Click(sender As Object, e As EventArgs) Handles DownloadHlsMasterPlaylistButton.Click
+            Dim temporaryDirectory = TemporaryFolderTextBox.Text
+            Dim outputDirectory = OutputFolderTextBox.Text
+            Dim mediaUrl As String = MediaUrlTextBox.Text
+            Dim client As New HttpClient()
+
+            Try
+                Dim response As HttpResponseMessage = Await client.GetAsync(mediaUrl)
+                Dim contents As HttpContent = response.Content
+                Dim playlistStream = Await contents.ReadAsStreamAsync()
+
+                Dim parser As New PlaylistParser()
+                Dim playlist As MasterPlaylist = parser.ParseMasterPlaylist(playlistStream)
+
+                Dim mediaList As New List(Of MasterPlaylistMedia) From {
+                    New MasterPlaylistMedia(MediaType.Video, Language.JAPANESE, mediaUrl, playlist)
+                }
+
+                Dim playlistSelection As New Selection(mediaList)
+                Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
+                downloader.DownloadPlaybacks(New List(Of Selection) From {playlistSelection})
+            Catch err As Exception
+                Debug.WriteLine("Could not download master playlist. ")
+                Debug.WriteLine(err.Message)
+                Debug.WriteLine(err.StackTrace)
+            End Try
+        End Sub
     End Class
 End Namespace

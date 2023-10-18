@@ -11,6 +11,9 @@ Namespace download
         Public Sub New(sources As List(Of Media))
             Media = ImmutableList.CreateRange(sources)
         End Sub
+        Public Sub New(sources As IEnumerable(Of Media))
+            Media = ImmutableList.CreateRange(sources)
+        End Sub
 
     End Class
 End Namespace

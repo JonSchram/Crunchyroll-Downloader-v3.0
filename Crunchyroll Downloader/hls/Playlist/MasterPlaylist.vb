@@ -61,20 +61,31 @@ Namespace hls.playlist
         End Sub
 
         Public Function GetClosestMatch(comparer As IComparer(Of VariantStreamMetadata)) As VariantStream
-            If VariantStreams.Count = 0 Then
+            Dim bestVariantIndex = GetClosestMatchProgramNumber(comparer)
+
+            If bestVariantIndex < 0 Then
                 Return Nothing
             End If
 
+            Return BuildVariantStream(VariantStreams.Item(bestVariantIndex))
+        End Function
+
+        Public Function GetClosestMatchProgramNumber(comparer As IComparer(Of VariantStreamMetadata)) As Integer
+            If VariantStreams.Count = 0 Then
+                Return -1
+            End If
+
             Dim bestVariant As VariantStreamMetadata = VariantStreams.Item(0)
+            Dim bestVariantIndex As Integer = 0
 
             For i As Integer = 1 To VariantStreams.Count - 1
-                If comparer.Compare(bestVariant, VariantStreams.Item(i)) < 0 Then
+                If comparer.Compare(VariantStreams.Item(bestVariantIndex), VariantStreams.Item(i)) < 0 Then
                     ' Current best is less (worse match) than the new item.
-                    bestVariant = VariantStreams.Item(i)
+                    bestVariantIndex = i
                 End If
             Next
 
-            Return BuildVariantStream(bestVariant)
+            Return bestVariantIndex
         End Function
 
         Private Function BuildVariantStream(metadata As VariantStreamMetadata) As VariantStream

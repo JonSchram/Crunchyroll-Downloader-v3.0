@@ -30,6 +30,7 @@ Namespace utilities
                 .WindowStyle = ProcessWindowStyle.Hidden,
                 .RedirectStandardError = True,
                 .StandardErrorEncoding = Encoding.UTF8,
+                .RedirectStandardOutput = True,
                 .StandardOutputEncoding = Encoding.UTF8,
                 .CreateNoWindow = True,
                 .UseShellExecute = False
@@ -42,7 +43,7 @@ Namespace utilities
             AddHandler ffmpegProcess.OutputDataReceived, AddressOf HandleFfmpegOutput
             AddHandler ffmpegProcess.Exited, AddressOf HandleFfmpegExit
 
-
+            ' TODO: Make async
             ffmpegProcess.Start()
             ffmpegProcess.BeginOutputReadLine()
             ffmpegProcess.BeginErrorReadLine()
@@ -50,9 +51,13 @@ Namespace utilities
 
         Private Sub HandleFfmpegOutput(sendingProcess As Object, args As DataReceivedEventArgs)
             ' TODO: Handle ffmpeg output
+            Debug.WriteLine("Ffmpeg process output:")
+            Debug.WriteLine(args.Data)
         End Sub
         Private Sub HandleFfmpegError(sendingProcess As Object, args As DataReceivedEventArgs)
             ' TODO: Handle ffmpeg error out
+            Debug.WriteLine("Ffmpeg process error output:")
+            Debug.WriteLine(args.Data)
         End Sub
 
         Private Sub HandleFfmpegExit(sendingProcess As Object, args As EventArgs)
