@@ -42,9 +42,16 @@ Namespace download
             ' TODO: Make a proper file name and file format.
             Dim outputName = Path.Combine(OutputDirectory, "playlist.mp4")
             Dim ffmpegArguments As New FfmpegArguments(outputName) With {
-                .PlaylistLocation = item.OriginalLocation,
-                .ProgramNumber = programNumber
+                .PlaylistLocation = item.OriginalLocation
             }
+            ffmpegArguments.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
+                .Selector = New FfmpegArguments.StreamSpecifier() With {
+                    .ProgramNumber = programNumber
+                }
+            })
+            ffmpegArguments.Codecs.Add(New FfmpegArguments.CodecArgument() With {
+                .Name = FfmpegArguments.CodecName.COPY
+            })
             ' TODO: Allow configuring ffmpeg exe location.
             Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
             ffmpegAdapter.SetUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
