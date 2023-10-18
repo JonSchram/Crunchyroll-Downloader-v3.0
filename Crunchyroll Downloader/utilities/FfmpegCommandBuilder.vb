@@ -2,12 +2,17 @@
 
 Namespace utilities
     Public Class FfmpegCommandBuilder
-        Public Function BuildCommandLineArguments(arguments As FfmpegArguments, Cookies As Dictionary(Of String, String)) As String
+        Public Function BuildCommandLineArguments(arguments As FfmpegArguments, Cookies As Dictionary(Of String, String),
+                                                  userAgent As String) As String
             Dim result = ""
 
             Dim headers As String = BuildHeaders(Cookies)
             If Not "".Equals(headers) Then
                 result += $" -headers ""{headers}"""
+            End If
+
+            If userAgent IsNot Nothing Then
+                result += $" -user_agent ""{userAgent}"""
             End If
 
             If arguments.PlaylistLocation IsNot Nothing Then

@@ -3,12 +3,15 @@
 Namespace utilities
     Public Class FfmpegAdapter
         Private ReadOnly ExecutablePath As String
-
         Private ReadOnly Cookies As New Dictionary(Of String, String)
-
+        Private UserAgent As String
 
         Public Sub New(executableLocation As String)
             ExecutablePath = executableLocation
+        End Sub
+
+        Public Sub SetUserAgent(userAgent As String)
+            Me.UserAgent = userAgent
         End Sub
 
         ''' <summary>
@@ -22,7 +25,7 @@ Namespace utilities
 
         Public Sub Run(arguments As FfmpegArguments)
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim commandArguments = commandBuilder.BuildCommandLineArguments(arguments, Cookies)
+            Dim commandArguments = commandBuilder.BuildCommandLineArguments(arguments, Cookies, UserAgent)
 
             Dim startInfo As New ProcessStartInfo() With {
                 .FileName = ExecutablePath,
