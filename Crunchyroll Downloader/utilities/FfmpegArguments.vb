@@ -1,18 +1,13 @@
 ﻿Namespace utilities
     Public Class FfmpegArguments
-        Public Property PlaylistLocation As String
 
-        ''' <summary>
-        ''' Which program to select from a master playlist.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property ProgramNumber As Integer?
-
-        Public ReadOnly Property OutputPath As String
+        Public ReadOnly Property InputFiles As New List(Of String)
 
         Public ReadOnly Property SelectedStreams As New List(Of MapArgument)
 
         Public ReadOnly Property Codecs As New List(Of CodecArgument)
+
+        Public ReadOnly Property OutputPath As String
 
         Public Sub New(OutputLocation As String)
             OutputPath = OutputLocation

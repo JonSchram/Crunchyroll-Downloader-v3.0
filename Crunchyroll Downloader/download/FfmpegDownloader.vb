@@ -41,9 +41,8 @@ Namespace download
 
             ' TODO: Make a proper file name and file format.
             Dim outputName = Path.Combine(OutputDirectory, "playlist.mp4")
-            Dim ffmpegArguments As New FfmpegArguments(outputName) With {
-                .PlaylistLocation = item.OriginalLocation
-            }
+            Dim ffmpegArguments As New FfmpegArguments(outputName)
+            ffmpegArguments.InputFiles.Add(item.OriginalLocation)
             ffmpegArguments.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                 .Selector = New FfmpegArguments.StreamSpecifier() With {
                     .ProgramNumber = programNumber

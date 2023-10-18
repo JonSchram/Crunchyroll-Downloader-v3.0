@@ -15,9 +15,9 @@ Namespace utilities
                 argumentParts.Add($"-user_agent ""{userAgent}""")
             End If
 
-            If arguments.PlaylistLocation IsNot Nothing Then
-                argumentParts.Add($"-i ""{arguments.PlaylistLocation}""")
-            End If
+            For Each inputFile In arguments.InputFiles
+                argumentParts.Add($"-i ""{inputFile}""")
+            Next
 
             If arguments.SelectedStreams.Count > 0 Then
                 argumentParts.Add(BuildMappings(arguments.SelectedStreams))

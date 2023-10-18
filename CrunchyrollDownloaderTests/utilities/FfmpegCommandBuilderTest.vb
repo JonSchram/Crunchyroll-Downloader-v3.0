@@ -19,9 +19,8 @@ Namespace utilities
 
         <TestMethod>
         Public Sub TestBuildProgramMap()
-            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
-                .PlaylistLocation = "input_path"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
             ffmpegArgs.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                 .Selector = New FfmpegArguments.StreamSpecifier() With {
                     .ProgramNumber = 4
@@ -36,9 +35,8 @@ Namespace utilities
 
         <TestMethod>
         Public Sub TestBuildVideoMap()
-            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
-                .PlaylistLocation = "input_path"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
             ffmpegArgs.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                 .InputFileNumber = 1,
                 .Selector = New FfmpegArguments.StreamSpecifier() With {
@@ -55,9 +53,8 @@ Namespace utilities
 
         <TestMethod>
         Public Sub TestBuildExcludeAudioMap()
-            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
-                .PlaylistLocation = "input_path"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
             ffmpegArgs.SelectedStreams.Add(New FfmpegArguments.MapArgument())
             ffmpegArgs.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                 .Selector = New FfmpegArguments.StreamSpecifier() With {
@@ -77,9 +74,8 @@ Namespace utilities
         ''' </summary>
         <TestMethod>
         Public Sub TestBuildEmptyMapSelector()
-            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
-                .PlaylistLocation = "input_path"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
             ffmpegArgs.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                 .Selector = New FfmpegArguments.StreamSpecifier(),
                 .InputFileNumber = 1
@@ -98,9 +94,8 @@ Namespace utilities
 
         <TestMethod>
         Public Sub TestBuildOptionalMap()
-            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
-                .PlaylistLocation = "input_path"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
             ffmpegArgs.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                 .Selector = New FfmpegArguments.StreamSpecifier() With {
                     .Type = FfmpegArguments.StreamType.SUBTITLE,
@@ -117,9 +112,8 @@ Namespace utilities
 
         <TestMethod>
         Public Sub TestBuildCodecCopy()
-            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
-                .PlaylistLocation = "input_path"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
             ffmpegArgs.Codecs.Add(New FfmpegArguments.CodecArgument() With {
                 .Name = FfmpegArguments.CodecName.COPY
             })
@@ -132,9 +126,8 @@ Namespace utilities
 
         <TestMethod>
         Public Sub TestBuildCodecLibx264Video()
-            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
-                .PlaylistLocation = "input_path"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
             ffmpegArgs.Codecs.Add(New FfmpegArguments.CodecArgument() With {
                 .Name = FfmpegArguments.CodecName.VIDEO_LIBX264,
                 .AppliedStream = New FfmpegArguments.StreamSpecifier() With {
@@ -150,9 +143,8 @@ Namespace utilities
 
         <TestMethod>
         Public Sub TestBuildMultipleCodecs()
-            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
-                .PlaylistLocation = "input_path"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
             ffmpegArgs.Codecs.Add(New FfmpegArguments.CodecArgument() With {
                 .Name = FfmpegArguments.CodecName.SUBTITLE_MOV_TEXT,
                 .AppliedStream = New FfmpegArguments.StreamSpecifier() With {
@@ -173,10 +165,25 @@ Namespace utilities
         End Sub
 
         <TestMethod>
+        Public Sub TestMultipleInputFiles()
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input1")
+            ffmpegArgs.InputFiles.Add("input2")
+
+            ffmpegArgs.Codecs.Add(New FfmpegArguments.CodecArgument() With {
+                .Name = FfmpegArguments.CodecName.COPY
+            })
+
+            Dim commandBuilder As New FfmpegCommandBuilder()
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+
+            Assert.AreEqual("-i ""input1"" -i ""input2"" -c copy ""test_path""", args)
+        End Sub
+
+        <TestMethod>
         Public Sub TestSimpleInputOutput()
-            Dim ffmpegArgs As New FfmpegArguments("output_path") With {
-                .PlaylistLocation = "C:\path\to\file"
-            }
+            Dim ffmpegArgs As New FfmpegArguments("output_path")
+            ffmpegArgs.InputFiles.Add("C:\path\to\file")
 
             Dim commandBuilder As New FfmpegCommandBuilder()
             Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
