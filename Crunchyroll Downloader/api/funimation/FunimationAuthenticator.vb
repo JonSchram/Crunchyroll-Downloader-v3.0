@@ -6,16 +6,18 @@ Namespace api.funimation
     Public Class FunimationAuthenticator
         Implements ICookieBasedAuth
 
-        Private ReadOnly CookieManager As CoreWebView2CookieManager
+        Private ReadOnly WebBrowser As Browser
 
         Private ReadOnly Client As HttpClient
         Private token As String
 
-        Public Sub New(CookieManager As CoreWebView2CookieManager)
-            If CookieManager Is Nothing Then
-                Throw New ArgumentException("Cookie manager must not be Nothing")
+
+        Public Sub New(webBrowser As Browser)
+            If webBrowser Is Nothing Then
+                Throw New ArgumentException("Browser must not be Nothing.")
             End If
-            Me.CookieManager = CookieManager
+
+            Me.WebBrowser = webBrowser
 
             Dim handler = New HttpClientHandler With {
                 .PreAuthenticate = True
@@ -66,8 +68,8 @@ Namespace api.funimation
         End Function
 
         Private Async Function GetFunimationCookies() As Task(Of List(Of CoreWebView2Cookie))
-            If CookieManager IsNot Nothing Then
-                Return Await CookieManager.GetCookiesAsync("https://www.funimation.com")
+            If WebBrowser IsNot Nothing Then
+                Return Await WebBrowser.GetCookies("https://www.funimation.com")
             Else
                 Return Nothing
             End If

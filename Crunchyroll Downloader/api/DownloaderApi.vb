@@ -22,9 +22,8 @@ Namespace api
 
         Public Shared Function GetMetadataDownloader(url As String) As IDownloadClient
             ' TODO: Choose CR or Funi metadata downloader
-            Dim cookieManager = Browser.GetInstance.GetCookieManager()
-            If (IsFunimationUrl(url)) Then
-                Return New FunimationClient(cookieManager)
+            If IsFunimationUrl(url) Then
+                Return New FunimationClient(Browser.GetInstance())
             ElseIf IsCrunchyrollUrl(url) Then
                 ' TODO
                 Return Nothing

@@ -1,4 +1,5 @@
 ﻿Imports System.Threading
+Imports Crunchyroll_Downloader.api.common
 
 Namespace download
     Public Class DownloadThread
@@ -62,17 +63,36 @@ Namespace download
         Private Async Sub Download()
             Console.WriteLine("Downloading " + DlTask.ToString())
             RaiseReportProgressEvent(Stage.FIND_VIDEO, 0)
-            Dim playback = Await GetPlaybackFile()
+            Dim media As List(Of MediaLink) = Await GetAvailableMedia()
+            Dim downloadSelection As Selection = Await GetSelection(media)
 
-            Console.WriteLine($"Found best matching playback: {playback}")
 
             RaiseCompletionEvent()
         End Sub
 
-        Private Async Function GetPlaybackFile() As Tasks.Task(Of Selection)
-            Dim client = DlTask.GetMetadataClient()
+        Private Async Function GetAvailableMedia() As Task(Of List(Of MediaLink))
             Dim episode = DlTask.GetEpisode()
-            Console.WriteLine($"Getting playback file for {episode}")
+            Console.WriteLine($"Getting media for {episode}")
+            Dim client = DlTask.GetMetadataClient()
+            Dim preferenceFactory = client.GetPreferenceFactory()
+            Return Await client.GetAvailableMedia(episode, preferenceFactory.GetCurrentPreferences())
+        End Function
+
+        Private Async Function GetSelection(media As List(Of MediaLink)) As Task(Of Selection)
+            Dim client = DlTask.GetMetadataClient()
+
+            Dim resolvedMedia As New List(Of Media)
+            For Each item As MediaLink In media
+                Debug.WriteLine($"Resolving media link: {item}")
+                Dim resolvedItem As Media = Await client.ResolveMediaLink(item)
+                Debug.WriteLine($"Finished resolving media. Resolved as ")
+                resolvedMedia.Add(resolvedItem)
+            Next
+
+            Return New Selection(resolvedMedia)
+        End Function
+
+        Private Async Function GetPlaybackFile() As Tasks.Task(Of Selection)
             'Dim playback = Await client.GetEpisodePlayback(episode)
             RaiseReportProgressEvent(Stage.FIND_VIDEO, 1)
 

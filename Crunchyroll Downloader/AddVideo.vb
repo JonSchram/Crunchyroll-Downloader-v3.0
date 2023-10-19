@@ -28,14 +28,19 @@ Public Class AddVideo
         Await MetadataApi.Initialize()
 
         If Not MetadataApi.IsVideoUrl(downloadUrl) Then
-            Dim SeasonList = Await MetadataApi.ListSeasons(downloadUrl)
-            Dim seasonSelectorForm = New SeasonSelector(MetadataApi, SeasonList)
+            Try
+                Dim SeasonList = Await MetadataApi.ListSeasons(downloadUrl)
+                Dim seasonSelectorForm = New SeasonSelector(MetadataApi, SeasonList)
 
-            ' Disable the add video form to simulate a modal dialog. 
-            Enabled = False
-            AddHandler seasonSelectorForm.FormClosed, AddressOf SeasonSelectFormClosed
-            ' Can't use ShowDialog because it would block all forms in the app.
-            seasonSelectorForm.Show(Me)
+                ' Disable the add video form to simulate a modal dialog. 
+                Enabled = False
+                AddHandler seasonSelectorForm.FormClosed, AddressOf SeasonSelectFormClosed
+                ' Can't use ShowDialog because it would block all forms in the app.
+                seasonSelectorForm.Show(Me)
+            Catch ex As Exception
+                Console.Error.WriteLine("Error downloading season information.")
+                Console.Error.WriteLine(ex)
+            End Try
         Else
             ' Individual video
             Dim episodeInfo = Await MetadataApi.GetEpisodeInfo(downloadUrl)

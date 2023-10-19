@@ -13,5 +13,10 @@ Namespace api.common
             MyBase.New(type, lang, location)
             MasterPlaylist = playlist
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[MasterPlaylistMedia  URI: {OriginalLocation}, Type: {Type}, Language: {MediaLanguage}," +
+                $"Playlist: HLS version {MasterPlaylist.Version}, {MasterPlaylist.VariantStreams.Count} variant streams]"
+        End Function
     End Class
 End Namespace

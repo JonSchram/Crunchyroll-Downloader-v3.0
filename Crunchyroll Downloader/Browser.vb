@@ -44,10 +44,22 @@ Public Class Browser
     Private Sub WebView2_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView2.NavigationCompleted
     End Sub
 
-    Public Async Function GetCookies(ByVal Uri As String) As Task(Of List(Of CoreWebView2Cookie))
+    Public Async Function GetCookies(Uri As String) As Task(Of List(Of CoreWebView2Cookie))
         Try
-            Return Await WebView2.CoreWebView2.CookieManager.GetCookiesAsync(Uri)
+            If InvokeRequired Then
+                Dim invokeResult = Invoke(Async Function(url As String) As Task(Of List(Of CoreWebView2Cookie))
+                                              Dim result = GetCookies(url)
+                                              Return Await result
+                                          End Function, Uri)
+                Dim task = CType(invokeResult, Task(Of List(Of CoreWebView2Cookie)))
+                Return Await task
+            Else
+                Dim result = WebView2.CoreWebView2.CookieManager.GetCookiesAsync(Uri)
+                Return Await result
+            End If
         Catch ex As Exception
+            Debug.WriteLine("Error getting cookies from browser.")
+            Debug.WriteLine(ex)
             Return New List(Of CoreWebView2Cookie)
         End Try
     End Function

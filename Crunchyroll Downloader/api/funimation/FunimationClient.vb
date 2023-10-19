@@ -28,10 +28,9 @@ Namespace api.funimation
         ' - It can list episodes for seasons
         ' - This class should be about metadata, so maybe needs renaming.
 
-        Public Sub New(CookieManager As CoreWebView2CookieManager)
-            Me.CookieManager = CookieManager
-            If CookieManager IsNot Nothing Then
-                Authenticator = New FunimationAuthenticator(CookieManager)
+        Public Sub New(webBrowser As Browser)
+            If webBrowser IsNot Nothing Then
+                Authenticator = New FunimationAuthenticator(webBrowser)
             End If
 
             UnauthenticatedHttpClient = New HttpClient()
@@ -54,11 +53,16 @@ Namespace api.funimation
                 Next
                 Await Authenticator.RefreshCookies()
             End If
+            If Region Is Nothing Then
+                ' Fall back to region check.
+                Dim regionJson As String = Await DownloadJson(GetRegionCheckUrl())
+                Region = FunimationRegionResponse.CreateFromJson(regionJson).Region
+            End If
         End Function
 
 
         Public Async Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IDownloadClient.ListSeasons
-            If (IsSeriesUrl(Url)) Then
+            If IsSeriesUrl(Url) Then
                 'Dim ListSeasonUrl = BuildSeasonListUrl(ShowPath)
                 'Debug.WriteLine("URL to retrieve seasons: " + ListSeasonUrl)
                 Dim SeriesJson = Await GetSeriesJson(Url)
@@ -70,16 +74,10 @@ Namespace api.funimation
         End Function
 
         Private Async Function DownloadJson(JsonUrl As String) As Task(Of String)
-            Try
-                Using response = Await UnauthenticatedHttpClient.GetAsync(JsonUrl)
-                    response.EnsureSuccessStatusCode()
-                    Return Await response.Content.ReadAsStringAsync()
-                End Using
-            Catch ex As Exception
-                Debug.WriteLine($"Error getting funimation Json data - {JsonUrl}")
-            End Try
-            ' Return parseable but empty object
-            Return "{}"
+            Using response = Await UnauthenticatedHttpClient.GetAsync(JsonUrl)
+                response.EnsureSuccessStatusCode()
+                Return Await response.Content.ReadAsStringAsync()
+            End Using
         End Function
 
         Private Async Function GetSeriesJson(SeriesUrl As String) As Task(Of String)
@@ -167,6 +165,14 @@ Namespace api.funimation
             Return $"https://playback.prd.funimationsvc.com/v1/play/{ep.VideoId}?deviceType=web&playbackStreamId={PlaybackId}"
         End Function
 
+        Private Function BuildAnonymousPlaybackUrl(ep As Episode) As String
+            Return $"https://playback.prd.funimationsvc.com/v1/play/anonymous/{ep.VideoId}?deviceType=web"
+        End Function
+
+        Private Function GetRegionCheckUrl() As String
+            Return "https://geo-service.prd.funimationsvc.com/geo/v1/region/check"
+        End Function
+
         Private Function GenerateGuid() As String
             Return Guid.NewGuid().ToString()
         End Function
@@ -176,7 +182,8 @@ Namespace api.funimation
         End Function
 
         Private Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo)
-            Dim url = BuildPlaybackUrl(ep)
+            Dim paidAccount = Await Authenticator.IsPaidAccount()
+            Dim url = If(paidAccount, BuildPlaybackUrl(ep), BuildAnonymousPlaybackUrl(ep))
             Dim result = Await Authenticator.SendAuthenticatedRequest(url)
 
             Return EpisodePlaybackInfo.CreateFromJson(result)
