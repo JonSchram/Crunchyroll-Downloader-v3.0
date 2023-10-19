@@ -3,6 +3,7 @@ Imports System.Net
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.ui
 Imports Microsoft.Web.WebView2.Core
+Imports Newtonsoft.Json.Serialization
 
 Public Class Browser
 
