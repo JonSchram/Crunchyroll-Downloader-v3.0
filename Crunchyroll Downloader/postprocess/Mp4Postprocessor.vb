@@ -12,10 +12,12 @@ Namespace postprocess
     ''' </summary>
     Public Class Mp4Postprocessor
 
-        Private Preferences As OutputPreferences
+        Private ReadOnly Preferences As OutputPreferences
+        Private ReadOnly FfmpegRunner As IFfmpegAdapter
 
-        Public Sub New(prefs As OutputPreferences)
+        Public Sub New(prefs As OutputPreferences, ffmpegRunner As IFfmpegAdapter)
             Preferences = prefs
+            Me.FfmpegRunner = ffmpegRunner
         End Sub
 
         Public Sub ProcessInputs(files As List(Of DownloadEntry), ep As Episode)
@@ -38,9 +40,7 @@ Namespace postprocess
                 ProcessFile(file, args, fileNumber)
             Next
 
-            ' TODO: Inject this as a dependency, helps with testing and removes coupling on binary location.
-            Dim ffmpegRunner = New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
-            ffmpegRunner.Run(args)
+            FfmpegRunner.Run(args)
 
             ' TODO: Copy subtitle if not merged.
 

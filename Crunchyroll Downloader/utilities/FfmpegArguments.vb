@@ -34,6 +34,19 @@
             Public Property Selector As StreamSpecifier
 
             Public Property IsOptional As Boolean = False
+
+            Public Overrides Function Equals(obj As Object) As Boolean
+                Dim argument = TryCast(obj, MapArgument)
+                Return argument IsNot Nothing AndAlso
+                       InputFileNumber = argument.InputFileNumber AndAlso
+                       Exclude = argument.Exclude AndAlso
+                       EqualityComparer(Of StreamSpecifier).Default.Equals(Selector, argument.Selector) AndAlso
+                       IsOptional = argument.IsOptional
+            End Function
+
+            Public Overrides Function GetHashCode() As Integer
+                Return (InputFileNumber, Exclude, Selector, IsOptional).GetHashCode()
+            End Function
         End Class
 
         ' TODO: Make codecs more logical. Video and audio codecs are all combined together.
@@ -71,6 +84,18 @@
             ''' <returns></returns>
 
             Public Property ProgramNumber As Integer?
+
+            Public Overrides Function Equals(obj As Object) As Boolean
+                Dim specifier = TryCast(obj, StreamSpecifier)
+                Return specifier IsNot Nothing AndAlso
+                       Type.Equals(specifier.Type) AndAlso
+                       StreamIndex.Equals(specifier.StreamIndex) AndAlso
+                       ProgramNumber.Equals(specifier.ProgramNumber)
+            End Function
+
+            Public Overrides Function GetHashCode() As Integer
+                Return (Type, StreamIndex, ProgramNumber).GetHashCode()
+            End Function
         End Class
 
         Public Enum StreamType

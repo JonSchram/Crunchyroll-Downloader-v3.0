@@ -2,6 +2,8 @@
 
 Namespace utilities
     Public Class FfmpegAdapter
+        Implements IFfmpegAdapter
+
         Private ReadOnly ExecutablePath As String
         Private ReadOnly Cookies As New Dictionary(Of String, String)
         Private UserAgent As String
@@ -10,7 +12,7 @@ Namespace utilities
             ExecutablePath = executableLocation
         End Sub
 
-        Public Sub SetUserAgent(userAgent As String)
+        Public Sub SetUserAgent(userAgent As String) Implements IFfmpegAdapter.SetUserAgent
             Me.UserAgent = userAgent
         End Sub
 
@@ -19,11 +21,11 @@ Namespace utilities
         ''' </summary>
         ''' <param name="name"></param>
         ''' <param name="value"></param>
-        Public Sub AddCookie(name As String, value As String)
+        Public Sub AddCookie(name As String, value As String) Implements IFfmpegAdapter.AddCookie
             Cookies.Add(name, value)
         End Sub
 
-        Public Sub Run(arguments As FfmpegArguments)
+        Public Sub Run(arguments As FfmpegArguments) Implements IFfmpegAdapter.Run
             Dim commandBuilder As New FfmpegCommandBuilder()
             Dim commandArguments = commandBuilder.BuildCommandLineArguments(arguments, Cookies, UserAgent)
 
