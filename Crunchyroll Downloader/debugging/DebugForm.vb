@@ -120,11 +120,12 @@ Namespace debugging
 
         Private Async Sub GetLoginTokenButton_Click(sender As Object, e As EventArgs) Handles GetLoginTokenButton.Click
             Dim authenticator As ICookieBasedAuth = Nothing
-            Dim cookieManager = Browser.GetInstance().GetCookieManager()
+            Dim webBrowser = Browser.GetInstance()
             If FunimationAuthRadioButton.Checked Then
-                authenticator = New FunimationAuthenticator(cookieManager)
+                authenticator = New FunimationAuthenticator(webBrowser)
             ElseIf CrunchyrollAuthRadioButton.Checked Then
-                authenticator = New CrunchyrollAuthenticator(cookieManager)
+                ' TODO: This will likely need to use the web browser directly as well.
+                authenticator = New CrunchyrollAuthenticator(webBrowser.GetCookieManager())
             End If
             If authenticator IsNot Nothing Then
                 Dim cookie = Await authenticator.GetLoginCookie()
@@ -139,7 +140,7 @@ Namespace debugging
 
         Private Async Sub IsPaidAccountButton_Click(sender As Object, e As EventArgs) Handles IsPaidAccountButton.Click
             If FunimationAuthRadioButton.Checked Then
-                Dim authenticator = New FunimationAuthenticator(Browser.GetInstance().GetCookieManager())
+                Dim authenticator = New FunimationAuthenticator(Browser.GetInstance())
                 Dim isPaid = Await authenticator.IsPaidAccount()
                 AuthenticationOutputTextBox.Text = "Is paid account: " + CStr(isPaid)
             End If
@@ -165,7 +166,7 @@ Namespace debugging
 
                 Dim authenticator As FunimationAuthenticator
                 If token = "" Then
-                    authenticator = New FunimationAuthenticator(Browser.GetInstance().GetCookieManager())
+                    authenticator = New FunimationAuthenticator(Browser.GetInstance())
                 Else
                     authenticator = New FunimationAuthenticator(token)
                 End If

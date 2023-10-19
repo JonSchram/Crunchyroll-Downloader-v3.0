@@ -8,5 +8,9 @@
         Public Sub New(type As MediaType, lang As Language, url As String)
             MyBase.New(type, lang, url)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[FileMedia: URI: {OriginalLocation}, Type: {Type}, Language: {MediaLanguage}"
+        End Function
     End Class
 End Namespace
