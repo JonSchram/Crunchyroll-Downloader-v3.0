@@ -1,4 +1,5 @@
 ﻿Option Strict On
+Imports System.Net
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.ui
 Imports Microsoft.Web.WebView2.Core
@@ -44,24 +45,44 @@ Public Class Browser
     Private Sub WebView2_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView2.NavigationCompleted
     End Sub
 
-    Public Async Function GetCookies(Uri As String) As Task(Of List(Of CoreWebView2Cookie))
-        Try
-            If InvokeRequired Then
-                Dim invokeResult = Invoke(Async Function(url As String) As Task(Of List(Of CoreWebView2Cookie))
-                                              Dim result = GetCookies(url)
-                                              Return Await result
-                                          End Function, Uri)
-                Dim task = CType(invokeResult, Task(Of List(Of CoreWebView2Cookie)))
-                Return Await task
-            Else
-                Dim result = WebView2.CoreWebView2.CookieManager.GetCookiesAsync(Uri)
-                Return Await result
-            End If
-        Catch ex As Exception
-            Debug.WriteLine("Error getting cookies from browser.")
-            Debug.WriteLine(ex)
-            Return New List(Of CoreWebView2Cookie)
-        End Try
+    Delegate Function GetCookieFunction(Uri As String) As Task(Of List(Of Cookie))
+
+    Public Async Function GetCookies(Uri As String) As Task(Of List(Of Cookie))
+        If InvokeRequired Then
+            Dim getCookiesFn As GetCookieFunction = AddressOf GetCookies
+            Dim task = CType(Invoke(getCookiesFn, Uri), Task(Of List(Of Cookie)))
+            Return Await task
+        Else
+            Try
+                Return Await GetCookiesInner(Uri)
+            Catch ex As Exception
+                Debug.WriteLine("Error getting cookies from browser.")
+                Debug.WriteLine(ex)
+                Return New List(Of Cookie)
+            End Try
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Must be run on the UI thread.
+    ''' </summary>
+    ''' <param name="Uri"></param>
+    ''' <returns></returns>
+    Private Async Function GetCookiesInner(Uri As String) As Task(Of List(Of Cookie))
+        Return ConvertCookies(Await WebView2.CoreWebView2.CookieManager.GetCookiesAsync(Uri))
+    End Function
+
+    ''' <summary>
+    ''' Must be run on the UI thread.
+    ''' </summary>
+    ''' <param name="webView2Cookies"></param>
+    ''' <returns></returns>
+    Private Function ConvertCookies(webView2Cookies As List(Of CoreWebView2Cookie)) As List(Of Cookie)
+        Dim result As New List(Of Cookie)
+        For Each cookie In webView2Cookies
+            result.Add(cookie.ToSystemNetCookie())
+        Next
+        Return result
     End Function
 
     Public Function GetCookieManager() As CoreWebView2CookieManager

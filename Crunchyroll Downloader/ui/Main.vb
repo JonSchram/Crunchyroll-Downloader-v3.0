@@ -12,7 +12,6 @@ Imports Crunchyroll_Downloader.settings.general
 Imports MetroFramework
 Imports MetroFramework.Components
 Imports MetroFramework.Forms
-Imports Microsoft.Web.WebView2.Core
 
 Namespace ui
     Public Class Main
@@ -1152,7 +1151,7 @@ Namespace ui
 
                 Dim browserDialog = Browser.GetInstance()
 
-                Dim list As List(Of CoreWebView2Cookie) = Await browserDialog.GetCookies("https://www.funimation.com/")
+                Dim list As List(Of Cookie) = Await browserDialog.GetCookies("https://www.funimation.com/")
                 Dim Cookie As String = ""
                 For i As Integer = 0 To list.Count - 1
                     If CBool(InStr(list.Item(i).Domain, "funimation.com")) Then 'list.Item(i).Domain = "funimation.com" Then

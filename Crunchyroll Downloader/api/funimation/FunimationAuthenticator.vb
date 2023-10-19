@@ -1,6 +1,5 @@
 ﻿Imports System.Net
 Imports System.Net.Http
-Imports Microsoft.Web.WebView2.Core
 
 Namespace api.funimation
     Public Class FunimationAuthenticator
@@ -46,7 +45,7 @@ Namespace api.funimation
             If cookies IsNot Nothing Then
                 For Each cookie In cookies
                     If cookie.Name = "src_token" Then
-                        Return cookie.ToSystemNetCookie()
+                        Return cookie
                     End If
                 Next
             End If
@@ -54,20 +53,30 @@ Namespace api.funimation
             Return Nothing
         End Function
 
-        Public Async Function IsPaidAccount() As Task(Of Boolean)
+        Public Async Function GetLoginType() As Task(Of UserState)
             Dim cookies = Await GetFunimationCookies()
 
             For Each cookie In cookies
                 If cookie.Name = "userState" Then
-                    Return cookie.Value <> "Free"
+                    Select Case cookie.Value
+                        Case "Free"
+                            Return UserState.FREE
+                        Case "Anonymous"
+                            Return UserState.ANONYMOUS
+                        Case "Paid"
+                            ' TODO: Verify that this is the correct state
+                            Return UserState.PAID
+                        Case Else
+                            Return UserState.ANONYMOUS
+                    End Select
                 End If
             Next
 
-            ' Didn't find the subscription type so can't determine.
-            Return False
+            ' Didn't find the subscription type so the user hasn't visited Funimation in the browser and needs to be anonymous.
+            Return UserState.ANONYMOUS
         End Function
 
-        Private Async Function GetFunimationCookies() As Task(Of List(Of CoreWebView2Cookie))
+        Private Async Function GetFunimationCookies() As Task(Of List(Of Cookie))
             If WebBrowser IsNot Nothing Then
                 Return Await WebBrowser.GetCookies("https://www.funimation.com")
             Else
@@ -100,5 +109,11 @@ Namespace api.funimation
             Return Nothing
         End Function
     End Class
+
+    Public Enum UserState
+        ANONYMOUS
+        FREE
+        PAID
+    End Enum
 
 End Namespace

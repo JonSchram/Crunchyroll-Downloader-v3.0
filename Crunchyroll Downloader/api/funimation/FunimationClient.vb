@@ -182,8 +182,7 @@ Namespace api.funimation
         End Function
 
         Private Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo)
-            Dim paidAccount = Await Authenticator.IsPaidAccount()
-            Dim url = If(paidAccount, BuildPlaybackUrl(ep), BuildAnonymousPlaybackUrl(ep))
+            Dim url = If(ep.IsFree, BuildAnonymousPlaybackUrl(ep), BuildPlaybackUrl(ep))
             Dim result = Await Authenticator.SendAuthenticatedRequest(url)
 
             Return EpisodePlaybackInfo.CreateFromJson(result)
@@ -208,6 +207,7 @@ Namespace api.funimation
         End Function
 
         Public Function GetPreferenceFactory() As IDownloadPreferenceFactory Implements IDownloadClient.GetPreferenceFactory
+            ' TODO: Get preferences somewhere else. The client should only contain interactions with the web, not the user's preferences.
             Return New FunimationPreferenceFactory()
         End Function
     End Class

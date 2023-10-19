@@ -8,7 +8,6 @@ Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.funimation
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.ui
-Imports Microsoft.Web.WebView2.Core
 Imports Newtonsoft.Json.Linq
 
 Namespace api.funimation
@@ -338,7 +337,7 @@ Namespace api.funimation
         Public Async Sub GetFunimationNewJS_VideoProxy(Optional ByVal v1JsonURL As String = Nothing, Optional ByVal v1JsonData As String = Nothing)
             Try
                 Dim browserDialog = Browser.GetInstance()
-                Dim list As List(Of CoreWebView2Cookie) = Await browserDialog.GetCookies("https://www.funimation.com/")
+                Dim list As List(Of Cookie) = Await browserDialog.GetCookies("https://www.funimation.com/")
                 Dim Cookie As String = ""
                 For i As Integer = 0 To list.Count - 1
                     If CBool(InStr(list.Item(i).Domain, "funimation.com")) Then 'list.Item(i).Domain = "funimation.com" Then

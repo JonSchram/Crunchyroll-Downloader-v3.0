@@ -13,7 +13,6 @@ Namespace api
         End Sub
 
         Public Async Function ResolveMedia(link As HlsMasterPlaylistLink) As Task(Of MasterPlaylistMedia) Implements IMediaLinkResolver(Of HlsMasterPlaylistLink, MasterPlaylistMedia).ResolveMedia
-
             Using response = Await DownloadClient.GetAsync(link.Location)
                 response.EnsureSuccessStatusCode()
 
@@ -22,9 +21,8 @@ Namespace api
                 Dim parsedPlaylist = parser.ParseMasterPlaylist(contentStream)
 
                 Dim result = New MasterPlaylistMedia(link.Type, link.MediaLanguage, link.Location, parsedPlaylist)
+                Return result
             End Using
-
-            Throw New Exception("Could not resolve HLS master playlist. Unknown error.")
         End Function
     End Class
 End Namespace

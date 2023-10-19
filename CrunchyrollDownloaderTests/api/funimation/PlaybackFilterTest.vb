@@ -57,6 +57,31 @@ Namespace api.funimation
         End Sub
 
         <TestMethod>
+        Public Sub TestSelectNoPreferredLanguage()
+            Dim japanesePlayback As New Playback() With {
+                .AudioLanguage = "ja",
+                .FileExtension = "m3u8",
+                .Version = "simulcast"
+            }
+
+            Dim englishPlayback As New Playback() With {
+                .AudioLanguage = "en",
+                .FileExtension = "mp4",
+                .Version = "simulcast"
+            }
+
+            Dim playbacks = New List(Of Playback) From {japanesePlayback, englishPlayback}
+
+            Dim preferences = New DownloadPreferences(Language.NONE, Nothing, MediaType.Video)
+            Dim filter = New PlaybackFilter(preferences)
+
+            Dim bestPlayback = filter.GetBestPlayback(playbacks)
+
+            ' If no dub preference is set, choose an arbitrary m3u8.
+            Assert.AreEqual(japanesePlayback, bestPlayback)
+        End Sub
+
+        <TestMethod>
         Public Sub TestGetUncutPlayback()
             Dim simulcast As New Playback() With {
                 .AudioLanguage = "en",

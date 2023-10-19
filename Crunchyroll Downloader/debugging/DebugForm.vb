@@ -14,7 +14,6 @@ Imports Crunchyroll_Downloader.hls.playlist.comparer
 Imports Crunchyroll_Downloader.hls.playlist.stream
 Imports Crunchyroll_Downloader.hls.rewriter
 Imports Crunchyroll_Downloader.hls.writer
-Imports Microsoft.Web.WebView2.Core
 
 Namespace debugging
     Public Class DebugForm
@@ -94,11 +93,11 @@ Namespace debugging
         End Sub
 
         Private Async Sub GetBrowserCookiesButton_Click(sender As Object, e As EventArgs) Handles GetBrowserCookiesButton.Click
-            Dim cookies As List(Of CoreWebView2Cookie) = Await Browser.GetInstance().GetCookies(CookieDomainTextBox.Text)
+            Dim cookies As List(Of Cookie) = Await Browser.GetInstance().GetCookies(CookieDomainTextBox.Text)
             CookiesOutputTextBox.Text = ConvertCookiesToText(cookies)
         End Sub
 
-        Private Function ConvertCookiesToText(cookies As List(Of CoreWebView2Cookie)) As String
+        Private Function ConvertCookiesToText(cookies As List(Of Cookie)) As String
             Dim result As String = ""
             For Each cookie In cookies
                 result += CookieToText(cookie) + vbCrLf
@@ -107,12 +106,12 @@ Namespace debugging
             Return result
         End Function
 
-        Private Function CookieToText(cookie As CoreWebView2Cookie) As String
+        Private Function CookieToText(cookie As Cookie) As String
             Dim result As String = ""
 
             result += "Cookie: " + cookie.Name + vbCrLf
             result += vbTab + "Domain: " + cookie.Domain + vbCrLf
-            result += vbTab + "Secure: " + CStr(cookie.IsSecure) + vbCrLf
+            result += vbTab + "Secure: " + CStr(cookie.Secure) + vbCrLf
             result += vbTab + "Value: " + cookie.Value
 
             Return result
@@ -141,7 +140,7 @@ Namespace debugging
         Private Async Sub IsPaidAccountButton_Click(sender As Object, e As EventArgs) Handles IsPaidAccountButton.Click
             If FunimationAuthRadioButton.Checked Then
                 Dim authenticator = New FunimationAuthenticator(Browser.GetInstance())
-                Dim isPaid = Await authenticator.IsPaidAccount()
+                Dim isPaid = Await authenticator.GetLoginType()
                 AuthenticationOutputTextBox.Text = "Is paid account: " + CStr(isPaid)
             End If
         End Sub

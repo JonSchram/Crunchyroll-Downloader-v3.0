@@ -17,7 +17,7 @@ Namespace api.funimation
             For Each playback In playbacks
                 Dim currentLanguage = LocaleConverter.ConvertFunimationLanguageCodeToLanguage(playback.AudioLanguage)
 
-                If currentLanguage = preferredFunimationLanguage Then
+                If currentLanguage = preferredFunimationLanguage Or preferredFunimationLanguage = FunimationLanguage.NONE Then
                     If playback.FileExtension = "m3u8" Then
                         ' 'uncut' version is usually the best version, so take it if it is available.
                         If playback.Version = "uncut" Or bestPlayback Is Nothing Then
