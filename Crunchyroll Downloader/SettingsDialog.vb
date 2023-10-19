@@ -44,7 +44,7 @@ Public Class SettingsDialog
     Private ReadOnly FunimationHardSubLanguagesList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
     Private ReadOnly FunimationBitrateTextList As New EnumTextList(Of BitrateSetting)()
 
-    Private nameFormatter As FilenameFormatter
+    Private nameFormatter As FilenameTemplateGenerator
     Private uiInitializing As Boolean = False
     Private settingsLoading As Boolean = False
     Private nameTemplateLoading As Boolean = False
@@ -333,7 +333,7 @@ Public Class SettingsDialog
     End Sub
 
     Private Sub LoadSettings()
-        nameFormatter = New FilenameFormatter(settings.FilenameFormat)
+        nameFormatter = New FilenameTemplateGenerator(settings.FilenameFormat)
 
         LoadMainSettings()
         LoadOutputSettings()
@@ -447,11 +447,11 @@ Public Class SettingsDialog
         nameTemplateLoading = True
         Dim placeholders = nameFormatter.GetCurrentPlaceholders()
 
-        SeriesNameCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.SERIES_NAME)
-        SeasonNumberCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.SEASON_NUMBER)
-        EpisodeNumberCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.EPISODE_NUMBER)
-        EpisodeTitleCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.EPISODE_TITLE)
-        AudioLanguageCheckBox.Checked = placeholders.Contains(FilenameFormatter.TemplateItem.AUDIO_LANGUAGE)
+        SeriesNameCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.SERIES_NAME)
+        SeasonNumberCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.SEASON_NUMBER)
+        EpisodeNumberCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.EPISODE_NUMBER)
+        EpisodeTitleCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.EPISODE_TITLE)
+        AudioLanguageCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.AUDIO_LANGUAGE)
 
         FilenameTemplatePreview.Text = nameFormatter.GetTemplate()
         nameTemplateLoading = False
@@ -999,26 +999,26 @@ Public Class SettingsDialog
 #Region "Build Name String"
 
     Private Sub SeriesNameCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SeriesNameCheckBox.CheckedChanged
-        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.SERIES_NAME, SeriesNameCheckBox.Checked)
+        UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.SERIES_NAME, SeriesNameCheckBox.Checked)
     End Sub
 
     Private Sub EpisodeNumberCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles EpisodeNumberCheckBox.CheckedChanged
-        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.EPISODE_NUMBER, EpisodeNumberCheckBox.Checked)
+        UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.EPISODE_NUMBER, EpisodeNumberCheckBox.Checked)
     End Sub
 
     Private Sub EpisodeTitleCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles EpisodeTitleCheckBox.CheckedChanged
-        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.EPISODE_TITLE, EpisodeTitleCheckBox.Checked)
+        UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.EPISODE_TITLE, EpisodeTitleCheckBox.Checked)
     End Sub
 
     Private Sub SeasonNumberCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SeasonNumberCheckBox.CheckedChanged
-        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.SEASON_NUMBER, SeasonNumberCheckBox.Checked)
+        UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.SEASON_NUMBER, SeasonNumberCheckBox.Checked)
     End Sub
 
     Private Sub AudioLanguageCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles AudioLanguageCheckBox.CheckedChanged
-        UpdateFilenameTemplate(FilenameFormatter.TemplateItem.AUDIO_LANGUAGE, AudioLanguageCheckBox.Checked)
+        UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.AUDIO_LANGUAGE, AudioLanguageCheckBox.Checked)
     End Sub
 
-    Private Sub UpdateFilenameTemplate(item As FilenameFormatter.TemplateItem, add As Boolean)
+    Private Sub UpdateFilenameTemplate(item As FilenameTemplateGenerator.TemplateItem, add As Boolean)
         If nameTemplateLoading Then
             ' Checkbox initial values are being set, don't modify the template.
             Exit Sub

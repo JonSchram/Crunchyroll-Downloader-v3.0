@@ -1,5 +1,5 @@
 ﻿Namespace settings
-    Public Class FilenameFormatter
+    Public Class FilenameTemplateGenerator
         Private FilenameTemplate As String
 
         Public Sub New()

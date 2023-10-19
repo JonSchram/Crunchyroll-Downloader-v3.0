@@ -208,6 +208,7 @@
     <Compile Include="api\metadata\SeasonOverview.vb" />
     <Compile Include="api\metadata\Video\Subtitle.vb" />
     <Compile Include="CRD-Classes.vb" />
+    <Compile Include="data\DownloadEntry.vb" />
     <Compile Include="debugging\DebugForm.Designer.vb">
       <DependentUpon>DebugForm.vb</DependentUpon>
     </Compile>
@@ -315,6 +316,8 @@
     <Compile Include="hls\Writer\PlaylistWriter.vb" />
     <Compile Include="api\common\DownloadPreferences.vb" />
     <Compile Include="api\common\Language.vb" />
+    <Compile Include="postprocess\Mp4Postprocessor.vb" />
+    <Compile Include="postprocess\OutputPreferences.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>
     </Compile>
@@ -337,7 +340,7 @@
     <Compile Include="Settings\ffmpeg\FfmpegOptions.vb" />
     <Compile Include="Settings\ffmpeg\encoding\Speed.vb" />
     <Compile Include="Settings\ffmpeg\encoding\VideoEncoder.vb" />
-    <Compile Include="Settings\FilenameFormatter.vb" />
+    <Compile Include="Settings\FilenameTemplateGenerator.vb" />
     <Compile Include="Settings\Format.vb" />
     <Compile Include="Settings\Funimation\BitrateSetting.vb" />
     <Compile Include="Settings\Funimation\FunimationLanguage.vb" />
@@ -409,6 +412,7 @@
     <Compile Include="utilities\FfmpegAdapter.vb" />
     <Compile Include="utilities\FfmpegArguments.vb" />
     <Compile Include="utilities\FfmpegCommandBuilder.vb" />
+    <Compile Include="utilities\FilenameInterpolator.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddVideo.resx">
