@@ -5,8 +5,8 @@
     Public Class FragmentDownloader
         Implements IPlaybackDownloader
 
-        Public Sub DownloadPlaybacks(playbacks As List(Of Selection)) Implements IPlaybackDownloader.DownloadPlaybacks
+        Private Function IPlaybackDownloader_DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of Integer) Implements IPlaybackDownloader.DownloadPlaybacks
             Throw New NotImplementedException()
-        End Sub
+        End Function
     End Class
 End Namespace

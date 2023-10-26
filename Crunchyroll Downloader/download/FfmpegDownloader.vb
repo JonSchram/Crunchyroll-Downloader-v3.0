@@ -16,7 +16,7 @@ Namespace download
             MyBase.New(tempDir, finalDir)
         End Sub
 
-        Public Overrides Async Sub DownloadPlaybacks(playbacks As List(Of Selection))
+        Public Overrides Async Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of Integer)
 
             For Each playback In playbacks
                 Dim media As IEnumerable(Of Media) = playback.Media
@@ -25,7 +25,9 @@ Namespace download
                     Await DownloadMediaItem(item)
                 Next
             Next
-        End Sub
+
+            Return 0
+        End Function
 
         Private Async Function DownloadMediaItem(item As Media) As Task
             If TypeOf item Is FileMedia Then
@@ -35,7 +37,12 @@ Namespace download
             End If
         End Function
 
-        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task
+        ''' <summary>
+        ''' Downloads a program from a master playlist and returns the location it was saved to.
+        ''' </summary>
+        ''' <param name="item"></param>
+        ''' <returns></returns>
+        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task(Of String)
             ' TODO: Use proper playlist comparer.
             Dim programNumber = item.MasterPlaylist.GetClosestMatchProgramNumber(New HighestResolutionComparer())
 
@@ -55,7 +62,9 @@ Namespace download
             Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
             ffmpegAdapter.SetUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
 
-            ffmpegAdapter.Run(ffmpegArguments)
+            Await ffmpegAdapter.Run(ffmpegArguments)
+
+            Return outputName
         End Function
     End Class
 End Namespace

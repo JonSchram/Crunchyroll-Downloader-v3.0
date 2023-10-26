@@ -1,7 +1,13 @@
 ﻿Namespace utilities
     Public Interface IFfmpegAdapter
         Sub AddCookie(name As String, value As String)
-        Sub Run(arguments As FfmpegArguments)
+
+        ''' <summary>
+        ''' Runs ffmpeg with the given arguments and returns a status code when complete.
+        ''' </summary>
+        ''' <param name="arguments"></param>
+        ''' <returns></returns>
+        Function Run(arguments As FfmpegArguments) As Task(Of Integer)
         Sub SetUserAgent(userAgent As String)
     End Interface
 End Namespace

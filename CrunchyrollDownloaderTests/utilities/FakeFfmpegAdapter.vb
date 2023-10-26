@@ -14,9 +14,10 @@ Namespace utilities
             Throw New NotImplementedException()
         End Sub
 
-        Public Sub Run(arguments As FfmpegArguments) Implements IFfmpegAdapter.Run
+        Public Function Run(arguments As FfmpegArguments) As Task(Of Integer) Implements IFfmpegAdapter.Run
             RunArguments = arguments
-        End Sub
+            Return Task.FromResult(0)
+        End Function
 
     End Class
 End Namespace

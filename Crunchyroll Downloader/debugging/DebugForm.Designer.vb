@@ -93,6 +93,7 @@
             Me.AddQueueItemButton = New System.Windows.Forms.Button()
             Me.Label6 = New System.Windows.Forms.Label()
             Me.TabPagePlayback = New System.Windows.Forms.TabPage()
+            Me.DownloadHlsMasterPlaylistButton = New System.Windows.Forms.Button()
             Me.DownloadHlsMediaButton = New System.Windows.Forms.Button()
             Me.DownloadCompleteMediaButton = New System.Windows.Forms.Button()
             Me.Label13 = New System.Windows.Forms.Label()
@@ -102,7 +103,7 @@
             Me.SelectTemporaryFolderButton = New System.Windows.Forms.Button()
             Me.TemporaryFolderTextBox = New System.Windows.Forms.TextBox()
             Me.PlaybackFolderDialog = New System.Windows.Forms.FolderBrowserDialog()
-            Me.DownloadHlsMasterPlaylistButton = New System.Windows.Forms.Button()
+            Me.PlaybackDownloadStatusLabel = New System.Windows.Forms.Label()
             Me.TabControlOperations.SuspendLayout()
             Me.TabPageEpisode.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -898,6 +899,7 @@
             '
             'TabPagePlayback
             '
+            Me.TabPagePlayback.Controls.Add(Me.PlaybackDownloadStatusLabel)
             Me.TabPagePlayback.Controls.Add(Me.DownloadHlsMasterPlaylistButton)
             Me.TabPagePlayback.Controls.Add(Me.DownloadHlsMediaButton)
             Me.TabPagePlayback.Controls.Add(Me.DownloadCompleteMediaButton)
@@ -914,6 +916,15 @@
             Me.TabPagePlayback.TabIndex = 6
             Me.TabPagePlayback.Text = "Playback Download"
             Me.TabPagePlayback.UseVisualStyleBackColor = True
+            '
+            'DownloadHlsMasterPlaylistButton
+            '
+            Me.DownloadHlsMasterPlaylistButton.Location = New System.Drawing.Point(338, 175)
+            Me.DownloadHlsMasterPlaylistButton.Name = "DownloadHlsMasterPlaylistButton"
+            Me.DownloadHlsMasterPlaylistButton.Size = New System.Drawing.Size(172, 23)
+            Me.DownloadHlsMasterPlaylistButton.TabIndex = 8
+            Me.DownloadHlsMasterPlaylistButton.Text = "Download HLS Master playlist"
+            Me.DownloadHlsMasterPlaylistButton.UseVisualStyleBackColor = True
             '
             'DownloadHlsMediaButton
             '
@@ -983,14 +994,13 @@
             Me.TemporaryFolderTextBox.Size = New System.Drawing.Size(756, 20)
             Me.TemporaryFolderTextBox.TabIndex = 0
             '
-            'DownloadHlsMasterPlaylistButton
+            'PlaybackDownloadStatusLabel
             '
-            Me.DownloadHlsMasterPlaylistButton.Location = New System.Drawing.Point(338, 175)
-            Me.DownloadHlsMasterPlaylistButton.Name = "DownloadHlsMasterPlaylistButton"
-            Me.DownloadHlsMasterPlaylistButton.Size = New System.Drawing.Size(172, 23)
-            Me.DownloadHlsMasterPlaylistButton.TabIndex = 8
-            Me.DownloadHlsMasterPlaylistButton.Text = "Download HLS Master playlist"
-            Me.DownloadHlsMasterPlaylistButton.UseVisualStyleBackColor = True
+            Me.PlaybackDownloadStatusLabel.AutoSize = True
+            Me.PlaybackDownloadStatusLabel.Location = New System.Drawing.Point(9, 206)
+            Me.PlaybackDownloadStatusLabel.Name = "PlaybackDownloadStatusLabel"
+            Me.PlaybackDownloadStatusLabel.Size = New System.Drawing.Size(0, 13)
+            Me.PlaybackDownloadStatusLabel.TabIndex = 9
             '
             'DebugForm
             '
@@ -1113,5 +1123,6 @@
         Friend WithEvents MediaUrlTextBox As TextBox
         Friend WithEvents DownloadHlsMediaButton As Button
         Friend WithEvents DownloadHlsMasterPlaylistButton As Button
+        Friend WithEvents PlaybackDownloadStatusLabel As Label
     End Class
 End Namespace

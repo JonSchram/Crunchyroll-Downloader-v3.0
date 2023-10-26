@@ -234,7 +234,7 @@ Namespace debugging
 
         End Sub
 
-        Private Sub Button2_Click(sender As Object, e As EventArgs) Handles DownloadCompleteMediaButton.Click
+        Private Async Sub Button2_Click(sender As Object, e As EventArgs) Handles DownloadCompleteMediaButton.Click
             Dim temporaryDirectory = TemporaryFolderTextBox.Text
             Dim outputDirectory = OutputFolderTextBox.Text
 
@@ -247,8 +247,7 @@ Namespace debugging
             mediaList.Add(media)
             playbacks.Add(New Selection(mediaList))
 
-            downloader.DownloadPlaybacks(playbacks)
-
+            Await downloader.DownloadPlaybacks(playbacks)
         End Sub
 
         Private Sub SelectTemporaryFolderButton_Click(sender As Object, e As EventArgs) Handles SelectTemporaryFolderButton.Click
@@ -277,7 +276,7 @@ Namespace debugging
             Dim contents As HttpContent = response.Content
             Dim playlistStream = Await contents.ReadAsStreamAsync()
 
-            Dim parser As PlaylistParser = New PlaylistParser()
+            Dim parser As New PlaylistParser()
             Dim playlist As MediaPlaylist = parser.ParseMediaPlaylist(playlistStream)
 
             Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
@@ -288,6 +287,8 @@ Namespace debugging
             Dim outputDirectory = OutputFolderTextBox.Text
             Dim mediaUrl As String = MediaUrlTextBox.Text
             Dim client As New HttpClient()
+
+            PlaybackDownloadStatusLabel.Text = $"Downloading {mediaUrl}..."
 
             Try
                 Dim response As HttpResponseMessage = Await client.GetAsync(mediaUrl)
@@ -303,7 +304,9 @@ Namespace debugging
 
                 Dim playlistSelection As New Selection(mediaList)
                 Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
-                downloader.DownloadPlaybacks(New List(Of Selection) From {playlistSelection})
+                PlaybackDownloadStatusLabel.Text = $"Playlist selected. Running ffmpeg..."
+                Await downloader.DownloadPlaybacks(New List(Of Selection) From {playlistSelection})
+                PlaybackDownloadStatusLabel.Text = $"Ffmpeg completed. Playlist saved to file."
             Catch err As Exception
                 Debug.WriteLine("Could not download master playlist. ")
                 Debug.WriteLine(err.Message)
