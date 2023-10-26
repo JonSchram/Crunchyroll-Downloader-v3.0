@@ -126,7 +126,8 @@ Namespace api.funimation
         End Function
 
         Private Function ExtractEpisodeSlug(url As String) As String
-            Dim episodeName = Regex.Match(url, "funimation.com/v/.*/(.*)/?").Groups(1).Value
+            Dim showUri = New Uri(url)
+            Dim episodeName = Regex.Match(showUri.AbsolutePath, "v/.*/(.*)/?").Groups(1).Value
             Return episodeName
         End Function
 
