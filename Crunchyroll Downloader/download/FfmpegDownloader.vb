@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.hls.playlist.comparer
 Imports Crunchyroll_Downloader.utilities
 
@@ -16,25 +17,34 @@ Namespace download
             MyBase.New(tempDir, finalDir)
         End Sub
 
-        Public Overrides Async Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of Integer)
+        Public Overrides Async Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of DownloadEntry())
+            ' TODO: Allow sending progress.
+            ' Right now, this just awaits all the downloads but the download thread has no idea what is finished.
+
+            Dim allTasks As New List(Of Task(Of DownloadEntry))
 
             For Each playback In playbacks
                 Dim media As IEnumerable(Of Media) = playback.Media
 
                 For Each item In media
-                    Await DownloadMediaItem(item)
+                    allTasks.Add(DownloadMediaItem(item))
                 Next
             Next
+            Dim completedRecords As DownloadEntry() = Await Task.WhenAll(allTasks)
 
-            Return 0
+
+            Return completedRecords
         End Function
 
-        Private Async Function DownloadMediaItem(item As Media) As Task
+        Private Function DownloadMediaItem(item As Media) As Task(Of DownloadEntry)
             If TypeOf item Is FileMedia Then
-                Await DownloadSingleFile(CType(item, FileMedia))
+                Return DownloadSingleFile(CType(item, FileMedia))
             ElseIf TypeOf item Is MasterPlaylistMedia Then
-                Await DownloadPlaylist(CType(item, MasterPlaylistMedia))
+                Return DownloadPlaylist(CType(item, MasterPlaylistMedia))
             End If
+
+            ' Should never happen.
+            Return Nothing
         End Function
 
         ''' <summary>
@@ -42,7 +52,7 @@ Namespace download
         ''' </summary>
         ''' <param name="item"></param>
         ''' <returns></returns>
-        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task(Of String)
+        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task(Of DownloadEntry)
             ' TODO: Use proper playlist comparer.
             Dim programNumber = item.MasterPlaylist.GetClosestMatchProgramNumber(New HighestResolutionComparer())
 
@@ -62,9 +72,13 @@ Namespace download
             Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
             ffmpegAdapter.SetUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
 
-            Await ffmpegAdapter.Run(ffmpegArguments)
+            Dim statusCode As Integer = Await ffmpegAdapter.Run(ffmpegArguments)
 
-            Return outputName
+            If statusCode <> 0 Then
+                Throw New Exception($"Ffmpeg exited with error: {statusCode}")
+            End If
+
+            Return New DownloadEntry(outputName, MediaType.Audio Or MediaType.Video)
         End Function
     End Class
 End Namespace

@@ -1,4 +1,6 @@
-﻿Namespace download
+﻿Imports Crunchyroll_Downloader.data
+
+Namespace download
     Public Interface IPlaybackDownloader
 
         ''' <summary>
@@ -6,6 +8,6 @@
         ''' </summary>
         ''' <param name="playbacks"></param>
         ''' <returns>A status code.</returns>
-        Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of Integer)
+        Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of DownloadEntry())
     End Interface
 End Namespace

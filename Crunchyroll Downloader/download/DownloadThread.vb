@@ -1,5 +1,6 @@
 ﻿Imports System.Threading
 Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.settings.general
 
 Namespace download
     Public Class DownloadThread
@@ -66,6 +67,12 @@ Namespace download
             Dim media As List(Of MediaLink) = Await GetAvailableMedia()
             Dim downloadSelection As Selection = Await GetSelection(media)
 
+            ' TODO: Use correct downloader
+            Dim tempDir = ProgramSettings.GetInstance().TemporaryFolder
+            Dim outputDir = ProgramSettings.GetInstance().OutputPath
+            Dim downloader As New FfmpegDownloader(tempDir, outputDir)
+
+            Await downloader.DownloadPlaybacks(New List(Of Selection) From {downloadSelection})
 
             RaiseCompletionEvent()
         End Sub

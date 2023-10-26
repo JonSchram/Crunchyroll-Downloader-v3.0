@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.data
 
 Namespace download
     Public MustInherit Class AbstractPlaybackDownloader
@@ -11,13 +12,6 @@ Namespace download
         Protected OutputDirectory As String
         Protected TemporaryDirectory As String
 
-        ''' <summary>
-        ''' Complete media tracks that can be added to a container.
-        ''' This should not contain fragments of a media stream, but it should contain the result of concatenating
-        ''' these streams into a video or audio track.
-        ''' </summary>
-        Protected DownloadedTracks As New List(Of FileRecord)
-
         Public Sub New(tempDir As String, finalDir As String)
             TemporaryDirectory = tempDir
             OutputDirectory = finalDir
@@ -25,32 +19,25 @@ Namespace download
             Client = New HttpClient()
         End Sub
 
-        Protected Async Function DownloadSingleFile(media As FileMedia) As Task
+        Protected Async Function DownloadSingleFile(media As FileMedia) As Task(Of DownloadEntry)
             Dim response = Await Client.SendAsync(New HttpRequestMessage(HttpMethod.Get, media.OriginalLocation))
-            If response.StatusCode = Net.HttpStatusCode.OK Then
-                Dim dataStream As Stream = Await response.Content.ReadAsStreamAsync()
+            response.EnsureSuccessStatusCode()
 
-                Dim downloadUri As New Uri(media.OriginalLocation)
-                Dim filename = downloadUri.Segments(downloadUri.Segments.Count - 1)
-                Dim temporaryPath = Path.Combine(TemporaryDirectory, filename)
+            Dim dataStream As Stream = Await response.Content.ReadAsStreamAsync()
 
-                Dim dest As Stream = New FileStream(temporaryPath, FileMode.CreateNew)
-                Await dataStream.CopyToAsync(dest)
-                dest.Close()
+            Dim downloadUri As New Uri(media.OriginalLocation)
+            Dim filename = downloadUri.Segments(downloadUri.Segments.Count - 1)
+            Dim temporaryPath = Path.Combine(TemporaryDirectory, filename)
 
-                DownloadedTracks.Append(New FileRecord(media.Type, temporaryPath))
-            End If
+            Dim dest As Stream = New FileStream(temporaryPath, FileMode.CreateNew)
+            Await dataStream.CopyToAsync(dest)
+            dest.Close()
+
+            Dim record = New DownloadEntry(temporaryPath, media.Type)
+            Return record
         End Function
 
-        Public MustOverride Async Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of Integer) Implements IPlaybackDownloader.DownloadPlaybacks
+        Public MustOverride Async Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of DownloadEntry()) Implements IPlaybackDownloader.DownloadPlaybacks
 
-        Protected Class FileRecord
-            Public ReadOnly Type As MediaType
-            Public ReadOnly Path As String
-            Public Sub New(type As MediaType, path As String)
-                Me.Type = type
-                Me.Path = path
-            End Sub
-        End Class
     End Class
 End Namespace
