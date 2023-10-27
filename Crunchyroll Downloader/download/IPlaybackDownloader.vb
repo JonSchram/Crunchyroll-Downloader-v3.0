@@ -8,6 +8,6 @@ Namespace download
         ''' </summary>
         ''' <param name="playbacks"></param>
         ''' <returns>A status code.</returns>
-        Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of DownloadEntry())
+        Function DownloadSelection(playbacks As Selection) As Task(Of DownloadEntry())
     End Interface
 End Namespace

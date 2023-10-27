@@ -12,6 +12,14 @@ Namespace download
         Protected OutputDirectory As String
         Protected TemporaryDirectory As String
 
+        ''' <summary>
+        ''' Raised throughout the download process.
+        ''' </summary>
+        ''' <param name="sourceIndex"></param>
+        ''' <param name="progress"></param>
+        Public Event ReportDownloadProgress(sourceIndex As Integer, progress As Integer)
+        Public Event ReportDownloadComplete(sourceIndex As Integer)
+
         Public Sub New(tempDir As String, finalDir As String)
             TemporaryDirectory = tempDir
             OutputDirectory = finalDir
@@ -20,6 +28,9 @@ Namespace download
         End Sub
 
         Protected Async Function DownloadSingleFile(media As FileMedia) As Task(Of DownloadEntry)
+            Dim itemIndex As Integer = 0
+            OnMediaProgress(itemIndex, 0)
+
             Dim response = Await Client.SendAsync(New HttpRequestMessage(HttpMethod.Get, media.OriginalLocation))
             response.EnsureSuccessStatusCode()
 
@@ -34,10 +45,21 @@ Namespace download
             dest.Close()
 
             Dim record = New DownloadEntry(temporaryPath, media.Type)
+
+            OnMediaProgress(itemIndex, 100)
+            OnMediaComplete(itemIndex)
             Return record
         End Function
 
-        Public MustOverride Async Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of DownloadEntry()) Implements IPlaybackDownloader.DownloadPlaybacks
+        Public MustOverride Async Function DownloadSelection(playbacks As Selection) As Task(Of DownloadEntry()) Implements IPlaybackDownloader.DownloadSelection
+
+        Protected Sub OnMediaProgress(mediaIndex As Integer, progress As Integer)
+            RaiseEvent ReportDownloadProgress(mediaIndex, progress)
+        End Sub
+
+        Protected Sub OnMediaComplete(mediaIndex As Integer)
+            RaiseEvent ReportDownloadComplete(mediaIndex)
+        End Sub
 
     End Class
 End Namespace

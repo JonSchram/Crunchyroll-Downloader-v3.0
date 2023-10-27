@@ -71,10 +71,19 @@ Namespace download
             Dim tempDir = ProgramSettings.GetInstance().TemporaryFolder
             Dim outputDir = ProgramSettings.GetInstance().OutputPath
             Dim downloader As New FfmpegDownloader(tempDir, outputDir)
+            AddHandler downloader.ReportDownloadProgress, AddressOf HandleProgressReported
+            AddHandler downloader.ReportDownloadComplete, AddressOf HandleSelectionCompleted
 
-            Await downloader.DownloadPlaybacks(New List(Of Selection) From {downloadSelection})
+            Await downloader.DownloadSelection(downloadSelection)
 
             RaiseCompletionEvent()
+        End Sub
+
+        Private Sub HandleProgressReported(sourceIndex As Integer, amount As Integer)
+            Debug.WriteLine($"Download thread progress reported: {sourceIndex}, {amount}%")
+        End Sub
+        Private Sub HandleSelectionCompleted(sourceIndex As Integer)
+            Debug.WriteLine($"Download thread download complete: {sourceIndex}")
         End Sub
 
         Private Async Function GetAvailableMedia() As Task(Of List(Of MediaLink))

@@ -240,14 +240,11 @@ Namespace debugging
 
             Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
 
-
-            Dim playbacks As New List(Of Selection)
             Dim mediaList As New List(Of Media)
             Dim media = New FileMedia(MediaType.Subtitles, Language.JAPANESE, MediaUrlTextBox.Text)
             mediaList.Add(media)
-            playbacks.Add(New Selection(mediaList))
 
-            Await downloader.DownloadPlaybacks(playbacks)
+            Await downloader.DownloadSelection(New Selection(mediaList))
         End Sub
 
         Private Sub SelectTemporaryFolderButton_Click(sender As Object, e As EventArgs) Handles SelectTemporaryFolderButton.Click
@@ -305,7 +302,7 @@ Namespace debugging
                 Dim playlistSelection As New Selection(mediaList)
                 Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
                 PlaybackDownloadStatusLabel.Text = $"Playlist selected. Running ffmpeg..."
-                Await downloader.DownloadPlaybacks(New List(Of Selection) From {playlistSelection})
+                Await downloader.DownloadSelection(playlistSelection)
                 PlaybackDownloadStatusLabel.Text = $"Ffmpeg completed. Playlist saved to file."
             Catch err As Exception
                 Debug.WriteLine("Could not download master playlist. ")

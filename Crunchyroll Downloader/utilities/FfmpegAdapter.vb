@@ -9,6 +9,8 @@ Namespace utilities
         Private ReadOnly Cookies As New Dictionary(Of String, String)
         Private UserAgent As String
 
+        Public Event ReportProgress(percent As Integer)
+
         Public Sub New(executableLocation As String)
             ExecutablePath = executableLocation
         End Sub

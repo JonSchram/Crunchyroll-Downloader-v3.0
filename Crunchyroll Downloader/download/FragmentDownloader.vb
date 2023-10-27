@@ -7,7 +7,7 @@ Namespace download
     Public Class FragmentDownloader
         Implements IPlaybackDownloader
 
-        Public Function DownloadPlaybacks(playbacks As List(Of Selection)) As Task(Of DownloadEntry()) Implements IPlaybackDownloader.DownloadPlaybacks
+        Public Function DownloadSelection(playbacks As Selection) As Task(Of DownloadEntry()) Implements IPlaybackDownloader.DownloadSelection
             Throw New NotImplementedException()
         End Function
     End Class
