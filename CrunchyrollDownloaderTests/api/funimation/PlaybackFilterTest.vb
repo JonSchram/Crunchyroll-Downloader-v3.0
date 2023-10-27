@@ -24,7 +24,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {m3u8Playback, mp4Playback}
 
-            Dim preferences = New DownloadPreferences(Language.JAPANESE, Nothing, MediaType.Video)
+            Dim preferences = New DownloadPreferences(Language.JAPANESE, New List(Of Language), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -48,7 +48,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {japanesePlayback, englishPlayback}
 
-            Dim preferences = New DownloadPreferences(Language.JAPANESE, Nothing, MediaType.Video)
+            Dim preferences = New DownloadPreferences(Language.JAPANESE, New List(Of Language), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -72,7 +72,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {japanesePlayback, englishPlayback}
 
-            Dim preferences = New DownloadPreferences(Language.NONE, Nothing, MediaType.Video)
+            Dim preferences = New DownloadPreferences(Language.NONE, New List(Of Language), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -97,7 +97,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {simulcast, uncutPlayback}
 
-            Dim preferences = New DownloadPreferences(Language.ENGLISH, Nothing, MediaType.Video)
+            Dim preferences = New DownloadPreferences(Language.ENGLISH, New List(Of Language), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -127,7 +127,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {spanish, english, portuguese}
 
-            Dim preferences = New DownloadPreferences(Language.JAPANESE, Nothing, MediaType.Video)
+            Dim preferences = New DownloadPreferences(Language.JAPANESE, New List(Of Language), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -243,7 +243,7 @@ Namespace api.funimation
                 .FileExtension = "m3u8"
             }
 
-            Dim preferences = New FunimationDownloadPreferences(Language.JAPANESE, Nothing, MediaType.Video, New List(Of SubFormat))
+            Dim preferences = New FunimationDownloadPreferences(Language.JAPANESE, New List(Of Language), MediaType.Video, New List(Of SubFormat))
             Dim filter = New PlaybackFilter(preferences)
 
             Dim streams = filter.GetMatchingMedia(p)
@@ -304,7 +304,7 @@ Namespace api.funimation
                 .FileExtension = "mp4"
             }
 
-            Dim preferences = New FunimationDownloadPreferences(Language.JAPANESE, Nothing, MediaType.Video, New List(Of SubFormat))
+            Dim preferences = New FunimationDownloadPreferences(Language.JAPANESE, New List(Of Language), MediaType.Video, New List(Of SubFormat))
             Dim filter = New PlaybackFilter(preferences)
 
             Dim streams = filter.GetMatchingMedia(p)

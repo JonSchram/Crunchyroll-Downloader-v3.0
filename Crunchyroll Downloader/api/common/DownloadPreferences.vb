@@ -11,9 +11,9 @@
         ''' </summary>
         ''' <returns></returns>
         Public Property DownloadTypes As MediaType
-        Public Sub New(audioLanguage As Language, subtitleLanguages As ISet(Of Language), media As MediaType)
+        Public Sub New(audioLanguage As Language, subtitleLanguages As IEnumerable(Of Language), media As MediaType)
             Me.AudioLanguage = audioLanguage
-            Me.SubtitleLanguages = subtitleLanguages
+            Me.SubtitleLanguages = New HashSet(Of Language)(subtitleLanguages)
             DownloadTypes = media
         End Sub
     End Class

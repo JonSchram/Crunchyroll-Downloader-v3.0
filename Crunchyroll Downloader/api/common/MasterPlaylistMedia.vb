@@ -1,4 +1,6 @@
-﻿Imports Crunchyroll_Downloader.hls.playlist
+﻿
+
+Imports PlaylistLibrary.hls.playlist
 
 Namespace api.common
     ''' <summary>
@@ -7,16 +9,16 @@ Namespace api.common
     Public Class MasterPlaylistMedia
         Inherits Media
 
-        Public ReadOnly Property MasterPlaylist As MasterPlaylist
+        Public ReadOnly Property Playlist As MasterPlaylist
 
         Public Sub New(type As MediaType, lang As Language, location As String, playlist As MasterPlaylist)
             MyBase.New(type, lang, location)
-            MasterPlaylist = playlist
+            Me.Playlist = playlist
         End Sub
 
         Public Overrides Function ToString() As String
             Return $"[MasterPlaylistMedia  URI: {OriginalLocation}, Type: {Type}, Language: {MediaLanguage}," +
-                $"Playlist: HLS version {MasterPlaylist.Version}, {MasterPlaylist.VariantStreams.Count} variant streams]"
+                $"Playlist: HLS version {Playlist.Version}, {Playlist.VariantStreams.Count} variant streams]"
         End Function
     End Class
 End Namespace

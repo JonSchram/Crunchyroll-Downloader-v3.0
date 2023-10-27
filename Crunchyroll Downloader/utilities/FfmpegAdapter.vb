@@ -1,5 +1,4 @@
-﻿Imports System.Security.Cryptography.X509Certificates
-Imports System.Text
+﻿Imports System.Text
 
 Namespace utilities
     Public Class FfmpegAdapter

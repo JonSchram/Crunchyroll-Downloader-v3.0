@@ -1,6 +1,6 @@
 ﻿Imports System.Net.Http
 Imports Crunchyroll_Downloader.api.common
-Imports Crunchyroll_Downloader.hls.parsing
+Imports PlaylistLibrary.hls.parsing
 
 Namespace api
     Public Class MasterPlaylistResolver

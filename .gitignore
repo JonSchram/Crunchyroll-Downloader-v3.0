@@ -7,6 +7,10 @@ Crunchyroll Downloader/obj
 /CrunchyrollDownloaderTests/obj/
 /CrunchyrollDownloaderTests/bin/Debug/net6.0
 /CrunchyrollDownloaderTests/bin/Debug/net6.0/
+PlaylistLibrary/bin
+PlaylistLibrary/obj
+PlaylistLibraryTest/bin
+PlaylistLibraryTest/obj
 CRD-addon/
 packages/
 .vs/

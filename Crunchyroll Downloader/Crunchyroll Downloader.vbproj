@@ -246,74 +246,7 @@
     <Compile Include="ffmpeg_option.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="hls\Common\SegmentDateTime.vb" />
-    <Compile Include="hls\Common\PlaylistData.vb" />
-    <Compile Include="hls\Playlist\Comparer\ClosestResolutionComparer.vb" />
-    <Compile Include="hls\Playlist\Comparer\HighestResolutionComparer.vb" />
-    <Compile Include="hls\Playlist\Comparer\LowestResolutionComparer.vb" />
-    <Compile Include="hls\Playlist\MediaPlaylistBuilder.vb" />
-    <Compile Include="hls\Playlist\HlsSegmentsBuilder.vb" />
-    <Compile Include="hls\Parsing\ITagParser.vb" />
-    <Compile Include="hls\Parsing\TagParserHelper.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\DiscontinuityTagParser.vb" />
-    <Compile Include="hls\Parsing\KeyParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\EndlistTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\IframesOnlyTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Universal\IndependentSegmentsTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Master\SessionDataTagParser.vb" />
-    <Compile Include="hls\Playlist\CodecClassifier.vb" />
-    <Compile Include="hls\Common\PlaylistStartTime.vb" />
-    <Compile Include="hls\Common\DateRange.vb" />
-    <Compile Include="hls\Playlist\SessionData.vb" />
-    <Compile Include="hls\Playlist\Stream\IFrameStream.vb" />
-    <Compile Include="hls\Playlist\Stream\BaseStreamMetadata.vb" />
-    <Compile Include="hls\Playlist\Rendition\ClosedCaptionRendition.vb" />
-    <Compile Include="hls\Common\Hdcp.vb" />
-    <Compile Include="hls\Playlist\Stream\IFrameStreamMetadata.vb" />
-    <Compile Include="hls\Playlist\Rendition\LinkedRendition.vb" />
-    <Compile Include="hls\Playlist\Stream\RenditionGroup.vb" />
-    <Compile Include="hls\Playlist\Rendition\AlternativeRendition.vb" />
-    <Compile Include="hls\Common\MediaType.vb" />
-    <Compile Include="hls\Common\Resolution.vb" />
-    <Compile Include="hls\Playlist\Stream\VariantStreamMetadata.vb" />
-    <Compile Include="hls\Playlist\Stream\VariantStream.vb" />
-    <Compile Include="hls\Rewriter\FileSegmentRewriter.vb" />
-    <Compile Include="hls\Rewriter\ISegmentRewriter.vb" />
-    <Compile Include="hls\Rewriter\MediaPlaylistRewriter.vb" />
-    <Compile Include="hls\Segment\EncryptionKey.vb" />
-    <Compile Include="hls\Segment\MediaInitialization.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\DateRangeTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\DiscontinuitySequenceNumberTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\MediaSequenceNumberTagParser.vb" />
-    <Compile Include="hls\Common\PlaylistType.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\PlaylistTypeTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\ByteRangeTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\DateTimeTagParser.vb" />
-    <Compile Include="hls\Parsing\PlaylistParseException.vb" />
-    <Compile Include="hls\Common\ByteRange.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\MediaInitializationTagParser.vb" />
-    <Compile Include="hls\Segment\MediaSegment.vb" />
-    <Compile Include="hls\Playlist\AbstractPlaylist.vb" />
-    <Compile Include="hls\Playlist\MediaPlaylist.vb" />
-    <Compile Include="hls\Parsing\HlsHelpers.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\InfTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Universal\StartTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Master\Stream\AbstractStreamTagParser.vb" />
-    <Compile Include="hls\Segment\EncryptionMethod.vb" />
-    <Compile Include="hls\HlsFormatException.vb" />
-    <Compile Include="hls\Parsing\Tags\Master\Stream\IframeStreamInfTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\KeyTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Master\SessionKeyTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Master\Stream\StreamInfTagParser.vb" />
-    <Compile Include="hls\Parsing\ParsedTag.vb" />
-    <Compile Include="hls\Parsing\Tags\Master\MediaTagParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Media\TargetDurationTagParser.vb" />
     <Compile Include="FileUtilities.vb" />
-    <Compile Include="hls\Parsing\TagParser.vb" />
-    <Compile Include="hls\Playlist\MasterPlaylist.vb" />
-    <Compile Include="hls\Parsing\PlaylistParser.vb" />
-    <Compile Include="hls\Parsing\Tags\Universal\VersionTagParser.vb" />
-    <Compile Include="hls\Writer\PlaylistWriter.vb" />
     <Compile Include="api\common\DownloadPreferences.vb" />
     <Compile Include="api\common\Language.vb" />
     <Compile Include="postprocess\Mp4Postprocessor.vb" />
@@ -618,7 +551,12 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PlaylistLibrary\PlaylistLibrary.vbproj">
+      <Project>{30d72220-e66a-4e56-a1c8-035fa793ec4b}</Project>
+      <Name>PlaylistLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\Microsoft.Web.WebView2.1.0.2088.41\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.2088.41\build\Microsoft.Web.WebView2.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

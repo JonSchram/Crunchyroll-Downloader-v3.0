@@ -8,12 +8,12 @@ Imports Crunchyroll_Downloader.api.funimation
 Imports Crunchyroll_Downloader.api.funimation.metadata
 Imports Crunchyroll_Downloader.api.metadata
 Imports Crunchyroll_Downloader.download
-Imports Crunchyroll_Downloader.hls.parsing
-Imports Crunchyroll_Downloader.hls.playlist
-Imports Crunchyroll_Downloader.hls.playlist.comparer
-Imports Crunchyroll_Downloader.hls.playlist.stream
-Imports Crunchyroll_Downloader.hls.rewriter
-Imports Crunchyroll_Downloader.hls.writer
+Imports PlaylistLibrary.hls.parsing
+Imports PlaylistLibrary.hls.playlist
+Imports PlaylistLibrary.hls.playlist.comparer
+Imports PlaylistLibrary.hls.playlist.stream
+Imports PlaylistLibrary.hls.rewriter
+Imports PlaylistLibrary.hls.writer
 
 Namespace debugging
     Public Class DebugForm

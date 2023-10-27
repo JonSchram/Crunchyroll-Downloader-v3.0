@@ -1,8 +1,8 @@
 ﻿Imports System.IO
 Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.data
-Imports Crunchyroll_Downloader.hls.playlist.comparer
 Imports Crunchyroll_Downloader.utilities
+Imports PlaylistLibrary.hls.playlist.comparer
 
 Namespace download
 
@@ -55,7 +55,7 @@ Namespace download
             OnMediaProgress(itemIndex, 0)
 
             ' TODO: Use proper playlist comparer.
-            Dim programNumber = item.MasterPlaylist.GetClosestMatchProgramNumber(New HighestResolutionComparer())
+            Dim programNumber = item.Playlist.GetClosestMatchProgramNumber(New HighestResolutionComparer())
 
             ' TODO: Make a proper file name and file format.
             Dim outputName = Path.Combine(OutputDirectory, "playlist.mp4")
