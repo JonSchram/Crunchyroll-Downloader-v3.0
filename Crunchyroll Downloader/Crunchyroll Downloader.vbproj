@@ -345,6 +345,7 @@
     <Compile Include="utilities\FfmpegAdapter.vb" />
     <Compile Include="utilities\FfmpegArguments.vb" />
     <Compile Include="utilities\FfmpegCommandBuilder.vb" />
+    <Compile Include="utilities\FfmpegOutputParser.vb" />
     <Compile Include="utilities\FilenameInterpolator.vb" />
     <Compile Include="utilities\IFfmpegAdapter.vb" />
   </ItemGroup>
