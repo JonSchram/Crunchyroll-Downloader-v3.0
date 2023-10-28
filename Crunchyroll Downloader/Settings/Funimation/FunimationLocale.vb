@@ -3,7 +3,7 @@ Imports Crunchyroll_Downloader.api.common
 
 Namespace settings.funimation
     Module FunimationLocale
-        Public Function ConvertToLocale(funLanguage As FunimationLanguage) As Locale
+        Public Function ConvertToLocale(funLanguage As FunimationLanguage) As api.Locale
             Select Case funLanguage
                 Case FunimationLanguage.CHINESE_MANDARIN
                     Return New Locale(Language.MANDARIN)

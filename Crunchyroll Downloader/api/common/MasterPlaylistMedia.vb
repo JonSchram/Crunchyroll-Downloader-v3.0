@@ -11,13 +11,13 @@ Namespace api.common
 
         Public ReadOnly Property Playlist As MasterPlaylist
 
-        Public Sub New(type As MediaType, lang As Language, location As String, playlist As MasterPlaylist)
-            MyBase.New(type, lang, location)
+        Public Sub New(type As MediaType, locale As Locale, location As String, playlist As MasterPlaylist)
+            MyBase.New(type, locale, location)
             Me.Playlist = playlist
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"[MasterPlaylistMedia  URI: {OriginalLocation}, Type: {Type}, Language: {MediaLanguage}," +
+            Return $"[MasterPlaylistMedia  URI: {OriginalLocation}, Type: {Type}, Locale: {MediaLocale}," +
                 $"Playlist: HLS version {Playlist.Version}, {Playlist.VariantStreams.Count} variant streams]"
         End Function
     End Class

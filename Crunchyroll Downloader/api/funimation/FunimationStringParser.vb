@@ -32,7 +32,7 @@ Namespace api.funimation
                 Case ""
                     Return SubtitleFormat.NONE
                 Case Else
-                    ' Couldn't be parsed and isn't an emptpy string, so optimistically take any subtitle format.
+                    ' Couldn't be parsed and isn't an empty string, so optimistically take any subtitle format.
                     Return SubtitleFormat.ANY
             End Select
         End Function

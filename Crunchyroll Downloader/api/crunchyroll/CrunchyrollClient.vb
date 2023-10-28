@@ -83,8 +83,5 @@ Namespace api.crunchyroll
             Throw New NotImplementedException()
         End Function
 
-        Public Function GetPreferenceFactory() As IDownloadPreferenceFactory Implements IDownloadClient.GetPreferenceFactory
-            Throw New NotImplementedException()
-        End Function
     End Class
 End Namespace

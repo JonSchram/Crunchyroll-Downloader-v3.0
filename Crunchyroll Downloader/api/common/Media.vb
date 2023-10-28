@@ -8,12 +8,12 @@
     ''' </summary>
     Public MustInherit Class Media
         Public ReadOnly Property Type As MediaType
-        Public ReadOnly Property MediaLanguage As Language
+        Public ReadOnly Property MediaLocale As Locale
         Public ReadOnly Property OriginalLocation As String
 
-        Protected Sub New(type As MediaType, lang As Language, location As String)
+        Protected Sub New(type As MediaType, locale As Locale, location As String)
             Me.Type = type
-            MediaLanguage = lang
+            MediaLocale = locale
             OriginalLocation = location
         End Sub
     End Class

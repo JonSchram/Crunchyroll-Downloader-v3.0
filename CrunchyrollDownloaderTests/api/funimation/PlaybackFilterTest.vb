@@ -2,7 +2,6 @@
 Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.api.funimation
 Imports Crunchyroll_Downloader.api.metadata.video
-Imports Crunchyroll_Downloader.settings.funimation
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace api.funimation
@@ -25,7 +24,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {m3u8Playback, mp4Playback}
 
-            Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Language), MediaType.Video)
+            Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Locale), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -49,7 +48,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {japanesePlayback, englishPlayback}
 
-            Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Language), MediaType.Video)
+            Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Locale), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -73,7 +72,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {japanesePlayback, englishPlayback}
 
-            Dim preferences = New DownloadPreferences(New Locale(Language.NONE, Region.NOT_SPECIFIED), New List(Of Language), MediaType.Video)
+            Dim preferences = New DownloadPreferences(New Locale(Language.NONE, Region.NOT_SPECIFIED), New List(Of Locale), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -98,7 +97,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {simulcast, uncutPlayback}
 
-            Dim preferences = New DownloadPreferences(New Locale(Language.ENGLISH, Region.UNITED_STATES), New List(Of Language), MediaType.Video)
+            Dim preferences = New DownloadPreferences(New Locale(Language.ENGLISH, Region.UNITED_STATES), New List(Of Locale), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -122,7 +121,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {simulcast, uncutPlayback}
 
-            Dim preferences = New DownloadPreferences(New Locale(Language.ENGLISH, Region.NOT_SPECIFIED), New List(Of Language), MediaType.Video)
+            Dim preferences = New DownloadPreferences(New Locale(Language.ENGLISH, Region.NOT_SPECIFIED), New List(Of Locale), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -152,7 +151,7 @@ Namespace api.funimation
 
             Dim playbacks = New List(Of Playback) From {spanish, english, portuguese}
 
-            Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Language), MediaType.Video)
+            Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Locale), MediaType.Video)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim bestPlayback = filter.GetBestPlayback(playbacks)
@@ -191,9 +190,10 @@ Namespace api.funimation
                 .FileExtension = "m3u8"
             }
 
-            Dim subtitleLanguages = New List(Of Language) From {Language.ENGLISH, Language.SPANISH}
+            Dim subtitleLanguages = New List(Of Locale) From {New Locale(Language.ENGLISH), New Locale(Language.SPANISH)}
             Dim subtitleFormats = New List(Of SubtitleFormat) From {SubtitleFormat.VTT}
-            Dim preferences = New DownloadPreferences(New Locale(Language.NONE, Region.NOT_SPECIFIED), subtitleLanguages, MediaType.Subtitles, subtitleFormats)
+            Dim preferences = New DownloadPreferences(New Locale(Language.NONE, Region.NOT_SPECIFIED),
+                                                      subtitleLanguages, MediaType.Subtitles, subtitleFormats)
             Dim filter = New PlaybackFilter(preferences)
 
             Dim streams As List(Of MediaLink) = filter.GetMatchingMedia(p)
@@ -236,7 +236,7 @@ Namespace api.funimation
                 .FileExtension = "m3u8"
             }
 
-            Dim subtitleLanguages = New List(Of Language) From {Language.ENGLISH}
+            Dim subtitleLanguages = New List(Of Locale) From {New Locale(Language.ENGLISH)}
             Dim subtitleFormats = New List(Of SubtitleFormat) From {SubtitleFormat.VTT, SubtitleFormat.SRT}
             Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN), subtitleLanguages,
                                                       MediaType.Subtitles, subtitleFormats)
@@ -247,10 +247,10 @@ Namespace api.funimation
             Assert.IsTrue(TypeOf streams(0) Is FileMediaLink)
             Assert.IsTrue(TypeOf streams(1) Is FileMediaLink)
 
-            Assert.AreEqual(Language.ENGLISH, streams(0).MediaLanguage)
+            Assert.AreEqual(New Locale(Language.ENGLISH), streams(0).MediaLocale)
             Assert.AreEqual(MediaType.Subtitles, streams(0).Type)
 
-            Assert.AreEqual(Language.ENGLISH, streams(1).MediaLanguage)
+            Assert.AreEqual(New Locale(Language.ENGLISH), streams(1).MediaLocale)
             Assert.AreEqual(MediaType.Subtitles, streams(1).Type)
         End Sub
 
@@ -269,7 +269,8 @@ Namespace api.funimation
                 .FileExtension = "m3u8"
             }
 
-            Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Language), MediaType.Video, New List(Of SubtitleFormat))
+            Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN),
+                                                      New List(Of Locale), MediaType.Video, New List(Of SubtitleFormat))
             Dim filter = New PlaybackFilter(preferences)
 
             Dim streams = filter.GetMatchingMedia(p)
@@ -278,7 +279,7 @@ Namespace api.funimation
             Assert.IsTrue(TypeOf streams(0) Is HlsMasterPlaylistLink)
 
             Dim playlistStream = CType(streams(0), HlsMasterPlaylistLink)
-            Assert.AreEqual(Language.JAPANESE, playlistStream.MediaLanguage)
+            Assert.AreEqual(New Locale(Language.JAPANESE), playlistStream.MediaLocale)
             Assert.AreEqual("m3u8_location", playlistStream.Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video, playlistStream.Type)
         End Sub
@@ -299,7 +300,7 @@ Namespace api.funimation
             }
 
             Dim preferences = New DownloadPreferences(
-                New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Language) From {Language.ENGLISH},
+                New Locale(Language.JAPANESE, Region.JAPAN), New List(Of Locale) From {New Locale(Language.ENGLISH)},
                 MediaType.Video Or MediaType.Audio Or MediaType.Subtitles,
                 New List(Of SubtitleFormat) From {SubtitleFormat.VTT})
             Dim filter = New PlaybackFilter(preferences)
@@ -310,13 +311,13 @@ Namespace api.funimation
             Assert.IsTrue(TypeOf streams(0) Is HlsMasterPlaylistLink)
 
             Dim playlistStream = CType(streams(0), HlsMasterPlaylistLink)
-            Assert.AreEqual(Language.JAPANESE, playlistStream.MediaLanguage)
+            Assert.AreEqual(New Locale(Language.JAPANESE), playlistStream.MediaLocale)
             Assert.AreEqual("m3u8_location", playlistStream.Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video, playlistStream.Type)
 
             Assert.IsTrue(TypeOf streams(1) Is FileMediaLink)
             Dim subtitleStream = CType(streams(1), FileMediaLink)
-            Assert.AreEqual(Language.ENGLISH, subtitleStream.MediaLanguage)
+            Assert.AreEqual(New Locale(Language.ENGLISH), subtitleStream.MediaLocale)
             Assert.AreEqual("english.vtt", subtitleStream.Location)
             Assert.AreEqual(MediaType.Subtitles, subtitleStream.Type)
         End Sub
@@ -331,7 +332,7 @@ Namespace api.funimation
             }
 
             Dim preferences = New DownloadPreferences(New Locale(Language.JAPANESE, Region.JAPAN),
-                                                                New List(Of Language), MediaType.Video, New List(Of SubtitleFormat))
+                                                      New List(Of Locale), MediaType.Video, New List(Of SubtitleFormat))
             Dim filter = New PlaybackFilter(preferences)
 
             Dim streams = filter.GetMatchingMedia(p)
@@ -340,7 +341,7 @@ Namespace api.funimation
             Assert.IsTrue(TypeOf streams(0) Is FileMediaLink)
 
             Dim mp4Stream = CType(streams(0), FileMediaLink)
-            Assert.AreEqual(Language.JAPANESE, mp4Stream.MediaLanguage)
+            Assert.AreEqual(New Locale(Language.JAPANESE), mp4Stream.MediaLocale)
             Assert.AreEqual("mp4_location", mp4Stream.Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video, mp4Stream.Type)
         End Sub

@@ -20,7 +20,7 @@ Namespace api
                 Dim contentStream = Await response.Content.ReadAsStreamAsync()
                 Dim parsedPlaylist = parser.ParseMasterPlaylist(contentStream)
 
-                Dim result = New MasterPlaylistMedia(link.Type, link.MediaLanguage, link.Location, parsedPlaylist)
+                Dim result = New MasterPlaylistMedia(link.Type, link.MediaLocale, link.Location, parsedPlaylist)
                 Return result
             End Using
         End Function

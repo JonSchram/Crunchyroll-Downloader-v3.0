@@ -241,7 +241,7 @@ Namespace debugging
             Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
 
             Dim mediaList As New List(Of Media)
-            Dim media = New FileMedia(MediaType.Subtitles, Language.JAPANESE, MediaUrlTextBox.Text)
+            Dim media = New FileMedia(MediaType.Subtitles, New Locale(Language.JAPANESE), MediaUrlTextBox.Text)
             mediaList.Add(media)
 
             Await downloader.DownloadSelection(New Selection(mediaList))
@@ -296,7 +296,7 @@ Namespace debugging
                 Dim playlist As MasterPlaylist = parser.ParseMasterPlaylist(playlistStream)
 
                 Dim mediaList As New List(Of MasterPlaylistMedia) From {
-                    New MasterPlaylistMedia(MediaType.Video, Language.JAPANESE, mediaUrl, playlist)
+                    New MasterPlaylistMedia(MediaType.Video, New Locale(Language.JAPANESE), mediaUrl, playlist)
                 }
 
                 Dim playlistSelection As New Selection(mediaList)

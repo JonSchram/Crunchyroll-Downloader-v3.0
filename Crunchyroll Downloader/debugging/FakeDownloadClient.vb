@@ -53,9 +53,5 @@ Namespace debugging
         Public Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
             Throw New NotImplementedException()
         End Function
-
-        Public Function GetPreferenceFactory() As IDownloadPreferenceFactory Implements IDownloadClient.GetPreferenceFactory
-            Throw New NotImplementedException()
-        End Function
     End Class
 End Namespace

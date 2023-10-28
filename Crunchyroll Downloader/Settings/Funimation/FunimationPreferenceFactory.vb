@@ -1,8 +1,7 @@
-﻿Imports Crunchyroll_Downloader.api.common
-Imports Crunchyroll_Downloader.api.conversion
-Imports Crunchyroll_Downloader.settings.funimation
+﻿Imports Crunchyroll_Downloader.api
+Imports Crunchyroll_Downloader.api.common
 
-Namespace api.funimation
+Namespace settings.funimation
     Public Class FunimationPreferenceFactory
         Implements IDownloadPreferenceFactory
 
@@ -12,7 +11,7 @@ Namespace api.funimation
             Dim funSettings = FunimationSettings.GetInstance()
 
             Dim audioLanguage As Locale = ConvertToLocale(funSettings.DubLanguage)
-            Dim subtitleLanguages As ISet(Of Language) = ConvertLanguageList(funSettings.SoftSubtitleLanguages)
+            Dim subtitleLanguages As ISet(Of Locale) = ConvertLanguageList(funSettings.SoftSubtitleLanguages)
             Dim formats As IEnumerable(Of SubtitleFormat) = ConvertSubtitleSet(funSettings.SubtitleFormats, subtitleLanguages.Count > 0)
             ' TODO: Get audio-only preference. This used to be a global preference but was changed to per-episode.
             Dim media As MediaType = MediaType.Audio Or MediaType.Video
@@ -52,10 +51,10 @@ Namespace api.funimation
             End Select
         End Function
 
-        Private Function ConvertLanguageList(funLanguages As ISet(Of FunimationLanguage)) As ISet(Of Language)
-            Dim result As New HashSet(Of Language)
+        Private Function ConvertLanguageList(funLanguages As ISet(Of FunimationLanguage)) As ISet(Of Locale)
+            Dim result As New HashSet(Of Locale)
             For Each lang In funLanguages
-                result.Add(LocaleConverter.ConvertFunimationLanguageToLanguage(lang))
+                result.Add(ConvertToLocale(lang))
             Next
             Return result
         End Function

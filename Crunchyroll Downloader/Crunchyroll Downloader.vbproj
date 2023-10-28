@@ -190,7 +190,6 @@
     <Compile Include="api\IMediaLinkResolver.vb" />
     <Compile Include="api\common\MediaLink.vb" />
     <Compile Include="api\common\MediaType.vb" />
-    <Compile Include="api\conversion\LocaleConverter.vb" />
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\IEpisodeDownloader.vb" />
     <Compile Include="api\Locale.vb" />

@@ -1,5 +1,4 @@
 ﻿Imports Crunchyroll_Downloader.api.common
-Imports Crunchyroll_Downloader.api.conversion
 Imports Crunchyroll_Downloader.api.metadata.video
 Namespace api.funimation
     Public Class PlaybackFilter
@@ -44,11 +43,11 @@ Namespace api.funimation
                 media.Add(CreateMediaFromManifestPath(p))
             End If
 
-            If Preferences.DownloadTypes.HasFlag(MediaType.Subtitles) And Preferences.SubtitleLanguages?.Count > 0 Then
+            If Preferences.DownloadTypes.HasFlag(MediaType.Subtitles) And Preferences.SubtitleLocales?.Count > 0 Then
                 For Each subtitle In p.Subtitles
-                    Dim language As Language = LocaleConverter.ConvertFunimationLanguageCodeToUniversalLanguage(subtitle.Language)
+                    Dim language As Locale = ParseLanguageCode(subtitle.Language)
                     Dim format As SubtitleFormat = ParseSubtitleFormat(subtitle.Format)
-                    If Preferences?.SubtitleLanguages.Contains(language) And
+                    If Preferences?.SubtitleLocales.Contains(language) And
                             Preferences.SubtitleFormats.Contains(format) Then
                         media.Add(New FileMediaLink(MediaType.Subtitles, language, subtitle.Path))
                     End If
@@ -59,7 +58,7 @@ Namespace api.funimation
         End Function
 
         Private Function CreateMediaFromManifestPath(p As Playback) As MediaLink
-            Dim language = LocaleConverter.ConvertFunimationLanguageCodeToUniversalLanguage(p.AudioLanguage)
+            Dim language As Locale = ParseLanguageCode(p.AudioLanguage)
             Dim mediaFlags = MediaType.Audio Or MediaType.Video
             If p.FileExtension = "m3u8" Then
                 Return New HlsMasterPlaylistLink(mediaFlags, language, p.PlaylistPath)

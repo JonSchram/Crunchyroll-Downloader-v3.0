@@ -1,5 +1,6 @@
 ﻿Imports System.Threading
 Imports Crunchyroll_Downloader.api.common
+Imports Crunchyroll_Downloader.settings.funimation
 Imports Crunchyroll_Downloader.settings.general
 
 Namespace download
@@ -90,7 +91,8 @@ Namespace download
             Dim episode = DlTask.GetEpisode()
             Console.WriteLine($"Getting media for {episode}")
             Dim client = DlTask.GetMetadataClient()
-            Dim preferenceFactory = client.GetPreferenceFactory()
+            ' TODO: Get correct preference factory based on site.
+            Dim preferenceFactory = New FunimationPreferenceFactory()
             Return Await client.GetAvailableMedia(episode, preferenceFactory.GetCurrentPreferences())
         End Function
 

@@ -52,8 +52,6 @@ Namespace api
         ''' <returns></returns>
         Function GetSiteName() As String
 
-        Function GetPreferenceFactory() As IDownloadPreferenceFactory
-
         Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink))
 
         Function ResolveMediaLink(link As MediaLink) As Task(Of Media)

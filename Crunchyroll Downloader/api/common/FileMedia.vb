@@ -5,12 +5,12 @@
     Public Class FileMedia
         Inherits Media
 
-        Public Sub New(type As MediaType, lang As Language, url As String)
-            MyBase.New(type, lang, url)
+        Public Sub New(type As MediaType, locale As Locale, url As String)
+            MyBase.New(type, locale, url)
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"[FileMedia: URI: {OriginalLocation}, Type: {Type}, Language: {MediaLanguage}"
+            Return $"[FileMedia: URI: {OriginalLocation}, Type: {Type}, Locale: {MediaLocale}"
         End Function
     End Class
 End Namespace

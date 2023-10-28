@@ -206,10 +206,5 @@ Namespace api.funimation
             End If
             Throw New Exception("Could not resolve media. Unknown media type.")
         End Function
-
-        Public Function GetPreferenceFactory() As IDownloadPreferenceFactory Implements IDownloadClient.GetPreferenceFactory
-            ' TODO: Get preferences somewhere else. The client should only contain interactions with the web, not the user's preferences.
-            Return New FunimationPreferenceFactory()
-        End Function
     End Class
 End Namespace

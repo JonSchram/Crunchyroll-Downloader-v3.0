@@ -2,13 +2,13 @@
     Public MustInherit Class MediaLink
         Public ReadOnly Property Type As MediaType
 
-        Public ReadOnly Property MediaLanguage As Language
+        Public ReadOnly Property MediaLocale As Locale
 
         Public ReadOnly Property Location As String
 
-        Public Sub New(type As MediaType, lang As Language, uri As String)
+        Public Sub New(type As MediaType, locale As Locale, uri As String)
             Me.Type = type
-            MediaLanguage = lang
+            MediaLocale = locale
             Location = uri
         End Sub
     End Class

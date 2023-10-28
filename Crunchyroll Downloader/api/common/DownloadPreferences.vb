@@ -4,7 +4,7 @@
     ''' </summary>
     Public Class DownloadPreferences
         Public ReadOnly Property AudioLocale As Locale
-        Public ReadOnly Property SubtitleLanguages As ISet(Of Language)
+        Public ReadOnly Property SubtitleLocales As ISet(Of Locale)
 
         Public ReadOnly Property SubtitleFormats As ISet(Of SubtitleFormat)
 
@@ -13,19 +13,19 @@
         ''' </summary>
         ''' <returns></returns>
         Public Property DownloadTypes As MediaType
-        Public Sub New(audioLocale As Locale, subtitleLanguages As IEnumerable(Of Language), media As MediaType)
-            Me.New(audioLocale, subtitleLanguages, media, SubtitleFormat.ANY)
+        Public Sub New(audioLocale As Locale, subtitleLocales As IEnumerable(Of Locale), media As MediaType)
+            Me.New(audioLocale, subtitleLocales, media, SubtitleFormat.ANY)
         End Sub
 
-        Public Sub New(audioLocale As Locale, subtitleLanguages As IEnumerable(Of Language), media As MediaType,
+        Public Sub New(audioLocale As Locale, subtitleLocales As IEnumerable(Of Locale), media As MediaType,
                        format As SubtitleFormat)
-            Me.New(audioLocale, subtitleLanguages, media, New List(Of SubtitleFormat) From {format})
+            Me.New(audioLocale, subtitleLocales, media, New List(Of SubtitleFormat) From {format})
         End Sub
 
-        Public Sub New(audioLocale As Locale, subtitleLanguages As IEnumerable(Of Language), media As MediaType,
+        Public Sub New(audioLocale As Locale, subtitleLocales As IEnumerable(Of Locale), media As MediaType,
                        formats As IEnumerable(Of SubtitleFormat))
             Me.AudioLocale = audioLocale
-            Me.SubtitleLanguages = New HashSet(Of Language)(subtitleLanguages)
+            Me.SubtitleLocales = New HashSet(Of Locale)(subtitleLocales)
             DownloadTypes = media
             SubtitleFormats = New HashSet(Of SubtitleFormat)(formats)
         End Sub
