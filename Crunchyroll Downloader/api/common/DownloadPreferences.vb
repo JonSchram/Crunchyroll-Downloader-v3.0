@@ -3,7 +3,7 @@
     ''' The items that should be downloaded from the stream selector.
     ''' </summary>
     Public Class DownloadPreferences
-        Public Property AudioLanguage As Language
+        Public Property AudioLocale As Locale
         Public Property SubtitleLanguages As ISet(Of Language)
 
         ''' <summary>
@@ -11,8 +11,8 @@
         ''' </summary>
         ''' <returns></returns>
         Public Property DownloadTypes As MediaType
-        Public Sub New(audioLanguage As Language, subtitleLanguages As IEnumerable(Of Language), media As MediaType)
-            Me.AudioLanguage = audioLanguage
+        Public Sub New(audioLocale As Locale, subtitleLanguages As IEnumerable(Of Language), media As MediaType)
+            Me.AudioLocale = audioLocale
             Me.SubtitleLanguages = New HashSet(Of Language)(subtitleLanguages)
             DownloadTypes = media
         End Sub

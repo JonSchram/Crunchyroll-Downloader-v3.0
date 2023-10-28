@@ -7,15 +7,14 @@
     Public Enum Language
         NONE
         ARABIC
-        CHINESE
         ENGLISH
         FRENCH
         GERMAN
         ITALIAN
         JAPANESE
+        MANDARIN
         PORTUGUESE
         RUSSIAN
-        SPANISH_LATIN_AMERICA
-        SPANISH_SPAIN
+        SPANISH
     End Enum
 End Namespace

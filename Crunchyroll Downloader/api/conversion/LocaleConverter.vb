@@ -43,13 +43,13 @@ Namespace api.conversion
                 Case "en"
                     Return Language.ENGLISH
                 Case "es"
-                    Return Language.SPANISH_LATIN_AMERICA
+                    Return Language.SPANISH
                 Case "pt"
                     Return Language.PORTUGUESE
                 Case "ja"
                     Return Language.JAPANESE
                 Case "zh-mn"
-                    Return Language.CHINESE
+                    Return Language.MANDARIN
                 Case "N/A"
                     Return Language.NONE
                 Case Else
@@ -80,13 +80,13 @@ Namespace api.conversion
             Select Case lang
                 Case Language.ENGLISH
                     Return FunimationLanguage.ENGLISH
-                Case Language.CHINESE
+                Case Language.MANDARIN
                     Return FunimationLanguage.CHINESE_MANDARIN
                 Case Language.JAPANESE
                     Return FunimationLanguage.JAPANESE
                 Case Language.PORTUGUESE
                     Return FunimationLanguage.PORTUGUESE
-                Case Language.SPANISH_LATIN_AMERICA, Language.SPANISH_SPAIN
+                Case Language.SPANISH
                     Return FunimationLanguage.SPANISH
                 Case Else
                     Return FunimationLanguage.NONE
@@ -97,7 +97,7 @@ Namespace api.conversion
                                                               testSet As List(Of Language)) As Boolean
             Select Case testLanguage
                 Case FunimationLanguage.CHINESE_MANDARIN
-                    Return testSet.Contains(Language.CHINESE)
+                    Return testSet.Contains(Language.MANDARIN)
                 Case FunimationLanguage.ENGLISH
                     Return testSet.Contains(Language.ENGLISH)
                 Case FunimationLanguage.JAPANESE
@@ -105,7 +105,7 @@ Namespace api.conversion
                 Case FunimationLanguage.PORTUGUESE
                     Return testSet.Contains(Language.PORTUGUESE)
                 Case FunimationLanguage.SPANISH
-                    Return testSet.Contains(Language.SPANISH_LATIN_AMERICA) Or testSet.Contains(Language.SPANISH_SPAIN)
+                    Return testSet.Contains(Language.SPANISH)
                 Case Else
                     ' If no langauge is requested, then technically anything is allowed?
                     ' There should always be a language though.
@@ -120,11 +120,11 @@ Namespace api.conversion
                 Case FunimationLanguage.JAPANESE
                     Return Language.JAPANESE
                 Case FunimationLanguage.CHINESE_MANDARIN
-                    Return Language.CHINESE
+                    Return Language.MANDARIN
                 Case FunimationLanguage.PORTUGUESE
                     Return Language.PORTUGUESE
                 Case FunimationLanguage.SPANISH
-                    Return Language.SPANISH_LATIN_AMERICA
+                    Return Language.SPANISH
                 Case Else
                     Return Language.NONE
             End Select

@@ -179,6 +179,7 @@
     <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
     <Compile Include="api\FileMediaResolver.vb" />
     <Compile Include="api\funimation\FunimationDownloadPreferences.vb" />
+    <Compile Include="api\funimation\FunimationLanguageParser.vb" />
     <Compile Include="api\funimation\FunimationPreferenceFactory.vb" />
     <Compile Include="api\funimation\metadata\FunimationRegionResponse.vb" />
     <Compile Include="api\funimation\PlaybackFilter.vb" />
@@ -193,6 +194,7 @@
     <Compile Include="api\conversion\LocaleConverter.vb" />
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\IEpisodeDownloader.vb" />
+    <Compile Include="api\Locale.vb" />
     <Compile Include="api\MasterPlaylistResolver.vb" />
     <Compile Include="api\metadata\Episode.vb" />
     <Compile Include="api\IDownloadClient.vb" />
@@ -207,6 +209,7 @@
     <Compile Include="api\metadata\Video\Playback.vb" />
     <Compile Include="api\metadata\SeasonOverview.vb" />
     <Compile Include="api\metadata\Video\Subtitle.vb" />
+    <Compile Include="api\Region.vb" />
     <Compile Include="CRD-Classes.vb" />
     <Compile Include="data\DownloadEntry.vb" />
     <Compile Include="debugging\DebugForm.Designer.vb">
@@ -277,6 +280,7 @@
     <Compile Include="Settings\Format.vb" />
     <Compile Include="Settings\Funimation\BitrateSetting.vb" />
     <Compile Include="Settings\Funimation\FunimationLanguage.vb" />
+    <Compile Include="Settings\Funimation\FunimationLocale.vb" />
     <Compile Include="Settings\Funimation\FunimationSettings.vb" />
     <Compile Include="Settings\Funimation\SubFormat.vb" />
     <Compile Include="Settings\general\DownloadModeOptions.vb" />

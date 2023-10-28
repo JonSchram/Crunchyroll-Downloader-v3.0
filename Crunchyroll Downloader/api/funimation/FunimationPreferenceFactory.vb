@@ -11,7 +11,7 @@ Namespace api.funimation
         Public Function GetCurrentPreferences() As DownloadPreferences Implements IDownloadPreferenceFactory.GetCurrentPreferences
             Dim funSettings = FunimationSettings.GetInstance()
 
-            Dim audioLanguage As Language = LocaleConverter.ConvertFunimationLanguageToLanguage(funSettings.DubLanguage)
+            Dim audioLanguage As Locale = ConvertToLocale(funSettings.DubLanguage)
             Dim subtitleLanguages As ISet(Of Language) = ConvertLanguageList(funSettings.SoftSubtitleLanguages)
             Dim formats As ISet(Of SubFormat) = funSettings.SubtitleFormats
             Dim media As MediaType = MediaType.Audio Or MediaType.Video

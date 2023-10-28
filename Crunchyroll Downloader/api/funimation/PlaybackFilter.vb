@@ -11,13 +11,16 @@ Namespace api.funimation
         End Sub
 
         Public Function GetBestPlayback(playbacks As List(Of Playback)) As Playback
-            Dim preferredFunimationLanguage = LocaleConverter.ConvertLanguageToFunimationLanguage(Preferences.AudioLanguage)
+            Dim preferredLocale As Locale = Preferences.AudioLocale
 
             Dim bestPlayback As Playback = Nothing
             For Each playback In playbacks
-                Dim currentLanguage = LocaleConverter.ConvertFunimationLanguageCodeToLanguage(playback.AudioLanguage)
+                Dim currentLocale As Locale = ParseLanguageCode(playback.AudioLanguage)
 
-                If currentLanguage = preferredFunimationLanguage Or preferredFunimationLanguage = FunimationLanguage.NONE Then
+                If currentLocale.Equals(preferredLocale) Or
+                        currentLocale.ApproximateMatch(preferredLocale) Or
+                        preferredLocale.Language = Language.NONE Then
+
                     If playback.FileExtension = "m3u8" Then
                         ' 'uncut' version is usually the best version, so take it if it is available.
                         If playback.Version = "uncut" Or bestPlayback Is Nothing Then
