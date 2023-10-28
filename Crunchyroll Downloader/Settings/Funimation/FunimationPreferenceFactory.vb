@@ -1,5 +1,5 @@
-﻿Imports Crunchyroll_Downloader.api
-Imports Crunchyroll_Downloader.api.common
+﻿Imports SiteAPI.api
+Imports SiteAPI.api.common
 
 Namespace settings.funimation
     Public Class FunimationPreferenceFactory

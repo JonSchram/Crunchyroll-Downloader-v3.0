@@ -3,14 +3,18 @@ Crunchyroll Downloader/bin/
 Crunchyroll Downloader/bin
 Crunchyroll Downloader/obj/
 Crunchyroll Downloader/obj
-/CrunchyrollDownloaderTests/obj
-/CrunchyrollDownloaderTests/obj/
-/CrunchyrollDownloaderTests/bin/Debug/net6.0
-/CrunchyrollDownloaderTests/bin/Debug/net6.0/
+CrunchyrollDownloaderTests/obj
+CrunchyrollDownloaderTests/obj/
+CrunchyrollDownloaderTests/bin
+CrunchyrollDownloaderTests/bin/
 PlaylistLibrary/bin
 PlaylistLibrary/obj
 PlaylistLibraryTest/bin
 PlaylistLibraryTest/obj
+SiteAPI/bin/
+SiteAPI/obj
+SiteAPITest/obj
+SiteAPITest/bin
 CRD-addon/
 packages/
 .vs/

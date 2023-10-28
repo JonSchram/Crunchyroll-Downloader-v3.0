@@ -1,6 +1,6 @@
-﻿Imports Crunchyroll_Downloader.api
-Imports Crunchyroll_Downloader.api.common
-Imports Crunchyroll_Downloader.api.metadata
+﻿Imports SiteAPI.api
+Imports SiteAPI.api.common
+Imports SiteAPI.api.metadata
 
 Namespace debugging
     Public Class FakeDownloadClient

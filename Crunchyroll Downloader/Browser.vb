@@ -3,8 +3,10 @@ Imports System.Net
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.ui
 Imports Microsoft.Web.WebView2.Core
+Imports SiteAPI.api
 
 Public Class Browser
+    Implements ICookieProvider
 
     Public Shared Instance As Browser = Nothing
 
@@ -47,7 +49,7 @@ Public Class Browser
 
     Delegate Function GetCookieFunction(Uri As String) As Task(Of List(Of Cookie))
 
-    Public Async Function GetCookies(Uri As String) As Task(Of List(Of Cookie))
+    Public Async Function GetCookies(Uri As String) As Task(Of List(Of Cookie)) Implements ICookieProvider.GetCookies
         If InvokeRequired Then
             Dim getCookiesFn As GetCookieFunction = AddressOf GetCookies
             Dim task = CType(Invoke(getCookiesFn, Uri), Task(Of List(Of Cookie)))

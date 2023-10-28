@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Net.Http
-Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.data
+Imports SiteAPI.api.common
 
 Namespace download
     Public MustInherit Class AbstractPlaybackDownloader

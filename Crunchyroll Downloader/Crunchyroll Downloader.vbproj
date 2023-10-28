@@ -174,40 +174,9 @@
     <Compile Include="AddVideo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="api\common\HlsMasterPlaylistLink.vb" />
-    <Compile Include="api\common\SubtitleFormat.vb" />
-    <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
-    <Compile Include="api\FileMediaResolver.vb" />
-    <Compile Include="api\funimation\FunimationStringParser.vb" />
+    <Compile Include="legacy\CrunchyrollDownloader.vb" />
+    <Compile Include="legacy\FunimationDownloader.vb" />
     <Compile Include="Settings\Funimation\FunimationPreferenceFactory.vb" />
-    <Compile Include="api\funimation\metadata\FunimationRegionResponse.vb" />
-    <Compile Include="api\funimation\PlaybackFilter.vb" />
-    <Compile Include="api\ICookieBasedAuth.vb" />
-    <Compile Include="api\funimation\FunimationAuthenticator.vb" />
-    <Compile Include="api\common\ByteRange.vb" />
-    <Compile Include="api\common\FileMediaLink.vb" />
-    <Compile Include="api\IDownloadPreferenceFactory.vb" />
-    <Compile Include="api\IMediaLinkResolver.vb" />
-    <Compile Include="api\common\MediaLink.vb" />
-    <Compile Include="api\common\MediaType.vb" />
-    <Compile Include="api\DownloaderApi.vb" />
-    <Compile Include="api\IEpisodeDownloader.vb" />
-    <Compile Include="api\Locale.vb" />
-    <Compile Include="api\MasterPlaylistResolver.vb" />
-    <Compile Include="api\metadata\Episode.vb" />
-    <Compile Include="api\IDownloadClient.vb" />
-    <Compile Include="api\metadata\EpisodeOverview.vb" />
-    <Compile Include="api\metadata\EpisodePlaybackInfo.vb" />
-    <Compile Include="api\funimation\metadata\FunimationEpisodeOverview.vb" />
-    <Compile Include="api\funimation\metadata\FunimationEpisode.vb" />
-    <Compile Include="api\funimation\metadata\FunimationSeason.vb" />
-    <Compile Include="api\funimation\metadata\FunimationSeasonOverview.vb" />
-    <Compile Include="api\funimation\metadata\FunimationSeries.vb" />
-    <Compile Include="api\metadata\Season.vb" />
-    <Compile Include="api\metadata\Video\Playback.vb" />
-    <Compile Include="api\metadata\SeasonOverview.vb" />
-    <Compile Include="api\metadata\Video\Subtitle.vb" />
-    <Compile Include="api\Region.vb" />
     <Compile Include="CRD-Classes.vb" />
     <Compile Include="data\DownloadEntry.vb" />
     <Compile Include="debugging\DebugForm.Designer.vb">
@@ -219,13 +188,8 @@
     <Compile Include="debugging\FakeDownloadClient.vb" />
     <Compile Include="debugging\FakeEpisode.vb" />
     <Compile Include="DirectorySettings.vb" />
-    <Compile Include="api\crunchyroll\CrunchyrollDownloader.vb" />
-    <Compile Include="api\funimation\FunimationDownloader.vb" />
-    <Compile Include="api\crunchyroll\CrunchyrollClient.vb" />
-    <Compile Include="api\funimation\FunimationClient.vb" />
     <Compile Include="download\AbstractPlaybackDownloader.vb" />
     <Compile Include="download\IPlaybackDownloader.vb" />
-    <Compile Include="api\common\FileMedia.vb" />
     <Compile Include="download\DownloadScheduler.vb" />
     <Compile Include="download\DownloadingItemPresenter.vb" />
     <Compile Include="download\DownloadingItemView.Designer.vb">
@@ -238,9 +202,7 @@
     <Compile Include="download\DownloadThread.vb" />
     <Compile Include="download\FfmpegDownloader.vb" />
     <Compile Include="download\FragmentDownloader.vb" />
-    <Compile Include="api\common\Media.vb" />
     <Compile Include="download\Selection.vb" />
-    <Compile Include="api\common\MasterPlaylistMedia.vb" />
     <Compile Include="ffmpeg_option.Designer.vb">
       <DependentUpon>ffmpeg_option.vb</DependentUpon>
     </Compile>
@@ -248,8 +210,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FileUtilities.vb" />
-    <Compile Include="api\common\DownloadPreferences.vb" />
-    <Compile Include="api\common\Language.vb" />
     <Compile Include="postprocess\Mp4Postprocessor.vb" />
     <Compile Include="postprocess\OutputPreferences.vb" />
     <Compile Include="QueueDialog.Designer.vb">
@@ -343,7 +303,6 @@
     </Compile>
     <Compile Include="Subfolder.vb" />
     <Compile Include="ui\MainPresenter.vb" />
-    <Compile Include="UrlUtilities.vb" />
     <Compile Include="utilities\FfmpegAdapter.vb" />
     <Compile Include="utilities\FfmpegArguments.vb" />
     <Compile Include="utilities\FfmpegCommandBuilder.vb" />
@@ -558,6 +517,10 @@
     <ProjectReference Include="..\PlaylistLibrary\PlaylistLibrary.vbproj">
       <Project>{30d72220-e66a-4e56-a1c8-035fa793ec4b}</Project>
       <Name>PlaylistLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SiteAPI\SiteAPI.vbproj">
+      <Project>{64a1418e-812c-4e8f-bffc-360bb65cbb6f}</Project>
+      <Name>SiteAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

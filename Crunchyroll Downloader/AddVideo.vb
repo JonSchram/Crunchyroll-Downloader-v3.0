@@ -1,7 +1,7 @@
 ﻿Option Strict On
-Imports Crunchyroll_Downloader.api
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.settings.general
+Imports SiteAPI.api
 
 Public Class AddVideo
     Public Property OutputPath As String = ""
@@ -24,7 +24,7 @@ Public Class AddVideo
     Private Async Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
         downloadUrl = downloadUrlTextBox.Text
 
-        MetadataApi = DownloaderApi.GetMetadataDownloader(downloadUrl)
+        MetadataApi = DownloaderApi.GetMetadataDownloader(downloadUrl, Browser.GetInstance(), My.Resources.user_agent)
         Await MetadataApi.Initialize()
 
         If Not MetadataApi.IsVideoUrl(downloadUrl) Then

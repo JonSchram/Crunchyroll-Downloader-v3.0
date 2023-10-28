@@ -1,4 +1,4 @@
-﻿Imports Crunchyroll_Downloader.api.metadata
+﻿Imports SiteAPI.api.metadata
 
 Namespace utilities
     Public Class FilenameInterpolator

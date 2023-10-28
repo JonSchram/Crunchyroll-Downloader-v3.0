@@ -1,8 +1,8 @@
 ﻿Imports System.IO
-Imports Crunchyroll_Downloader.api.common
 Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.utilities
 Imports PlaylistLibrary.hls.playlist.comparer
+Imports SiteAPI.api.common
 
 Namespace download
 

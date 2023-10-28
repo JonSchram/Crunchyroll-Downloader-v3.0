@@ -1,9 +1,9 @@
 ﻿Imports System.IO
-Imports Crunchyroll_Downloader.api.common
-Imports Crunchyroll_Downloader.api.metadata
 Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.utilities
+Imports SiteAPI.api.common
+Imports SiteAPI.api.metadata
 
 Namespace postprocess
 

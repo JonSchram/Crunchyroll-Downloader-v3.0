@@ -1,12 +1,6 @@
 ﻿Imports System.IO
 Imports System.Net
 Imports System.Net.Http
-Imports Crunchyroll_Downloader.api
-Imports Crunchyroll_Downloader.api.common
-Imports Crunchyroll_Downloader.api.crunchyroll
-Imports Crunchyroll_Downloader.api.funimation
-Imports Crunchyroll_Downloader.api.funimation.metadata
-Imports Crunchyroll_Downloader.api.metadata
 Imports Crunchyroll_Downloader.download
 Imports PlaylistLibrary.hls.parsing
 Imports PlaylistLibrary.hls.playlist
@@ -14,6 +8,12 @@ Imports PlaylistLibrary.hls.playlist.comparer
 Imports PlaylistLibrary.hls.playlist.stream
 Imports PlaylistLibrary.hls.rewriter
 Imports PlaylistLibrary.hls.writer
+Imports SiteAPI.api
+Imports SiteAPI.api.common
+Imports SiteAPI.api.crunchyroll
+Imports SiteAPI.api.funimation
+Imports SiteAPI.api.funimation.metadata
+Imports SiteAPI.api.metadata
 
 Namespace debugging
     Public Class DebugForm
@@ -123,8 +123,7 @@ Namespace debugging
             If FunimationAuthRadioButton.Checked Then
                 authenticator = New FunimationAuthenticator(webBrowser)
             ElseIf CrunchyrollAuthRadioButton.Checked Then
-                ' TODO: This will likely need to use the web browser directly as well.
-                authenticator = New CrunchyrollAuthenticator(webBrowser.GetCookieManager())
+                authenticator = New CrunchyrollAuthenticator(webBrowser)
             End If
             If authenticator IsNot Nothing Then
                 Dim cookie = Await authenticator.GetLoginCookie()

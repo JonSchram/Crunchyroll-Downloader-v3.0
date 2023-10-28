@@ -1,5 +1,5 @@
-﻿Imports Crunchyroll_Downloader.api
-Imports Crunchyroll_Downloader.api.metadata
+﻿Imports SiteAPI.api
+Imports SiteAPI.api.metadata
 
 Namespace download
 
