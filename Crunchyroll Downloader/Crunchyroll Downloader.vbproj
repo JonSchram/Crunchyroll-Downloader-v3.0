@@ -175,12 +175,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="api\common\HlsMasterPlaylistLink.vb" />
-    <Compile Include="api\conversion\FormatConverter.vb" />
+    <Compile Include="api\common\SubtitleFormat.vb" />
     <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
     <Compile Include="api\FileMediaResolver.vb" />
-    <Compile Include="api\funimation\FunimationDownloadPreferences.vb" />
-    <Compile Include="api\funimation\FunimationLanguageParser.vb" />
-    <Compile Include="api\funimation\FunimationPreferenceFactory.vb" />
+    <Compile Include="api\funimation\FunimationStringParser.vb" />
+    <Compile Include="Settings\Funimation\FunimationPreferenceFactory.vb" />
     <Compile Include="api\funimation\metadata\FunimationRegionResponse.vb" />
     <Compile Include="api\funimation\PlaybackFilter.vb" />
     <Compile Include="api\ICookieBasedAuth.vb" />

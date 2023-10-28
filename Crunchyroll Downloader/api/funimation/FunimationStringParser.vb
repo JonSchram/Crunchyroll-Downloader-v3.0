@@ -1,7 +1,7 @@
 ﻿Imports Crunchyroll_Downloader.api.common
 
 Namespace api.funimation
-    Module FunimationLanguageParser
+    Module FunimationStringParser
 
 
         Public Function ParseLanguageCode(code As String) As Locale
@@ -20,6 +20,20 @@ Namespace api.funimation
                     Return New Locale(Language.NONE)
                 Case Else
                     Return New Locale(Language.NONE)
+            End Select
+        End Function
+
+        Public Function ParseSubtitleFormat(formatName As String) As SubtitleFormat
+            Select Case formatName
+                Case "srt"
+                    Return SubtitleFormat.SRT
+                Case "vtt"
+                    Return SubtitleFormat.VTT
+                Case ""
+                    Return SubtitleFormat.NONE
+                Case Else
+                    ' Couldn't be parsed and isn't an emptpy string, so optimistically take any subtitle format.
+                    Return SubtitleFormat.ANY
             End Select
         End Function
     End Module
