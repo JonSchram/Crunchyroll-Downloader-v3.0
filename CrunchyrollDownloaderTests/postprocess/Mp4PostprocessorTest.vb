@@ -3,8 +3,8 @@ Imports Crunchyroll_Downloader.debugging
 Imports Crunchyroll_Downloader.postprocess
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.ffmpeg
-Imports Crunchyroll_Downloader.utilities
-Imports CrunchyrollDownloaderTests.utilities
+Imports Crunchyroll_Downloader.utilities.ffmpeg
+Imports CrunchyrollDownloaderTests.utilities.ffmpeg
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports SiteAPI.api.common
 

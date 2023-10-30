@@ -1,6 +1,6 @@
-﻿Imports Crunchyroll_Downloader.utilities
+﻿Imports Crunchyroll_Downloader.utilities.ffmpeg
 
-Namespace utilities
+Namespace utilities.ffmpeg
     Public Class FakeFfmpegAdapter
         Implements IFfmpegAdapter
 

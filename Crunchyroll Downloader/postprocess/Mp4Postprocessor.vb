@@ -2,6 +2,7 @@
 Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.utilities
+Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports SiteAPI.api.common
 Imports SiteAPI.api.metadata
 

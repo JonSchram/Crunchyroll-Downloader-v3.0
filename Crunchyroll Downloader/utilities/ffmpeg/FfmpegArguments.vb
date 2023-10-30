@@ -1,4 +1,4 @@
-﻿Namespace utilities
+﻿Namespace utilities.ffmpeg
     Public Class FfmpegArguments
 
         Public ReadOnly Property InputFiles As New List(Of String)

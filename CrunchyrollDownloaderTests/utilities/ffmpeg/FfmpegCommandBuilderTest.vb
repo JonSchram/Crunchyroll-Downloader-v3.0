@@ -1,7 +1,7 @@
-﻿Imports Crunchyroll_Downloader.utilities
+﻿Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
-Namespace utilities
+Namespace utilities.ffmpeg
     <TestClass>
     Public Class FfmpegCommandBuilderTest
         <TestMethod>

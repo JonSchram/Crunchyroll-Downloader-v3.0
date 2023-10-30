@@ -303,12 +303,13 @@
     </Compile>
     <Compile Include="Subfolder.vb" />
     <Compile Include="ui\MainPresenter.vb" />
-    <Compile Include="utilities\FfmpegAdapter.vb" />
-    <Compile Include="utilities\FfmpegArguments.vb" />
-    <Compile Include="utilities\FfmpegCommandBuilder.vb" />
-    <Compile Include="utilities\FfmpegOutputParser.vb" />
+    <Compile Include="utilities\ffmpeg\FfmpegAdapter.vb" />
+    <Compile Include="utilities\ffmpeg\FfmpegArguments.vb" />
+    <Compile Include="utilities\ffmpeg\FfmpegCommandBuilder.vb" />
+    <Compile Include="utilities\ffmpeg\FfmpegOutputParser.vb" />
+    <Compile Include="utilities\ffmpeg\FfmpegProgressReport.vb" />
     <Compile Include="utilities\FilenameInterpolator.vb" />
-    <Compile Include="utilities\IFfmpegAdapter.vb" />
+    <Compile Include="utilities\ffmpeg\IFfmpegAdapter.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddVideo.resx">

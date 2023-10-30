@@ -1,4 +1,4 @@
-﻿Namespace utilities
+﻿Namespace utilities.ffmpeg
     Public Interface IFfmpegAdapter
         Sub AddCookie(name As String, value As String)
 

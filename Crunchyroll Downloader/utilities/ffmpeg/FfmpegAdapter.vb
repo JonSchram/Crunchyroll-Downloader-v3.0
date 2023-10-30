@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 
-Namespace utilities
+Namespace utilities.ffmpeg
     Public Class FfmpegAdapter
         Implements IFfmpegAdapter
 
@@ -48,12 +48,14 @@ Namespace utilities
             }
 
 
-            AddHandler ffmpegProcess.ErrorDataReceived, AddressOf HandleFfmpegError
-            AddHandler ffmpegProcess.OutputDataReceived, AddressOf HandleFfmpegOutput
+            Dim outputParser As New FfmpegOutputParser()
+            AddHandler outputParser.Progress, AddressOf HandleFfmpegProgress
+
+            AddHandler ffmpegProcess.ErrorDataReceived, AddressOf outputParser.HandleFfmpegStdOut
+            AddHandler ffmpegProcess.OutputDataReceived, AddressOf outputParser.HandleFfmpegStdOut
 
             Dim exitHandlerInstance As New ExitHandler()
             AddHandler ffmpegProcess.Exited, AddressOf exitHandlerInstance.HandleFfmpegExit
-
 
             ffmpegProcess.Start()
             ffmpegProcess.BeginOutputReadLine()
@@ -62,13 +64,13 @@ Namespace utilities
             Return Await exitHandlerInstance.GetExitTask()
         End Function
 
-        Private Sub HandleFfmpegOutput(sendingProcess As Object, args As DataReceivedEventArgs)
-            ' TODO: Handle ffmpeg output
-            Debug.WriteLine($"[ffmpeg output]: {args.Data}")
-        End Sub
-        Private Sub HandleFfmpegError(sendingProcess As Object, args As DataReceivedEventArgs)
-            ' TODO: Handle ffmpeg error out
-            Debug.WriteLine($"[ffmpeg error output]: {args.Data}")
+        Private Sub HandleFfmpegProgress(report As FfmpegProgressReport, totalDuration As TimeSpan?)
+            Dim progress As Integer = 0
+            If totalDuration?.TotalMinutes > 0 Then
+                progress = CInt(report.CurrentTime?.TotalMinutes / totalDuration?.TotalMinutes * 100)
+            End If
+
+            RaiseEvent ReportProgress(progress)
         End Sub
 
 

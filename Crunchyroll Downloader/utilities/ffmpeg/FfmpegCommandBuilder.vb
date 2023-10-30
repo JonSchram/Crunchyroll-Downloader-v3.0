@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 
-Namespace utilities
+Namespace utilities.ffmpeg
     Public Class FfmpegCommandBuilder
         Public Function BuildCommandLineArguments(arguments As FfmpegArguments, Cookies As Dictionary(Of String, String),
                                                   userAgent As String) As String
