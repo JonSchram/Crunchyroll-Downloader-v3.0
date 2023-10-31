@@ -29,8 +29,8 @@ Namespace postprocess
             Dim adapter = New FakeFfmpegAdapter()
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter)
 
-            Dim files As New List(Of DownloadEntry) From {
-                New DownloadEntry("path\to\file.ts", MediaType.Video Or MediaType.Audio)
+            Dim files As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("path\to\file.ts", MediaType.Video Or MediaType.Audio)
             }
 
 
@@ -86,9 +86,9 @@ Namespace postprocess
             Dim adapter = New FakeFfmpegAdapter()
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter)
 
-            Dim files As New List(Of DownloadEntry) From {
-                New DownloadEntry("path\to\audio.ts", MediaType.Audio),
-                New DownloadEntry("path\to\video.ts", MediaType.Video)
+            Dim files As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("path\to\audio.ts", MediaType.Audio),
+                New MediaFileEntry("path\to\video.ts", MediaType.Video)
             }
 
 
@@ -145,9 +145,9 @@ Namespace postprocess
             Dim adapter = New FakeFfmpegAdapter()
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter)
 
-            Dim files As New List(Of DownloadEntry) From {
-                New DownloadEntry("path\to\file.ts", MediaType.Video Or MediaType.Audio),
-                New DownloadEntry("path\to\subtitles.vtt", MediaType.Subtitles)
+            Dim files As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("path\to\file.ts", MediaType.Video Or MediaType.Audio),
+                New MediaFileEntry("path\to\subtitles.vtt", MediaType.Subtitles)
             }
 
 
@@ -212,9 +212,9 @@ Namespace postprocess
             Dim adapter = New FakeFfmpegAdapter()
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter)
 
-            Dim files As New List(Of DownloadEntry) From {
-                New DownloadEntry("path\to\file.ts", MediaType.Video Or MediaType.Audio),
-                New DownloadEntry("path\to\subtitles.vtt", MediaType.Subtitles)
+            Dim files As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("path\to\file.ts", MediaType.Video Or MediaType.Audio),
+                New MediaFileEntry("path\to\subtitles.vtt", MediaType.Subtitles)
             }
 
 

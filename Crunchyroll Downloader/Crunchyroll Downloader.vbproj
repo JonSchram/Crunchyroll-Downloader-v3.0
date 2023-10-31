@@ -178,7 +178,7 @@
     <Compile Include="legacy\FunimationDownloader.vb" />
     <Compile Include="Settings\Funimation\FunimationPreferenceFactory.vb" />
     <Compile Include="CRD-Classes.vb" />
-    <Compile Include="data\DownloadEntry.vb" />
+    <Compile Include="data\MediaFileEntry.vb" />
     <Compile Include="debugging\DebugForm.Designer.vb">
       <DependentUpon>DebugForm.vb</DependentUpon>
     </Compile>

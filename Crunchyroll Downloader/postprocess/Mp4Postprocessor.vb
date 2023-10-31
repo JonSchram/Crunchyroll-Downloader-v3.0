@@ -21,7 +21,7 @@ Namespace postprocess
             Me.FfmpegRunner = ffmpegRunner
         End Sub
 
-        Public Sub ProcessInputs(files As List(Of DownloadEntry), ep As Episode)
+        Public Sub ProcessInputs(files As List(Of MediaFileEntry), ep As Episode)
             Dim nameGenerator = If(Preferences.UseKodiNaming,
                 FilenameInterpolator.CreateKodiNamingInstance(),
                 New FilenameInterpolator(Preferences.NameTemplate))
@@ -36,7 +36,7 @@ Namespace postprocess
             Dim args As FfmpegArguments = New FfmpegArguments($"{completeOutput}.mp4")
 
             For fileNumber = 0 To files.Count - 1
-                Dim file As DownloadEntry = files(fileNumber)
+                Dim file As MediaFileEntry = files(fileNumber)
 
                 ProcessFile(file, args, fileNumber)
             Next
@@ -47,8 +47,8 @@ Namespace postprocess
 
         End Sub
 
-        Private Sub ProcessFile(entry As DownloadEntry, args As FfmpegArguments, inputNumber As Integer)
-            args.InputFiles.Add(entry.Uri)
+        Private Sub ProcessFile(entry As MediaFileEntry, args As FfmpegArguments, inputNumber As Integer)
+            args.InputFiles.Add(entry.Location)
 
             ' TODO: Maybe only select individual tracks if there is a need? Seems very verbose.
             ' Also have to consider what happens if the output file exists already.

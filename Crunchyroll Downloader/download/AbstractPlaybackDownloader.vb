@@ -27,7 +27,7 @@ Namespace download
             Client = New HttpClient()
         End Sub
 
-        Protected Async Function DownloadSingleFile(media As FileMedia) As Task(Of DownloadEntry)
+        Protected Async Function DownloadSingleFile(media As FileMedia) As Task(Of MediaFileEntry)
             Dim itemIndex As Integer = 0
             OnMediaProgress(itemIndex, 0)
 
@@ -44,14 +44,14 @@ Namespace download
             Await dataStream.CopyToAsync(dest)
             dest.Close()
 
-            Dim record = New DownloadEntry(temporaryPath, media.Type)
+            Dim record = New MediaFileEntry(temporaryPath, media.Type)
 
             OnMediaProgress(itemIndex, 100)
             OnMediaComplete(itemIndex)
             Return record
         End Function
 
-        Public MustOverride Async Function DownloadSelection(playbacks As Selection) As Task(Of DownloadEntry()) Implements IPlaybackDownloader.DownloadSelection
+        Public MustOverride Async Function DownloadSelection(playbacks As Selection) As Task(Of MediaFileEntry()) Implements IPlaybackDownloader.DownloadSelection
 
         Protected Sub OnMediaProgress(mediaIndex As Integer, progress As Integer)
             RaiseEvent ReportDownloadProgress(mediaIndex, progress)

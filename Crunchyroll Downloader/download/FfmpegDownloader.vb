@@ -18,24 +18,24 @@ Namespace download
             MyBase.New(tempDir, finalDir)
         End Sub
 
-        Public Overrides Async Function DownloadSelection(playback As Selection) As Task(Of DownloadEntry())
+        Public Overrides Async Function DownloadSelection(playback As Selection) As Task(Of MediaFileEntry())
             ' TODO: Allow sending progress.
             ' Right now, this just awaits all the downloads but the download thread has no idea what is finished.
 
-            Dim allTasks As New List(Of Task(Of DownloadEntry))
+            Dim allTasks As New List(Of Task(Of MediaFileEntry))
 
             Dim media As IEnumerable(Of Media) = playback.Media
 
             For Each item In media
                 allTasks.Add(DownloadMediaItem(item))
             Next
-            Dim completedRecords As DownloadEntry() = Await Task.WhenAll(allTasks)
+            Dim completedRecords As MediaFileEntry() = Await Task.WhenAll(allTasks)
 
 
             Return completedRecords
         End Function
 
-        Private Function DownloadMediaItem(item As Media) As Task(Of DownloadEntry)
+        Private Function DownloadMediaItem(item As Media) As Task(Of MediaFileEntry)
             If TypeOf item Is FileMedia Then
                 Return DownloadSingleFile(CType(item, FileMedia))
             ElseIf TypeOf item Is MasterPlaylistMedia Then
@@ -51,7 +51,7 @@ Namespace download
         ''' </summary>
         ''' <param name="item"></param>
         ''' <returns></returns>
-        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task(Of DownloadEntry)
+        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task(Of MediaFileEntry)
             Dim itemIndex As Integer = 0
             OnMediaProgress(itemIndex, 0)
 
@@ -84,7 +84,7 @@ Namespace download
             OnMediaProgress(itemIndex, 100)
             OnMediaComplete(itemIndex)
 
-            Return New DownloadEntry(outputName, MediaType.Audio Or MediaType.Video)
+            Return New MediaFileEntry(outputName, MediaType.Audio Or MediaType.Video)
         End Function
 
         Private Sub HandleFfmpegProgress(amount As Integer)

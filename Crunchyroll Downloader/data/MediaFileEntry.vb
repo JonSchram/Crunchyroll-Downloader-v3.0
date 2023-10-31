@@ -1,12 +1,12 @@
 ﻿Imports SiteAPI.api.common
 
 Namespace data
-    Public Class DownloadEntry
-        Public ReadOnly Property Uri As String
+    Public Class MediaFileEntry
+        Public ReadOnly Property Location As String
         Public ReadOnly Property ContainedMedia As MediaType
 
         Public Sub New(location As String, media As MediaType)
-            Uri = location
+            Me.Location = location
             ContainedMedia = media
         End Sub
     End Class
