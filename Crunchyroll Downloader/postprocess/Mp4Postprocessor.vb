@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports Crunchyroll_Downloader.data
+Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
@@ -9,31 +10,26 @@ Imports SiteAPI.api.metadata
 Namespace postprocess
 
     ''' <summary>
-    ''' Class that remuxes any video/audio as an mp4 file.
+    ''' Class that remuxes or reencodes any video / audio files if desired.
     ''' </summary>
     Public Class Mp4Postprocessor
 
-        Private ReadOnly Preferences As OutputPreferences
+        Private ReadOnly Preferences As ReencodePreferences
         Private ReadOnly FfmpegRunner As IFfmpegAdapter
 
-        Public Sub New(prefs As OutputPreferences, ffmpegRunner As IFfmpegAdapter)
+        Public Sub New(prefs As ReencodePreferences, ffmpegRunner As IFfmpegAdapter)
             Preferences = prefs
             Me.FfmpegRunner = ffmpegRunner
         End Sub
 
         Public Sub ProcessInputs(files As List(Of MediaFileEntry), ep As Episode)
-            Dim nameGenerator = If(Preferences.UseKodiNaming,
-                FilenameInterpolator.CreateKodiNamingInstance(),
-                New FilenameInterpolator(Preferences.NameTemplate))
+            ' TODO: Do nothing if the file is currently mp4 and the subtitles shouldn't be merged.
 
-            ' TODO: Append language name according to subtitle naming preference.
-            Dim filename = nameGenerator.CreateName(ep, False)
-            Dim outputPath As String = Preferences.OutputPath
 
-            Dim completeOutput As String = Path.Combine(outputPath, filename)
-
-            ' TODO: Handle existing file.
-            Dim args As FfmpegArguments = New FfmpegArguments($"{completeOutput}.mp4")
+            ' TODO: Either use input file name to generate the output name, or generate randomly.
+            Dim combinedFileName = "mp4reencode.mp4"
+            Dim temporaryOutput = Path.Combine(Preferences.TemporaryOutputPath, combinedFileName)
+            Dim args As New FfmpegArguments(temporaryOutput)
 
             For fileNumber = 0 To files.Count - 1
                 Dim file As MediaFileEntry = files(fileNumber)

@@ -1,7 +1,8 @@
-﻿Imports SiteAPI.api
+﻿Imports Crunchyroll_Downloader.settings.funimation
+Imports SiteAPI.api
 Imports SiteAPI.api.common
 
-Namespace settings.funimation
+Namespace preferences
     Public Class FunimationPreferenceFactory
         Implements IDownloadPreferenceFactory
 

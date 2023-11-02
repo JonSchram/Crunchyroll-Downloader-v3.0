@@ -1,5 +1,5 @@
 ﻿Imports System.Threading
-Imports Crunchyroll_Downloader.settings.funimation
+Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.settings.general
 Imports SiteAPI.api.common
 

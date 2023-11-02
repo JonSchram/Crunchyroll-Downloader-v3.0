@@ -1041,7 +1041,7 @@ Namespace legacy
                     DubMetatata = " -metadata:s:a:0 language=eng"
                 End If
                 Dim mergeSubs = outputFormat.GetSubtitleFormat() <> Format.SubtitleMerge.DISABLED
-                Dim isAudioOnly = outputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
+                Dim isAudioOnly = outputFormat.GetVideoFormat() = Format.ContainerFormat.AAC_AUDIO_ONLY
                 Dim ffmpegArguments = settings.Ffmpeg.GetFfmpegArguments()
                 If HardSubFound = True And Not isAudioOnly Then
                     Funimation_m3u8_final = "-i " + """" + Funimation_m3u8_final + """" + FunimationAudioMap + " -vf subtitles=" + """" + UsedSub + """" + " " + ffmpeg_hardsub

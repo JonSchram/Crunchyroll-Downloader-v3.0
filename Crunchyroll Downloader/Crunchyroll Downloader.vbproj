@@ -176,7 +176,8 @@
     </Compile>
     <Compile Include="legacy\CrunchyrollDownloader.vb" />
     <Compile Include="legacy\FunimationDownloader.vb" />
-    <Compile Include="Settings\Funimation\FunimationPreferenceFactory.vb" />
+    <Compile Include="postprocess\FinalOutputProducer.vb" />
+    <Compile Include="preferences\FunimationPreferenceFactory.vb" />
     <Compile Include="CRD-Classes.vb" />
     <Compile Include="data\MediaFileEntry.vb" />
     <Compile Include="debugging\DebugForm.Designer.vb">
@@ -211,7 +212,8 @@
     </Compile>
     <Compile Include="FileUtilities.vb" />
     <Compile Include="postprocess\Mp4Postprocessor.vb" />
-    <Compile Include="postprocess\OutputPreferences.vb" />
+    <Compile Include="preferences\OutputPreferences.vb" />
+    <Compile Include="preferences\ReencodePreferences.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>
     </Compile>
@@ -310,6 +312,9 @@
     <Compile Include="utilities\ffmpeg\FfmpegProgressReport.vb" />
     <Compile Include="utilities\FilenameInterpolator.vb" />
     <Compile Include="utilities\ffmpeg\IFfmpegAdapter.vb" />
+    <Compile Include="utilities\FormatModule.vb" />
+    <Compile Include="utilities\IFilesystem.vb" />
+    <Compile Include="utilities\RealFilesystem.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddVideo.resx">

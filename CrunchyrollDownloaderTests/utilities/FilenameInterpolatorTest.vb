@@ -18,8 +18,7 @@ Namespace utilities
 
             Dim result = interpolator.CreateName(ep, False)
 
-            ' TODO: Pad season and episode numbers
-            Assert.AreEqual("A fake series S1E4 Fake kodi episode", result)
+            Assert.AreEqual("A fake series S01E04 Fake kodi episode", result)
         End Sub
 
         <TestMethod>
@@ -35,5 +34,46 @@ Namespace utilities
             Assert.AreEqual("My file A fake episode", result)
         End Sub
 
+        <TestMethod>
+        Public Sub TestCreateName_PadSeasonNumber()
+            Dim ep As New FakeEpisode() With {
+                .EpisodeName = "A fake episode",
+                .SeasonNumber = 1,
+                .EpisodeNumber = 2
+            }
+            Dim interpolator As New FilenameInterpolator("Test file SSeason;EEpisodeNR; - EpisodeName;", 2, 1)
+
+            Dim result = interpolator.CreateName(ep, False)
+
+            Assert.AreEqual("Test file S01E2 - A fake episode", result)
+        End Sub
+
+        <TestMethod>
+        Public Sub TestCreateName_PadEpisodeNumber()
+            Dim ep As New FakeEpisode() With {
+                .EpisodeName = "A fake episode",
+                .SeasonNumber = 1,
+                .EpisodeNumber = 2
+            }
+            Dim interpolator As New FilenameInterpolator("Test file SSeason;EEpisodeNR; - EpisodeName;", 1, 2)
+
+            Dim result = interpolator.CreateName(ep, False)
+
+            Assert.AreEqual("Test file S1E02 - A fake episode", result)
+        End Sub
+
+        <TestMethod>
+        Public Sub TestCreateName_PadFractionalEpisodeNumber()
+            Dim ep As New FakeEpisode() With {
+                .EpisodeName = "A fake episode",
+                .SeasonNumber = 1,
+                .EpisodeNumber = 6.5
+            }
+            Dim interpolator As New FilenameInterpolator("Episode EpisodeNR;", 1, 2)
+
+            Dim result = interpolator.CreateName(ep, False)
+
+            Assert.AreEqual("Episode 06.5", result)
+        End Sub
     End Class
 End Namespace

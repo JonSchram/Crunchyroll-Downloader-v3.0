@@ -53,17 +53,17 @@ Namespace settings.general
                 If videoFormat = "" Then
                     Exit Sub
                 End If
-                Dim NewSetting = Format.MediaFormat.MP4
+                Dim NewSetting = Format.ContainerFormat.MP4
                 If videoFormat = ".mp4" Then
-                    NewSetting = Format.MediaFormat.MP4
+                    NewSetting = Format.ContainerFormat.MP4
                 ElseIf videoFormat = ".mkv" Then
-                    NewSetting = Format.MediaFormat.MKV
+                    NewSetting = Format.ContainerFormat.MKV
                 ElseIf videoFormat = ".aac" Then
-                    NewSetting = Format.MediaFormat.AAC_AUDIO_ONLY
+                    NewSetting = Format.ContainerFormat.AAC_AUDIO_ONLY
                 End If
                 My.Settings.OutputMediaFormat = NewSetting
             Catch ex As Exception
-                My.Settings.OutputMediaFormat = Format.MediaFormat.MP4
+                My.Settings.OutputMediaFormat = Format.ContainerFormat.MP4
             End Try
         End Sub
 
@@ -353,7 +353,7 @@ Namespace settings.general
 
         Public Property OutputFormat As Format
             Get
-                Dim videoFormat = CType(My.Settings.OutputMediaFormat, Format.MediaFormat)
+                Dim videoFormat = CType(My.Settings.OutputMediaFormat, Format.ContainerFormat)
                 Dim subtitleFormat = CType(My.Settings.OutputSubtitleMerge, Format.SubtitleMerge)
                 Return New Format(videoFormat, subtitleFormat)
             End Get

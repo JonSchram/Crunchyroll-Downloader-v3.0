@@ -24,7 +24,7 @@ Public Class SettingsDialog
     Private ReadOnly ServerPortTextList As New EnumTextList(Of ServerPortOptions)()
     Private ReadOnly SubfolderTextList As New EnumTextList(Of SubfolderDisplay)()
     Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
-    Private ReadOnly VideoFormatTextList As New EnumTextList(Of Format.MediaFormat)()
+    Private ReadOnly VideoFormatTextList As New EnumTextList(Of Format.ContainerFormat)()
     Private ReadOnly SubtitleFormatTextList As New EnumTextList(Of Format.SubtitleMerge)()
     Private ReadOnly ValidSubtitleFormatList As EnumTextList(Of Format.SubtitleMerge).SubTextList = SubtitleFormatTextList.CreateSubList()
     Private ReadOnly SpeedPresetTextList As New EnumTextList(Of Speed)()
@@ -97,9 +97,9 @@ Public Class SettingsDialog
         End With
 
         With VideoFormatTextList
-            .Add(Format.MediaFormat.MP4, "MP4")
-            .Add(Format.MediaFormat.MKV, "MKV")
-            .Add(Format.MediaFormat.AAC_AUDIO_ONLY, "AAC (Audio only)")
+            .Add(Format.ContainerFormat.MP4, "MP4")
+            .Add(Format.ContainerFormat.MKV, "MKV")
+            .Add(Format.ContainerFormat.AAC_AUDIO_ONLY, "AAC (Audio only)")
         End With
 
         With SpeedPresetTextList
@@ -282,7 +282,7 @@ Public Class SettingsDialog
         UpdateMergeFormatInput(VideoFormatTextList.GetEnumForItem(VideoFormatComboBox.SelectedItem))
     End Sub
 
-    Private Sub UpdateMergeFormatInput(VideoFormat As Format.MediaFormat)
+    Private Sub UpdateMergeFormatInput(VideoFormat As Format.ContainerFormat)
         If uiInitializing Then
             Return
         End If
@@ -290,9 +290,9 @@ Public Class SettingsDialog
         SubtitleFormatComboBox.Items.Clear()
         SubtitleFormatComboBox.Items.AddRange(ValidSubtitleFormatList.GetDisplayItems().ToArray())
         SubtitleFormatComboBox.SelectedIndex = 0
-        SubtitleFormatComboBox.Enabled = VideoFormat <> Format.MediaFormat.AAC_AUDIO_ONLY
+        SubtitleFormatComboBox.Enabled = VideoFormat <> Format.ContainerFormat.AAC_AUDIO_ONLY
     End Sub
-    Private Sub PopulateSubFormats(VideoFormat As Format.MediaFormat)
+    Private Sub PopulateSubFormats(VideoFormat As Format.ContainerFormat)
         Dim supportedSubtitleFormats = Format.GetValidSubtitleFormats(VideoFormat)
 
         ValidSubtitleFormatList.Clear()
@@ -406,7 +406,7 @@ Public Class SettingsDialog
         Try
             currentFormat = settings.OutputFormat
         Catch ex As Exception
-            currentFormat = New Format(Format.MediaFormat.MP4, Format.SubtitleMerge.COPY)
+            currentFormat = New Format(Format.ContainerFormat.MP4, Format.SubtitleMerge.COPY)
         End Try
 
         VideoFormatComboBox.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
@@ -540,7 +540,7 @@ Public Class SettingsDialog
 
         ' Adjust simultaneous downloads limit for incompatible settings.
         ' Must do this after saving other settings so that the download limit is set using the latest settings.
-        Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = Format.MediaFormat.AAC_AUDIO_ONLY
+        Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = Format.ContainerFormat.AAC_AUDIO_ONLY
         Dim ffmpegCommand = settings.Ffmpeg
         Dim encoder = ffmpegCommand.GetSavedEncoder()
         If Not isAudioOnly And encoder IsNot Nothing Then

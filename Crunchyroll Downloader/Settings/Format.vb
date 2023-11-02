@@ -5,32 +5,32 @@ Namespace settings
     <SettingsSerializeAs(SettingsSerializeAs.Xml)>
     Public Class Format
         Private Property SubtitleFormat As SubtitleMerge
-        Private Property VideoFormat As MediaFormat
+        Private Property VideoFormat As ContainerFormat
 
-        Public Sub New(FileFormat As MediaFormat, MergeSetting As SubtitleMerge)
+        Public Sub New(FileFormat As ContainerFormat, MergeSetting As SubtitleMerge)
             Dim allowedMergeSettings = GetValidSubtitleFormats(FileFormat)
             If Not allowedMergeSettings.Contains(MergeSetting) Then
                 Throw New ArgumentException($"Merge setting {MergeSetting} not valid with {FileFormat}")
             End If
 
-            Me.VideoFormat = FileFormat
-            Me.SubtitleFormat = MergeSetting
+            VideoFormat = FileFormat
+            SubtitleFormat = MergeSetting
         End Sub
 
-        Public Shared Function GetValidSubtitleFormats(Format As MediaFormat) As List(Of SubtitleMerge)
+        Public Shared Function GetValidSubtitleFormats(Format As ContainerFormat) As List(Of SubtitleMerge)
             Select Case Format
-                Case MediaFormat.MP4
+                Case ContainerFormat.MP4
                     Return New List(Of SubtitleMerge)({SubtitleMerge.DISABLED, SubtitleMerge.MOV_TEXT})
-                Case MediaFormat.MKV
+                Case ContainerFormat.MKV
                     Return New List(Of SubtitleMerge)({SubtitleMerge.DISABLED, SubtitleMerge.COPY, SubtitleMerge.SRT})
-                Case MediaFormat.AAC_AUDIO_ONLY
+                Case ContainerFormat.AAC_AUDIO_ONLY
                     Return New List(Of SubtitleMerge)({SubtitleMerge.DISABLED})
                 Case Else
                     Return New List(Of SubtitleMerge)()
             End Select
         End Function
 
-        Public Function GetVideoFormat() As MediaFormat
+        Public Function GetVideoFormat() As ContainerFormat
             Return VideoFormat
         End Function
 
@@ -40,16 +40,16 @@ Namespace settings
 
         Public Function GetFileExtension() As String
             Select Case VideoFormat
-                Case MediaFormat.MP4
+                Case ContainerFormat.MP4
                     Return "mp4"
-                Case MediaFormat.MKV
+                Case ContainerFormat.MKV
                     Return "mkv"
                 Case Else
                     Return "aac"
             End Select
         End Function
 
-        Public Enum MediaFormat As Integer
+        Public Enum ContainerFormat As Integer
             MP4 = 0
             MKV = 1
             ' TODO: This is recently moved to the individual download page
