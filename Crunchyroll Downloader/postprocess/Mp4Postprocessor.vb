@@ -22,34 +22,52 @@ Namespace postprocess
             Me.FfmpegRunner = ffmpegRunner
         End Sub
 
-        Public Sub ProcessInputs(files As List(Of MediaFileEntry), ep As Episode)
+        Public Async Function ProcessInputs(files As List(Of MediaFileEntry)) As Task(Of List(Of MediaFileEntry))
             ' TODO: Do nothing if the file is currently mp4 and the subtitles shouldn't be merged.
 
+            Dim outputFiles As New List(Of MediaFileEntry)
 
             ' TODO: Either use input file name to generate the output name, or generate randomly.
             Dim combinedFileName = "mp4reencode.mp4"
             Dim temporaryOutput = Path.Combine(Preferences.TemporaryOutputPath, combinedFileName)
             Dim args As New FfmpegArguments(temporaryOutput)
 
+            Dim combinedMediaTypes As MediaType
+
+            Dim willCreateOutput = False
+            Dim inputFileIndex = 0
             For fileNumber = 0 To files.Count - 1
                 Dim file As MediaFileEntry = files(fileNumber)
 
-                ProcessFile(file, args, fileNumber)
+                If ProcessFile(file, args, inputFileIndex) Then
+                    willCreateOutput = True
+                    inputFileIndex += 1
+                    combinedMediaTypes = combinedMediaTypes Or file.ContainedMedia
+                Else
+                    outputFiles.Add(file)
+                End If
             Next
 
-            FfmpegRunner.Run(args)
+            If willCreateOutput Then
+                outputFiles.Add(New MediaFileEntry(temporaryOutput, combinedMediaTypes))
+            End If
+
+            Await FfmpegRunner.Run(args)
 
             ' TODO: Copy subtitle if not merged.
+            ' TODO: Delete input files that have been reencoded.
 
-        End Sub
+            Return outputFiles
+        End Function
 
-        Private Sub ProcessFile(entry As MediaFileEntry, args As FfmpegArguments, inputNumber As Integer)
-            args.InputFiles.Add(entry.Location)
+        Private Function ProcessFile(entry As MediaFileEntry, args As FfmpegArguments, inputNumber As Integer) As Boolean
+            Dim useFile As Boolean = False
 
             ' TODO: Maybe only select individual tracks if there is a need? Seems very verbose.
             ' Also have to consider what happens if the output file exists already.
 
             If entry.ContainedMedia.HasFlag(MediaType.Audio) Then
+                useFile = True
                 args.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                     .InputFileNumber = inputNumber,
                     .Selector = New FfmpegArguments.StreamSpecifier() With {
@@ -58,6 +76,7 @@ Namespace postprocess
                 })
             End If
             If entry.ContainedMedia.HasFlag(MediaType.Video) Then
+                useFile = True
                 args.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                     .InputFileNumber = inputNumber,
                     .Selector = New FfmpegArguments.StreamSpecifier() With {
@@ -68,6 +87,7 @@ Namespace postprocess
 
             If Preferences.SubtitleBehavior <> Format.SubtitleMerge.DISABLED Then
                 If entry.ContainedMedia.HasFlag(MediaType.Subtitles) Then
+                    useFile = True
                     args.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
                         .InputFileNumber = inputNumber,
                         .Selector = New FfmpegArguments.StreamSpecifier() With {
@@ -82,7 +102,13 @@ Namespace postprocess
                     })
                 End If
             End If
-        End Sub
+
+            If useFile Then
+                args.InputFiles.Add(entry.Location)
+            End If
+
+            Return useFile
+        End Function
 
         Private Function GetCodecName(subtitleCodec As Format.SubtitleMerge) As FfmpegArguments.CodecName
             Select Case subtitleCodec
