@@ -5,6 +5,7 @@ Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
+Imports Crunchyroll_Downloader.utilities.ffmpeg.preset
 Imports CrunchyrollDownloaderTests.utilities
 Imports CrunchyrollDownloaderTests.utilities.ffmpeg
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
@@ -71,6 +72,8 @@ Namespace postprocess
 
             Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
             Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
+
+            Assert.AreEqual(Nothing, args.Preset)
 
         End Function
 
@@ -164,6 +167,8 @@ Namespace postprocess
             Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
             Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
 
+            Assert.AreEqual(Nothing, args.Preset)
+
         End Function
 
         <TestMethod>
@@ -242,6 +247,8 @@ Namespace postprocess
             Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.SUBTITLE}, codec1.AppliedStream)
             Assert.AreEqual(SubtitleCodec.COPY, sCodec.Codec)
 
+            Assert.AreEqual(Nothing, args.Preset)
+
         End Function
 
         <TestMethod>
@@ -304,6 +311,8 @@ Namespace postprocess
 
             Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
             Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
+
+            Assert.AreEqual(Nothing, args.Preset)
 
         End Function
 
@@ -369,6 +378,8 @@ Namespace postprocess
 
             Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
             Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
+
+            Assert.AreEqual(Nothing, args.Preset)
         End Function
 
         <TestMethod>
@@ -413,6 +424,7 @@ Namespace postprocess
             }, audioStream)
 
             Assert.AreEqual(0, args.Codecs.Count)
+            Assert.AreEqual(Nothing, args.Preset)
         End Function
 
         <TestMethod>
@@ -445,7 +457,6 @@ Namespace postprocess
 
         <TestMethod>
         Public Async Function TestProcessInputs_ReencodeAsH265() As Task
-
             Dim commandBuilder As New FfmpegOptions.Builder()
             With commandBuilder
                 .SetCopyMode(False)
@@ -504,6 +515,71 @@ Namespace postprocess
 
             Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
             Assert.AreEqual(VideoCodec.LIBX265, vCodec.Codec)
+            Assert.AreEqual(Nothing, args.Preset)
+        End Function
+
+        <TestMethod>
+        Public Async Function TestProcessInputs_ReencodeAsH264_FastPreset() As Task
+            Dim commandBuilder As New FfmpegOptions.Builder()
+            With commandBuilder
+                .SetCopyMode(False)
+                .SetVideoCodec(encoding.Codec.H_264)
+                .SetEncoderHardware(encoding.EncoderImplementation.NVIDIA)
+                .SetPresetSpeed(encoding.SpeedSetting.FAST)
+            End With
+
+            Dim prefs As New ReencodePreferences() With {
+                .OutputFormat = Format.ContainerFormat.MP4,
+                .PostprocessSettings = commandBuilder.Build(),
+                .TemporaryOutputPath = "\temporary\path"
+            }
+
+            Dim adapter = New FakeFfmpegAdapter()
+            Dim fakeFilesystem = New FakeFileSystem()
+            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+
+            Dim files As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\path\to\video.ts", MediaType.Video Or MediaType.Audio)
+            }
+            Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
+
+            Assert.AreEqual(1, outputFiles.Count)
+            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual(MediaType.Audio Or MediaType.Video, outputFiles.Item(0).ContainedMedia)
+
+            Dim args As FfmpegArguments = adapter.RunArguments
+
+            Assert.AreEqual(1, args.InputFiles.Count)
+            Assert.AreEqual("\path\to\video.ts", args.InputFiles.Item(0))
+
+            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+
+            Assert.AreEqual(2, args.SelectedStreams.Count)
+
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
+                .InputFileNumber = 0,
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
+                }
+            }, audioStream)
+
+            Dim videoStream As MapArgument = args.SelectedStreams.Item(1)
+            Assert.AreEqual(New MapArgument() With {
+                .InputFileNumber = 0,
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS
+                }
+            }, videoStream)
+
+            Assert.AreEqual(1, args.Codecs.Count)
+            Dim copyCodec As ICodecArgument = args.Codecs.Item(0)
+            Assert.IsInstanceOfType(copyCodec, GetType(VideoCodecArgument))
+            Dim vCodec As VideoCodecArgument = CType(copyCodec, VideoCodecArgument)
+
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
+            Assert.AreEqual(VideoCodec.H264_NVENC, vCodec.Codec)
+            Assert.AreEqual(New SpeedPresetArgument(New SpeedPreset(Speed.FAST)), args.Preset)
         End Function
 
     End Class

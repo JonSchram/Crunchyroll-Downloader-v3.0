@@ -143,9 +143,9 @@ Namespace settings.general
                 End If
 
                 If command.Contains("-preset fast") Then
-                    My.Settings.ffmpeg_video_preset = Speed.FAST
+                    My.Settings.ffmpeg_video_preset = SpeedSetting.FAST
                 ElseIf command.Contains("-preset slow") Then
-                    My.Settings.ffmpeg_video_preset = Speed.SLOW
+                    My.Settings.ffmpeg_video_preset = SpeedSetting.SLOW
                 End If
 
                 If command.Contains("-b:v") Then
@@ -367,7 +367,7 @@ Namespace settings.general
             Get
                 Dim codec = CType(My.Settings.ffmpeg_video_codec, Codec)
                 Dim hardware = CType(My.Settings.ffmpeg_video_hardware, EncoderImplementation)
-                Dim preset = CType(My.Settings.ffmpeg_video_preset, Speed)
+                Dim preset = CType(My.Settings.ffmpeg_video_preset, SpeedSetting)
 
                 Dim settingBuilder = New FfmpegOptions.Builder()
                 With settingBuilder

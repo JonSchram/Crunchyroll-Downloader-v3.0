@@ -7,6 +7,7 @@ Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
+Imports Crunchyroll_Downloader.utilities.ffmpeg.preset
 Imports SiteAPI.api.common
 
 Namespace postprocess
@@ -56,6 +57,8 @@ Namespace postprocess
                     End If
                 Next
 
+                ApplyPreset(args)
+
                 If willCreateOutput Then
                     outputFiles.Add(New MediaFileEntry(temporaryOutput, combinedMediaTypes))
                 End If
@@ -71,6 +74,18 @@ Namespace postprocess
 
             Return outputFiles
         End Function
+
+        Private Sub ApplyPreset(args As FfmpegArguments)
+            Dim activeEncoder = Preferences.PostprocessSettings.GetActiveEncoder()
+
+            If activeEncoder IsNot Nothing And Not Preferences.PostprocessSettings.VideoCopy Then
+                ' TODO: Use quality preset for av1.
+                Dim c As Codec = activeEncoder.VideoCodec
+                If activeEncoder.Preset <> SpeedSetting.NO_PRESET And (c = Codec.H_264 Or c = Codec.H_265) Then
+                    args.Preset = SpeedPresetArgument.FromSetting(activeEncoder.Preset)
+                End If
+            End If
+        End Sub
 
         ''' <summary>
         ''' Gets the video or audio file from the MediaFileEntry list, preferring the video file.

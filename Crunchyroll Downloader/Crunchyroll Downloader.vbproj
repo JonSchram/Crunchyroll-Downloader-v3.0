@@ -234,7 +234,7 @@
     <Compile Include="Settings\ffmpeg\encoding\Codec.vb" />
     <Compile Include="Settings\ffmpeg\encoding\EncoderImplementation.vb" />
     <Compile Include="Settings\ffmpeg\FfmpegOptions.vb" />
-    <Compile Include="Settings\ffmpeg\encoding\Speed.vb" />
+    <Compile Include="Settings\ffmpeg\encoding\SpeedSetting.vb" />
     <Compile Include="Settings\ffmpeg\encoding\VideoEncoder.vb" />
     <Compile Include="Settings\FilenameTemplateGenerator.vb" />
     <Compile Include="Settings\Format.vb" />

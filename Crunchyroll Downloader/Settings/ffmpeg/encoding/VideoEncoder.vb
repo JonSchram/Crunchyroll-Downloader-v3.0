@@ -3,12 +3,12 @@
         Public ReadOnly Property VideoCodec As Codec
         Public ReadOnly Property Hardware As EncoderImplementation
         ' Preset only exists for h.264/h.265
-        Public ReadOnly Property Preset As Speed
+        Public ReadOnly Property Preset As SpeedSetting
         Public ReadOnly UseTargetBitrate As Boolean
         ' Target bitrate, in KBit/sec
         Public ReadOnly Property TargetBitrate As Integer
 
-        Public Sub New(videoCodec As Codec, hardware As EncoderImplementation, preset As Speed, useTargetBitrate As Boolean, bitrate As Integer)
+        Public Sub New(videoCodec As Codec, hardware As EncoderImplementation, preset As SpeedSetting, useTargetBitrate As Boolean, bitrate As Integer)
             Me.VideoCodec = videoCodec
             Me.Hardware = hardware
             Me.Preset = preset
@@ -100,7 +100,7 @@
         End Function
 
         Public Function GetPresetArgument() As String
-            If Preset = Speed.NO_PRESET Then
+            If Preset = SpeedSetting.NO_PRESET Then
                 Return ""
             Else
                 Return "-preset " + GetPresetText()
@@ -109,19 +109,19 @@
 
         Private Function GetPresetText() As String
             Select Case Preset
-                Case Speed.VERY_FAST
+                Case SpeedSetting.VERY_FAST
                     Return "veryfast"
-                Case Speed.FASTER
+                Case SpeedSetting.FASTER
                     Return "faster"
-                Case Speed.FAST
+                Case SpeedSetting.FAST
                     Return "fast"
-                Case Speed.MEDIUM
+                Case SpeedSetting.MEDIUM
                     Return "medium"
-                Case Speed.SLOW
+                Case SpeedSetting.SLOW
                     Return "slow"
-                Case Speed.SLOWER
+                Case SpeedSetting.SLOWER
                     Return "slower"
-                Case Speed.VERY_SLOW
+                Case SpeedSetting.VERY_SLOW
                     Return "veryslow"
                 Case Else
                     Return ""

@@ -60,7 +60,7 @@ Namespace settings.ffmpeg
             Friend Copy As Boolean
             Friend VideoCodec As Codec
             Friend Hardware As EncoderImplementation
-            Friend PresetSpeed As Speed
+            Friend PresetSpeed As SpeedSetting
             Friend UseVideoBitrate As Boolean = False
             Friend VideoBitrate As Integer
             Friend IncludeUnusedSettings As Boolean
@@ -80,7 +80,7 @@ Namespace settings.ffmpeg
                 Return Me
             End Function
 
-            Public Function SetPresetSpeed(presetSpeed As Speed) As Builder
+            Public Function SetPresetSpeed(presetSpeed As SpeedSetting) As Builder
                 Me.PresetSpeed = presetSpeed
                 Return Me
             End Function

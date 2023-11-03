@@ -1,5 +1,5 @@
 ﻿Namespace settings.ffmpeg.encoding
-    Public Enum Speed As Integer
+    Public Enum SpeedSetting As Integer
         NO_PRESET = 0
         VERY_SLOW = 1
         SLOWER = 2

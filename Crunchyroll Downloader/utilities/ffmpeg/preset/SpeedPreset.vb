@@ -37,5 +37,17 @@ Namespace utilities.ffmpeg.preset
                     Throw New InvalidEnumArgumentException("Invalid enum used for SpeedPreset")
             End Select
         End Function
+
+        Public Overrides Function Equals(obj As Object) As Boolean
+            Dim preset = TryCast(obj, SpeedPreset)
+            Return preset IsNot Nothing AndAlso
+                   EncoderSpeed = preset.EncoderSpeed
+        End Function
+
+        Public Overrides Function GetHashCode() As Integer
+            Dim hashCode As Long = -1432538518
+            hashCode = (hashCode * -1521134295 + EncoderSpeed.GetHashCode()).GetHashCode()
+            Return CType(hashCode, Integer)
+        End Function
     End Class
 End Namespace

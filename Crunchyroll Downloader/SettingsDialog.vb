@@ -27,7 +27,7 @@ Public Class SettingsDialog
     Private ReadOnly VideoFormatTextList As New EnumTextList(Of Format.ContainerFormat)()
     Private ReadOnly SubtitleFormatTextList As New EnumTextList(Of Format.SubtitleMerge)()
     Private ReadOnly ValidSubtitleFormatList As EnumTextList(Of Format.SubtitleMerge).SubTextList = SubtitleFormatTextList.CreateSubList()
-    Private ReadOnly SpeedPresetTextList As New EnumTextList(Of Speed)()
+    Private ReadOnly SpeedPresetTextList As New EnumTextList(Of SpeedSetting)()
     Private ReadOnly CodecTextList As New EnumTextList(Of Codec)()
     Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of EncoderImplementation)()
     Private ReadOnly SeasonNumberBehaviorTextlist As New EnumTextList(Of SeasonNumberBehavior)()
@@ -103,14 +103,14 @@ Public Class SettingsDialog
         End With
 
         With SpeedPresetTextList
-            .Add(Speed.NO_PRESET, "(No preset)")
-            .Add(Speed.VERY_SLOW, "Very slow")
-            .Add(Speed.SLOWER, "Slower")
-            .Add(Speed.SLOW, "Slow")
-            .Add(Speed.MEDIUM, "Medium")
-            .Add(Speed.FAST, "Fast")
-            .Add(Speed.FASTER, "Faster")
-            .Add(Speed.VERY_FAST, "Very fast")
+            .Add(SpeedSetting.NO_PRESET, "(No preset)")
+            .Add(SpeedSetting.VERY_SLOW, "Very slow")
+            .Add(SpeedSetting.SLOWER, "Slower")
+            .Add(SpeedSetting.SLOW, "Slow")
+            .Add(SpeedSetting.MEDIUM, "Medium")
+            .Add(SpeedSetting.FAST, "Fast")
+            .Add(SpeedSetting.FASTER, "Faster")
+            .Add(SpeedSetting.VERY_FAST, "Very fast")
         End With
 
         With CodecTextList
