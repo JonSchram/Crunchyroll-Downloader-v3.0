@@ -309,6 +309,13 @@
     <Compile Include="utilities\ffmpeg\codec\AudioCodec.vb" />
     <Compile Include="utilities\ffmpeg\codec\AudioCodecArgument.vb" />
     <Compile Include="utilities\ffmpeg\codec\ICodecArgument.vb" />
+    <Compile Include="utilities\ffmpeg\preset\IPreset.vb" />
+    <Compile Include="utilities\ffmpeg\preset\QualityPreset.vb" />
+    <Compile Include="utilities\ffmpeg\preset\Speed.vb" />
+    <Compile Include="utilities\ffmpeg\preset\SpeedPreset.vb" />
+    <Compile Include="utilities\ffmpeg\preset\PresetArgument.vb" />
+    <Compile Include="utilities\ffmpeg\preset\QualityPresetArgument.vb" />
+    <Compile Include="utilities\ffmpeg\preset\SpeedPresetArgument.vb" />
     <Compile Include="utilities\ffmpeg\codec\SubtitleCodecArgument.vb" />
     <Compile Include="utilities\ffmpeg\codec\VideoCodecArgument.vb" />
     <Compile Include="utilities\ffmpeg\FfmpegAdapter.vb" />

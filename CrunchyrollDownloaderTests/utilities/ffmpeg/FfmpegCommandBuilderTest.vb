@@ -1,6 +1,7 @@
 ﻿Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
+Imports Crunchyroll_Downloader.utilities.ffmpeg.preset
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace utilities.ffmpeg
@@ -30,7 +31,7 @@ Namespace utilities.ffmpeg
             })
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -map 0:p:4 ""test_path""", args)
         End Sub
@@ -48,7 +49,7 @@ Namespace utilities.ffmpeg
             })
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -map 1:V:2 ""test_path""", args)
         End Sub
@@ -66,7 +67,7 @@ Namespace utilities.ffmpeg
             })
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -map 0 -map -0:a ""test_path""", args)
         End Sub
@@ -89,7 +90,7 @@ Namespace utilities.ffmpeg
             })
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -map 1 -map 0:d ""test_path""", args)
         End Sub
@@ -107,7 +108,7 @@ Namespace utilities.ffmpeg
             })
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -map 0:s:3? ""test_path""", args)
         End Sub
@@ -119,7 +120,7 @@ Namespace utilities.ffmpeg
             ffmpegArgs.Codecs.Add(New CopyCodecArgument(New StreamSpecifier()))
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -c copy ""test_path""", args)
         End Sub
@@ -131,7 +132,7 @@ Namespace utilities.ffmpeg
             ffmpegArgs.Codecs.Add(New CopyCodecArgument())
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -c copy ""test_path""", args)
         End Sub
@@ -145,7 +146,7 @@ Namespace utilities.ffmpeg
                 }, VideoCodec.LIBX264))
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -c:v libx264 ""test_path""", args)
         End Sub
@@ -163,7 +164,7 @@ Namespace utilities.ffmpeg
             }, AudioCodec.AAC))
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input_path"" -c:s mov_text -c:1 aac ""test_path""", args)
         End Sub
@@ -177,7 +178,7 @@ Namespace utilities.ffmpeg
             ffmpegArgs.Codecs.Add(New CopyCodecArgument())
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""input1"" -i ""input2"" -c copy ""test_path""", args)
         End Sub
@@ -188,7 +189,7 @@ Namespace utilities.ffmpeg
             ffmpegArgs.InputFiles.Add("C:\path\to\file")
 
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs, Nothing, Nothing)
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual("-i ""C:\path\to\file"" ""output_path""", args)
         End Sub
@@ -200,6 +201,30 @@ Namespace utilities.ffmpeg
             Dim commandString = commandBuilder.BuildCommandLineArguments(Ffmpegargs, Nothing, "my_user_agent")
 
             Assert.AreEqual("-user_agent ""my_user_agent"" ""output_path""", commandString)
+        End Sub
+
+        <TestMethod>
+        Public Sub TestBuildSpeedPreset()
+            Dim ffmpegArgs As New FfmpegArguments("output_path") With {
+                .Preset = New SpeedPresetArgument(New SpeedPreset(Speed.VERYFAST))
+            }
+
+            Dim commandBuilder As New FfmpegCommandBuilder()
+            Dim command = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
+
+            Assert.AreEqual("-preset veryfast ""output_path""", command)
+        End Sub
+
+        <TestMethod>
+        Public Sub TestBuildQualityPreset()
+            Dim ffmpegArgs As New FfmpegArguments("output_path") With {
+                .Preset = New QualityPresetArgument(New QualityPreset(3))
+            }
+
+            Dim commandBuilder As New FfmpegCommandBuilder()
+            Dim command = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
+
+            Assert.AreEqual("-preset 3 ""output_path""", command)
         End Sub
     End Class
 End Namespace

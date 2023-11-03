@@ -1,5 +1,4 @@
 ﻿Imports System.Globalization
-Imports System.Text
 Imports System.Threading
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Microsoft.VisualStudio.TestTools.UnitTesting

@@ -3,6 +3,11 @@ Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 
 Namespace utilities.ffmpeg
     Public Class FfmpegCommandBuilder
+
+        Public Function BuildCommandLineArguments(arguments As FfmpegArguments) As String
+            Return BuildCommandLineArguments(arguments, Nothing, Nothing)
+        End Function
+
         Public Function BuildCommandLineArguments(arguments As FfmpegArguments, Cookies As Dictionary(Of String, String),
                                                   userAgent As String) As String
             Dim argumentParts As New List(Of String)()
@@ -26,6 +31,10 @@ Namespace utilities.ffmpeg
 
             If arguments.Codecs.Count > 0 Then
                 argumentParts.Add(BuildCodecs(arguments.Codecs))
+            End If
+
+            If arguments.Preset IsNot Nothing Then
+                argumentParts.Add(arguments.Preset.BuildCommandLineArgument())
             End If
 
             argumentParts.Add($"""{arguments.OutputPath}""")

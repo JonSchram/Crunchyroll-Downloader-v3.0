@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports System.Runtime.InteropServices
 Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.utilities
