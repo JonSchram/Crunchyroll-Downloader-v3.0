@@ -305,11 +305,21 @@
     </Compile>
     <Compile Include="Subfolder.vb" />
     <Compile Include="ui\MainPresenter.vb" />
+    <Compile Include="utilities\ffmpeg\codec\CopyCodecArgument.vb" />
+    <Compile Include="utilities\ffmpeg\codec\AudioCodec.vb" />
+    <Compile Include="utilities\ffmpeg\codec\AudioCodecArgument.vb" />
+    <Compile Include="utilities\ffmpeg\codec\ICodecArgument.vb" />
+    <Compile Include="utilities\ffmpeg\codec\SubtitleCodecArgument.vb" />
+    <Compile Include="utilities\ffmpeg\codec\VideoCodecArgument.vb" />
     <Compile Include="utilities\ffmpeg\FfmpegAdapter.vb" />
     <Compile Include="utilities\ffmpeg\FfmpegArguments.vb" />
     <Compile Include="utilities\ffmpeg\FfmpegCommandBuilder.vb" />
     <Compile Include="utilities\ffmpeg\FfmpegOutputParser.vb" />
     <Compile Include="utilities\ffmpeg\FfmpegProgressReport.vb" />
+    <Compile Include="utilities\ffmpeg\codec\SubtitleCodec.vb" />
+    <Compile Include="utilities\ffmpeg\codec\VideoCodec.vb" />
+    <Compile Include="utilities\ffmpeg\MapArgument.vb" />
+    <Compile Include="utilities\ffmpeg\StreamSpecifier.vb" />
     <Compile Include="utilities\FileModule.vb" />
     <Compile Include="utilities\FilenameInterpolator.vb" />
     <Compile Include="utilities\ffmpeg\IFfmpegAdapter.vb" />

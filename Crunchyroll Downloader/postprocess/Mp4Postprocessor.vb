@@ -4,6 +4,7 @@ Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
+Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports SiteAPI.api.common
 
 Namespace postprocess
@@ -93,19 +94,19 @@ Namespace postprocess
 
             If entry.ContainedMedia.HasFlag(MediaType.Audio) Then
                 useFile = True
-                args.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
+                args.SelectedStreams.Add(New MapArgument() With {
                     .InputFileNumber = inputNumber,
-                    .Selector = New FfmpegArguments.StreamSpecifier() With {
-                        .Type = FfmpegArguments.StreamType.AUDIO
+                    .Selector = New StreamSpecifier() With {
+                        .Type = StreamType.AUDIO
                     }
                 })
             End If
             If entry.ContainedMedia.HasFlag(MediaType.Video) Then
                 useFile = True
-                args.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
+                args.SelectedStreams.Add(New MapArgument() With {
                     .InputFileNumber = inputNumber,
-                    .Selector = New FfmpegArguments.StreamSpecifier() With {
-                            .Type = FfmpegArguments.StreamType.VIDEO_AND_ATTACHMENTS
+                    .Selector = New StreamSpecifier() With {
+                            .Type = StreamType.VIDEO_AND_ATTACHMENTS
                     }
                 })
             End If
@@ -113,18 +114,16 @@ Namespace postprocess
             If Preferences.SubtitleBehavior <> Format.SubtitleMerge.DISABLED Then
                 If entry.ContainedMedia.HasFlag(MediaType.Subtitles) Then
                     useFile = True
-                    args.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
+                    args.SelectedStreams.Add(New MapArgument() With {
                         .InputFileNumber = inputNumber,
-                        .Selector = New FfmpegArguments.StreamSpecifier() With {
-                                .Type = FfmpegArguments.StreamType.SUBTITLE
+                        .Selector = New StreamSpecifier() With {
+                                .Type = StreamType.SUBTITLE
                         }
                     })
-                    args.Codecs.Add(New FfmpegArguments.CodecArgument() With {
-                        .Name = GetCodecName(Preferences.SubtitleBehavior),
-                        .AppliedStream = New FfmpegArguments.StreamSpecifier() With {
-                            .Type = FfmpegArguments.StreamType.SUBTITLE
-                        }
-                    })
+                    args.Codecs.Add(New SubtitleCodecArgument(New StreamSpecifier() With {
+                            .Type = StreamType.SUBTITLE
+                        },
+                        GetCodecName(Preferences.SubtitleBehavior)))
                 End If
             End If
 
@@ -135,24 +134,18 @@ Namespace postprocess
             Return useFile
         End Function
 
-        Private Function GetCodecName(subtitleCodec As Format.SubtitleMerge) As FfmpegArguments.CodecName
-            Select Case subtitleCodec
+        Private Function GetCodecName(mergeBehavior As Format.SubtitleMerge) As SubtitleCodec
+            Select Case mergeBehavior
                 Case Format.SubtitleMerge.COPY
-                    Return FfmpegArguments.CodecName.COPY
+                    Return SubtitleCodec.COPY
                 Case Format.SubtitleMerge.MOV_TEXT
-                    Return FfmpegArguments.CodecName.SUBTITLE_MOV_TEXT
+                    Return SubtitleCodec.MOV_TEXT
                 Case Format.SubtitleMerge.SRT
-                    Return FfmpegArguments.CodecName.SUBTITLE_SRT
+                    Return SubtitleCodec.SRT
                 Case Else
                     ' There is no format for DISABLED
-                    Return FfmpegArguments.CodecName.COPY
+                    Return SubtitleCodec.COPY
             End Select
         End Function
-
-        Private Sub RunFfmpeg()
-            ' TODO: Also re-encode if desired. Take care not to re-encode if merging into an existing video.
-
-
-        End Sub
     End Class
 End Namespace

@@ -47,19 +47,19 @@ Namespace postprocess
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
-            Dim audioStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(0)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.AUDIO
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
                 }
             }, audioStream)
 
-            Dim videoStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(1)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim videoStream As MapArgument = args.SelectedStreams.Item(1)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.VIDEO_AND_ATTACHMENTS
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
         End Function
@@ -130,19 +130,19 @@ Namespace postprocess
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
-            Dim audioStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(0)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.AUDIO
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
                 }
             }, audioStream)
 
-            Dim videoStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(1)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim videoStream As MapArgument = args.SelectedStreams.Item(1)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 1,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.VIDEO_AND_ATTACHMENTS
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
         End Function
@@ -185,27 +185,27 @@ Namespace postprocess
 
             Assert.AreEqual(3, args.SelectedStreams.Count)
 
-            Dim audioStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(0)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.AUDIO
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
                 }
             }, audioStream)
 
-            Dim videoStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(1)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim videoStream As MapArgument = args.SelectedStreams.Item(1)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.VIDEO_AND_ATTACHMENTS
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
 
-            Dim subtitleStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(2)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim subtitleStream As MapArgument = args.SelectedStreams.Item(2)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 1,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.SUBTITLE
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.SUBTITLE
                 }
             }, subtitleStream)
         End Function
@@ -247,19 +247,19 @@ Namespace postprocess
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
-            Dim audioStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(0)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.AUDIO
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
                 }
             }, audioStream)
 
-            Dim videoStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(1)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim videoStream As MapArgument = args.SelectedStreams.Item(1)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.VIDEO_AND_ATTACHMENTS
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
         End Function
@@ -303,19 +303,19 @@ Namespace postprocess
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
-            Dim audioStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(0)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.AUDIO
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
                 }
             }, audioStream)
 
-            Dim videoStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(1)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim videoStream As MapArgument = args.SelectedStreams.Item(1)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.VIDEO_AND_ATTACHMENTS
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
         End Function
@@ -354,11 +354,11 @@ Namespace postprocess
 
             Assert.AreEqual(1, args.SelectedStreams.Count)
 
-            Dim audioStream As FfmpegArguments.MapArgument = args.SelectedStreams.Item(0)
-            Assert.AreEqual(New FfmpegArguments.MapArgument() With {
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
                 .InputFileNumber = 0,
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
-                    .Type = FfmpegArguments.StreamType.AUDIO
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
                 }
             }, audioStream)
 

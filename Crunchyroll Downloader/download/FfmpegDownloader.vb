@@ -2,6 +2,7 @@
 Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
+Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports PlaylistLibrary.hls.playlist.comparer
 Imports SiteAPI.api.common
 
@@ -62,14 +63,12 @@ Namespace download
             Dim outputName = Path.Combine(OutputDirectory, "playlist.mp4")
             Dim ffmpegArguments As New FfmpegArguments(outputName)
             ffmpegArguments.InputFiles.Add(item.OriginalLocation)
-            ffmpegArguments.SelectedStreams.Add(New FfmpegArguments.MapArgument() With {
-                .Selector = New FfmpegArguments.StreamSpecifier() With {
+            ffmpegArguments.SelectedStreams.Add(New MapArgument() With {
+                .Selector = New StreamSpecifier() With {
                     .ProgramNumber = programNumber
                 }
             })
-            ffmpegArguments.Codecs.Add(New FfmpegArguments.CodecArgument() With {
-                .Name = FfmpegArguments.CodecName.COPY
-            })
+            ffmpegArguments.Codecs.Add(New CopyCodecArgument(New StreamSpecifier()))
             ' TODO: Allow configuring ffmpeg exe location.
             Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
             ffmpegAdapter.SetUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")

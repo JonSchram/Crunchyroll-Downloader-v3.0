@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 
 Namespace utilities.ffmpeg
     Public Class FfmpegCommandBuilder
@@ -32,10 +33,10 @@ Namespace utilities.ffmpeg
             Return String.Join(" ", argumentParts)
         End Function
 
-        Private Function BuildMappings(MapList As List(Of FfmpegArguments.MapArgument)) As String
+        Private Function BuildMappings(MapList As List(Of MapArgument)) As String
             Dim mapArguments As New List(Of String)
 
-            For Each map As FfmpegArguments.MapArgument In MapList
+            For Each map As MapArgument In MapList
                 Dim argumentBuilder As New StringBuilder()
 
                 argumentBuilder.Append("-map ")
@@ -56,17 +57,20 @@ Namespace utilities.ffmpeg
             Return String.Join(" ", mapArguments)
         End Function
 
-        Private Function BuildCodecs(Codecs As List(Of FfmpegArguments.CodecArgument)) As String
+        Private Function BuildCodecs(Codecs As List(Of ICodecArgument)) As String
             Dim codecArguments As New List(Of String)
 
-            For Each codec As FfmpegArguments.CodecArgument In Codecs
+            For Each codec As ICodecArgument In Codecs
                 Dim argumentBuilder As New StringBuilder()
 
                 argumentBuilder.Append("-c")
                 If codec.AppliedStream IsNot Nothing Then
-                    argumentBuilder.AppendFormat(":{0}", BuildStreamSpecifier(codec.AppliedStream))
+                    Dim specifier As String = BuildStreamSpecifier(codec.AppliedStream)
+                    If Not "".Equals(specifier) Then
+                        argumentBuilder.AppendFormat(":{0}", specifier)
+                    End If
                 End If
-                argumentBuilder.AppendFormat(" {0}", GetCodecString(codec.Name))
+                argumentBuilder.AppendFormat(" {0}", codec.GetCodecString())
 
                 codecArguments.Add(argumentBuilder.ToString())
             Next
@@ -74,7 +78,7 @@ Namespace utilities.ffmpeg
             Return String.Join(" ", codecArguments)
         End Function
 
-        Private Function BuildStreamSpecifier(Selector As FfmpegArguments.StreamSpecifier) As String
+        Private Function BuildStreamSpecifier(Selector As StreamSpecifier) As String
             If Selector Is Nothing Then
                 Return ""
             End If
@@ -94,59 +98,20 @@ Namespace utilities.ffmpeg
             Return String.Join(":", parts)
         End Function
 
-        Private Function GetStreamTypeSelector(Type As FfmpegArguments.StreamType) As String
+        Private Function GetStreamTypeSelector(Type As StreamType) As String
             Select Case Type
-                Case FfmpegArguments.StreamType.AUDIO
+                Case StreamType.AUDIO
                     Return "a"
-                Case FfmpegArguments.StreamType.VIDEO_ONLY
+                Case StreamType.VIDEO_ONLY
                     Return "V"
-                Case FfmpegArguments.StreamType.VIDEO_AND_ATTACHMENTS
+                Case StreamType.VIDEO_AND_ATTACHMENTS
                     Return "v"
-                Case FfmpegArguments.StreamType.SUBTITLE
+                Case StreamType.SUBTITLE
                     Return "s"
-                Case FfmpegArguments.StreamType.DATA
+                Case StreamType.DATA
                     Return "d"
-                Case FfmpegArguments.StreamType.ATTACHMENT
+                Case StreamType.ATTACHMENT
                     Return "t"
-                Case Else
-                    Return ""
-            End Select
-        End Function
-
-        Private Function GetCodecString(name As FfmpegArguments.CodecName) As String
-            Select Case name
-                Case FfmpegArguments.CodecName.COPY
-                    Return "copy"
-                Case FfmpegArguments.CodecName.VIDEO_LIBX264
-                    Return "libx264"
-                Case FfmpegArguments.CodecName.VIDEO_LIBX265
-                    Return "libx265"
-                Case FfmpegArguments.CodecName.VIDEO_LIBXAVS2
-                    Return "libxavs2"
-                Case FfmpegArguments.CodecName.VIDEO_H264_NVENC
-                    Return "h264_nvenc"
-                Case FfmpegArguments.CodecName.VIDEO_HEVC_NVENC
-                    Return "hevc_nvenc "
-                Case FfmpegArguments.CodecName.VIDEO_H264_AMF
-                    Return "h264_amf"
-                Case FfmpegArguments.CodecName.VIDEO_HEVC_AMF
-                    Return "hevc_amf"
-                Case FfmpegArguments.CodecName.AUDIO_AAC
-                    Return "aac"
-                Case FfmpegArguments.CodecName.AUDIO_AC3
-                    Return "ac3"
-                Case FfmpegArguments.CodecName.AUDIO_FLAC
-                    Return "flac"
-                Case FfmpegArguments.CodecName.AUDIO_OPUS
-                    Return "libopus"
-                Case FfmpegArguments.CodecName.SUBTITLE_ASS
-                    Return "ass"
-                Case FfmpegArguments.CodecName.SUBTITLE_SRT
-                    Return "srt"
-                Case FfmpegArguments.CodecName.SUBTITLE_SSA
-                    Return "ssa"
-                Case FfmpegArguments.CodecName.SUBTITLE_MOV_TEXT
-                    Return "mov_text"
                 Case Else
                     Return ""
             End Select
