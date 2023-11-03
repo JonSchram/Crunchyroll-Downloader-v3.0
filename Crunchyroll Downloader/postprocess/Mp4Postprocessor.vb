@@ -5,7 +5,6 @@ Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports SiteAPI.api.common
-Imports SiteAPI.api.metadata
 
 Namespace postprocess
 
@@ -16,10 +15,12 @@ Namespace postprocess
 
         Private ReadOnly Preferences As ReencodePreferences
         Private ReadOnly FfmpegRunner As IFfmpegAdapter
+        Private ReadOnly FilesystemApi As IFilesystem
 
-        Public Sub New(prefs As ReencodePreferences, ffmpegRunner As IFfmpegAdapter)
+        Public Sub New(prefs As ReencodePreferences, ffmpegRunner As IFfmpegAdapter, fileSystemApi As IFilesystem)
             Preferences = prefs
             Me.FfmpegRunner = ffmpegRunner
+            Me.FilesystemApi = fileSystemApi
         End Sub
 
         Public Async Function ProcessInputs(files As List(Of MediaFileEntry)) As Task(Of List(Of MediaFileEntry))
@@ -27,37 +28,61 @@ Namespace postprocess
 
             Dim outputFiles As New List(Of MediaFileEntry)
 
-            ' TODO: Either use input file name to generate the output name, or generate randomly.
-            Dim combinedFileName = "mp4reencode.mp4"
-            Dim temporaryOutput = Path.Combine(Preferences.TemporaryOutputPath, combinedFileName)
-            Dim args As New FfmpegArguments(temporaryOutput)
+            Dim videoFile = GetVideoOrAudioInput(files)
+            If videoFile IsNot Nothing Then
+                Dim combinedFileName = $"{Path.GetFileNameWithoutExtension(videoFile.Location)}-reencode"
 
-            Dim combinedMediaTypes As MediaType
+                ' Ensure that the output file won't exist.
+                Dim temporaryOutput = GetUniqueFilename(FilesystemApi, Preferences.TemporaryOutputPath, combinedFileName, ".mp4")
 
-            Dim willCreateOutput = False
-            Dim inputFileIndex = 0
-            For fileNumber = 0 To files.Count - 1
-                Dim file As MediaFileEntry = files(fileNumber)
+                Dim args As New FfmpegArguments(temporaryOutput)
 
-                If ProcessFile(file, args, inputFileIndex) Then
-                    willCreateOutput = True
-                    inputFileIndex += 1
-                    combinedMediaTypes = combinedMediaTypes Or file.ContainedMedia
-                Else
-                    outputFiles.Add(file)
+                Dim combinedMediaTypes As MediaType
+
+                Dim willCreateOutput = False
+                Dim inputFileIndex = 0
+                For fileNumber = 0 To files.Count - 1
+                    Dim file As MediaFileEntry = files(fileNumber)
+
+                    If ProcessFile(file, args, inputFileIndex) Then
+                        willCreateOutput = True
+                        inputFileIndex += 1
+                        combinedMediaTypes = combinedMediaTypes Or file.ContainedMedia
+                    Else
+                        outputFiles.Add(file)
+                    End If
+                Next
+
+                If willCreateOutput Then
+                    outputFiles.Add(New MediaFileEntry(temporaryOutput, combinedMediaTypes))
                 End If
-            Next
 
-            If willCreateOutput Then
-                outputFiles.Add(New MediaFileEntry(temporaryOutput, combinedMediaTypes))
+                Await FfmpegRunner.Run(args)
+            Else
+                ' If there was no video or audio file found, either there are no files or there is only a subtitle file.
+                ' In either case, we can just return what we were given because this was a no-op.
+                outputFiles = files
             End If
 
-            Await FfmpegRunner.Run(args)
-
-            ' TODO: Copy subtitle if not merged.
             ' TODO: Delete input files that have been reencoded.
 
             Return outputFiles
+        End Function
+
+        ''' <summary>
+        ''' Gets the video or audio file from the MediaFileEntry list, preferring the video file.
+        ''' </summary>
+        ''' <param name="files"></param>
+        ''' <returns></returns>
+        Private Function GetVideoOrAudioInput(files As List(Of MediaFileEntry)) As MediaFileEntry
+            Dim preferredFile As MediaFileEntry = Nothing
+            For Each file In files
+                If (preferredFile Is Nothing AndAlso file.ContainedMedia.HasFlag(MediaType.Audio)) OrElse
+                        file.ContainedMedia.HasFlag(MediaType.Video) Then
+                    preferredFile = file
+                End If
+            Next
+            Return preferredFile
         End Function
 
         Private Function ProcessFile(entry As MediaFileEntry, args As FfmpegArguments, inputNumber As Integer) As Boolean

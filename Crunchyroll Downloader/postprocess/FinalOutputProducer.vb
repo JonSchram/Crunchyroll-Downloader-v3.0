@@ -30,7 +30,7 @@ Namespace postprocess
                 Dim file As MediaFileEntry = files(fileNumber)
                 Dim extension As String = Path.GetExtension(file.Location)
 
-                Dim savePath = CreateSaveLocation(outputPath, baseFilename, extension)
+                Dim savePath = GetUniqueFilename(FilesystemApi, outputPath, baseFilename, extension)
 
                 FilesystemApi.MoveFile(file.Location, savePath)
             Next
@@ -57,18 +57,7 @@ Namespace postprocess
             Return finalPath
         End Function
 
-        Public Function CreateSaveLocation(outputPath As String, baseFileName As String, extension As String) As String
-            Dim iterationNumber As Integer = 0
-            Dim newFilePath As String = Path.Combine(outputPath, baseFileName + extension)
-            While FilesystemApi.FileExists(newFilePath)
-                ' Intentionally increment iterationNumber first so that the file renaming starts at 1.
-                iterationNumber += 1
 
-                newFilePath = Path.Combine(outputPath, $"{baseFileName} ({iterationNumber}){extension}")
-            End While
-
-            Return newFilePath
-        End Function
 
     End Class
 End Namespace

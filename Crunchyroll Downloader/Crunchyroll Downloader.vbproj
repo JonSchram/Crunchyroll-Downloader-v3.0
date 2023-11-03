@@ -310,6 +310,7 @@
     <Compile Include="utilities\ffmpeg\FfmpegCommandBuilder.vb" />
     <Compile Include="utilities\ffmpeg\FfmpegOutputParser.vb" />
     <Compile Include="utilities\ffmpeg\FfmpegProgressReport.vb" />
+    <Compile Include="utilities\FileModule.vb" />
     <Compile Include="utilities\FilenameInterpolator.vb" />
     <Compile Include="utilities\ffmpeg\IFfmpegAdapter.vb" />
     <Compile Include="utilities\FormatModule.vb" />
