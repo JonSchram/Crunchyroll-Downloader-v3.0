@@ -4,6 +4,7 @@ Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg
+Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports CrunchyrollDownloaderTests.utilities
 Imports CrunchyrollDownloaderTests.utilities.ffmpeg
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
@@ -62,6 +63,15 @@ Namespace postprocess
                     .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
+
+            Assert.AreEqual(1, args.Codecs.Count)
+            Dim copyCodec As ICodecArgument = args.Codecs.Item(0)
+            Assert.IsInstanceOfType(copyCodec, GetType(VideoCodecArgument))
+            Dim vCodec As VideoCodecArgument = CType(copyCodec, VideoCodecArgument)
+
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
+            Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
+
         End Function
 
         <TestMethod>
@@ -145,6 +155,15 @@ Namespace postprocess
                     .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
+
+            Assert.AreEqual(1, args.Codecs.Count)
+            Dim copyCodec As ICodecArgument = args.Codecs.Item(0)
+            Assert.IsInstanceOfType(copyCodec, GetType(VideoCodecArgument))
+            Dim vCodec As VideoCodecArgument = CType(copyCodec, VideoCodecArgument)
+
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
+            Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
+
         End Function
 
         <TestMethod>
@@ -208,6 +227,21 @@ Namespace postprocess
                     .Type = StreamType.SUBTITLE
                 }
             }, subtitleStream)
+
+            Assert.AreEqual(2, args.Codecs.Count)
+
+            Dim codec0 As ICodecArgument = args.Codecs.Item(0)
+            Assert.IsInstanceOfType(codec0, GetType(VideoCodecArgument))
+            Dim vCodec As VideoCodecArgument = codec0
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
+            Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
+
+            Dim codec1 As ICodecArgument = args.Codecs.Item(1)
+            Assert.IsInstanceOfType(codec1, GetType(SubtitleCodecArgument))
+            Dim sCodec As SubtitleCodecArgument = codec1
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.SUBTITLE}, codec1.AppliedStream)
+            Assert.AreEqual(SubtitleCodec.COPY, sCodec.Codec)
+
         End Function
 
         <TestMethod>
@@ -262,6 +296,15 @@ Namespace postprocess
                     .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
+
+            Assert.AreEqual(1, args.Codecs.Count)
+            Dim copyCodec As ICodecArgument = args.Codecs.Item(0)
+            Assert.IsInstanceOfType(copyCodec, GetType(VideoCodecArgument))
+            Dim vCodec As VideoCodecArgument = CType(copyCodec, VideoCodecArgument)
+
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
+            Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
+
         End Function
 
         ''' <summary>
@@ -318,11 +361,18 @@ Namespace postprocess
                     .Type = StreamType.VIDEO_AND_ATTACHMENTS
                 }
             }, videoStream)
+
+            Assert.AreEqual(1, args.Codecs.Count)
+            Dim copyCodec As ICodecArgument = args.Codecs.Item(0)
+            Assert.IsInstanceOfType(copyCodec, GetType(VideoCodecArgument))
+            Dim vCodec As VideoCodecArgument = CType(copyCodec, VideoCodecArgument)
+
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
+            Assert.AreEqual(VideoCodec.COPY, vCodec.Codec)
         End Function
 
         <TestMethod>
         Public Async Function TestProcessInputs_AudioOnly() As Task
-
             Dim commandBuilder As New FfmpegOptions.Builder()
             commandBuilder.SetCopyMode(True)
 
@@ -362,6 +412,7 @@ Namespace postprocess
                 }
             }, audioStream)
 
+            Assert.AreEqual(0, args.Codecs.Count)
         End Function
 
         <TestMethod>
@@ -391,5 +442,69 @@ Namespace postprocess
             ' Ffmpeg shouldn't have run
             Assert.IsNull(args)
         End Function
+
+        <TestMethod>
+        Public Async Function TestProcessInputs_ReencodeAsH265() As Task
+
+            Dim commandBuilder As New FfmpegOptions.Builder()
+            With commandBuilder
+                .SetCopyMode(False)
+                .SetVideoCodec(encoding.Codec.H_265)
+                .SetEncoderHardware(encoding.EncoderImplementation.SOFTWARE)
+            End With
+
+            Dim prefs As New ReencodePreferences() With {
+                .OutputFormat = Format.ContainerFormat.MP4,
+                .PostprocessSettings = commandBuilder.Build(),
+                .TemporaryOutputPath = "\temporary\path"
+            }
+
+            Dim adapter = New FakeFfmpegAdapter()
+            Dim fakeFilesystem = New FakeFileSystem()
+            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+
+            Dim files As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\path\to\video.ts", MediaType.Video Or MediaType.Audio)
+            }
+            Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
+
+            Assert.AreEqual(1, outputFiles.Count)
+            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual(MediaType.Audio Or MediaType.Video, outputFiles.Item(0).ContainedMedia)
+
+            Dim args As FfmpegArguments = adapter.RunArguments
+
+            Assert.AreEqual(1, args.InputFiles.Count)
+            Assert.AreEqual("\path\to\video.ts", args.InputFiles.Item(0))
+
+            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+
+            Assert.AreEqual(2, args.SelectedStreams.Count)
+
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
+                .InputFileNumber = 0,
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
+                }
+            }, audioStream)
+
+            Dim videoStream As MapArgument = args.SelectedStreams.Item(1)
+            Assert.AreEqual(New MapArgument() With {
+                .InputFileNumber = 0,
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS
+                }
+            }, videoStream)
+
+            Assert.AreEqual(1, args.Codecs.Count)
+            Dim copyCodec As ICodecArgument = args.Codecs.Item(0)
+            Assert.IsInstanceOfType(copyCodec, GetType(VideoCodecArgument))
+            Dim vCodec As VideoCodecArgument = CType(copyCodec, VideoCodecArgument)
+
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.VIDEO_ONLY}, vCodec.AppliedStream)
+            Assert.AreEqual(VideoCodec.LIBX265, vCodec.Codec)
+        End Function
+
     End Class
 End Namespace

@@ -152,6 +152,21 @@ Namespace utilities.ffmpeg
         End Sub
 
         <TestMethod>
+        Public Sub TestBuildCodecHEVCVideoStream0()
+            Dim ffmpegArgs As New FfmpegArguments("test_path")
+            ffmpegArgs.InputFiles.Add("input_path")
+            ffmpegArgs.Codecs.Add(New VideoCodecArgument(New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS,
+                    .StreamIndex = 0
+                }, VideoCodec.HEVC_NVENC))
+
+            Dim commandBuilder As New FfmpegCommandBuilder()
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
+
+            Assert.AreEqual("-i ""input_path"" -c:v:0 hevc_nvenc ""test_path""", args)
+        End Sub
+
+        <TestMethod>
         Public Sub TestBuildMultipleCodecs()
             Dim ffmpegArgs As New FfmpegArguments("test_path")
             ffmpegArgs.InputFiles.Add("input_path")

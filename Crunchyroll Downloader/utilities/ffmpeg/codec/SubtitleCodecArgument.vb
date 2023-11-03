@@ -6,7 +6,7 @@ Namespace utilities.ffmpeg
         Implements ICodecArgument
 
         Private ReadOnly _AppliedStream As StreamSpecifier
-        Private ReadOnly Codec As SubtitleCodec
+        Public ReadOnly Codec As SubtitleCodec
 
         Public Sub New(stream As StreamSpecifier, codec As SubtitleCodec)
             _AppliedStream = stream

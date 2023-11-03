@@ -3,7 +3,7 @@
         Implements ICodecArgument
 
         Private ReadOnly _AppliedStream As StreamSpecifier
-        Private ReadOnly Codec As AudioCodec
+        Public ReadOnly Codec As AudioCodec
 
         Public Sub New(stream As StreamSpecifier, codec As AudioCodec)
             _AppliedStream = stream

@@ -2,6 +2,8 @@
 Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.settings
+Imports Crunchyroll_Downloader.settings.ffmpeg
+Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
@@ -90,7 +92,6 @@ Namespace postprocess
             Dim useFile As Boolean = False
 
             ' TODO: Maybe only select individual tracks if there is a need? Seems very verbose.
-            ' Also have to consider what happens if the output file exists already.
 
             If entry.ContainedMedia.HasFlag(MediaType.Audio) Then
                 useFile = True
@@ -109,6 +110,7 @@ Namespace postprocess
                             .Type = StreamType.VIDEO_AND_ATTACHMENTS
                     }
                 })
+                args.Codecs.Add(GetVideoCodec(Preferences.PostprocessSettings))
             End If
 
             If Preferences.SubtitleBehavior <> Format.SubtitleMerge.DISABLED Then
@@ -132,6 +134,19 @@ Namespace postprocess
             End If
 
             Return useFile
+        End Function
+
+        Private Function GetVideoCodec(options As FfmpegOptions) As ICodecArgument
+            Dim vCodec As VideoCodec = VideoCodec.COPY
+
+            If options IsNot Nothing OrElse Not options.VideoCopy Then
+                Dim encoder = options.GetActiveEncoder()
+                vCodec = VideoCodecArgument.CodecFromEncoderSettings(encoder)
+            End If
+
+            Return New VideoCodecArgument(New StreamSpecifier() With {
+                                            .Type = StreamType.VIDEO_ONLY
+                                          }, vCodec)
         End Function
 
         Private Function GetCodecName(mergeBehavior As Format.SubtitleMerge) As SubtitleCodec
