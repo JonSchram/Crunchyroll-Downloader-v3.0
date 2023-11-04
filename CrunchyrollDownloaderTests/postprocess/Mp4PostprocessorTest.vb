@@ -16,14 +16,9 @@ Namespace postprocess
     Public Class Mp4PostprocessorTest
         <TestMethod>
         Public Async Function TestProcessInputs_SingleFileMultipleStreams() As Task
-
-            Dim commandBuilder As New FfmpegOptions.Builder()
-            commandBuilder.SetCopyMode(True)
-
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
-                .PostprocessSettings = commandBuilder.Build(),
-                .SubtitleBehavior = Format.SubtitleMerge.DISABLED,
+                .OutputFormat = ContainerFormat.MP4,
+                .SubtitleBehavior = SubtitleMerge.DISABLED,
                 .TemporaryOutputPath = "\temporary\path"
             }
 
@@ -84,7 +79,7 @@ Namespace postprocess
             commandBuilder.SetCopyMode(True)
 
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
+                .OutputFormat = ContainerFormat.MP4,
                 .PostprocessSettings = commandBuilder.Build(),
                 .TemporaryOutputPath = "\temporary\path"
             }
@@ -112,9 +107,9 @@ Namespace postprocess
             commandBuilder.SetCopyMode(True)
 
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
+                .OutputFormat = ContainerFormat.MP4,
                 .PostprocessSettings = commandBuilder.Build(),
-                .SubtitleBehavior = Format.SubtitleMerge.DISABLED,
+                .SubtitleBehavior = SubtitleMerge.DISABLED,
                 .TemporaryOutputPath = "\temporary\path"
             }
 
@@ -178,9 +173,9 @@ Namespace postprocess
             commandBuilder.SetCopyMode(True)
 
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
+                .OutputFormat = ContainerFormat.MP4,
                 .PostprocessSettings = commandBuilder.Build(),
-                .SubtitleBehavior = Format.SubtitleMerge.COPY,
+                .SubtitleBehavior = SubtitleMerge.COPY,
                 .TemporaryOutputPath = "\temporary\path"
             }
 
@@ -258,9 +253,9 @@ Namespace postprocess
             commandBuilder.SetCopyMode(True)
 
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
+                .OutputFormat = ContainerFormat.MP4,
                 .PostprocessSettings = commandBuilder.Build(),
-                .SubtitleBehavior = Format.SubtitleMerge.DISABLED,
+                .SubtitleBehavior = SubtitleMerge.DISABLED,
                 .TemporaryOutputPath = "\temporary\path"
             }
 
@@ -325,9 +320,9 @@ Namespace postprocess
             commandBuilder.SetCopyMode(True)
 
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
+                .OutputFormat = ContainerFormat.MP4,
                 .PostprocessSettings = commandBuilder.Build(),
-                .SubtitleBehavior = Format.SubtitleMerge.DISABLED,
+                .SubtitleBehavior = SubtitleMerge.DISABLED,
                 .TemporaryOutputPath = "\temporary\path"
             }
 
@@ -388,7 +383,7 @@ Namespace postprocess
             commandBuilder.SetCopyMode(True)
 
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
+                .OutputFormat = ContainerFormat.MP4,
                 .PostprocessSettings = commandBuilder.Build(),
                 .TemporaryOutputPath = "\temporary\path"
             }
@@ -433,7 +428,7 @@ Namespace postprocess
             commandBuilder.SetCopyMode(True)
 
             Dim prefs As New ReencodePreferences() With {
-                .SubtitleBehavior = Format.SubtitleMerge.DISABLED,
+                .SubtitleBehavior = SubtitleMerge.DISABLED,
                 .TemporaryOutputPath = "\temporary\path"
             }
 
@@ -465,7 +460,7 @@ Namespace postprocess
             End With
 
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
+                .OutputFormat = ContainerFormat.MP4,
                 .PostprocessSettings = commandBuilder.Build(),
                 .TemporaryOutputPath = "\temporary\path"
             }
@@ -529,7 +524,7 @@ Namespace postprocess
             End With
 
             Dim prefs As New ReencodePreferences() With {
-                .OutputFormat = Format.ContainerFormat.MP4,
+                .OutputFormat = ContainerFormat.MP4,
                 .PostprocessSettings = commandBuilder.Build(),
                 .TemporaryOutputPath = "\temporary\path"
             }

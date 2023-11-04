@@ -53,17 +53,17 @@ Namespace settings.general
                 If videoFormat = "" Then
                     Exit Sub
                 End If
-                Dim NewSetting = Format.ContainerFormat.MP4
+                Dim NewSetting = ContainerFormat.MP4
                 If videoFormat = ".mp4" Then
-                    NewSetting = Format.ContainerFormat.MP4
+                    NewSetting = ContainerFormat.MP4
                 ElseIf videoFormat = ".mkv" Then
-                    NewSetting = Format.ContainerFormat.MKV
+                    NewSetting = ContainerFormat.MKV
                 ElseIf videoFormat = ".aac" Then
-                    NewSetting = Format.ContainerFormat.AAC_AUDIO_ONLY
+                    NewSetting = ContainerFormat.AAC_AUDIO_ONLY
                 End If
                 My.Settings.OutputMediaFormat = NewSetting
             Catch ex As Exception
-                My.Settings.OutputMediaFormat = Format.ContainerFormat.MP4
+                My.Settings.OutputMediaFormat = ContainerFormat.MP4
             End Try
         End Sub
 
@@ -73,19 +73,19 @@ Namespace settings.general
                 If mergeSubs = "" Then
                     Exit Sub
                 End If
-                Dim NewSetting = Format.SubtitleMerge.DISABLED
+                Dim NewSetting = SubtitleMerge.DISABLED
                 If mergeSubs = "[merge disabled]" Then
-                    NewSetting = Format.SubtitleMerge.DISABLED
+                    NewSetting = SubtitleMerge.DISABLED
                 ElseIf mergeSubs = "mov_text" Then
-                    NewSetting = Format.SubtitleMerge.MOV_TEXT
+                    NewSetting = SubtitleMerge.MOV_TEXT
                 ElseIf mergeSubs = "copy" Then
-                    NewSetting = Format.SubtitleMerge.COPY
+                    NewSetting = SubtitleMerge.COPY
                 ElseIf mergeSubs = "srt" Then
-                    NewSetting = Format.SubtitleMerge.SRT
+                    NewSetting = SubtitleMerge.SRT
                 End If
                 My.Settings.OutputSubtitleMerge = NewSetting
             Catch ex As Exception
-                My.Settings.OutputSubtitleMerge = Format.SubtitleMerge.DISABLED
+                My.Settings.OutputSubtitleMerge = SubtitleMerge.DISABLED
             End Try
         End Sub
 
@@ -353,8 +353,8 @@ Namespace settings.general
 
         Public Property OutputFormat As Format
             Get
-                Dim videoFormat = CType(My.Settings.OutputMediaFormat, Format.ContainerFormat)
-                Dim subtitleFormat = CType(My.Settings.OutputSubtitleMerge, Format.SubtitleMerge)
+                Dim videoFormat = CType(My.Settings.OutputMediaFormat, ContainerFormat)
+                Dim subtitleFormat = CType(My.Settings.OutputSubtitleMerge, SubtitleMerge)
                 Return New Format(videoFormat, subtitleFormat)
             End Get
             Set(value As Format)

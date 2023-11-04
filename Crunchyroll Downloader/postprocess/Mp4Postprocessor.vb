@@ -63,7 +63,10 @@ Namespace postprocess
                     outputFiles.Add(New MediaFileEntry(temporaryOutput, combinedMediaTypes))
                 End If
 
-                Await FfmpegRunner.Run(args)
+                AddHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
+                Dim statusCode As Integer = Await FfmpegRunner.Run(args)
+
+                RemoveHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
             Else
                 ' If there was no video or audio file found, either there are no files or there is only a subtitle file.
                 ' In either case, we can just return what we were given because this was a no-op.
@@ -75,7 +78,15 @@ Namespace postprocess
             Return outputFiles
         End Function
 
+        Private Sub HandleFfmpegProgress(amount As Integer)
+            Debug.WriteLine($"Mp4 postprocessor ffmpeg progress reported: {amount}")
+        End Sub
+
         Private Sub ApplyPreset(args As FfmpegArguments)
+            If Preferences.PostprocessSettings Is Nothing Then
+                Return
+            End If
+
             Dim activeEncoder = Preferences.PostprocessSettings.GetActiveEncoder()
 
             If activeEncoder IsNot Nothing And Not Preferences.PostprocessSettings.VideoCopy Then
@@ -116,6 +127,7 @@ Namespace postprocess
                         .Type = StreamType.AUDIO
                     }
                 })
+                ' TODO: Set audio codec to copy.
             End If
             If entry.ContainedMedia.HasFlag(MediaType.Video) Then
                 useFile = True
@@ -128,7 +140,7 @@ Namespace postprocess
                 args.Codecs.Add(GetVideoCodec(Preferences.PostprocessSettings))
             End If
 
-            If Preferences.SubtitleBehavior <> Format.SubtitleMerge.DISABLED Then
+            If Preferences.SubtitleBehavior <> SubtitleMerge.DISABLED Then
                 If entry.ContainedMedia.HasFlag(MediaType.Subtitles) Then
                     useFile = True
                     args.SelectedStreams.Add(New MapArgument() With {
@@ -154,7 +166,7 @@ Namespace postprocess
         Private Function GetVideoCodec(options As FfmpegOptions) As ICodecArgument
             Dim vCodec As VideoCodec = VideoCodec.COPY
 
-            If options IsNot Nothing OrElse Not options.VideoCopy Then
+            If options IsNot Nothing AndAlso Not options.VideoCopy Then
                 Dim encoder = options.GetActiveEncoder()
                 vCodec = VideoCodecArgument.CodecFromEncoderSettings(encoder)
             End If
@@ -164,13 +176,13 @@ Namespace postprocess
                                           }, vCodec)
         End Function
 
-        Private Function GetCodecName(mergeBehavior As Format.SubtitleMerge) As SubtitleCodec
+        Private Function GetCodecName(mergeBehavior As SubtitleMerge) As SubtitleCodec
             Select Case mergeBehavior
-                Case Format.SubtitleMerge.COPY
+                Case SubtitleMerge.COPY
                     Return SubtitleCodec.COPY
-                Case Format.SubtitleMerge.MOV_TEXT
+                Case SubtitleMerge.MOV_TEXT
                     Return SubtitleCodec.MOV_TEXT
-                Case Format.SubtitleMerge.SRT
+                Case SubtitleMerge.SRT
                     Return SubtitleCodec.SRT
                 Case Else
                     ' There is no format for DISABLED

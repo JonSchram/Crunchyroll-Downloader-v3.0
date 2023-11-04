@@ -1,8 +1,8 @@
 ﻿Namespace api.common
     ''' <summary>
-    ''' The items that should be downloaded from the stream selector.
+    ''' The media items that should be downloaded from the stream selector.
     ''' </summary>
-    Public Class DownloadPreferences
+    Public Class MediaPreferences
         Public ReadOnly Property AudioLocale As Locale
         Public ReadOnly Property SubtitleLocales As ISet(Of Locale)
 

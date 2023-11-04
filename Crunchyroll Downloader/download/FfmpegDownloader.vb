@@ -1,5 +1,5 @@
-﻿Imports System.IO
-Imports Crunchyroll_Downloader.data
+﻿Imports Crunchyroll_Downloader.data
+Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports PlaylistLibrary.hls.playlist.comparer
@@ -14,8 +14,12 @@ Namespace download
         Inherits AbstractPlaybackDownloader
         Implements IPlaybackDownloader
 
-        Public Sub New(tempDir As String, finalDir As String)
-            MyBase.New(tempDir, finalDir)
+        Private FfmpegRunner As IFfmpegAdapter
+
+        Public Sub New(preferences As DownloadPreferences, ffmpegRunner As IFfmpegAdapter, fileSystemApi As IFilesystem, client As IHttpClient)
+            MyBase.New(preferences, client)
+            Me.FilesystemApi = fileSystemApi
+            Me.FfmpegRunner = ffmpegRunner
         End Sub
 
         Public Overrides Async Function DownloadSelection(playback As Selection) As Task(Of MediaFileEntry())
@@ -56,10 +60,10 @@ Namespace download
             OnMediaProgress(itemIndex, 0)
 
             ' TODO: Use proper playlist comparer.
-            Dim programNumber = item.Playlist.GetClosestMatchProgramNumber(New HighestResolutionComparer())
+            Dim programNumber = item.Playlist.GetClosestMatchProgramNumber(New LowestResolutionComparer())
 
-            ' TODO: Make a proper file name and file format.
-            Dim outputName = Path.Combine(OutputDirectory, "playlist.mp4")
+            ' TODO: Ensure that mp4 is the correct file format, because this assumes mp4 can always contain the media.
+            Dim outputName = GetUniqueFilename(FilesystemApi, Preferences.TemporaryDirectory, "downloaded-media", ".mp4")
             Dim ffmpegArguments As New FfmpegArguments(outputName)
             ffmpegArguments.InputFiles.Add(item.OriginalLocation)
             ffmpegArguments.SelectedStreams.Add(New MapArgument() With {
@@ -67,13 +71,11 @@ Namespace download
                     .ProgramNumber = programNumber
                 }
             })
-            ffmpegArguments.Codecs.Add(New CopyCodecArgument(New StreamSpecifier()))
-            ' TODO: Allow configuring ffmpeg exe location.
-            Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
-            ffmpegAdapter.SetUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
-            AddHandler ffmpegAdapter.ReportProgress, AddressOf HandleFfmpegProgress
+            ffmpegArguments.Codecs.Add(New CopyCodecArgument())
+            AddHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
 
-            Dim statusCode As Integer = Await ffmpegAdapter.Run(ffmpegArguments)
+            Dim statusCode As Integer = Await FfmpegRunner.Run(ffmpegArguments)
+            RemoveHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
 
             If statusCode <> 0 Then
                 Throw New Exception($"Ffmpeg exited with error: {statusCode}")

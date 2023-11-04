@@ -4,11 +4,11 @@ Imports SiteAPI.api.common
 
 Namespace preferences
     Public Class FunimationPreferenceFactory
-        Implements IDownloadPreferenceFactory
+        Implements IMediaPreferenceFactory
 
         ' TODO: Pass in preferences another way so this is testable.
 
-        Public Function GetCurrentPreferences() As DownloadPreferences Implements IDownloadPreferenceFactory.GetCurrentPreferences
+        Public Function GetCurrentPreferences() As MediaPreferences Implements IMediaPreferenceFactory.GetCurrentPreferences
             Dim funSettings = FunimationSettings.GetInstance()
 
             Dim audioLanguage As Locale = ConvertToLocale(funSettings.DubLanguage)
@@ -20,7 +20,7 @@ Namespace preferences
                 media = media Or MediaType.Subtitles
             End If
 
-            Return New DownloadPreferences(audioLanguage, subtitleLanguages, media, formats)
+            Return New MediaPreferences(audioLanguage, subtitleLanguages, media, formats)
         End Function
 
         Private Function ConvertSubtitleSet(formats As ISet(Of SubFormat), downloadSoftSubs As Boolean) As IEnumerable(Of SubtitleFormat)

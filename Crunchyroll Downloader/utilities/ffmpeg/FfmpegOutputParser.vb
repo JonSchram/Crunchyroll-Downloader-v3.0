@@ -8,6 +8,7 @@ Namespace utilities.ffmpeg
         Public Event Progress(report As FfmpegProgressReport, totalDuration As TimeSpan?)
 
         Public Sub HandleFfmpegStdOut(sendingProcess As Object, args As DataReceivedEventArgs)
+            Debug.WriteLine(args.Data)
             ParseFfmpegOutput(args.Data)
         End Sub
 

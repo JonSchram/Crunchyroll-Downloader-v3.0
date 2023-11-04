@@ -1,16 +1,18 @@
 ﻿Imports System.IO
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.data
+Imports Crunchyroll_Downloader.preferences
+Imports Crunchyroll_Downloader.utilities
 Imports SiteAPI.api.common
 
 Namespace download
     Public MustInherit Class AbstractPlaybackDownloader
         Implements IPlaybackDownloader
 
-        Protected Client As HttpClient
+        Protected Client As IHttpClient
 
-        Protected OutputDirectory As String
-        Protected TemporaryDirectory As String
+        Protected Preferences As DownloadPreferences
+        Protected FilesystemApi As IFilesystem
 
         ''' <summary>
         ''' Raised throughout the download process.
@@ -20,11 +22,9 @@ Namespace download
         Public Event ReportDownloadProgress(sourceIndex As Integer, progress As Integer)
         Public Event ReportDownloadComplete(sourceIndex As Integer)
 
-        Public Sub New(tempDir As String, finalDir As String)
-            TemporaryDirectory = tempDir
-            OutputDirectory = finalDir
-
-            Client = New HttpClient()
+        Public Sub New(preferences As DownloadPreferences, client As IHttpClient)
+            Me.Preferences = preferences
+            Me.Client = client
         End Sub
 
         Protected Async Function DownloadSingleFile(media As FileMedia) As Task(Of MediaFileEntry)
@@ -37,14 +37,17 @@ Namespace download
             Dim dataStream As Stream = Await response.Content.ReadAsStreamAsync()
 
             Dim downloadUri As New Uri(media.OriginalLocation)
-            Dim filename = downloadUri.Segments(downloadUri.Segments.Count - 1)
-            Dim temporaryPath = Path.Combine(TemporaryDirectory, filename)
+            Dim filename As String = downloadUri.Segments(downloadUri.Segments.Count - 1)
+            Dim baseFilename As String = Path.GetFileNameWithoutExtension(filename)
+            Dim extension As String = Path.GetExtension(filename)
+            Dim uniqueTemporaryPath = GetUniqueFilename(FilesystemApi, Preferences.TemporaryDirectory, baseFilename, extension)
 
-            Dim dest As Stream = New FileStream(temporaryPath, FileMode.CreateNew)
-            Await dataStream.CopyToAsync(dest)
-            dest.Close()
+            Await FilesystemApi.CopyToAsync(dataStream, FileMode.CreateNew, uniqueTemporaryPath)
+            'Dim dest As Stream = New FileStream(uniqueTemporaryPath, FileMode.CreateNew)
+            'Await dataStream.CopyToAsync(dest)
+            'dest.Close()
 
-            Dim record = New MediaFileEntry(temporaryPath, media.Type)
+            Dim record = New MediaFileEntry(uniqueTemporaryPath, media.Type)
 
             OnMediaProgress(itemIndex, 100)
             OnMediaComplete(itemIndex)

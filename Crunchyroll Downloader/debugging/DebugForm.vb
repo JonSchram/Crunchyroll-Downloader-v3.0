@@ -2,6 +2,9 @@
 Imports System.Net
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.download
+Imports Crunchyroll_Downloader.preferences
+Imports Crunchyroll_Downloader.utilities
+Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports PlaylistLibrary.hls.parsing
 Imports PlaylistLibrary.hls.playlist
 Imports PlaylistLibrary.hls.playlist.comparer
@@ -234,10 +237,13 @@ Namespace debugging
         End Sub
 
         Private Async Sub Button2_Click(sender As Object, e As EventArgs) Handles DownloadCompleteMediaButton.Click
-            Dim temporaryDirectory = TemporaryFolderTextBox.Text
+            Dim prefs As New DownloadPreferences() With {
+                .TemporaryDirectory = TemporaryFolderTextBox.Text
+            }
             Dim outputDirectory = OutputFolderTextBox.Text
 
-            Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
+            Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
+            Dim downloader As New FfmpegDownloader(prefs, ffmpegAdapter, New RealFilesystem(), New RealHttpClient())
 
             Dim mediaList As New List(Of Media)
             Dim media = New FileMedia(MediaType.Subtitles, New Locale(Language.JAPANESE), MediaUrlTextBox.Text)
@@ -275,7 +281,11 @@ Namespace debugging
             Dim parser As New PlaylistParser()
             Dim playlist As MediaPlaylist = parser.ParseMediaPlaylist(playlistStream)
 
-            Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
+            Dim prefs As New DownloadPreferences() With {
+                .TemporaryDirectory = temporaryDirectory
+            }
+            Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
+            Dim downloader As New FfmpegDownloader(prefs, ffmpegAdapter, New RealFilesystem(), New RealHttpClient())
         End Sub
 
         Private Async Sub DownloadHlsMasterPlaylistButton_Click(sender As Object, e As EventArgs) Handles DownloadHlsMasterPlaylistButton.Click
@@ -299,7 +309,11 @@ Namespace debugging
                 }
 
                 Dim playlistSelection As New Selection(mediaList)
-                Dim downloader As New FfmpegDownloader(temporaryDirectory, outputDirectory)
+                Dim prefs As New DownloadPreferences() With {
+                    .TemporaryDirectory = temporaryDirectory
+                }
+                Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
+                Dim downloader As New FfmpegDownloader(prefs, ffmpegAdapter, New RealFilesystem(), New RealHttpClient())
                 PlaybackDownloadStatusLabel.Text = $"Playlist selected. Running ffmpeg..."
                 Await downloader.DownloadSelection(playlistSelection)
                 PlaybackDownloadStatusLabel.Text = $"Ffmpeg completed. Playlist saved to file."

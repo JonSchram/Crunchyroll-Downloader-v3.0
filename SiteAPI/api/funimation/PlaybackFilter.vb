@@ -3,8 +3,8 @@ Imports SiteAPI.api.metadata.video
 
 Namespace api.funimation
     Public Class PlaybackFilter
-        Private ReadOnly Preferences As DownloadPreferences
-        Public Sub New(preferences As DownloadPreferences)
+        Private ReadOnly Preferences As MediaPreferences
+        Public Sub New(preferences As MediaPreferences)
             Me.Preferences = preferences
         End Sub
 

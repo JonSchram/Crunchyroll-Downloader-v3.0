@@ -50,7 +50,7 @@ Namespace debugging
             Throw New NotImplementedException()
         End Function
 
-        Public Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
+        Public Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
             Throw New NotImplementedException()
         End Function
     End Class

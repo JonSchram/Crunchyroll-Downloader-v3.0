@@ -1,5 +1,8 @@
 ﻿Namespace utilities.ffmpeg
     Public Interface IFfmpegAdapter
+
+        Event ReportProgress(percent As Integer)
+
         Sub AddCookie(name As String, value As String)
 
         ''' <summary>

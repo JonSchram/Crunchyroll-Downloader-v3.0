@@ -66,9 +66,9 @@ Namespace utilities.ffmpeg.codec
                     Return SelectH264Encoder(encoder.Hardware)
                 Case settings.ffmpeg.encoding.Codec.H_265
                     Return SelectH265Encoder(encoder.Hardware)
+                Case Else
+                    Throw New InvalidEnumArgumentException("Invalid enum used when selecting codec.")
             End Select
-
-
         End Function
 
         Private Shared Function SelectH264Encoder(implementation As EncoderImplementation) As VideoCodec

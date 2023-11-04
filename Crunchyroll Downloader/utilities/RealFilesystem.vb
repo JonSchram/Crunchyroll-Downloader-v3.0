@@ -1,4 +1,6 @@
-﻿Namespace utilities
+﻿Imports System.IO
+
+Namespace utilities
     ''' <summary>
     ''' A thin wrapper around file system calls.
     ''' </summary>
@@ -27,6 +29,12 @@
 
         Public Function FileExists(path As String) As Boolean Implements IFilesystem.FileExists
             Return My.Computer.FileSystem.FileExists(path)
+        End Function
+
+        Public Async Function CopyToAsync(source As Stream, fileMode As FileMode, destination As String) As Task Implements IFilesystem.CopyToAsync
+            Dim dest As New FileStream(destination, fileMode)
+            Await source.CopyToAsync(dest)
+            dest.Close()
         End Function
     End Class
 End Namespace

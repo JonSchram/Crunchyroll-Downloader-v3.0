@@ -1,4 +1,5 @@
-﻿Imports Crunchyroll_Downloader.utilities
+﻿Imports System.IO
+Imports Crunchyroll_Downloader.utilities
 
 Namespace utilities
     Public Class FakeFileSystem
@@ -11,6 +12,13 @@ Namespace utilities
         Public Property RenamedFiles As New List(Of ModifiedFile)
         Public Property RenamedDirectories As New List(Of ModifiedFile)
         Public Property MovedFiles As New List(Of ModifiedFile)
+
+        ''' <summary>
+        ''' Map from final destination to the contents of the file at that destination.
+        ''' Results from files copied by copyToAsync
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property StreamedContent As New Dictionary(Of String, String)
 
         Public Sub CreateDirectory(dir As String) Implements IFilesystem.CreateDirectory
             CreatedDirectories.Add(dir)
@@ -50,6 +58,13 @@ Namespace utilities
 
         Public Function FileExists(path As String) As Boolean Implements IFilesystem.FileExists
             Return ExistingFiles.Contains(path)
+        End Function
+
+        Public Function CopyToAsync(source As Stream, fileMode As FileMode, destination As String) As Task Implements IFilesystem.CopyToAsync
+            Dim reader As New StreamReader(source)
+            Dim contents = reader.ReadToEnd()
+            StreamedContent.Add(destination, contents)
+            Return Task.CompletedTask
         End Function
 
         Public Class ModifiedFile

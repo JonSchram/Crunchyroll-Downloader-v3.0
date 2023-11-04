@@ -86,7 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="api\common\ByteRange.vb" />
-    <Compile Include="api\common\DownloadPreferences.vb" />
+    <Compile Include="api\common\MediaPreferences.vb" />
     <Compile Include="api\common\FileMedia.vb" />
     <Compile Include="api\common\FileMediaLink.vb" />
     <Compile Include="api\common\HlsMasterPlaylistLink.vb" />
@@ -113,7 +113,7 @@
     <Compile Include="api\ICookieBasedAuth.vb" />
     <Compile Include="api\ICookieProvider.vb" />
     <Compile Include="api\IDownloadClient.vb" />
-    <Compile Include="api\IDownloadPreferenceFactory.vb" />
+    <Compile Include="api\IMediaPreferenceFactory.vb" />
     <Compile Include="api\IEpisodeDownloader.vb" />
     <Compile Include="api\IMediaLinkResolver.vb" />
     <Compile Include="api\Locale.vb" />

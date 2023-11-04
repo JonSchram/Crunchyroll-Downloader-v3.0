@@ -8,7 +8,7 @@ Namespace utilities.ffmpeg
         Private ReadOnly Cookies As New Dictionary(Of String, String)
         Private UserAgent As String
 
-        Public Event ReportProgress(percent As Integer)
+        Public Event ReportProgress(percent As Integer) Implements IFfmpegAdapter.ReportProgress
 
         Public Sub New(executableLocation As String)
             ExecutablePath = executableLocation

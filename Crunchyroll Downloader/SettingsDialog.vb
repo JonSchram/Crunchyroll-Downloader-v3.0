@@ -24,9 +24,9 @@ Public Class SettingsDialog
     Private ReadOnly ServerPortTextList As New EnumTextList(Of ServerPortOptions)()
     Private ReadOnly SubfolderTextList As New EnumTextList(Of SubfolderDisplay)()
     Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
-    Private ReadOnly VideoFormatTextList As New EnumTextList(Of Format.ContainerFormat)()
-    Private ReadOnly SubtitleFormatTextList As New EnumTextList(Of Format.SubtitleMerge)()
-    Private ReadOnly ValidSubtitleFormatList As EnumTextList(Of Format.SubtitleMerge).SubTextList = SubtitleFormatTextList.CreateSubList()
+    Private ReadOnly VideoFormatTextList As New EnumTextList(Of ContainerFormat)()
+    Private ReadOnly SubtitleFormatTextList As New EnumTextList(Of SubtitleMerge)()
+    Private ReadOnly ValidSubtitleFormatList As EnumTextList(Of SubtitleMerge).SubTextList = SubtitleFormatTextList.CreateSubList()
     Private ReadOnly SpeedPresetTextList As New EnumTextList(Of SpeedSetting)()
     Private ReadOnly CodecTextList As New EnumTextList(Of Codec)()
     Private ReadOnly EncoderHardwareTextList As New EnumTextList(Of EncoderImplementation)()
@@ -97,9 +97,9 @@ Public Class SettingsDialog
         End With
 
         With VideoFormatTextList
-            .Add(Format.ContainerFormat.MP4, "MP4")
-            .Add(Format.ContainerFormat.MKV, "MKV")
-            .Add(Format.ContainerFormat.AAC_AUDIO_ONLY, "AAC (Audio only)")
+            .Add(ContainerFormat.MP4, "MP4")
+            .Add(ContainerFormat.MKV, "MKV")
+            .Add(ContainerFormat.AAC_AUDIO_ONLY, "AAC (Audio only)")
         End With
 
         With SpeedPresetTextList
@@ -161,10 +161,10 @@ Public Class SettingsDialog
         CrunchyrollDefaultLanguageSubList.AddFromParent(CrunchyrollLanguage.NONE)
 
         With SubtitleFormatTextList
-            .Add(Format.SubtitleMerge.DISABLED, "[merge disabled]")
-            .Add(Format.SubtitleMerge.MOV_TEXT, "mov_text")
-            .Add(Format.SubtitleMerge.COPY, "copy")
-            .Add(Format.SubtitleMerge.SRT, "srt")
+            .Add(SubtitleMerge.DISABLED, "[merge disabled]")
+            .Add(SubtitleMerge.MOV_TEXT, "mov_text")
+            .Add(SubtitleMerge.COPY, "copy")
+            .Add(SubtitleMerge.SRT, "srt")
         End With
 
         With FunimationLanguageTextList
@@ -282,7 +282,7 @@ Public Class SettingsDialog
         UpdateMergeFormatInput(VideoFormatTextList.GetEnumForItem(VideoFormatComboBox.SelectedItem))
     End Sub
 
-    Private Sub UpdateMergeFormatInput(VideoFormat As Format.ContainerFormat)
+    Private Sub UpdateMergeFormatInput(VideoFormat As ContainerFormat)
         If uiInitializing Then
             Return
         End If
@@ -290,9 +290,9 @@ Public Class SettingsDialog
         SubtitleFormatComboBox.Items.Clear()
         SubtitleFormatComboBox.Items.AddRange(ValidSubtitleFormatList.GetDisplayItems().ToArray())
         SubtitleFormatComboBox.SelectedIndex = 0
-        SubtitleFormatComboBox.Enabled = VideoFormat <> Format.ContainerFormat.AAC_AUDIO_ONLY
+        SubtitleFormatComboBox.Enabled = VideoFormat <> ContainerFormat.AAC_AUDIO_ONLY
     End Sub
-    Private Sub PopulateSubFormats(VideoFormat As Format.ContainerFormat)
+    Private Sub PopulateSubFormats(VideoFormat As ContainerFormat)
         Dim supportedSubtitleFormats = Format.GetValidSubtitleFormats(VideoFormat)
 
         ValidSubtitleFormatList.Clear()
@@ -406,7 +406,7 @@ Public Class SettingsDialog
         Try
             currentFormat = settings.OutputFormat
         Catch ex As Exception
-            currentFormat = New Format(Format.ContainerFormat.MP4, Format.SubtitleMerge.COPY)
+            currentFormat = New Format(ContainerFormat.MP4, SubtitleMerge.COPY)
         End Try
 
         VideoFormatComboBox.SelectedItem = VideoFormatTextList.Item(currentFormat.GetVideoFormat())
@@ -540,7 +540,7 @@ Public Class SettingsDialog
 
         ' Adjust simultaneous downloads limit for incompatible settings.
         ' Must do this after saving other settings so that the download limit is set using the latest settings.
-        Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = Format.ContainerFormat.AAC_AUDIO_ONLY
+        Dim isAudioOnly = settings.OutputFormat.GetVideoFormat() = ContainerFormat.AAC_AUDIO_ONLY
         Dim ffmpegCommand = settings.Ffmpeg
         Dim encoder = ffmpegCommand.GetSavedEncoder()
         If Not isAudioOnly And encoder IsNot Nothing Then

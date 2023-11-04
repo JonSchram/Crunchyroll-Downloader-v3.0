@@ -52,7 +52,7 @@ Namespace api
         ''' <returns></returns>
         Function GetSiteName() As String
 
-        Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink))
+        Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink))
 
         Function ResolveMediaLink(link As MediaLink) As Task(Of Media)
 

@@ -373,7 +373,7 @@ Namespace ui
             ' TODO: Move item initialization into the constructor or a builder
             Dim settings = ProgramSettings.GetInstance()
             Dim keepCache = settings.DownloadMode = DownloadModeOptions.HYBRID_MODE_KEEP_CACHE
-            Dim mergeSubs = settings.OutputFormat.GetSubtitleFormat <> Format.SubtitleMerge.DISABLED
+            Dim mergeSubs = settings.OutputFormat.GetSubtitleFormat <> SubtitleMerge.DISABLED
 #Region "Set Variables"
             Item.SetService(Service)
             Item.SetTolerance(settings.ErrorLimit)

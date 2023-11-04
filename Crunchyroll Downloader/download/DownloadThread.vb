@@ -1,6 +1,12 @@
-﻿Imports System.Threading
+﻿Imports System.IO
+Imports System.Threading
+Imports Crunchyroll_Downloader.data
+Imports Crunchyroll_Downloader.postprocess
 Imports Crunchyroll_Downloader.preferences
+Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
+Imports Crunchyroll_Downloader.utilities
+Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports SiteAPI.api.common
 
 Namespace download
@@ -63,19 +69,38 @@ Namespace download
         End Sub
 
         Private Async Sub Download()
+            Dim settings As ProgramSettings = ProgramSettings.GetInstance()
+            Dim filesystem = New RealFilesystem()
+            Dim client As New RealHttpClient()
+            Dim temporaryFolder = settings.TemporaryFolder
+            ' TODO: Allow configuring ffmpeg exe location.
+            Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
+            ffmpegAdapter.SetUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
+
             Console.WriteLine("Downloading " + DlTask.ToString())
             RaiseReportProgressEvent(Stage.FIND_VIDEO, 0)
             Dim media As List(Of MediaLink) = Await GetAvailableMedia()
             Dim downloadSelection As Selection = Await GetSelection(media)
 
             ' TODO: Use correct downloader
-            Dim tempDir = ProgramSettings.GetInstance().TemporaryFolder
-            Dim outputDir = ProgramSettings.GetInstance().OutputPath
-            Dim downloader As New FfmpegDownloader(tempDir, outputDir)
+            Dim downloadPrefs = New DownloadPreferences() With {
+                .TemporaryDirectory = temporaryFolder
+            }
+            Dim downloader As New FfmpegDownloader(downloadPrefs, ffmpegAdapter, filesystem, client)
             AddHandler downloader.ReportDownloadProgress, AddressOf HandleProgressReported
             AddHandler downloader.ReportDownloadComplete, AddressOf HandleSelectionCompleted
 
-            Await downloader.DownloadSelection(downloadSelection)
+            Dim downloadedEntries As MediaFileEntry() = Await downloader.DownloadSelection(downloadSelection)
+
+            Dim fileFormat As Format = settings.OutputFormat
+            Dim reencodePreferences = New ReencodePreferences() With {
+                .OutputFormat = fileFormat.GetVideoFormat(),
+                .TemporaryOutputPath = temporaryFolder,
+                .SubtitleBehavior = fileFormat.GetSubtitleFormat()
+            }
+            Dim postprocessor As New Mp4Postprocessor(reencodePreferences, ffmpegAdapter, filesystem)
+            Dim processedEntires As List(Of MediaFileEntry) = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
+            Dim outputDir = ProgramSettings.GetInstance().OutputPath
 
             RaiseCompletionEvent()
         End Sub

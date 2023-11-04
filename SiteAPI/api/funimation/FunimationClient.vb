@@ -189,7 +189,7 @@ Namespace api.funimation
             Return EpisodePlaybackInfo.CreateFromJson(result)
         End Function
 
-        Public Async Function GetAvailableMedia(ep As Episode, preferences As DownloadPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
+        Public Async Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
             Dim episodePlaybacks As EpisodePlaybackInfo = Await GetEpisodePlayback(ep)
             Dim filter = New PlaybackFilter(preferences)
             Dim bestPlayback As Playback = filter.GetBestPlayback(episodePlaybacks.GetAllPlaybacks())

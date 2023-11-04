@@ -5,6 +5,7 @@ Namespace utilities.ffmpeg
         Implements IFfmpegAdapter
 
         Public Property RunArguments As FfmpegArguments
+        Public Event ReportProgress As IFfmpegAdapter.ReportProgressEventHandler Implements IFfmpegAdapter.ReportProgress
 
         Public Sub AddCookie(name As String, value As String) Implements IFfmpegAdapter.AddCookie
             Throw New NotImplementedException()

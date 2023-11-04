@@ -901,7 +901,7 @@ Namespace api.crunchyroll
 
                 ElseIf SoftSubsAvailable.Count > 0 Then
                     Dim outputFormat = settings.OutputFormat
-                    Dim MergeSubsNow As Boolean = outputFormat.GetSubtitleFormat() <> Format.SubtitleMerge.DISABLED
+                    Dim MergeSubsNow As Boolean = outputFormat.GetSubtitleFormat() <> SubtitleMerge.DISABLED
 
                     If Main.DownloadScope = DownloadScopeEnum.SubsOnly Then
                         MergeSubsNow = False
@@ -950,11 +950,11 @@ Namespace api.crunchyroll
                         'TODO: Use subtitle merge format name here, or just generally improve the way ffmpeg commands are handled.
                         Dim subFormat = settings.OutputFormat.GetSubtitleFormat()
                         Dim mergeSubs = ""
-                        If subFormat = Format.SubtitleMerge.MOV_TEXT Then
+                        If subFormat = SubtitleMerge.MOV_TEXT Then
                             mergeSubs = "mov_text"
-                        ElseIf subFormat = Format.SubtitleMerge.SRT Then
+                        ElseIf subFormat = SubtitleMerge.SRT Then
                             mergeSubs = "srt"
-                        ElseIf subFormat = Format.SubtitleMerge.COPY Then
+                        ElseIf subFormat = SubtitleMerge.COPY Then
                             mergeSubs = "copy"
                         End If
                         If CR_MetadataUsage = False Then

@@ -177,6 +177,7 @@
     <Compile Include="legacy\CrunchyrollDownloader.vb" />
     <Compile Include="legacy\FunimationDownloader.vb" />
     <Compile Include="postprocess\FinalOutputProducer.vb" />
+    <Compile Include="preferences\DownloadPreferences.vb" />
     <Compile Include="preferences\FunimationPreferenceFactory.vb" />
     <Compile Include="CRD-Classes.vb" />
     <Compile Include="data\MediaFileEntry.vb" />
@@ -228,6 +229,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.vb" />
+    <Compile Include="Settings\ContainerFormat.vb" />
     <Compile Include="Settings\Crunchyroll\CrunchyrollSettings.vb" />
     <Compile Include="Settings\Crunchyroll\CrunchyrollLanguage.vb" />
     <Compile Include="Settings\EnumTextList.vb" />
@@ -249,6 +251,7 @@
     <Compile Include="Settings\general\Resolution.vb" />
     <Compile Include="Settings\general\SeasonNumberBehavior.vb" />
     <Compile Include="Settings\general\SubfolderDisplay.vb" />
+    <Compile Include="Settings\SubtitleMerge.vb" />
     <Compile Include="Trackbar.Designer.vb">
       <DependentUpon>Trackbar.vb</DependentUpon>
     </Compile>
@@ -332,7 +335,9 @@
     <Compile Include="utilities\ffmpeg\IFfmpegAdapter.vb" />
     <Compile Include="utilities\FormatModule.vb" />
     <Compile Include="utilities\IFilesystem.vb" />
+    <Compile Include="utilities\IHttpClient.vb" />
     <Compile Include="utilities\RealFilesystem.vb" />
+    <Compile Include="utilities\RealHttpClient.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddVideo.resx">
