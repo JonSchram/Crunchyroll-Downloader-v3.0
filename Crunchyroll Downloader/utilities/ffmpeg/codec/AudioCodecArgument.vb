@@ -33,5 +33,16 @@
             End Select
             Throw New NotImplementedException()
         End Function
+
+        Public Overrides Function Equals(obj As Object) As Boolean
+            Dim argument = TryCast(obj, AudioCodecArgument)
+            Return argument IsNot Nothing AndAlso
+                   Codec = argument.Codec AndAlso
+                   EqualityComparer(Of StreamSpecifier).Default.Equals(AppliedStream, argument.AppliedStream)
+        End Function
+
+        Public Overrides Function GetHashCode() As Integer
+            Return (Codec, AppliedStream).GetHashCode()
+        End Function
     End Class
 End Namespace

@@ -114,5 +114,16 @@ Namespace utilities.ffmpeg.codec
                     Throw New InvalidEnumArgumentException("Invalid enum used when selecting av1 encoder")
             End Select
         End Function
+
+        Public Overrides Function Equals(obj As Object) As Boolean
+            Dim argument = TryCast(obj, VideoCodecArgument)
+            Return argument IsNot Nothing AndAlso
+                   Codec = argument.Codec AndAlso
+                   EqualityComparer(Of StreamSpecifier).Default.Equals(AppliedStream, argument.AppliedStream)
+        End Function
+
+        Public Overrides Function GetHashCode() As Integer
+            Return (Codec, AppliedStream).GetHashCode()
+        End Function
     End Class
 End Namespace

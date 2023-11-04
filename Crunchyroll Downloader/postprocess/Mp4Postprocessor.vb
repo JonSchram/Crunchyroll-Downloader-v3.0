@@ -118,6 +118,7 @@ Namespace postprocess
             Dim useFile As Boolean = False
 
             ' TODO: Maybe only select individual tracks if there is a need? Seems very verbose.
+            ' TODO: Allow setting a global copy flag, and allow mp4 to use subtitle copy codec.
 
             If entry.ContainedMedia.HasFlag(MediaType.Audio) Then
                 useFile = True
@@ -127,7 +128,7 @@ Namespace postprocess
                         .Type = StreamType.AUDIO
                     }
                 })
-                ' TODO: Set audio codec to copy.
+                args.Codecs.Add(GetAudioCodec(inputNumber))
             End If
             If entry.ContainedMedia.HasFlag(MediaType.Video) Then
                 useFile = True
@@ -174,6 +175,14 @@ Namespace postprocess
             Return New VideoCodecArgument(New StreamSpecifier() With {
                                             .Type = StreamType.VIDEO_ONLY
                                           }, vCodec)
+        End Function
+
+        Private Function GetAudioCodec(streamNumber As Integer) As ICodecArgument
+            Dim aCodec As AudioCodec = AudioCodec.COPY
+            Return New AudioCodecArgument(New StreamSpecifier() With {
+                                              .Type = StreamType.AUDIO,
+                                              .StreamIndex = streamNumber
+                                          }, aCodec)
         End Function
 
         Private Function GetCodecName(mergeBehavior As SubtitleMerge) As SubtitleCodec
