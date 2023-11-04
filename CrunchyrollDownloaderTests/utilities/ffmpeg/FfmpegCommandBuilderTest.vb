@@ -13,9 +13,12 @@ Namespace utilities.ffmpeg
                 {"Cookie1", "value1"},
                 {"Cookie2", "value2"}
             }
-            Dim commandBuilder As New FfmpegCommandBuilder()
+            Dim ffmpegArgs As New FfmpegArguments("test_path") With {
+                .Cookies = cookies
+            }
 
-            Dim args = commandBuilder.BuildCommandLineArguments(New FfmpegArguments("test_path"), cookies, Nothing)
+            Dim commandBuilder As New FfmpegCommandBuilder()
+            Dim args = commandBuilder.BuildCommandLineArguments(ffmpegArgs)
 
             Assert.AreEqual($"-headers ""Cookie: Cookie1=value1; Cookie2=value2{vbCrLf}"" ""test_path""", args)
         End Sub
@@ -212,8 +215,9 @@ Namespace utilities.ffmpeg
         <TestMethod>
         Public Sub TestUserAgent()
             Dim Ffmpegargs As New FfmpegArguments("output_path")
+            Ffmpegargs.UserAgent = "my_user_agent"
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim commandString = commandBuilder.BuildCommandLineArguments(Ffmpegargs, Nothing, "my_user_agent")
+            Dim commandString = commandBuilder.BuildCommandLineArguments(Ffmpegargs)
 
             Assert.AreEqual("-user_agent ""my_user_agent"" ""output_path""", commandString)
         End Sub

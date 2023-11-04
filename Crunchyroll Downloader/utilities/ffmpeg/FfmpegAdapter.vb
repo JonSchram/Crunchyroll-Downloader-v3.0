@@ -5,8 +5,6 @@ Namespace utilities.ffmpeg
         Implements IFfmpegAdapter
 
         Private ReadOnly ExecutablePath As String
-        Private ReadOnly Cookies As New Dictionary(Of String, String)
-        Private UserAgent As String
 
         Public Event ReportProgress(percent As Integer) Implements IFfmpegAdapter.ReportProgress
 
@@ -14,22 +12,9 @@ Namespace utilities.ffmpeg
             ExecutablePath = executableLocation
         End Sub
 
-        Public Sub SetUserAgent(userAgent As String) Implements IFfmpegAdapter.SetUserAgent
-            Me.UserAgent = userAgent
-        End Sub
-
-        ''' <summary>
-        ''' Adds a cookie to the ffmpeg adapter. This will be added to all ffmpeg commands created by this FFmpeg adapter instance.
-        ''' </summary>
-        ''' <param name="name"></param>
-        ''' <param name="value"></param>
-        Public Sub AddCookie(name As String, value As String) Implements IFfmpegAdapter.AddCookie
-            Cookies.Add(name, value)
-        End Sub
-
         Public Async Function Run(arguments As FfmpegArguments) As Task(Of Integer) Implements IFfmpegAdapter.Run
             Dim commandBuilder As New FfmpegCommandBuilder()
-            Dim commandArguments = commandBuilder.BuildCommandLineArguments(arguments, Cookies, UserAgent)
+            Dim commandArguments = commandBuilder.BuildCommandLineArguments(arguments)
 
             Dim startInfo As New ProcessStartInfo() With {
                 .FileName = ExecutablePath,
@@ -96,7 +81,11 @@ Namespace utilities.ffmpeg
                     ' This should always be a Process object, but requires a type cast.
                     ExitCode = CType(sendingProcess, Process).ExitCode
                 End If
-                tcs.SetResult(ExitCode)
+                If ExitCode = 0 Then
+                    tcs.SetResult(ExitCode)
+                Else
+                    tcs.SetException(New Exception($"Ffmpeg exited with error code {ExitCode}"))
+                End If
             End Sub
         End Class
     End Class

@@ -4,11 +4,21 @@ Imports System.Text.RegularExpressions
 Namespace utilities.ffmpeg
     Public Class FfmpegOutputParser
         Private duration As TimeSpan? = Nothing
+        Private ReadOnly EnableDebug As Boolean = False
+
+        Public Sub New()
+        End Sub
+
+        Public Sub New(debug As Boolean)
+            EnableDebug = debug
+        End Sub
 
         Public Event Progress(report As FfmpegProgressReport, totalDuration As TimeSpan?)
 
         Public Sub HandleFfmpegStdOut(sendingProcess As Object, args As DataReceivedEventArgs)
-            Debug.WriteLine(args.Data)
+            If EnableDebug Then
+                Debug.WriteLine(args.Data)
+            End If
             ParseFfmpegOutput(args.Data)
         End Sub
 

@@ -14,6 +14,10 @@ Namespace utilities.ffmpeg
 
         Public Property Preset As PresetArgument
 
+        Public Property UserAgent As String
+
+        Public Property Cookies As Dictionary(Of String, String)
+
         Public Sub New(OutputLocation As String)
             OutputPath = OutputLocation
         End Sub

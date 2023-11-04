@@ -5,20 +5,15 @@ Namespace utilities.ffmpeg
     Public Class FfmpegCommandBuilder
 
         Public Function BuildCommandLineArguments(arguments As FfmpegArguments) As String
-            Return BuildCommandLineArguments(arguments, Nothing, Nothing)
-        End Function
-
-        Public Function BuildCommandLineArguments(arguments As FfmpegArguments, Cookies As Dictionary(Of String, String),
-                                                  userAgent As String) As String
             Dim argumentParts As New List(Of String)()
 
-            Dim headers As String = BuildHeaders(Cookies)
+            Dim headers As String = BuildHeaders(arguments.Cookies)
             If Not "".Equals(headers) Then
                 argumentParts.Add($"-headers ""{headers}""")
             End If
 
-            If userAgent IsNot Nothing Then
-                argumentParts.Add($"-user_agent ""{userAgent}""")
+            If arguments.UserAgent IsNot Nothing Then
+                argumentParts.Add($"-user_agent ""{arguments.UserAgent}""")
             End If
 
             For Each inputFile In arguments.InputFiles

@@ -75,7 +75,6 @@ Namespace download
             Dim temporaryFolder = settings.TemporaryFolder
             ' TODO: Allow configuring ffmpeg exe location.
             Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
-            ffmpegAdapter.SetUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
 
             Console.WriteLine("Downloading " + DlTask.ToString())
             RaiseReportProgressEvent(Stage.FIND_VIDEO, 0)

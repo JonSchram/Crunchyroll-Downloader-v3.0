@@ -72,6 +72,7 @@ Namespace download
                 }
             })
             ffmpegArguments.Codecs.Add(New CopyCodecArgument())
+            ffmpegArguments.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
             AddHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
 
             Dim statusCode As Integer = Await FfmpegRunner.Run(ffmpegArguments)
