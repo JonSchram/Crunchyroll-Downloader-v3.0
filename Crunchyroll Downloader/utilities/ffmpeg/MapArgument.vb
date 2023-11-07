@@ -28,6 +28,10 @@
         Public Overrides Function GetHashCode() As Integer
             Return (InputFileNumber, Exclude, Selector, IsOptional).GetHashCode()
         End Function
+
+        Public Overrides Function ToString() As String
+            Return $"[MapArgument: Exclude: {Exclude}, InputFile {InputFileNumber}, Selector: {Selector}, IsOptional: {IsOptional}]"
+        End Function
     End Class
 
 End Namespace

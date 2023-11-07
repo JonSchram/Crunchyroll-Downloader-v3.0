@@ -27,6 +27,10 @@
         Public Overrides Function GetHashCode() As Integer
             Return (Type, StreamIndex, ProgramNumber).GetHashCode()
         End Function
+
+        Public Overrides Function ToString() As String
+            Return $"[StreamSpecifier: Type: {Type}, StreamIndex: {StreamIndex}, ProgramNumber: {ProgramNumber}]"
+        End Function
     End Class
 
     Public Enum StreamType

@@ -3,6 +3,7 @@ Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports Crunchyroll_Downloader.utilities.ffmpeg.preset
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports PlaylistLibrary.hls.common
 
 Namespace utilities.ffmpeg
     <TestClass>

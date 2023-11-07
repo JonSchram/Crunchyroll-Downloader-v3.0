@@ -7,6 +7,7 @@ Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
+Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports SiteAPI.api.common
 
 Namespace download
@@ -92,13 +93,21 @@ Namespace download
             Dim downloadedEntries As MediaFileEntry() = Await downloader.DownloadSelection(downloadSelection)
 
             Dim fileFormat As Format = settings.OutputFormat
-            Dim reencodePreferences = New ReencodePreferences() With {
-                .OutputFormat = fileFormat.GetVideoFormat(),
-                .TemporaryOutputPath = temporaryFolder,
-                .SubtitleBehavior = fileFormat.GetSubtitleFormat()
-            }
-            Dim postprocessor As New Mp4Postprocessor(reencodePreferences, ffmpegAdapter, filesystem)
-            Dim processedEntires As List(Of MediaFileEntry) = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
+            If fileFormat.GetVideoFormat() = ContainerFormat.MP4 Then
+                Dim subs As SubtitleMerge = fileFormat.GetSubtitleFormat()
+                Dim mergeSubs As Boolean = subs <> SubtitleMerge.DISABLED
+                Dim subCodec As SubtitleCodec? = VideoReencodePreferences.GetCodecForSubtitleMerge(subs)
+                Dim reencodePreferences = New VideoReencodePreferences() With {
+                        .TemporaryOutputPath = temporaryFolder,
+                        .MergeSoftSubtitles = mergeSubs,
+                        .SoftSubCodec = subCodec,
+                        .AudioCodec = AudioCodec.COPY,
+                        .VideoCodec = VideoCodec.COPY
+                    }
+                Dim postprocessor As New Mp4Postprocessor(reencodePreferences, ffmpegAdapter, filesystem)
+                Dim processedEntires As List(Of MediaFileEntry) = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
+
+            End If
             Dim outputDir = ProgramSettings.GetInstance().OutputPath
 
             RaiseCompletionEvent()

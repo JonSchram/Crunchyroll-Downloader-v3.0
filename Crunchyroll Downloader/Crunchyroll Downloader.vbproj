@@ -177,6 +177,7 @@
     <Compile Include="legacy\CrunchyrollDownloader.vb" />
     <Compile Include="legacy\FunimationDownloader.vb" />
     <Compile Include="postprocess\FinalOutputProducer.vb" />
+    <Compile Include="postprocess\VideoPostprocessor.vb" />
     <Compile Include="preferences\DownloadPreferences.vb" />
     <Compile Include="preferences\FunimationPreferenceFactory.vb" />
     <Compile Include="CRD-Classes.vb" />
@@ -214,7 +215,7 @@
     <Compile Include="FileUtilities.vb" />
     <Compile Include="postprocess\Mp4Postprocessor.vb" />
     <Compile Include="preferences\OutputPreferences.vb" />
-    <Compile Include="preferences\ReencodePreferences.vb" />
+    <Compile Include="preferences\VideoReencodePreferences.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>
     </Compile>
