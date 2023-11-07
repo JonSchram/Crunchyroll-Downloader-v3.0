@@ -93,20 +93,23 @@ Namespace download
             Dim downloadedEntries As MediaFileEntry() = Await downloader.DownloadSelection(downloadSelection)
 
             Dim fileFormat As Format = settings.OutputFormat
-            If fileFormat.GetVideoFormat() = ContainerFormat.MP4 Then
-                Dim subs As SubtitleMerge = fileFormat.GetSubtitleFormat()
-                Dim mergeSubs As Boolean = subs <> SubtitleMerge.DISABLED
-                Dim subCodec As SubtitleCodec? = VideoReencodePreferences.GetCodecForSubtitleMerge(subs)
-                Dim reencodePreferences = New VideoReencodePreferences() With {
+            Dim subs As SubtitleMerge = fileFormat.GetSubtitleFormat()
+            Dim mergeSubs As Boolean = subs <> SubtitleMerge.DISABLED
+            Dim subCodec As SubtitleCodec? = VideoReencodePreferences.GetCodecForSubtitleMerge(subs)
+            Dim reencodePreferences = New VideoReencodePreferences() With {
                         .TemporaryOutputPath = temporaryFolder,
                         .MergeSoftSubtitles = mergeSubs,
                         .SoftSubCodec = subCodec,
                         .AudioCodec = AudioCodec.COPY,
                         .VideoCodec = VideoCodec.COPY
                     }
+            Dim processedEntries As List(Of MediaFileEntry)
+            If fileFormat.GetVideoFormat() = ContainerFormat.MP4 Then
                 Dim postprocessor As New Mp4Postprocessor(reencodePreferences, ffmpegAdapter, filesystem)
-                Dim processedEntires As List(Of MediaFileEntry) = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
-
+                processedEntries = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
+            ElseIf fileFormat.GetVideoFormat() = ContainerFormat.MKV Then
+                Dim postprocessor As New MkvPostprocessor(reencodePreferences, ffmpegAdapter, filesystem)
+                processedEntries = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
             End If
             Dim outputDir = ProgramSettings.GetInstance().OutputPath
 

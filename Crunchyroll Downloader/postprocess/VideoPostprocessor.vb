@@ -33,6 +33,10 @@ Namespace postprocess
         Protected MustOverride Function GetAllowedSubtitleCodecs() As List(Of SubtitleCodec)
 
         Public Async Function ProcessInputs(files As List(Of MediaFileEntry)) As Task(Of List(Of MediaFileEntry))
+            If Preferences.SoftSubCodec.HasValue AndAlso Not GetAllowedSubtitleCodecs().Contains(Preferences.SoftSubCodec.Value) Then
+                Throw New ArgumentException($"Video postprocess cannot handle subtitle format: {Preferences.SoftSubCodec}")
+            End If
+
             If IsNoOP(files) Then
                 Return files
             End If

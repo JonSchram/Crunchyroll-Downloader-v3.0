@@ -177,6 +177,7 @@
     <Compile Include="legacy\CrunchyrollDownloader.vb" />
     <Compile Include="legacy\FunimationDownloader.vb" />
     <Compile Include="postprocess\FinalOutputProducer.vb" />
+    <Compile Include="postprocess\MkvPostprocessor.vb" />
     <Compile Include="postprocess\VideoPostprocessor.vb" />
     <Compile Include="preferences\DownloadPreferences.vb" />
     <Compile Include="preferences\FunimationPreferenceFactory.vb" />

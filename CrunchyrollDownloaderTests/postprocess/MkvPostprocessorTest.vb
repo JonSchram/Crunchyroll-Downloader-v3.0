@@ -11,7 +11,7 @@ Imports SiteAPI.api.common
 
 Namespace postprocess
     <TestClass>
-    Public Class Mp4PostprocessorTest
+    Public Class MkvPostprocessorTest
         <TestMethod>
         Public Async Function TestProcessInputs_SingleFileMultipleStreams() As Task
             Dim prefs As New VideoReencodePreferences() With {
@@ -23,7 +23,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio)
@@ -31,7 +31,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -39,7 +39,7 @@ Namespace postprocess
             Assert.AreEqual(1, args.InputFiles.Count)
             Assert.AreEqual("\path\to\file.ts", args.InputFiles.Item(0))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
@@ -75,9 +75,9 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            fakeFilesystem.AddFile("\temporary\path\video-reencode.mp4")
-            fakeFilesystem.AddFile("\temporary\path\video-reencode (1).mp4")
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            fakeFilesystem.AddFile("\temporary\path\video-reencode.mkv")
+            fakeFilesystem.AddFile("\temporary\path\video-reencode (1).mkv")
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio)
@@ -85,8 +85,8 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode (2).mp4", outputFiles.Item(0).Location)
-            Assert.AreEqual("\temporary\path\video-reencode (2).mp4", adapter.RunArguments.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode (2).mkv", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode (2).mkv", adapter.RunArguments.OutputPath)
         End Function
 
         <TestMethod>
@@ -98,7 +98,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\audio.ts", MediaType.Audio),
@@ -108,7 +108,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -117,7 +117,7 @@ Namespace postprocess
             Assert.AreEqual("\path\to\audio.ts", args.InputFiles.Item(0))
             Assert.AreEqual("\path\to\video.ts", args.InputFiles.Item(1))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
@@ -155,7 +155,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\audio.aac", MediaType.Audio),
@@ -165,7 +165,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -174,7 +174,7 @@ Namespace postprocess
             Assert.AreEqual("\path\to\audio.aac", args.InputFiles.Item(0))
             Assert.AreEqual("\path\to\video.mp4", args.InputFiles.Item(1))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
@@ -212,7 +212,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio),
@@ -222,7 +222,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video Or MediaType.Subtitles, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -231,7 +231,7 @@ Namespace postprocess
             Assert.AreEqual("\path\to\video_segments.ts", args.InputFiles.Item(0))
             Assert.AreEqual("\path\to\subtitles.vtt", args.InputFiles.Item(1))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(3, args.SelectedStreams.Count)
 
@@ -273,16 +273,16 @@ Namespace postprocess
         End Function
 
         <TestMethod>
-        Public Async Function TestProcessInputs_MuxSubtitles_MovText() As Task
+        Public Async Function TestProcessInputs_MuxSubtitles_Ssa() As Task
             Dim prefs As New VideoReencodePreferences() With {
                 .MergeSoftSubtitles = True,
-                .SoftSubCodec = SubtitleCodec.MOV_TEXT,
+                .SoftSubCodec = SubtitleCodec.SSA,
                 .TemporaryOutputPath = "\temporary\path"
             }
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio),
@@ -292,7 +292,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video Or MediaType.Subtitles, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -301,7 +301,7 @@ Namespace postprocess
             Assert.AreEqual("\path\to\video_segments.ts", args.InputFiles.Item(0))
             Assert.AreEqual("\path\to\subtitles.vtt", args.InputFiles.Item(1))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(3, args.SelectedStreams.Count)
 
@@ -337,22 +337,22 @@ Namespace postprocess
             Assert.IsInstanceOfType(args.Codecs.Item(2), GetType(SubtitleCodecArgument))
             Dim sCodec As SubtitleCodecArgument = args.Codecs.Item(2)
             Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.SUBTITLE}, sCodec.AppliedStream)
-            Assert.AreEqual(SubtitleCodec.MOV_TEXT, sCodec.Codec)
+            Assert.AreEqual(SubtitleCodec.SSA, sCodec.Codec)
 
             Assert.AreEqual(Nothing, args.Preset)
         End Function
 
         <TestMethod>
-        Public Function TestProcessInputs_MuxSubtitles_Ssa() As Task
+        Public Function TestProcessInputs_MuxSubtitles_Movtext() As Task
             Dim prefs As New VideoReencodePreferences() With {
                 .MergeSoftSubtitles = True,
-                .SoftSubCodec = SubtitleCodec.SSA,
+                .SoftSubCodec = SubtitleCodec.MOV_TEXT,
                 .TemporaryOutputPath = "\temporary\path"
             }
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio),
@@ -364,7 +364,6 @@ Namespace postprocess
                                                                      End Function)
         End Function
 
-
         <TestMethod>
         Public Async Function TestProcessInputs_NoMuxSubtitles() As Task
             Dim prefs As New VideoReencodePreferences() With {
@@ -374,7 +373,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio),
@@ -384,7 +383,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(2, outputFiles.Count)
-            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\temporary\path\video-reencode.mp4", MediaType.Audio Or MediaType.Video)))
+            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\temporary\path\video-reencode.mkv", MediaType.Audio Or MediaType.Video)))
             Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles)))
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -392,7 +391,7 @@ Namespace postprocess
             Assert.AreEqual(1, args.InputFiles.Count)
             Assert.AreEqual("\path\to\file.ts", args.InputFiles.Item(0))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
@@ -432,7 +431,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles),
@@ -442,7 +441,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(2, outputFiles.Count)
-            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\temporary\path\video-reencode.mp4", MediaType.Audio Or MediaType.Video)))
+            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\temporary\path\video-reencode.mkv", MediaType.Audio Or MediaType.Video)))
             Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles)))
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -450,7 +449,7 @@ Namespace postprocess
             Assert.AreEqual(1, args.InputFiles.Count)
             Assert.AreEqual("\path\to\file.ts", args.InputFiles.Item(0))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
@@ -491,7 +490,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\audio.ts", MediaType.Audio)
@@ -514,7 +513,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\video.ts", MediaType.Video)
@@ -522,7 +521,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Video, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -530,7 +529,7 @@ Namespace postprocess
             Assert.AreEqual(1, args.InputFiles.Count)
             Assert.AreEqual("\path\to\video.ts", args.InputFiles.Item(0))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(1, args.SelectedStreams.Count)
 
@@ -558,7 +557,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\subtitles.srt", MediaType.Subtitles)
@@ -588,15 +587,15 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\everything.mp4", MediaType.Audio Or MediaType.Video Or MediaType.Subtitles)
+                New MediaFileEntry("\path\to\everything.mkv", MediaType.Audio Or MediaType.Video Or MediaType.Subtitles)
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\path\to\everything.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\path\to\everything.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video Or MediaType.Subtitles, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -613,7 +612,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\video.ts", MediaType.Video Or MediaType.Audio)
@@ -621,7 +620,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Video Or MediaType.Audio, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -629,7 +628,7 @@ Namespace postprocess
             Assert.AreEqual(1, args.InputFiles.Count)
             Assert.AreEqual("\path\to\video.ts", args.InputFiles.Item(0))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
@@ -671,7 +670,7 @@ Namespace postprocess
 
             Dim adapter = New FakeFfmpegAdapter()
             Dim fakeFilesystem = New FakeFileSystem()
-            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+            Dim postProcessor As New MkvPostprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
                 New MediaFileEntry("\path\to\video.ts", MediaType.Video Or MediaType.Audio)
@@ -679,7 +678,7 @@ Namespace postprocess
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Audio Or MediaType.Video, outputFiles.Item(0).ContainedMedia)
 
             Dim args As FfmpegArguments = adapter.RunArguments
@@ -687,7 +686,7 @@ Namespace postprocess
             Assert.AreEqual(1, args.InputFiles.Count)
             Assert.AreEqual("\path\to\video.ts", args.InputFiles.Item(0))
 
-            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+            Assert.AreEqual("\temporary\path\video-reencode.mkv", args.OutputPath)
 
             Assert.AreEqual(2, args.SelectedStreams.Count)
 
