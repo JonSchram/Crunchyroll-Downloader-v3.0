@@ -1,7 +1,4 @@
-﻿Imports System.ComponentModel
-Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
-
-Namespace utilities.ffmpeg.codec
+﻿Namespace utilities.ffmpeg.codec
     Public Class VideoCodecArgument
         Implements ICodecArgument
 
@@ -51,67 +48,6 @@ Namespace utilities.ffmpeg.codec
                     Return "av1_qsv"
                 Case Else
                     Return ""
-            End Select
-        End Function
-
-        Public Shared Function CodecFromEncoderSettings(encoder As VideoEncoder) As VideoCodec
-            If encoder Is Nothing Then
-                Return VideoCodec.COPY
-            End If
-
-            Select Case encoder.VideoCodec
-                Case settings.ffmpeg.encoding.Codec.AV1
-                    Return SelectAv1Encoder(encoder.Hardware)
-                Case settings.ffmpeg.encoding.Codec.H_264
-                    Return SelectH264Encoder(encoder.Hardware)
-                Case settings.ffmpeg.encoding.Codec.H_265
-                    Return SelectH265Encoder(encoder.Hardware)
-                Case Else
-                    Throw New InvalidEnumArgumentException("Invalid enum used when selecting codec.")
-            End Select
-        End Function
-
-        Private Shared Function SelectH264Encoder(implementation As EncoderImplementation) As VideoCodec
-            Select Case implementation
-                Case EncoderImplementation.SOFTWARE
-                    Return VideoCodec.LIBX264
-                Case EncoderImplementation.NVIDIA
-                    Return VideoCodec.H264_NVENC
-                Case EncoderImplementation.AMD
-                    Return VideoCodec.H264_AMF
-                Case EncoderImplementation.INTEL
-                    Return VideoCodec.H264_QSV
-                Case Else
-                    Throw New InvalidEnumArgumentException("Invalid enum used when selecting h.264 encoder")
-            End Select
-        End Function
-        Private Shared Function SelectH265Encoder(implementation As EncoderImplementation) As VideoCodec
-            Select Case implementation
-                Case EncoderImplementation.SOFTWARE
-                    Return VideoCodec.LIBX265
-                Case EncoderImplementation.NVIDIA
-                    Return VideoCodec.HEVC_NVENC
-                Case EncoderImplementation.AMD
-                    Return VideoCodec.HEVC_AMF
-                Case EncoderImplementation.INTEL
-                    Return VideoCodec.HEVC_QSV
-                Case Else
-                    Throw New InvalidEnumArgumentException("Invalid enum used when selecting h.265 encoder")
-            End Select
-        End Function
-
-        Private Shared Function SelectAv1Encoder(implementation As EncoderImplementation) As VideoCodec
-            Select Case implementation
-                Case EncoderImplementation.SOFTWARE
-                    Return VideoCodec.LIBSVTAV1
-                Case EncoderImplementation.NVIDIA
-                    Return VideoCodec.AV1_NVENC
-                Case EncoderImplementation.AMD
-                    Return VideoCodec.AV1_AMF
-                Case EncoderImplementation.INTEL
-                    Return VideoCodec.AV1_QSV
-                Case Else
-                    Throw New InvalidEnumArgumentException("Invalid enum used when selecting av1 encoder")
             End Select
         End Function
 

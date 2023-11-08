@@ -7,7 +7,6 @@ Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
-Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports SiteAPI.api.common
 
 Namespace download
@@ -92,22 +91,14 @@ Namespace download
 
             Dim downloadedEntries As MediaFileEntry() = Await downloader.DownloadSelection(downloadSelection)
 
-            Dim fileFormat As Format = settings.OutputFormat
-            Dim subs As SubtitleMerge = fileFormat.GetSubtitleFormat()
-            Dim mergeSubs As Boolean = subs <> SubtitleMerge.DISABLED
-            Dim subCodec As SubtitleCodec? = VideoReencodePreferences.GetCodecForSubtitleMerge(subs)
-            Dim reencodePreferences = New VideoReencodePreferences() With {
-                        .TemporaryOutputPath = temporaryFolder,
-                        .MergeSoftSubtitles = mergeSubs,
-                        .SoftSubCodec = subCodec,
-                        .AudioCodec = AudioCodec.COPY,
-                        .VideoCodec = VideoCodec.COPY
-                    }
+            Dim reencodePreferences As VideoReencodePreferences =
+                ReencodePreferenceFactory.GetVideoReencodePreferences(temporaryFolder, settings.OutputFormat, settings.Ffmpeg)
             Dim processedEntries As List(Of MediaFileEntry)
-            If fileFormat.GetVideoFormat() = ContainerFormat.MP4 Then
+            Dim fileFormat As ContainerFormat = settings.OutputFormat.GetVideoFormat()
+            If fileFormat = ContainerFormat.MP4 Then
                 Dim postprocessor As New Mp4Postprocessor(reencodePreferences, ffmpegAdapter, filesystem)
                 processedEntries = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
-            ElseIf fileFormat.GetVideoFormat() = ContainerFormat.MKV Then
+            ElseIf fileFormat = ContainerFormat.MKV Then
                 Dim postprocessor As New MkvPostprocessor(reencodePreferences, ffmpegAdapter, filesystem)
                 processedEntries = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
             End If

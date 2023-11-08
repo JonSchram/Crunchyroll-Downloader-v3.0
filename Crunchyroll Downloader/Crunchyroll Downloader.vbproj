@@ -178,6 +178,7 @@
     <Compile Include="legacy\FunimationDownloader.vb" />
     <Compile Include="postprocess\FinalOutputProducer.vb" />
     <Compile Include="postprocess\MkvPostprocessor.vb" />
+    <Compile Include="postprocess\ReencodePreferenceFactory.vb" />
     <Compile Include="postprocess\VideoPostprocessor.vb" />
     <Compile Include="preferences\DownloadPreferences.vb" />
     <Compile Include="preferences\FunimationPreferenceFactory.vb" />
@@ -314,6 +315,7 @@
     <Compile Include="utilities\ffmpeg\codec\AudioCodec.vb" />
     <Compile Include="utilities\ffmpeg\codec\AudioCodecArgument.vb" />
     <Compile Include="utilities\ffmpeg\codec\ICodecArgument.vb" />
+    <Compile Include="utilities\ffmpeg\codec\SettingsConverter.vb" />
     <Compile Include="utilities\ffmpeg\preset\IPreset.vb" />
     <Compile Include="utilities\ffmpeg\preset\QualityPreset.vb" />
     <Compile Include="utilities\ffmpeg\preset\Speed.vb" />
