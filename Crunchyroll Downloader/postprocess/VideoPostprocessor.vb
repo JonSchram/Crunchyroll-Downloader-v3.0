@@ -5,6 +5,7 @@ Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports Crunchyroll_Downloader.utilities.ffmpeg.preset
+Imports SiteAPI.api
 Imports SiteAPI.api.common
 
 Namespace postprocess
@@ -42,6 +43,7 @@ Namespace postprocess
             End If
 
             Dim outputFiles As New List(Of MediaFileEntry)
+            Dim combinedLocales As New Dictionary(Of MediaType, Locale)
 
             ' Ensure that the output file won't exist.
             Dim temporaryOutput = GetUniqueFilename(FilesystemApi, Preferences.TemporaryOutputPath, "video-reencode", GetFileExtension())
@@ -58,7 +60,7 @@ Namespace postprocess
             For fileNumber = 0 To files.Count - 1
                 Dim file As MediaFileEntry = files(fileNumber)
 
-                If ProcessFile(file, args, inputFileIndex) Then
+                If ProcessFile(file, args, inputFileIndex, combinedLocales) Then
                     willCreateOutput = True
                     inputFileIndex += 1
                     combinedMediaTypes = combinedMediaTypes Or file.ContainedMedia
@@ -70,7 +72,7 @@ Namespace postprocess
             ApplyPreset(args)
 
             If willCreateOutput Then
-                outputFiles.Add(New MediaFileEntry(temporaryOutput, combinedMediaTypes))
+                outputFiles.Add(New MediaFileEntry(temporaryOutput, combinedMediaTypes, combinedLocales))
             End If
 
             AddHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
@@ -83,7 +85,30 @@ Namespace postprocess
             Return outputFiles
         End Function
 
-        Private Function ProcessFile(entry As MediaFileEntry, args As FfmpegArguments, inputNumber As Integer) As Boolean
+        Private Sub AddOrUpdateLocale(media As MediaType, entry As MediaFileEntry, localeDict As Dictionary(Of MediaType, Locale))
+            Dim entryLocale As Locale = Nothing
+            If entry.StreamLocales.TryGetValue(media, entryLocale) Then
+                Dim existingLocale As Locale = Nothing
+                If localeDict.TryGetValue(media, existingLocale) Then
+                    If existingLocale.Language = entryLocale.Language Then
+                        If existingLocale.Region <> entryLocale.Region Then
+                            localeDict(media) = New Locale(existingLocale.Language, Region.NOT_SPECIFIED)
+                        End If
+                        ' If language and region are the same, it is a no-op.
+                    Else
+                        If existingLocale.Region = entryLocale.Region Then
+                            localeDict(media) = New Locale(Language.MULTIPLE, existingLocale.Region)
+                        Else
+                            localeDict(media) = New Locale(Language.MULTIPLE, Region.NOT_SPECIFIED)
+                        End If
+                    End If
+                Else
+                    localeDict(media) = entryLocale
+                End If
+            End If
+        End Sub
+
+        Private Function ProcessFile(entry As MediaFileEntry, args As FfmpegArguments, inputNumber As Integer, localeDict As Dictionary(Of MediaType, Locale)) As Boolean
             Dim useFile As Boolean = False
 
             ' TODO: Maybe only select individual tracks if there is a need? Seems very verbose.
@@ -98,6 +123,7 @@ Namespace postprocess
                                 .Type = StreamType.VIDEO_AND_ATTACHMENTS
                         }
                 })
+                AddOrUpdateLocale(MediaType.Video, entry, localeDict)
             End If
 
             If entry.ContainedMedia.HasFlag(MediaType.Audio) Then
@@ -108,6 +134,7 @@ Namespace postprocess
                                 .Type = StreamType.AUDIO
                         }
                 })
+                AddOrUpdateLocale(MediaType.Audio, entry, localeDict)
             End If
 
             If Preferences.MergeSoftSubtitles And entry.ContainedMedia.HasFlag(MediaType.Subtitles) Then
@@ -118,6 +145,7 @@ Namespace postprocess
                                 .Type = StreamType.SUBTITLE
                         }
                 })
+                AddOrUpdateLocale(MediaType.Subtitles, entry, localeDict)
             End If
 
             If useFile Then

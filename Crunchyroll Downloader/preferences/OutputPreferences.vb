@@ -31,6 +31,6 @@
         ''' <returns></returns>
         Public Property EpisodeDigitPadding As Integer
 
-        ' TODO: Add preference for appending language to subtitle.
+        Public Property AppendLanguageNameToSubtitle As Boolean
     End Class
 End Namespace

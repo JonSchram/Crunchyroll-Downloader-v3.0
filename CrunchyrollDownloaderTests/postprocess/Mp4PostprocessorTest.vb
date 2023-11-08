@@ -7,6 +7,7 @@ Imports Crunchyroll_Downloader.utilities.ffmpeg.preset
 Imports CrunchyrollDownloaderTests.utilities
 Imports CrunchyrollDownloaderTests.utilities.ffmpeg
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports SiteAPI.api
 Imports SiteAPI.api.common
 
 Namespace postprocess
@@ -26,7 +27,7 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio)
+                New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio, New Locale(Language.JAPANESE))
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
@@ -80,7 +81,7 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio)
+                New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio, New Locale(Language.GERMAN))
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
@@ -100,9 +101,10 @@ Namespace postprocess
             Dim fakeFilesystem = New FakeFileSystem()
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
+            Dim mediaLocales As New Dictionary(Of MediaType, Locale) From {{MediaType.Audio, New Locale(Language.JAPANESE)}}
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\audio.ts", MediaType.Audio),
-                New MediaFileEntry("\path\to\video.ts", MediaType.Video)
+                New MediaFileEntry("\path\to\audio.ts", MediaType.Audio, mediaLocales),
+                New MediaFileEntry("\path\to\video.ts", MediaType.Video, mediaLocales)
             }
 
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
@@ -158,8 +160,8 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\audio.aac", MediaType.Audio),
-                New MediaFileEntry("\path\to\video.mp4", MediaType.Video)
+                New MediaFileEntry("\path\to\audio.aac", MediaType.Audio, New Locale(Language.ITALIAN)),
+                New MediaFileEntry("\path\to\video.mp4", MediaType.Video, New Locale(Language.PORTUGUESE))
             }
 
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
@@ -214,9 +216,10 @@ Namespace postprocess
             Dim fakeFilesystem = New FakeFileSystem()
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
+            Dim locales As New Dictionary(Of MediaType, Locale) From {{MediaType.Audio, New Locale(Language.FRENCH)}}
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio),
-                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles)
+                New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio, locales),
+                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.JAPANESE))
             }
 
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
@@ -285,8 +288,8 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio),
-                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles)
+                New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio, New Locale(Language.MANDARIN)),
+                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.ENGLISH))
             }
 
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
@@ -355,8 +358,8 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio),
-                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles)
+                New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio, New Locale(Language.ARABIC)),
+                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.SPANISH))
             }
 
             Return Assert.ThrowsExceptionAsync(Of ArgumentException)(Async Function() As Task
@@ -377,15 +380,16 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio),
-                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles)
+                New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio, New Locale(Language.RUSSIAN)),
+                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.RUSSIAN))
             }
 
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(2, outputFiles.Count)
-            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\temporary\path\video-reencode.mp4", MediaType.Audio Or MediaType.Video)))
-            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles)))
+            Assert.IsTrue(outputFiles.Contains(
+                          New MediaFileEntry("\temporary\path\video-reencode.mp4", MediaType.Audio Or MediaType.Video, New Locale(Language.RUSSIAN))))
+            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.RUSSIAN))))
 
             Dim args As FfmpegArguments = adapter.RunArguments
 
@@ -435,15 +439,16 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles),
-                New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio)
+                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.RUSSIAN)),
+                New MediaFileEntry("\path\to\file.ts", MediaType.Video Or MediaType.Audio, New Locale(Language.FRENCH))
             }
 
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(2, outputFiles.Count)
-            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\temporary\path\video-reencode.mp4", MediaType.Audio Or MediaType.Video)))
-            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles)))
+            Assert.IsTrue(outputFiles.Contains(
+                          New MediaFileEntry("\temporary\path\video-reencode.mp4", MediaType.Audio Or MediaType.Video, New Locale(Language.FRENCH))))
+            Assert.IsTrue(outputFiles.Contains(New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.RUSSIAN))))
 
             Dim args As FfmpegArguments = adapter.RunArguments
 
@@ -494,13 +499,14 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\audio.ts", MediaType.Audio)
+                New MediaFileEntry("\path\to\audio.ts", MediaType.Audio, New Locale(Language.ENGLISH, Region.UNITED_STATES))
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
             Assert.AreEqual("\path\to\audio.ts", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Audio, outputFiles.Item(0).ContainedMedia)
+            Assert.AreEqual(New Locale(Language.ENGLISH, Region.UNITED_STATES), outputFiles.Item(0).StreamLocales.Item(MediaType.Audio))
 
             Assert.IsNull(adapter.RunArguments)
         End Function
@@ -517,13 +523,14 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\video.ts", MediaType.Video)
+                New MediaFileEntry("\path\to\video.ts", MediaType.Video, New Locale(Language.SPANISH, Region.SPAIN))
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
             Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
             Assert.AreEqual(MediaType.Video, outputFiles.Item(0).ContainedMedia)
+            Assert.AreEqual(New Locale(Language.SPANISH, Region.SPAIN), outputFiles.Item(0).StreamLocales.Item(MediaType.Video))
 
             Dim args As FfmpegArguments = adapter.RunArguments
 
@@ -561,17 +568,18 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\subtitles.srt", MediaType.Subtitles)
+                New MediaFileEntry("\path\to\subtitles.srt", MediaType.Subtitles, New Locale(Language.ITALIAN))
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\path\to\subtitles.srt", outputFiles.Item(0).Location)
-            Assert.AreEqual(MediaType.Subtitles, outputFiles.Item(0).ContainedMedia)
+            Dim output As MediaFileEntry = outputFiles.Item(0)
+            Assert.AreEqual("\path\to\subtitles.srt", output.Location)
+            Assert.AreEqual(MediaType.Subtitles, output.ContainedMedia)
+            Assert.AreEqual(New Locale(Language.ITALIAN), output.StreamLocales.Item(MediaType.Subtitles))
 
-            Dim args As FfmpegArguments = adapter.RunArguments
             ' Ffmpeg shouldn't have run
-            Assert.IsNull(args)
+            Assert.IsNull(adapter.RunArguments)
         End Function
 
         ''' <summary>
@@ -590,14 +598,23 @@ Namespace postprocess
             Dim fakeFilesystem = New FakeFileSystem()
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
+            Dim locales As New Dictionary(Of MediaType, Locale) From {
+                {MediaType.Audio, New Locale(Language.JAPANESE)},
+                {MediaType.Subtitles, New Locale(Language.ENGLISH)}
+            }
+
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\everything.mp4", MediaType.Audio Or MediaType.Video Or MediaType.Subtitles)
+                New MediaFileEntry("\path\to\everything.mp4", MediaType.Audio Or MediaType.Video Or MediaType.Subtitles, locales)
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
             Assert.AreEqual(1, outputFiles.Count)
-            Assert.AreEqual("\path\to\everything.mp4", outputFiles.Item(0).Location)
-            Assert.AreEqual(MediaType.Audio Or MediaType.Video Or MediaType.Subtitles, outputFiles.Item(0).ContainedMedia)
+            Dim output As MediaFileEntry = outputFiles.Item(0)
+            Assert.AreEqual("\path\to\everything.mp4", output.Location)
+            Assert.AreEqual(MediaType.Audio Or MediaType.Video Or MediaType.Subtitles, output.ContainedMedia)
+            Assert.AreEqual(New Locale(Language.JAPANESE), output.StreamLocales.Item(MediaType.Audio))
+            Assert.AreEqual(New Locale(Language.ENGLISH), output.StreamLocales.Item(MediaType.Subtitles))
+            Assert.IsFalse(output.StreamLocales.ContainsKey(MediaType.Video))
 
             Dim args As FfmpegArguments = adapter.RunArguments
             ' Ffmpeg shouldn't have run
@@ -616,7 +633,7 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\video.ts", MediaType.Video Or MediaType.Audio)
+                New MediaFileEntry("\path\to\video.ts", MediaType.Video Or MediaType.Audio, New Locale(Language.ARABIC))
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
@@ -674,7 +691,7 @@ Namespace postprocess
             Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
 
             Dim files As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\path\to\video.ts", MediaType.Video Or MediaType.Audio)
+                New MediaFileEntry("\path\to\video.ts", MediaType.Video Or MediaType.Audio, New Locale(Language.ENGLISH))
             }
             Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
 
@@ -717,6 +734,122 @@ Namespace postprocess
             AssertAudioCopy(args.Codecs.Item(1))
 
             Assert.AreEqual(New SpeedPresetArgument(New SpeedPreset(Speed.FAST)), args.Preset)
+        End Function
+
+
+        <TestMethod>
+        Public Async Function TestProcessInputs_MultipleSubtitles() As Task
+            Dim prefs As New VideoReencodePreferences() With {
+                .MergeSoftSubtitles = True,
+                .SoftSubCodec = SubtitleCodec.COPY,
+                .TemporaryOutputPath = "\temporary\path"
+            }
+
+            Dim adapter = New FakeFfmpegAdapter()
+            Dim fakeFilesystem = New FakeFileSystem()
+            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+
+            Dim locales As New Dictionary(Of MediaType, Locale) From {{MediaType.Audio, New Locale(Language.FRENCH)}}
+            Dim files As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio, locales),
+                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.JAPANESE)),
+                New MediaFileEntry("\path\to\second_subtitles.vtt", MediaType.Subtitles, New Locale(Language.FRENCH))
+            }
+
+            Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
+
+            Assert.AreEqual(1, outputFiles.Count)
+            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual(MediaType.Audio Or MediaType.Video Or MediaType.Subtitles, outputFiles.Item(0).ContainedMedia)
+
+            Assert.IsFalse(outputFiles.Item(0).StreamLocales.ContainsKey(MediaType.Video))
+            Assert.AreEqual(New Locale(Language.FRENCH), outputFiles.Item(0).StreamLocales.Item(MediaType.Audio))
+            Assert.AreEqual(New Locale(Language.MULTIPLE), outputFiles.Item(0).StreamLocales.Item(MediaType.Subtitles))
+
+            Dim args As FfmpegArguments = adapter.RunArguments
+
+            Assert.AreEqual(3, args.InputFiles.Count)
+            Assert.AreEqual("\path\to\video_segments.ts", args.InputFiles.Item(0))
+            Assert.AreEqual("\path\to\subtitles.vtt", args.InputFiles.Item(1))
+            Assert.AreEqual("\path\to\second_subtitles.vtt", args.InputFiles.Item(2))
+
+            Assert.AreEqual("\temporary\path\video-reencode.mp4", args.OutputPath)
+
+            Assert.AreEqual(4, args.SelectedStreams.Count)
+
+            Dim videoStream As MapArgument = args.SelectedStreams.Item(0)
+            Assert.AreEqual(New MapArgument() With {
+                .InputFileNumber = 0,
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.VIDEO_AND_ATTACHMENTS
+                }
+            }, videoStream)
+
+            Dim audioStream As MapArgument = args.SelectedStreams.Item(1)
+            Assert.AreEqual(New MapArgument() With {
+                .InputFileNumber = 0,
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.AUDIO
+                }
+            }, audioStream)
+
+            Dim subtitleStream As MapArgument = args.SelectedStreams.Item(2)
+            Assert.AreEqual(New MapArgument() With {
+                .InputFileNumber = 1,
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.SUBTITLE
+                }
+            }, subtitleStream)
+
+            Dim subtitleStream2 As MapArgument = args.SelectedStreams.Item(3)
+            Assert.AreEqual(New MapArgument() With {
+                .InputFileNumber = 2,
+                .Selector = New StreamSpecifier() With {
+                    .Type = StreamType.SUBTITLE
+                }
+            }, subtitleStream2)
+
+            Assert.AreEqual(3, args.Codecs.Count)
+
+            AssertVideoCopy(args.Codecs.Item(0))
+            AssertAudioCopy(args.Codecs.Item(1))
+
+            Assert.IsInstanceOfType(args.Codecs.Item(2), GetType(SubtitleCodecArgument))
+            Dim sCodec As SubtitleCodecArgument = args.Codecs.Item(2)
+            Assert.AreEqual(New StreamSpecifier() With {.Type = StreamType.SUBTITLE}, sCodec.AppliedStream)
+            Assert.AreEqual(SubtitleCodec.COPY, sCodec.Codec)
+
+            Assert.AreEqual(Nothing, args.Preset)
+        End Function
+
+        <TestMethod>
+        Public Async Function TestProcessInputs_MultipleSubtitles_SameLanguage() As Task
+            Dim prefs As New VideoReencodePreferences() With {
+                .MergeSoftSubtitles = True,
+                .SoftSubCodec = SubtitleCodec.COPY,
+                .TemporaryOutputPath = "\temporary\path"
+            }
+
+            Dim adapter = New FakeFfmpegAdapter()
+            Dim fakeFilesystem = New FakeFileSystem()
+            Dim postProcessor As New Mp4Postprocessor(prefs, adapter, fakeFilesystem)
+
+            Dim locales As New Dictionary(Of MediaType, Locale) From {{MediaType.Audio, New Locale(Language.FRENCH)}}
+            Dim files As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\path\to\video_segments.ts", MediaType.Video Or MediaType.Audio, locales),
+                New MediaFileEntry("\path\to\subtitles.vtt", MediaType.Subtitles, New Locale(Language.JAPANESE)),
+                New MediaFileEntry("\path\to\second_subtitles.vtt", MediaType.Subtitles, New Locale(Language.JAPANESE))
+            }
+
+            Dim outputFiles As List(Of MediaFileEntry) = Await postProcessor.ProcessInputs(files)
+
+            Assert.AreEqual(1, outputFiles.Count)
+            Assert.AreEqual("\temporary\path\video-reencode.mp4", outputFiles.Item(0).Location)
+            Assert.AreEqual(MediaType.Audio Or MediaType.Video Or MediaType.Subtitles, outputFiles.Item(0).ContainedMedia)
+
+            Assert.IsFalse(outputFiles.Item(0).StreamLocales.ContainsKey(MediaType.Video))
+            Assert.AreEqual(New Locale(Language.FRENCH), outputFiles.Item(0).StreamLocales.Item(MediaType.Audio))
+            Assert.AreEqual(New Locale(Language.JAPANESE), outputFiles.Item(0).StreamLocales.Item(MediaType.Subtitles))
         End Function
 
         Private Shared Sub AssertAudioCopy(argument As ICodecArgument)

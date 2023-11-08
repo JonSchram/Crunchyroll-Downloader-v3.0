@@ -6,6 +6,7 @@
     ''' </summary>
     Public Enum Language
         NONE
+        MULTIPLE
         ARABIC
         ENGLISH
         FRENCH

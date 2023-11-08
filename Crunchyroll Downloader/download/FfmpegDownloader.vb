@@ -85,7 +85,7 @@ Namespace download
             OnMediaProgress(itemIndex, 100)
             OnMediaComplete(itemIndex)
 
-            Return New MediaFileEntry(outputName, MediaType.Audio Or MediaType.Video)
+            Return New MediaFileEntry(outputName, MediaType.Audio Or MediaType.Video, item.MediaLocale)
         End Function
 
         Private Sub HandleFfmpegProgress(amount As Integer)

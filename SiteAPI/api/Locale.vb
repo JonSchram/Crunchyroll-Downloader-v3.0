@@ -1,4 +1,5 @@
-﻿Imports SiteAPI.api.common
+﻿Imports System.Runtime.CompilerServices
+Imports SiteAPI.api.common
 
 Namespace api
     ''' <summary>

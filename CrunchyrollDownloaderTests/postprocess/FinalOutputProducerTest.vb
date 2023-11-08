@@ -4,6 +4,7 @@ Imports Crunchyroll_Downloader.postprocess
 Imports Crunchyroll_Downloader.preferences
 Imports CrunchyrollDownloaderTests.utilities
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports SiteAPI.api
 Imports SiteAPI.api.common
 
 Namespace postprocess
@@ -27,7 +28,7 @@ Namespace postprocess
             Dim fileSystem As New FakeFileSystem()
             Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
 
-            Dim inputFiles As New List(Of MediaFileEntry) From {New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video)}
+            Dim inputFiles As New List(Of MediaFileEntry) From {New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video, New Locale(Language.FRENCH))}
             Dim episode As New FakeEpisode() With {
                 .ShowName = "A test show",
                 .SeasonNumber = 1,
@@ -58,8 +59,8 @@ Namespace postprocess
             Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
 
             Dim inputFiles As New List(Of MediaFileEntry) From {
-                New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video),
-                New MediaFileEntry("\temporary\path\subtitles.srt", MediaType.Subtitles)
+                New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video, New Locale(Language.NONE)),
+                New MediaFileEntry("\temporary\path\subtitles.srt", MediaType.Subtitles, New Locale(Language.GERMAN))
             }
             Dim episode As New FakeEpisode() With {
                 .ShowName = "A test show",
@@ -91,7 +92,9 @@ Namespace postprocess
             Dim fileSystem As New FakeFileSystem()
             Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
 
-            Dim inputFiles As New List(Of MediaFileEntry) From {New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video)}
+            Dim inputFiles As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video, New Locale(Language.ITALIAN))
+            }
             Dim episode As New FakeEpisode() With {
                 .ShowName = "A test show",
                 .SeasonNumber = 1,
@@ -119,7 +122,9 @@ Namespace postprocess
             Dim fileSystem As New FakeFileSystem()
             Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
 
-            Dim inputFiles As New List(Of MediaFileEntry) From {New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video)}
+            Dim inputFiles As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video, New Locale(Language.JAPANESE))
+            }
             Dim episode As New FakeEpisode() With {
                 .ShowName = "A test show",
                 .SeasonNumber = 1,
@@ -148,7 +153,9 @@ Namespace postprocess
             fileSystem.AddFile("\final\output\path\Test name.mp4")
             Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
 
-            Dim inputFiles As New List(Of MediaFileEntry) From {New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video)}
+            Dim inputFiles As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\temporary\path\tempfile.mp4", MediaType.Video, New Locale(Language.MANDARIN))
+            }
             Dim episode As New FakeEpisode() With {
                 .ShowName = "A test show",
                 .SeasonNumber = 1,

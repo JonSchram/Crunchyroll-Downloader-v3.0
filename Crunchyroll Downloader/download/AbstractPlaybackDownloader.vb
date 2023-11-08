@@ -47,7 +47,7 @@ Namespace download
             'Await dataStream.CopyToAsync(dest)
             'dest.Close()
 
-            Dim record = New MediaFileEntry(uniqueTemporaryPath, media.Type)
+            Dim record = New MediaFileEntry(uniqueTemporaryPath, media.Type, media.MediaLocale)
 
             OnMediaProgress(itemIndex, 100)
             OnMediaComplete(itemIndex)
