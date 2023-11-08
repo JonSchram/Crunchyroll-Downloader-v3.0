@@ -156,22 +156,6 @@ Namespace postprocess
         End Function
 
         ''' <summary>
-        ''' Gets the video or audio file from the MediaFileEntry list, preferring the video file.
-        ''' </summary>
-        ''' <param name="files"></param>
-        ''' <returns></returns>
-        Private Function GetVideoOrAudioInput(files As List(Of MediaFileEntry)) As MediaFileEntry
-            Dim preferredFile As MediaFileEntry = Nothing
-            For Each file In files
-                If (preferredFile Is Nothing AndAlso file.ContainedMedia.HasFlag(MediaType.Audio)) OrElse
-                        file.ContainedMedia.HasFlag(MediaType.Video) Then
-                    preferredFile = file
-                End If
-            Next
-            Return preferredFile
-        End Function
-
-        ''' <summary>
         ''' Determines whether the postprocessor will do anything. No operation is needed when the input file is in the correct
         ''' format and there is no re-encoding or remuxing needs to be done.
         ''' </summary>

@@ -39,6 +39,21 @@ Namespace data
             Return result
         End Function
 
+        ''' <summary>
+        ''' Returns whether this media file contains the media type specified and does not contain any other media types.
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
+        Public Function OnlyContainsMedia(type As MediaType) As Boolean
+            Dim allCorrect As Boolean = ContainedMedia.HasFlag(type)
+            For Each media As MediaType In {MediaType.Video, MediaType.Audio, MediaType.Subtitles}
+                If ContainedMedia.HasFlag(media) And media <> type Then
+                    allCorrect = False
+                End If
+            Next
+            Return allCorrect
+        End Function
+
         Public Overrides Function Equals(obj As Object) As Boolean
             Dim entry = TryCast(obj, MediaFileEntry)
             Return entry IsNot Nothing AndAlso

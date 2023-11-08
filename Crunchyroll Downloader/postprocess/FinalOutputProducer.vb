@@ -1,7 +1,11 @@
-﻿Imports System.IO
+﻿Imports System.Drawing.Imaging
+Imports System.IO
+Imports System.Runtime.InteropServices.WindowsRuntime
 Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.utilities
+Imports SiteAPI.api
+Imports SiteAPI.api.common
 Imports SiteAPI.api.metadata
 
 Namespace postprocess
@@ -18,23 +22,40 @@ Namespace postprocess
             Me.FilesystemApi = fileSystemApi
         End Sub
 
-        Public Sub ProcessInputs(files As List(Of MediaFileEntry), ep As Episode)
-            Dim nameGenerator = New FilenameInterpolator(Preferences.NameTemplate, Preferences.SeasonDigitPadding, Preferences.EpisodeDigitPadding)
+        Public Function ProcessInputs(files As List(Of MediaFileEntry), ep As Episode) As List(Of MediaFileEntry)
+            Dim results As New List(Of MediaFileEntry)
 
-            ' TODO: Append language name according to subtitle naming preference.
-            Dim baseFilename = nameGenerator.CreateName(ep, False)
+            Dim nameGenerator = New FilenameInterpolator(Preferences.NameTemplate, Preferences.SeasonDigitPadding, Preferences.EpisodeDigitPadding,
+                                        Preferences.UseIso639Codes)
+
             Dim outputPath As String = CreateSavePath(Preferences.OutputPath, ep)
+            ' All files should use the same locale for consistency.
+            Dim audioFile As MediaFileEntry = GetAudioEntry(files)
+            Dim audioLocale As Locale = If(audioFile IsNot Nothing, GetDubLocale(audioFile.StreamLocales), Nothing)
+            Dim baseFilename = nameGenerator.CreateName(ep, audioLocale)
 
             For fileNumber = 0 To files.Count - 1
                 Dim file As MediaFileEntry = files(fileNumber)
                 Dim extension As String = Path.GetExtension(file.Location)
+                Dim currentFilename As String = baseFilename
 
-                Dim savePath = GetUniqueFilename(FilesystemApi, outputPath, baseFilename, extension)
+                Dim subtitleLocale As Locale = GetSubtitleLocale(file.StreamLocales)
+                If file.OnlyContainsMedia(MediaType.Subtitles) AndAlso Preferences.AppendLanguageNameToSubtitle AndAlso subtitleLocale IsNot Nothing Then
+                    If Preferences.UseIso639Codes Then
+                        currentFilename += $".{subtitleLocale.GetAbbreviatedString()}"
+                    Else
+                        currentFilename += $".{subtitleLocale}"
+                    End If
+                End If
+
+                Dim savePath = GetUniqueFilename(FilesystemApi, outputPath, currentFilename, extension)
 
                 FilesystemApi.MoveFile(file.Location, savePath)
+                results.Add(New MediaFileEntry(savePath, file.ContainedMedia, file.StreamLocales))
             Next
 
-        End Sub
+            Return results
+        End Function
 
         ''' <summary>
         ''' Creates a file path to save the episode at, appending show and/or season directories if indicated in preferences.
@@ -56,7 +77,45 @@ Namespace postprocess
             Return finalPath
         End Function
 
+        ''' <summary>
+        ''' Gets the locale of the dub. This is used when renaming a file, and should be the audio locale, but it uses the video locale as a fallback.
+        ''' </summary>
+        ''' <returns></returns>
+        Private Function GetDubLocale(locales As IDictionary(Of MediaType, Locale)) As Locale
+            Dim audioLocale As Locale = Nothing
+            If locales.TryGetValue(MediaType.Audio, audioLocale) Then
+                Return audioLocale
+            End If
 
+            Dim videoLocale As Locale = Nothing
+            If locales.TryGetValue(MediaType.Audio, videoLocale) Then
+                Return videoLocale
+            End If
+
+            Return Nothing
+        End Function
+
+        Private Function GetSubtitleLocale(locales As IDictionary(Of MediaType, Locale)) As Locale
+            Dim l As Locale = Nothing
+            If locales.TryGetValue(MediaType.Subtitles, l) Then
+                Return l
+            End If
+            Return Nothing
+        End Function
+
+        ''' <summary>
+        ''' Gets the audio file from the MediaFileEntry list.
+        ''' </summary>
+        ''' <param name="files"></param>
+        ''' <returns></returns>
+        Private Function GetAudioEntry(files As List(Of MediaFileEntry)) As MediaFileEntry
+            For Each file In files
+                If file.ContainedMedia.HasFlag(MediaType.Audio) Then
+                    Return file
+                End If
+            Next
+            Return Nothing
+        End Function
 
     End Class
 End Namespace

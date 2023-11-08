@@ -31,6 +31,16 @@
         ''' <returns></returns>
         Public Property EpisodeDigitPadding As Integer
 
+        ''' <summary>
+        ''' Whether to use ISO 639-1 codes when generating filenames. If false, uses the full langauge name.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property UseIso639Codes As Boolean
+
+        ''' <summary>
+        ''' Whether to append the language name to any subtitle files that are not already muxed into another stream.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property AppendLanguageNameToSubtitle As Boolean
     End Class
 End Namespace

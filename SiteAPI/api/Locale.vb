@@ -71,6 +71,8 @@ Namespace api
                     Return "Russian"
                 Case Language.SPANISH
                     Return "Spanish"
+                Case Language.MULTIPLE
+                    Return "Multiple languages"
                 Case Else
                     Return "None"
             End Select
@@ -102,6 +104,72 @@ Namespace api
                     Return "United States"
                 Case Else
                     Return "Not specified"
+            End Select
+        End Function
+
+        Public Function GetAbbreviatedString() As String
+            If Region = Region.NOT_SPECIFIED Then
+                Return GetLanguageAbbreviation(Language)
+            Else
+                Return $"{GetLanguageAbbreviation(Language)}-{GetRegionAbbreviation(Region)}"
+            End If
+        End Function
+
+        Public Shared Function GetLanguageAbbreviation(lang As Language) As String
+            Select Case lang
+                Case Language.ARABIC
+                    Return "ar"
+                Case Language.ENGLISH
+                    Return "en"
+                Case Language.FRENCH
+                    Return "fr"
+                Case Language.GERMAN
+                    Return "de"
+                Case Language.ITALIAN
+                    Return "it"
+                Case Language.JAPANESE
+                    Return "ja"
+                Case Language.MANDARIN
+                    Return "zh"
+                Case Language.PORTUGUESE
+                    Return "pt"
+                Case Language.RUSSIAN
+                    Return "ru"
+                Case Language.SPANISH
+                    Return "es"
+                Case Language.MULTIPLE
+                    Return "mul"
+                Case Else
+                    Return "n/a"
+            End Select
+        End Function
+
+        Public Shared Function GetRegionAbbreviation(region As Region) As String
+            Select Case region
+                Case Region.BRAZIL
+                    Return "BR"
+                Case Region.FRANCE
+                    Return "FR"
+                Case Region.GERMANY
+                    Return "DE"
+                Case Region.ITALY
+                    Return "IT"
+                Case Region.JAPAN
+                    Return "JP"
+                Case Region.LATIN_AMERICA
+                    Return "419"
+                Case Region.PORTUGAL
+                    Return "PT"
+                Case Region.RUSSIA
+                    Return "RU"
+                Case Region.SAUDI_ARABIA
+                    Return "SA"
+                Case Region.SPAIN
+                    Return "ES"
+                Case Region.UNITED_STATES
+                    Return "US"
+                Case Else
+                    Return ""
             End Select
         End Function
 
