@@ -1,4 +1,4 @@
-﻿Imports Crunchyroll_Downloader.postprocess
+﻿Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.ffmpeg
 Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
@@ -6,7 +6,7 @@ Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports Crunchyroll_Downloader.utilities.ffmpeg.preset
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
-Namespace postprocess
+Namespace preferences
     <TestClass>
     Public Class ReencodePreferenceFactoryTest
         <TestMethod>

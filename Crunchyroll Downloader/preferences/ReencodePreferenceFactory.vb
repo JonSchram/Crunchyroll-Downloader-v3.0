@@ -6,7 +6,7 @@ Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports Crunchyroll_Downloader.utilities.ffmpeg.codec
 Imports Crunchyroll_Downloader.utilities.ffmpeg.preset
 
-Namespace postprocess
+Namespace preferences
     Public Class ReencodePreferenceFactory
         Public Shared Function GetVideoReencodePreferences(temporaryPath As String, fileFormat As Format, ffmpegSetting As FfmpegOptions) As VideoReencodePreferences
             Dim subs As SubtitleMerge = fileFormat.GetSubtitleFormat()
