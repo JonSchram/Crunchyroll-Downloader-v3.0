@@ -39,6 +39,10 @@ Namespace ui
         Private Async Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
             downloadButton.Enabled = False
 
+            Dim subfolderBehavior As SubfolderBehavior = SubfolderBehaviorTextList.GetEnumForItem(subfolderBehaviorComboBox.SelectedItem)
+            ProgramSettings.GetInstance().LastSubfolderBehavior = subfolderBehavior
+            My.Settings.Save()
+
             Dim downloadUrl = downloadUrlTextBox.Text
 
             client = DownloaderApi.GetMetadataDownloader(downloadUrl, Browser.GetInstance(), My.Resources.user_agent)
@@ -46,11 +50,11 @@ Namespace ui
 
             If Not client.IsVideoUrl(downloadUrl) Then
                 Try
+                    ' Disable the add video form to simulate a modal dialog. Disable first so that the user can't change the combo boxes.
+                    Enabled = False
                     Dim SeasonList = Await client.ListSeasons(downloadUrl)
                     Dim seasonSelectorForm = New SeasonSelector(client, SeasonList)
 
-                    ' Disable the add video form to simulate a modal dialog. 
-                    Enabled = False
                     AddHandler seasonSelectorForm.FormClosed, AddressOf SeasonSelectFormClosed
                     ' Can't use ShowDialog because it would block all forms in the app.
                     seasonSelectorForm.Show(Me)
@@ -61,7 +65,8 @@ Namespace ui
             Else
                 ' Individual video
                 Dim episodeInfo = Await client.GetEpisodeInfo(downloadUrl)
-                Queue.Enqueue(New DownloadTask(episodeInfo, OutputPath, client))
+                Dim manualFolder As String = CStr(subfolderComboBox.SelectedItem)
+                Queue.Enqueue(New DownloadTask(episodeInfo, OutputPath, client, manualFolder, subfolderBehavior))
                 downloadButton.Enabled = True
             End If
         End Sub
@@ -72,6 +77,9 @@ Namespace ui
             Dim selectForm = CType(sender, SeasonSelector)
 
             If selectForm.DialogResult = DialogResult.OK Then
+                Dim manualFolder As String = CStr(subfolderComboBox.SelectedItem)
+                Dim subfolderBehavior As SubfolderBehavior = SubfolderBehaviorTextList.GetEnumForItem(subfolderBehaviorComboBox.SelectedItem)
+
                 Dim episodeList = selectForm.episodeList
                 Dim startEpisode = selectForm.startEpisode
                 Dim endEpisode = selectForm.endEpisode
@@ -82,7 +90,7 @@ Namespace ui
                 For episodeNum = startEpisode To endEpisode
                     Dim Episode = episodes.Item(episodeNum)
                     Dim EpisodeInfo = Await client.GetEpisodeInfo(Episode)
-                    Queue.Enqueue(New DownloadTask(EpisodeInfo, OutputPath, client))
+                    Queue.Enqueue(New DownloadTask(EpisodeInfo, OutputPath, client, manualFolder, subfolderBehavior))
                 Next
             End If
             selectForm.Dispose()

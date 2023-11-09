@@ -36,12 +36,12 @@ Public Class DownloadingItemView
     End Sub
 
     Private Sub SetSiteName()
-        Dim client = Task.GetMetadataClient()
+        Dim client = Task.Client
         WebsiteLabel.Text = client.GetSiteName()
     End Sub
 
     Private Function FormatAnimeTitle() As String
-        Dim episode = Task.GetEpisode()
+        Dim episode = Task.DownloadEpisode
         Return $"{episode.ShowName}, Season {episode.SeasonNumber}, episode {episode.EpisodeNumber}"
     End Function
 

@@ -206,7 +206,7 @@ Namespace postprocess
                 .UseSeasonPath = False,
                 .UseShowPath = False,
                 .UseIso639Codes = False,
-                .AppendLanguageNameToSubtitle = True
+                .AppendLanguageToSingleSubtitles = True
             }
             Dim fileSystem As New FakeFileSystem()
             Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
@@ -231,6 +231,38 @@ Namespace postprocess
         End Sub
 
         <TestMethod>
+        Public Sub TestRenameMkv_DoNotAppendSubtitleLanguage()
+            Dim prefs As New OutputPreferences() With {
+                .NameTemplate = "AnimeTitle; AnimeDub;",
+                .OutputPath = "\final\output\path",
+                .UseSeasonPath = False,
+                .UseShowPath = False,
+                .UseIso639Codes = False,
+                .AppendLanguageToSingleSubtitles = False
+            }
+            Dim fileSystem As New FakeFileSystem()
+            Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
+
+            Dim inputFiles As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\temporary\path\tempfile.mkv", MediaType.Video Or MediaType.Audio, New Locale(Language.FRENCH)),
+                New MediaFileEntry("\temporary\path\subs.vtt", MediaType.Subtitles, New Locale(Language.PORTUGUESE))
+            }
+            Dim episode As New FakeEpisode() With {
+                .ShowName = "A test show",
+                .SeasonNumber = 1,
+                .EpisodeName = "The episode"
+            }
+
+            outputProducer.ProcessInputs(inputFiles, episode)
+
+            Assert.AreEqual(2, fileSystem.MovedFiles.Count)
+            Assert.AreEqual("\temporary\path\tempfile.mkv", fileSystem.MovedFiles.Item(0).OldPath)
+            Assert.AreEqual("\final\output\path\A test show French.mkv", fileSystem.MovedFiles.Item(0).NewPath)
+            Assert.AreEqual("\temporary\path\subs.vtt", fileSystem.MovedFiles.Item(1).OldPath)
+            Assert.AreEqual("\final\output\path\A test show French.vtt", fileSystem.MovedFiles.Item(1).NewPath)
+        End Sub
+
+        <TestMethod>
         Public Sub TestRenameMkv_AppendSubtitleLanguage_NoSubtitles()
             Dim prefs As New OutputPreferences() With {
                 .NameTemplate = "AnimeTitle; AnimeDub;",
@@ -238,7 +270,7 @@ Namespace postprocess
                 .UseSeasonPath = False,
                 .UseShowPath = False,
                 .UseIso639Codes = False,
-                .AppendLanguageNameToSubtitle = True
+                .AppendLanguageToSingleSubtitles = True
             }
             Dim fileSystem As New FakeFileSystem()
             Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
@@ -267,7 +299,7 @@ Namespace postprocess
                .UseSeasonPath = False,
                .UseShowPath = False,
                .UseIso639Codes = True,
-               .AppendLanguageNameToSubtitle = True
+               .AppendLanguageToSingleSubtitles = True
            }
             Dim fileSystem As New FakeFileSystem()
             Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
@@ -289,6 +321,46 @@ Namespace postprocess
             Assert.AreEqual("\final\output\path\A test show fr.mkv", fileSystem.MovedFiles.Item(0).NewPath)
             Assert.AreEqual("\temporary\path\subs.vtt", fileSystem.MovedFiles.Item(1).OldPath)
             Assert.AreEqual("\final\output\path\A test show fr.pt.vtt", fileSystem.MovedFiles.Item(1).NewPath)
+        End Sub
+
+        <TestMethod>
+        Public Sub TestRenameMkv_DoNotAppendLangaugeToSingleFile_MultipleFiles()
+            Dim prefs As New OutputPreferences() With {
+                .NameTemplate = "AnimeTitle; AnimeDub;",
+                .OutputPath = "\final\output\path",
+                .UseSeasonPath = False,
+                .UseShowPath = False,
+                .UseIso639Codes = False,
+                .AppendLanguageToSingleSubtitles = False
+            }
+            Dim fileSystem As New FakeFileSystem()
+            Dim outputProducer As New FinalOutputProducer(prefs, fileSystem)
+
+            Dim inputFiles As New List(Of MediaFileEntry) From {
+                New MediaFileEntry("\temporary\path\tempfile.mkv", MediaType.Video Or MediaType.Audio, New Locale(Language.FRENCH)),
+                New MediaFileEntry("\temporary\path\subs_p.vtt", MediaType.Subtitles, New Locale(Language.PORTUGUESE)),
+                New MediaFileEntry("\temporary\path\subs_m.vtt", MediaType.Subtitles, New Locale(Language.MANDARIN))
+            }
+            Dim episode As New FakeEpisode() With {
+                .ShowName = "A test show",
+                .SeasonNumber = 1,
+                .EpisodeName = "The episode"
+            }
+
+            outputProducer.ProcessInputs(inputFiles, episode)
+
+            Assert.AreEqual(3, fileSystem.MovedFiles.Count)
+            Dim file1 = fileSystem.MovedFiles.Item(0)
+            Assert.AreEqual("\temporary\path\tempfile.mkv", file1.OldPath)
+            Assert.AreEqual("\final\output\path\A test show French.mkv", file1.NewPath)
+
+            Dim file2 = fileSystem.MovedFiles.Item(1)
+            Assert.AreEqual("\temporary\path\subs_p.vtt", file2.OldPath)
+            Assert.AreEqual("\final\output\path\A test show French.Portuguese.vtt", file2.NewPath)
+
+            Dim file3 = fileSystem.MovedFiles.Item(2)
+            Assert.AreEqual("\temporary\path\subs_m.vtt", file3.OldPath)
+            Assert.AreEqual("\final\output\path\A test show French.Mandarin.vtt", file3.NewPath)
         End Sub
     End Class
 End Namespace

@@ -103,10 +103,10 @@ Namespace download
                 processedEntries = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
             End If
 
-            Dim outputPrefs As OutputPreferences = New OutputPreferenceFactory().GetPreferences()
+            Dim outputPrefs As OutputPreferences = New OutputPreferenceFactory().GetPreferences(DlTask)
 
             Dim outputProducer As New FinalOutputProducer(outputPrefs, filesystem)
-            Dim completedFiles As List(Of MediaFileEntry) = outputProducer.ProcessInputs(processedEntries, DlTask.GetEpisode())
+            Dim completedFiles As List(Of MediaFileEntry) = outputProducer.ProcessInputs(processedEntries, DlTask.DownloadEpisode)
 
             Debug.WriteLine($"Download completed. {completedFiles.Count} files moved to {outputPrefs.OutputPath}")
 
@@ -121,16 +121,16 @@ Namespace download
         End Sub
 
         Private Async Function GetAvailableMedia() As Task(Of List(Of MediaLink))
-            Dim episode = DlTask.GetEpisode()
+            Dim episode = DlTask.DownloadEpisode
             Console.WriteLine($"Getting media for {episode}")
-            Dim client = DlTask.GetMetadataClient()
+            Dim client = DlTask.Client
             ' TODO: Get correct preference factory based on site.
             Dim preferenceFactory = New FunimationPreferenceFactory()
             Return Await client.GetAvailableMedia(episode, preferenceFactory.GetCurrentPreferences())
         End Function
 
         Private Async Function GetSelection(media As List(Of MediaLink)) As Task(Of Selection)
-            Dim client = DlTask.GetMetadataClient()
+            Dim client = DlTask.Client
 
             Dim resolvedMedia As New List(Of Media)
             For Each item As MediaLink In media
