@@ -198,10 +198,10 @@
     <Compile Include="download\IPlaybackDownloader.vb" />
     <Compile Include="download\DownloadScheduler.vb" />
     <Compile Include="download\DownloadingItemPresenter.vb" />
-    <Compile Include="download\DownloadingItemView.Designer.vb">
+    <Compile Include="ui\DownloadingItemView.Designer.vb">
       <DependentUpon>DownloadingItemView.vb</DependentUpon>
     </Compile>
-    <Compile Include="download\DownloadingItemView.vb">
+    <Compile Include="ui\DownloadingItemView.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="download\DownloadTask.vb" />
@@ -352,7 +352,7 @@
     <EmbeddedResource Include="debugging\DebugForm.resx">
       <DependentUpon>DebugForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="download\DownloadingItemView.resx">
+    <EmbeddedResource Include="ui\DownloadingItemView.resx">
       <DependentUpon>DownloadingItemView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ffmpeg_option.resx">

@@ -1,4 +1,6 @@
-﻿Namespace download
+﻿Imports Crunchyroll_Downloader.ui
+
+Namespace download
     Public Class DownloadingItemPresenter
 
         Private WithEvents View As DownloadingItemView
@@ -9,7 +11,7 @@
             Me.View = view
             Me.task = task
 
-            view.setTask(task)
+            view.SetTask(task)
         End Sub
 
         Private Sub HandleCancelDownload() Handles View.CancelDownload
