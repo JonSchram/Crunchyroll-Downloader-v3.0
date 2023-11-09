@@ -1,6 +1,5 @@
 ﻿Imports System.Drawing.Imaging
 Imports System.IO
-Imports System.Runtime.InteropServices.WindowsRuntime
 Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.utilities
@@ -28,6 +27,9 @@ Namespace postprocess
             Dim nameGenerator = New FilenameInterpolator(Preferences.NameTemplate, Preferences.SeasonDigitPadding, Preferences.EpisodeDigitPadding,
                                         Preferences.UseIso639Codes)
 
+            Dim numberOfSubtitleFiles = GetNumberOfSubtitleFiles(files)
+            Dim appendLanguageToSubtitles = (numberOfSubtitleFiles = 1 And Preferences.AppendLanguageToSingleSubtitles) Or numberOfSubtitleFiles > 1
+
             Dim outputPath As String = CreateSavePath(Preferences.OutputPath, ep)
             ' All files should use the same locale for consistency.
             Dim audioFile As MediaFileEntry = GetAudioEntry(files)
@@ -40,7 +42,7 @@ Namespace postprocess
                 Dim currentFilename As String = baseFilename
 
                 Dim subtitleLocale As Locale = GetSubtitleLocale(file.StreamLocales)
-                If file.OnlyContainsMedia(MediaType.Subtitles) AndAlso Preferences.AppendLanguageNameToSubtitle AndAlso subtitleLocale IsNot Nothing Then
+                If file.OnlyContainsMedia(MediaType.Subtitles) AndAlso appendLanguageToSubtitles AndAlso subtitleLocale IsNot Nothing Then
                     If Preferences.UseIso639Codes Then
                         currentFilename += $".{subtitleLocale.GetAbbreviatedString()}"
                     Else
@@ -115,6 +117,16 @@ Namespace postprocess
                 End If
             Next
             Return Nothing
+        End Function
+
+        Private Function GetNumberOfSubtitleFiles(files As List(Of MediaFileEntry)) As Integer
+            Dim count As Integer = 0
+            For Each file In files
+                If file.OnlyContainsMedia(MediaType.Subtitles) Then
+                    count += 1
+                End If
+            Next
+            Return count
         End Function
 
     End Class

@@ -198,7 +198,7 @@ Namespace debugging
 
             Dim fakeClient = New FakeDownloadClient(True, fakeEpisode)
 
-            Dim task = New DownloadTask(fakeEpisode, "/", fakeClient)
+            Dim task = New DownloadTask(fakeEpisode, "/", fakeClient, Nothing, settings.general.SubfolderBehavior.NO_SUBFOLDER)
 
             queue.Enqueue(task)
         End Sub

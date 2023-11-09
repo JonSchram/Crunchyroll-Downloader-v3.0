@@ -935,7 +935,7 @@ Partial Class SettingsDialog
         Me.TabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular
         Me.TabControl1.Location = New System.Drawing.Point(22, 60)
         Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 1
+        Me.TabControl1.SelectedIndex = 2
         Me.TabControl1.Size = New System.Drawing.Size(509, 567)
         Me.TabControl1.TabIndex = 0
         Me.TabControl1.UseSelectable = True
@@ -949,9 +949,9 @@ Partial Class SettingsDialog
         Me.MetroTabPage2.HorizontalScrollbarBarColor = True
         Me.MetroTabPage2.HorizontalScrollbarHighlightOnWheel = False
         Me.MetroTabPage2.HorizontalScrollbarSize = 10
-        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 35)
+        Me.MetroTabPage2.Location = New System.Drawing.Point(4, 44)
         Me.MetroTabPage2.Name = "MetroTabPage2"
-        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 528)
+        Me.MetroTabPage2.Size = New System.Drawing.Size(501, 519)
         Me.MetroTabPage2.TabIndex = 8
         Me.MetroTabPage2.Text = "Naming"
         Me.MetroTabPage2.VerticalScrollbarBarColor = True
@@ -1002,11 +1002,11 @@ Partial Class SettingsDialog
         'IncludeLanguageNameCheckBox
         '
         Me.IncludeLanguageNameCheckBox.AutoSize = True
-        Me.IncludeLanguageNameCheckBox.Location = New System.Drawing.Point(128, 36)
+        Me.IncludeLanguageNameCheckBox.Location = New System.Drawing.Point(75, 38)
         Me.IncludeLanguageNameCheckBox.Name = "IncludeLanguageNameCheckBox"
-        Me.IncludeLanguageNameCheckBox.Size = New System.Drawing.Size(244, 15)
+        Me.IncludeLanguageNameCheckBox.Size = New System.Drawing.Size(341, 15)
         Me.IncludeLanguageNameCheckBox.TabIndex = 32
-        Me.IncludeLanguageNameCheckBox.Text = "Include language name in first subtitle file"
+        Me.IncludeLanguageNameCheckBox.Text = "Include language name if there is only one subtitle language"
         Me.IncludeLanguageNameCheckBox.UseSelectable = True
         '
         'SubLanguageNamingComboBox

@@ -1,6 +1,7 @@
 ﻿Imports System.Collections.Concurrent
 Imports System.ComponentModel
 Imports System.Threading
+Imports Crunchyroll_Downloader.settings.general
 Imports SiteAPI.api
 Imports SiteAPI.api.metadata
 
@@ -92,13 +93,14 @@ Namespace download
                          End Sub, Nothing)
         End Sub
 
-        Public Sub EnqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer, path As String, client As IDownloadClient)
+        Public Sub EnqueueRange(episodeList As List(Of Episode), startNum As Integer, endNum As Integer, path As String, client As IDownloadClient,
+                                overrideFolder As String, subfolder As SubfolderBehavior)
             Dim minEpisode = Math.Min(startNum, endNum)
             Dim maxEpisode = Math.Max(startNum, endNum)
             Dim episodeCount = maxEpisode - minEpisode + 1
 
             For episodeNumber As Integer = minEpisode To maxEpisode
-                Enqueue(New DownloadTask(episodeList.Item(episodeNumber), path, client))
+                Enqueue(New DownloadTask(episodeList.Item(episodeNumber), path, client, overrideFolder, subfolder))
             Next
         End Sub
 
