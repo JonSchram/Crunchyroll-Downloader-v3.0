@@ -454,7 +454,7 @@ Namespace settings.general
             End Set
         End Property
 
-        Public Property IncludeSubtitleLanguageInFirstSubtitle As Boolean
+        Public Property IncludeLangaugeIfOneSubtitleFile As Boolean
             Get
                 Return My.Settings.IncludeLangName
             End Get

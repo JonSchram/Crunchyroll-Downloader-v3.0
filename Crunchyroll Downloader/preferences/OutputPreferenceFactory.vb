@@ -17,6 +17,7 @@ Namespace preferences
             Dim numberPaddingLength As Integer = settings.ZeroPaddingLength
             Dim nameBehavior As SeasonNumberBehavior = settings.SeasonNumberNaming
             Dim subtitleLanguageNaming As LanguageNameMethod = settings.SubLanguageNaming
+            Dim includeSubtitleLanguage As Boolean = settings.IncludeLangaugeIfOneSubtitleFile
 
             Return New OutputPreferences() With {
                 .OutputPath = outputDir,
@@ -27,7 +28,7 @@ Namespace preferences
                 .SeasonDigitPadding = numberPaddingLength,
                 .EpisodeDigitPadding = numberPaddingLength,
                 .UseIso639Codes = subtitleLanguageNaming = LanguageNameMethod.ISO639_2_CODES,
-                .AppendLanguageToSingleSubtitles = True, ' TODO
+                .AppendLanguageToSingleSubtitles = includeSubtitleLanguage,
                 .UseSeasonsInFilename = nameBehavior
             }
         End Function

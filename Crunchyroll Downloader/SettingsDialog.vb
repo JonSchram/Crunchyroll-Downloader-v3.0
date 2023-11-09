@@ -440,7 +440,7 @@ Public Class SettingsDialog
         LoadEpisodePrefix()
 
         LoadZeroPadding()
-        IncludeLanguageNameCheckBox.Checked = settings.IncludeSubtitleLanguageInFirstSubtitle
+        IncludeLanguageNameCheckBox.Checked = settings.IncludeLangaugeIfOneSubtitleFile
         SubLanguageNamingComboBox.SelectedItem = SubtitleNamingTextList.Item(settings.SubLanguageNaming)
     End Sub
     Private Sub LoadNamingInputs()
@@ -636,7 +636,7 @@ Public Class SettingsDialog
         settings.KodiNaming = KodiNamingCheckBox.Checked
         settings.SeasonNumberNaming = SeasonNumberBehaviorTextlist.GetEnumForItem(SeasonNumberBehaviorComboBox.SelectedItem)
         settings.ZeroPaddingLength = LeadingZerosComboBox.SelectedIndex + 1
-        settings.IncludeSubtitleLanguageInFirstSubtitle = IncludeLanguageNameCheckBox.Checked
+        settings.IncludeLangaugeIfOneSubtitleFile = IncludeLanguageNameCheckBox.Checked
         settings.SubLanguageNaming = SubtitleNamingTextList.GetEnumForItem(SubLanguageNamingComboBox.SelectedItem)
     End Sub
     Private Sub SaveSeasonPrefix()
