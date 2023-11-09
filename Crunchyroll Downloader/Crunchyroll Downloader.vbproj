@@ -168,16 +168,17 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddVideo.Designer.vb">
+    <Compile Include="ui\AddVideo.Designer.vb">
       <DependentUpon>AddVideo.vb</DependentUpon>
     </Compile>
-    <Compile Include="AddVideo.vb">
+    <Compile Include="ui\AddVideo.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="legacy\CrunchyrollDownloader.vb" />
     <Compile Include="legacy\FunimationDownloader.vb" />
     <Compile Include="postprocess\FinalOutputProducer.vb" />
     <Compile Include="postprocess\MkvPostprocessor.vb" />
+    <Compile Include="preferences\OutputPreferenceFactory.vb" />
     <Compile Include="preferences\ReencodePreferenceFactory.vb" />
     <Compile Include="postprocess\VideoPostprocessor.vb" />
     <Compile Include="preferences\DownloadPreferences.vb" />
@@ -217,6 +218,7 @@
     <Compile Include="FileUtilities.vb" />
     <Compile Include="postprocess\Mp4Postprocessor.vb" />
     <Compile Include="preferences\OutputPreferences.vb" />
+    <Compile Include="Settings\general\SubfolderBehavior.vb" />
     <Compile Include="preferences\VideoReencodePreferences.vb" />
     <Compile Include="QueueDialog.Designer.vb">
       <DependentUpon>QueueDialog.vb</DependentUpon>
@@ -225,10 +227,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="download\DownloadQueue.vb" />
-    <Compile Include="SeasonSelector.Designer.vb">
+    <Compile Include="ui\SeasonSelector.Designer.vb">
       <DependentUpon>SeasonSelector.vb</DependentUpon>
     </Compile>
-    <Compile Include="SeasonSelector.vb">
+    <Compile Include="ui\SeasonSelector.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings.vb" />
@@ -344,7 +346,7 @@
     <Compile Include="utilities\RealHttpClient.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AddVideo.resx">
+    <EmbeddedResource Include="ui\AddVideo.resx">
       <DependentUpon>AddVideo.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="debugging\DebugForm.resx">
@@ -359,7 +361,7 @@
     <EmbeddedResource Include="QueueDialog.resx">
       <DependentUpon>QueueDialog.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SeasonSelector.resx">
+    <EmbeddedResource Include="ui\SeasonSelector.resx">
       <DependentUpon>SeasonSelector.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Trackbar.resx">

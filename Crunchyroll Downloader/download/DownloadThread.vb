@@ -93,7 +93,7 @@ Namespace download
 
             Dim reencodePreferences As VideoReencodePreferences =
                 ReencodePreferenceFactory.GetVideoReencodePreferences(temporaryFolder, settings.OutputFormat, settings.Ffmpeg)
-            Dim processedEntries As List(Of MediaFileEntry)
+            Dim processedEntries As List(Of MediaFileEntry) = Nothing
             Dim fileFormat As ContainerFormat = settings.OutputFormat.GetVideoFormat()
             If fileFormat = ContainerFormat.MP4 Then
                 Dim postprocessor As New Mp4Postprocessor(reencodePreferences, ffmpegAdapter, filesystem)
@@ -102,7 +102,13 @@ Namespace download
                 Dim postprocessor As New MkvPostprocessor(reencodePreferences, ffmpegAdapter, filesystem)
                 processedEntries = Await postprocessor.ProcessInputs(downloadedEntries.ToList())
             End If
-            Dim outputDir = ProgramSettings.GetInstance().OutputPath
+
+            Dim outputPrefs As OutputPreferences = New OutputPreferenceFactory().GetPreferences()
+
+            Dim outputProducer As New FinalOutputProducer(outputPrefs, filesystem)
+            Dim completedFiles As List(Of MediaFileEntry) = outputProducer.ProcessInputs(processedEntries, DlTask.GetEpisode())
+
+            Debug.WriteLine($"Download completed. {completedFiles.Count} files moved to {outputPrefs.OutputPath}")
 
             RaiseCompletionEvent()
         End Sub

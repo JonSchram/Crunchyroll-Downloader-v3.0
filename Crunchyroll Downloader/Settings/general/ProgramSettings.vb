@@ -472,12 +472,23 @@ Namespace settings.general
             End Set
         End Property
 
+        '---- Values set throughout the life of the application, not in settings dialog.
+
         Public Property OutputPath As String
             Get
                 Return My.Settings.VideoOutputPath
             End Get
             Set(value As String)
                 My.Settings.VideoOutputPath = value
+            End Set
+        End Property
+
+        Public Property LastSubfolderBehavior As SubfolderBehavior
+            Get
+                Return CType(My.Settings.last_subfolder_behavior, SubfolderBehavior)
+            End Get
+            Set(value As SubfolderBehavior)
+                My.Settings.last_subfolder_behavior = value
             End Set
         End Property
 

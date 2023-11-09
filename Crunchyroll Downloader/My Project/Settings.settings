@@ -5,8 +5,8 @@
     <Setting Name="DarkModeValue" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="SubFolder_Value" Type="System.String" Scope="User">
-      <Value Profile="(Default)">[ ignore subfolder ]</Value>
+    <Setting Name="last_subfolder_behavior" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="TempFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

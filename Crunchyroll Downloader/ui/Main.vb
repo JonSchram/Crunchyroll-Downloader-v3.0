@@ -799,13 +799,9 @@ Namespace ui
                 End If
             End If
 
-            If AddVideo.WindowState = System.Windows.Forms.FormWindowState.Minimized Then
-                AddVideo.WindowState = System.Windows.Forms.FormWindowState.Normal
-            Else
-                AddVideo.OutputPath = ProgramSettings.GetInstance().OutputPath
-                AddVideo.OutputSubFolder = My.Settings.SubFolder_Value
-                AddVideo.Show()
-            End If
+            Dim settings = ProgramSettings.GetInstance()
+            Dim addVideoWindow As New AddVideo(settings.OutputPath, settings.LastSubfolderBehavior)
+            addVideoWindow.Show()
         End Sub
 
         Private Sub Btn_Settings_Click(sender As Object, ByVal e As EventArgs) Handles Btn_Settings.Click
