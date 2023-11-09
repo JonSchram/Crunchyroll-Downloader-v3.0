@@ -37,8 +37,6 @@ Namespace ui
         End Sub
 
         Private Async Sub downloadButton_Click(sender As Object, e As EventArgs) Handles downloadButton.Click
-            downloadButton.Enabled = False
-
             Dim subfolderBehavior As SubfolderBehavior = SubfolderBehaviorTextList.GetEnumForItem(subfolderBehaviorComboBox.SelectedItem)
             ProgramSettings.GetInstance().LastSubfolderBehavior = subfolderBehavior
             My.Settings.Save()
@@ -46,6 +44,10 @@ Namespace ui
             Dim downloadUrl = downloadUrlTextBox.Text
 
             client = DownloaderApi.GetMetadataDownloader(downloadUrl, Browser.GetInstance(), My.Resources.user_agent)
+            If client Is Nothing Then
+                Return
+            End If
+            downloadButton.Enabled = False
             Await client.Initialize()
 
             If Not client.IsVideoUrl(downloadUrl) Then
