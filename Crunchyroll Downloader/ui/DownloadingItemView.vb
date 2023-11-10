@@ -8,6 +8,7 @@ Namespace ui
 
         Public Event CancelDownload()
         Public Event PauseDownload()
+        Public Event StartDownload()
 
         Private Task As DownloadTask
 
@@ -26,6 +27,11 @@ Namespace ui
         Public Sub SetTask(task As DownloadTask)
             Me.Task = task
             UpdateLabels()
+        End Sub
+
+        Public Sub UpdateProgressBars(totalProgress As Integer, stageProgress As Integer)
+            Me.TotalProgress.Value = totalProgress
+            Me.StageProgress.Value = stageProgress
         End Sub
 
         Private Sub UpdateLabels()

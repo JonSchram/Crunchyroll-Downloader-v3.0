@@ -93,6 +93,7 @@
             Me.AddQueueItemButton = New System.Windows.Forms.Button()
             Me.Label6 = New System.Windows.Forms.Label()
             Me.TabPagePlayback = New System.Windows.Forms.TabPage()
+            Me.PlaybackDownloadStatusLabel = New System.Windows.Forms.Label()
             Me.DownloadHlsMasterPlaylistButton = New System.Windows.Forms.Button()
             Me.DownloadHlsMediaButton = New System.Windows.Forms.Button()
             Me.DownloadCompleteMediaButton = New System.Windows.Forms.Button()
@@ -103,7 +104,6 @@
             Me.SelectTemporaryFolderButton = New System.Windows.Forms.Button()
             Me.TemporaryFolderTextBox = New System.Windows.Forms.TextBox()
             Me.PlaybackFolderDialog = New System.Windows.Forms.FolderBrowserDialog()
-            Me.PlaybackDownloadStatusLabel = New System.Windows.Forms.Label()
             Me.TabControlOperations.SuspendLayout()
             Me.TabPageEpisode.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -830,6 +830,7 @@
             Me.EpisodeNumberInput.Name = "EpisodeNumberInput"
             Me.EpisodeNumberInput.Size = New System.Drawing.Size(120, 20)
             Me.EpisodeNumberInput.TabIndex = 6
+            Me.EpisodeNumberInput.Value = New Decimal(New Integer() {1, 0, 0, 0})
             '
             'SeasonNumberInput
             '
@@ -837,6 +838,7 @@
             Me.SeasonNumberInput.Name = "SeasonNumberInput"
             Me.SeasonNumberInput.Size = New System.Drawing.Size(120, 20)
             Me.SeasonNumberInput.TabIndex = 4
+            Me.SeasonNumberInput.Value = New Decimal(New Integer() {1, 0, 0, 0})
             '
             'EpisodeTitleTextBox
             '
@@ -917,6 +919,14 @@
             Me.TabPagePlayback.Text = "Playback Download"
             Me.TabPagePlayback.UseVisualStyleBackColor = True
             '
+            'PlaybackDownloadStatusLabel
+            '
+            Me.PlaybackDownloadStatusLabel.AutoSize = True
+            Me.PlaybackDownloadStatusLabel.Location = New System.Drawing.Point(9, 206)
+            Me.PlaybackDownloadStatusLabel.Name = "PlaybackDownloadStatusLabel"
+            Me.PlaybackDownloadStatusLabel.Size = New System.Drawing.Size(0, 13)
+            Me.PlaybackDownloadStatusLabel.TabIndex = 9
+            '
             'DownloadHlsMasterPlaylistButton
             '
             Me.DownloadHlsMasterPlaylistButton.Location = New System.Drawing.Point(338, 175)
@@ -993,14 +1003,6 @@
             Me.TemporaryFolderTextBox.ReadOnly = True
             Me.TemporaryFolderTextBox.Size = New System.Drawing.Size(756, 20)
             Me.TemporaryFolderTextBox.TabIndex = 0
-            '
-            'PlaybackDownloadStatusLabel
-            '
-            Me.PlaybackDownloadStatusLabel.AutoSize = True
-            Me.PlaybackDownloadStatusLabel.Location = New System.Drawing.Point(9, 206)
-            Me.PlaybackDownloadStatusLabel.Name = "PlaybackDownloadStatusLabel"
-            Me.PlaybackDownloadStatusLabel.Size = New System.Drawing.Size(0, 13)
-            Me.PlaybackDownloadStatusLabel.TabIndex = 9
             '
             'DebugForm
             '

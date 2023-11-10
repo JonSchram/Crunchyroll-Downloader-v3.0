@@ -7,10 +7,10 @@ Namespace download
 
         Private Shared Instance As DownloadScheduler
 
-        Private queue As DownloadQueue = DownloadQueue.GetInstance()
-        Private settings As ProgramSettings = ProgramSettings.GetInstance()
-        Private ExecutingTasks As List(Of DownloadTask) = New List(Of DownloadTask)()
-        Private TaskListLock As Object = New Object()
+        Private ReadOnly queue As DownloadQueue = DownloadQueue.GetInstance()
+        Private ReadOnly settings As ProgramSettings = ProgramSettings.GetInstance()
+        Private ReadOnly ExecutingTasks As New List(Of DownloadTask)()
+        Private ReadOnly TaskListLock As New Object()
 
         Public Event ScheduleTask(newTask As DownloadTask)
 
@@ -68,19 +68,10 @@ Namespace download
         End Sub
 
         Private Sub StartNewTask(task As DownloadTask)
-            RaiseEvent ScheduleTask(task)
             SyncLock TaskListLock
                 ExecutingTasks.Add(task)
             End SyncLock
-
-            Dim download = New DownloadThread(task)
-            AddHandler download.ReportProgress, AddressOf TaskProgress
-            AddHandler download.DownloadComplete, AddressOf TaskCompleted
-            download.Start()
-        End Sub
-
-        Private Sub TaskProgress(s As DownloadThread.Stage, stagePercent As Double, totalPercent As Double)
-            Console.WriteLine($"Thread reported progress. {s}, stage percent: {stagePercent}, total percent: {totalPercent}")
+            RaiseEvent ScheduleTask(task)
         End Sub
 
         Private Sub TaskCompleted(task As DownloadTask)
@@ -88,6 +79,10 @@ Namespace download
                 ExecutingTasks.Remove(task)
             End SyncLock
             CheckAndStartTask()
+        End Sub
+
+        Friend Sub OnTaskCompleted(task As DownloadTask)
+            TaskCompleted(task)
         End Sub
     End Class
 

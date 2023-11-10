@@ -197,7 +197,7 @@
     <Compile Include="download\AbstractPlaybackDownloader.vb" />
     <Compile Include="download\IPlaybackDownloader.vb" />
     <Compile Include="download\DownloadScheduler.vb" />
-    <Compile Include="download\DownloadingItemPresenter.vb" />
+    <Compile Include="ui\DownloadingItemPresenter.vb" />
     <Compile Include="ui\DownloadingItemView.Designer.vb">
       <DependentUpon>DownloadingItemView.vb</DependentUpon>
     </Compile>

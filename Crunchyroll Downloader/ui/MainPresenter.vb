@@ -6,7 +6,7 @@ Namespace ui
         Private ReadOnly MainView As Main
 
         Private DisplayedTasks As List(Of DownloadTask)
-        Private Downloader As DownloadScheduler
+        Private Scheduler As DownloadScheduler
 
         Public Sub New(mainView As Main)
             Me.MainView = mainView
@@ -20,9 +20,10 @@ Namespace ui
                 settings.UpgradeSettings()
             End If
 
-            Dim mySettings As New DirectorySettings()
-            mySettings.DirectoryName = Application.StartupPath
-            mySettings.FileName = "User.config.dat"
+            Dim mySettings As New DirectorySettings With {
+                .DirectoryName = Application.StartupPath,
+                .FileName = "User.config.dat"
+            }
             mySettings.Save() ' muss explizit gepeichert werden...
 
 
@@ -34,14 +35,26 @@ Namespace ui
                 settings.TemporaryFolder = My.Computer.FileSystem.SpecialDirectories.Temp
             End If
 
-            Downloader = DownloadScheduler.GetInstance()
-            AddHandler Downloader.ScheduleTask, AddressOf AddDownloadTask
+            Scheduler = DownloadScheduler.GetInstance()
+            AddHandler Scheduler.ScheduleTask, AddressOf AddDownloadTask
         End Sub
 
         Public Sub AddDownloadTask(task As DownloadTask)
             DisplayedTasks.Add(task)
+            ' Allow the main form to create the download view to keep it conceptually separate from the presenter even though there is no view interface.
             Dim itemView = MainView.DisplayDownloadTask(task)
             Dim itemPresenter = New DownloadingItemPresenter(itemView, task)
+            AddHandler itemPresenter.RemoveTask, AddressOf RemoveDownloadTask
+            AddHandler itemPresenter.CompleteTask, AddressOf HandleTaskCompleted
+            itemPresenter.StartDownload()
+        End Sub
+
+        Private Sub HandleTaskCompleted(task As DownloadTask)
+            Scheduler.OnTaskCompleted(task)
+        End Sub
+
+        Public Sub RemoveDownloadTask(view As DownloadingItemView)
+            MainView.RemoveDownloadTask(view)
         End Sub
     End Class
 End Namespace

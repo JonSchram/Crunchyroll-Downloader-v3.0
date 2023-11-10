@@ -5,6 +5,7 @@ Imports Crunchyroll_Downloader.postprocess
 Imports Crunchyroll_Downloader.preferences
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
+Imports Crunchyroll_Downloader.ui
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports SiteAPI.api.common
@@ -15,6 +16,7 @@ Namespace download
 
         Private ReadOnly DlTask As DownloadTask
         Private ReadOnly WorkerThread As Thread
+        Private ReadOnly Progress As IProgress(Of DownloadingItemPresenter.PipelineProgress)
 
         ''' <summary>
         ''' Event fired by the download thread. Reports progress towards the goal.
@@ -32,9 +34,21 @@ Namespace download
         Private Shared ReadOnly NumberOfStages As Integer = [Enum].GetNames(GetType(Stage)).Length
 
         Public Sub New(task As DownloadTask)
+            ' TODO: Retire this constructor, use the one that takes an IProgress
             DlTask = task
             WorkerThread = New Thread(AddressOf Download)
 
+            ' Save the current thread so events can be triggered on the thread that created this.
+            CreationSynchronizationContext = SynchronizationContext.Current
+        End Sub
+
+        Public Sub New(task As DownloadTask, progress As IProgress(Of DownloadingItemPresenter.PipelineProgress))
+            DlTask = task
+            Me.Progress = progress
+
+            WorkerThread = New Thread(AddressOf Download)
+
+            ' TODO: See if this is necessary after using the IProgress object.
             ' Save the current thread so events can be triggered on the thread that created this.
             CreationSynchronizationContext = SynchronizationContext.Current
         End Sub
@@ -60,6 +74,7 @@ Namespace download
         End Sub
 
         Private Sub RaiseCompletionEvent()
+            Progress.Report(New DownloadingItemPresenter.PipelineProgress(True))
             ' TODO: Must raise event on the correct thread. The calling code creates new tasks on the thread this event is rasied from,
             ' meaning that when the download completes, the context will disappear.
             CreationSynchronizationContext.Post(
@@ -114,6 +129,7 @@ Namespace download
         End Sub
 
         Private Sub HandleProgressReported(sourceIndex As Integer, amount As Integer)
+            Progress.Report(New DownloadingItemPresenter.PipelineProgress(0, amount))
             Debug.WriteLine($"Download thread progress reported: {sourceIndex}, {amount}%")
         End Sub
         Private Sub HandleSelectionCompleted(sourceIndex As Integer)
@@ -141,25 +157,6 @@ Namespace download
             Next
 
             Return New Selection(resolvedMedia)
-        End Function
-
-        Private Async Function GetPlaybackFile() As Tasks.Task(Of Selection)
-            'Dim playback = Await client.GetEpisodePlayback(episode)
-            RaiseReportProgressEvent(Stage.FIND_VIDEO, 1)
-
-            ' TODO: This pattern of reporting a complete stage and immediately reporting the next stage as incomplete
-            ' makes the code harder to read. It probably isn't necessary if this is being reported in the UI.
-            ' Unless the progress reporting is a log, a single status message would disappear instantly.
-            ' Still a problem but a little less of one is that fast stages with no async component will also disappear very quickly.
-            ' I think the solution here would be in the UI
-
-            RaiseReportProgressEvent(Stage.FIND_VERSION, 0)
-            'Dim selector = New PlaybackSelector()
-            'Dim bestPlayback = selector.ChooseFunimationPlayback(playback)
-            'RaiseReportProgressEvent(Stage.FIND_VERSION, 1)
-
-            'Return bestPlayback
-            Return Nothing
         End Function
 
         Public Enum Stage As Integer

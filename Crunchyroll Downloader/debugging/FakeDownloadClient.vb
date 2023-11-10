@@ -47,11 +47,17 @@ Namespace debugging
         End Function
 
         Public Function ResolveMediaLink(link As MediaLink) As Task(Of Media) Implements IDownloadClient.ResolveMediaLink
-            Throw New NotImplementedException()
+            ' Do the absolute minimum, though this isn't called because there is no media.
+            If TypeOf link Is FileMediaLink Then
+                Return Task.FromResult(Of Media)(New FileMedia(link.Type, link.MediaLocale, link.Location))
+            ElseIf TypeOf link Is HlsMasterPlaylistLink Then
+                Return Task.FromResult(Of Media)(New MasterPlaylistMedia(link.Type, link.MediaLocale, link.Location, Nothing))
+            End If
+            Return Task.FromResult(Of Media)(Nothing)
         End Function
 
         Public Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
-            Throw New NotImplementedException()
+            Return Task.FromResult(New List(Of MediaLink)())
         End Function
     End Class
 End Namespace

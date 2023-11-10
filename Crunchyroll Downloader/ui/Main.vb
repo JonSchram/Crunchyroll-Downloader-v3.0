@@ -1361,6 +1361,9 @@ Namespace ui
                 Return taskView
             End If
         End Function
+        Public Sub RemoveDownloadTask(view As DownloadingItemView)
+            TaskFlowPanel.Controls.Remove(view)
+        End Sub
 
     End Class
 
