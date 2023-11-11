@@ -1,4 +1,6 @@
 ﻿Imports Crunchyroll_Downloader.download
+Imports Crunchyroll_Downloader.pipeline
+Imports Crunchyroll_Downloader.utilities
 
 Namespace ui
     Public Class DownloadingItemPresenter
@@ -6,16 +8,23 @@ Namespace ui
         Private WithEvents View As DownloadingItemView
 
         Private ReadOnly task As DownloadTask
+        Private ReadOnly estimator As ProgressEstimator
+
 
         Private ReadOnly ProgressReporter As IProgress(Of PipelineProgress)
 
         Public Event RemoveTask(view As DownloadingItemView)
         Public Event CompleteTask(task As DownloadTask)
 
+        Private CurrentAction As PipelineStage
+
         Public Sub New(view As DownloadingItemView, task As DownloadTask)
             Me.View = view
             Me.task = task
 
+            CurrentAction = PipelineStage.INITIALIZING
+
+            estimator = New ProgressEstimator()
             ProgressReporter = New Progress(Of PipelineProgress)(AddressOf HandleProgressReport)
 
             view.SetTask(task)
@@ -23,18 +32,27 @@ Namespace ui
 
         Private Sub HandleProgressReport(progress As PipelineProgress)
             Debug.WriteLine($"Progress reported: {progress}")
-            View.UpdateProgressBars(progress.TotalPercent, progress.StagePercent)
+
+            If progress.Stage.HasValue Then
+                CurrentAction = progress.Stage.Value
+            End If
+
+            If progress.StagePercent.HasValue Then
+                Dim remainingTime As TimeSpan = estimator.GetRemainingTime(progress.StagePercent.Value)
+                View.UpdateProgress(progress.TotalPercent.Value, progress.StagePercent.Value, remainingTime)
+            End If
+
+            If progress.StageStarted.HasValue Then
+                estimator.Start()
+            End If
+
+            If progress.StageCompleted.HasValue Then
+                estimator.Reset()
+            End If
+
             If progress.Completed Then
                 RaiseEvent CompleteTask(task)
             End If
-        End Sub
-
-        Private Sub HandleDownloadStart() Handles View.StartDownload
-            ' TODO: Delete. I think this isn't needed. The main form starts the download, therefore this doesn't come as an event from the view,
-            ' but instead comes from main as a method call.
-            Debug.WriteLine("Starting download")
-            Dim download = New DownloadThread(task, ProgressReporter)
-            download.Start()
         End Sub
 
         Public Sub StartDownload()
@@ -49,33 +67,5 @@ Namespace ui
         Private Sub HandlePauseDownload() Handles View.PauseDownload
             MessageBox.Show("Download paused (TODO)")
         End Sub
-
-        Public Class PipelineProgress
-            Public Property TotalPercent As Integer
-            Public Property StagePercent As Integer
-
-            Public Property Completed As Boolean
-
-            Public Sub New()
-                Completed = False
-            End Sub
-
-            Public Sub New(totalPercent As Integer, stagePercent As Integer)
-                Me.TotalPercent = totalPercent
-                Me.StagePercent = stagePercent
-                Completed = False
-            End Sub
-
-            Public Sub New(completed As Boolean)
-                Me.Completed = completed
-                If completed Then
-                    TotalPercent = 100
-                    StagePercent = 100
-                Else
-                    TotalPercent = 0
-                    StagePercent = 0
-                End If
-            End Sub
-        End Class
     End Class
 End Namespace

@@ -26,7 +26,7 @@ Namespace download
 
             Dim sources As New List(Of Media) From {New FileMedia(MediaType.Subtitles, New Locale(Language.JAPANESE), "https://www.example.com/somefile.vtt")}
             Dim playback As New Selection(sources)
-            Dim outputFiles As MediaFileEntry() = Await downloader.DownloadSelection(playback)
+            Dim outputFiles As List(Of MediaFileEntry) = Await downloader.DownloadSelection(playback)
 
             Debug.WriteLine(outputFiles)
 

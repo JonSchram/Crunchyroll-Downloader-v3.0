@@ -168,6 +168,16 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pipeline\CalculateSelectionStage.vb" />
+    <Compile Include="pipeline\DownloadStage.vb" />
+    <Compile Include="pipeline\OutputStage.vb" />
+    <Compile Include="pipeline\PostprocessStage.vb" />
+    <Compile Include="pipeline\RetrieveMediaStage.vb" />
+    <Compile Include="pipeline\AbstractPipelineStage.vb" />
+    <Compile Include="pipeline\IPipelineStage.vb" />
+    <Compile Include="pipeline\PipelineStage.vb" />
+    <Compile Include="pipeline\PipelineProgress.vb" />
+    <Compile Include="utilities\ProgressEstimator.vb" />
     <Compile Include="ui\AddVideo.Designer.vb">
       <DependentUpon>AddVideo.vb</DependentUpon>
     </Compile>

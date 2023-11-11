@@ -22,28 +22,35 @@ Namespace download
             Me.FfmpegRunner = ffmpegRunner
         End Sub
 
-        Public Overrides Async Function DownloadSelection(playback As Selection) As Task(Of MediaFileEntry())
+        Public Overrides Async Function DownloadSelection(playback As Selection) As Task(Of List(Of MediaFileEntry))
             ' TODO: Allow sending progress.
             ' Right now, this just awaits all the downloads but the download thread has no idea what is finished.
 
             Dim allTasks As New List(Of Task(Of MediaFileEntry))
 
-            Dim media As IEnumerable(Of Media) = playback.Media
+            Dim media As IReadOnlyList(Of Media) = playback.Media
+            Dim totalFiles As Integer = media.Count
 
-            For Each item In media
-                allTasks.Add(DownloadMediaItem(item))
+            Dim completedRecords As New List(Of MediaFileEntry)
+            For i As Integer = 0 To totalFiles - 1
+                Dim item As Media = media.Item(i)
+
+                OnMediaProgress(i, totalFiles, 0)
+                completedRecords.Add(Await DownloadMediaItem(item, i, totalFiles))
+                OnMediaProgress(i, totalFiles, 100)
+                OnMediaComplete(i, totalFiles)
             Next
-            Dim completedRecords As MediaFileEntry() = Await Task.WhenAll(allTasks)
-
+            For Each item In media
+            Next
 
             Return completedRecords
         End Function
 
-        Private Function DownloadMediaItem(item As Media) As Task(Of MediaFileEntry)
+        Private Function DownloadMediaItem(item As Media, currentIndex As Integer, totalFiles As Integer) As Task(Of MediaFileEntry)
             If TypeOf item Is FileMedia Then
-                Return DownloadSingleFile(CType(item, FileMedia))
+                Return DownloadSingleFile(CType(item, FileMedia), currentIndex, totalFiles)
             ElseIf TypeOf item Is MasterPlaylistMedia Then
-                Return DownloadPlaylist(CType(item, MasterPlaylistMedia))
+                Return DownloadPlaylist(CType(item, MasterPlaylistMedia), currentIndex, totalFiles)
             End If
 
             ' Should never happen.
@@ -55,9 +62,8 @@ Namespace download
         ''' </summary>
         ''' <param name="item"></param>
         ''' <returns></returns>
-        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia) As Task(Of MediaFileEntry)
-            Dim itemIndex As Integer = 0
-            OnMediaProgress(itemIndex, 0)
+        Private Async Function DownloadPlaylist(item As MasterPlaylistMedia, currentIndex As Integer, totalFiles As Integer) As Task(Of MediaFileEntry)
+            OnMediaProgress(currentIndex, totalFiles, 0)
 
             ' TODO: Use proper playlist comparer.
             Dim programNumber = item.Playlist.GetClosestMatchProgramNumber(New LowestResolutionComparer())
@@ -73,24 +79,25 @@ Namespace download
             })
             ffmpegArguments.Codecs.Add(New CopyCodecArgument())
             ffmpegArguments.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
-            AddHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
+
+            Dim handler = Sub(amount As Integer)
+                              OnMediaProgress(currentIndex, totalFiles, amount)
+                          End Sub
+            AddHandler FfmpegRunner.ReportProgress, handler
 
             Dim statusCode As Integer = Await FfmpegRunner.Run(ffmpegArguments)
-            RemoveHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
+
+            RemoveHandler FfmpegRunner.ReportProgress, handler
+
 
             If statusCode <> 0 Then
                 Throw New Exception($"Ffmpeg exited with error: {statusCode}")
             End If
 
-            OnMediaProgress(itemIndex, 100)
-            OnMediaComplete(itemIndex)
+            OnMediaProgress(currentIndex, totalFiles, 100)
+            OnMediaComplete(currentIndex, totalFiles)
 
             Return New MediaFileEntry(outputName, MediaType.Audio Or MediaType.Video, item.MediaLocale)
         End Function
-
-        Private Sub HandleFfmpegProgress(amount As Integer)
-            ' TODO: Real media index
-            OnMediaProgress(0, amount)
-        End Sub
     End Class
 End Namespace

@@ -29,9 +29,10 @@ Namespace ui
             UpdateLabels()
         End Sub
 
-        Public Sub UpdateProgressBars(totalProgress As Integer, stageProgress As Integer)
+        Public Sub UpdateProgress(totalProgress As Integer, stageProgress As Integer, remainingTime As TimeSpan)
             Me.TotalProgress.Value = totalProgress
             Me.StageProgress.Value = stageProgress
+            UpdateStatusLabel(stageProgress, remainingTime)
         End Sub
 
         Private Sub UpdateLabels()
@@ -40,12 +41,21 @@ Namespace ui
             Else
                 SetSiteName()
                 AnimeDetailsLabel.Text = FormatAnimeTitle()
+                UpdateStatusLabel(0, Nothing)
             End If
         End Sub
 
         Private Sub SetSiteName()
             Dim client = Task.Client
             WebsiteLabel.Text = client.GetSiteName()
+        End Sub
+
+        Private Sub UpdateStatusLabel(percent As Integer, remainingTime As TimeSpan)
+            If remainingTime = Nothing Then
+                StatusLabel.Text = $"Progress: {percent}%"
+            Else
+                StatusLabel.Text = $"Progress: {percent}%, Remaining: {remainingTime:g}"
+            End If
         End Sub
 
         Private Function FormatAnimeTitle() As String

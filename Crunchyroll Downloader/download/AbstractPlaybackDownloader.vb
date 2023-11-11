@@ -14,22 +14,16 @@ Namespace download
         Protected Preferences As DownloadPreferences
         Protected FilesystemApi As IFilesystem
 
-        ''' <summary>
-        ''' Raised throughout the download process.
-        ''' </summary>
-        ''' <param name="sourceIndex"></param>
-        ''' <param name="progress"></param>
-        Public Event ReportDownloadProgress(sourceIndex As Integer, progress As Integer)
-        Public Event ReportDownloadComplete(sourceIndex As Integer)
+        Public Event ReportDownloadProgress(currentFile As Integer, totalFiles As Integer, progress As Integer)
+        Public Event ReportDownloadComplete(fileNumber As Integer, totalFiles As Integer)
 
         Public Sub New(preferences As DownloadPreferences, client As IHttpClient)
             Me.Preferences = preferences
             Me.Client = client
         End Sub
 
-        Protected Async Function DownloadSingleFile(media As FileMedia) As Task(Of MediaFileEntry)
-            Dim itemIndex As Integer = 0
-            OnMediaProgress(itemIndex, 0)
+        Protected Async Function DownloadSingleFile(media As FileMedia, currentIndex As Integer, totalFiles As Integer) As Task(Of MediaFileEntry)
+            OnMediaProgress(currentIndex, totalFiles, 0)
 
             Dim response = Await Client.SendAsync(New HttpRequestMessage(HttpMethod.Get, media.OriginalLocation))
             response.EnsureSuccessStatusCode()
@@ -43,26 +37,31 @@ Namespace download
             Dim uniqueTemporaryPath = GetUniqueFilename(FilesystemApi, Preferences.TemporaryDirectory, baseFilename, extension)
 
             Await FilesystemApi.CopyToAsync(dataStream, FileMode.CreateNew, uniqueTemporaryPath)
-            'Dim dest As Stream = New FileStream(uniqueTemporaryPath, FileMode.CreateNew)
-            'Await dataStream.CopyToAsync(dest)
-            'dest.Close()
 
             Dim record = New MediaFileEntry(uniqueTemporaryPath, media.Type, media.MediaLocale)
 
-            OnMediaProgress(itemIndex, 100)
-            OnMediaComplete(itemIndex)
+            OnMediaProgress(currentIndex, totalFiles, 100)
+            OnMediaComplete(currentIndex, totalFiles)
             Return record
         End Function
 
-        Public MustOverride Async Function DownloadSelection(playbacks As Selection) As Task(Of MediaFileEntry()) Implements IPlaybackDownloader.DownloadSelection
+        Public MustOverride Async Function DownloadSelection(playbacks As Selection) As Task(Of List(Of MediaFileEntry)) Implements IPlaybackDownloader.DownloadSelection
 
-        Protected Sub OnMediaProgress(mediaIndex As Integer, progress As Integer)
-            RaiseEvent ReportDownloadProgress(mediaIndex, progress)
+        Protected Sub OnMediaProgress(mediaIndex As Integer, totalFiles As Integer, progress As Integer)
+            RaiseEvent ReportDownloadProgress(mediaIndex, totalFiles, progress)
         End Sub
 
-        Protected Sub OnMediaComplete(mediaIndex As Integer)
-            RaiseEvent ReportDownloadComplete(mediaIndex)
+        Protected Sub OnMediaComplete(mediaIndex As Integer, totalFiles As Integer)
+            RaiseEvent ReportDownloadComplete(mediaIndex, totalFiles)
         End Sub
 
+
+        Protected Class ProgressReporter
+            'Public Sub New(callback As Action, totalFiles)
+
+            'End Sub
+
+
+        End Class
     End Class
 End Namespace
