@@ -28,13 +28,12 @@ Namespace pipeline
                     .TemporaryDirectory = TemporaryFolder
                 }
             Dim downloader As New FfmpegDownloader(downloadPrefs, FfmpegAdapter, FileSystem, Client)
-            Dim downloadProgressReporter As New StageProgressHandler(Stage, Progress)
 
             ' TODO: Allow naming sub-stages.
             ' This reports which stages are being executed, but doesn't tell the user what is happening.
             ' It would be nice to say that this is downloading subtitles / the video.
-            AddHandler downloader.ReportDownloadProgress, AddressOf downloadProgressReporter.HandleProgressReported
-            AddHandler downloader.ReportDownloadComplete, AddressOf downloadProgressReporter.HandleSubStageFinished
+            AddHandler downloader.ReportDownloadProgress, AddressOf ReportSubStageProgress
+            AddHandler downloader.ReportDownloadComplete, AddressOf ReportSubStageFinished
 
             Return Await downloader.DownloadSelection(data)
         End Function

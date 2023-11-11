@@ -31,15 +31,28 @@ Namespace pipeline
                 ReencodePreferenceFactory.GetVideoReencodePreferences(TemporaryFolder, OutputFormat, FfmpegSetting)
             Dim fileFormat As ContainerFormat = OutputFormat.GetVideoFormat()
 
+            Dim postprocessor As VideoPostprocessor = Nothing
             If fileFormat = ContainerFormat.MP4 Then
-                Dim postprocessor As New Mp4Postprocessor(reencodePreferences, FfmpegAdapter, FileSystem)
-                Return Await postprocessor.ProcessInputs(data.ToList())
+                postprocessor = New Mp4Postprocessor(reencodePreferences, FfmpegAdapter, FileSystem)
             ElseIf fileFormat = ContainerFormat.MKV Then
-                Dim postprocessor As New MkvPostprocessor(reencodePreferences, FfmpegAdapter, FileSystem)
+                postprocessor = New MkvPostprocessor(reencodePreferences, FfmpegAdapter, FileSystem)
+            End If
+
+            If postprocessor IsNot Nothing Then
+                AddHandler postprocessor.ReportFfmpegProgress, AddressOf HandleEncodeProgress
+                AddHandler postprocessor.ReportFfmpegComplete, AddressOf HandleEncodeFinished
                 Return Await postprocessor.ProcessInputs(data.ToList())
             End If
 
             Return Nothing
         End Function
+
+        Private Sub HandleEncodeProgress(progress As Integer)
+            ReportSubStageProgress(0, 1, progress)
+        End Sub
+
+        Private Sub HandleEncodeFinished()
+            ReportSubStageFinished(0, 1)
+        End Sub
     End Class
 End Namespace

@@ -19,6 +19,14 @@ Namespace postprocess
         Private ReadOnly FfmpegRunner As IFfmpegAdapter
         Private ReadOnly FilesystemApi As IFilesystem
 
+        ''' <summary>
+        ''' Event reporting amount of progress ffmpeg has made.
+        ''' The postprocessor only processes a single file (whether that is remuxing or reencoding) while all other files are passed through with no change.
+        ''' </summary>
+        ''' <param name="progress"></param>
+        Public Event ReportFfmpegProgress(progress As Integer)
+        Public Event ReportFfmpegComplete()
+
         Public Sub New(prefs As VideoReencodePreferences, ffmpegRunner As IFfmpegAdapter, fileSystemApi As IFilesystem)
             Preferences = prefs
             Me.FfmpegRunner = ffmpegRunner
@@ -77,8 +85,8 @@ Namespace postprocess
 
             AddHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
             Dim statusCode As Integer = Await FfmpegRunner.Run(args)
-
             RemoveHandler FfmpegRunner.ReportProgress, AddressOf HandleFfmpegProgress
+            RaiseEvent ReportFfmpegComplete()
 
             ' TODO: Delete input files that have been reencoded.
 
@@ -255,7 +263,8 @@ Namespace postprocess
 
 
         Private Sub HandleFfmpegProgress(amount As Integer)
-            Debug.WriteLine($"Mp4 postprocessor ffmpeg progress reported: {amount}")
+            Debug.WriteLine($"Video postprocessor ffmpeg progress reported: {amount}")
+            RaiseEvent ReportFfmpegProgress(amount)
         End Sub
 
     End Class
