@@ -29,8 +29,6 @@
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
             Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
-            Me.TheTextBox = New System.Windows.Forms.RichTextBox()
-            Me.ConsoleBar = New System.Windows.Forms.PictureBox()
             Me.MetroStyleExtender1 = New MetroFramework.Components.MetroStyleExtender(Me.components)
             Me.TaskFlowPanel = New System.Windows.Forms.FlowLayoutPanel()
             Me.MainStyleManager = New MetroFramework.Components.MetroStyleManager(Me.components)
@@ -56,7 +54,6 @@
             Me.Btn_Queue = New System.Windows.Forms.Button()
             Me.DebugButton = New MetroFramework.Controls.MetroButton()
             CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.ConsoleBar, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.MainStyleManager, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.ContextMenuStrip1.SuspendLayout()
             Me.SuspendLayout()
@@ -77,22 +74,6 @@
             'Timer3
             '
             Me.Timer3.Interval = 1000
-            '
-            'TheTextBox
-            '
-            Me.TheTextBox.BackColor = System.Drawing.SystemColors.ScrollBar
-            Me.TheTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None
-            resources.ApplyResources(Me.TheTextBox, "TheTextBox")
-            Me.TheTextBox.Name = "TheTextBox"
-            '
-            'ConsoleBar
-            '
-            Me.ConsoleBar.BackColor = System.Drawing.Color.Transparent
-            Me.ConsoleBar.BackgroundImage = Global.Crunchyroll_Downloader.My.Resources.Resources.balken
-            resources.ApplyResources(Me.ConsoleBar, "ConsoleBar")
-            Me.ConsoleBar.Cursor = System.Windows.Forms.Cursors.Hand
-            Me.ConsoleBar.Name = "ConsoleBar"
-            Me.ConsoleBar.TabStop = False
             '
             'TaskFlowPanel
             '
@@ -255,8 +236,6 @@
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
             Me.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle
             resources.ApplyResources(Me, "$this")
-            Me.Controls.Add(Me.ConsoleBar)
-            Me.Controls.Add(Me.TheTextBox)
             Me.Controls.Add(Me.TaskFlowPanel)
             Me.Controls.Add(Me.DebugButton)
             Me.Controls.Add(Me.Btn_Queue)
@@ -273,7 +252,6 @@
             Me.Style = MetroFramework.MetroColorStyle.Orange
             Me.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center
             CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.ConsoleBar, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.MainStyleManager, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ContextMenuStrip1.ResumeLayout(False)
             Me.ResumeLayout(False)
@@ -283,8 +261,6 @@
         Friend WithEvents ToolTip1 As ToolTip
         Friend WithEvents Timer2 As Timer
         Friend WithEvents Timer3 As Timer
-        Friend WithEvents TheTextBox As RichTextBox
-        Friend WithEvents ConsoleBar As PictureBox
         Friend WithEvents MetroStyleExtender1 As MetroFramework.Components.MetroStyleExtender
         Friend WithEvents MainStyleManager As MetroFramework.Components.MetroStyleManager
         Friend WithEvents Timer4 As Timer

@@ -231,39 +231,9 @@ Namespace ui
             Btn_Close.Image = CloseImg
         End Sub
 
-        Private Sub ConsoleBar_Click(sender As Object, e As EventArgs) Handles ConsoleBar.Click
-            If TheTextBox.Visible = True Then
-                'TheTextBox.Lines = DebugList.ToArray
-                TheTextBox.Visible = False
-                ListViewHeightOffset = 7
-                ConsoleBar.Location = New Point(0, Me.Height - ListViewHeightOffset)
-                TheTextBox.Location = New Point(1, Me.Height - ListViewHeightOffset + 7)
-                TheTextBox.Width = Me.Width - 2
-            Else
-                ListViewHeightOffset = 103
-                TheTextBox.Visible = True
-                ConsoleBar.Location = New Point(0, Me.Height - ListViewHeightOffset)
-                TheTextBox.Location = New Point(1, Me.Height - ListViewHeightOffset + 7)
-                TheTextBox.Width = Me.Width - 2
-            End If
-            Me.Height = Me.Height + 1
-        End Sub
-
-        Private Sub ConsoleBar_MouseEnter(sender As Object, e As EventArgs) Handles ConsoleBar.MouseEnter
-            ConsoleBar.BackgroundImage = My.Resources.balken_console
-        End Sub
-
-        Private Sub ConsoleBar_MouseLeave(sender As Object, e As EventArgs) Handles ConsoleBar.MouseLeave
-            ConsoleBar.BackgroundImage = My.Resources.balken
-        End Sub
-
         Private Sub Main_Resize(sender As Object, e As EventArgs) Handles Me.Resize
             ' TODO: Set correct anchor properties so the positioning logic can disappear
             PictureBox5.Width = Me.Width - 40
-            ConsoleBar.Location = New Point(1, Me.Height - ListViewHeightOffset)
-            ConsoleBar.Width = Me.Width - 40
-            TheTextBox.Location = New Point(1, Me.Height - ListViewHeightOffset + 7)
-            TheTextBox.Width = Me.Width - 2
             Btn_Settings.Location = New Point(Me.Width - 165, 17)
             Btn_Queue.Location = New Point(Me.Width - 265, 17)
         End Sub
@@ -314,8 +284,6 @@ Namespace ui
             presenter.initialize()
 
             Me.ContextMenuStrip = ContextMenuStrip1
-            Dim tbtl As TextBoxTraceListener = New TextBoxTraceListener(TheTextBox)
-            Trace.Listeners.Add(tbtl)
             b = True
             Thread.CurrentThread.Name = "Main"
             Debug.WriteLine("Thread Name: " + Thread.CurrentThread.Name)
