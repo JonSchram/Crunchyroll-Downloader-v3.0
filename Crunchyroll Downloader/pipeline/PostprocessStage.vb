@@ -47,7 +47,7 @@ Namespace pipeline
             Return Nothing
         End Function
 
-        Private Sub HandleEncodeProgress(progress As Integer)
+        Private Sub HandleEncodeProgress(progress As Double)
             ReportSubStageProgress(0, 1, progress)
         End Sub
 

@@ -6,7 +6,7 @@ Namespace utilities.ffmpeg
 
         Private ReadOnly ExecutablePath As String
 
-        Public Event ReportProgress(percent As Integer) Implements IFfmpegAdapter.ReportProgress
+        Public Event ReportProgress(percent As Double) Implements IFfmpegAdapter.ReportProgress
 
         Public Sub New(executableLocation As String)
             ExecutablePath = executableLocation
@@ -50,9 +50,9 @@ Namespace utilities.ffmpeg
         End Function
 
         Private Sub HandleFfmpegProgress(report As FfmpegProgressReport, totalDuration As TimeSpan?)
-            Dim progress As Integer = 0
+            Dim progress As Double = 0
             If totalDuration?.TotalMinutes > 0 Then
-                progress = CInt(report.CurrentTime?.TotalMinutes / totalDuration?.TotalMinutes * 100)
+                progress = CDbl(report.CurrentTime?.TotalMinutes / totalDuration?.TotalMinutes * 100)
             End If
 
             RaiseEvent ReportProgress(progress)

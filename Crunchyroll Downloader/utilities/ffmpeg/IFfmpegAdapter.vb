@@ -1,7 +1,7 @@
 ﻿Namespace utilities.ffmpeg
     Public Interface IFfmpegAdapter
 
-        Event ReportProgress(percent As Integer)
+        Event ReportProgress(percent As Double)
 
 
         ''' <summary>

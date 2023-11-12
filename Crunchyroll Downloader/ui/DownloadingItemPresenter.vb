@@ -14,8 +14,8 @@ Namespace ui
 
 
         Private EstimateSmoothingTimer As Timer
-        Private TotalPercent As Integer?
-        Private CurrentStagePercent As Integer?
+        Private TotalPercent As Double?
+        Private CurrentStagePercent As Double?
         Private CurrentEstimate As TimeSpan
         Private CurrentAction As PipelineStage
 

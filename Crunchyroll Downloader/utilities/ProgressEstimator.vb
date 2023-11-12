@@ -23,7 +23,7 @@
             Return sw.Elapsed
         End Function
 
-        Public Function GetRemainingTime(currentPercent As Integer) As TimeSpan
+        Public Function GetRemainingTime(currentPercent As Double) As TimeSpan
             Dim elapsedSeconds As Double = GetElapsedTime().TotalSeconds
             If elapsedSeconds <> 0 And currentPercent <> 0 Then
                 Dim percentPerSecond As Double = currentPercent / elapsedSeconds

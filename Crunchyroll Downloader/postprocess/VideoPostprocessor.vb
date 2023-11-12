@@ -24,7 +24,7 @@ Namespace postprocess
         ''' The postprocessor only processes a single file (whether that is remuxing or reencoding) while all other files are passed through with no change.
         ''' </summary>
         ''' <param name="progress"></param>
-        Public Event ReportFfmpegProgress(progress As Integer)
+        Public Event ReportFfmpegProgress(progress As Double)
         Public Event ReportFfmpegComplete()
 
         Public Sub New(prefs As VideoReencodePreferences, ffmpegRunner As IFfmpegAdapter, fileSystemApi As IFilesystem)
@@ -262,7 +262,7 @@ Namespace postprocess
         End Sub
 
 
-        Private Sub HandleFfmpegProgress(amount As Integer)
+        Private Sub HandleFfmpegProgress(amount As Double)
             Debug.WriteLine($"Video postprocessor ffmpeg progress reported: {amount}")
             RaiseEvent ReportFfmpegProgress(amount)
         End Sub

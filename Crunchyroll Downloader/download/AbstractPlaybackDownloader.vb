@@ -14,7 +14,7 @@ Namespace download
         Protected Preferences As DownloadPreferences
         Protected FilesystemApi As IFilesystem
 
-        Public Event ReportDownloadProgress(currentFile As Integer, totalFiles As Integer, progress As Integer)
+        Public Event ReportDownloadProgress(currentFile As Integer, totalFiles As Integer, progress As Double)
         Public Event ReportDownloadComplete(fileNumber As Integer, totalFiles As Integer)
 
         Public Sub New(preferences As DownloadPreferences, client As IHttpClient)
@@ -47,7 +47,7 @@ Namespace download
 
         Public MustOverride Async Function DownloadSelection(playbacks As Selection) As Task(Of List(Of MediaFileEntry)) Implements IPlaybackDownloader.DownloadSelection
 
-        Protected Sub OnMediaProgress(mediaIndex As Integer, totalFiles As Integer, progress As Integer)
+        Protected Sub OnMediaProgress(mediaIndex As Integer, totalFiles As Integer, progress As Double)
             RaiseEvent ReportDownloadProgress(mediaIndex, totalFiles, progress)
         End Sub
 

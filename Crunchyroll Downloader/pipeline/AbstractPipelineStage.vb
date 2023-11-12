@@ -46,7 +46,7 @@
             Return CInt(100 * ((Stage - 1) / NumberOfStages + subStage / totalSubStages))
         End Function
 
-        Protected Sub ReportSubStageProgress(subStageNumber As Integer, totalSubStages As Integer, progress As Integer)
+        Protected Sub ReportSubStageProgress(subStageNumber As Integer, totalSubStages As Integer, progress As Double)
             Dim totalProgress As Integer = CalculateSubStageProgress(Stage, subStageNumber, totalSubStages)
             Me.Progress.Report(New PipelineProgress(totalProgress, progress))
             Debug.WriteLine($"Download thread progress reported: Sub-stage {subStageNumber} of {totalSubStages}, {progress}%")

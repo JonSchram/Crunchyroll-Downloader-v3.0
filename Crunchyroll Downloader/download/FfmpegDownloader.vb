@@ -80,7 +80,7 @@ Namespace download
             ffmpegArguments.Codecs.Add(New CopyCodecArgument())
             ffmpegArguments.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
 
-            Dim handler = Sub(amount As Integer)
+            Dim handler = Sub(amount As Double)
                               OnMediaProgress(currentIndex, totalFiles, amount)
                           End Sub
             AddHandler FfmpegRunner.ReportProgress, handler

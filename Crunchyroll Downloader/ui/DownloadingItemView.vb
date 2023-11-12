@@ -29,10 +29,10 @@ Namespace ui
             UpdateLabels()
         End Sub
 
-        Public Sub UpdateProgress(totalProgress As Integer, stageProgress As Integer, remainingTime As TimeSpan)
-            Me.TotalProgress.Value = totalProgress
-            Me.StageProgress.Value = stageProgress
-            UpdateStatusLabel(stageProgress, remainingTime)
+        Public Sub UpdateProgress(totalProgress As Double, stageProgress As Double, remainingTime As TimeSpan)
+            Me.TotalProgress.Value = CInt(totalProgress)
+            Me.StageProgress.Value = CInt(stageProgress)
+            UpdateStatusLabel(CInt(stageProgress), remainingTime)
         End Sub
 
         Private Sub UpdateLabels()
