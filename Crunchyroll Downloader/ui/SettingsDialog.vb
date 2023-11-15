@@ -982,13 +982,12 @@ Namespace ui
 
         Private Sub DD_DLMode_SelectedIndexChanged(sender As Object, e As EventArgs)
             Dim currentDownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
-            TemporaryFolderTextBox.Enabled = currentDownloadMode <> DownloadModeOptions.FFMPEG
         End Sub
 
-        Private Sub TempTB_Click(sender As Object, e As EventArgs)
+        Private Sub TemporaryFolderTextBox_Click(sender As Object, e As EventArgs) Handles TemporaryFolderTextBox.Click
             Dim folderDialog As New FolderBrowserDialog With {
-            .RootFolder = Environment.SpecialFolder.MyComputer
-        }
+                .RootFolder = Environment.SpecialFolder.MyComputer
+            }
             If TemporaryFolderTextBox.Text IsNot Nothing Then
                 folderDialog.SelectedPath = TemporaryFolderTextBox.Text
             End If
