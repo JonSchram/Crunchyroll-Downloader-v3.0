@@ -25,7 +25,7 @@ Namespace postprocess
             Dim results As New List(Of MediaFileEntry)
 
             Dim nameGenerator = New FilenameInterpolator(Preferences.NameTemplate, Preferences.SeasonDigitPadding, Preferences.EpisodeDigitPadding,
-                                        Preferences.UseIso639Codes)
+                                        Preferences.UseIso639Codes, Preferences.UseSeasonsInFilename)
 
             Dim numberOfSubtitleFiles = GetNumberOfSubtitleFiles(files)
             Dim appendLanguageToSubtitles = (numberOfSubtitleFiles = 1 And Preferences.AppendLanguageToSingleSubtitles) Or numberOfSubtitleFiles > 1

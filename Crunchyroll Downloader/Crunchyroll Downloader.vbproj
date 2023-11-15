@@ -254,7 +254,6 @@
     <Compile Include="Settings\ffmpeg\FfmpegOptions.vb" />
     <Compile Include="Settings\ffmpeg\encoding\SpeedSetting.vb" />
     <Compile Include="Settings\ffmpeg\encoding\VideoEncoder.vb" />
-    <Compile Include="Settings\FilenameTemplateGenerator.vb" />
     <Compile Include="Settings\Format.vb" />
     <Compile Include="Settings\general\BitrateSetting.vb" />
     <Compile Include="Settings\Funimation\FunimationLanguage.vb" />
@@ -355,6 +354,7 @@
     <Compile Include="utilities\IHttpClient.vb" />
     <Compile Include="utilities\RealFilesystem.vb" />
     <Compile Include="utilities\RealHttpClient.vb" />
+    <Compile Include="utilities\TemplateItem.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ui\AddVideo.resx">

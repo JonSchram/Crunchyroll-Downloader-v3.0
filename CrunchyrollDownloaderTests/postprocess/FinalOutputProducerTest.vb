@@ -170,7 +170,7 @@ Namespace postprocess
         <TestMethod>
         Public Sub TestRenameMkv_IncludeAudioLanguage()
             Dim prefs As New OutputPreferences() With {
-                .NameTemplate = "AnimeTitle; AnimeDub;",
+                .NameTemplate = "{SeriesName} {AudioLanguage}",
                 .OutputPath = "\final\output\path",
                 .UseSeasonPath = False,
                 .UseShowPath = False,
@@ -201,7 +201,7 @@ Namespace postprocess
         <TestMethod>
         Public Sub TestRenameMkv_AppendSubtitleLanguage()
             Dim prefs As New OutputPreferences() With {
-                .NameTemplate = "AnimeTitle; AnimeDub;",
+                .NameTemplate = "{SeriesName} {AudioLanguage}",
                 .OutputPath = "\final\output\path",
                 .UseSeasonPath = False,
                 .UseShowPath = False,
@@ -233,7 +233,7 @@ Namespace postprocess
         <TestMethod>
         Public Sub TestRenameMkv_DoNotAppendSubtitleLanguage()
             Dim prefs As New OutputPreferences() With {
-                .NameTemplate = "AnimeTitle; AnimeDub;",
+                .NameTemplate = "{SeriesName} {AudioLanguage}",
                 .OutputPath = "\final\output\path",
                 .UseSeasonPath = False,
                 .UseShowPath = False,
@@ -265,7 +265,7 @@ Namespace postprocess
         <TestMethod>
         Public Sub TestRenameMkv_AppendSubtitleLanguage_NoSubtitles()
             Dim prefs As New OutputPreferences() With {
-                .NameTemplate = "AnimeTitle; AnimeDub;",
+                .NameTemplate = "{SeriesName} {AudioLanguage}",
                 .OutputPath = "\final\output\path",
                 .UseSeasonPath = False,
                 .UseShowPath = False,
@@ -294,7 +294,7 @@ Namespace postprocess
         <TestMethod>
         Public Sub TestRenameMkv_AppendSubtitleLanguage_ISO()
             Dim prefs As New OutputPreferences() With {
-               .NameTemplate = "AnimeTitle; AnimeDub;",
+               .NameTemplate = "{SeriesName} {AudioLanguage}",
                .OutputPath = "\final\output\path",
                .UseSeasonPath = False,
                .UseShowPath = False,
@@ -326,7 +326,7 @@ Namespace postprocess
         <TestMethod>
         Public Sub TestRenameMkv_DoNotAppendLangaugeToSingleFile_MultipleFiles()
             Dim prefs As New OutputPreferences() With {
-                .NameTemplate = "AnimeTitle; AnimeDub;",
+                .NameTemplate = "{SeriesName} {AudioLanguage}",
                 .OutputPath = "\final\output\path",
                 .UseSeasonPath = False,
                 .UseShowPath = False,

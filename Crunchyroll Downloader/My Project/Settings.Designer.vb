@@ -104,42 +104,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Season")>  _
-        Public Property Prefix_S() As String
-            Get
-                Return CType(Me("Prefix_S"),String)
-            End Get
-            Set
-                Me("Prefix_S") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property Prefix_E() As String
-            Get
-                Return CType(Me("Prefix_E"),String)
-            End Get
-            Set
-                Me("Prefix_E") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property KodiSupport() As Boolean
-            Get
-                Return CType(Me("KodiSupport"),Boolean)
-            End Get
-            Set
-                Me("KodiSupport") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property Dark_Mode() As Boolean
             Get
@@ -344,7 +308,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("{SeriesName} {Season :SeasonNumber} {Episode :EpisodeNumber} {EpisodeName}")>  _
         Public Property NameTemplate() As String
             Get
                 Return CType(Me("NameTemplate"),String)

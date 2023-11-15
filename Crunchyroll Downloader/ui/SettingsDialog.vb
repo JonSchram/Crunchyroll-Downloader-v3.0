@@ -2,24 +2,22 @@
 
 Imports System.Net
 Imports System.Text
+Imports Crunchyroll_Downloader.debugging
 Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.crunchyroll
 Imports Crunchyroll_Downloader.settings.ffmpeg
 Imports Crunchyroll_Downloader.settings.ffmpeg.encoding
 Imports Crunchyroll_Downloader.settings.funimation
 Imports Crunchyroll_Downloader.settings.general
+Imports Crunchyroll_Downloader.utilities
 Imports MetroFramework
 Imports MetroFramework.Forms
+Imports SiteAPI.api
+Imports SiteAPI.api.common
 
 Namespace ui
     Public Class SettingsDialog
         Inherits MetroForm
-
-        Private Const SEASON_PREFIX_PLACEHOLDER = "[default season prefix]"
-        Private Const DEFAULT_SEASON_PREFIX = "Season"
-
-        Private Const EPISODE_PREFIX_PLACEHOLDER = "[default episode prefix]"
-        Private Const DEFAULT_EPISODE_PREFIX = "Episode"
 
         ' Display objects for combo boxes backed by enums
 
@@ -49,10 +47,8 @@ Namespace ui
         Private ReadOnly FunimationDefaultSubOptionsList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
         Private ReadOnly FunimationHardSubLanguagesList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
 
-        Private nameFormatter As FilenameTemplateGenerator
         Private uiInitializing As Boolean = False
         Private settingsLoading As Boolean = False
-        Private nameTemplateLoading As Boolean = False
 
         Private ReadOnly settings As ProgramSettings
         Private ReadOnly crSettings As CrunchyrollSettings
@@ -342,14 +338,11 @@ Namespace ui
         End Sub
 
         Private Sub LoadSettings()
-            nameFormatter = New FilenameTemplateGenerator(settings.FilenameFormat)
-
             LoadMainSettings()
             LoadOutputSettings()
             LoadNamingSettings()
             LoadCrunchyrollSettings()
             LoadFunimationSettings()
-
         End Sub
 
         Private Sub LoadMainSettings()
@@ -437,46 +430,16 @@ Namespace ui
 
         Private Sub LoadNamingSettings()
             LoadNamingInputs()
-
-            KodiNamingCheckBox.Checked = settings.KodiNaming
-
             SeasonNumberBehaviorComboBox.SelectedItem = SeasonNumberBehaviorTextlist.Item(settings.SeasonNumberNaming)
-            LoadSeasonPrefix()
-            LoadEpisodePrefix()
 
             LoadZeroPadding()
             IncludeLanguageNameCheckBox.Checked = settings.IncludeLangaugeIfOneSubtitleFile
             SubLanguageNamingComboBox.SelectedItem = SubtitleNamingTextList.Item(settings.SubLanguageNaming)
         End Sub
         Private Sub LoadNamingInputs()
-            nameTemplateLoading = True
-            Dim placeholders = nameFormatter.GetCurrentPlaceholders()
+            FilenameTemplateInput.Text = settings.FilenameTemplate
+        End Sub
 
-            SeriesNameCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.SERIES_NAME)
-            SeasonNumberCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.SEASON_NUMBER)
-            EpisodeNumberCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.EPISODE_NUMBER)
-            EpisodeTitleCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.EPISODE_TITLE)
-            AudioLanguageCheckBox.Checked = placeholders.Contains(FilenameTemplateGenerator.TemplateItem.AUDIO_LANGUAGE)
-
-            FilenameTemplatePreview.Text = nameFormatter.GetTemplate()
-            nameTemplateLoading = False
-        End Sub
-        Private Sub LoadSeasonPrefix()
-            Dim seasonPrefix = settings.SeasonPrefix
-            If seasonPrefix Is Nothing Or seasonPrefix = "" Or seasonPrefix = DEFAULT_SEASON_PREFIX Then
-                SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER
-            Else
-                SeasonPrefixTextBox.Text = seasonPrefix
-            End If
-        End Sub
-        Private Sub LoadEpisodePrefix()
-            Dim episodePrefix = settings.EpisodePrefix
-            If episodePrefix Is Nothing Or episodePrefix = "" Or episodePrefix = DEFAULT_EPISODE_PREFIX Then
-                EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER
-            Else
-                EpisodePrefixTextBox.Text = episodePrefix
-            End If
-        End Sub
         Private Sub LoadZeroPadding()
             Dim zeroPadding = settings.ZeroPaddingLength
             If zeroPadding >= 5 Then
@@ -635,28 +598,11 @@ Namespace ui
         End Sub
 
         Private Sub SaveNamingSettings()
-            SaveSeasonPrefix()
-            SaveEpisodePrefix()
-            settings.FilenameFormat = nameFormatter.GetTemplate()
-            settings.KodiNaming = KodiNamingCheckBox.Checked
+            settings.FilenameTemplate = FilenameTemplateInput.Text
             settings.SeasonNumberNaming = SeasonNumberBehaviorTextlist.GetEnumForItem(SeasonNumberBehaviorComboBox.SelectedItem)
             settings.ZeroPaddingLength = LeadingZerosComboBox.SelectedIndex + 1
             settings.IncludeLangaugeIfOneSubtitleFile = IncludeLanguageNameCheckBox.Checked
             settings.SubLanguageNaming = SubtitleNamingTextList.GetEnumForItem(SubLanguageNamingComboBox.SelectedItem)
-        End Sub
-        Private Sub SaveSeasonPrefix()
-            If SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER Then
-                settings.SeasonPrefix = DEFAULT_SEASON_PREFIX
-            Else
-                settings.SeasonPrefix = SeasonPrefixTextBox.Text
-            End If
-        End Sub
-        Private Sub SaveEpisodePrefix()
-            If EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER Then
-                settings.EpisodePrefix = DEFAULT_EPISODE_PREFIX
-            Else
-                settings.EpisodePrefix = EpisodePrefixTextBox.Text
-            End If
         End Sub
 
         Private Sub SaveCrunchyrollSettings()
@@ -789,7 +735,6 @@ Namespace ui
                 End If
             End If
         End Sub
-
 
         Private Sub TargetBitrateCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TargetBitrateCheckBox.CheckedChanged
             UpdateFfmpegInputStates()
@@ -986,62 +931,80 @@ Namespace ui
         End Sub
 #Region "Build Name String"
 
-        Private Sub SeriesNameCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SeriesNameCheckBox.CheckedChanged
-            UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.SERIES_NAME, SeriesNameCheckBox.Checked)
+        Private Sub SeasonNumberTemplateButton_Click(sender As Object, e As EventArgs) Handles SeasonNumberTemplateButton.Click
+            InsertTemplateField(TemplateItem.SEASON_NUMBER, FilenameTemplateInput.SelectionStart)
         End Sub
 
-        Private Sub EpisodeNumberCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles EpisodeNumberCheckBox.CheckedChanged
-            UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.EPISODE_NUMBER, EpisodeNumberCheckBox.Checked)
+        Private Sub AudioLanguageTemplateButton_Click(sender As Object, e As EventArgs) Handles AudioLanguageTemplateButton.Click
+            InsertTemplateField(TemplateItem.AUDIO_LANGUAGE, FilenameTemplateInput.SelectionStart)
         End Sub
 
-        Private Sub EpisodeTitleCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles EpisodeTitleCheckBox.CheckedChanged
-            UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.EPISODE_TITLE, EpisodeTitleCheckBox.Checked)
+        Private Sub EpisodeNumberTemplateButton_Click(sender As Object, e As EventArgs) Handles EpisodeNumberTemplateButton.Click
+            InsertTemplateField(TemplateItem.EPISODE_NUMBER, FilenameTemplateInput.SelectionStart)
         End Sub
 
-        Private Sub SeasonNumberCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SeasonNumberCheckBox.CheckedChanged
-            UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.SEASON_NUMBER, SeasonNumberCheckBox.Checked)
+        Private Sub EpisodeTitleTemplateButton_Click(sender As Object, e As EventArgs) Handles EpisodeTitleTemplateButton.Click
+            InsertTemplateField(TemplateItem.EPISODE_TITLE, FilenameTemplateInput.SelectionStart)
         End Sub
 
-        Private Sub AudioLanguageCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles AudioLanguageCheckBox.CheckedChanged
-            UpdateFilenameTemplate(FilenameTemplateGenerator.TemplateItem.AUDIO_LANGUAGE, AudioLanguageCheckBox.Checked)
+        Private Sub SeriesNameTemplateButton_Click(sender As Object, e As EventArgs) Handles SeriesNameTemplateButton.Click
+            InsertTemplateField(TemplateItem.SERIES_NAME, FilenameTemplateInput.SelectionStart)
         End Sub
 
-        Private Sub UpdateFilenameTemplate(item As FilenameTemplateGenerator.TemplateItem, add As Boolean)
-            If nameTemplateLoading Then
-                ' Checkbox initial values are being set, don't modify the template.
-                Exit Sub
-            End If
-            If add Then
-                nameFormatter.AppendTemplateItem(item)
-            Else
-                nameFormatter.RemoveTemplateItem(item)
-            End If
-            FilenameTemplatePreview.Text = nameFormatter.GetTemplate()
+        Private Sub KodiNamingTemplateButton_Click(sender As Object, e As EventArgs) Handles KodiNamingTemplateButton.Click
+            FilenameTemplateInput.Text = FilenameInterpolator.CreateKodiNamingTemplate()
+            UpdateFilenamePreview()
         End Sub
 
-        Private Sub SeasonPrefixTextBox_UserAction(sender As Object, e As EventArgs) Handles SeasonPrefixTextBox.Click, SeasonPrefixTextBox.GotFocus
-            If SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER Then
-                SeasonPrefixTextBox.Text = Nothing
-            End If
+        Private Sub InsertTemplateField(field As TemplateItem, position As Integer)
+            Dim templateText = FilenameTemplateInput.Text
+            Dim fieldTemplate As String = FilenameInterpolator.GetFieldTemplate(field)
+            FilenameTemplateInput.Text = templateText.Insert(position, fieldTemplate)
+            ' Automatically advance cursor to the position after the inserted text.
+            FilenameTemplateInput.SelectionStart = position + fieldTemplate.Length
+            UpdateFilenamePreview()
         End Sub
 
-        Private Sub SeasonPrefixTextBox_LostFocus(sender As Object, e As EventArgs) Handles SeasonPrefixTextBox.LostFocus
-            If SeasonPrefixTextBox.Text = Nothing Then
-                SeasonPrefixTextBox.Text = SEASON_PREFIX_PLACEHOLDER
-            End If
+        Private Sub FilenameTemplateInput_TextChanged(sender As Object, e As EventArgs) Handles FilenameTemplateInput.TextChanged
+            UpdateFilenamePreview()
+        End Sub
+        Private Sub SubLanguageNamingComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SubLanguageNamingComboBox.SelectedIndexChanged
+            UpdateFilenamePreview()
         End Sub
 
-
-        Private Sub EpisodePrefixTextBox_UserAction(sender As Object, e As EventArgs) Handles EpisodePrefixTextBox.Click, EpisodePrefixTextBox.GotFocus
-            If EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER Then
-                EpisodePrefixTextBox.Text = Nothing
-            End If
+        Private Sub LeadingZerosComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LeadingZerosComboBox.SelectedIndexChanged
+            UpdateFilenamePreview()
         End Sub
 
-        Private Sub EpisodePrefixTextBox_LostFocus(sender As Object, e As EventArgs) Handles EpisodePrefixTextBox.LostFocus
-            If EpisodePrefixTextBox.Text = Nothing Then
-                EpisodePrefixTextBox.Text = EPISODE_PREFIX_PLACEHOLDER
-            End If
+        Private Sub SeasonNumberBehaviorComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SeasonNumberBehaviorComboBox.SelectedIndexChanged
+            UpdateFilenamePreview()
+        End Sub
+
+        Private Sub UpdateFilenamePreview()
+            Dim seasonNumbering As SeasonNumberBehavior = SeasonNumberBehaviorTextlist.GetEnumForItem(SeasonNumberBehaviorComboBox.SelectedItem)
+            Dim zeroPadding As Integer = LeadingZerosComboBox.SelectedIndex + 1
+            Dim languageNaming As LanguageNameMethod = SubtitleNamingTextList.GetEnumForItem(SubLanguageNamingComboBox.SelectedItem)
+            Dim useIsoNaming As Boolean = languageNaming = LanguageNameMethod.ISO639_2_CODES
+            Dim interpolator As New FilenameInterpolator(FilenameTemplateInput.Text, zeroPadding, zeroPadding, useIsoNaming, seasonNumbering)
+
+            Dim previewSeason1 As New FakeEpisode() With {
+                .ShowName = "Show name",
+                .SeasonNumber = 1,
+                .EpisodeName = "Episode name",
+                .EpisodeNumber = 5
+            }
+
+            Dim previewSeason2 As New FakeEpisode() With {
+                .ShowName = "Show name",
+                .SeasonNumber = 2,
+                .EpisodeName = "Episode name",
+                .EpisodeNumber = 4
+            }
+
+            Dim season1Text = interpolator.CreateName(previewSeason1, New Locale(Language.JAPANESE))
+            Dim season2Text = interpolator.CreateName(previewSeason2, New Locale(Language.ENGLISH))
+
+            FilenamePreviewTextBox.Text = season1Text + vbCrLf + season2Text
         End Sub
 
 #End Region
@@ -1058,5 +1021,6 @@ Namespace ui
             PORT_8080
             CUSTOM
         End Enum
+
     End Class
 End Namespace

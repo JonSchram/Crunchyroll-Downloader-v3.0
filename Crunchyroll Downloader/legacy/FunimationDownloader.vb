@@ -439,7 +439,7 @@ Namespace legacy
                             FunimationEpisodeJson = item.Value.ToString
                         Case "episodeNumber"
                             Dim FunimationEpisode3 As String = Main.RemoveExtraSpaces(item.Value.ToString)
-                            Dim episodePrefix = ProgramSettings.GetInstance().EpisodePrefix
+                            Dim episodePrefix = "e"
                             FunimationEpisode = episodePrefix + Main.AddLeadingZeros(FunimationEpisode3)
                         Case "name"
                             Dim NameData As List(Of JToken) = item.Values.ToList()
@@ -451,7 +451,7 @@ Namespace legacy
                                 End Select
                             Next
                         Case "season" 'each record is inside the entries array
-                            Dim seasonPrefix = ProgramSettings.GetInstance().SeasonPrefix
+                            Dim seasonPrefix = "s"
                             Dim SubData As List(Of JToken) = item.Values.ToList()
                             For Each SubItem As JProperty In SubData
                                 Select Case SubItem.Name
@@ -501,7 +501,7 @@ Namespace legacy
                 FunimationDub = dubLanguage
                 Dim DefaultName As String = Main.RemoveExtraSpaces(FunimationTitle + " " + FunimationSeason + " " + FunimationEpisode)
 
-                Dim nameTemplate = settings.FilenameFormat
+                Dim nameTemplate = settings.FilenameTemplate
                 Dim NameParts As String() = nameTemplate.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
 
                 ' TODO: Refactor this when refactoring renaming code

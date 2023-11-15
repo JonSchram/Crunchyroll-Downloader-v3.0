@@ -24,7 +24,16 @@
         <System.Diagnostics.DebuggerStepThrough()>
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SettingsDialog))
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+            Me.KodiNamingTemplateButton = New MetroFramework.Controls.MetroButton()
+            Me.AudioLanguageTemplateButton = New MetroFramework.Controls.MetroButton()
+            Me.EpisodeTitleTemplateButton = New MetroFramework.Controls.MetroButton()
+            Me.EpisodeNumberTemplateButton = New MetroFramework.Controls.MetroButton()
+            Me.SeasonNumberTemplateButton = New MetroFramework.Controls.MetroButton()
+            Me.SeriesNameTemplateButton = New MetroFramework.Controls.MetroButton()
+            Me.MetroLabel9 = New MetroFramework.Controls.MetroLabel()
+            Me.FilenameTemplateInput = New MetroFramework.Controls.MetroTextBox()
             Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
             Me.CR_SoftSubDefault = New MetroFramework.Controls.MetroComboBox()
             Me.CrunchyrollSoftSubsGroupBox = New System.Windows.Forms.GroupBox()
@@ -81,23 +90,15 @@
             Me.TemporaryFolderTextBox = New MetroFramework.Controls.MetroTextBox()
             Me.DownloadModeDropdown = New MetroFramework.Controls.MetroComboBox()
             Me.NamingTabPage = New MetroFramework.Controls.MetroTabPage()
-            Me.GroupBox17 = New System.Windows.Forms.GroupBox()
-            Me.LeadingZerosComboBox = New MetroFramework.Controls.MetroComboBox()
             Me.GroupBox3 = New System.Windows.Forms.GroupBox()
             Me.IncludeLanguageNameCheckBox = New MetroFramework.Controls.MetroCheckBox()
             Me.SubLanguageNamingComboBox = New MetroFramework.Controls.MetroComboBox()
             Me.FilenameExtrasGroupBox = New System.Windows.Forms.GroupBox()
-            Me.SeasonPrefixTextBox = New MetroFramework.Controls.MetroTextBox()
-            Me.EpisodePrefixTextBox = New MetroFramework.Controls.MetroTextBox()
+            Me.LeadingZerosComboBox = New MetroFramework.Controls.MetroComboBox()
             Me.SeasonNumberBehaviorComboBox = New MetroFramework.Controls.MetroComboBox()
             Me.GroupBox12 = New System.Windows.Forms.GroupBox()
-            Me.EpisodeTitleCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.AudioLanguageCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.EpisodeNumberCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.KodiNamingCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.SeasonNumberCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.SeriesNameCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.FilenameTemplatePreview = New MetroFramework.Controls.MetroTextBox()
+            Me.MetroLabel8 = New MetroFramework.Controls.MetroLabel()
+            Me.FilenamePreviewTextBox = New MetroFramework.Controls.MetroTextBox()
             Me.CrunchyrollTabPage = New MetroFramework.Controls.MetroTabPage()
             Me.GroupBox20 = New System.Windows.Forms.GroupBox()
             Me.CrunchyrollChaptersCheckBox = New MetroFramework.Controls.MetroCheckBox()
@@ -133,6 +134,8 @@
             Me.Btn_Save = New System.Windows.Forms.Button()
             Me.MetroStyleManager1 = New MetroFramework.Components.MetroStyleManager(Me.components)
             Me.StyleExtender = New MetroFramework.Components.MetroStyleExtender(Me.components)
+            Me.MetroLabel10 = New MetroFramework.Controls.MetroLabel()
+            Me.MetroLabel11 = New MetroFramework.Controls.MetroLabel()
             Me.CrunchyrollSoftSubsGroupBox.SuspendLayout()
             Me.CrunchyrollHardsubGroupBox.SuspendLayout()
             Me.BrowserSettingsGroupBox.SuspendLayout()
@@ -153,7 +156,6 @@
             Me.GroupBox4.SuspendLayout()
             Me.GroupBox16.SuspendLayout()
             Me.NamingTabPage.SuspendLayout()
-            Me.GroupBox17.SuspendLayout()
             Me.GroupBox3.SuspendLayout()
             Me.FilenameExtrasGroupBox.SuspendLayout()
             Me.GroupBox12.SuspendLayout()
@@ -178,6 +180,117 @@
             Me.ToolTip1.InitialDelay = 500
             Me.ToolTip1.IsBalloon = True
             Me.ToolTip1.ReshowDelay = 100
+            '
+            'KodiNamingTemplateButton
+            '
+            Me.KodiNamingTemplateButton.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.KodiNamingTemplateButton.Location = New System.Drawing.Point(361, 114)
+            Me.KodiNamingTemplateButton.Name = "KodiNamingTemplateButton"
+            Me.KodiNamingTemplateButton.Size = New System.Drawing.Size(96, 23)
+            Me.KodiNamingTemplateButton.TabIndex = 38
+            Me.KodiNamingTemplateButton.Text = "Kodi naming"
+            Me.ToolTip1.SetToolTip(Me.KodiNamingTemplateButton, "Sets the template to use Kodi naming conventions.")
+            Me.KodiNamingTemplateButton.UseSelectable = True
+            '
+            'AudioLanguageTemplateButton
+            '
+            Me.AudioLanguageTemplateButton.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.AudioLanguageTemplateButton.Location = New System.Drawing.Point(361, 85)
+            Me.AudioLanguageTemplateButton.Name = "AudioLanguageTemplateButton"
+            Me.AudioLanguageTemplateButton.Size = New System.Drawing.Size(96, 23)
+            Me.AudioLanguageTemplateButton.TabIndex = 37
+            Me.AudioLanguageTemplateButton.Text = "Audio language"
+            Me.ToolTip1.SetToolTip(Me.AudioLanguageTemplateButton, "Inserts the audio language at the current cursor position.")
+            Me.AudioLanguageTemplateButton.UseSelectable = True
+            '
+            'EpisodeTitleTemplateButton
+            '
+            Me.EpisodeTitleTemplateButton.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.EpisodeTitleTemplateButton.Location = New System.Drawing.Point(207, 114)
+            Me.EpisodeTitleTemplateButton.Name = "EpisodeTitleTemplateButton"
+            Me.EpisodeTitleTemplateButton.Size = New System.Drawing.Size(96, 23)
+            Me.EpisodeTitleTemplateButton.TabIndex = 36
+            Me.EpisodeTitleTemplateButton.Text = "Episode title"
+            Me.ToolTip1.SetToolTip(Me.EpisodeTitleTemplateButton, "Inserts the episode title at the current cursor position.")
+            Me.EpisodeTitleTemplateButton.UseSelectable = True
+            '
+            'EpisodeNumberTemplateButton
+            '
+            Me.EpisodeNumberTemplateButton.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.EpisodeNumberTemplateButton.Location = New System.Drawing.Point(207, 85)
+            Me.EpisodeNumberTemplateButton.Name = "EpisodeNumberTemplateButton"
+            Me.EpisodeNumberTemplateButton.Size = New System.Drawing.Size(96, 23)
+            Me.EpisodeNumberTemplateButton.TabIndex = 35
+            Me.EpisodeNumberTemplateButton.Text = "Episode number"
+            Me.ToolTip1.SetToolTip(Me.EpisodeNumberTemplateButton, "Inserts the episode number at the current cursor position.")
+            Me.EpisodeNumberTemplateButton.UseSelectable = True
+            '
+            'SeasonNumberTemplateButton
+            '
+            Me.SeasonNumberTemplateButton.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.SeasonNumberTemplateButton.Location = New System.Drawing.Point(53, 114)
+            Me.SeasonNumberTemplateButton.Name = "SeasonNumberTemplateButton"
+            Me.SeasonNumberTemplateButton.Size = New System.Drawing.Size(96, 23)
+            Me.SeasonNumberTemplateButton.TabIndex = 34
+            Me.SeasonNumberTemplateButton.Text = "Season number"
+            Me.ToolTip1.SetToolTip(Me.SeasonNumberTemplateButton, "Inserts the season number at the current cursor position.")
+            Me.SeasonNumberTemplateButton.UseSelectable = True
+            '
+            'SeriesNameTemplateButton
+            '
+            Me.SeriesNameTemplateButton.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.SeriesNameTemplateButton.Location = New System.Drawing.Point(53, 85)
+            Me.SeriesNameTemplateButton.Name = "SeriesNameTemplateButton"
+            Me.SeriesNameTemplateButton.Size = New System.Drawing.Size(96, 23)
+            Me.SeriesNameTemplateButton.TabIndex = 33
+            Me.SeriesNameTemplateButton.Text = "Series name"
+            Me.ToolTip1.SetToolTip(Me.SeriesNameTemplateButton, "Inserts the series name at the current cursor position.")
+            Me.SeriesNameTemplateButton.UseSelectable = True
+            '
+            'MetroLabel9
+            '
+            Me.MetroLabel9.AutoSize = True
+            Me.MetroLabel9.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel9.Location = New System.Drawing.Point(6, 18)
+            Me.MetroLabel9.Name = "MetroLabel9"
+            Me.MetroLabel9.Size = New System.Drawing.Size(90, 19)
+            Me.MetroLabel9.TabIndex = 41
+            Me.MetroLabel9.Text = "Edit template"
+            Me.ToolTip1.SetToolTip(Me.MetroLabel9, resources.GetString("MetroLabel9.ToolTip"))
+            '
+            'FilenameTemplateInput
+            '
+            Me.FilenameTemplateInput.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            '
+            '
+            '
+            Me.FilenameTemplateInput.CustomButton.Image = Nothing
+            Me.FilenameTemplateInput.CustomButton.Location = New System.Drawing.Point(470, 1)
+            Me.FilenameTemplateInput.CustomButton.Name = ""
+            Me.FilenameTemplateInput.CustomButton.Size = New System.Drawing.Size(27, 27)
+            Me.FilenameTemplateInput.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+            Me.FilenameTemplateInput.CustomButton.TabIndex = 1
+            Me.FilenameTemplateInput.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+            Me.FilenameTemplateInput.CustomButton.UseSelectable = True
+            Me.FilenameTemplateInput.CustomButton.Visible = False
+            Me.FilenameTemplateInput.FontSize = MetroFramework.MetroTextBoxSize.Medium
+            Me.FilenameTemplateInput.Lines = New String(-1) {}
+            Me.FilenameTemplateInput.Location = New System.Drawing.Point(6, 40)
+            Me.FilenameTemplateInput.MaxLength = 32767
+            Me.FilenameTemplateInput.Name = "FilenameTemplateInput"
+            Me.FilenameTemplateInput.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+            Me.FilenameTemplateInput.ScrollBars = System.Windows.Forms.ScrollBars.None
+            Me.FilenameTemplateInput.SelectedText = ""
+            Me.FilenameTemplateInput.SelectionLength = 0
+            Me.FilenameTemplateInput.SelectionStart = 0
+            Me.FilenameTemplateInput.ShortcutsEnabled = True
+            Me.FilenameTemplateInput.Size = New System.Drawing.Size(498, 29)
+            Me.FilenameTemplateInput.TabIndex = 21
+            Me.FilenameTemplateInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+            Me.FilenameTemplateInput.UseSelectable = True
+            Me.FilenameTemplateInput.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+            Me.FilenameTemplateInput.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
             '
             'CR_SoftSubDefault
             '
@@ -373,7 +486,7 @@
             Me.TabControl.FontWeight = MetroFramework.MetroTabControlWeight.Regular
             Me.TabControl.Location = New System.Drawing.Point(23, 63)
             Me.TabControl.Name = "TabControl"
-            Me.TabControl.SelectedIndex = 1
+            Me.TabControl.SelectedIndex = 2
             Me.TabControl.Size = New System.Drawing.Size(528, 589)
             Me.TabControl.TabIndex = 0
             Me.TabControl.UseSelectable = True
@@ -390,10 +503,10 @@
             Me.MainTabPage.HorizontalScrollbarBarColor = True
             Me.MainTabPage.HorizontalScrollbarHighlightOnWheel = False
             Me.MainTabPage.HorizontalScrollbarSize = 10
-            Me.MainTabPage.Location = New System.Drawing.Point(4, 44)
+            Me.MainTabPage.Location = New System.Drawing.Point(4, 35)
             Me.MainTabPage.Name = "MainTabPage"
             Me.MainTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.MainTabPage.Size = New System.Drawing.Size(520, 541)
+            Me.MainTabPage.Size = New System.Drawing.Size(520, 550)
             Me.MainTabPage.TabIndex = 10
             Me.MainTabPage.Text = "Main"
             Me.MainTabPage.VerticalScrollbar = True
@@ -583,10 +696,10 @@
             Me.OutputTabPage.HorizontalScrollbarBarColor = True
             Me.OutputTabPage.HorizontalScrollbarHighlightOnWheel = False
             Me.OutputTabPage.HorizontalScrollbarSize = 10
-            Me.OutputTabPage.Location = New System.Drawing.Point(4, 44)
+            Me.OutputTabPage.Location = New System.Drawing.Point(4, 35)
             Me.OutputTabPage.Name = "OutputTabPage"
             Me.OutputTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.OutputTabPage.Size = New System.Drawing.Size(520, 541)
+            Me.OutputTabPage.Size = New System.Drawing.Size(520, 550)
             Me.OutputTabPage.TabIndex = 11
             Me.OutputTabPage.Text = "Output"
             Me.OutputTabPage.VerticalScrollbar = True
@@ -947,7 +1060,6 @@
             'NamingTabPage
             '
             Me.NamingTabPage.AutoScroll = True
-            Me.NamingTabPage.Controls.Add(Me.GroupBox17)
             Me.NamingTabPage.Controls.Add(Me.GroupBox3)
             Me.NamingTabPage.Controls.Add(Me.FilenameExtrasGroupBox)
             Me.NamingTabPage.Controls.Add(Me.GroupBox12)
@@ -955,46 +1067,16 @@
             Me.NamingTabPage.HorizontalScrollbarBarColor = True
             Me.NamingTabPage.HorizontalScrollbarHighlightOnWheel = False
             Me.NamingTabPage.HorizontalScrollbarSize = 10
-            Me.NamingTabPage.Location = New System.Drawing.Point(4, 35)
+            Me.NamingTabPage.Location = New System.Drawing.Point(4, 44)
             Me.NamingTabPage.Name = "NamingTabPage"
             Me.NamingTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.NamingTabPage.Size = New System.Drawing.Size(520, 550)
+            Me.NamingTabPage.Size = New System.Drawing.Size(520, 541)
             Me.NamingTabPage.TabIndex = 8
             Me.NamingTabPage.Text = "Naming"
             Me.NamingTabPage.VerticalScrollbar = True
             Me.NamingTabPage.VerticalScrollbarBarColor = True
             Me.NamingTabPage.VerticalScrollbarHighlightOnWheel = False
             Me.NamingTabPage.VerticalScrollbarSize = 10
-            '
-            'GroupBox17
-            '
-            Me.GroupBox17.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.GroupBox17.BackColor = System.Drawing.Color.Transparent
-            Me.GroupBox17.Controls.Add(Me.LeadingZerosComboBox)
-            Me.GroupBox17.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.GroupBox17.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox17.Location = New System.Drawing.Point(5, 286)
-            Me.GroupBox17.Name = "GroupBox17"
-            Me.GroupBox17.Size = New System.Drawing.Size(510, 67)
-            Me.GroupBox17.TabIndex = 40
-            Me.GroupBox17.TabStop = False
-            Me.GroupBox17.Text = "Filename Prefix"
-            '
-            'LeadingZerosComboBox
-            '
-            Me.LeadingZerosComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.LeadingZerosComboBox.DropDownHeight = 250
-            Me.LeadingZerosComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.LeadingZerosComboBox.FormattingEnabled = True
-            Me.LeadingZerosComboBox.IntegralHeight = False
-            Me.LeadingZerosComboBox.ItemHeight = 23
-            Me.LeadingZerosComboBox.Items.AddRange(New Object() {"1", "01", "001", "0001"})
-            Me.LeadingZerosComboBox.Location = New System.Drawing.Point(143, 21)
-            Me.LeadingZerosComboBox.Name = "LeadingZerosComboBox"
-            Me.LeadingZerosComboBox.Size = New System.Drawing.Size(225, 29)
-            Me.LeadingZerosComboBox.TabIndex = 20
-            Me.LeadingZerosComboBox.UseSelectable = True
             '
             'GroupBox3
             '
@@ -1005,7 +1087,7 @@
             Me.GroupBox3.Controls.Add(Me.SubLanguageNamingComboBox)
             Me.GroupBox3.Font = New System.Drawing.Font("Arial", 9.75!)
             Me.GroupBox3.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox3.Location = New System.Drawing.Point(5, 353)
+            Me.GroupBox3.Location = New System.Drawing.Point(5, 339)
             Me.GroupBox3.Name = "GroupBox3"
             Me.GroupBox3.Size = New System.Drawing.Size(510, 129)
             Me.GroupBox3.TabIndex = 52
@@ -1043,83 +1125,33 @@
             Me.FilenameExtrasGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.FilenameExtrasGroupBox.BackColor = System.Drawing.Color.Transparent
-            Me.FilenameExtrasGroupBox.Controls.Add(Me.SeasonPrefixTextBox)
-            Me.FilenameExtrasGroupBox.Controls.Add(Me.EpisodePrefixTextBox)
+            Me.FilenameExtrasGroupBox.Controls.Add(Me.MetroLabel11)
+            Me.FilenameExtrasGroupBox.Controls.Add(Me.MetroLabel10)
+            Me.FilenameExtrasGroupBox.Controls.Add(Me.LeadingZerosComboBox)
             Me.FilenameExtrasGroupBox.Controls.Add(Me.SeasonNumberBehaviorComboBox)
             Me.FilenameExtrasGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
             Me.FilenameExtrasGroupBox.ForeColor = System.Drawing.Color.Black
-            Me.FilenameExtrasGroupBox.Location = New System.Drawing.Point(5, 163)
+            Me.FilenameExtrasGroupBox.Location = New System.Drawing.Point(5, 246)
             Me.FilenameExtrasGroupBox.Name = "FilenameExtrasGroupBox"
-            Me.FilenameExtrasGroupBox.Size = New System.Drawing.Size(510, 123)
+            Me.FilenameExtrasGroupBox.Size = New System.Drawing.Size(510, 87)
             Me.FilenameExtrasGroupBox.TabIndex = 22
             Me.FilenameExtrasGroupBox.TabStop = False
             Me.FilenameExtrasGroupBox.Text = "Filename Extras"
             '
-            'SeasonPrefixTextBox
+            'LeadingZerosComboBox
             '
-            Me.SeasonPrefixTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            '
-            '
-            '
-            Me.SeasonPrefixTextBox.CustomButton.Image = Nothing
-            Me.SeasonPrefixTextBox.CustomButton.Location = New System.Drawing.Point(197, 1)
-            Me.SeasonPrefixTextBox.CustomButton.Name = ""
-            Me.SeasonPrefixTextBox.CustomButton.Size = New System.Drawing.Size(27, 27)
-            Me.SeasonPrefixTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-            Me.SeasonPrefixTextBox.CustomButton.TabIndex = 1
-            Me.SeasonPrefixTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-            Me.SeasonPrefixTextBox.CustomButton.UseSelectable = True
-            Me.SeasonPrefixTextBox.CustomButton.Visible = False
-            Me.SeasonPrefixTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
-            Me.SeasonPrefixTextBox.Lines = New String(-1) {}
-            Me.SeasonPrefixTextBox.Location = New System.Drawing.Point(22, 69)
-            Me.SeasonPrefixTextBox.MaxLength = 32767
-            Me.SeasonPrefixTextBox.Name = "SeasonPrefixTextBox"
-            Me.SeasonPrefixTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-            Me.SeasonPrefixTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
-            Me.SeasonPrefixTextBox.SelectedText = ""
-            Me.SeasonPrefixTextBox.SelectionLength = 0
-            Me.SeasonPrefixTextBox.SelectionStart = 0
-            Me.SeasonPrefixTextBox.ShortcutsEnabled = True
-            Me.SeasonPrefixTextBox.Size = New System.Drawing.Size(225, 29)
-            Me.SeasonPrefixTextBox.TabIndex = 33
-            Me.SeasonPrefixTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-            Me.SeasonPrefixTextBox.UseSelectable = True
-            Me.SeasonPrefixTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-            Me.SeasonPrefixTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
-            '
-            'EpisodePrefixTextBox
-            '
-            Me.EpisodePrefixTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            '
-            '
-            '
-            Me.EpisodePrefixTextBox.CustomButton.Image = Nothing
-            Me.EpisodePrefixTextBox.CustomButton.Location = New System.Drawing.Point(197, 1)
-            Me.EpisodePrefixTextBox.CustomButton.Name = ""
-            Me.EpisodePrefixTextBox.CustomButton.Size = New System.Drawing.Size(27, 27)
-            Me.EpisodePrefixTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-            Me.EpisodePrefixTextBox.CustomButton.TabIndex = 1
-            Me.EpisodePrefixTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-            Me.EpisodePrefixTextBox.CustomButton.UseSelectable = True
-            Me.EpisodePrefixTextBox.CustomButton.Visible = False
-            Me.EpisodePrefixTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
-            Me.EpisodePrefixTextBox.Lines = New String(-1) {}
-            Me.EpisodePrefixTextBox.Location = New System.Drawing.Point(264, 69)
-            Me.EpisodePrefixTextBox.MaxLength = 32767
-            Me.EpisodePrefixTextBox.Name = "EpisodePrefixTextBox"
-            Me.EpisodePrefixTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-            Me.EpisodePrefixTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
-            Me.EpisodePrefixTextBox.SelectedText = ""
-            Me.EpisodePrefixTextBox.SelectionLength = 0
-            Me.EpisodePrefixTextBox.SelectionStart = 0
-            Me.EpisodePrefixTextBox.ShortcutsEnabled = True
-            Me.EpisodePrefixTextBox.Size = New System.Drawing.Size(225, 29)
-            Me.EpisodePrefixTextBox.TabIndex = 34
-            Me.EpisodePrefixTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-            Me.EpisodePrefixTextBox.UseSelectable = True
-            Me.EpisodePrefixTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-            Me.EpisodePrefixTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+            Me.LeadingZerosComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.LeadingZerosComboBox.DropDownHeight = 250
+            Me.LeadingZerosComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.LeadingZerosComboBox.FormattingEnabled = True
+            Me.LeadingZerosComboBox.IntegralHeight = False
+            Me.LeadingZerosComboBox.ItemHeight = 23
+            Me.LeadingZerosComboBox.Items.AddRange(New Object() {"1", "01", "001", "0001"})
+            Me.LeadingZerosComboBox.Location = New System.Drawing.Point(279, 40)
+            Me.LeadingZerosComboBox.Name = "LeadingZerosComboBox"
+            Me.LeadingZerosComboBox.Size = New System.Drawing.Size(225, 29)
+            Me.LeadingZerosComboBox.TabIndex = 20
+            Me.LeadingZerosComboBox.UseSelectable = True
             '
             'SeasonNumberBehaviorComboBox
             '
@@ -1130,7 +1162,7 @@
             Me.SeasonNumberBehaviorComboBox.IntegralHeight = False
             Me.SeasonNumberBehaviorComboBox.ItemHeight = 23
             Me.SeasonNumberBehaviorComboBox.Items.AddRange(New Object() {"[Default] use season numbers", "ignore Season 1", "ignore all season numbers"})
-            Me.SeasonNumberBehaviorComboBox.Location = New System.Drawing.Point(143, 21)
+            Me.SeasonNumberBehaviorComboBox.Location = New System.Drawing.Point(6, 40)
             Me.SeasonNumberBehaviorComboBox.Name = "SeasonNumberBehaviorComboBox"
             Me.SeasonNumberBehaviorComboBox.Size = New System.Drawing.Size(225, 29)
             Me.SeasonNumberBehaviorComboBox.TabIndex = 40
@@ -1141,134 +1173,71 @@
             Me.GroupBox12.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.GroupBox12.BackColor = System.Drawing.Color.Transparent
-            Me.GroupBox12.Controls.Add(Me.EpisodeTitleCheckBox)
-            Me.GroupBox12.Controls.Add(Me.AudioLanguageCheckBox)
-            Me.GroupBox12.Controls.Add(Me.EpisodeNumberCheckBox)
-            Me.GroupBox12.Controls.Add(Me.KodiNamingCheckBox)
-            Me.GroupBox12.Controls.Add(Me.SeasonNumberCheckBox)
-            Me.GroupBox12.Controls.Add(Me.SeriesNameCheckBox)
-            Me.GroupBox12.Controls.Add(Me.FilenameTemplatePreview)
+            Me.GroupBox12.Controls.Add(Me.MetroLabel9)
+            Me.GroupBox12.Controls.Add(Me.MetroLabel8)
+            Me.GroupBox12.Controls.Add(Me.FilenamePreviewTextBox)
+            Me.GroupBox12.Controls.Add(Me.KodiNamingTemplateButton)
+            Me.GroupBox12.Controls.Add(Me.AudioLanguageTemplateButton)
+            Me.GroupBox12.Controls.Add(Me.EpisodeTitleTemplateButton)
+            Me.GroupBox12.Controls.Add(Me.EpisodeNumberTemplateButton)
+            Me.GroupBox12.Controls.Add(Me.SeasonNumberTemplateButton)
+            Me.GroupBox12.Controls.Add(Me.SeriesNameTemplateButton)
+            Me.GroupBox12.Controls.Add(Me.FilenameTemplateInput)
             Me.GroupBox12.Font = New System.Drawing.Font("Arial", 9.75!)
             Me.GroupBox12.ForeColor = System.Drawing.Color.Black
             Me.GroupBox12.Location = New System.Drawing.Point(5, 8)
             Me.GroupBox12.Name = "GroupBox12"
-            Me.GroupBox12.Size = New System.Drawing.Size(510, 155)
+            Me.GroupBox12.Size = New System.Drawing.Size(510, 232)
             Me.GroupBox12.TabIndex = 21
             Me.GroupBox12.TabStop = False
             Me.GroupBox12.Text = "Filename"
             '
-            'EpisodeTitleCheckBox
+            'MetroLabel8
             '
-            Me.EpisodeTitleCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.EpisodeTitleCheckBox.AutoSize = True
-            Me.EpisodeTitleCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.EpisodeTitleCheckBox.ForeColor = System.Drawing.Color.Black
-            Me.EpisodeTitleCheckBox.Location = New System.Drawing.Point(180, 124)
-            Me.EpisodeTitleCheckBox.Name = "EpisodeTitleCheckBox"
-            Me.EpisodeTitleCheckBox.Size = New System.Drawing.Size(101, 19)
-            Me.EpisodeTitleCheckBox.TabIndex = 31
-            Me.EpisodeTitleCheckBox.Text = "Episode Title"
-            Me.EpisodeTitleCheckBox.UseSelectable = True
+            Me.MetroLabel8.AutoSize = True
+            Me.MetroLabel8.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel8.Location = New System.Drawing.Point(6, 151)
+            Me.MetroLabel8.Name = "MetroLabel8"
+            Me.MetroLabel8.Size = New System.Drawing.Size(56, 19)
+            Me.MetroLabel8.TabIndex = 40
+            Me.MetroLabel8.Text = "Preview"
+            Me.ToolTip1.SetToolTip(Me.MetroLabel8, "See how a file could be named with the current naming settings")
             '
-            'AudioLanguageCheckBox
+            'FilenamePreviewTextBox
             '
-            Me.AudioLanguageCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.AudioLanguageCheckBox.AutoSize = True
-            Me.AudioLanguageCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.AudioLanguageCheckBox.ForeColor = System.Drawing.Color.Black
-            Me.AudioLanguageCheckBox.Location = New System.Drawing.Point(344, 86)
-            Me.AudioLanguageCheckBox.Name = "AudioLanguageCheckBox"
-            Me.AudioLanguageCheckBox.Size = New System.Drawing.Size(125, 19)
-            Me.AudioLanguageCheckBox.TabIndex = 29
-            Me.AudioLanguageCheckBox.Text = "Audio Language"
-            Me.AudioLanguageCheckBox.UseSelectable = True
-            '
-            'EpisodeNumberCheckBox
-            '
-            Me.EpisodeNumberCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.EpisodeNumberCheckBox.AutoSize = True
-            Me.EpisodeNumberCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.EpisodeNumberCheckBox.ForeColor = System.Drawing.Color.Black
-            Me.EpisodeNumberCheckBox.Location = New System.Drawing.Point(180, 86)
-            Me.EpisodeNumberCheckBox.Name = "EpisodeNumberCheckBox"
-            Me.EpisodeNumberCheckBox.Size = New System.Drawing.Size(126, 19)
-            Me.EpisodeNumberCheckBox.TabIndex = 28
-            Me.EpisodeNumberCheckBox.Text = "Episode Number"
-            Me.EpisodeNumberCheckBox.UseSelectable = True
-            '
-            'KodiNamingCheckBox
-            '
-            Me.KodiNamingCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.KodiNamingCheckBox.AutoSize = True
-            Me.KodiNamingCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.KodiNamingCheckBox.ForeColor = System.Drawing.Color.Black
-            Me.KodiNamingCheckBox.Location = New System.Drawing.Point(344, 124)
-            Me.KodiNamingCheckBox.Name = "KodiNamingCheckBox"
-            Me.KodiNamingCheckBox.Size = New System.Drawing.Size(102, 19)
-            Me.KodiNamingCheckBox.TabIndex = 32
-            Me.KodiNamingCheckBox.Text = "Kodi naming"
-            Me.KodiNamingCheckBox.UseSelectable = True
-            '
-            'SeasonNumberCheckBox
-            '
-            Me.SeasonNumberCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.SeasonNumberCheckBox.AutoSize = True
-            Me.SeasonNumberCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.SeasonNumberCheckBox.ForeColor = System.Drawing.Color.Black
-            Me.SeasonNumberCheckBox.Location = New System.Drawing.Point(42, 124)
-            Me.SeasonNumberCheckBox.Name = "SeasonNumberCheckBox"
-            Me.SeasonNumberCheckBox.Size = New System.Drawing.Size(122, 19)
-            Me.SeasonNumberCheckBox.TabIndex = 30
-            Me.SeasonNumberCheckBox.Text = "Season Number"
-            Me.SeasonNumberCheckBox.UseSelectable = True
-            '
-            'SeriesNameCheckBox
-            '
-            Me.SeriesNameCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.SeriesNameCheckBox.AutoSize = True
-            Me.SeriesNameCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.SeriesNameCheckBox.ForeColor = System.Drawing.Color.Black
-            Me.SeriesNameCheckBox.Location = New System.Drawing.Point(42, 86)
-            Me.SeriesNameCheckBox.Name = "SeriesNameCheckBox"
-            Me.SeriesNameCheckBox.Size = New System.Drawing.Size(100, 19)
-            Me.SeriesNameCheckBox.TabIndex = 27
-            Me.SeriesNameCheckBox.Text = "Series Name"
-            Me.SeriesNameCheckBox.UseSelectable = True
-            '
-            'FilenameTemplatePreview
-            '
-            Me.FilenameTemplatePreview.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Me.FilenamePreviewTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             '
             '
             '
-            Me.FilenameTemplatePreview.CustomButton.Image = Nothing
-            Me.FilenameTemplatePreview.CustomButton.Location = New System.Drawing.Point(470, 1)
-            Me.FilenameTemplatePreview.CustomButton.Name = ""
-            Me.FilenameTemplatePreview.CustomButton.Size = New System.Drawing.Size(27, 27)
-            Me.FilenameTemplatePreview.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-            Me.FilenameTemplatePreview.CustomButton.TabIndex = 1
-            Me.FilenameTemplatePreview.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-            Me.FilenameTemplatePreview.CustomButton.UseSelectable = True
-            Me.FilenameTemplatePreview.CustomButton.Visible = False
-            Me.FilenameTemplatePreview.FontSize = MetroFramework.MetroTextBoxSize.Medium
-            Me.FilenameTemplatePreview.Lines = New String(-1) {}
-            Me.FilenameTemplatePreview.Location = New System.Drawing.Point(6, 35)
-            Me.FilenameTemplatePreview.MaxLength = 32767
-            Me.FilenameTemplatePreview.Name = "FilenameTemplatePreview"
-            Me.FilenameTemplatePreview.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-            Me.FilenameTemplatePreview.ReadOnly = True
-            Me.FilenameTemplatePreview.ScrollBars = System.Windows.Forms.ScrollBars.None
-            Me.FilenameTemplatePreview.SelectedText = ""
-            Me.FilenameTemplatePreview.SelectionLength = 0
-            Me.FilenameTemplatePreview.SelectionStart = 0
-            Me.FilenameTemplatePreview.ShortcutsEnabled = True
-            Me.FilenameTemplatePreview.Size = New System.Drawing.Size(498, 29)
-            Me.FilenameTemplatePreview.TabIndex = 21
-            Me.FilenameTemplatePreview.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-            Me.FilenameTemplatePreview.UseSelectable = True
-            Me.FilenameTemplatePreview.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-            Me.FilenameTemplatePreview.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+            Me.FilenamePreviewTextBox.CustomButton.Image = Nothing
+            Me.FilenamePreviewTextBox.CustomButton.Location = New System.Drawing.Point(470, 1)
+            Me.FilenamePreviewTextBox.CustomButton.Name = ""
+            Me.FilenamePreviewTextBox.CustomButton.Size = New System.Drawing.Size(27, 27)
+            Me.FilenamePreviewTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+            Me.FilenamePreviewTextBox.CustomButton.TabIndex = 1
+            Me.FilenamePreviewTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+            Me.FilenamePreviewTextBox.CustomButton.UseSelectable = True
+            Me.FilenamePreviewTextBox.CustomButton.Visible = False
+            Me.FilenamePreviewTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
+            Me.FilenamePreviewTextBox.Lines = New String(-1) {}
+            Me.FilenamePreviewTextBox.Location = New System.Drawing.Point(6, 173)
+            Me.FilenamePreviewTextBox.MaxLength = 32767
+            Me.FilenamePreviewTextBox.Multiline = True
+            Me.FilenamePreviewTextBox.Name = "FilenamePreviewTextBox"
+            Me.FilenamePreviewTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+            Me.FilenamePreviewTextBox.ReadOnly = True
+            Me.FilenamePreviewTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
+            Me.FilenamePreviewTextBox.SelectedText = ""
+            Me.FilenamePreviewTextBox.SelectionLength = 0
+            Me.FilenamePreviewTextBox.SelectionStart = 0
+            Me.FilenamePreviewTextBox.ShortcutsEnabled = True
+            Me.FilenamePreviewTextBox.Size = New System.Drawing.Size(498, 53)
+            Me.FilenamePreviewTextBox.TabIndex = 39
+            Me.FilenamePreviewTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+            Me.FilenamePreviewTextBox.UseSelectable = True
+            Me.FilenamePreviewTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+            Me.FilenamePreviewTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
             '
             'CrunchyrollTabPage
             '
@@ -1761,6 +1730,28 @@
             Me.MetroStyleManager1.Owner = Me
             Me.MetroStyleManager1.Style = MetroFramework.MetroColorStyle.Orange
             '
+            'MetroLabel10
+            '
+            Me.MetroLabel10.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.MetroLabel10.AutoSize = True
+            Me.MetroLabel10.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel10.Location = New System.Drawing.Point(6, 18)
+            Me.MetroLabel10.Name = "MetroLabel10"
+            Me.MetroLabel10.Size = New System.Drawing.Size(110, 19)
+            Me.MetroLabel10.TabIndex = 41
+            Me.MetroLabel10.Text = "Season numbers"
+            '
+            'MetroLabel11
+            '
+            Me.MetroLabel11.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.MetroLabel11.AutoSize = True
+            Me.MetroLabel11.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel11.Location = New System.Drawing.Point(279, 18)
+            Me.MetroLabel11.Name = "MetroLabel11"
+            Me.MetroLabel11.Size = New System.Drawing.Size(93, 19)
+            Me.MetroLabel11.TabIndex = 42
+            Me.MetroLabel11.Text = "Zero-padding"
+            '
             'SettingsDialog
             '
             Me.ApplyImageInvert = True
@@ -1805,10 +1796,10 @@
             Me.GroupBox4.ResumeLayout(False)
             Me.GroupBox16.ResumeLayout(False)
             Me.NamingTabPage.ResumeLayout(False)
-            Me.GroupBox17.ResumeLayout(False)
             Me.GroupBox3.ResumeLayout(False)
             Me.GroupBox3.PerformLayout()
             Me.FilenameExtrasGroupBox.ResumeLayout(False)
+            Me.FilenameExtrasGroupBox.PerformLayout()
             Me.GroupBox12.ResumeLayout(False)
             Me.GroupBox12.PerformLayout()
             Me.CrunchyrollTabPage.ResumeLayout(False)
@@ -1873,21 +1864,12 @@
         Friend WithEvents FilenameExtrasGroupBox As GroupBox
         Friend WithEvents GroupBox12 As GroupBox
         Friend WithEvents LeadingZerosComboBox As MetroFramework.Controls.MetroComboBox
-        Friend WithEvents GroupBox17 As GroupBox
         Friend WithEvents GroupBox3 As GroupBox
         Friend WithEvents SubLanguageNamingComboBox As MetroFramework.Controls.MetroComboBox
         Friend WithEvents SeasonNumberBehaviorComboBox As MetroFramework.Controls.MetroComboBox
         Friend WithEvents GroupBox19 As GroupBox
         Friend WithEvents CrunchyrollAcceptHardsubsCheckBox As MetroFramework.Controls.MetroCheckBox
-        Public WithEvents EpisodeTitleCheckBox As MetroFramework.Controls.MetroCheckBox
-        Public WithEvents AudioLanguageCheckBox As MetroFramework.Controls.MetroCheckBox
-        Public WithEvents EpisodeNumberCheckBox As MetroFramework.Controls.MetroCheckBox
-        Public WithEvents KodiNamingCheckBox As MetroFramework.Controls.MetroCheckBox
-        Public WithEvents SeasonNumberCheckBox As MetroFramework.Controls.MetroCheckBox
-        Public WithEvents SeriesNameCheckBox As MetroFramework.Controls.MetroCheckBox
-        Friend WithEvents FilenameTemplatePreview As MetroFramework.Controls.MetroTextBox
-        Friend WithEvents EpisodePrefixTextBox As MetroFramework.Controls.MetroTextBox
-        Friend WithEvents SeasonPrefixTextBox As MetroFramework.Controls.MetroTextBox
+        Friend WithEvents FilenameTemplateInput As MetroFramework.Controls.MetroTextBox
         Friend WithEvents CrunchyrollAudioLanguageComboBox As MetroFramework.Controls.MetroComboBox
         Friend WithEvents GroupBox20 As GroupBox
         Friend WithEvents CrunchyrollChaptersCheckBox As MetroFramework.Controls.MetroCheckBox
@@ -1940,5 +1922,16 @@
         Friend WithEvents HigherResolutionRadioButton As MetroFramework.Controls.MetroRadioButton
         Friend WithEvents BitratePanel As Panel
         Friend WithEvents MetroLabel7 As MetroFramework.Controls.MetroLabel
+        Friend WithEvents KodiNamingTemplateButton As MetroFramework.Controls.MetroButton
+        Friend WithEvents AudioLanguageTemplateButton As MetroFramework.Controls.MetroButton
+        Friend WithEvents EpisodeTitleTemplateButton As MetroFramework.Controls.MetroButton
+        Friend WithEvents EpisodeNumberTemplateButton As MetroFramework.Controls.MetroButton
+        Friend WithEvents SeasonNumberTemplateButton As MetroFramework.Controls.MetroButton
+        Friend WithEvents SeriesNameTemplateButton As MetroFramework.Controls.MetroButton
+        Friend WithEvents FilenamePreviewTextBox As MetroFramework.Controls.MetroTextBox
+        Friend WithEvents MetroLabel8 As MetroFramework.Controls.MetroLabel
+        Friend WithEvents MetroLabel9 As MetroFramework.Controls.MetroLabel
+        Friend WithEvents MetroLabel11 As MetroFramework.Controls.MetroLabel
+        Friend WithEvents MetroLabel10 As MetroFramework.Controls.MetroLabel
     End Class
 End Namespace

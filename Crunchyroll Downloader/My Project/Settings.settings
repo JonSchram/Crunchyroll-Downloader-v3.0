@@ -14,15 +14,6 @@
     <Setting Name="Startseite" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://www.crunchyroll.com/</Value>
     </Setting>
-    <Setting Name="Prefix_S" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Season</Value>
-    </Setting>
-    <Setting Name="Prefix_E" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="KodiSupport" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="Dark_Mode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -75,7 +66,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="NameTemplate" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">{SeriesName} {Season :SeasonNumber} {Episode :EpisodeNumber} {EpisodeName}</Value>
     </Setting>
     <Setting Name="ffmpeg_command_override" Type="System.String" Scope="User">
       <Value Profile="(Default)">null</Value>

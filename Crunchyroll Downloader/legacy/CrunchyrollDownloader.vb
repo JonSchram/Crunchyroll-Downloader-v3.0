@@ -523,7 +523,7 @@ Namespace api.crunchyroll
 
                 If TextBox2_Text = Nothing Or TextBox2_Text = "Use Custom Name" Or CBool(InStr(TextBox2_Text, "++")) = True Then
 
-                    Dim seasonPrefix = settings.SeasonPrefix
+                    Dim seasonPrefix = "s"
                     ' TODO: clean up season prefix. This is now set to be the actual prefix.
                     If seasonPrefix = "Season" Then
                         If CR_episode = Nothing And CR_episode2 = Nothing Then 'no episode number means most likey a movie 
@@ -552,7 +552,7 @@ Namespace api.crunchyroll
                     End If
 
 
-                    Dim episodePrefix = settings.EpisodePrefix
+                    Dim episodePrefix = "Episode"
                     If episodePrefix = "Episode" Then
                         If CR_episode = Nothing Or CR_episode = "" And CR_episode2 = Nothing Then
                             CR_episode = CR_title
@@ -566,7 +566,7 @@ Namespace api.crunchyroll
                         CR_episode = episodePrefix + Main.AddLeadingZeros(CR_episode)
                     End If
 
-                    Dim nameTemplate = settings.FilenameFormat
+                    Dim nameTemplate = settings.FilenameTemplate
                     Dim NameParts As String() = nameTemplate.Split(New String() {";"}, System.StringSplitOptions.RemoveEmptyEntries)
 
                     For i As Integer = 0 To NameParts.Count - 1
@@ -610,7 +610,8 @@ Namespace api.crunchyroll
                     CR_FilenName = Main.RemoveExtraSpaces(String.Join(" ", TextBox2_Text.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c)).Replace("""", "").Replace("\", "").Replace("/", "") 'System.Text.RegularExpressions.Regex.Replace(TextBox2_Text, "[^\w\\-]", " "))
                 End If
 
-                If settings.KodiNaming Then
+                Dim kodiNaming As Boolean = False
+                If kodiNaming Then
                     Dim KodiString As String = "[S"
                     If CR_Anime_Staffel_int = "0" Then
                         CR_Anime_Staffel_int = "01"

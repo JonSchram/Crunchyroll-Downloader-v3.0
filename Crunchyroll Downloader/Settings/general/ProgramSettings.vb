@@ -36,8 +36,6 @@ Namespace settings.general
             UpgradeMergeSubs()
             UpgradeFfmpegCommand()
             UpgradeNameTemplate()
-            UpgradeSeasonPrefix()
-            UpgradeEpisodePrefix()
             UpgradeResolution()
             UpgradePath()
 
@@ -165,32 +163,44 @@ Namespace settings.general
 
         Private Sub UpgradeNameTemplate()
             Try
-                Dim oldNameMethod As Integer = CInt(My.Settings.GetPreviousVersion("CR_NameMethode"))
-                Select Case oldNameMethod
-                    Case 0
-                        FilenameFormat = "AnimeTitle;Season;EpisodeNR;"
-                    Case 1
-                        FilenameFormat = "AnimeTitle;Season;EpisodeName;"
-                    Case 2
-                        FilenameFormat = "AnimeTitle;Season;EpisodeNR;EpisodeName;"
-                    Case 3
-                        FilenameFormat = "AnimeTitle;Season;EpisodeName;EpisodeNR;"
-                End Select
+                Dim oldNameValue As Object = My.Settings.GetPreviousVersion("NameTemplate")
+                If oldNameValue Is Nothing Then
+                    FilenameTemplate = "{SeriesName} {Season :SeasonNumber} {Episode :EpisodeNumber} {EpisodeName}"
+                Else
+                    Dim oldNameFormat As String = CStr(oldNameValue)
+                    Dim newNameTemplate As String = oldNameFormat
+                    newNameTemplate = newNameTemplate.Replace("AnimeTitle;", "{SeriesName}")
+                    newNameTemplate = newNameTemplate.Replace("Season;", "{SeasonNumber}")
+
+                    Dim previousSeasonPrefix As Object = My.Settings.GetPreviousVersion("Prefix_E")
+                    If previousSeasonPrefix Is Nothing Then
+                        newNameTemplate = newNameTemplate.Replace("Season;", "{SeasonNumber}")
+                    Else
+                        If "[default season prefix]".Equals(previousSeasonPrefix) Then
+                            newNameTemplate = newNameTemplate.Replace("Season;", "{Season :SeasonNumber}")
+                        Else
+                            newNameTemplate = newNameTemplate.Replace("Season;", $"{{{previousSeasonPrefix} :SeasonNumber}}")
+                        End If
+                    End If
+
+                    Dim previousEpisodePrefix As Object = My.Settings.GetPreviousVersion("Prefix_E")
+                    If previousEpisodePrefix Is Nothing Then
+                        newNameTemplate = newNameTemplate.Replace("EpisodeNR;", "{EpisodeNumber}")
+                    Else
+                        If "[default episode prefix]".Equals(previousEpisodePrefix) Then
+                            newNameTemplate = newNameTemplate.Replace("EpisodeNR;", "{Episode :EpisodeNumber}")
+                        Else
+                            newNameTemplate = newNameTemplate.Replace("EpisodeNR;", $"{{{previousEpisodePrefix} :EpisodeNumber}}")
+                        End If
+                    End If
+
+                    newNameTemplate = newNameTemplate.Replace("EpisodeName;", "{EpisodeName}")
+                    newNameTemplate = newNameTemplate.Replace("AnimeDub;", "{AudioLanguage}")
+                    FilenameTemplate = newNameTemplate
+                End If
             Catch ex As Exception
-                FilenameFormat = ""
+                FilenameTemplate = "{SeriesName} {Season :SeasonNumber} {Episode :EpisodeNumber} {EpisodeName}"
             End Try
-        End Sub
-
-        Private Sub UpgradeSeasonPrefix()
-            If My.Settings.Prefix_S = "[default season prefix]" Then
-                My.Settings.Prefix_S = "Season"
-            End If
-        End Sub
-
-        Private Sub UpgradeEpisodePrefix()
-            If My.Settings.Prefix_E = "[default episode prefix]" Then
-                My.Settings.Prefix_E = "Episode"
-            End If
         End Sub
 
         Private Sub UpgradeResolution()
@@ -414,21 +424,12 @@ Namespace settings.general
         End Property
 
         ' ------ Naming settings
-        Public Property FilenameFormat As String
+        Public Property FilenameTemplate As String
             Get
                 Return My.Settings.NameTemplate
             End Get
             Set(value As String)
                 My.Settings.NameTemplate = value
-            End Set
-        End Property
-
-        Public Property KodiNaming As Boolean
-            Get
-                Return My.Settings.KodiSupport
-            End Get
-            Set(value As Boolean)
-                My.Settings.KodiSupport = value
             End Set
         End Property
 
@@ -438,23 +439,6 @@ Namespace settings.general
             End Get
             Set(value As SeasonNumberBehavior)
                 My.Settings.IgnoreSeason = value
-            End Set
-        End Property
-
-        Public Property SeasonPrefix As String
-            Get
-                Return My.Settings.Prefix_S
-            End Get
-            Set(value As String)
-                My.Settings.Prefix_S = value
-            End Set
-        End Property
-        Public Property EpisodePrefix As String
-            Get
-                Return My.Settings.Prefix_E
-            End Get
-            Set(value As String)
-                My.Settings.Prefix_E = value
             End Set
         End Property
 

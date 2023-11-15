@@ -120,6 +120,11 @@
   <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>19, 20</value>
   </metadata>
+  <data name="MetroLabel9.ToolTip" xml:space="preserve">
+    <value>Click a button to insert a value at the current cursor position.
+A prefix can be added to any field using a colon before the field name.
+Example: {s:SeasonNumber} will add "s" before the season number.</value>
+  </data>
   <metadata name="ToolTip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>118, 20</value>
   </metadata>

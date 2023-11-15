@@ -9,7 +9,7 @@ Namespace preferences
             Dim settings As ProgramSettings = ProgramSettings.GetInstance()
 
             Dim outputDir = settings.OutputPath
-            Dim template = If(settings.KodiNaming, FilenameInterpolator.CreateKodiNamingTemplate(), settings.FilenameFormat)
+            Dim template = settings.FilenameTemplate
             Dim subfolderCreation As SubfolderBehavior = task.SubfolderCreation
             Dim manualSubfolder = If(subfolderCreation = SubfolderBehavior.OVERRIDE_FOLDER, task.OverriddenSubfolder, Nothing)
             Dim createSeasonFolder = subfolderCreation = SubfolderBehavior.USE_SERIES_AND_SEASON
