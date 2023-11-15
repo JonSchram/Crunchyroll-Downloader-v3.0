@@ -279,10 +279,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SettingsDialog.Designer.vb">
+    <Compile Include="ui\SettingsDialog.Designer.vb">
       <DependentUpon>SettingsDialog.vb</DependentUpon>
     </Compile>
-    <Compile Include="SettingsDialog.vb">
+    <Compile Include="ui\SettingsDialog.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Browser.Designer.vb">
@@ -377,7 +377,7 @@
     <EmbeddedResource Include="Trackbar.resx">
       <DependentUpon>Trackbar.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsDialog.resx">
+    <EmbeddedResource Include="ui\SettingsDialog.resx">
       <DependentUpon>SettingsDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Browser.resx">
