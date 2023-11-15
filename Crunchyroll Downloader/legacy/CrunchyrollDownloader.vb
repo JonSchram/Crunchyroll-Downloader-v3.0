@@ -73,19 +73,12 @@ Namespace api.crunchyroll
                     '    Main.Grapp_RDY = True
                     'End If
 
-                    If settings.UseDownloadQueue Then
-                        'Anime_Add.ListBox1.Items.Add(ListOfEpisodes(i))
-                        Main.ListBoxList.Add(ListOfEpisodes(i))
-                        ' Color is #8D1D2C
-                        'Anime_Add.Add_Display.ForeColor = Color.FromArgb(9248044)
-                        Pause(1)
-                        'Anime_Add.Add_Display.ForeColor = Color.Black
-                    Else
-                        Main.Grapp_RDY = False
-                        Main.b = False
-                        Debug.WriteLine("b: " + Main.b.ToString)
-                        Main.LoadBrowser(ListOfEpisodes(i))
-                    End If
+                    'Anime_Add.ListBox1.Items.Add(ListOfEpisodes(i))
+                    Main.ListBoxList.Add(ListOfEpisodes(i))
+                    ' Color is #8D1D2C
+                    'Anime_Add.Add_Display.ForeColor = Color.FromArgb(9248044)
+                    Pause(1)
+                    'Anime_Add.Add_Display.ForeColor = Color.Black
                     'Anime_Add.Add_Display.Text = (i - First + 1).ToString + " / " + (Last - First + 1).ToString
                 Next
             Catch ex As Exception

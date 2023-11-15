@@ -73,12 +73,9 @@
             Me.MetroLabel4 = New MetroFramework.Controls.MetroLabel()
             Me.BitrateNumericInput = New System.Windows.Forms.NumericUpDown()
             Me.MetroLabel2 = New MetroFramework.Controls.MetroLabel()
-            Me.FfmpegCommandPreviewTextBox = New MetroFramework.Controls.MetroTextBox()
             Me.GroupBox4 = New System.Windows.Forms.GroupBox()
             Me.SubtitleFormatComboBox = New MetroFramework.Controls.MetroComboBox()
             Me.VideoFormatComboBox = New MetroFramework.Controls.MetroComboBox()
-            Me.GroupBox18 = New System.Windows.Forms.GroupBox()
-            Me.UseQueueCheckbox = New MetroFramework.Controls.MetroCheckBox()
             Me.GroupBox16 = New System.Windows.Forms.GroupBox()
             Me.MetroLabel3 = New MetroFramework.Controls.MetroLabel()
             Me.TemporaryFolderTextBox = New MetroFramework.Controls.MetroTextBox()
@@ -154,7 +151,6 @@
             Me.FfmpegCommandGroupBox.SuspendLayout()
             CType(Me.BitrateNumericInput, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.GroupBox4.SuspendLayout()
-            Me.GroupBox18.SuspendLayout()
             Me.GroupBox16.SuspendLayout()
             Me.NamingTabPage.SuspendLayout()
             Me.GroupBox17.SuspendLayout()
@@ -582,7 +578,6 @@
             Me.OutputTabPage.Controls.Add(Me.QualityGroupBox)
             Me.OutputTabPage.Controls.Add(Me.FfmpegCommandGroupBox)
             Me.OutputTabPage.Controls.Add(Me.GroupBox4)
-            Me.OutputTabPage.Controls.Add(Me.GroupBox18)
             Me.OutputTabPage.Controls.Add(Me.GroupBox16)
             Me.OutputTabPage.HorizontalScrollbar = True
             Me.OutputTabPage.HorizontalScrollbarBarColor = True
@@ -610,7 +605,7 @@
             Me.QualityGroupBox.Controls.Add(Me.ResolutionComboBox)
             Me.QualityGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
             Me.QualityGroupBox.ForeColor = System.Drawing.Color.Black
-            Me.QualityGroupBox.Location = New System.Drawing.Point(8, 200)
+            Me.QualityGroupBox.Location = New System.Drawing.Point(8, 141)
             Me.QualityGroupBox.Name = "QualityGroupBox"
             Me.QualityGroupBox.Size = New System.Drawing.Size(507, 99)
             Me.QualityGroupBox.TabIndex = 34
@@ -707,32 +702,31 @@
             Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel4)
             Me.FfmpegCommandGroupBox.Controls.Add(Me.BitrateNumericInput)
             Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel2)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegCommandPreviewTextBox)
             Me.FfmpegCommandGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
             Me.FfmpegCommandGroupBox.ForeColor = System.Drawing.Color.Black
-            Me.FfmpegCommandGroupBox.Location = New System.Drawing.Point(8, 369)
+            Me.FfmpegCommandGroupBox.Location = New System.Drawing.Point(8, 310)
             Me.FfmpegCommandGroupBox.Name = "FfmpegCommandGroupBox"
-            Me.FfmpegCommandGroupBox.Size = New System.Drawing.Size(507, 111)
+            Me.FfmpegCommandGroupBox.Size = New System.Drawing.Size(507, 98)
             Me.FfmpegCommandGroupBox.TabIndex = 51
             Me.FfmpegCommandGroupBox.TabStop = False
-            Me.FfmpegCommandGroupBox.Text = "ffmpeg command"
+            Me.FfmpegCommandGroupBox.Text = "Re-encoding"
             '
             'FfmpegCopyCheckBox
             '
             Me.FfmpegCopyCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.FfmpegCopyCheckBox.AutoSize = True
-            Me.FfmpegCopyCheckBox.Location = New System.Drawing.Point(15, 21)
+            Me.FfmpegCopyCheckBox.Location = New System.Drawing.Point(39, 20)
             Me.FfmpegCopyCheckBox.Name = "FfmpegCopyCheckBox"
-            Me.FfmpegCopyCheckBox.Size = New System.Drawing.Size(51, 15)
+            Me.FfmpegCopyCheckBox.Size = New System.Drawing.Size(155, 15)
             Me.FfmpegCopyCheckBox.TabIndex = 52
-            Me.FfmpegCopyCheckBox.Text = "Copy"
+            Me.FfmpegCopyCheckBox.Text = "Copy (Do not re-encode)"
             Me.FfmpegCopyCheckBox.UseSelectable = True
             '
             'TargetBitrateCheckBox
             '
             Me.TargetBitrateCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.TargetBitrateCheckBox.AutoSize = True
-            Me.TargetBitrateCheckBox.Location = New System.Drawing.Point(367, 22)
+            Me.TargetBitrateCheckBox.Location = New System.Drawing.Point(345, 43)
             Me.TargetBitrateCheckBox.Name = "TargetBitrateCheckBox"
             Me.TargetBitrateCheckBox.Size = New System.Drawing.Size(92, 15)
             Me.TargetBitrateCheckBox.TabIndex = 51
@@ -744,7 +738,7 @@
             Me.VideoCodecComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.VideoCodecComboBox.FormattingEnabled = True
             Me.VideoCodecComboBox.ItemHeight = 23
-            Me.VideoCodecComboBox.Location = New System.Drawing.Point(95, 40)
+            Me.VideoCodecComboBox.Location = New System.Drawing.Point(39, 61)
             Me.VideoCodecComboBox.Name = "VideoCodecComboBox"
             Me.VideoCodecComboBox.Size = New System.Drawing.Size(65, 29)
             Me.VideoCodecComboBox.TabIndex = 50
@@ -755,7 +749,7 @@
             Me.MetroLabel6.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.MetroLabel6.AutoSize = True
             Me.MetroLabel6.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.MetroLabel6.Location = New System.Drawing.Point(95, 17)
+            Me.MetroLabel6.Location = New System.Drawing.Point(39, 38)
             Me.MetroLabel6.Name = "MetroLabel6"
             Me.MetroLabel6.Size = New System.Drawing.Size(47, 19)
             Me.MetroLabel6.TabIndex = 49
@@ -766,9 +760,9 @@
             Me.VideoEncoderComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.VideoEncoderComboBox.FormattingEnabled = True
             Me.VideoEncoderComboBox.ItemHeight = 23
-            Me.VideoEncoderComboBox.Location = New System.Drawing.Point(166, 40)
+            Me.VideoEncoderComboBox.Location = New System.Drawing.Point(110, 61)
             Me.VideoEncoderComboBox.Name = "VideoEncoderComboBox"
-            Me.VideoEncoderComboBox.Size = New System.Drawing.Size(80, 29)
+            Me.VideoEncoderComboBox.Size = New System.Drawing.Size(100, 29)
             Me.VideoEncoderComboBox.TabIndex = 48
             Me.VideoEncoderComboBox.UseSelectable = True
             '
@@ -777,7 +771,7 @@
             Me.MetroLabel5.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.MetroLabel5.AutoSize = True
             Me.MetroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.MetroLabel5.Location = New System.Drawing.Point(166, 18)
+            Me.MetroLabel5.Location = New System.Drawing.Point(108, 39)
             Me.MetroLabel5.Name = "MetroLabel5"
             Me.MetroLabel5.Size = New System.Drawing.Size(58, 19)
             Me.MetroLabel5.TabIndex = 47
@@ -788,9 +782,9 @@
             Me.FfmpegPresetComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.FfmpegPresetComboBox.FormattingEnabled = True
             Me.FfmpegPresetComboBox.ItemHeight = 23
-            Me.FfmpegPresetComboBox.Location = New System.Drawing.Point(252, 40)
+            Me.FfmpegPresetComboBox.Location = New System.Drawing.Point(216, 61)
             Me.FfmpegPresetComboBox.Name = "FfmpegPresetComboBox"
-            Me.FfmpegPresetComboBox.Size = New System.Drawing.Size(109, 29)
+            Me.FfmpegPresetComboBox.Size = New System.Drawing.Size(123, 29)
             Me.FfmpegPresetComboBox.TabIndex = 46
             Me.FfmpegPresetComboBox.UseSelectable = True
             '
@@ -799,7 +793,7 @@
             Me.MetroLabel4.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.MetroLabel4.AutoSize = True
             Me.MetroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.MetroLabel4.Location = New System.Drawing.Point(252, 18)
+            Me.MetroLabel4.Location = New System.Drawing.Point(216, 38)
             Me.MetroLabel4.Name = "MetroLabel4"
             Me.MetroLabel4.Size = New System.Drawing.Size(88, 19)
             Me.MetroLabel4.TabIndex = 45
@@ -809,7 +803,7 @@
             '
             Me.BitrateNumericInput.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.BitrateNumericInput.Increment = New Decimal(New Integer() {100, 0, 0, 0})
-            Me.BitrateNumericInput.Location = New System.Drawing.Point(367, 41)
+            Me.BitrateNumericInput.Location = New System.Drawing.Point(345, 62)
             Me.BitrateNumericInput.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
             Me.BitrateNumericInput.Minimum = New Decimal(New Integer() {1000, 0, 0, 0})
             Me.BitrateNumericInput.Name = "BitrateNumericInput"
@@ -821,44 +815,11 @@
             '
             Me.MetroLabel2.Anchor = System.Windows.Forms.AnchorStyles.Top
             Me.MetroLabel2.AutoSize = True
-            Me.MetroLabel2.Location = New System.Drawing.Point(440, 41)
+            Me.MetroLabel2.Location = New System.Drawing.Point(418, 62)
             Me.MetroLabel2.Name = "MetroLabel2"
             Me.MetroLabel2.Size = New System.Drawing.Size(49, 19)
             Me.MetroLabel2.TabIndex = 44
             Me.MetroLabel2.Text = "(KBit/s)"
-            '
-            'FfmpegCommandPreviewTextBox
-            '
-            Me.FfmpegCommandPreviewTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            '
-            '
-            '
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Image = Nothing
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Location = New System.Drawing.Point(443, 1)
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Name = ""
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Size = New System.Drawing.Size(21, 21)
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-            Me.FfmpegCommandPreviewTextBox.CustomButton.TabIndex = 1
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-            Me.FfmpegCommandPreviewTextBox.CustomButton.UseSelectable = True
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Visible = False
-            Me.FfmpegCommandPreviewTextBox.Lines = New String() {"(ffmpeg command)"}
-            Me.FfmpegCommandPreviewTextBox.Location = New System.Drawing.Point(15, 82)
-            Me.FfmpegCommandPreviewTextBox.MaxLength = 32767
-            Me.FfmpegCommandPreviewTextBox.Name = "FfmpegCommandPreviewTextBox"
-            Me.FfmpegCommandPreviewTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-            Me.FfmpegCommandPreviewTextBox.ReadOnly = True
-            Me.FfmpegCommandPreviewTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
-            Me.FfmpegCommandPreviewTextBox.SelectedText = ""
-            Me.FfmpegCommandPreviewTextBox.SelectionLength = 0
-            Me.FfmpegCommandPreviewTextBox.SelectionStart = 0
-            Me.FfmpegCommandPreviewTextBox.ShortcutsEnabled = True
-            Me.FfmpegCommandPreviewTextBox.Size = New System.Drawing.Size(465, 23)
-            Me.FfmpegCommandPreviewTextBox.TabIndex = 38
-            Me.FfmpegCommandPreviewTextBox.Text = "(ffmpeg command)"
-            Me.FfmpegCommandPreviewTextBox.UseSelectable = True
-            Me.FfmpegCommandPreviewTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-            Me.FfmpegCommandPreviewTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
             '
             'GroupBox4
             '
@@ -869,7 +830,7 @@
             Me.GroupBox4.Controls.Add(Me.VideoFormatComboBox)
             Me.GroupBox4.Font = New System.Drawing.Font("Arial", 9.75!)
             Me.GroupBox4.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox4.Location = New System.Drawing.Point(8, 299)
+            Me.GroupBox4.Location = New System.Drawing.Point(8, 240)
             Me.GroupBox4.Name = "GroupBox4"
             Me.GroupBox4.Size = New System.Drawing.Size(507, 70)
             Me.GroupBox4.TabIndex = 41
@@ -904,33 +865,6 @@
             Me.VideoFormatComboBox.Size = New System.Drawing.Size(175, 29)
             Me.VideoFormatComboBox.TabIndex = 17
             Me.VideoFormatComboBox.UseSelectable = True
-            '
-            'GroupBox18
-            '
-            Me.GroupBox18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.GroupBox18.BackColor = System.Drawing.Color.Transparent
-            Me.GroupBox18.Controls.Add(Me.UseQueueCheckbox)
-            Me.GroupBox18.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.GroupBox18.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox18.Location = New System.Drawing.Point(8, 141)
-            Me.GroupBox18.Name = "GroupBox18"
-            Me.GroupBox18.Size = New System.Drawing.Size(507, 59)
-            Me.GroupBox18.TabIndex = 33
-            Me.GroupBox18.TabStop = False
-            Me.GroupBox18.Text = "Multi-Download"
-            '
-            'UseQueueCheckbox
-            '
-            Me.UseQueueCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.UseQueueCheckbox.AutoSize = True
-            Me.UseQueueCheckbox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.UseQueueCheckbox.Location = New System.Drawing.Point(125, 21)
-            Me.UseQueueCheckbox.Name = "UseQueueCheckbox"
-            Me.UseQueueCheckbox.Size = New System.Drawing.Size(255, 19)
-            Me.UseQueueCheckbox.TabIndex = 5
-            Me.UseQueueCheckbox.Text = "redirect multi-download to the queue"
-            Me.UseQueueCheckbox.UseSelectable = True
             '
             'GroupBox16
             '
@@ -1869,8 +1803,6 @@
             Me.FfmpegCommandGroupBox.PerformLayout()
             CType(Me.BitrateNumericInput, System.ComponentModel.ISupportInitialize).EndInit()
             Me.GroupBox4.ResumeLayout(False)
-            Me.GroupBox18.ResumeLayout(False)
-            Me.GroupBox18.PerformLayout()
             Me.GroupBox16.ResumeLayout(False)
             Me.NamingTabPage.ResumeLayout(False)
             Me.GroupBox17.ResumeLayout(False)
@@ -1993,13 +1925,10 @@
         Friend WithEvents MetroLabel4 As MetroFramework.Controls.MetroLabel
         Friend WithEvents BitrateNumericInput As NumericUpDown
         Friend WithEvents MetroLabel2 As MetroFramework.Controls.MetroLabel
-        Friend WithEvents FfmpegCommandPreviewTextBox As MetroFramework.Controls.MetroTextBox
         Friend WithEvents GroupBox4 As GroupBox
         Friend WithEvents SubtitleFormatComboBox As MetroFramework.Controls.MetroComboBox
         Friend WithEvents VideoFormatComboBox As MetroFramework.Controls.MetroComboBox
         Friend WithEvents QualityGroupBox As GroupBox
-        Friend WithEvents GroupBox18 As GroupBox
-        Friend WithEvents UseQueueCheckbox As MetroFramework.Controls.MetroCheckBox
         Friend WithEvents GroupBox16 As GroupBox
         Friend WithEvents MetroLabel3 As MetroFramework.Controls.MetroLabel
         Friend WithEvents TemporaryFolderTextBox As MetroFramework.Controls.MetroTextBox

@@ -177,18 +177,6 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property QueueMode() As Boolean
-            Get
-                Return CType(Me("QueueMode"),Boolean)
-            End Get
-            Set
-                Me("QueueMode") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property IncludeLangName() As Boolean
             Get
                 Return CType(Me("IncludeLangName"),Boolean)

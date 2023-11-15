@@ -388,12 +388,10 @@ Namespace ui
         Private Sub LoadOutputSettings()
             DownloadModeDropdown.SelectedItem = DownloadModeTextList.Item(settings.DownloadMode)
             TemporaryFolderTextBox.Text = settings.TemporaryFolder
-            UseQueueCheckbox.Checked = settings.UseDownloadQueue
             LoadQuality()
 
             LoadOutputFormat()
             LoadFfmpegSettings()
-
         End Sub
 
         Private Sub LoadQuality()
@@ -435,7 +433,6 @@ Namespace ui
             BitrateNumericInput.Value = savedEncoder.TargetBitrate
 
             UpdateFfmpegInputStates()
-            UpdateFfmpegDisplay()
         End Sub
 
         Private Sub LoadNamingSettings()
@@ -614,7 +611,6 @@ Namespace ui
             SaveOutputFormat()
             settings.DownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
             settings.TemporaryFolder = TemporaryFolderTextBox.Text
-            settings.UseDownloadQueue = UseQueueCheckbox.Checked
             settings.Ffmpeg = CreateFfmpegSettingFromInputs()
         End Sub
         Private Sub SaveResolutionSetting()
@@ -792,17 +788,15 @@ Namespace ui
                     VideoCodecComboBox.SelectedItem = CodecTextList.Item(Codec.H_264)
                 End If
             End If
-
-            UpdateFfmpegDisplay()
         End Sub
 
-        Private Sub Ffmpeg_parameters_changed(sender As Object, e As EventArgs)
-            UpdateFfmpegDisplay()
-        End Sub
 
-        Private Sub Ffmpeg_copy_and_bitrate_CheckedChanged(sender As Object, e As EventArgs)
+        Private Sub TargetBitrateCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles TargetBitrateCheckBox.CheckedChanged
             UpdateFfmpegInputStates()
-            UpdateFfmpegDisplay()
+        End Sub
+
+        Private Sub FfmpegCopyCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles FfmpegCopyCheckBox.CheckedChanged
+            UpdateFfmpegInputStates()
         End Sub
 
         Private Sub UpdateFfmpegInputStates()
@@ -819,10 +813,6 @@ Namespace ui
                 TargetBitrateCheckBox.Enabled = True
                 BitrateNumericInput.Enabled = TargetBitrateCheckBox.Checked
             End If
-        End Sub
-
-        Private Sub UpdateFfmpegDisplay()
-            FfmpegCommandPreviewTextBox.Text = CreateFfmpegSettingFromInputs().GetFfmpegArguments()
         End Sub
 
         Private Function CreateFfmpegSettingFromInputs() As FfmpegOptions
@@ -1068,6 +1058,5 @@ Namespace ui
             PORT_8080
             CUSTOM
         End Enum
-
     End Class
 End Namespace
