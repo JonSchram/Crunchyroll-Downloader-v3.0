@@ -39,6 +39,50 @@
             Me.DownloadCountGroupBox = New System.Windows.Forms.GroupBox()
             Me.SimultaneousDownloadsInput = New System.Windows.Forms.NumericUpDown()
             Me.TabControl = New MetroFramework.Controls.MetroTabControl()
+            Me.MainTabPage = New MetroFramework.Controls.MetroTabPage()
+            Me.SubfolderGroupBox = New System.Windows.Forms.GroupBox()
+            Me.HideSubfoldersComboBox = New MetroFramework.Controls.MetroComboBox()
+            Me.ErrorHandlingGroupBox = New System.Windows.Forms.GroupBox()
+            Me.MetroLabel1 = New MetroFramework.Controls.MetroLabel()
+            Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
+            Me.Label2 = New MetroFramework.Controls.MetroLabel()
+            Me.ErrorLimitInput = New System.Windows.Forms.NumericUpDown()
+            Me.ServerGroupBox = New System.Windows.Forms.GroupBox()
+            Me.CustomServerPortInput = New System.Windows.Forms.NumericUpDown()
+            Me.ServerPortLabel = New MetroFramework.Controls.MetroLabel()
+            Me.IgnoreTlsCheckBox = New MetroFramework.Controls.MetroCheckBox()
+            Me.ServerPortInput = New MetroFramework.Controls.MetroComboBox()
+            Me.DarkModeCheckBox = New MetroFramework.Controls.MetroCheckBox()
+            Me.OutputTabPage = New MetroFramework.Controls.MetroTabPage()
+            Me.QualityGroupBox = New System.Windows.Forms.GroupBox()
+            Me.LowerResolutionRadioButton = New MetroFramework.Controls.MetroRadioButton()
+            Me.HigherResolutionRadioButton = New MetroFramework.Controls.MetroRadioButton()
+            Me.BitratePanel = New System.Windows.Forms.Panel()
+            Me.MetroLabel7 = New MetroFramework.Controls.MetroLabel()
+            Me.HigherBitrateRadioButton = New MetroFramework.Controls.MetroRadioButton()
+            Me.LowerBitrateRadioButton = New MetroFramework.Controls.MetroRadioButton()
+            Me.ResolutionComboBox = New MetroFramework.Controls.MetroComboBox()
+            Me.FfmpegCommandGroupBox = New System.Windows.Forms.GroupBox()
+            Me.FfmpegCopyCheckBox = New MetroFramework.Controls.MetroCheckBox()
+            Me.TargetBitrateCheckBox = New MetroFramework.Controls.MetroCheckBox()
+            Me.VideoCodecComboBox = New MetroFramework.Controls.MetroComboBox()
+            Me.MetroLabel6 = New MetroFramework.Controls.MetroLabel()
+            Me.VideoEncoderComboBox = New MetroFramework.Controls.MetroComboBox()
+            Me.MetroLabel5 = New MetroFramework.Controls.MetroLabel()
+            Me.FfmpegPresetComboBox = New MetroFramework.Controls.MetroComboBox()
+            Me.MetroLabel4 = New MetroFramework.Controls.MetroLabel()
+            Me.BitrateNumericInput = New System.Windows.Forms.NumericUpDown()
+            Me.MetroLabel2 = New MetroFramework.Controls.MetroLabel()
+            Me.FfmpegCommandPreviewTextBox = New MetroFramework.Controls.MetroTextBox()
+            Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+            Me.SubtitleFormatComboBox = New MetroFramework.Controls.MetroComboBox()
+            Me.VideoFormatComboBox = New MetroFramework.Controls.MetroComboBox()
+            Me.GroupBox18 = New System.Windows.Forms.GroupBox()
+            Me.UseQueueCheckbox = New MetroFramework.Controls.MetroCheckBox()
+            Me.GroupBox16 = New System.Windows.Forms.GroupBox()
+            Me.MetroLabel3 = New MetroFramework.Controls.MetroLabel()
+            Me.TemporaryFolderTextBox = New MetroFramework.Controls.MetroTextBox()
+            Me.DownloadModeDropdown = New MetroFramework.Controls.MetroComboBox()
             Me.NamingTabPage = New MetroFramework.Controls.MetroTabPage()
             Me.GroupBox17 = New System.Windows.Forms.GroupBox()
             Me.LeadingZerosComboBox = New MetroFramework.Controls.MetroComboBox()
@@ -64,8 +108,6 @@
             Me.CrunchyrollAudioLanguageComboBox = New MetroFramework.Controls.MetroComboBox()
             Me.CrunchyrollAcceptHardsubsCheckBox = New MetroFramework.Controls.MetroCheckBox()
             Me.FunimationTabPage = New MetroFramework.Controls.MetroTabPage()
-            Me.GroupBox15 = New System.Windows.Forms.GroupBox()
-            Me.FunimationBitrateComboBox = New MetroFramework.Controls.MetroComboBox()
             Me.GroupBox10 = New System.Windows.Forms.GroupBox()
             Me.FunimationDubComboBox = New MetroFramework.Controls.MetroComboBox()
             Me.GroupBox7 = New System.Windows.Forms.GroupBox()
@@ -80,68 +122,40 @@
             Me.FunimationEnglishCheckBox = New MetroFramework.Controls.MetroCheckBox()
             Me.FunimationSpanishCheckBox = New MetroFramework.Controls.MetroCheckBox()
             Me.FunimationPortugueseCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.LastVersion = New MetroFramework.Controls.MetroLabel()
+            Me.AboutTabPage = New MetroFramework.Controls.MetroTabPage()
             Me.Label8 = New MetroFramework.Controls.MetroLabel()
+            Me.LastVersion = New MetroFramework.Controls.MetroLabel()
             Me.MetroFrameworkLabel = New MetroFramework.Controls.MetroLabel()
+            Me.Label5 = New MetroFramework.Controls.MetroLabel()
+            Me.CurrentVersionLabel = New MetroFramework.Controls.MetroLabel()
             Me.WebviewLabel = New MetroFramework.Controls.MetroLabel()
             Me.FfmpegLabel = New MetroFramework.Controls.MetroLabel()
             Me.PictureBox7 = New System.Windows.Forms.PictureBox()
             Me.Label4 = New MetroFramework.Controls.MetroLabel()
-            Me.CurrentVersionLabel = New MetroFramework.Controls.MetroLabel()
-            Me.Label5 = New MetroFramework.Controls.MetroLabel()
             Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
             Me.Btn_Save = New System.Windows.Forms.Button()
             Me.MetroStyleManager1 = New MetroFramework.Components.MetroStyleManager(Me.components)
             Me.StyleExtender = New MetroFramework.Components.MetroStyleExtender(Me.components)
-            Me.AboutTabPage = New MetroFramework.Controls.MetroTabPage()
-            Me.MainTabPage = New MetroFramework.Controls.MetroTabPage()
-            Me.ServerGroupBox = New System.Windows.Forms.GroupBox()
-            Me.CustomServerPortInput = New System.Windows.Forms.NumericUpDown()
-            Me.ServerPortLabel = New MetroFramework.Controls.MetroLabel()
-            Me.IgnoreTlsCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.ServerPortInput = New MetroFramework.Controls.MetroComboBox()
-            Me.DarkModeCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.ErrorHandlingGroupBox = New System.Windows.Forms.GroupBox()
-            Me.MetroLabel1 = New MetroFramework.Controls.MetroLabel()
-            Me.CheckBox2 = New MetroFramework.Controls.MetroCheckBox()
-            Me.Label2 = New MetroFramework.Controls.MetroLabel()
-            Me.ErrorLimitInput = New System.Windows.Forms.NumericUpDown()
-            Me.SubfolderGroupBox = New System.Windows.Forms.GroupBox()
-            Me.HideSubfoldersComboBox = New MetroFramework.Controls.MetroComboBox()
-            Me.OutputTabPage = New MetroFramework.Controls.MetroTabPage()
-            Me.GroupBox16 = New System.Windows.Forms.GroupBox()
-            Me.MetroLabel3 = New MetroFramework.Controls.MetroLabel()
-            Me.TemporaryFolderTextBox = New MetroFramework.Controls.MetroTextBox()
-            Me.DownloadModeDropdown = New MetroFramework.Controls.MetroComboBox()
-            Me.GroupBox18 = New System.Windows.Forms.GroupBox()
-            Me.UseQueueCheckbox = New MetroFramework.Controls.MetroCheckBox()
-            Me.ResolutionGroupBox = New System.Windows.Forms.GroupBox()
-            Me.AAuto = New MetroFramework.Controls.MetroRadioButton()
-            Me.A480p = New MetroFramework.Controls.MetroRadioButton()
-            Me.A360p = New MetroFramework.Controls.MetroRadioButton()
-            Me.A720p = New MetroFramework.Controls.MetroRadioButton()
-            Me.A1080p = New MetroFramework.Controls.MetroRadioButton()
-            Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-            Me.SubtitleFormatComboBox = New MetroFramework.Controls.MetroComboBox()
-            Me.VideoFormatComboBox = New MetroFramework.Controls.MetroComboBox()
-            Me.FfmpegCommandGroupBox = New System.Windows.Forms.GroupBox()
-            Me.FfmpegCopyCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.TargetBitrateCheckBox = New MetroFramework.Controls.MetroCheckBox()
-            Me.VideoCodecComboBox = New MetroFramework.Controls.MetroComboBox()
-            Me.MetroLabel6 = New MetroFramework.Controls.MetroLabel()
-            Me.VideoEncoderComboBox = New MetroFramework.Controls.MetroComboBox()
-            Me.MetroLabel5 = New MetroFramework.Controls.MetroLabel()
-            Me.FfmpegPresetComboBox = New MetroFramework.Controls.MetroComboBox()
-            Me.MetroLabel4 = New MetroFramework.Controls.MetroLabel()
-            Me.BitrateNumericInput = New System.Windows.Forms.NumericUpDown()
-            Me.MetroLabel2 = New MetroFramework.Controls.MetroLabel()
-            Me.FfmpegCommandPreviewTextBox = New MetroFramework.Controls.MetroTextBox()
             Me.CrunchyrollSoftSubsGroupBox.SuspendLayout()
             Me.CrunchyrollHardsubGroupBox.SuspendLayout()
             Me.BrowserSettingsGroupBox.SuspendLayout()
             Me.DownloadCountGroupBox.SuspendLayout()
             CType(Me.SimultaneousDownloadsInput, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControl.SuspendLayout()
+            Me.MainTabPage.SuspendLayout()
+            Me.SubfolderGroupBox.SuspendLayout()
+            Me.ErrorHandlingGroupBox.SuspendLayout()
+            CType(Me.ErrorLimitInput, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.ServerGroupBox.SuspendLayout()
+            CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.OutputTabPage.SuspendLayout()
+            Me.QualityGroupBox.SuspendLayout()
+            Me.BitratePanel.SuspendLayout()
+            Me.FfmpegCommandGroupBox.SuspendLayout()
+            CType(Me.BitrateNumericInput, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.GroupBox4.SuspendLayout()
+            Me.GroupBox18.SuspendLayout()
+            Me.GroupBox16.SuspendLayout()
             Me.NamingTabPage.SuspendLayout()
             Me.GroupBox17.SuspendLayout()
             Me.GroupBox3.SuspendLayout()
@@ -151,29 +165,15 @@
             Me.GroupBox20.SuspendLayout()
             Me.GroupBox19.SuspendLayout()
             Me.FunimationTabPage.SuspendLayout()
-            Me.GroupBox15.SuspendLayout()
             Me.GroupBox10.SuspendLayout()
             Me.GroupBox7.SuspendLayout()
             Me.GroupBox9.SuspendLayout()
             Me.GroupBox13.SuspendLayout()
             Me.GroupBox11.SuspendLayout()
             Me.GroupBox8.SuspendLayout()
+            Me.AboutTabPage.SuspendLayout()
             CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.AboutTabPage.SuspendLayout()
-            Me.MainTabPage.SuspendLayout()
-            Me.ServerGroupBox.SuspendLayout()
-            CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.ErrorHandlingGroupBox.SuspendLayout()
-            CType(Me.ErrorLimitInput, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.SubfolderGroupBox.SuspendLayout()
-            Me.OutputTabPage.SuspendLayout()
-            Me.GroupBox16.SuspendLayout()
-            Me.GroupBox18.SuspendLayout()
-            Me.ResolutionGroupBox.SuspendLayout()
-            Me.GroupBox4.SuspendLayout()
-            Me.FfmpegCommandGroupBox.SuspendLayout()
-            CType(Me.BitrateNumericInput, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'ToolTip1
@@ -378,9 +378,637 @@
             Me.TabControl.Location = New System.Drawing.Point(23, 63)
             Me.TabControl.Name = "TabControl"
             Me.TabControl.SelectedIndex = 1
-            Me.TabControl.Size = New System.Drawing.Size(528, 580)
+            Me.TabControl.Size = New System.Drawing.Size(528, 589)
             Me.TabControl.TabIndex = 0
             Me.TabControl.UseSelectable = True
+            '
+            'MainTabPage
+            '
+            Me.MainTabPage.AutoScroll = True
+            Me.MainTabPage.Controls.Add(Me.SubfolderGroupBox)
+            Me.MainTabPage.Controls.Add(Me.ErrorHandlingGroupBox)
+            Me.MainTabPage.Controls.Add(Me.ServerGroupBox)
+            Me.MainTabPage.Controls.Add(Me.BrowserSettingsGroupBox)
+            Me.MainTabPage.Controls.Add(Me.DownloadCountGroupBox)
+            Me.MainTabPage.HorizontalScrollbar = True
+            Me.MainTabPage.HorizontalScrollbarBarColor = True
+            Me.MainTabPage.HorizontalScrollbarHighlightOnWheel = False
+            Me.MainTabPage.HorizontalScrollbarSize = 10
+            Me.MainTabPage.Location = New System.Drawing.Point(4, 44)
+            Me.MainTabPage.Name = "MainTabPage"
+            Me.MainTabPage.Padding = New System.Windows.Forms.Padding(5)
+            Me.MainTabPage.Size = New System.Drawing.Size(520, 541)
+            Me.MainTabPage.TabIndex = 10
+            Me.MainTabPage.Text = "Main"
+            Me.MainTabPage.VerticalScrollbar = True
+            Me.MainTabPage.VerticalScrollbarBarColor = True
+            Me.MainTabPage.VerticalScrollbarHighlightOnWheel = False
+            Me.MainTabPage.VerticalScrollbarSize = 10
+            '
+            'SubfolderGroupBox
+            '
+            Me.SubfolderGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.SubfolderGroupBox.BackColor = System.Drawing.Color.Transparent
+            Me.SubfolderGroupBox.Controls.Add(Me.HideSubfoldersComboBox)
+            Me.SubfolderGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
+            Me.SubfolderGroupBox.ForeColor = System.Drawing.Color.Black
+            Me.SubfolderGroupBox.Location = New System.Drawing.Point(8, 390)
+            Me.SubfolderGroupBox.Name = "SubfolderGroupBox"
+            Me.SubfolderGroupBox.Size = New System.Drawing.Size(507, 67)
+            Me.SubfolderGroupBox.TabIndex = 82
+            Me.SubfolderGroupBox.TabStop = False
+            Me.SubfolderGroupBox.Text = "Subfolder"
+            '
+            'HideSubfoldersComboBox
+            '
+            Me.HideSubfoldersComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.HideSubfoldersComboBox.DropDownHeight = 275
+            Me.HideSubfoldersComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.HideSubfoldersComboBox.FormattingEnabled = True
+            Me.HideSubfoldersComboBox.IntegralHeight = False
+            Me.HideSubfoldersComboBox.ItemHeight = 23
+            Me.HideSubfoldersComboBox.Location = New System.Drawing.Point(90, 25)
+            Me.HideSubfoldersComboBox.Name = "HideSubfoldersComboBox"
+            Me.HideSubfoldersComboBox.Size = New System.Drawing.Size(326, 29)
+            Me.HideSubfoldersComboBox.TabIndex = 21
+            Me.HideSubfoldersComboBox.UseSelectable = True
+            '
+            'ErrorHandlingGroupBox
+            '
+            Me.ErrorHandlingGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.ErrorHandlingGroupBox.BackColor = System.Drawing.Color.Transparent
+            Me.ErrorHandlingGroupBox.Controls.Add(Me.MetroLabel1)
+            Me.ErrorHandlingGroupBox.Controls.Add(Me.CheckBox2)
+            Me.ErrorHandlingGroupBox.Controls.Add(Me.Label2)
+            Me.ErrorHandlingGroupBox.Controls.Add(Me.ErrorLimitInput)
+            Me.ErrorHandlingGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
+            Me.ErrorHandlingGroupBox.ForeColor = System.Drawing.Color.Black
+            Me.ErrorHandlingGroupBox.Location = New System.Drawing.Point(8, 278)
+            Me.ErrorHandlingGroupBox.Name = "ErrorHandlingGroupBox"
+            Me.ErrorHandlingGroupBox.Size = New System.Drawing.Size(507, 112)
+            Me.ErrorHandlingGroupBox.TabIndex = 81
+            Me.ErrorHandlingGroupBox.TabStop = False
+            Me.ErrorHandlingGroupBox.Text = "Error Handling"
+            '
+            'MetroLabel1
+            '
+            Me.MetroLabel1.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.MetroLabel1.AutoSize = True
+            Me.MetroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel1.Location = New System.Drawing.Point(199, 44)
+            Me.MetroLabel1.Name = "MetroLabel1"
+            Me.MetroLabel1.Size = New System.Drawing.Size(113, 19)
+            Me.MetroLabel1.TabIndex = 45
+            Me.MetroLabel1.Text = "(0 = deactivated)"
+            '
+            'CheckBox2
+            '
+            Me.CheckBox2.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.CheckBox2.AutoSize = True
+            Me.CheckBox2.Location = New System.Drawing.Point(77, 74)
+            Me.CheckBox2.Name = "CheckBox2"
+            Me.CheckBox2.Size = New System.Drawing.Size(125, 15)
+            Me.CheckBox2.TabIndex = 44
+            Me.CheckBox2.Text = "ignore future errors"
+            Me.CheckBox2.UseSelectable = True
+            Me.CheckBox2.Visible = False
+            '
+            'Label2
+            '
+            Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.Label2.AutoSize = True
+            Me.Label2.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.Label2.Location = New System.Drawing.Point(70, 18)
+            Me.Label2.Name = "Label2"
+            Me.Label2.Size = New System.Drawing.Size(386, 19)
+            Me.Label2.TabIndex = 2
+            Me.Label2.Text = "The amout of error(s) until the Download process get paused "
+            '
+            'ErrorLimitInput
+            '
+            Me.ErrorLimitInput.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.ErrorLimitInput.Location = New System.Drawing.Point(229, 70)
+            Me.ErrorLimitInput.Name = "ErrorLimitInput"
+            Me.ErrorLimitInput.Size = New System.Drawing.Size(200, 22)
+            Me.ErrorLimitInput.TabIndex = 6
+            Me.ErrorLimitInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+            '
+            'ServerGroupBox
+            '
+            Me.ServerGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.ServerGroupBox.BackColor = System.Drawing.Color.Transparent
+            Me.ServerGroupBox.Controls.Add(Me.CustomServerPortInput)
+            Me.ServerGroupBox.Controls.Add(Me.ServerPortLabel)
+            Me.ServerGroupBox.Controls.Add(Me.IgnoreTlsCheckBox)
+            Me.ServerGroupBox.Controls.Add(Me.ServerPortInput)
+            Me.ServerGroupBox.Controls.Add(Me.DarkModeCheckBox)
+            Me.ServerGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
+            Me.ServerGroupBox.ForeColor = System.Drawing.Color.Black
+            Me.ServerGroupBox.Location = New System.Drawing.Point(8, 164)
+            Me.ServerGroupBox.Name = "ServerGroupBox"
+            Me.ServerGroupBox.Size = New System.Drawing.Size(507, 114)
+            Me.ServerGroupBox.TabIndex = 71
+            Me.ServerGroupBox.TabStop = False
+            Me.ServerGroupBox.Text = "Other"
+            '
+            'CustomServerPortInput
+            '
+            Me.CustomServerPortInput.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.CustomServerPortInput.Enabled = False
+            Me.CustomServerPortInput.Location = New System.Drawing.Point(360, 25)
+            Me.CustomServerPortInput.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
+            Me.CustomServerPortInput.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+            Me.CustomServerPortInput.Name = "CustomServerPortInput"
+            Me.CustomServerPortInput.Size = New System.Drawing.Size(120, 22)
+            Me.CustomServerPortInput.TabIndex = 48
+            Me.CustomServerPortInput.Value = New Decimal(New Integer() {80, 0, 0, 0})
+            '
+            'ServerPortLabel
+            '
+            Me.ServerPortLabel.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.ServerPortLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.ServerPortLabel.Location = New System.Drawing.Point(11, 21)
+            Me.ServerPortLabel.Name = "ServerPortLabel"
+            Me.ServerPortLabel.Size = New System.Drawing.Size(145, 29)
+            Me.ServerPortLabel.TabIndex = 47
+            Me.ServerPortLabel.Text = "Add-on server port"
+            Me.ServerPortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'IgnoreTlsCheckBox
+            '
+            Me.IgnoreTlsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.IgnoreTlsCheckBox.AutoSize = True
+            Me.IgnoreTlsCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+            Me.IgnoreTlsCheckBox.Location = New System.Drawing.Point(233, 75)
+            Me.IgnoreTlsCheckBox.Name = "IgnoreTlsCheckBox"
+            Me.IgnoreTlsCheckBox.Size = New System.Drawing.Size(223, 19)
+            Me.IgnoreTlsCheckBox.TabIndex = 46
+            Me.IgnoreTlsCheckBox.Text = "add ""--insecure"" to curl requests"
+            Me.IgnoreTlsCheckBox.UseSelectable = True
+            '
+            'ServerPortInput
+            '
+            Me.ServerPortInput.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.ServerPortInput.DropDownHeight = 250
+            Me.ServerPortInput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.ServerPortInput.FormattingEnabled = True
+            Me.ServerPortInput.IntegralHeight = False
+            Me.ServerPortInput.ItemHeight = 23
+            Me.ServerPortInput.Location = New System.Drawing.Point(162, 21)
+            Me.ServerPortInput.Name = "ServerPortInput"
+            Me.ServerPortInput.Size = New System.Drawing.Size(192, 29)
+            Me.ServerPortInput.TabIndex = 45
+            Me.ServerPortInput.UseSelectable = True
+            Me.ServerPortInput.UseStyleColors = True
+            '
+            'DarkModeCheckBox
+            '
+            Me.DarkModeCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.DarkModeCheckBox.AutoSize = True
+            Me.DarkModeCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+            Me.DarkModeCheckBox.Location = New System.Drawing.Point(61, 75)
+            Me.DarkModeCheckBox.Name = "DarkModeCheckBox"
+            Me.DarkModeCheckBox.Size = New System.Drawing.Size(135, 19)
+            Me.DarkModeCheckBox.TabIndex = 5
+            Me.DarkModeCheckBox.Text = "enable dark mode"
+            Me.DarkModeCheckBox.UseSelectable = True
+            '
+            'OutputTabPage
+            '
+            Me.OutputTabPage.AutoScroll = True
+            Me.OutputTabPage.Controls.Add(Me.QualityGroupBox)
+            Me.OutputTabPage.Controls.Add(Me.FfmpegCommandGroupBox)
+            Me.OutputTabPage.Controls.Add(Me.GroupBox4)
+            Me.OutputTabPage.Controls.Add(Me.GroupBox18)
+            Me.OutputTabPage.Controls.Add(Me.GroupBox16)
+            Me.OutputTabPage.HorizontalScrollbar = True
+            Me.OutputTabPage.HorizontalScrollbarBarColor = True
+            Me.OutputTabPage.HorizontalScrollbarHighlightOnWheel = False
+            Me.OutputTabPage.HorizontalScrollbarSize = 10
+            Me.OutputTabPage.Location = New System.Drawing.Point(4, 44)
+            Me.OutputTabPage.Name = "OutputTabPage"
+            Me.OutputTabPage.Padding = New System.Windows.Forms.Padding(5)
+            Me.OutputTabPage.Size = New System.Drawing.Size(520, 541)
+            Me.OutputTabPage.TabIndex = 11
+            Me.OutputTabPage.Text = "Output"
+            Me.OutputTabPage.VerticalScrollbar = True
+            Me.OutputTabPage.VerticalScrollbarBarColor = True
+            Me.OutputTabPage.VerticalScrollbarHighlightOnWheel = False
+            Me.OutputTabPage.VerticalScrollbarSize = 10
+            '
+            'QualityGroupBox
+            '
+            Me.QualityGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.QualityGroupBox.BackColor = System.Drawing.Color.Transparent
+            Me.QualityGroupBox.Controls.Add(Me.LowerResolutionRadioButton)
+            Me.QualityGroupBox.Controls.Add(Me.HigherResolutionRadioButton)
+            Me.QualityGroupBox.Controls.Add(Me.BitratePanel)
+            Me.QualityGroupBox.Controls.Add(Me.ResolutionComboBox)
+            Me.QualityGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
+            Me.QualityGroupBox.ForeColor = System.Drawing.Color.Black
+            Me.QualityGroupBox.Location = New System.Drawing.Point(8, 200)
+            Me.QualityGroupBox.Name = "QualityGroupBox"
+            Me.QualityGroupBox.Size = New System.Drawing.Size(507, 99)
+            Me.QualityGroupBox.TabIndex = 34
+            Me.QualityGroupBox.TabStop = False
+            Me.QualityGroupBox.Text = "Quality"
+            '
+            'LowerResolutionRadioButton
+            '
+            Me.LowerResolutionRadioButton.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.LowerResolutionRadioButton.AutoSize = True
+            Me.LowerResolutionRadioButton.Location = New System.Drawing.Point(136, 68)
+            Me.LowerResolutionRadioButton.Name = "LowerResolutionRadioButton"
+            Me.LowerResolutionRadioButton.Size = New System.Drawing.Size(68, 15)
+            Me.LowerResolutionRadioButton.TabIndex = 20
+            Me.LowerResolutionRadioButton.Text = "Or lower"
+            Me.LowerResolutionRadioButton.UseSelectable = True
+            '
+            'HigherResolutionRadioButton
+            '
+            Me.HigherResolutionRadioButton.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.HigherResolutionRadioButton.AutoSize = True
+            Me.HigherResolutionRadioButton.Location = New System.Drawing.Point(39, 68)
+            Me.HigherResolutionRadioButton.Name = "HigherResolutionRadioButton"
+            Me.HigherResolutionRadioButton.Size = New System.Drawing.Size(73, 15)
+            Me.HigherResolutionRadioButton.TabIndex = 19
+            Me.HigherResolutionRadioButton.Text = "Or higher"
+            Me.HigherResolutionRadioButton.UseSelectable = True
+            '
+            'BitratePanel
+            '
+            Me.BitratePanel.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.BitratePanel.BackColor = System.Drawing.Color.Transparent
+            Me.BitratePanel.Controls.Add(Me.MetroLabel7)
+            Me.BitratePanel.Controls.Add(Me.HigherBitrateRadioButton)
+            Me.BitratePanel.Controls.Add(Me.LowerBitrateRadioButton)
+            Me.BitratePanel.Location = New System.Drawing.Point(272, 21)
+            Me.BitratePanel.Name = "BitratePanel"
+            Me.BitratePanel.Size = New System.Drawing.Size(228, 72)
+            Me.BitratePanel.TabIndex = 53
+            '
+            'MetroLabel7
+            '
+            Me.MetroLabel7.AutoSize = True
+            Me.MetroLabel7.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel7.Location = New System.Drawing.Point(3, 4)
+            Me.MetroLabel7.Name = "MetroLabel7"
+            Me.MetroLabel7.Size = New System.Drawing.Size(104, 19)
+            Me.MetroLabel7.TabIndex = 23
+            Me.MetroLabel7.Text = "When available:"
+            '
+            'HigherBitrateRadioButton
+            '
+            Me.HigherBitrateRadioButton.AutoSize = True
+            Me.HigherBitrateRadioButton.Location = New System.Drawing.Point(3, 26)
+            Me.HigherBitrateRadioButton.Name = "HigherBitrateRadioButton"
+            Me.HigherBitrateRadioButton.Size = New System.Drawing.Size(128, 15)
+            Me.HigherBitrateRadioButton.TabIndex = 21
+            Me.HigherBitrateRadioButton.Text = "Prefer higher bitrate"
+            Me.HigherBitrateRadioButton.UseSelectable = True
+            '
+            'LowerBitrateRadioButton
+            '
+            Me.LowerBitrateRadioButton.AutoSize = True
+            Me.LowerBitrateRadioButton.Location = New System.Drawing.Point(3, 47)
+            Me.LowerBitrateRadioButton.Name = "LowerBitrateRadioButton"
+            Me.LowerBitrateRadioButton.Size = New System.Drawing.Size(123, 15)
+            Me.LowerBitrateRadioButton.TabIndex = 22
+            Me.LowerBitrateRadioButton.Text = "Prefer lower bitrate"
+            Me.LowerBitrateRadioButton.UseSelectable = True
+            '
+            'ResolutionComboBox
+            '
+            Me.ResolutionComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.ResolutionComboBox.FormattingEnabled = True
+            Me.ResolutionComboBox.ItemHeight = 23
+            Me.ResolutionComboBox.Location = New System.Drawing.Point(39, 25)
+            Me.ResolutionComboBox.Name = "ResolutionComboBox"
+            Me.ResolutionComboBox.Size = New System.Drawing.Size(165, 29)
+            Me.ResolutionComboBox.TabIndex = 17
+            Me.ResolutionComboBox.UseSelectable = True
+            '
+            'FfmpegCommandGroupBox
+            '
+            Me.FfmpegCommandGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.FfmpegCommandGroupBox.BackColor = System.Drawing.Color.Transparent
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegCopyCheckBox)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.TargetBitrateCheckBox)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.VideoCodecComboBox)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel6)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.VideoEncoderComboBox)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel5)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegPresetComboBox)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel4)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.BitrateNumericInput)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel2)
+            Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegCommandPreviewTextBox)
+            Me.FfmpegCommandGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
+            Me.FfmpegCommandGroupBox.ForeColor = System.Drawing.Color.Black
+            Me.FfmpegCommandGroupBox.Location = New System.Drawing.Point(8, 369)
+            Me.FfmpegCommandGroupBox.Name = "FfmpegCommandGroupBox"
+            Me.FfmpegCommandGroupBox.Size = New System.Drawing.Size(507, 111)
+            Me.FfmpegCommandGroupBox.TabIndex = 51
+            Me.FfmpegCommandGroupBox.TabStop = False
+            Me.FfmpegCommandGroupBox.Text = "ffmpeg command"
+            '
+            'FfmpegCopyCheckBox
+            '
+            Me.FfmpegCopyCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.FfmpegCopyCheckBox.AutoSize = True
+            Me.FfmpegCopyCheckBox.Location = New System.Drawing.Point(15, 21)
+            Me.FfmpegCopyCheckBox.Name = "FfmpegCopyCheckBox"
+            Me.FfmpegCopyCheckBox.Size = New System.Drawing.Size(51, 15)
+            Me.FfmpegCopyCheckBox.TabIndex = 52
+            Me.FfmpegCopyCheckBox.Text = "Copy"
+            Me.FfmpegCopyCheckBox.UseSelectable = True
+            '
+            'TargetBitrateCheckBox
+            '
+            Me.TargetBitrateCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.TargetBitrateCheckBox.AutoSize = True
+            Me.TargetBitrateCheckBox.Location = New System.Drawing.Point(367, 22)
+            Me.TargetBitrateCheckBox.Name = "TargetBitrateCheckBox"
+            Me.TargetBitrateCheckBox.Size = New System.Drawing.Size(92, 15)
+            Me.TargetBitrateCheckBox.TabIndex = 51
+            Me.TargetBitrateCheckBox.Text = "Target bitrate"
+            Me.TargetBitrateCheckBox.UseSelectable = True
+            '
+            'VideoCodecComboBox
+            '
+            Me.VideoCodecComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.VideoCodecComboBox.FormattingEnabled = True
+            Me.VideoCodecComboBox.ItemHeight = 23
+            Me.VideoCodecComboBox.Location = New System.Drawing.Point(95, 40)
+            Me.VideoCodecComboBox.Name = "VideoCodecComboBox"
+            Me.VideoCodecComboBox.Size = New System.Drawing.Size(65, 29)
+            Me.VideoCodecComboBox.TabIndex = 50
+            Me.VideoCodecComboBox.UseSelectable = True
+            '
+            'MetroLabel6
+            '
+            Me.MetroLabel6.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.MetroLabel6.AutoSize = True
+            Me.MetroLabel6.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel6.Location = New System.Drawing.Point(95, 17)
+            Me.MetroLabel6.Name = "MetroLabel6"
+            Me.MetroLabel6.Size = New System.Drawing.Size(47, 19)
+            Me.MetroLabel6.TabIndex = 49
+            Me.MetroLabel6.Text = "Codec"
+            '
+            'VideoEncoderComboBox
+            '
+            Me.VideoEncoderComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.VideoEncoderComboBox.FormattingEnabled = True
+            Me.VideoEncoderComboBox.ItemHeight = 23
+            Me.VideoEncoderComboBox.Location = New System.Drawing.Point(166, 40)
+            Me.VideoEncoderComboBox.Name = "VideoEncoderComboBox"
+            Me.VideoEncoderComboBox.Size = New System.Drawing.Size(80, 29)
+            Me.VideoEncoderComboBox.TabIndex = 48
+            Me.VideoEncoderComboBox.UseSelectable = True
+            '
+            'MetroLabel5
+            '
+            Me.MetroLabel5.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.MetroLabel5.AutoSize = True
+            Me.MetroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel5.Location = New System.Drawing.Point(166, 18)
+            Me.MetroLabel5.Name = "MetroLabel5"
+            Me.MetroLabel5.Size = New System.Drawing.Size(58, 19)
+            Me.MetroLabel5.TabIndex = 47
+            Me.MetroLabel5.Text = "Encoder"
+            '
+            'FfmpegPresetComboBox
+            '
+            Me.FfmpegPresetComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.FfmpegPresetComboBox.FormattingEnabled = True
+            Me.FfmpegPresetComboBox.ItemHeight = 23
+            Me.FfmpegPresetComboBox.Location = New System.Drawing.Point(252, 40)
+            Me.FfmpegPresetComboBox.Name = "FfmpegPresetComboBox"
+            Me.FfmpegPresetComboBox.Size = New System.Drawing.Size(109, 29)
+            Me.FfmpegPresetComboBox.TabIndex = 46
+            Me.FfmpegPresetComboBox.UseSelectable = True
+            '
+            'MetroLabel4
+            '
+            Me.MetroLabel4.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.MetroLabel4.AutoSize = True
+            Me.MetroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel4.Location = New System.Drawing.Point(252, 18)
+            Me.MetroLabel4.Name = "MetroLabel4"
+            Me.MetroLabel4.Size = New System.Drawing.Size(88, 19)
+            Me.MetroLabel4.TabIndex = 45
+            Me.MetroLabel4.Text = "Speed preset"
+            '
+            'BitrateNumericInput
+            '
+            Me.BitrateNumericInput.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.BitrateNumericInput.Increment = New Decimal(New Integer() {100, 0, 0, 0})
+            Me.BitrateNumericInput.Location = New System.Drawing.Point(367, 41)
+            Me.BitrateNumericInput.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+            Me.BitrateNumericInput.Minimum = New Decimal(New Integer() {1000, 0, 0, 0})
+            Me.BitrateNumericInput.Name = "BitrateNumericInput"
+            Me.BitrateNumericInput.Size = New System.Drawing.Size(67, 22)
+            Me.BitrateNumericInput.TabIndex = 43
+            Me.BitrateNumericInput.Value = New Decimal(New Integer() {1000, 0, 0, 0})
+            '
+            'MetroLabel2
+            '
+            Me.MetroLabel2.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.MetroLabel2.AutoSize = True
+            Me.MetroLabel2.Location = New System.Drawing.Point(440, 41)
+            Me.MetroLabel2.Name = "MetroLabel2"
+            Me.MetroLabel2.Size = New System.Drawing.Size(49, 19)
+            Me.MetroLabel2.TabIndex = 44
+            Me.MetroLabel2.Text = "(KBit/s)"
+            '
+            'FfmpegCommandPreviewTextBox
+            '
+            Me.FfmpegCommandPreviewTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            '
+            '
+            '
+            Me.FfmpegCommandPreviewTextBox.CustomButton.Image = Nothing
+            Me.FfmpegCommandPreviewTextBox.CustomButton.Location = New System.Drawing.Point(443, 1)
+            Me.FfmpegCommandPreviewTextBox.CustomButton.Name = ""
+            Me.FfmpegCommandPreviewTextBox.CustomButton.Size = New System.Drawing.Size(21, 21)
+            Me.FfmpegCommandPreviewTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+            Me.FfmpegCommandPreviewTextBox.CustomButton.TabIndex = 1
+            Me.FfmpegCommandPreviewTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+            Me.FfmpegCommandPreviewTextBox.CustomButton.UseSelectable = True
+            Me.FfmpegCommandPreviewTextBox.CustomButton.Visible = False
+            Me.FfmpegCommandPreviewTextBox.Lines = New String() {"(ffmpeg command)"}
+            Me.FfmpegCommandPreviewTextBox.Location = New System.Drawing.Point(15, 82)
+            Me.FfmpegCommandPreviewTextBox.MaxLength = 32767
+            Me.FfmpegCommandPreviewTextBox.Name = "FfmpegCommandPreviewTextBox"
+            Me.FfmpegCommandPreviewTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+            Me.FfmpegCommandPreviewTextBox.ReadOnly = True
+            Me.FfmpegCommandPreviewTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
+            Me.FfmpegCommandPreviewTextBox.SelectedText = ""
+            Me.FfmpegCommandPreviewTextBox.SelectionLength = 0
+            Me.FfmpegCommandPreviewTextBox.SelectionStart = 0
+            Me.FfmpegCommandPreviewTextBox.ShortcutsEnabled = True
+            Me.FfmpegCommandPreviewTextBox.Size = New System.Drawing.Size(465, 23)
+            Me.FfmpegCommandPreviewTextBox.TabIndex = 38
+            Me.FfmpegCommandPreviewTextBox.Text = "(ffmpeg command)"
+            Me.FfmpegCommandPreviewTextBox.UseSelectable = True
+            Me.FfmpegCommandPreviewTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+            Me.FfmpegCommandPreviewTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+            '
+            'GroupBox4
+            '
+            Me.GroupBox4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.GroupBox4.BackColor = System.Drawing.Color.Transparent
+            Me.GroupBox4.Controls.Add(Me.SubtitleFormatComboBox)
+            Me.GroupBox4.Controls.Add(Me.VideoFormatComboBox)
+            Me.GroupBox4.Font = New System.Drawing.Font("Arial", 9.75!)
+            Me.GroupBox4.ForeColor = System.Drawing.Color.Black
+            Me.GroupBox4.Location = New System.Drawing.Point(8, 299)
+            Me.GroupBox4.Name = "GroupBox4"
+            Me.GroupBox4.Size = New System.Drawing.Size(507, 70)
+            Me.GroupBox4.TabIndex = 41
+            Me.GroupBox4.TabStop = False
+            Me.GroupBox4.Text = "Format"
+            '
+            'SubtitleFormatComboBox
+            '
+            Me.SubtitleFormatComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.SubtitleFormatComboBox.DropDownHeight = 250
+            Me.SubtitleFormatComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.SubtitleFormatComboBox.FormattingEnabled = True
+            Me.SubtitleFormatComboBox.IntegralHeight = False
+            Me.SubtitleFormatComboBox.ItemHeight = 23
+            Me.SubtitleFormatComboBox.Items.AddRange(New Object() {"[merge disabled]"})
+            Me.SubtitleFormatComboBox.Location = New System.Drawing.Point(272, 25)
+            Me.SubtitleFormatComboBox.Name = "SubtitleFormatComboBox"
+            Me.SubtitleFormatComboBox.Size = New System.Drawing.Size(175, 29)
+            Me.SubtitleFormatComboBox.TabIndex = 19
+            Me.SubtitleFormatComboBox.UseSelectable = True
+            '
+            'VideoFormatComboBox
+            '
+            Me.VideoFormatComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.VideoFormatComboBox.DropDownHeight = 250
+            Me.VideoFormatComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.VideoFormatComboBox.FormattingEnabled = True
+            Me.VideoFormatComboBox.IntegralHeight = False
+            Me.VideoFormatComboBox.ItemHeight = 23
+            Me.VideoFormatComboBox.Location = New System.Drawing.Point(57, 25)
+            Me.VideoFormatComboBox.Name = "VideoFormatComboBox"
+            Me.VideoFormatComboBox.Size = New System.Drawing.Size(175, 29)
+            Me.VideoFormatComboBox.TabIndex = 17
+            Me.VideoFormatComboBox.UseSelectable = True
+            '
+            'GroupBox18
+            '
+            Me.GroupBox18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.GroupBox18.BackColor = System.Drawing.Color.Transparent
+            Me.GroupBox18.Controls.Add(Me.UseQueueCheckbox)
+            Me.GroupBox18.Font = New System.Drawing.Font("Arial", 9.75!)
+            Me.GroupBox18.ForeColor = System.Drawing.Color.Black
+            Me.GroupBox18.Location = New System.Drawing.Point(8, 141)
+            Me.GroupBox18.Name = "GroupBox18"
+            Me.GroupBox18.Size = New System.Drawing.Size(507, 59)
+            Me.GroupBox18.TabIndex = 33
+            Me.GroupBox18.TabStop = False
+            Me.GroupBox18.Text = "Multi-Download"
+            '
+            'UseQueueCheckbox
+            '
+            Me.UseQueueCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.UseQueueCheckbox.AutoSize = True
+            Me.UseQueueCheckbox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
+            Me.UseQueueCheckbox.Location = New System.Drawing.Point(125, 21)
+            Me.UseQueueCheckbox.Name = "UseQueueCheckbox"
+            Me.UseQueueCheckbox.Size = New System.Drawing.Size(255, 19)
+            Me.UseQueueCheckbox.TabIndex = 5
+            Me.UseQueueCheckbox.Text = "redirect multi-download to the queue"
+            Me.UseQueueCheckbox.UseSelectable = True
+            '
+            'GroupBox16
+            '
+            Me.GroupBox16.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.GroupBox16.BackColor = System.Drawing.Color.Transparent
+            Me.GroupBox16.Controls.Add(Me.MetroLabel3)
+            Me.GroupBox16.Controls.Add(Me.TemporaryFolderTextBox)
+            Me.GroupBox16.Controls.Add(Me.DownloadModeDropdown)
+            Me.GroupBox16.Font = New System.Drawing.Font("Arial", 9.75!)
+            Me.GroupBox16.ForeColor = System.Drawing.Color.Black
+            Me.GroupBox16.Location = New System.Drawing.Point(8, 8)
+            Me.GroupBox16.Name = "GroupBox16"
+            Me.GroupBox16.Size = New System.Drawing.Size(507, 133)
+            Me.GroupBox16.TabIndex = 32
+            Me.GroupBox16.TabStop = False
+            Me.GroupBox16.Text = "Download Mode"
+            '
+            'MetroLabel3
+            '
+            Me.MetroLabel3.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.MetroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular
+            Me.MetroLabel3.Location = New System.Drawing.Point(41, 65)
+            Me.MetroLabel3.Name = "MetroLabel3"
+            Me.MetroLabel3.Size = New System.Drawing.Size(423, 22)
+            Me.MetroLabel3.TabIndex = 19
+            Me.MetroLabel3.Text = "Temporary Folder"
+            Me.MetroLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'TemporaryFolderTextBox
+            '
+            Me.TemporaryFolderTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            '
+            '
+            '
+            Me.TemporaryFolderTextBox.CustomButton.Image = Nothing
+            Me.TemporaryFolderTextBox.CustomButton.Location = New System.Drawing.Point(470, 1)
+            Me.TemporaryFolderTextBox.CustomButton.Name = ""
+            Me.TemporaryFolderTextBox.CustomButton.Size = New System.Drawing.Size(23, 23)
+            Me.TemporaryFolderTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
+            Me.TemporaryFolderTextBox.CustomButton.TabIndex = 1
+            Me.TemporaryFolderTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
+            Me.TemporaryFolderTextBox.CustomButton.UseSelectable = True
+            Me.TemporaryFolderTextBox.CustomButton.Visible = False
+            Me.TemporaryFolderTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
+            Me.TemporaryFolderTextBox.Lines = New String(-1) {}
+            Me.TemporaryFolderTextBox.Location = New System.Drawing.Point(6, 90)
+            Me.TemporaryFolderTextBox.MaxLength = 32767
+            Me.TemporaryFolderTextBox.Name = "TemporaryFolderTextBox"
+            Me.TemporaryFolderTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
+            Me.TemporaryFolderTextBox.ReadOnly = True
+            Me.TemporaryFolderTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
+            Me.TemporaryFolderTextBox.SelectedText = ""
+            Me.TemporaryFolderTextBox.SelectionLength = 0
+            Me.TemporaryFolderTextBox.SelectionStart = 0
+            Me.TemporaryFolderTextBox.ShortcutsEnabled = True
+            Me.TemporaryFolderTextBox.Size = New System.Drawing.Size(494, 25)
+            Me.TemporaryFolderTextBox.TabIndex = 20
+            Me.TemporaryFolderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+            Me.TemporaryFolderTextBox.UseSelectable = True
+            Me.TemporaryFolderTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
+            Me.TemporaryFolderTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
+            '
+            'DownloadModeDropdown
+            '
+            Me.DownloadModeDropdown.Anchor = System.Windows.Forms.AnchorStyles.Top
+            Me.DownloadModeDropdown.DropDownHeight = 250
+            Me.DownloadModeDropdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.DownloadModeDropdown.FormattingEnabled = True
+            Me.DownloadModeDropdown.IntegralHeight = False
+            Me.DownloadModeDropdown.ItemHeight = 23
+            Me.DownloadModeDropdown.Items.AddRange(New Object() {"Default - ffmpeg", "Hybrid Mode", "Hybrid Mode - keep cache"})
+            Me.DownloadModeDropdown.Location = New System.Drawing.Point(140, 21)
+            Me.DownloadModeDropdown.Name = "DownloadModeDropdown"
+            Me.DownloadModeDropdown.Size = New System.Drawing.Size(225, 29)
+            Me.DownloadModeDropdown.TabIndex = 18
+            Me.DownloadModeDropdown.UseSelectable = True
             '
             'NamingTabPage
             '
@@ -393,10 +1021,10 @@
             Me.NamingTabPage.HorizontalScrollbarBarColor = True
             Me.NamingTabPage.HorizontalScrollbarHighlightOnWheel = False
             Me.NamingTabPage.HorizontalScrollbarSize = 10
-            Me.NamingTabPage.Location = New System.Drawing.Point(4, 44)
+            Me.NamingTabPage.Location = New System.Drawing.Point(4, 35)
             Me.NamingTabPage.Name = "NamingTabPage"
             Me.NamingTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.NamingTabPage.Size = New System.Drawing.Size(520, 532)
+            Me.NamingTabPage.Size = New System.Drawing.Size(520, 550)
             Me.NamingTabPage.TabIndex = 8
             Me.NamingTabPage.Text = "Naming"
             Me.NamingTabPage.VerticalScrollbar = True
@@ -681,7 +1309,7 @@
             '
             '
             Me.FilenameTemplatePreview.CustomButton.Image = Nothing
-            Me.FilenameTemplatePreview.CustomButton.Location = New System.Drawing.Point(480, 1)
+            Me.FilenameTemplatePreview.CustomButton.Location = New System.Drawing.Point(470, 1)
             Me.FilenameTemplatePreview.CustomButton.Name = ""
             Me.FilenameTemplatePreview.CustomButton.Size = New System.Drawing.Size(27, 27)
             Me.FilenameTemplatePreview.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
@@ -719,10 +1347,10 @@
             Me.CrunchyrollTabPage.HorizontalScrollbarBarColor = True
             Me.CrunchyrollTabPage.HorizontalScrollbarHighlightOnWheel = False
             Me.CrunchyrollTabPage.HorizontalScrollbarSize = 10
-            Me.CrunchyrollTabPage.Location = New System.Drawing.Point(4, 44)
+            Me.CrunchyrollTabPage.Location = New System.Drawing.Point(4, 35)
             Me.CrunchyrollTabPage.Name = "CrunchyrollTabPage"
             Me.CrunchyrollTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.CrunchyrollTabPage.Size = New System.Drawing.Size(520, 532)
+            Me.CrunchyrollTabPage.Size = New System.Drawing.Size(520, 550)
             Me.CrunchyrollTabPage.TabIndex = 7
             Me.CrunchyrollTabPage.Text = "Crunchyroll"
             Me.CrunchyrollTabPage.VerticalScrollbar = True
@@ -805,7 +1433,6 @@
             '
             Me.FunimationTabPage.AutoScroll = True
             Me.FunimationTabPage.BackColor = System.Drawing.Color.FromArgb(CType(CType(243, Byte), Integer), CType(CType(243, Byte), Integer), CType(CType(243, Byte), Integer))
-            Me.FunimationTabPage.Controls.Add(Me.GroupBox15)
             Me.FunimationTabPage.Controls.Add(Me.GroupBox10)
             Me.FunimationTabPage.Controls.Add(Me.GroupBox7)
             Me.FunimationTabPage.Controls.Add(Me.GroupBox9)
@@ -813,10 +1440,10 @@
             Me.FunimationTabPage.HorizontalScrollbarBarColor = True
             Me.FunimationTabPage.HorizontalScrollbarHighlightOnWheel = False
             Me.FunimationTabPage.HorizontalScrollbarSize = 10
-            Me.FunimationTabPage.Location = New System.Drawing.Point(4, 44)
+            Me.FunimationTabPage.Location = New System.Drawing.Point(4, 35)
             Me.FunimationTabPage.Name = "FunimationTabPage"
             Me.FunimationTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.FunimationTabPage.Size = New System.Drawing.Size(520, 532)
+            Me.FunimationTabPage.Size = New System.Drawing.Size(520, 550)
             Me.FunimationTabPage.TabIndex = 4
             Me.FunimationTabPage.Text = " Funimation"
             Me.FunimationTabPage.VerticalScrollbar = True
@@ -824,35 +1451,6 @@
             Me.FunimationTabPage.VerticalScrollbarHighlightOnWheel = False
             Me.FunimationTabPage.VerticalScrollbarSize = 10
             Me.FunimationTabPage.Visible = False
-            '
-            'GroupBox15
-            '
-            Me.GroupBox15.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.GroupBox15.BackColor = System.Drawing.Color.Transparent
-            Me.GroupBox15.Controls.Add(Me.FunimationBitrateComboBox)
-            Me.GroupBox15.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.GroupBox15.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox15.Location = New System.Drawing.Point(2, 352)
-            Me.GroupBox15.Name = "GroupBox15"
-            Me.GroupBox15.Size = New System.Drawing.Size(516, 69)
-            Me.GroupBox15.TabIndex = 41
-            Me.GroupBox15.TabStop = False
-            Me.GroupBox15.Text = "Bitrate"
-            '
-            'FunimationBitrateComboBox
-            '
-            Me.FunimationBitrateComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.FunimationBitrateComboBox.DropDownHeight = 250
-            Me.FunimationBitrateComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.FunimationBitrateComboBox.FormattingEnabled = True
-            Me.FunimationBitrateComboBox.IntegralHeight = False
-            Me.FunimationBitrateComboBox.ItemHeight = 23
-            Me.FunimationBitrateComboBox.Location = New System.Drawing.Point(95, 24)
-            Me.FunimationBitrateComboBox.Name = "FunimationBitrateComboBox"
-            Me.FunimationBitrateComboBox.Size = New System.Drawing.Size(326, 29)
-            Me.FunimationBitrateComboBox.TabIndex = 32
-            Me.FunimationBitrateComboBox.UseSelectable = True
             '
             'GroupBox10
             '
@@ -891,7 +1489,7 @@
             Me.GroupBox7.Controls.Add(Me.FunimationHardSubComboBox)
             Me.GroupBox7.Font = New System.Drawing.Font("Arial", 9.75!)
             Me.GroupBox7.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox7.Location = New System.Drawing.Point(2, 421)
+            Me.GroupBox7.Location = New System.Drawing.Point(2, 358)
             Me.GroupBox7.Name = "GroupBox7"
             Me.GroupBox7.Size = New System.Drawing.Size(516, 69)
             Me.GroupBox7.TabIndex = 40
@@ -1055,19 +1653,32 @@
             Me.FunimationPortugueseCheckBox.Text = "Português (Brasil)"
             Me.FunimationPortugueseCheckBox.UseSelectable = True
             '
-            'LastVersion
+            'AboutTabPage
             '
-            Me.LastVersion.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.LastVersion.BackColor = System.Drawing.Color.Transparent
-            Me.LastVersion.FontSize = MetroFramework.MetroLabelSize.Tall
-            Me.LastVersion.ForeColor = System.Drawing.Color.Black
-            Me.LastVersion.Location = New System.Drawing.Point(19, 227)
-            Me.LastVersion.Name = "LastVersion"
-            Me.LastVersion.Size = New System.Drawing.Size(483, 45)
-            Me.LastVersion.TabIndex = 48
-            Me.LastVersion.Text = "Latest release: v3.7.2"
-            Me.LastVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            Me.AboutTabPage.AutoScroll = True
+            Me.AboutTabPage.Controls.Add(Me.Label8)
+            Me.AboutTabPage.Controls.Add(Me.LastVersion)
+            Me.AboutTabPage.Controls.Add(Me.MetroFrameworkLabel)
+            Me.AboutTabPage.Controls.Add(Me.Label5)
+            Me.AboutTabPage.Controls.Add(Me.CurrentVersionLabel)
+            Me.AboutTabPage.Controls.Add(Me.WebviewLabel)
+            Me.AboutTabPage.Controls.Add(Me.FfmpegLabel)
+            Me.AboutTabPage.Controls.Add(Me.PictureBox7)
+            Me.AboutTabPage.Controls.Add(Me.Label4)
+            Me.AboutTabPage.HorizontalScrollbar = True
+            Me.AboutTabPage.HorizontalScrollbarBarColor = True
+            Me.AboutTabPage.HorizontalScrollbarHighlightOnWheel = False
+            Me.AboutTabPage.HorizontalScrollbarSize = 10
+            Me.AboutTabPage.Location = New System.Drawing.Point(4, 35)
+            Me.AboutTabPage.Name = "AboutTabPage"
+            Me.AboutTabPage.Padding = New System.Windows.Forms.Padding(5)
+            Me.AboutTabPage.Size = New System.Drawing.Size(520, 550)
+            Me.AboutTabPage.TabIndex = 9
+            Me.AboutTabPage.Text = "About"
+            Me.AboutTabPage.VerticalScrollbar = True
+            Me.AboutTabPage.VerticalScrollbarBarColor = True
+            Me.AboutTabPage.VerticalScrollbarHighlightOnWheel = False
+            Me.AboutTabPage.VerticalScrollbarSize = 10
             '
             'Label8
             '
@@ -1082,6 +1693,20 @@
             Me.Label8.Text = "libraries: "
             Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
             '
+            'LastVersion
+            '
+            Me.LastVersion.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.LastVersion.BackColor = System.Drawing.Color.Transparent
+            Me.LastVersion.FontSize = MetroFramework.MetroLabelSize.Tall
+            Me.LastVersion.ForeColor = System.Drawing.Color.Black
+            Me.LastVersion.Location = New System.Drawing.Point(19, 227)
+            Me.LastVersion.Name = "LastVersion"
+            Me.LastVersion.Size = New System.Drawing.Size(483, 45)
+            Me.LastVersion.TabIndex = 48
+            Me.LastVersion.Text = "Latest release: v3.7.2"
+            Me.LastVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
             'MetroFrameworkLabel
             '
             Me.MetroFrameworkLabel.Anchor = System.Windows.Forms.AnchorStyles.Top
@@ -1095,6 +1720,34 @@
             Me.MetroFrameworkLabel.TabIndex = 47
             Me.MetroFrameworkLabel.Text = "MetroFramework"
             Me.MetroFrameworkLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'Label5
+            '
+            Me.Label5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.Label5.BackColor = System.Drawing.Color.Transparent
+            Me.Label5.FontSize = MetroFramework.MetroLabelSize.Tall
+            Me.Label5.ForeColor = System.Drawing.Color.Black
+            Me.Label5.Location = New System.Drawing.Point(19, 317)
+            Me.Label5.Name = "Label5"
+            Me.Label5.Size = New System.Drawing.Size(483, 45)
+            Me.Label5.TabIndex = 38
+            Me.Label5.Text = "Created by hama3254"
+            Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'CurrentVersionLabel
+            '
+            Me.CurrentVersionLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.CurrentVersionLabel.BackColor = System.Drawing.Color.Transparent
+            Me.CurrentVersionLabel.FontSize = MetroFramework.MetroLabelSize.Tall
+            Me.CurrentVersionLabel.ForeColor = System.Drawing.Color.Black
+            Me.CurrentVersionLabel.Location = New System.Drawing.Point(19, 272)
+            Me.CurrentVersionLabel.Name = "CurrentVersionLabel"
+            Me.CurrentVersionLabel.Size = New System.Drawing.Size(483, 45)
+            Me.CurrentVersionLabel.TabIndex = 37
+            Me.CurrentVersionLabel.Text = "You have:"
+            Me.CurrentVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
             '
             'WebviewLabel
             '
@@ -1149,34 +1802,6 @@
             Me.Label4.Text = "Crunchyroll Downloader"
             Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
             '
-            'CurrentVersionLabel
-            '
-            Me.CurrentVersionLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.CurrentVersionLabel.BackColor = System.Drawing.Color.Transparent
-            Me.CurrentVersionLabel.FontSize = MetroFramework.MetroLabelSize.Tall
-            Me.CurrentVersionLabel.ForeColor = System.Drawing.Color.Black
-            Me.CurrentVersionLabel.Location = New System.Drawing.Point(19, 272)
-            Me.CurrentVersionLabel.Name = "CurrentVersionLabel"
-            Me.CurrentVersionLabel.Size = New System.Drawing.Size(483, 45)
-            Me.CurrentVersionLabel.TabIndex = 37
-            Me.CurrentVersionLabel.Text = "You have:"
-            Me.CurrentVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'Label5
-            '
-            Me.Label5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.Label5.BackColor = System.Drawing.Color.Transparent
-            Me.Label5.FontSize = MetroFramework.MetroLabelSize.Tall
-            Me.Label5.ForeColor = System.Drawing.Color.Black
-            Me.Label5.Location = New System.Drawing.Point(19, 317)
-            Me.Label5.Name = "Label5"
-            Me.Label5.Size = New System.Drawing.Size(483, 45)
-            Me.Label5.TabIndex = 38
-            Me.Label5.Text = "Created by hama3254"
-            Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
             'BackgroundWorker1
             '
             '
@@ -1191,7 +1816,7 @@
             Me.Btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat
             Me.Btn_Save.Image = Global.Crunchyroll_Downloader.My.Resources.Resources.crdSettings_Button_SafeExit
             Me.Btn_Save.ImeMode = System.Windows.Forms.ImeMode.NoControl
-            Me.Btn_Save.Location = New System.Drawing.Point(110, 661)
+            Me.Btn_Save.Location = New System.Drawing.Point(110, 670)
             Me.Btn_Save.Name = "Btn_Save"
             Me.Btn_Save.Size = New System.Drawing.Size(355, 30)
             Me.Btn_Save.TabIndex = 9
@@ -1202,663 +1827,12 @@
             Me.MetroStyleManager1.Owner = Me
             Me.MetroStyleManager1.Style = MetroFramework.MetroColorStyle.Orange
             '
-            'AboutTabPage
-            '
-            Me.AboutTabPage.AutoScroll = True
-            Me.AboutTabPage.Controls.Add(Me.Label8)
-            Me.AboutTabPage.Controls.Add(Me.LastVersion)
-            Me.AboutTabPage.Controls.Add(Me.MetroFrameworkLabel)
-            Me.AboutTabPage.Controls.Add(Me.Label5)
-            Me.AboutTabPage.Controls.Add(Me.CurrentVersionLabel)
-            Me.AboutTabPage.Controls.Add(Me.WebviewLabel)
-            Me.AboutTabPage.Controls.Add(Me.FfmpegLabel)
-            Me.AboutTabPage.Controls.Add(Me.PictureBox7)
-            Me.AboutTabPage.Controls.Add(Me.Label4)
-            Me.AboutTabPage.HorizontalScrollbar = True
-            Me.AboutTabPage.HorizontalScrollbarBarColor = True
-            Me.AboutTabPage.HorizontalScrollbarHighlightOnWheel = False
-            Me.AboutTabPage.HorizontalScrollbarSize = 10
-            Me.AboutTabPage.Location = New System.Drawing.Point(4, 44)
-            Me.AboutTabPage.Name = "AboutTabPage"
-            Me.AboutTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.AboutTabPage.Size = New System.Drawing.Size(520, 532)
-            Me.AboutTabPage.TabIndex = 9
-            Me.AboutTabPage.Text = "About"
-            Me.AboutTabPage.VerticalScrollbar = True
-            Me.AboutTabPage.VerticalScrollbarBarColor = True
-            Me.AboutTabPage.VerticalScrollbarHighlightOnWheel = False
-            Me.AboutTabPage.VerticalScrollbarSize = 10
-            '
-            'MainTabPage
-            '
-            Me.MainTabPage.AutoScroll = True
-            Me.MainTabPage.Controls.Add(Me.SubfolderGroupBox)
-            Me.MainTabPage.Controls.Add(Me.ErrorHandlingGroupBox)
-            Me.MainTabPage.Controls.Add(Me.ServerGroupBox)
-            Me.MainTabPage.Controls.Add(Me.BrowserSettingsGroupBox)
-            Me.MainTabPage.Controls.Add(Me.DownloadCountGroupBox)
-            Me.MainTabPage.HorizontalScrollbar = True
-            Me.MainTabPage.HorizontalScrollbarBarColor = True
-            Me.MainTabPage.HorizontalScrollbarHighlightOnWheel = False
-            Me.MainTabPage.HorizontalScrollbarSize = 10
-            Me.MainTabPage.Location = New System.Drawing.Point(4, 44)
-            Me.MainTabPage.Name = "MainTabPage"
-            Me.MainTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.MainTabPage.Size = New System.Drawing.Size(520, 532)
-            Me.MainTabPage.TabIndex = 10
-            Me.MainTabPage.Text = "Main"
-            Me.MainTabPage.VerticalScrollbar = True
-            Me.MainTabPage.VerticalScrollbarBarColor = True
-            Me.MainTabPage.VerticalScrollbarHighlightOnWheel = False
-            Me.MainTabPage.VerticalScrollbarSize = 10
-            '
-            'ServerGroupBox
-            '
-            Me.ServerGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.ServerGroupBox.BackColor = System.Drawing.Color.Transparent
-            Me.ServerGroupBox.Controls.Add(Me.CustomServerPortInput)
-            Me.ServerGroupBox.Controls.Add(Me.ServerPortLabel)
-            Me.ServerGroupBox.Controls.Add(Me.IgnoreTlsCheckBox)
-            Me.ServerGroupBox.Controls.Add(Me.ServerPortInput)
-            Me.ServerGroupBox.Controls.Add(Me.DarkModeCheckBox)
-            Me.ServerGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.ServerGroupBox.ForeColor = System.Drawing.Color.Black
-            Me.ServerGroupBox.Location = New System.Drawing.Point(8, 164)
-            Me.ServerGroupBox.Name = "ServerGroupBox"
-            Me.ServerGroupBox.Size = New System.Drawing.Size(507, 114)
-            Me.ServerGroupBox.TabIndex = 71
-            Me.ServerGroupBox.TabStop = False
-            Me.ServerGroupBox.Text = "Other"
-            '
-            'CustomServerPortInput
-            '
-            Me.CustomServerPortInput.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.CustomServerPortInput.Enabled = False
-            Me.CustomServerPortInput.Location = New System.Drawing.Point(360, 25)
-            Me.CustomServerPortInput.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
-            Me.CustomServerPortInput.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-            Me.CustomServerPortInput.Name = "CustomServerPortInput"
-            Me.CustomServerPortInput.Size = New System.Drawing.Size(120, 22)
-            Me.CustomServerPortInput.TabIndex = 48
-            Me.CustomServerPortInput.Value = New Decimal(New Integer() {80, 0, 0, 0})
-            '
-            'ServerPortLabel
-            '
-            Me.ServerPortLabel.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.ServerPortLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.ServerPortLabel.Location = New System.Drawing.Point(11, 21)
-            Me.ServerPortLabel.Name = "ServerPortLabel"
-            Me.ServerPortLabel.Size = New System.Drawing.Size(145, 29)
-            Me.ServerPortLabel.TabIndex = 47
-            Me.ServerPortLabel.Text = "Add-on server port"
-            Me.ServerPortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'IgnoreTlsCheckBox
-            '
-            Me.IgnoreTlsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.IgnoreTlsCheckBox.AutoSize = True
-            Me.IgnoreTlsCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.IgnoreTlsCheckBox.Location = New System.Drawing.Point(233, 75)
-            Me.IgnoreTlsCheckBox.Name = "IgnoreTlsCheckBox"
-            Me.IgnoreTlsCheckBox.Size = New System.Drawing.Size(223, 19)
-            Me.IgnoreTlsCheckBox.TabIndex = 46
-            Me.IgnoreTlsCheckBox.Text = "add ""--insecure"" to curl requests"
-            Me.IgnoreTlsCheckBox.UseSelectable = True
-            '
-            'ServerPortInput
-            '
-            Me.ServerPortInput.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.ServerPortInput.DropDownHeight = 250
-            Me.ServerPortInput.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.ServerPortInput.FormattingEnabled = True
-            Me.ServerPortInput.IntegralHeight = False
-            Me.ServerPortInput.ItemHeight = 23
-            Me.ServerPortInput.Location = New System.Drawing.Point(162, 21)
-            Me.ServerPortInput.Name = "ServerPortInput"
-            Me.ServerPortInput.Size = New System.Drawing.Size(192, 29)
-            Me.ServerPortInput.TabIndex = 45
-            Me.ServerPortInput.UseSelectable = True
-            Me.ServerPortInput.UseStyleColors = True
-            '
-            'DarkModeCheckBox
-            '
-            Me.DarkModeCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.DarkModeCheckBox.AutoSize = True
-            Me.DarkModeCheckBox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.DarkModeCheckBox.Location = New System.Drawing.Point(61, 75)
-            Me.DarkModeCheckBox.Name = "DarkModeCheckBox"
-            Me.DarkModeCheckBox.Size = New System.Drawing.Size(135, 19)
-            Me.DarkModeCheckBox.TabIndex = 5
-            Me.DarkModeCheckBox.Text = "enable dark mode"
-            Me.DarkModeCheckBox.UseSelectable = True
-            '
-            'ErrorHandlingGroupBox
-            '
-            Me.ErrorHandlingGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.ErrorHandlingGroupBox.BackColor = System.Drawing.Color.Transparent
-            Me.ErrorHandlingGroupBox.Controls.Add(Me.MetroLabel1)
-            Me.ErrorHandlingGroupBox.Controls.Add(Me.CheckBox2)
-            Me.ErrorHandlingGroupBox.Controls.Add(Me.Label2)
-            Me.ErrorHandlingGroupBox.Controls.Add(Me.ErrorLimitInput)
-            Me.ErrorHandlingGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.ErrorHandlingGroupBox.ForeColor = System.Drawing.Color.Black
-            Me.ErrorHandlingGroupBox.Location = New System.Drawing.Point(8, 278)
-            Me.ErrorHandlingGroupBox.Name = "ErrorHandlingGroupBox"
-            Me.ErrorHandlingGroupBox.Size = New System.Drawing.Size(507, 112)
-            Me.ErrorHandlingGroupBox.TabIndex = 81
-            Me.ErrorHandlingGroupBox.TabStop = False
-            Me.ErrorHandlingGroupBox.Text = "Error Handling"
-            '
-            'MetroLabel1
-            '
-            Me.MetroLabel1.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.MetroLabel1.AutoSize = True
-            Me.MetroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.MetroLabel1.Location = New System.Drawing.Point(199, 44)
-            Me.MetroLabel1.Name = "MetroLabel1"
-            Me.MetroLabel1.Size = New System.Drawing.Size(113, 19)
-            Me.MetroLabel1.TabIndex = 45
-            Me.MetroLabel1.Text = "(0 = deactivated)"
-            '
-            'CheckBox2
-            '
-            Me.CheckBox2.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.CheckBox2.AutoSize = True
-            Me.CheckBox2.Location = New System.Drawing.Point(77, 74)
-            Me.CheckBox2.Name = "CheckBox2"
-            Me.CheckBox2.Size = New System.Drawing.Size(125, 15)
-            Me.CheckBox2.TabIndex = 44
-            Me.CheckBox2.Text = "ignore future errors"
-            Me.CheckBox2.UseSelectable = True
-            Me.CheckBox2.Visible = False
-            '
-            'Label2
-            '
-            Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.Label2.AutoSize = True
-            Me.Label2.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.Label2.Location = New System.Drawing.Point(70, 18)
-            Me.Label2.Name = "Label2"
-            Me.Label2.Size = New System.Drawing.Size(386, 19)
-            Me.Label2.TabIndex = 2
-            Me.Label2.Text = "The amout of error(s) until the Download process get paused "
-            '
-            'ErrorLimitInput
-            '
-            Me.ErrorLimitInput.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.ErrorLimitInput.Location = New System.Drawing.Point(229, 70)
-            Me.ErrorLimitInput.Name = "ErrorLimitInput"
-            Me.ErrorLimitInput.Size = New System.Drawing.Size(200, 22)
-            Me.ErrorLimitInput.TabIndex = 6
-            Me.ErrorLimitInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-            '
-            'SubfolderGroupBox
-            '
-            Me.SubfolderGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.SubfolderGroupBox.BackColor = System.Drawing.Color.Transparent
-            Me.SubfolderGroupBox.Controls.Add(Me.HideSubfoldersComboBox)
-            Me.SubfolderGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.SubfolderGroupBox.ForeColor = System.Drawing.Color.Black
-            Me.SubfolderGroupBox.Location = New System.Drawing.Point(8, 390)
-            Me.SubfolderGroupBox.Name = "SubfolderGroupBox"
-            Me.SubfolderGroupBox.Size = New System.Drawing.Size(507, 67)
-            Me.SubfolderGroupBox.TabIndex = 82
-            Me.SubfolderGroupBox.TabStop = False
-            Me.SubfolderGroupBox.Text = "Subfolder"
-            '
-            'HideSubfoldersComboBox
-            '
-            Me.HideSubfoldersComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.HideSubfoldersComboBox.DropDownHeight = 275
-            Me.HideSubfoldersComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.HideSubfoldersComboBox.FormattingEnabled = True
-            Me.HideSubfoldersComboBox.IntegralHeight = False
-            Me.HideSubfoldersComboBox.ItemHeight = 23
-            Me.HideSubfoldersComboBox.Location = New System.Drawing.Point(90, 25)
-            Me.HideSubfoldersComboBox.Name = "HideSubfoldersComboBox"
-            Me.HideSubfoldersComboBox.Size = New System.Drawing.Size(326, 29)
-            Me.HideSubfoldersComboBox.TabIndex = 21
-            Me.HideSubfoldersComboBox.UseSelectable = True
-            '
-            'OutputTabPage
-            '
-            Me.OutputTabPage.AutoScroll = True
-            Me.OutputTabPage.Controls.Add(Me.FfmpegCommandGroupBox)
-            Me.OutputTabPage.Controls.Add(Me.GroupBox4)
-            Me.OutputTabPage.Controls.Add(Me.ResolutionGroupBox)
-            Me.OutputTabPage.Controls.Add(Me.GroupBox18)
-            Me.OutputTabPage.Controls.Add(Me.GroupBox16)
-            Me.OutputTabPage.HorizontalScrollbar = True
-            Me.OutputTabPage.HorizontalScrollbarBarColor = True
-            Me.OutputTabPage.HorizontalScrollbarHighlightOnWheel = False
-            Me.OutputTabPage.HorizontalScrollbarSize = 10
-            Me.OutputTabPage.Location = New System.Drawing.Point(4, 44)
-            Me.OutputTabPage.Name = "OutputTabPage"
-            Me.OutputTabPage.Padding = New System.Windows.Forms.Padding(5)
-            Me.OutputTabPage.Size = New System.Drawing.Size(520, 532)
-            Me.OutputTabPage.TabIndex = 11
-            Me.OutputTabPage.Text = "Output"
-            Me.OutputTabPage.VerticalScrollbar = True
-            Me.OutputTabPage.VerticalScrollbarBarColor = True
-            Me.OutputTabPage.VerticalScrollbarHighlightOnWheel = False
-            Me.OutputTabPage.VerticalScrollbarSize = 10
-            '
-            'GroupBox16
-            '
-            Me.GroupBox16.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.GroupBox16.BackColor = System.Drawing.Color.Transparent
-            Me.GroupBox16.Controls.Add(Me.MetroLabel3)
-            Me.GroupBox16.Controls.Add(Me.TemporaryFolderTextBox)
-            Me.GroupBox16.Controls.Add(Me.DownloadModeDropdown)
-            Me.GroupBox16.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.GroupBox16.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox16.Location = New System.Drawing.Point(8, 8)
-            Me.GroupBox16.Name = "GroupBox16"
-            Me.GroupBox16.Size = New System.Drawing.Size(507, 133)
-            Me.GroupBox16.TabIndex = 32
-            Me.GroupBox16.TabStop = False
-            Me.GroupBox16.Text = "Download Mode"
-            '
-            'MetroLabel3
-            '
-            Me.MetroLabel3.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.MetroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.MetroLabel3.Location = New System.Drawing.Point(42, 65)
-            Me.MetroLabel3.Name = "MetroLabel3"
-            Me.MetroLabel3.Size = New System.Drawing.Size(423, 22)
-            Me.MetroLabel3.TabIndex = 19
-            Me.MetroLabel3.Text = "Temporary Folder"
-            Me.MetroLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'TemporaryFolderTextBox
-            '
-            Me.TemporaryFolderTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            '
-            '
-            '
-            Me.TemporaryFolderTextBox.CustomButton.Image = Nothing
-            Me.TemporaryFolderTextBox.CustomButton.Location = New System.Drawing.Point(481, 1)
-            Me.TemporaryFolderTextBox.CustomButton.Name = ""
-            Me.TemporaryFolderTextBox.CustomButton.Size = New System.Drawing.Size(23, 23)
-            Me.TemporaryFolderTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-            Me.TemporaryFolderTextBox.CustomButton.TabIndex = 1
-            Me.TemporaryFolderTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-            Me.TemporaryFolderTextBox.CustomButton.UseSelectable = True
-            Me.TemporaryFolderTextBox.CustomButton.Visible = False
-            Me.TemporaryFolderTextBox.FontSize = MetroFramework.MetroTextBoxSize.Medium
-            Me.TemporaryFolderTextBox.Lines = New String(-1) {}
-            Me.TemporaryFolderTextBox.Location = New System.Drawing.Point(6, 90)
-            Me.TemporaryFolderTextBox.MaxLength = 32767
-            Me.TemporaryFolderTextBox.Name = "TemporaryFolderTextBox"
-            Me.TemporaryFolderTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-            Me.TemporaryFolderTextBox.ReadOnly = True
-            Me.TemporaryFolderTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
-            Me.TemporaryFolderTextBox.SelectedText = ""
-            Me.TemporaryFolderTextBox.SelectionLength = 0
-            Me.TemporaryFolderTextBox.SelectionStart = 0
-            Me.TemporaryFolderTextBox.ShortcutsEnabled = True
-            Me.TemporaryFolderTextBox.Size = New System.Drawing.Size(495, 25)
-            Me.TemporaryFolderTextBox.TabIndex = 20
-            Me.TemporaryFolderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-            Me.TemporaryFolderTextBox.UseSelectable = True
-            Me.TemporaryFolderTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-            Me.TemporaryFolderTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
-            '
-            'DownloadModeDropdown
-            '
-            Me.DownloadModeDropdown.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.DownloadModeDropdown.DropDownHeight = 250
-            Me.DownloadModeDropdown.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.DownloadModeDropdown.FormattingEnabled = True
-            Me.DownloadModeDropdown.IntegralHeight = False
-            Me.DownloadModeDropdown.ItemHeight = 23
-            Me.DownloadModeDropdown.Items.AddRange(New Object() {"Default - ffmpeg", "Hybrid Mode", "Hybrid Mode - keep cache"})
-            Me.DownloadModeDropdown.Location = New System.Drawing.Point(141, 21)
-            Me.DownloadModeDropdown.Name = "DownloadModeDropdown"
-            Me.DownloadModeDropdown.Size = New System.Drawing.Size(225, 29)
-            Me.DownloadModeDropdown.TabIndex = 18
-            Me.DownloadModeDropdown.UseSelectable = True
-            '
-            'GroupBox18
-            '
-            Me.GroupBox18.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.GroupBox18.BackColor = System.Drawing.Color.Transparent
-            Me.GroupBox18.Controls.Add(Me.UseQueueCheckbox)
-            Me.GroupBox18.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.GroupBox18.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox18.Location = New System.Drawing.Point(8, 141)
-            Me.GroupBox18.Name = "GroupBox18"
-            Me.GroupBox18.Size = New System.Drawing.Size(507, 59)
-            Me.GroupBox18.TabIndex = 33
-            Me.GroupBox18.TabStop = False
-            Me.GroupBox18.Text = "Multi-Download"
-            '
-            'UseQueueCheckbox
-            '
-            Me.UseQueueCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.UseQueueCheckbox.AutoSize = True
-            Me.UseQueueCheckbox.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.UseQueueCheckbox.Location = New System.Drawing.Point(126, 21)
-            Me.UseQueueCheckbox.Name = "UseQueueCheckbox"
-            Me.UseQueueCheckbox.Size = New System.Drawing.Size(255, 19)
-            Me.UseQueueCheckbox.TabIndex = 5
-            Me.UseQueueCheckbox.Text = "redirect multi-download to the queue"
-            Me.UseQueueCheckbox.UseSelectable = True
-            '
-            'ResolutionGroupBox
-            '
-            Me.ResolutionGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.ResolutionGroupBox.BackColor = System.Drawing.Color.Transparent
-            Me.ResolutionGroupBox.Controls.Add(Me.AAuto)
-            Me.ResolutionGroupBox.Controls.Add(Me.A480p)
-            Me.ResolutionGroupBox.Controls.Add(Me.A360p)
-            Me.ResolutionGroupBox.Controls.Add(Me.A720p)
-            Me.ResolutionGroupBox.Controls.Add(Me.A1080p)
-            Me.ResolutionGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.ResolutionGroupBox.ForeColor = System.Drawing.Color.Black
-            Me.ResolutionGroupBox.Location = New System.Drawing.Point(8, 200)
-            Me.ResolutionGroupBox.Name = "ResolutionGroupBox"
-            Me.ResolutionGroupBox.Size = New System.Drawing.Size(507, 59)
-            Me.ResolutionGroupBox.TabIndex = 34
-            Me.ResolutionGroupBox.TabStop = False
-            Me.ResolutionGroupBox.Text = "Resolution"
-            '
-            'AAuto
-            '
-            Me.AAuto.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.AAuto.AutoSize = True
-            Me.AAuto.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.AAuto.ForeColor = System.Drawing.Color.Black
-            Me.AAuto.Location = New System.Drawing.Point(382, 21)
-            Me.AAuto.Name = "AAuto"
-            Me.AAuto.Size = New System.Drawing.Size(63, 19)
-            Me.AAuto.TabIndex = 16
-            Me.AAuto.TabStop = True
-            Me.AAuto.Text = "[Auto]"
-            Me.AAuto.UseSelectable = True
-            '
-            'A480p
-            '
-            Me.A480p.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.A480p.AutoSize = True
-            Me.A480p.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.A480p.ForeColor = System.Drawing.Color.Black
-            Me.A480p.Location = New System.Drawing.Point(226, 21)
-            Me.A480p.Name = "A480p"
-            Me.A480p.Size = New System.Drawing.Size(57, 19)
-            Me.A480p.TabIndex = 14
-            Me.A480p.TabStop = True
-            Me.A480p.Text = "480p"
-            Me.A480p.UseSelectable = True
-            '
-            'A360p
-            '
-            Me.A360p.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.A360p.AutoSize = True
-            Me.A360p.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.A360p.ForeColor = System.Drawing.Color.Black
-            Me.A360p.Location = New System.Drawing.Point(304, 21)
-            Me.A360p.Name = "A360p"
-            Me.A360p.Size = New System.Drawing.Size(57, 19)
-            Me.A360p.TabIndex = 15
-            Me.A360p.TabStop = True
-            Me.A360p.Text = "360p"
-            Me.A360p.UseSelectable = True
-            '
-            'A720p
-            '
-            Me.A720p.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.A720p.AutoSize = True
-            Me.A720p.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.A720p.ForeColor = System.Drawing.Color.Black
-            Me.A720p.Location = New System.Drawing.Point(148, 21)
-            Me.A720p.Name = "A720p"
-            Me.A720p.Size = New System.Drawing.Size(57, 19)
-            Me.A720p.TabIndex = 13
-            Me.A720p.TabStop = True
-            Me.A720p.Text = "720p"
-            Me.A720p.UseSelectable = True
-            '
-            'A1080p
-            '
-            Me.A1080p.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.A1080p.AutoSize = True
-            Me.A1080p.FontSize = MetroFramework.MetroCheckBoxSize.Medium
-            Me.A1080p.ForeColor = System.Drawing.Color.Black
-            Me.A1080p.Location = New System.Drawing.Point(62, 21)
-            Me.A1080p.Name = "A1080p"
-            Me.A1080p.Size = New System.Drawing.Size(65, 19)
-            Me.A1080p.TabIndex = 12
-            Me.A1080p.TabStop = True
-            Me.A1080p.Text = "1080p"
-            Me.A1080p.UseSelectable = True
-            '
-            'GroupBox4
-            '
-            Me.GroupBox4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.GroupBox4.BackColor = System.Drawing.Color.Transparent
-            Me.GroupBox4.Controls.Add(Me.SubtitleFormatComboBox)
-            Me.GroupBox4.Controls.Add(Me.VideoFormatComboBox)
-            Me.GroupBox4.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.GroupBox4.ForeColor = System.Drawing.Color.Black
-            Me.GroupBox4.Location = New System.Drawing.Point(8, 259)
-            Me.GroupBox4.Name = "GroupBox4"
-            Me.GroupBox4.Size = New System.Drawing.Size(507, 70)
-            Me.GroupBox4.TabIndex = 41
-            Me.GroupBox4.TabStop = False
-            Me.GroupBox4.Text = "Format"
-            '
-            'SubtitleFormatComboBox
-            '
-            Me.SubtitleFormatComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.SubtitleFormatComboBox.DropDownHeight = 250
-            Me.SubtitleFormatComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.SubtitleFormatComboBox.FormattingEnabled = True
-            Me.SubtitleFormatComboBox.IntegralHeight = False
-            Me.SubtitleFormatComboBox.ItemHeight = 23
-            Me.SubtitleFormatComboBox.Items.AddRange(New Object() {"[merge disabled]"})
-            Me.SubtitleFormatComboBox.Location = New System.Drawing.Point(273, 25)
-            Me.SubtitleFormatComboBox.Name = "SubtitleFormatComboBox"
-            Me.SubtitleFormatComboBox.Size = New System.Drawing.Size(175, 29)
-            Me.SubtitleFormatComboBox.TabIndex = 19
-            Me.SubtitleFormatComboBox.UseSelectable = True
-            '
-            'VideoFormatComboBox
-            '
-            Me.VideoFormatComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.VideoFormatComboBox.DropDownHeight = 250
-            Me.VideoFormatComboBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.VideoFormatComboBox.FormattingEnabled = True
-            Me.VideoFormatComboBox.IntegralHeight = False
-            Me.VideoFormatComboBox.ItemHeight = 23
-            Me.VideoFormatComboBox.Location = New System.Drawing.Point(58, 25)
-            Me.VideoFormatComboBox.Name = "VideoFormatComboBox"
-            Me.VideoFormatComboBox.Size = New System.Drawing.Size(175, 29)
-            Me.VideoFormatComboBox.TabIndex = 17
-            Me.VideoFormatComboBox.UseSelectable = True
-            '
-            'FfmpegCommandGroupBox
-            '
-            Me.FfmpegCommandGroupBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.FfmpegCommandGroupBox.BackColor = System.Drawing.Color.Transparent
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegCopyCheckBox)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.TargetBitrateCheckBox)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.VideoCodecComboBox)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel6)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.VideoEncoderComboBox)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel5)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegPresetComboBox)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel4)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.BitrateNumericInput)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.MetroLabel2)
-            Me.FfmpegCommandGroupBox.Controls.Add(Me.FfmpegCommandPreviewTextBox)
-            Me.FfmpegCommandGroupBox.Font = New System.Drawing.Font("Arial", 9.75!)
-            Me.FfmpegCommandGroupBox.ForeColor = System.Drawing.Color.Black
-            Me.FfmpegCommandGroupBox.Location = New System.Drawing.Point(8, 329)
-            Me.FfmpegCommandGroupBox.Name = "FfmpegCommandGroupBox"
-            Me.FfmpegCommandGroupBox.Size = New System.Drawing.Size(507, 111)
-            Me.FfmpegCommandGroupBox.TabIndex = 51
-            Me.FfmpegCommandGroupBox.TabStop = False
-            Me.FfmpegCommandGroupBox.Text = "ffmpeg command"
-            '
-            'FfmpegCopyCheckBox
-            '
-            Me.FfmpegCopyCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.FfmpegCopyCheckBox.AutoSize = True
-            Me.FfmpegCopyCheckBox.Location = New System.Drawing.Point(16, 21)
-            Me.FfmpegCopyCheckBox.Name = "FfmpegCopyCheckBox"
-            Me.FfmpegCopyCheckBox.Size = New System.Drawing.Size(51, 15)
-            Me.FfmpegCopyCheckBox.TabIndex = 52
-            Me.FfmpegCopyCheckBox.Text = "Copy"
-            Me.FfmpegCopyCheckBox.UseSelectable = True
-            '
-            'TargetBitrateCheckBox
-            '
-            Me.TargetBitrateCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.TargetBitrateCheckBox.AutoSize = True
-            Me.TargetBitrateCheckBox.Location = New System.Drawing.Point(368, 22)
-            Me.TargetBitrateCheckBox.Name = "TargetBitrateCheckBox"
-            Me.TargetBitrateCheckBox.Size = New System.Drawing.Size(92, 15)
-            Me.TargetBitrateCheckBox.TabIndex = 51
-            Me.TargetBitrateCheckBox.Text = "Target bitrate"
-            Me.TargetBitrateCheckBox.UseSelectable = True
-            '
-            'VideoCodecComboBox
-            '
-            Me.VideoCodecComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.VideoCodecComboBox.FormattingEnabled = True
-            Me.VideoCodecComboBox.ItemHeight = 23
-            Me.VideoCodecComboBox.Location = New System.Drawing.Point(96, 40)
-            Me.VideoCodecComboBox.Name = "VideoCodecComboBox"
-            Me.VideoCodecComboBox.Size = New System.Drawing.Size(65, 29)
-            Me.VideoCodecComboBox.TabIndex = 50
-            Me.VideoCodecComboBox.UseSelectable = True
-            '
-            'MetroLabel6
-            '
-            Me.MetroLabel6.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.MetroLabel6.AutoSize = True
-            Me.MetroLabel6.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.MetroLabel6.Location = New System.Drawing.Point(96, 17)
-            Me.MetroLabel6.Name = "MetroLabel6"
-            Me.MetroLabel6.Size = New System.Drawing.Size(47, 19)
-            Me.MetroLabel6.TabIndex = 49
-            Me.MetroLabel6.Text = "Codec"
-            '
-            'VideoEncoderComboBox
-            '
-            Me.VideoEncoderComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.VideoEncoderComboBox.FormattingEnabled = True
-            Me.VideoEncoderComboBox.ItemHeight = 23
-            Me.VideoEncoderComboBox.Location = New System.Drawing.Point(167, 40)
-            Me.VideoEncoderComboBox.Name = "VideoEncoderComboBox"
-            Me.VideoEncoderComboBox.Size = New System.Drawing.Size(80, 29)
-            Me.VideoEncoderComboBox.TabIndex = 48
-            Me.VideoEncoderComboBox.UseSelectable = True
-            '
-            'MetroLabel5
-            '
-            Me.MetroLabel5.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.MetroLabel5.AutoSize = True
-            Me.MetroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.MetroLabel5.Location = New System.Drawing.Point(167, 18)
-            Me.MetroLabel5.Name = "MetroLabel5"
-            Me.MetroLabel5.Size = New System.Drawing.Size(58, 19)
-            Me.MetroLabel5.TabIndex = 47
-            Me.MetroLabel5.Text = "Encoder"
-            '
-            'FfmpegPresetComboBox
-            '
-            Me.FfmpegPresetComboBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.FfmpegPresetComboBox.FormattingEnabled = True
-            Me.FfmpegPresetComboBox.ItemHeight = 23
-            Me.FfmpegPresetComboBox.Location = New System.Drawing.Point(253, 40)
-            Me.FfmpegPresetComboBox.Name = "FfmpegPresetComboBox"
-            Me.FfmpegPresetComboBox.Size = New System.Drawing.Size(109, 29)
-            Me.FfmpegPresetComboBox.TabIndex = 46
-            Me.FfmpegPresetComboBox.UseSelectable = True
-            '
-            'MetroLabel4
-            '
-            Me.MetroLabel4.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.MetroLabel4.AutoSize = True
-            Me.MetroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Regular
-            Me.MetroLabel4.Location = New System.Drawing.Point(253, 18)
-            Me.MetroLabel4.Name = "MetroLabel4"
-            Me.MetroLabel4.Size = New System.Drawing.Size(88, 19)
-            Me.MetroLabel4.TabIndex = 45
-            Me.MetroLabel4.Text = "Speed preset"
-            '
-            'BitrateNumericInput
-            '
-            Me.BitrateNumericInput.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.BitrateNumericInput.Increment = New Decimal(New Integer() {100, 0, 0, 0})
-            Me.BitrateNumericInput.Location = New System.Drawing.Point(368, 41)
-            Me.BitrateNumericInput.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-            Me.BitrateNumericInput.Minimum = New Decimal(New Integer() {1000, 0, 0, 0})
-            Me.BitrateNumericInput.Name = "BitrateNumericInput"
-            Me.BitrateNumericInput.Size = New System.Drawing.Size(67, 22)
-            Me.BitrateNumericInput.TabIndex = 43
-            Me.BitrateNumericInput.Value = New Decimal(New Integer() {1000, 0, 0, 0})
-            '
-            'MetroLabel2
-            '
-            Me.MetroLabel2.Anchor = System.Windows.Forms.AnchorStyles.Top
-            Me.MetroLabel2.AutoSize = True
-            Me.MetroLabel2.Location = New System.Drawing.Point(441, 41)
-            Me.MetroLabel2.Name = "MetroLabel2"
-            Me.MetroLabel2.Size = New System.Drawing.Size(49, 19)
-            Me.MetroLabel2.TabIndex = 44
-            Me.MetroLabel2.Text = "(KBit/s)"
-            '
-            'FfmpegCommandPreviewTextBox
-            '
-            Me.FfmpegCommandPreviewTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top
-            '
-            '
-            '
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Image = Nothing
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Location = New System.Drawing.Point(443, 1)
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Name = ""
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Size = New System.Drawing.Size(21, 21)
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue
-            Me.FfmpegCommandPreviewTextBox.CustomButton.TabIndex = 1
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light
-            Me.FfmpegCommandPreviewTextBox.CustomButton.UseSelectable = True
-            Me.FfmpegCommandPreviewTextBox.CustomButton.Visible = False
-            Me.FfmpegCommandPreviewTextBox.Lines = New String() {"(ffmpeg command)"}
-            Me.FfmpegCommandPreviewTextBox.Location = New System.Drawing.Point(16, 82)
-            Me.FfmpegCommandPreviewTextBox.MaxLength = 32767
-            Me.FfmpegCommandPreviewTextBox.Name = "FfmpegCommandPreviewTextBox"
-            Me.FfmpegCommandPreviewTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(0)
-            Me.FfmpegCommandPreviewTextBox.ReadOnly = True
-            Me.FfmpegCommandPreviewTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None
-            Me.FfmpegCommandPreviewTextBox.SelectedText = ""
-            Me.FfmpegCommandPreviewTextBox.SelectionLength = 0
-            Me.FfmpegCommandPreviewTextBox.SelectionStart = 0
-            Me.FfmpegCommandPreviewTextBox.ShortcutsEnabled = True
-            Me.FfmpegCommandPreviewTextBox.Size = New System.Drawing.Size(465, 23)
-            Me.FfmpegCommandPreviewTextBox.TabIndex = 38
-            Me.FfmpegCommandPreviewTextBox.Text = "(ffmpeg command)"
-            Me.FfmpegCommandPreviewTextBox.UseSelectable = True
-            Me.FfmpegCommandPreviewTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer), CType(CType(109, Byte), Integer))
-            Me.FfmpegCommandPreviewTextBox.WaterMarkFont = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel)
-            '
             'SettingsDialog
             '
             Me.ApplyImageInvert = True
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
             Me.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle
-            Me.ClientSize = New System.Drawing.Size(574, 714)
+            Me.ClientSize = New System.Drawing.Size(574, 723)
             Me.Controls.Add(Me.Btn_Save)
             Me.Controls.Add(Me.TabControl)
             Me.Cursor = System.Windows.Forms.Cursors.Default
@@ -1878,6 +1852,26 @@
             Me.DownloadCountGroupBox.ResumeLayout(False)
             CType(Me.SimultaneousDownloadsInput, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControl.ResumeLayout(False)
+            Me.MainTabPage.ResumeLayout(False)
+            Me.SubfolderGroupBox.ResumeLayout(False)
+            Me.ErrorHandlingGroupBox.ResumeLayout(False)
+            Me.ErrorHandlingGroupBox.PerformLayout()
+            CType(Me.ErrorLimitInput, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.ServerGroupBox.ResumeLayout(False)
+            Me.ServerGroupBox.PerformLayout()
+            CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.OutputTabPage.ResumeLayout(False)
+            Me.QualityGroupBox.ResumeLayout(False)
+            Me.QualityGroupBox.PerformLayout()
+            Me.BitratePanel.ResumeLayout(False)
+            Me.BitratePanel.PerformLayout()
+            Me.FfmpegCommandGroupBox.ResumeLayout(False)
+            Me.FfmpegCommandGroupBox.PerformLayout()
+            CType(Me.BitrateNumericInput, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.GroupBox4.ResumeLayout(False)
+            Me.GroupBox18.ResumeLayout(False)
+            Me.GroupBox18.PerformLayout()
+            Me.GroupBox16.ResumeLayout(False)
             Me.NamingTabPage.ResumeLayout(False)
             Me.GroupBox17.ResumeLayout(False)
             Me.GroupBox3.ResumeLayout(False)
@@ -1890,7 +1884,6 @@
             Me.GroupBox20.PerformLayout()
             Me.GroupBox19.ResumeLayout(False)
             Me.FunimationTabPage.ResumeLayout(False)
-            Me.GroupBox15.ResumeLayout(False)
             Me.GroupBox10.ResumeLayout(False)
             Me.GroupBox7.ResumeLayout(False)
             Me.GroupBox9.ResumeLayout(False)
@@ -1899,27 +1892,9 @@
             Me.GroupBox11.PerformLayout()
             Me.GroupBox8.ResumeLayout(False)
             Me.GroupBox8.PerformLayout()
+            Me.AboutTabPage.ResumeLayout(False)
             CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.AboutTabPage.ResumeLayout(False)
-            Me.MainTabPage.ResumeLayout(False)
-            Me.ServerGroupBox.ResumeLayout(False)
-            Me.ServerGroupBox.PerformLayout()
-            CType(Me.CustomServerPortInput, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.ErrorHandlingGroupBox.ResumeLayout(False)
-            Me.ErrorHandlingGroupBox.PerformLayout()
-            CType(Me.ErrorLimitInput, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.SubfolderGroupBox.ResumeLayout(False)
-            Me.OutputTabPage.ResumeLayout(False)
-            Me.GroupBox16.ResumeLayout(False)
-            Me.GroupBox18.ResumeLayout(False)
-            Me.GroupBox18.PerformLayout()
-            Me.ResolutionGroupBox.ResumeLayout(False)
-            Me.ResolutionGroupBox.PerformLayout()
-            Me.GroupBox4.ResumeLayout(False)
-            Me.FfmpegCommandGroupBox.ResumeLayout(False)
-            Me.FfmpegCommandGroupBox.PerformLayout()
-            CType(Me.BitrateNumericInput, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
         End Sub
@@ -1962,8 +1937,6 @@
         Friend WithEvents CrunchyrollTabPage As MetroFramework.Controls.MetroTabPage
         Friend WithEvents Btn_Save As Button
         Friend WithEvents GroupBox8 As GroupBox
-        Friend WithEvents GroupBox15 As GroupBox
-        Friend WithEvents FunimationBitrateComboBox As MetroFramework.Controls.MetroComboBox
         Friend WithEvents NamingTabPage As MetroFramework.Controls.MetroTabPage
         Friend WithEvents FilenameExtrasGroupBox As GroupBox
         Friend WithEvents GroupBox12 As GroupBox
@@ -2024,17 +1997,19 @@
         Friend WithEvents GroupBox4 As GroupBox
         Friend WithEvents SubtitleFormatComboBox As MetroFramework.Controls.MetroComboBox
         Friend WithEvents VideoFormatComboBox As MetroFramework.Controls.MetroComboBox
-        Friend WithEvents ResolutionGroupBox As GroupBox
-        Friend WithEvents AAuto As MetroFramework.Controls.MetroRadioButton
-        Friend WithEvents A480p As MetroFramework.Controls.MetroRadioButton
-        Friend WithEvents A360p As MetroFramework.Controls.MetroRadioButton
-        Friend WithEvents A720p As MetroFramework.Controls.MetroRadioButton
-        Friend WithEvents A1080p As MetroFramework.Controls.MetroRadioButton
+        Friend WithEvents QualityGroupBox As GroupBox
         Friend WithEvents GroupBox18 As GroupBox
         Friend WithEvents UseQueueCheckbox As MetroFramework.Controls.MetroCheckBox
         Friend WithEvents GroupBox16 As GroupBox
         Friend WithEvents MetroLabel3 As MetroFramework.Controls.MetroLabel
         Friend WithEvents TemporaryFolderTextBox As MetroFramework.Controls.MetroTextBox
         Friend WithEvents DownloadModeDropdown As MetroFramework.Controls.MetroComboBox
+        Friend WithEvents ResolutionComboBox As MetroFramework.Controls.MetroComboBox
+        Friend WithEvents LowerBitrateRadioButton As MetroFramework.Controls.MetroRadioButton
+        Friend WithEvents HigherBitrateRadioButton As MetroFramework.Controls.MetroRadioButton
+        Friend WithEvents LowerResolutionRadioButton As MetroFramework.Controls.MetroRadioButton
+        Friend WithEvents HigherResolutionRadioButton As MetroFramework.Controls.MetroRadioButton
+        Friend WithEvents BitratePanel As Panel
+        Friend WithEvents MetroLabel7 As MetroFramework.Controls.MetroLabel
     End Class
 End Namespace

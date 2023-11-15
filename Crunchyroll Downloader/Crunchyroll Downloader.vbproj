@@ -177,6 +177,7 @@
     <Compile Include="pipeline\IPipelineStage.vb" />
     <Compile Include="pipeline\PipelineStage.vb" />
     <Compile Include="pipeline\PipelineProgress.vb" />
+    <Compile Include="Settings\general\ResolutionRounding.vb" />
     <Compile Include="utilities\ProgressEstimator.vb" />
     <Compile Include="ui\AddVideo.Designer.vb">
       <DependentUpon>AddVideo.vb</DependentUpon>
@@ -255,7 +256,7 @@
     <Compile Include="Settings\ffmpeg\encoding\VideoEncoder.vb" />
     <Compile Include="Settings\FilenameTemplateGenerator.vb" />
     <Compile Include="Settings\Format.vb" />
-    <Compile Include="Settings\Funimation\BitrateSetting.vb" />
+    <Compile Include="Settings\general\BitrateSetting.vb" />
     <Compile Include="Settings\Funimation\FunimationLanguage.vb" />
     <Compile Include="Settings\Funimation\FunimationLocale.vb" />
     <Compile Include="Settings\Funimation\FunimationSettings.vb" />

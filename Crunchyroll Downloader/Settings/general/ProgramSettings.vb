@@ -194,8 +194,8 @@ Namespace settings.general
         End Sub
 
         Private Sub UpgradeResolution()
-            If My.Settings.Reso = 42 Then
-                DownloadResolution = Resolution.AUTO
+            If My.Settings.PreferredResolution = 42 Then
+                DownloadResolution = Resolution.BEST
             End If
         End Sub
         Private Sub UpgradePath()
@@ -332,8 +332,10 @@ Namespace settings.general
 
         Public Property DownloadResolution As Resolution
             Get
-                Dim resolutionSetting As Integer = My.Settings.Reso
+                Dim resolutionSetting As Integer = My.Settings.PreferredResolution
                 Select Case resolutionSetting
+                    Case 0
+                        Return Resolution.WORST
                     Case 360
                         Return Resolution.RESOLUTION_360P
                     Case 480
@@ -343,11 +345,36 @@ Namespace settings.general
                     Case 1080
                         Return Resolution.RESOLUTION_1080P
                     Case Else
-                        Return Resolution.AUTO
+                        Return Resolution.BEST
                 End Select
             End Get
             Set(value As Resolution)
-                My.Settings.Reso = value
+                My.Settings.PreferredResolution = value
+            End Set
+        End Property
+
+        Public Property ResolutionMismatchRounding As ResolutionRounding
+            Get
+                Dim value As Integer = My.Settings.ResolutionMismatchRounding
+                If value < 0 Then
+                    Return ResolutionRounding.ROUND_DOWN
+                ElseIf value > ResolutionRounding.ROUND_UP Then
+                    Return ResolutionRounding.ROUND_UP
+                End If
+
+                Return CType(My.Settings.ResolutionMismatchRounding, ResolutionRounding)
+            End Get
+            Set(value As ResolutionRounding)
+                My.Settings.ResolutionMismatchRounding = value
+            End Set
+        End Property
+
+        Public Property PreferredBitrate As BitrateSetting
+            Get
+                Return CType(My.Settings.PreferredBitrate, BitrateSetting)
+            End Get
+            Set(value As BitrateSetting)
+                My.Settings.PreferredBitrate = value
             End Set
         End Property
 

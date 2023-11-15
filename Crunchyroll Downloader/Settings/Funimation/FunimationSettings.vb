@@ -186,13 +186,5 @@ Namespace settings.funimation
             End Set
         End Property
 
-        Public Property PreferredBitrate As BitrateSetting
-            Get
-                Return CType(My.Settings.Funimation_Bitrate, BitrateSetting)
-            End Get
-            Set(value As BitrateSetting)
-                My.Settings.Funimation_Bitrate = value
-            End Set
-        End Property
     End Class
 End Namespace

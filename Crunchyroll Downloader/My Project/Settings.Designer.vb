@@ -285,12 +285,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1080")>  _
-        Public Property Reso() As Integer
+        Public Property PreferredResolution() As Integer
             Get
-                Return CType(Me("Reso"),Integer)
+                Return CType(Me("PreferredResolution"),Integer)
             End Get
             Set
-                Me("Reso") = value
+                Me("PreferredResolution") = value
             End Set
         End Property
         
@@ -309,12 +309,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property Funimation_Bitrate() As Integer
+        Public Property PreferredBitrate() As Integer
             Get
-                Return CType(Me("Funimation_Bitrate"),Integer)
+                Return CType(Me("PreferredBitrate"),Integer)
             End Get
             Set
-                Me("Funimation_Bitrate") = value
+                Me("PreferredBitrate") = value
             End Set
         End Property
         
@@ -649,6 +649,18 @@ Namespace My
             End Get
             Set
                 Me("VideoOutputPath") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ResolutionMismatchRounding() As Integer
+            Get
+                Return CType(Me("ResolutionMismatchRounding"),Integer)
+            End Get
+            Set
+                Me("ResolutionMismatchRounding") = value
             End Set
         End Property
     End Class

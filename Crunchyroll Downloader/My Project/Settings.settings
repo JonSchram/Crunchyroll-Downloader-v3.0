@@ -59,13 +59,13 @@
     <Setting Name="SL_DL" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="Reso" Type="System.Int32" Scope="User">
+    <Setting Name="PreferredResolution" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1080</Value>
     </Setting>
     <Setting Name="LeadingZero" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="Funimation_Bitrate" Type="System.Int32" Scope="User">
+    <Setting Name="PreferredBitrate" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="ServerPort" Type="System.Int32" Scope="User">
@@ -151,6 +151,9 @@
     </Setting>
     <Setting Name="VideoOutputPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ResolutionMismatchRounding" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

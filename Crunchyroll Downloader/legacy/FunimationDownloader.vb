@@ -825,7 +825,7 @@ Namespace legacy
 
                             Dim BitRate() As String = Tartegt_m3u8_list.Item(i2).Split(New String() {Bandwidth_String}, System.StringSplitOptions.RemoveEmptyEntries)
                             Dim BitRate2() As String = BitRate(1).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
-                            Dim preferredBitrate = funSettings.PreferredBitrate
+                            Dim preferredBitrate = settings.PreferredBitrate
                             If preferredBitrate = BitrateSetting.HIGH Then
                                 If CInt(BitRate2(0)) > HigestBitrate Then
                                     HigestBitrate = CInt(BitRate2(0))

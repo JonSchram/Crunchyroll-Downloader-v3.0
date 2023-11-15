@@ -22,6 +22,9 @@ Namespace ui
         Private Const DEFAULT_EPISODE_PREFIX = "Episode"
 
         ' Display objects for combo boxes backed by enums
+
+        ' General settings
+        Private ReadOnly ResolutionTextList As New EnumTextList(Of Resolution)()
         Private ReadOnly ServerPortTextList As New EnumTextList(Of ServerPortOptions)()
         Private ReadOnly SubfolderTextList As New EnumTextList(Of SubfolderDisplay)()
         Private ReadOnly DownloadModeTextList As New EnumTextList(Of DownloadModeOptions)()
@@ -34,16 +37,17 @@ Namespace ui
         Private ReadOnly SeasonNumberBehaviorTextlist As New EnumTextList(Of SeasonNumberBehavior)()
         Private ReadOnly SubtitleNamingTextList As New EnumTextList(Of LanguageNameMethod)()
 
+        ' Crunchyroll settings
         Private ReadOnly CrunchyrollLanguageTextList As New EnumTextList(Of CrunchyrollLanguage)
         Private ReadOnly CrunchyrollSoftSubLanguageSubList As EnumTextList(Of CrunchyrollLanguage).SubTextList = CrunchyrollLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
         Private ReadOnly CrunchyrollDefaultLanguageSubList As EnumTextList(Of CrunchyrollLanguage).SubTextList = CrunchyrollLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
         Private ReadOnly CrunchyrollHardSubLanguageSubList As EnumTextList(Of CrunchyrollLanguage).SubTextList = CrunchyrollLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
         Private ReadOnly CrunchyrollDubLanguageSubList As EnumTextList(Of CrunchyrollLanguage).SubTextList = CrunchyrollLanguageTextList.CreateSubList(OrderType.ALPHABETICAL)
 
+        ' Funimation settings
         Private ReadOnly FunimationLanguageTextList As New EnumTextList(Of FunimationLanguage)()
         Private ReadOnly FunimationDefaultSubOptionsList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
         Private ReadOnly FunimationHardSubLanguagesList As EnumTextList(Of FunimationLanguage).SubTextList = FunimationLanguageTextList.CreateSubList(OrderType.PARENT_ORDER)
-        Private ReadOnly FunimationBitrateTextList As New EnumTextList(Of BitrateSetting)()
 
         Private nameFormatter As FilenameTemplateGenerator
         Private uiInitializing As Boolean = False
@@ -75,6 +79,15 @@ Namespace ui
         End Function
 
         Private Sub InitializeTextLists()
+            With ResolutionTextList
+                .Add(Resolution.WORST, "Worst")
+                .Add(Resolution.RESOLUTION_360P, "360p")
+                .Add(Resolution.RESOLUTION_480P, "480p")
+                .Add(Resolution.RESOLUTION_720P, "720p")
+                .Add(Resolution.RESOLUTION_1080P, "1080p")
+                .Add(Resolution.BEST, "Best")
+            End With
+
             With ServerPortTextList
                 .Add(ServerPortOptions.DISABLED, "add-on support disabled")
                 .Add(ServerPortOptions.PORT_80, "80")
@@ -177,11 +190,6 @@ Namespace ui
             End With
             FunimationDefaultSubOptionsList.AddFromParent(FunimationLanguage.NONE)
 
-            With FunimationBitrateTextList
-                .Add(BitrateSetting.HIGH, "Prefer high bitrate")
-                .Add(BitrateSetting.LOW, "Prefer low bitrate")
-            End With
-
             With FunimationHardSubLanguagesList
                 .AddFromParent(FunimationLanguage.NONE)
                 .AddFromParent(FunimationLanguage.ENGLISH)
@@ -246,6 +254,7 @@ Namespace ui
 
         Private Sub InitializeOutputTab()
             DownloadModeDropdown.DataSource = DownloadModeTextList.GetDisplayItems()
+            ResolutionComboBox.DataSource = ResolutionTextList.GetDisplayItems()
             VideoFormatComboBox.DataSource = VideoFormatTextList.GetDisplayItems()
 
             VideoCodecComboBox.DataSource = CodecTextList.GetDisplayItems()
@@ -275,7 +284,6 @@ Namespace ui
         Private Sub InitializeFunimationTab()
             FunimationDubComboBox.DataSource = FunimationLanguageTextList.GetDisplayItems()
             FunimationDefaultSubComboBox.DataSource = FunimationDefaultSubOptionsList.GetDisplayItems()
-            FunimationBitrateComboBox.DataSource = FunimationBitrateTextList.GetDisplayItems()
             FunimationHardSubComboBox.DataSource = FunimationHardSubLanguagesList.GetDisplayItems()
         End Sub
 
@@ -381,25 +389,24 @@ Namespace ui
             DownloadModeDropdown.SelectedItem = DownloadModeTextList.Item(settings.DownloadMode)
             TemporaryFolderTextBox.Text = settings.TemporaryFolder
             UseQueueCheckbox.Checked = settings.UseDownloadQueue
-            LoadResolution()
+            LoadQuality()
 
             LoadOutputFormat()
             LoadFfmpegSettings()
+
         End Sub
 
-        Private Sub LoadResolution()
-            Select Case settings.DownloadResolution
-                Case Resolution.RESOLUTION_1080P
-                    A1080p.Checked = True
-                Case Resolution.RESOLUTION_720P
-                    A720p.Checked = True
-                Case Resolution.RESOLUTION_480P
-                    A480p.Checked = True
-                Case Resolution.RESOLUTION_360P
-                    A360p.Checked = True
-                Case Else
-                    AAuto.Checked = True
-            End Select
+        Private Sub LoadQuality()
+            ResolutionComboBox.SelectedItem = ResolutionTextList.Item(settings.DownloadResolution)
+            Dim rounding As ResolutionRounding = settings.ResolutionMismatchRounding
+            LowerResolutionRadioButton.Checked = rounding = ResolutionRounding.ROUND_DOWN
+            HigherResolutionRadioButton.Checked = rounding = ResolutionRounding.ROUND_UP
+
+            Dim bitrate As BitrateSetting = settings.PreferredBitrate
+            LowerBitrateRadioButton.Checked = bitrate = BitrateSetting.LOW
+            HigherBitrateRadioButton.Checked = bitrate = BitrateSetting.HIGH
+
+            UpdateQualityRadioButtons()
         End Sub
 
         Public Sub LoadOutputFormat()
@@ -510,7 +517,6 @@ Namespace ui
             LoadFunimationSubFormats()
             FunimationDubComboBox.SelectedItem = FunimationLanguageTextList.Item(funSettings.DubLanguage)
             FunimationDefaultSubComboBox.SelectedItem = FunimationLanguageTextList.Item(funSettings.DefaultSubtitle)
-            FunimationBitrateComboBox.SelectedItem = FunimationBitrateTextList.Item(funSettings.PreferredBitrate)
             FunimationHardSubComboBox.SelectedItem = FunimationLanguageTextList.Item(funSettings.HardSubtitleLanguage)
         End Sub
         Private Sub LoadFunimationSoftSubs()
@@ -604,6 +610,7 @@ Namespace ui
 
         Private Sub SaveOutputSettings()
             SaveResolutionSetting()
+            SaveBitrateSetting()
             SaveOutputFormat()
             settings.DownloadMode = DownloadModeTextList.GetEnumForItem(DownloadModeDropdown.SelectedItem)
             settings.TemporaryFolder = TemporaryFolderTextBox.Text
@@ -611,17 +618,18 @@ Namespace ui
             settings.Ffmpeg = CreateFfmpegSettingFromInputs()
         End Sub
         Private Sub SaveResolutionSetting()
-            Dim settings = ProgramSettings.GetInstance()
-            If A1080p.Checked Then
-                settings.DownloadResolution = Resolution.RESOLUTION_1080P
-            ElseIf A720p.Checked Then
-                settings.DownloadResolution = Resolution.RESOLUTION_720P
-            ElseIf A480p.Checked Then
-                settings.DownloadResolution = Resolution.RESOLUTION_480P
-            ElseIf A360p.Checked Then
-                settings.DownloadResolution = Resolution.RESOLUTION_360P
-            ElseIf AAuto.Checked Then
-                settings.DownloadResolution = Resolution.AUTO
+            settings.DownloadResolution = ResolutionTextList.GetEnumForItem(ResolutionComboBox.SelectedItem)
+            If LowerResolutionRadioButton.Checked Then
+                settings.ResolutionMismatchRounding = ResolutionRounding.ROUND_DOWN
+            ElseIf HigherResolutionRadioButton.Checked Then
+                settings.ResolutionMismatchRounding = ResolutionRounding.ROUND_UP
+            End If
+        End Sub
+        Private Sub SaveBitrateSetting()
+            If LowerBitrateRadioButton.Checked Then
+                settings.PreferredBitrate = BitrateSetting.LOW
+            ElseIf HigherBitrateRadioButton.Checked Then
+                settings.PreferredBitrate = BitrateSetting.HIGH
             End If
         End Sub
         Private Sub SaveOutputFormat()
@@ -680,7 +688,6 @@ Namespace ui
             SaveFunimationSubFormats()
             funSettings.DubLanguage = FunimationLanguageTextList.GetEnumForItem(FunimationDubComboBox.SelectedItem)
             funSettings.DefaultSubtitle = FunimationLanguageTextList.GetEnumForItem(FunimationDefaultSubComboBox.SelectedItem)
-            funSettings.PreferredBitrate = FunimationBitrateTextList.GetEnumForItem(FunimationBitrateComboBox.SelectedItem)
             funSettings.HardSubtitleLanguage = FunimationLanguageTextList.GetEnumForItem(FunimationHardSubComboBox.SelectedItem)
         End Sub
         Private Sub SaveFunimationSoftSubs()
@@ -747,33 +754,24 @@ Namespace ui
             End If
         End Sub
 
-
-        Private Sub AAuto_Click(sender As Object, e As EventArgs)
-            If SubtitleFormatComboBox.SelectedIndex > 0 Then
-                If AAuto.Checked = True Then
-                    Dim result = MessageBox.Show("Resolution '[Auto]' and merge the subtitle with the video file will download all resolutions!" + vbNewLine _
-                                             + "Press 'Yes' to enable it anyway",
-                                             "Prepare for unforeseen consequences.",
-                                             MessageBoxButtons.YesNo)
-                    If result = DialogResult.No Then
-                        AAuto.Checked = False
-                        A360p.Checked = True
-                    End If
-                End If
-            End If
+        Private Sub ResolutionComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ResolutionComboBox.SelectedIndexChanged
+            UpdateQualityRadioButtons()
         End Sub
 
-        Private Sub SubtitleFormatChange(sender As Object, e As EventArgs)
-            If Not settingsLoading And SubtitleFormatComboBox.SelectedIndex > 0 Then
-                If AAuto.Checked = True Then
-                    Dim result = MessageBox.Show("Resolution '[Auto]' and merge the subtitle with the video file will download all resolutions!" + vbNewLine _
-                                             + "Press 'Yes' to enable it anyway",
-                                             "Prepare for unforeseen consequences.",
-                                             MessageBoxButtons.YesNo)
-                    If result = DialogResult.No Then
-                        SubtitleFormatComboBox.SelectedIndex = 0
-                    End If
-                End If
+        Private Sub UpdateQualityRadioButtons()
+            Dim selectedResolution As Resolution = ResolutionTextList.GetEnumForItem(ResolutionComboBox.SelectedItem)
+            Dim resolutionOptionsEnabled = selectedResolution <> Resolution.BEST And selectedResolution <> Resolution.WORST
+            BitratePanel.Enabled = resolutionOptionsEnabled
+            HigherResolutionRadioButton.Enabled = resolutionOptionsEnabled
+            LowerResolutionRadioButton.Enabled = resolutionOptionsEnabled
+
+            ' Programmatically apply settings that are implied by BEST or WORST.
+            If selectedResolution = Resolution.BEST Then
+                HigherResolutionRadioButton.Checked = True
+                HigherBitrateRadioButton.Checked = True
+            ElseIf selectedResolution = Resolution.WORST Then
+                LowerResolutionRadioButton.Checked = True
+                LowerBitrateRadioButton.Checked = True
             End If
         End Sub
 

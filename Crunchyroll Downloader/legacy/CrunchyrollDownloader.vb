@@ -801,7 +801,7 @@ Namespace api.crunchyroll
 
                 Dim downloadMode = settings.DownloadMode
                 Dim resolution = settings.DownloadResolution
-                If resolution = Resolution.AUTO And downloadMode = DownloadModeOptions.FFMPEG Then
+                If resolution = Resolution.BEST And downloadMode = DownloadModeOptions.FFMPEG Then
 
                     ffmpegInput = "-i " + """" + CR_URI_Master(0) + """"
 
@@ -1055,7 +1055,7 @@ Namespace api.crunchyroll
                 Dim L2Name As String = String.Join(" ", CR_FilenName.Split(Main.invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd("."c) 'System.Text.RegularExpressions.Regex.Replace(CR_FilenName_Backup, "[^\w\\-]", " ")
 
                 ' TODO: After this class has been refactored, clean up the multiple accesses to ffmpeg mode
-                If settings.DownloadResolution = Resolution.AUTO And settings.DownloadMode = DownloadModeOptions.FFMPEG Then
+                If settings.DownloadResolution = Resolution.BEST And settings.DownloadMode = DownloadModeOptions.FFMPEG Then
                     ResoHTMLDisplay = "[Auto]"
                 End If
 #End Region
