@@ -798,7 +798,8 @@ Namespace ui
             ApplyDarkTheme(NewValue)
         End Sub
 
-        Private Sub DarkMode_CheckedChanged(sender As Object, e As EventArgs)
+
+        Private Sub DarkModeCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles DarkModeCheckBox.CheckedChanged
             settings.DarkMode = DarkModeCheckBox.Checked
         End Sub
 
@@ -1021,6 +1022,5 @@ Namespace ui
             PORT_8080
             CUSTOM
         End Enum
-
     End Class
 End Namespace
