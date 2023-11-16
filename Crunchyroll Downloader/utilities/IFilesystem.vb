@@ -6,6 +6,9 @@ Namespace utilities
     ''' </summary>
     Public Interface IFilesystem
         Sub CreateDirectory(dir As String)
+
+        Sub DeleteDirectory(dir As String)
+
         Sub RenameFile(oldName As String, newName As String)
         Sub RenameDirectory(oldName As String, newName As String)
 

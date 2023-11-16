@@ -24,6 +24,10 @@ Namespace utilities
             CreatedDirectories.Add(dir)
         End Sub
 
+        Public Sub DeleteDirectory(dir As String) Implements IFilesystem.DeleteDirectory
+            CreatedDirectories.Remove(dir)
+        End Sub
+
         Public Sub RenameFile(oldName As String, newName As String) Implements IFilesystem.RenameFile
             RenamedFiles.Add(New ModifiedFile(oldName, newName))
         End Sub
@@ -66,6 +70,7 @@ Namespace utilities
             StreamedContent.Add(destination, contents)
             Return Task.CompletedTask
         End Function
+
 
         Public Class ModifiedFile
             Public ReadOnly Property OldPath As String

@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.FileIO
 
 Namespace utilities
     ''' <summary>
@@ -9,6 +10,10 @@ Namespace utilities
 
         Public Sub CreateDirectory(dir As String) Implements IFilesystem.CreateDirectory
             My.Computer.FileSystem.CreateDirectory(dir)
+        End Sub
+
+        Public Sub DeleteDirectory(dir As String) Implements IFilesystem.DeleteDirectory
+            My.Computer.FileSystem.DeleteDirectory(dir, DeleteDirectoryOption.DeleteAllContents)
         End Sub
 
         Public Sub RenameFile(oldName As String, newName As String) Implements IFilesystem.RenameFile

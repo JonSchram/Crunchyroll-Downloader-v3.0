@@ -37,11 +37,19 @@ Namespace download
             Dim settings As ProgramSettings = ProgramSettings.GetInstance()
             Dim filesystem = New RealFilesystem()
             Dim client As New RealHttpClient()
-            Dim temporaryFolder = settings.TemporaryFolder
             ' TODO: Allow configuring ffmpeg exe location.
             Dim ffmpegAdapter As New FfmpegAdapter(Path.Combine(Application.StartupPath, "ffmpeg.exe"))
 
             Console.WriteLine("Downloading " + DlTask.ToString())
+
+            ' Ensure everything for the pipeline is in a single folder that can be deleted later. Easier than cleaning up after each step.
+            Dim temporaryFolder As String
+            Do
+                Dim randomFolderName As String = Path.GetRandomFileName()
+                temporaryFolder = Path.Combine(settings.TemporaryFolder, randomFolderName)
+            Loop While filesystem.DirectoryExists(temporaryFolder)
+            ' Ffmpeg needs the directory to exist before writing to it.
+            filesystem.CreateDirectory(temporaryFolder)
 
             Dim mediaStage As New RetrieveMediaStage(PipelineStage.FIND_MEDIA, Progress, DlTask.Client)
             Dim media As List(Of MediaLink) = Await mediaStage.Process(DlTask.DownloadEpisode)
@@ -59,7 +67,10 @@ Namespace download
             Dim output As New OutputStage(PipelineStage.FINAL_OUTPUT, Progress, DlTask, filesystem)
             Dim completedFiles As List(Of MediaFileEntry) = Await output.Process(processedEntries)
 
-            Debug.WriteLine($"Download completed. {completedFiles.Count} files moved to {settings.TemporaryFolder}")
+            Debug.WriteLine($"Download completed. {completedFiles.Count} files moved to {settings.OutputPath}")
+
+            ' Clean up everything for this download.
+            filesystem.DeleteDirectory(temporaryFolder)
 
             Progress.Report(PipelineProgress.CreateCompleted())
         End Sub
