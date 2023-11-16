@@ -12,6 +12,7 @@ Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.utilities
 Imports MetroFramework
 Imports MetroFramework.Forms
+Imports Newtonsoft.Json.Linq
 Imports SiteAPI.api
 Imports SiteAPI.api.common
 
@@ -65,6 +66,24 @@ Namespace ui
             settings = ProgramSettings.GetInstance()
             crSettings = settings.Crunchyroll
             funSettings = settings.Funimation
+
+            AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
+
+            settingsLoading = True
+            LoadSettings()
+            settingsLoading = False
+
+            CurrentVersionLabel.Text = "You have: v" + Application.ProductVersion.ToString
+
+            SetVersionLabelText("Checking for latest version...")
+            BackgroundWorker1.RunWorkerAsync()
+
+            TabControl.SelectedIndex = 0
+
+            Try
+                Me.Icon = My.Resources.icon
+            Catch ex As Exception
+            End Try
         End Sub
 
         Public Shared Function GetInstance() As SettingsDialog
@@ -315,27 +334,6 @@ Namespace ui
         End Sub
 
 #Region "Loading"
-        Private Sub Einstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-            AddHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
-
-            settingsLoading = True
-            LoadSettings()
-            settingsLoading = False
-
-            CurrentVersionLabel.Text = "You have: v" + Application.ProductVersion.ToString '+ " WebView2_Test"
-
-            UpdateLastVersion("checking...")
-            BackgroundWorker1.RunWorkerAsync()
-
-            TabControl.SelectedIndex = 0
-
-            Try
-                Me.Icon = My.Resources.icon
-            Catch ex As Exception
-
-            End Try
-
-        End Sub
 
         Private Sub LoadSettings()
             LoadMainSettings()
@@ -805,42 +803,45 @@ Namespace ui
 
         Private Sub BackgroundWorker1_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
             Try
-                Dim client0 As New WebClient With {
+                Dim client As New WebClient With {
                     .Encoding = Encoding.UTF8
                 }
-                client0.Headers.Add(My.Resources.ffmpeg_user_agend)
+                client.Headers.Add(My.Resources.ffmpeg_user_agend)
 
-                Dim str0 As String = client0.DownloadString("https://api.github.com/repos/hama3254/Crunchyroll-Downloader-v3.0/releases")
+                Dim responseJson As String = client.DownloadString("https://api.github.com/repos/hama3254/Crunchyroll-Downloader-v3.0/releases")
+                Dim releaseList As JArray = JArray.Parse(responseJson)
 
-                Dim GitHubLastIsPre() As String = str0.Split(New String() {"""" + "prerelease" + """" + ": "}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim LastNonPreRelase As Integer = 0
-
-                For i As Integer = 1 To GitHubLastIsPre.Count - 1
-                    Dim GitHubLastIsPre1() As String = GitHubLastIsPre(i).Split(New String() {","}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                    If GitHubLastIsPre1(0) = "false" Then
-                        LastNonPreRelase = i
-                        Exit For
+                For Each release As JToken In releaseList
+                    If release.Type = JTokenType.Object Then
+                        Dim prerelease As Boolean = release.Item("prerelease").Value(Of Boolean)
+                        If Not prerelease Then
+                            Dim tagName As String = release.Item("tag_name").Value(Of String)
+                            UpdateLastVersion(tagName)
+                            Return
+                        End If
                     End If
                 Next
 
-                Dim GitHubLastTag() As String = str0.Split(New String() {"""" + "tag_name" + """" + ": " + """"}, System.StringSplitOptions.RemoveEmptyEntries)
-                Dim GitHubLastTag1() As String = GitHubLastTag(LastNonPreRelase).Split(New String() {"""" + ","}, System.StringSplitOptions.RemoveEmptyEntries)
-
-                UpdateLastVersion(GitHubLastTag1(0))
+                SetVersionLabelText("Could not find latest version.")
 
             Catch ex As Exception
                 Debug.WriteLine(ex.ToString)
+                SetVersionLabelText("Error checking for latest version.")
             End Try
         End Sub
 
+
         Private Sub UpdateLastVersion(version As String)
+            SetVersionLabelText("Latest release: " + version)
+        End Sub
+
+        Private Sub SetVersionLabelText(text As String)
             If InvokeRequired Then
                 Invoke(Sub()
-                           UpdateLastVersion(version)
+                           SetVersionLabelText(text)
                        End Sub)
             Else
-                LastVersion.Text = "last release: " + version
+                LastVersion.Text = text
             End If
         End Sub
 
@@ -1012,6 +1013,7 @@ Namespace ui
 
 #End Region
         Private Sub SettingsDialog_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+            RemoveHandler ProgramSettings.DarkModeChanged, AddressOf HandleDarkModeChanged
             Instance = Nothing
         End Sub
 
