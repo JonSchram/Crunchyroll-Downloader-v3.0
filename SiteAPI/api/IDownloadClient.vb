@@ -52,6 +52,15 @@ Namespace api
         ''' <returns></returns>
         Function GetSiteName() As String
 
+        ''' <summary>
+        ''' Returns the site associated with this API. Allows users of the API project to build the correct MediaPreferences when getting media.
+        ''' 
+        ''' MediaPreferences use no site-specific settings, but because the user of the API client might want different behavior for different sites,
+        ''' there needs to be a way to know which site is being queried.
+        ''' </summary>
+        ''' <returns></returns>
+        Function GetSite() As Site
+
         Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink))
 
         Function ResolveMediaLink(link As MediaLink) As Task(Of Media)

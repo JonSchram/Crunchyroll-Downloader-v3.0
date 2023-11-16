@@ -86,6 +86,11 @@ Namespace legacy
         End Function
 
 
+        Public Function GetSite() As Site Implements IDownloadClient.GetSite
+            Return Site.CRUNCHYROLL
+        End Function
+
+
         Public Function ResolveMediaLink(link As MediaLink) As Task(Of Media) Implements IDownloadClient.ResolveMediaLink
             Throw New NotImplementedException()
         End Function

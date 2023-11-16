@@ -46,6 +46,10 @@ Namespace debugging
             Return "Dummy site"
         End Function
 
+        Public Function GetSite() As Site Implements IDownloadClient.GetSite
+            Return Site.CRUNCHYROLL
+        End Function
+
         Public Function ResolveMediaLink(link As MediaLink) As Task(Of Media) Implements IDownloadClient.ResolveMediaLink
             ' Do the absolute minimum, though this isn't called because there is no media.
             If TypeOf link Is FileMediaLink Then
@@ -59,5 +63,6 @@ Namespace debugging
         Public Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
             Return Task.FromResult(New List(Of MediaLink)())
         End Function
+
     End Class
 End Namespace

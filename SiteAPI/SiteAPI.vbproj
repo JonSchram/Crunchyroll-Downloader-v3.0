@@ -113,7 +113,6 @@
     <Compile Include="api\ICookieBasedAuth.vb" />
     <Compile Include="api\ICookieProvider.vb" />
     <Compile Include="api\IDownloadClient.vb" />
-    <Compile Include="api\IMediaPreferenceFactory.vb" />
     <Compile Include="api\IEpisodeDownloader.vb" />
     <Compile Include="api\IMediaLinkResolver.vb" />
     <Compile Include="api\Locale.vb" />
@@ -126,6 +125,7 @@
     <Compile Include="api\metadata\Video\Playback.vb" />
     <Compile Include="api\metadata\Video\Subtitle.vb" />
     <Compile Include="api\Region.vb" />
+    <Compile Include="api\Site.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

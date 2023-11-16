@@ -20,6 +20,8 @@ Namespace api.funimation
         Private Authenticator As FunimationAuthenticator
         Private PlaybackId As String
 
+        ' TODO: Throw more appropriate exceptions so they can be handled appropriately.
+
 
         ' Ideal API:
         ' - Construct using a URL
@@ -182,6 +184,10 @@ Namespace api.funimation
             Return "Funimation"
         End Function
 
+        Public Function GetSite() As Site Implements IDownloadClient.GetSite
+            Return Site.FUNIMATION
+        End Function
+
         Private Async Function GetEpisodePlayback(ep As Episode) As Task(Of EpisodePlaybackInfo)
             Dim url = If(ep.IsFree, BuildAnonymousPlaybackUrl(ep), BuildPlaybackUrl(ep))
             Dim result = Await Authenticator.SendAuthenticatedRequest(url)
@@ -190,6 +196,9 @@ Namespace api.funimation
         End Function
 
         Public Async Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
+            If preferences Is Nothing Then
+                Throw New Exception("Must set media preferences.")
+            End If
             Dim episodePlaybacks As EpisodePlaybackInfo = Await GetEpisodePlayback(ep)
             Dim filter = New PlaybackFilter(preferences)
             Dim bestPlayback As Playback = filter.GetBestPlayback(episodePlaybacks.GetAllPlaybacks())

@@ -16,9 +16,16 @@ Namespace pipeline
 
         Protected Overrides Async Function Run(data As Episode) As Task(Of List(Of MediaLink))
             Console.WriteLine($"Getting media for {data}")
-            ' TODO: Get correct preference factory based on site.
-            Dim preferenceFactory = New FunimationPreferenceFactory()
-            Return Await Client.GetAvailableMedia(data, preferenceFactory.GetCurrentPreferences())
+
+            Dim preferences As MediaPreferences = Nothing
+            Select Case Client.GetSite()
+                Case Site.FUNIMATION
+                    preferences = New FunimationPreferenceFactory().GetCurrentPreferences()
+                Case Site.CRUNCHYROLL
+
+            End Select
+
+            Return Await Client.GetAvailableMedia(data, preferences)
         End Function
     End Class
 End Namespace

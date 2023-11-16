@@ -4,11 +4,10 @@ Imports SiteAPI.api.common
 
 Namespace preferences
     Public Class FunimationPreferenceFactory
-        Implements IMediaPreferenceFactory
 
         ' TODO: Pass in preferences another way so this is testable.
 
-        Public Function GetCurrentPreferences() As MediaPreferences Implements IMediaPreferenceFactory.GetCurrentPreferences
+        Public Function GetCurrentPreferences() As MediaPreferences
             Dim funSettings = FunimationSettings.GetInstance()
 
             Dim audioLanguage As Locale = ConvertToLocale(funSettings.DubLanguage)
