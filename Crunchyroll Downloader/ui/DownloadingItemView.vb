@@ -70,5 +70,7 @@ Namespace ui
             ' TODO: Set hardsub label
         End Sub
 
+        ' TODO: Allow replacing placeholder image with real image for episode.
+
     End Class
 End Namespace

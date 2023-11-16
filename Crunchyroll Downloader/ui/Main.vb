@@ -7,7 +7,6 @@ Imports System.Text
 Imports System.Threading
 Imports Crunchyroll_Downloader.debugging
 Imports Crunchyroll_Downloader.download
-Imports Crunchyroll_Downloader.settings
 Imports Crunchyroll_Downloader.settings.general
 Imports MetroFramework
 Imports MetroFramework.Components
@@ -142,16 +141,12 @@ Namespace ui
             Manager.Theme = MetroThemeStyle.Dark
             CloseImg = My.Resources.main_close_dark
             MinImg = My.Resources.main_mini_dark
-            Btn_min.Image = MinImg
-            Btn_Close.Image = CloseImg
         End Sub
 
         Public Sub LightMode()
             Manager.Theme = MetroThemeStyle.Light
             CloseImg = My.Resources.main_close
             MinImg = My.Resources.main_mini
-            Btn_min.Image = MinImg
-            Btn_Close.Image = CloseImg
         End Sub
 
         Dim ListViewHeightOffset As Integer = 7
@@ -205,32 +200,6 @@ Namespace ui
             Btn_Queue.Image = My.Resources.main_queue
         End Sub
 
-
-
-        Private Sub Btn_min_MouseEnter(sender As Object, e As EventArgs) Handles Btn_min.MouseEnter, Btn_min.GotFocus
-            If Manager.Theme = MetroThemeStyle.Dark Then
-                Btn_min.Image = My.Resources.main_mini_dark_hover
-            Else
-                Btn_min.Image = My.Resources.main_mini_red
-            End If
-        End Sub
-
-        Private Sub Btn_min_MouseLeave(sender As Object, e As EventArgs) Handles Btn_min.MouseLeave, Btn_min.LostFocus
-            Btn_min.Image = MinImg
-        End Sub
-
-        Private Sub Btn_Close_MouseEnter(sender As Object, e As EventArgs) Handles Btn_Close.MouseEnter, Btn_Close.GotFocus
-            If Manager.Theme = MetroThemeStyle.Dark Then
-                Btn_Close.Image = My.Resources.main_close_dark_hover
-            Else
-                Btn_Close.Image = My.Resources.main_close_hover
-            End If
-        End Sub
-
-        Private Sub Btn_Close_MouseLeave(sender As Object, e As EventArgs) Handles Btn_Close.MouseLeave, Btn_Close.LostFocus
-            Btn_Close.Image = CloseImg
-        End Sub
-
         Private Sub Main_Resize(sender As Object, e As EventArgs) Handles Me.Resize
             ' TODO: Set correct anchor properties so the positioning logic can disappear
             PictureBox5.Width = Me.Width - 40
@@ -281,7 +250,7 @@ Namespace ui
             Dim settings = ProgramSettings.GetInstance()
 
             Dim presenter = New MainPresenter(Me)
-            presenter.initialize()
+            presenter.Initialize()
 
             Me.ContextMenuStrip = ContextMenuStrip1
             b = True
@@ -300,7 +269,6 @@ Namespace ui
             End If
 
             If ProgramSettings.GetInstance().ServerPort > 0 Then
-                Timer3.Enabled = True
                 ServerThread = New Thread(AddressOf ServerStart)
                 ServerThread.Priority = ThreadPriority.Normal
                 ServerThread.IsBackground = True
@@ -321,60 +289,6 @@ Namespace ui
             HybridThread = My.Settings.HybridThread
 
             RetryWithCachedFiles()
-        End Sub
-
-
-        Public Sub ListItemAdd(ByVal NameKomplett As String, ByVal NameP1 As String, ByVal NameP2 As String, ByVal Reso As String, ByVal HardSub As String, ByVal ThumbnialURL As String, ByVal URL_DL As String, ByVal Pfad_DL As String, Optional Service As String = "CR") ', ByVal AudioLang As String)
-
-            'With ListView1.Items.Add("0")
-            'For i As Integer = 0 To 10
-            ItemConstructor(NameKomplett, NameP1, NameP2, Reso, HardSub, ThumbnialURL, URL_DL, Pfad_DL, Service)
-
-            'Next
-            'End With
-        End Sub
-
-        Public Sub ItemConstructor(ByVal NameKomplett As String, ByVal NameP1 As String, ByVal NameP2 As String, ByVal DisplayReso As String, ByVal HardSub As String, ByVal ThumbnialURL As String, ByVal URL_DL As String, ByVal Pfad_DL As String, ByVal Service As String)
-            Dim Item As New CRD_List_Item
-            Item.Visible = False
-
-            ' TODO: Move item initialization into the constructor or a builder
-            Dim settings = ProgramSettings.GetInstance()
-            Dim keepCache = settings.DownloadMode = DownloadModeOptions.HYBRID_MODE_KEEP_CACHE
-            Dim mergeSubs = settings.OutputFormat.GetSubtitleFormat <> SubtitleMerge.DISABLED
-#Region "Set Variables"
-            Item.SetService(Service)
-            Item.SetTolerance(settings.ErrorLimit)
-            Item.SetTargetReso(settings.DownloadResolution)
-            Item.SetLabelWebsite(NameP1)
-            Item.SetLabelAnimeTitel(NameP2)
-            Item.SetLabelResolution(DisplayReso)
-            Item.SetLabelHardsub(HardSub)
-            Item.SetThumbnailImage(ThumbnialURL)
-            Item.SetLabelPercent("0%")
-            Item.SetCache(keepCache)
-            Item.SetMergeSubstoMP4(mergeSubs)
-            Item.SetDebug2(Debug2)
-#End Region
-
-            Item.Parent = TaskFlowPanel
-            TaskFlowPanel.Controls.Add(Item)
-
-            Item.Visible = True
-            ' TODO: Support dash MPD files
-            Dim TempHybridMode As Boolean = Not ProgramSettings.GetInstance().DownloadMode = DownloadModeOptions.FFMPEG
-            If CBool(InStr(URL_DL, ".mpd")) Then
-                TempHybridMode = False
-            End If
-
-            If Pfad_DL.Length > 255 Then
-                'MsgBox(Pfad_DL.Length.ToString)
-                Pfad_DL = """" + "\\?\" + Pfad_DL.Replace("""", "") + """"
-            End If
-
-
-            'MsgBox(URL_DL + vbNewLine + Pfad_DL + vbNewLine + NameKomplett + vbNewLine + TempHybridMode.ToString)
-            Item.StartDownload(URL_DL, Pfad_DL, NameKomplett, TempHybridMode, settings.TemporaryFolder)
         End Sub
 
 #Region "Sub to display"
@@ -653,26 +567,11 @@ Namespace ui
 #End Region
 
 
-        Private Sub Btn_Close_Click(sender As Object, e As EventArgs) Handles Btn_Close.Click
-            If RunningDownloads > 0 Then
-                If MessageBox.Show("Are you sure you want close the program and end all active downloads?", "confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-
-                    Dim Item As New List(Of CRD_List_Item)
-                    Item.AddRange(TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
-                    Item.Reverse()
-
-                    For i As Integer = 0 To Item.Count - 1
-                        Item(i).KillRunningTask()
-                    Next
-
-                    RemoveTempFiles()
-                    Me.Close()
-                End If
-            Else
-                Timer3.Enabled = False
-                RemoveTempFiles()
-                Me.Close()
-            End If
+        Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+            ' TODO: Warn the user if there are still downloads in progress.
+            ' Otherwise, kill all downloads.
+            ' Can cancel closing the form by setting cancel = true
+            ' e.Cancel = True
         End Sub
 
         Private Sub RemoveTempFiles()
@@ -738,11 +637,6 @@ Namespace ui
                                         End If
                                     Next
                                     reader.Close()
-                                    Me.Invoke(New Action(Function() As Object
-                                                             ListItemAdd(Filename, L1Name, L2Name, ResoHTMLDisplay, Subsprache3, thumbnail3, URL2, Pfad2)
-                                                             Return Nothing
-                                                         End Function))
-                                    ' liList.Add(My.Resources.htmlvorThumbnail + thumbnail3 + My.Resources.htmlnachTumbnail + L1Name + " <br> " + L2Name + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + Subsprache3 + My.Resources.htmlnachHardSubs + "<!-- " + L2Name + "-->")
                                 Else
                                     Grapp_non_cr_RDY = True
                                     System.IO.Directory.Delete(fi.FullName, True)
@@ -830,20 +724,9 @@ Namespace ui
 
         Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
             Try
-                Dim ItemFinshedCount As Integer = 0
-                Dim Item As New List(Of CRD_List_Item)
-                Item.AddRange(TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
-                Item.Reverse()
 
-                For i As Integer = 0 To Item.Count - 1
-                    'Debug.WriteLine(Item(i).GetIsStatusFinished().ToString)
-                    If Item(i).GetIsStatusFinished() = True Then
-                        ItemFinshedCount = ItemFinshedCount + 1
-                    End If
-                Next
-
-                RunningDownloads = Item.Count - ItemFinshedCount
-
+                ' TODO: Set thread state based on thread status more directly.
+                ' Even if done periodically using a timer, should not be using a global "RunningDownloads" variable.
                 If RunningDownloads > 0 Then
                     SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED Or EXECUTION_STATE.ES_CONTINUOUS)
                 Else
@@ -851,37 +734,7 @@ Namespace ui
                 End If
             Catch ex As Exception
                 Debug.WriteLine("Failed? : " + ex.ToString)
-
-                RunningDownloads = TaskFlowPanel.Controls.Count
             End Try
-            'Debug.WriteLine("Running: " + RunningDownloads.ToString)
-
-            'FontLabel2.Text = RunningDownloads.ToString
-            'Debug.WriteLine("downloads.tick: " + RunningDownloads.ToString)
-        End Sub
-
-        Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
-
-            Dim Item As New List(Of CRD_List_Item)
-            Item.AddRange(TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
-            Item.Reverse()
-
-            Dim GeckoHTML As String = My.Resources.htmlTop + vbNewLine + My.Resources.htmlTitlel.Replace("Placeholder", Me.Text.Replace("open the add window to continue", ""))
-
-            For i As Integer = 0 To Item.Count - 1
-                Dim ItemString As String = My.Resources.htmlvorThumbnail + Item(i).GetThumbnailSource + My.Resources.htmlnachTumbnail + Item(i).Label_website.Text + " <br> " + Item(i).Label_Anime.Text + My.Resources.htmlvorAufloesung.Replace("0%", Item(i).Label_percent.Text).Replace("width:0%", Item(i).GetPercentValue.ToString + "%") + Item(i).Label_Reso.Text + My.Resources.htmlvorSoftSubs + vbNewLine + My.Resources.htmlvorHardSubs + Item(i).Label_Hardsub.Text + My.Resources.htmlnachHardSubs
-                GeckoHTML = GeckoHTML + vbNewLine + ItemString
-            Next
-
-
-
-            Dim c As String = GeckoHTML + vbNewLine + My.Resources.htmlEnd
-            Dim Balken As String = "balken.png"
-            c = c.Replace("balken1.png", Balken)
-            Dim CC As String = "cc.png"
-            c = c.Replace("cc1.png", CC)
-            HTML = c
-
         End Sub
 
         Public Sub Navigate(ByVal Url As String)
@@ -1086,22 +939,6 @@ Namespace ui
             ErrorDialog.ShowDialog()
         End Sub
 
-        Private Sub Btn_min_Click(sender As Object, e As EventArgs) Handles Btn_min.Click
-            Me.WindowState = System.Windows.Forms.FormWindowState.Minimized
-        End Sub
-
-        Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
-
-            'If Application.OpenForms().OfType(Of Anime_Add).Any = False Then
-            '    If ListBoxList.Count > 0 Then
-            '        If CBool(InStr(Me.Text, "Crunchyroll Downloader")) Or CBool(InStr(Me.Text, " downloads in queue")) Then
-            '            Me.Text = "Status: " + ListBoxList.Count.ToString + " downloads in queue" + vbNewLine + "open the add window to continue"
-            '        End If
-            '    End If
-            'End If
-
-        End Sub
-
         Private Sub Main_Shown(sender As Object, e As EventArgs) Handles Me.Shown
             ' TODO: Can just set the image in the designer? No need to put it here?
             Btn_add.Image = My.Resources.main_add
@@ -1163,10 +1000,6 @@ Namespace ui
             My.Computer.Clipboard.SetText(HTML)
         End Sub
 
-        Private Sub Timer3OffToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles Timer3OffToolStripMenuItem.Click
-            Timer3.Enabled = False
-        End Sub
-
         Private Sub ThreadCount_Click(sender As Object, e As EventArgs) Handles ThreadCount.Click
             Trackbar.ShowDialog()
         End Sub
@@ -1182,14 +1015,6 @@ Namespace ui
             MsgBox("Season" + vbNewLine + CR_SeasonJson.Content.Count.ToString)
             MsgBox("Object" + vbNewLine + CR_ObjectsJson.Content.Count.ToString)
             MsgBox("Streams" + vbNewLine + CR_VideoJson.Content.Count.ToString)
-
-        End Sub
-
-        Private Sub DummyItemToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DummyItemToolStripMenuItem.Click
-            Dim TN As String = "https://invalid.com/"
-            Dim cmd As String = "-i " + """" + "https://invalid.com/" + """" + " -c copy "
-            ListItemAdd("TestDL", "CR", "TestDL", "9987p", "DE", "None", TN, cmd, "E:\Test\RWBY\Testdl.mkv")
-
 
         End Sub
 
@@ -1284,22 +1109,6 @@ Namespace ui
             Else
                 My.Settings.SaveThumbnail = False
                 MsgBox("Thumbnail saving disabled")
-                My.Settings.Save()
-
-            End If
-        End Sub
-
-        Private Sub SaveModeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveModeToolStripMenuItem.Click
-            ' TODO: SaveMode doesn't seem to do much (only controlled whether the browser redirected)
-            ' It can be removed.
-            If My.Settings.SaveMode = False Then
-                My.Settings.SaveMode = True
-                MsgBox("SaveMode enabled")
-                My.Settings.Save()
-
-            Else
-                My.Settings.SaveMode = False
-                MsgBox("SaveMode disabled")
                 My.Settings.Save()
 
             End If

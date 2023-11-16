@@ -26,7 +26,6 @@ Partial Class QueueDialog
         Me.QueueDisplayListBox = New System.Windows.Forms.ListBox()
         Me.RunQueueToggle = New MetroFramework.Controls.MetroToggle()
         Me.Label1 = New MetroFramework.Controls.MetroLabel()
-        Me.RunQueueTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MetroStyleExtender1 = New MetroFramework.Components.MetroStyleExtender(Me.components)
         Me.MetroStyleManager1 = New MetroFramework.Components.MetroStyleManager(Me.components)
         CType(Me.MetroStyleManager1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,10 +68,6 @@ Partial Class QueueDialog
         Me.Label1.Text = "Process Queue"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'RunQueueTimer
-        '
-        Me.RunQueueTimer.Interval = 2500
-        '
         'MetroStyleManager1
         '
         Me.MetroStyleManager1.Owner = Me
@@ -97,7 +92,6 @@ Partial Class QueueDialog
     Public WithEvents QueueDisplayListBox As ListBox
     Friend WithEvents RunQueueToggle As MetroFramework.Controls.MetroToggle
     Friend WithEvents Label1 As MetroFramework.Controls.MetroLabel
-    Friend WithEvents RunQueueTimer As Timer
     Friend WithEvents MetroStyleExtender1 As MetroFramework.Components.MetroStyleExtender
     Friend WithEvents MetroStyleManager1 As MetroFramework.Components.MetroStyleManager
 End Class

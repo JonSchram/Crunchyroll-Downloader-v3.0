@@ -28,29 +28,21 @@
             Me.PictureBox5 = New System.Windows.Forms.PictureBox()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
-            Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
             Me.MetroStyleExtender1 = New MetroFramework.Components.MetroStyleExtender(Me.components)
             Me.TaskFlowPanel = New System.Windows.Forms.FlowLayoutPanel()
             Me.MainStyleManager = New MetroFramework.Components.MetroStyleManager(Me.components)
-            Me.Timer4 = New System.Windows.Forms.Timer(Me.components)
             Me.Btn_add = New System.Windows.Forms.Button()
             Me.Btn_Browser = New System.Windows.Forms.Button()
             Me.Btn_Settings = New System.Windows.Forms.Button()
-            Me.Btn_min = New System.Windows.Forms.Button()
-            Me.Btn_Close = New System.Windows.Forms.Button()
             Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.QueueToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-            Me.SaveModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
             Me.SaveThumbnailAsImageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
             Me.ToggleDebugModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
             Me.Funimation_Token = New System.Windows.Forms.ToolStripMenuItem()
             Me.CheckCRBetaTokenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-            Me.Timer3OffToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
             Me.ThreadCount = New System.Windows.Forms.ToolStripMenuItem()
             Me.CRCookieToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
             Me.UrlJsonsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-            Me.DummyItemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-            Me.ScanTimeout = New System.Windows.Forms.Timer(Me.components)
             Me.Btn_Queue = New System.Windows.Forms.Button()
             Me.DebugButton = New MetroFramework.Controls.MetroButton()
             CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,10 +63,6 @@
             Me.Timer2.Enabled = True
             Me.Timer2.Interval = 3000
             '
-            'Timer3
-            '
-            Me.Timer3.Interval = 1000
-            '
             'TaskFlowPanel
             '
             resources.ApplyResources(Me.TaskFlowPanel, "TaskFlowPanel")
@@ -85,11 +73,6 @@
             '
             Me.MainStyleManager.Owner = Me
             Me.MainStyleManager.Style = MetroFramework.MetroColorStyle.Orange
-            '
-            'Timer4
-            '
-            Me.Timer4.Enabled = True
-            Me.Timer4.Interval = 2500
             '
             'Btn_add
             '
@@ -124,33 +107,9 @@
             Me.Btn_Settings.Name = "Btn_Settings"
             Me.Btn_Settings.UseVisualStyleBackColor = False
             '
-            'Btn_min
-            '
-            resources.ApplyResources(Me.Btn_min, "Btn_min")
-            Me.Btn_min.BackColor = System.Drawing.Color.Transparent
-            Me.Btn_min.Cursor = System.Windows.Forms.Cursors.Hand
-            Me.Btn_min.FlatAppearance.BorderSize = 0
-            Me.Btn_min.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-            Me.Btn_min.ForeColor = System.Drawing.Color.Transparent
-            Me.Btn_min.Image = Global.Crunchyroll_Downloader.My.Resources.Resources.main_mini
-            Me.Btn_min.Name = "Btn_min"
-            Me.Btn_min.UseVisualStyleBackColor = False
-            '
-            'Btn_Close
-            '
-            resources.ApplyResources(Me.Btn_Close, "Btn_Close")
-            Me.Btn_Close.BackColor = System.Drawing.Color.Transparent
-            Me.Btn_Close.Cursor = System.Windows.Forms.Cursors.Hand
-            Me.Btn_Close.FlatAppearance.BorderSize = 0
-            Me.Btn_Close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-            Me.Btn_Close.ForeColor = System.Drawing.Color.Transparent
-            Me.Btn_Close.Image = Global.Crunchyroll_Downloader.My.Resources.Resources.main_close
-            Me.Btn_Close.Name = "Btn_Close"
-            Me.Btn_Close.UseVisualStyleBackColor = False
-            '
             'ContextMenuStrip1
             '
-            Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QueueToolStripMenuItem, Me.SaveModeToolStripMenuItem, Me.SaveThumbnailAsImageToolStripMenuItem, Me.ToggleDebugModeToolStripMenuItem, Me.Funimation_Token, Me.CheckCRBetaTokenToolStripMenuItem, Me.Timer3OffToolStripMenuItem, Me.ThreadCount, Me.CRCookieToolStripMenuItem, Me.UrlJsonsToolStripMenuItem, Me.DummyItemToolStripMenuItem})
+            Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QueueToolStripMenuItem, Me.SaveThumbnailAsImageToolStripMenuItem, Me.ToggleDebugModeToolStripMenuItem, Me.Funimation_Token, Me.CheckCRBetaTokenToolStripMenuItem, Me.ThreadCount, Me.CRCookieToolStripMenuItem, Me.UrlJsonsToolStripMenuItem})
             Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
             resources.ApplyResources(Me.ContextMenuStrip1, "ContextMenuStrip1")
             '
@@ -158,11 +117,6 @@
             '
             Me.QueueToolStripMenuItem.Name = "QueueToolStripMenuItem"
             resources.ApplyResources(Me.QueueToolStripMenuItem, "QueueToolStripMenuItem")
-            '
-            'SaveModeToolStripMenuItem
-            '
-            Me.SaveModeToolStripMenuItem.Name = "SaveModeToolStripMenuItem"
-            resources.ApplyResources(Me.SaveModeToolStripMenuItem, "SaveModeToolStripMenuItem")
             '
             'SaveThumbnailAsImageToolStripMenuItem
             '
@@ -184,11 +138,6 @@
             Me.CheckCRBetaTokenToolStripMenuItem.Name = "CheckCRBetaTokenToolStripMenuItem"
             resources.ApplyResources(Me.CheckCRBetaTokenToolStripMenuItem, "CheckCRBetaTokenToolStripMenuItem")
             '
-            'Timer3OffToolStripMenuItem
-            '
-            Me.Timer3OffToolStripMenuItem.Name = "Timer3OffToolStripMenuItem"
-            resources.ApplyResources(Me.Timer3OffToolStripMenuItem, "Timer3OffToolStripMenuItem")
-            '
             'ThreadCount
             '
             Me.ThreadCount.Name = "ThreadCount"
@@ -203,15 +152,6 @@
             '
             Me.UrlJsonsToolStripMenuItem.Name = "UrlJsonsToolStripMenuItem"
             resources.ApplyResources(Me.UrlJsonsToolStripMenuItem, "UrlJsonsToolStripMenuItem")
-            '
-            'DummyItemToolStripMenuItem
-            '
-            Me.DummyItemToolStripMenuItem.Name = "DummyItemToolStripMenuItem"
-            resources.ApplyResources(Me.DummyItemToolStripMenuItem, "DummyItemToolStripMenuItem")
-            '
-            'ScanTimeout
-            '
-            Me.ScanTimeout.Interval = 1000
             '
             'Btn_Queue
             '
@@ -239,15 +179,12 @@
             Me.Controls.Add(Me.TaskFlowPanel)
             Me.Controls.Add(Me.DebugButton)
             Me.Controls.Add(Me.Btn_Queue)
-            Me.Controls.Add(Me.Btn_Close)
-            Me.Controls.Add(Me.Btn_min)
             Me.Controls.Add(Me.Btn_Settings)
             Me.Controls.Add(Me.Btn_Browser)
             Me.Controls.Add(Me.Btn_add)
             Me.Controls.Add(Me.PictureBox5)
             Me.ForeColor = System.Drawing.Color.Black
             Me.MaximizeBox = False
-            Me.MinimizeBox = False
             Me.Name = "Main"
             Me.Style = MetroFramework.MetroColorStyle.Orange
             Me.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center
@@ -260,29 +197,21 @@
         Friend WithEvents PictureBox5 As PictureBox
         Friend WithEvents ToolTip1 As ToolTip
         Friend WithEvents Timer2 As Timer
-        Friend WithEvents Timer3 As Timer
         Friend WithEvents MetroStyleExtender1 As MetroFramework.Components.MetroStyleExtender
         Friend WithEvents MainStyleManager As MetroFramework.Components.MetroStyleManager
-        Friend WithEvents Timer4 As Timer
         Friend WithEvents Btn_add As Button
         Friend WithEvents Btn_Browser As Button
         Friend WithEvents Btn_Settings As Button
-        Friend WithEvents Btn_min As Button
-        Friend WithEvents Btn_Close As Button
         Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
         Friend WithEvents ToggleDebugModeToolStripMenuItem As ToolStripMenuItem
         Friend WithEvents Funimation_Token As ToolStripMenuItem
         Friend WithEvents CheckCRBetaTokenToolStripMenuItem As ToolStripMenuItem
-        Friend WithEvents Timer3OffToolStripMenuItem As ToolStripMenuItem
         Friend WithEvents ThreadCount As ToolStripMenuItem
         Friend WithEvents CRCookieToolStripMenuItem As ToolStripMenuItem
         Friend WithEvents UrlJsonsToolStripMenuItem As ToolStripMenuItem
-        Friend WithEvents DummyItemToolStripMenuItem As ToolStripMenuItem
-        Friend WithEvents ScanTimeout As Timer
         Friend WithEvents QueueToolStripMenuItem As ToolStripMenuItem
         Friend WithEvents Btn_Queue As Button
         Friend WithEvents SaveThumbnailAsImageToolStripMenuItem As ToolStripMenuItem
-        Friend WithEvents SaveModeToolStripMenuItem As ToolStripMenuItem
         Friend WithEvents DebugButton As MetroFramework.Controls.MetroButton
         Friend WithEvents TaskFlowPanel As FlowLayoutPanel
     End Class

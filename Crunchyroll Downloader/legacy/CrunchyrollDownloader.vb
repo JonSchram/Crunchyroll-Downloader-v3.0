@@ -43,15 +43,15 @@ Namespace api.crunchyroll
                         If Main.Grapp_RDY = True Then
                             Try
                                 Dim ItemFinshedCount As Integer = 0 '
-                                Dim Item As New List(Of CRD_List_Item)
-                                Item.AddRange(Main.TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
-                                Item.Reverse()
+                                'Dim Item As New List(Of CRD_List_Item)
+                                'Item.AddRange(Main.TaskFlowPanel.Controls.OfType(Of CRD_List_Item))
+                                'Item.Reverse()
 
-                                For i2 As Integer = 0 To Item.Count - 1
-                                    If Item(i2).GetIsStatusFinished() = True Then
-                                        ItemFinshedCount = ItemFinshedCount + 1
-                                    End If
-                                Next
+                                'For i2 As Integer = 0 To Item.Count - 1
+                                '    If Item(i2).GetIsStatusFinished() = True Then
+                                '        ItemFinshedCount = ItemFinshedCount + 1
+                                '    End If
+                                'Next
                                 Main.RunningDownloads = Main.TaskFlowPanel.Controls.Count - ItemFinshedCount
                             Catch ex As Exception
                                 Main.RunningDownloads = Main.TaskFlowPanel.Controls.Count
@@ -1060,10 +1060,6 @@ Namespace api.crunchyroll
 
                 'MsgBox(URL_DL)
 
-                ' TODO
-                Main.Invoke(Sub()
-                                Main.ListItemAdd(Path.GetFileName(Pfad2.Replace("""", "")), L1Name, L2Name, ResoHTMLDisplay, SubType_Value, thumbnail3, ffmpegInput, Pfad2)
-                            End Sub)
                 'liList.Add(My.Resources.htmlvorThumbnail + thumbnail3 + My.Resources.htmlnachTumbnail + CR_title + " <br> " + CR_season_number + " " + CR_episode + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + Subsprache3 + My.Resources.htmlnachHardSubs + "<!-- " + L2Name + "-->")
                 'Form1.RichTextBox1.Text = My.Resources.htmlvorThumbnail + thumbnail3 + My.Resources.htmlnachTumbnail + CR_Anime_Titel + " <br> " + CR_Anime_Staffel + " " + CR_Anime_Folge + My.Resources.htmlvorAufloesung + ResoHTMLDisplay + My.Resources.htmlvorSoftSubs + vbNewLine + SubValuesToDisplay() + My.Resources.htmlvorHardSubs + Subsprache3 + My.Resources.htmlnachHardSubs + "<!-- " + L2Name + "-->"
 #End Region

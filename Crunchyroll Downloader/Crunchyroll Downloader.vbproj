@@ -315,12 +315,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="CRD_List_Item.Designer.vb">
-      <DependentUpon>CRD_List_Item.vb</DependentUpon>
-    </Compile>
-    <Compile Include="CRD_List_Item.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Subfolder.vb" />
     <Compile Include="ui\MainPresenter.vb" />
     <Compile Include="utilities\ffmpeg\codec\CopyCodecArgument.vb" />
@@ -383,9 +377,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Browser.resx">
       <DependentUpon>Browser.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CRD_List_Item.resx">
-      <DependentUpon>CRD_List_Item.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ui\Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
