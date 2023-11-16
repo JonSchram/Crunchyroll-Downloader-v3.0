@@ -1,8 +1,10 @@
 ﻿Imports Crunchyroll_Downloader.data
 Imports Crunchyroll_Downloader.preferences
+Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports PlaylistLibrary.hls.playlist.comparer
+Imports PlaylistLibrary.hls.playlist.stream
 Imports SiteAPI.api.common
 
 Namespace download
@@ -65,8 +67,17 @@ Namespace download
         Private Async Function DownloadPlaylist(item As MasterPlaylistMedia, currentIndex As Integer, totalFiles As Integer) As Task(Of MediaFileEntry)
             OnMediaProgress(currentIndex, totalFiles, 0)
 
-            ' TODO: Use proper playlist comparer.
-            Dim programNumber = item.Playlist.GetClosestMatchProgramNumber(New LowestResolutionComparer())
+            Dim resolutionComparer As IComparer(Of VariantStreamMetadata)
+            If Preferences.PreferredResolution = Resolution.BEST Then
+                resolutionComparer = New HighestResolutionComparer()
+            ElseIf Preferences.PreferredResolution = Resolution.WORST Then
+                resolutionComparer = New LowestResolutionComparer()
+            Else
+                resolutionComparer = New ClosestResolutionComparer(
+                    Preferences.PreferredResolution, Preferences.AcceptHigherResolution, Preferences.PreferHighBitrate)
+            End If
+
+            Dim programNumber = item.Playlist.GetClosestMatchProgramNumber(resolutionComparer)
 
             ' TODO: Ensure that mp4 is the correct file format, because this assumes mp4 can always contain the media.
             Dim outputName = GetUniqueFilename(FilesystemApi, Preferences.TemporaryDirectory, "downloaded-media", ".mp4")
