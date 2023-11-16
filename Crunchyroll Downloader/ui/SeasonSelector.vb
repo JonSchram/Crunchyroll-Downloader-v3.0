@@ -64,6 +64,8 @@ Namespace ui
             Dim selectedIndex As Integer = seasonSelectComboBox.SelectedIndex
             Dim selectedItem As SeasonOverview = CType(seasonSelectComboBox.SelectedItem, SeasonOverview)
 
+            ' TODO: Cache episodes to prevent constantly querying the API.
+            ' TODO: List current action (such as "Fetching episode list")
             episodeList = Await MetadataApi.ListEpisodes(selectedItem)
             setComboBoxEpisodes(startEpisodeComboBox, episodeList)
             setComboBoxEpisodes(endEpisodeComboBox, episodeList)

@@ -31,6 +31,8 @@ Namespace pipeline
                 ReencodePreferenceFactory.GetVideoReencodePreferences(TemporaryFolder, OutputFormat, FfmpegSetting)
             Dim fileFormat As ContainerFormat = OutputFormat.GetVideoFormat()
 
+            ' TODO: Set stream metadata such as stream language, default track (ffmpeg calls it 'disposition').
+
             Dim postprocessor As VideoPostprocessor = Nothing
             If fileFormat = ContainerFormat.MP4 Then
                 postprocessor = New Mp4Postprocessor(reencodePreferences, FfmpegAdapter, FileSystem)

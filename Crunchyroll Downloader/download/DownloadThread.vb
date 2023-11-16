@@ -51,6 +51,8 @@ Namespace download
             ' Ffmpeg needs the directory to exist before writing to it.
             filesystem.CreateDirectory(temporaryFolder)
 
+            ' TODO: Set status in downloading item to explain what is happening.
+
             Dim mediaStage As New RetrieveMediaStage(PipelineStage.FIND_MEDIA, Progress, DlTask.Client)
             Dim media As List(Of MediaLink) = Await mediaStage.Process(DlTask.DownloadEpisode)
 

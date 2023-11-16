@@ -186,7 +186,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="legacy\CrunchyrollDownloader.vb" />
-    <Compile Include="legacy\FunimationDownloader.vb" />
     <Compile Include="postprocess\FinalOutputProducer.vb" />
     <Compile Include="postprocess\MkvPostprocessor.vb" />
     <Compile Include="preferences\OutputPreferenceFactory.vb" />

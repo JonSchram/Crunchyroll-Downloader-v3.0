@@ -1142,6 +1142,9 @@ Namespace ui
             TaskFlowPanel.Controls.Remove(view)
         End Sub
 
+        ' TODO: Make a status label with method to update it.
+        ' Possible states are whether the program is actively downloading anything, whether there is an error.
+
     End Class
 
 End Namespace
