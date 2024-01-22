@@ -30,7 +30,7 @@ Namespace api.crunchyroll
         Private DeviceGuid As String
         Private LoginToken As String
         Private BearerToken As String
-        Private BearerExpiration As DateTime
+        Private BearerExpiration As Date
 
         Public Sub New(CookieProvider As IInteractiveCookieProvider, userAgent As String)
             If CookieProvider Is Nothing Then

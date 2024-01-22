@@ -1,17 +1,13 @@
 ﻿Imports Newtonsoft.Json.Linq
+Imports SiteAPI.api.metadata
 
 Namespace api.funimation.metadata
     Public Class FunimationSeries
-        ' TODO: Refactor this class into a generic Series and make the Seasons list be of the generic SeasonOverview type.
-        Public Property Seasons As List(Of FunimationSeasonOverview) = New List(Of FunimationSeasonOverview)
+        Inherits Series(Of FunimationSeasonOverview)
 
-
-        ' Human-readable name for series
-        Public Property Name As String
-
-        Public Function GetSeasons() As IEnumerable(Of FunimationSeasonOverview)
-            Return Seasons.AsEnumerable()
-        End Function
+        Public Sub New()
+            Seasons = New List(Of FunimationSeasonOverview)
+        End Sub
 
         Public Shared Function CreateFromJson(Json As String) As FunimationSeries
             Dim Series As New FunimationSeries()

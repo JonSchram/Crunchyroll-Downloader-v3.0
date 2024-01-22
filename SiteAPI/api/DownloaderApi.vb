@@ -1,6 +1,6 @@
 ﻿
+Imports SiteAPI.api.crunchyroll
 Imports SiteAPI.api.funimation
-Imports SiteAPI.legacy
 
 Namespace api
     Public Class DownloaderApi
