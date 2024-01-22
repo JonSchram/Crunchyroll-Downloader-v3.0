@@ -6,7 +6,7 @@ Imports Microsoft.Web.WebView2.Core
 Imports SiteAPI.api
 
 Public Class Browser
-    Implements ICookieProvider
+    Implements IInteractiveCookieProvider
 
     Public Shared Instance As Browser = Nothing
 
@@ -44,8 +44,6 @@ Public Class Browser
         End Try
     End Sub
 
-    Private Sub WebView2_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView2.NavigationCompleted
-    End Sub
 
     Delegate Function GetCookieFunction(Uri As String) As Task(Of List(Of Cookie))
 
@@ -72,6 +70,15 @@ Public Class Browser
     ''' <returns></returns>
     Private Async Function GetCookiesInner(Uri As String) As Task(Of List(Of Cookie))
         Return ConvertCookies(Await WebView2.CoreWebView2.CookieManager.GetCookiesAsync(Uri))
+    End Function
+
+
+    Public Async Function RequestCookies(uri As String) As Task(Of List(Of Cookie)) Implements IInteractiveCookieProvider.RequestCookies
+        ' Ensure any current navigation is stopped before starting a new navigation, don't want to handle the wrong page loaded event.
+        WebView2.Stop()
+
+        Dim request As New CookieRequest(uri, Me)
+        Return Await request.BeginRequest()
     End Function
 
     ''' <summary>
@@ -127,5 +134,42 @@ Public Class Browser
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Helper class to monitor for a page load.
+    ''' </summary>
+    Private Class CookieRequest
+        Private ReadOnly uri As String
+        Private ReadOnly parent As Browser
+
+        Private requestSource As TaskCompletionSource(Of List(Of Cookie))
+
+        Public Sub New(uri As String, parent As Browser)
+            Me.uri = uri
+            Me.parent = parent
+        End Sub
+
+        Public Async Function BeginRequest() As Task(Of List(Of Cookie))
+            If requestSource Is Nothing Then
+                AddHandler parent.WebView2.NavigationCompleted, AddressOf HandlePageLoaded
+                Await parent.WebView2.EnsureCoreWebView2Async()
+                parent.Navigate(uri)
+
+                requestSource = New TaskCompletionSource(Of List(Of Cookie))()
+            End If
+
+            Return Await requestSource.Task
+        End Function
+
+        Private Async Sub HandlePageLoaded(sender As Object, e As CoreWebView2NavigationCompletedEventArgs)
+            RemoveHandler parent.WebView2.NavigationCompleted, AddressOf HandlePageLoaded
+
+            If e.IsSuccess Then
+                Dim loadedCookies = Await parent.GetCookies(uri)
+                requestSource.SetResult(loadedCookies)
+            Else
+                requestSource.SetException(New Exception("Error navigating to page"))
+            End If
+        End Sub
+    End Class
 End Class
 

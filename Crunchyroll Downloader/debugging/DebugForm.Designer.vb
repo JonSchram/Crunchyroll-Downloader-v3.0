@@ -713,11 +713,11 @@
             '
             Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
             Me.Label4.AutoSize = True
-            Me.Label4.Location = New System.Drawing.Point(7, 181)
+            Me.Label4.Location = New System.Drawing.Point(78, 181)
             Me.Label4.Name = "Label4"
-            Me.Label4.Size = New System.Drawing.Size(100, 13)
+            Me.Label4.Size = New System.Drawing.Size(29, 13)
             Me.Label4.TabIndex = 7
-            Me.Label4.Text = "Authentication URL"
+            Me.Label4.Text = "URL"
             '
             'AuthenticateUrlTextBox
             '
@@ -797,6 +797,7 @@
             'CrunchyrollAuthRadioButton
             '
             Me.CrunchyrollAuthRadioButton.AutoSize = True
+            Me.CrunchyrollAuthRadioButton.Checked = True
             Me.CrunchyrollAuthRadioButton.Location = New System.Drawing.Point(7, 20)
             Me.CrunchyrollAuthRadioButton.Name = "CrunchyrollAuthRadioButton"
             Me.CrunchyrollAuthRadioButton.Size = New System.Drawing.Size(77, 17)

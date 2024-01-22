@@ -1,59 +1,20 @@
-﻿Imports System.Text
-Imports Newtonsoft.Json.Linq
-Imports SiteAPI.api
-Imports SiteAPI.api.common
+﻿Imports SiteAPI.api.common
 Imports SiteAPI.api.metadata
 
-Namespace legacy
+Namespace api.crunchyroll
     Public Class CrunchyrollClient
         Implements IDownloadClient
-        Public Sub FillCREpisodes(ByVal EpisodeJson As String)
-            EpisodeJson = CleanJSON(EpisodeJson)
-            'Main.CR_MassEpisodes.Clear()
 
-            Dim EpisodeJObject As JObject = JObject.Parse(EpisodeJson)
-            Dim EpisodeData As List(Of JToken) = EpisodeJObject.Children().ToList
+        Private ReadOnly CookieProvider As IInteractiveCookieProvider
 
-            For Each item As JProperty In EpisodeData
-                item.CreateReader()
-                Select Case item.Name
-                    Case "data" 'each record is inside the entries array
-                        For Each Entry As JObject In item.Values
-                            Dim episode_number As String = Entry.GetValue("episode_number").ToString
-                            Dim episode_id As String = Entry.GetValue("id").ToString
-                            Dim slug_title As String = Entry.GetValue("slug_title").ToString
+        Private ReadOnly Authenticator As CrunchyrollAuthenticator
 
-                            'comboBox3.Items.Add("Episode " + episode_number)
-                            'comboBox4.Items.Add("Episode " + episode_number)
-                            'Main.CR_MassEpisodes.Add(New CR_Seasons(episode_id, slug_title, Main.CR_MassSeasons.Item(ComboBox1.SelectedIndex).Auth))
-                        Next
-                End Select
-            Next
-
-            ' TODO
-            'If comboBox3.Items.Count > 0 Then
-            '    comboBox3.SelectedIndex = 0
-            '    comboBox4.SelectedIndex = comboBox4.Items.Count - 1
-            'End If
-
-            'comboBox3.Enabled = True
-            'comboBox4.Enabled = True
-
+        Public Sub New(cookieProvider As IInteractiveCookieProvider, userAgent As String)
+            Authenticator = New CrunchyrollAuthenticator(cookieProvider, userAgent)
         End Sub
-        Private Function CleanJSON(ByVal JSON As String) As String
-            JSON = JSON.Replace("&amp;", "&").Replace("/u0026", "&").Replace("\u002F", "/").Replace("\u0026", "&")
-            While CBool(InStr(JSON, "\"))
-                Dim index As Integer = InStr(JSON, "\")
-                Dim myName As New StringBuilder(JSON)
-                myName.Remove(index - 1, 2)
-                JSON = myName.ToString
-            End While
-            Return JSON
 
-        End Function
-
-        Public Function Initialize() As Task Implements IDownloadClient.Initialize
-            Throw New NotImplementedException()
+        Public Async Function Initialize() As Task Implements IDownloadClient.Initialize
+            Await Authenticator.Initialize()
         End Function
 
         Public Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IDownloadClient.ListSeasons
@@ -78,6 +39,11 @@ Namespace legacy
 
         Public Function IsVideoUrl(Url As String) As Boolean Implements IDownloadClient.IsVideoUrl
             Throw New NotImplementedException()
+        End Function
+
+
+        Private Shared Function BuildSeriesInfoUrl(seriesId As String, locale As Locale) As String
+            Return $"https://www.crunchyroll.com/content/v2/cms/series/{seriesId}?locale={locale.GetAbbreviatedString()}"
         End Function
 
 

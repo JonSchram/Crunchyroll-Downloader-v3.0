@@ -13,7 +13,7 @@ Namespace api.funimation
 
         Public Sub New(cookieProvider As ICookieProvider)
             If cookieProvider Is Nothing Then
-                Throw New ArgumentException("Browser must not be Nothing.")
+                Throw New ArgumentException("Cookie provider must not be Nothing.")
             End If
 
             Me.CookieProvider = cookieProvider

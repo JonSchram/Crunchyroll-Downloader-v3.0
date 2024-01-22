@@ -656,9 +656,6 @@ Namespace ui
 
             If Not File.Exists("cookies.txt") Then
                 Dim browserDialog = Browser.GetInstance()
-                If Not browserDialog.Visible Then
-                    browserDialog.Show()
-                End If
             End If
 
             Dim settings = ProgramSettings.GetInstance()

@@ -114,6 +114,7 @@
     <Compile Include="api\ICookieProvider.vb" />
     <Compile Include="api\IDownloadClient.vb" />
     <Compile Include="api\IEpisodeDownloader.vb" />
+    <Compile Include="api\IInteractiveCookieProvider.vb" />
     <Compile Include="api\IMediaLinkResolver.vb" />
     <Compile Include="api\Locale.vb" />
     <Compile Include="api\MasterPlaylistResolver.vb" />

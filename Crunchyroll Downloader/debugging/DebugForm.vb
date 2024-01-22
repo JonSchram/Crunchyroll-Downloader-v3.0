@@ -3,6 +3,7 @@ Imports System.Net
 Imports System.Net.Http
 Imports Crunchyroll_Downloader.download
 Imports Crunchyroll_Downloader.preferences
+Imports Crunchyroll_Downloader.settings.general
 Imports Crunchyroll_Downloader.utilities
 Imports Crunchyroll_Downloader.utilities.ffmpeg
 Imports PlaylistLibrary.hls.parsing
@@ -126,7 +127,7 @@ Namespace debugging
             If FunimationAuthRadioButton.Checked Then
                 authenticator = New FunimationAuthenticator(webBrowser)
             ElseIf CrunchyrollAuthRadioButton.Checked Then
-                authenticator = New CrunchyrollAuthenticator(webBrowser)
+                authenticator = New CrunchyrollAuthenticator(webBrowser, My.Resources.user_agent)
             End If
             If authenticator IsNot Nothing Then
                 Dim cookie = Await authenticator.GetLoginCookie()
@@ -161,10 +162,9 @@ Namespace debugging
         End Sub
 
         Private Async Sub AuthenticateButton_Click(sender As Object, e As EventArgs) Handles AuthenticateButton.Click
+            Dim url = AuthenticateUrlTextBox.Text
+            Dim token = LoginTokenTextBox.Text
             If FunimationAuthRadioButton.Checked Then
-                Dim url = AuthenticateUrlTextBox.Text
-                Dim token = LoginTokenTextBox.Text
-
                 Dim authenticator As FunimationAuthenticator
                 If token = "" Then
                     authenticator = New FunimationAuthenticator(Browser.GetInstance())
@@ -175,7 +175,18 @@ Namespace debugging
                 Dim result = Await authenticator.SendAuthenticatedRequest(url)
                 AuthenticationOutputTextBox.Text = result
             ElseIf CrunchyrollAuthRadioButton.Checked Then
+                Dim authenticator As CrunchyrollAuthenticator
+                'If token = "" Then
+                authenticator = New CrunchyrollAuthenticator(Browser.GetInstance(), My.Resources.user_agent)
+                'Await authenticator.Login(token)
+                'Else
+                '    authenticator = New CrunchyrollAuthenticator(token, My.Resources.user_agent)
+                'End If
 
+                Await authenticator.Initialize()
+
+                Dim result = Await authenticator.SendAuthenticatedRequest(url)
+                AuthenticationOutputTextBox.Text = result
             End If
         End Sub
 

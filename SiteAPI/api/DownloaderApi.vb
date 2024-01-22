@@ -1,5 +1,6 @@
 ﻿
 Imports SiteAPI.api.funimation
+Imports SiteAPI.legacy
 
 Namespace api
     Public Class DownloaderApi
@@ -15,13 +16,12 @@ Namespace api
             Return UrlUtilities.IsCrunchyrollUrl(downloadUrl)
         End Function
 
-        Public Shared Function GetMetadataDownloader(url As String, cookieProvider As ICookieProvider, userAgent As String) As IDownloadClient
+        Public Shared Function GetMetadataDownloader(url As String, cookieProvider As IInteractiveCookieProvider, userAgent As String) As IDownloadClient
             ' TODO: Choose CR or Funi metadata downloader
             If IsFunimationUrl(url) Then
                 Return New FunimationClient(cookieProvider, userAgent)
             ElseIf IsCrunchyrollUrl(url) Then
-                ' TODO
-                Return Nothing
+                Return New CrunchyrollClient(cookieProvider, userAgent)
             Else
                 Return Nothing
             End If
