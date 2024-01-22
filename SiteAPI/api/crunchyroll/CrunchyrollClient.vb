@@ -26,17 +26,18 @@ Namespace api.crunchyroll
         Public Async Function ListSeasons(Url As String) As Task(Of IEnumerable(Of SeasonOverview)) Implements IDownloadClient.ListSeasons
             If IsSeriesUrl(Url) Then
                 Dim seriesJson = Await GetSeriesJson(Url)
-                ' TODO: Crunchyroll doesn't provide the series name at the series list API. Either remove property from base object
-                ' or specifically retrieve it, if it is needed anywhere.
-                Dim seriesInfo = CrunchyrollSeries.CreateFromSeriesJson(seriesJson, "")
-                Return seriesInfo.GetSeasons()
+                Dim seriesInfo = CrunchyrollSeasonList.CreateFromSeriesJson(seriesJson)
+                Return seriesInfo.Seasons
             Else
                 Throw New ArgumentException("Must provide a URL for a series")
             End If
         End Function
 
-        Public Function ListEpisodes(Season As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview)) Implements IDownloadClient.ListEpisodes
-            Throw New NotImplementedException()
+        Public Async Function ListEpisodes(Season As SeasonOverview) As Task(Of IEnumerable(Of EpisodeOverview)) Implements IDownloadClient.ListEpisodes
+            Dim apiUrl = BuildEpisodeListUrl(Season.ApiID, REGION)
+            Dim episodeListJson = Await Authenticator.SendAuthenticatedRequest(apiUrl)
+            Dim episodes = CrunchyrollEpisodeList.CreateFromJson(episodeListJson)
+            Return episodes.Episodes
         End Function
 
         Public Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
@@ -83,6 +84,9 @@ Namespace api.crunchyroll
             Return $"https://www.crunchyroll.com/content/v2/cms/series/{seriesId}/seasons?locale={locale.GetAbbreviatedString()}"
         End Function
 
+        Private Shared Function BuildEpisodeListUrl(seasonId As String, locale As Locale) As String
+            Return $"https://www.crunchyroll.com/content/v2/cms/seasons/{seasonId}/episodes?locale={locale.GetAbbreviatedString()}"
+        End Function
 
         Public Function GetSiteName() As String Implements IDownloadClient.GetSiteName
             Return "Crunchyroll"

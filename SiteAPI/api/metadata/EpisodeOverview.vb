@@ -4,21 +4,30 @@
     ''' Necessary because season lists don't contain all the details we need when listing all episodes in a season.
     ''' </summary>
     Public MustInherit Class EpisodeOverview
-        ' An internal ID used to refer to the episode
+        ''' <summary>
+        ''' An internal ID used to refer to the episode
+        ''' </summary>
+        ''' <returns></returns>
         Public Property EpisodeId As String
 
-        ' A slug to add to the URL to get the web viewer for this episode
-        Public Property EpisodeUrlSlug As String
-
-        ' A slug to add to the URL to get episode details through the API
+        ''' <summary>
+        ''' A slug to add to the URL to get episode details through the API
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ApiUrlSlug As String
 
+        ''' <summary>
+        ''' Whether the episode is available without a paid subscription.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property IsFree As Boolean
 
-        ' Episode number is a string in the API so keep it that way
+        ''' <summary>
+        ''' Episode number. Is a string because episode APIs return a string, and they may sometimes be a
+        ''' string of text instead of a number.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property EpisodeNumber As String
-
-        Public Property Versions As List(Of String)
 
         Public Overrides Function ToString() As String
             Return "Episode " + EpisodeNumber

@@ -5,6 +5,19 @@ Namespace api.funimation.metadata
     Public Class FunimationEpisodeOverview
         Inherits EpisodeOverview
 
+
+        ''' <summary>
+        ''' A slug to add to the URL to get the web viewer for this episode
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property EpisodeUrlSlug As String
+
+        ''' <summary>
+        ''' Versions of an episode, i.e. simulcast or uncensored version.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Versions As List(Of String)
+
         Public Shared Function CreateFromJToken(Episode As JToken) As FunimationEpisodeOverview
             Dim Id = Episode.Item("id")
             Dim Slug = Episode.Item("slug")

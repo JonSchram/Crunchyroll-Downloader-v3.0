@@ -98,8 +98,10 @@
     <Compile Include="api\common\SubtitleFormat.vb" />
     <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
     <Compile Include="api\crunchyroll\CrunchyrollClient.vb" />
+    <Compile Include="api\crunchyroll\metadata\CrunchyrollEpisodeOverview.vb" />
+    <Compile Include="api\crunchyroll\metadata\CrunchyrollEpisodeList.vb" />
     <Compile Include="api\crunchyroll\metadata\CrunchyrollSeasonOverview.vb" />
-    <Compile Include="api\crunchyroll\metadata\CrunchyrollSeries.vb" />
+    <Compile Include="api\crunchyroll\metadata\CrunchyrollSeasonList.vb" />
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\FileMediaResolver.vb" />
     <Compile Include="api\funimation\FunimationAuthenticator.vb" />
