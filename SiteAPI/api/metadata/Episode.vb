@@ -3,9 +3,6 @@
         ' The ID of the corresponding video playback info
         Public Property VideoId As String
 
-        ' The ID that the API uses to refer to this episode
-        Public Property ApiId As Integer
-
         ' The slug added to the URL to get to the user-facing episode player
         Public Property UrlSlug As String
 

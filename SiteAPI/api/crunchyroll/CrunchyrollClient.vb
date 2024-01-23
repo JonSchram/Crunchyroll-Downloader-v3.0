@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.IO
 Imports System.Text.RegularExpressions
 Imports SiteAPI.api.common
 Imports SiteAPI.api.crunchyroll.metadata
@@ -40,12 +41,22 @@ Namespace api.crunchyroll
             Return episodes.Episodes
         End Function
 
-        Public Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
-            Throw New NotImplementedException()
+        Public Async Function GetEpisodeInfo(Overview As EpisodeOverview) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
+            Return Await GetEpisodeInfoFromId(Overview.EpisodeId)
         End Function
 
-        Public Function GetEpisodeInfo(Url As String) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
-            Throw New NotImplementedException()
+        Public Async Function GetEpisodeInfo(Url As String) As Task(Of Episode) Implements IDownloadClient.GetEpisodeInfo
+            If Not IsVideoUrl(Url) Then
+                Throw New ArgumentException($"Must be a video URL. Received ""{Url}""")
+            End If
+
+            Return Await GetEpisodeInfoFromId(ExtractEpisodeSlug(Url))
+        End Function
+
+        Private Async Function GetEpisodeInfoFromId(Id As String) As Task(Of Episode)
+            Dim episodeInfoUrl = BuildEpisodeInfoUrl(Id, REGION)
+            Dim episodeJson = Await Authenticator.SendAuthenticatedRequest(episodeInfoUrl)
+            Return CrunchyrollEpisode.CreateFromJson(episodeJson)
         End Function
 
         Private Async Function GetSeriesJson(SeriesUrl As String) As Task(Of String)
@@ -67,6 +78,12 @@ Namespace api.crunchyroll
             Return ShowPath
         End Function
 
+        Private Function ExtractEpisodeSlug(url As String) As String
+            Dim episodeUri As New Uri(url)
+            Dim episodeId = Regex.Match(episodeUri.AbsolutePath, "watch/([^/]*)/?").Groups(1).Value
+            Return episodeId
+        End Function
+
         Public Function IsSeriesUrl(Url As String) As Boolean Implements IDownloadClient.IsSeriesUrl
             Return SafeContains(Url, "crunchyroll.com/series")
         End Function
@@ -86,6 +103,10 @@ Namespace api.crunchyroll
 
         Private Shared Function BuildEpisodeListUrl(seasonId As String, locale As Locale) As String
             Return $"https://www.crunchyroll.com/content/v2/cms/seasons/{seasonId}/episodes?locale={locale.GetAbbreviatedString()}"
+        End Function
+
+        Private Shared Function BuildEpisodeInfoUrl(episodeId As String, locale As Locale) As String
+            Return $"https://www.crunchyroll.com/content/v2/cms/objects/{episodeId}?ratings=true&locale={locale.GetAbbreviatedString()}"
         End Function
 
         Public Function GetSiteName() As String Implements IDownloadClient.GetSiteName

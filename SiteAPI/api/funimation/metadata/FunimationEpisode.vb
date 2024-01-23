@@ -5,6 +5,11 @@ Namespace api.funimation.metadata
     Public Class FunimationEpisode
         Inherits Episode
 
+        ''' <summary>
+        ''' An ID the funimation API uses To refer To this episode.
+        ''' </summary>
+        Public Property VenueId As Integer
+
         Public Shared Function CreateFromJson(Json As String) As FunimationEpisode
             Dim episodeInfo As JObject = JObject.Parse(Json)
 
@@ -27,17 +32,17 @@ Namespace api.funimation.metadata
             Dim imageUrl = extractEpisodeImageUrl(imagesList.ToList)
 
             Dim Episode As New FunimationEpisode With {
-            .VideoId = Id.Value(Of String),
-            .ApiId = apiId.Value(Of Integer),
-            .UrlSlug = slug.Value(Of String),
-            .EpisodeName = EpisodeName,
-            .EpisodeNumber = episodeNumber.Value(Of Double),
-            .SeasonNumber = seasonNumber.Value(Of Integer),
-            .ShowName = showName,
-            .ImageUrl = imageUrl,
-            .IsFree = Not subRequired.Value(Of Boolean),
-            .Type = type.Value(Of String)
-        }
+                .VideoId = Id.Value(Of String),
+                .VenueId = apiId.Value(Of Integer),
+                .UrlSlug = slug.Value(Of String),
+                .EpisodeName = EpisodeName,
+                .EpisodeNumber = episodeNumber.Value(Of Double),
+                .SeasonNumber = seasonNumber.Value(Of Integer),
+                .ShowName = showName,
+                .ImageUrl = imageUrl,
+                .IsFree = Not subRequired.Value(Of Boolean),
+                .Type = type.Value(Of String)
+            }
 
             Return Episode
         End Function
