@@ -22,7 +22,7 @@ Namespace pipeline
                 Case Site.FUNIMATION
                     preferences = New FunimationPreferenceFactory().GetCurrentPreferences()
                 Case Site.CRUNCHYROLL
-
+                    preferences = New CrunchyrollPreferenceFactory().GetCurrentPreferences()
             End Select
 
             Return Await Client.GetAvailableMedia(data, preferences)

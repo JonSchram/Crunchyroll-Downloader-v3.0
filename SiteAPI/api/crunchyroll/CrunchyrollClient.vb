@@ -1,6 +1,4 @@
-﻿Imports System.ComponentModel
-Imports System.IO
-Imports System.Text.RegularExpressions
+﻿Imports System.Text.RegularExpressions
 Imports SiteAPI.api.common
 Imports SiteAPI.api.crunchyroll.metadata
 Imports SiteAPI.api.metadata
@@ -123,8 +121,28 @@ Namespace api.crunchyroll
             Throw New NotImplementedException()
         End Function
 
-        Public Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
-            Throw New NotImplementedException()
+        Public Async Function GetAvailableMedia(ep As Episode, preferences As MediaPreferences) As Task(Of List(Of MediaLink)) Implements IDownloadClient.GetAvailableMedia
+            If preferences Is Nothing Then
+                Throw New Exception("Must set media preferences.")
+            End If
+            ' TODO: Check if the stream is free and whether the user is logged in.
+
+            Dim streams As StreamsResult = Await GetStreams(ep)
+            Return Nothing
+        End Function
+
+        Private Async Function GetStreams(ep As CrunchyrollEpisode) As Task(Of StreamsResult)
+            Dim url = BuildStreamsUrl(ep.StreamLink, REGION)
+            Dim streamJson As String = Await Authenticator.SendAuthenticatedRequest(url)
+            Return StreamsResult.CreateFromJson(streamJson)
+        End Function
+
+        Private Function BuildStreamsUrl(streamsPath As String, locale As Locale) As String
+            Dim b = New UriBuilder("https", "www.crunchyroll.com") With {
+                .Path = streamsPath,
+                .Query = $"locale={locale.GetAbbreviatedString()}"
+            }
+            Return b.ToString()
         End Function
 
     End Class

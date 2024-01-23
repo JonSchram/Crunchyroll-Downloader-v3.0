@@ -177,6 +177,7 @@
     <Compile Include="pipeline\IPipelineStage.vb" />
     <Compile Include="pipeline\PipelineStage.vb" />
     <Compile Include="pipeline\PipelineProgress.vb" />
+    <Compile Include="preferences\CrunchyrollPreferenceFactory.vb" />
     <Compile Include="Settings\general\ResolutionRounding.vb" />
     <Compile Include="utilities\ProgressEstimator.vb" />
     <Compile Include="ui\AddVideo.Designer.vb">

@@ -103,6 +103,9 @@
     <Compile Include="api\crunchyroll\metadata\CrunchyrollEpisodeList.vb" />
     <Compile Include="api\crunchyroll\metadata\CrunchyrollSeasonOverview.vb" />
     <Compile Include="api\crunchyroll\metadata\CrunchyrollSeasonList.vb" />
+    <Compile Include="api\crunchyroll\metadata\Stream.vb" />
+    <Compile Include="api\crunchyroll\metadata\StreamFormat.vb" />
+    <Compile Include="api\crunchyroll\metadata\StreamsResult.vb" />
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\FileMediaResolver.vb" />
     <Compile Include="api\funimation\FunimationAuthenticator.vb" />

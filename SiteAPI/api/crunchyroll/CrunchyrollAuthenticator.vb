@@ -147,8 +147,7 @@ Namespace api.crunchyroll
 
         Public Async Function SendAuthenticatedRequest(url As String) As Task(Of String)
             Try
-                Dim now As Date = Date.Now
-                Dim bearerAgeRemaining As TimeSpan = now - BearerExpiration
+                Dim bearerAgeRemaining As TimeSpan = BearerExpiration - Date.Now
                 If BearerToken Is Nothing Or bearerAgeRemaining.TotalSeconds < 30 Then
                     Await RefreshAuthorization()
                 End If
