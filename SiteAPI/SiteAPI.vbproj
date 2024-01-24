@@ -85,6 +85,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="api\AuthenticationException.vb" />
     <Compile Include="api\common\ByteRange.vb" />
     <Compile Include="api\common\MediaPreferences.vb" />
     <Compile Include="api\common\FileMedia.vb" />
@@ -98,14 +99,17 @@
     <Compile Include="api\common\SubtitleFormat.vb" />
     <Compile Include="api\crunchyroll\CrunchyrollAuthenticator.vb" />
     <Compile Include="api\crunchyroll\CrunchyrollClient.vb" />
+    <Compile Include="api\crunchyroll\metadata\cms\CmsEntry.vb" />
+    <Compile Include="api\crunchyroll\metadata\cms\CmsResponse.vb" />
+    <Compile Include="api\crunchyroll\metadata\cms\CmsStreams.vb" />
+    <Compile Include="api\crunchyroll\metadata\cms\SubtitleEntry.vb" />
     <Compile Include="api\crunchyroll\metadata\CrunchyrollEpisode.vb" />
     <Compile Include="api\crunchyroll\metadata\CrunchyrollEpisodeOverview.vb" />
     <Compile Include="api\crunchyroll\metadata\CrunchyrollEpisodeList.vb" />
     <Compile Include="api\crunchyroll\metadata\CrunchyrollSeasonOverview.vb" />
     <Compile Include="api\crunchyroll\metadata\CrunchyrollSeasonList.vb" />
-    <Compile Include="api\crunchyroll\metadata\Stream.vb" />
-    <Compile Include="api\crunchyroll\metadata\StreamFormat.vb" />
-    <Compile Include="api\crunchyroll\metadata\StreamsResult.vb" />
+    <Compile Include="api\crunchyroll\metadata\cms\StreamEntry.vb" />
+    <Compile Include="api\crunchyroll\metadata\cms\StreamFormat.vb" />
     <Compile Include="api\DownloaderApi.vb" />
     <Compile Include="api\FileMediaResolver.vb" />
     <Compile Include="api\funimation\FunimationAuthenticator.vb" />

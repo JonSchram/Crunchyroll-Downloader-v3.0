@@ -165,7 +165,7 @@ Namespace api.crunchyroll
 
             Catch e As HttpRequestException
                 Debug.WriteLine("HTTP request exception: ", e.Message)
-                Return $"HTTP request exception: {e.Message}"
+                Throw New AuthenticationException($"Authenticated HTTP request failed.", e)
             End Try
 
             Return Nothing

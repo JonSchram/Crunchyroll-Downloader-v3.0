@@ -15,6 +15,7 @@ Imports PlaylistLibrary.hls.writer
 Imports SiteAPI.api
 Imports SiteAPI.api.common
 Imports SiteAPI.api.crunchyroll
+Imports SiteAPI.api.crunchyroll.metadata.cms
 Imports SiteAPI.api.funimation
 Imports SiteAPI.api.funimation.metadata
 Imports SiteAPI.api.metadata
@@ -25,6 +26,8 @@ Namespace debugging
         Private Sub ParseJsonButton_Click(sender As Object, e As EventArgs) Handles ParseJsonButton.Click
             If FunimationRadioButton.Checked Then
                 parseFunimation()
+            ElseIf CrunchyrollRadioButton.Checked Then
+                parseCrunchyroll()
             End If
         End Sub
 
@@ -42,6 +45,14 @@ Namespace debugging
             ElseIf EpisodePlaybackRadioButton.Checked Then
                 Dim playbackInfo = EpisodePlaybackInfo.CreateFromJson(json)
                 OutputTextBox.Text = playbackInfo.ToString()
+            End If
+        End Sub
+
+        Private Sub parseCrunchyroll()
+            Dim json = inputTextBox.Text
+            If EpisodePlaybackRadioButton.Checked Then
+                Dim streams = CmsStreams.CreateFromJson(json)
+                OutputTextBox.Text = streams.ToString()
             End If
         End Sub
 

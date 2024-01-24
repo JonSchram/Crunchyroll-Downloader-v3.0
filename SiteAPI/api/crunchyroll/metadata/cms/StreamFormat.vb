@@ -1,16 +1,16 @@
 ﻿Imports Newtonsoft.Json.Linq
 
-Namespace api.crunchyroll.metadata
+Namespace api.crunchyroll.metadata.cms
     Public Class StreamFormat
         Public Property FormatName As String
-        Public Property HardsubVersions As Dictionary(Of String, Stream)
+        Public Property HardsubVersions As Dictionary(Of String, StreamEntry)
 
         Public Sub New()
             Me.New("")
         End Sub
 
         Public Sub New(name As String)
-            HardsubVersions = New Dictionary(Of String, Stream)()
+            HardsubVersions = New Dictionary(Of String, StreamEntry)()
             FormatName = name
         End Sub
 
@@ -23,7 +23,7 @@ Namespace api.crunchyroll.metadata
                 If TypeOf child Is JProperty Then
                     Dim childProperty = CType(child, JProperty)
                     Dim hardsubLocale As String = childProperty.Name
-                    Dim s As Stream = Stream.CreateFromJToken(childProperty.Value)
+                    Dim s As StreamEntry = StreamEntry.CreateFromJToken(childProperty.Value)
                     result.HardsubVersions.Add(hardsubLocale, s)
                 End If
             Next

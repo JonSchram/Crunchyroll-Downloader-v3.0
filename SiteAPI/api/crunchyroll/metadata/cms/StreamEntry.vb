@@ -1,7 +1,7 @@
 ﻿Imports Newtonsoft.Json.Linq
 
-Namespace api.crunchyroll.metadata
-    Public Class Stream
+Namespace api.crunchyroll.metadata.cms
+    Public Class StreamEntry
         Public ReadOnly HardsubLocale As String
         Public ReadOnly Url As String
 
@@ -11,11 +11,11 @@ Namespace api.crunchyroll.metadata
         End Sub
 
 
-        Public Shared Function CreateFromJToken(token As JToken) As Stream
+        Public Shared Function CreateFromJToken(token As JToken) As StreamEntry
             Dim locale As String = token.Item("hardsub_locale").Value(Of String)
             Dim url As String = token.Item("url").Value(Of String)
 
-            Return New Stream(locale, url)
+            Return New StreamEntry(locale, url)
         End Function
     End Class
 End Namespace

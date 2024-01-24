@@ -1,6 +1,4 @@
-﻿Imports SiteAPI.api.funimation.metadata
-
-Namespace api.metadata
+﻿Namespace api.metadata
     Public MustInherit Class Series(Of T As SeasonOverview)
         Public Property Seasons As List(Of T)
 

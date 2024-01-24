@@ -1,6 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 Imports SiteAPI.api.common
 Imports SiteAPI.api.crunchyroll.metadata
+Imports SiteAPI.api.crunchyroll.metadata.cms
 Imports SiteAPI.api.metadata
 
 Namespace api.crunchyroll
@@ -127,22 +128,43 @@ Namespace api.crunchyroll
             End If
             ' TODO: Check if the stream is free and whether the user is logged in.
 
-            Dim streams As StreamsResult = Await GetStreams(ep)
+            Dim streams As CmsStreams = Await GetStreams(ep)
+
+            ' TODO: Get a stream and the subtitles.
             Return Nothing
         End Function
 
-        Private Async Function GetStreams(ep As CrunchyrollEpisode) As Task(Of StreamsResult)
-            Dim url = BuildStreamsUrl(ep.StreamLink, REGION)
-            Dim streamJson As String = Await Authenticator.SendAuthenticatedRequest(url)
-            Return StreamsResult.CreateFromJson(streamJson)
+        Private Async Function GetStreams(ep As CrunchyrollEpisode) As Task(Of CmsStreams)
+            Dim cmsRepsonse As CmsResponse = Await QueryCms()
+            Dim streamUrl = BuildStreamsUrl(ep, cmsRepsonse)
+            Dim streamJson As String = Await Authenticator.SendAuthenticatedRequest(streamUrl)
+            Return CmsStreams.CreateFromJson(streamJson)
         End Function
 
-        Private Function BuildStreamsUrl(streamsPath As String, locale As Locale) As String
-            Dim b = New UriBuilder("https", "www.crunchyroll.com") With {
-                .Path = streamsPath,
-                .Query = $"locale={locale.GetAbbreviatedString()}"
+        Private Async Function QueryCms() As Task(Of CmsResponse)
+            Dim url = CmsQueryUrl()
+            Dim cmsJson As String = Await Authenticator.SendAuthenticatedRequest(url)
+            Return CmsResponse.CreateFromJson(cmsJson)
+        End Function
+
+        Private Function CmsQueryUrl() As String
+            Return "https://www.crunchyroll.com/index/v2"
+        End Function
+
+        Private Function BuildStreamsUrl(ep As CrunchyrollEpisode, cms As CmsResponse) As String
+            Dim streamUrl As String = ep.StreamLink
+            ' TODO: It might be possible to retrieve other audio languages by looking at other episode properties (in the versions object)
+            Dim videoMatch As Match = Regex.Match(streamUrl, "/content/v2/cms/(.*)/streams")
+            Dim videoPath As String = videoMatch.Groups(1).Value
+
+            Dim cmsWeb = cms.CmsOptions.Item("cms_web")
+
+            ' This works as long as the episode is available to the logged-in user. Otherwise, there is a 403 error.
+            Dim builder As New UriBuilder("https", "www.crunchyroll.com") With {
+                .Path = $"/cms/v2/{cmsWeb.Bucket}/{videoPath}/streams",
+                .Query = $"Policy={cmsWeb.Policy}&Signature={cmsWeb.Signature}&Key-Pair-Id={cmsWeb.KeyPairId}"
             }
-            Return b.ToString()
+            Return builder.ToString()
         End Function
 
     End Class
